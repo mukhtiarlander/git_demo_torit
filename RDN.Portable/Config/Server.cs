@@ -15,6 +15,7 @@ namespace RDN.Portable.Config
         public static readonly long DEFAULT_PHONE_NUMBER = 3862904108;
         public static string DEFAULT_KRIS_WORLIDGE_EMAIL_ADMIN = "kris@rdnation.com";
         public static Guid DEFAULT_SCOTTS_USER_ID = new Guid("C59EF7B7-CBDD-4663-B22A-5C7C11E2934F");
+        public static Guid DEFAULT_JAMIES_USER_ID = new Guid("9C73F101-1F00-46AA-BD29-4B836F4E426C");
         public static Guid DEFAULT_SCOTTS_USER_ID_DEBUG = new Guid("737f127f-8d4f-4167-9d85-9ddc0cd8f708");
         public static Guid DEFAULT_ADMIN_USER_ID = new Guid("885E1E16-0F8E-44A8-BB36-4FCE12EF6360");
         public static Guid DEFAULT_ADMIN_USER_ID_DEBUG = new Guid("885E1E16-0F8E-44A8-BB36-4FCE12EF6360");
@@ -133,7 +134,7 @@ namespace RDN.Portable.Config
         public static readonly string MEMBER_MEDICAL_URL = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/member/medical";
         public static readonly string MEMBER_CONTACTS_URL = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/member/contacts";
         public static readonly string LEAGUE_JOIN_URL = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/league/join";
-        
+
         public static readonly string STRIPE_DEBUG_KEY = "pk_0D4hTiqyKAkZbsx8QCPpZcSljUYFO";
         public static readonly string STRIPE_LIVE_KEY = "pk_2k5dQ6cKsgfdC7Z7sfSPk1Yn1t3jx";
         public static readonly string STRIPE_CONNECT_DEBUG_KEY = "ca_1H0q11C8HbuHiAPfYEpgUIEhI9clgPJ7";

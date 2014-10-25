@@ -76,7 +76,7 @@ namespace RDN.Library.Classes.RN.Funds
 
             //removes SpoiledTechies Posts cause he doesn't want to get paid.
             //removes posts that aren't allowed to pay, mainly sponsors.
-            var allPosts = PostsToPay.Where(x => x.DisablePaymentsForPost == false).Where(x => x.AuthorUserId == ServerConfig.DEFAULT_SCOTTS_USER_ID || x.AuthorUserId == ServerConfig.DEFAULT_ADMIN_USER_ID).ToList();
+            var allPosts = PostsToPay.Where(x => x.DisablePaymentsForPost == false).Where(x => x.AuthorUserId == ServerConfig.DEFAULT_JAMIES_USER_ID || x.AuthorUserId == ServerConfig.DEFAULT_SCOTTS_USER_ID || x.AuthorUserId == ServerConfig.DEFAULT_ADMIN_USER_ID).ToList();
             foreach (var post in allPosts)
             {
                 PostsToPay.Remove(post);
