@@ -1,0 +1,286 @@
+﻿@using RDN.Library.Classes.Store.Classes
+@model StoreItem
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<div class="backLinks">
+    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+</div>
+<div class="listingHome">
+    <div class="listingInfoColumn">
+        <div>
+            <span class="storeItemName">@Model.Name</span>
+            <br />
+            <div class="storeItemSoldBy">
+                Sold by <a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+            </div>
+            <div>
+                @{ var total = 0.00;}
+                @foreach (var k in Model.Reviews)
+                {
+                    if (k.rate == null)
+                    { k.rate = "0.00"; }
+                    total += Convert.ToDouble(k.rate.ToString());
+                }
+                @{if (Model.Reviews.Count > 0) { total = total / Model.Reviews.Count; }}
+                <div class="rateit" data-rateit-resetable="false" id="rateitTotal" data-rateit-readonly="true"  data-rateit-ispreset="true" data-rateit-value="@total" data-rateit-max="5"></div>
+                <span class="reviwTotal"><a href="#customerReviewsContainer">@Model.Reviews.Count customer reviews</a></span>
+
+            </div>
+        </div>
+        <div class="storePhotoContainer center">
+            @if (Model.Photos.FirstOrDefault() != null)
+            { 
+                <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt" style="max-width: 500px; max-height: 500px; min-width: 500px; margin: 0px auto 0px auto;" id="mainPhoto" />
+@*<img src="~/Content/googlePlus.jpg" style="max-width: 500px; max-height: 500px; min-width: 300px; margin: 0px auto 0px auto;" id="mainPhoto" />*@
+            }
+            <ul class="storePhotosList">
+
+                @foreach (var photo in Model.Photos)
+                { <li>
+                    <img src="@photo.ImageUrl" alt="@photo.Alt" style="max-width: 60px; max-height: 60px;" onmouseover="javascript:MouseOverPhotoStore('@photo.ImageUrl')"  /></li>
+@*<li>
+                        <img src="~/Content/googlePlus.jpg" style="max-width: 60px; max-height: 60px;" /></li>*@
+                }
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="storeItemDescContainer">
+            <span class="storeSectionTitle">Information</span> - @Model.Description<br />
+            <div class="storeItemDesc">
+                @Html.Raw(Model.NoteHtml)
+            </div>
+        </div>
+
+        <div class="storeItemDescContainer">
+            <div class="storeItemPaymentBox">
+                <div class="b">
+                    Shipping Costs @if (Model.CanPickUpLocally)
+                                   { <span class="b">- Eligible for Pick Up Locally</span>}
+                </div>
+                <br />
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Single Item</th>
+                                <th>Each Additional Item</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>@if (Model.Currency == "USD")
+                                {  <span>$</span>}@Model.Shipping @Model.Currency</td>
+                            <td>@if (Model.Currency == "USD")
+                                {  <span>$</span>}@Model.ShippingAdditional @Model.Currency</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div class="storeItemPaymentBox">
+                <div class="b">
+                    Payment Methods
+                </div>
+                <div>
+                    @if (Model.AcceptsStripe)
+                    { 
+                        <img src="~/Content/cc-icon.png" /><br />
+                    }
+                    @if (Model.AcceptsPayPal)
+                    { 
+                        <img src="~/Content/pp-icon.png" />
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="listingDetailsColumn">
+        @using (Html.BeginForm("AddToCart", "Listings", FormMethod.Post, new { @id = "AddToCart" }))
+        {
+            <div class="storeItemDetailsContainer">
+                <span class="listingItemPrice">@if (Model.Currency == "USD")
+                                               {  <span>$</span>}@Model.Price</span> <span class="usd">@Model.Currency</span>
+                @if (Model.Shipping > 0)
+                { 
+                    <span class="listingShipping"><span>+</span> @if (Model.Currency == "USD")
+                                                                 {  <span>$</span>}@Model.Shipping.ToString("N2") <span>shipping</span></span><br />
+                }
+                @if (Model.QuantityInStock > 0)
+                { 
+                    <span class="storeLeftInStock">
+                        @Model.QuantityInStock available
+                    </span>
+                }
+                <br />
+
+            </div>
+            <div class="storeAddToCartContainer">
+                <div class="storeQuantity">
+                    Quantity:
+            <select name="quantityToBuy" style="width: 180px;">
+                @if (Model.QuantityInStock > 0)
+                {
+                    <option selected="selected" value="1">1</option>
+                    for (int i = 1; i < Model.QuantityInStock; i++)
+                    {
+                    <option value="@(i + 1)">@(i + 1)</option>
+                    }
+                }
+                else
+                { 
+                    <option selected="selected" value="1">1</option>
+                }
+            </select>
+
+                </div>
+                @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+                { 
+                    <div class="storeQuantity">
+                        Sizes:
+                        @Html.DropDownListFor(x => x.ItemSizeEnum, (SelectList)ViewBag.ItemSizes, "Choose Size...", new { @style = "width: 180px;" })
+                    </div>
+                }
+                <div class="clear">
+                </div>
+                @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
+                { 
+                    <div class="storeQuantity">
+                        Colors:
+                        @Html.DropDownListFor(x => x.ColorTempSelected, (SelectList)ViewBag.Colors, "Choose Color...", new { @style = "width: 180px;", @onchange = "ColorSelectorChanged()" })
+                    </div>
+                }
+                <div class="clear">
+                </div>
+
+                @Html.HiddenFor(x => x.StoreItemId)
+                @Html.HiddenFor(x => x.Store.MerchantId)
+                @Html.HiddenFor(x => x.CartId)
+                @Html.HiddenFor(x => x.Price)
+                @Html.HiddenFor(x => x.Shipping)
+                @Html.HiddenFor(x => x.Name)
+                @Html.HiddenFor(x => x.ArticleNumber)
+                @if (Model.IsPublished)
+                { 
+                    <div class="center">
+                        <input type="submit" value="Add To Cart" class="primary largePrimary" />
+                    </div>
+                }
+                else
+                { 
+                    <br />
+                    <div class="center">
+                        This item currently isn't available
+                    </div>
+                }
+            </div>
+            <div class="clear">
+            </div>
+            
+            <div class="storeAddToCartContainer">
+                <div class="listingSectionTitle">Shop</div>
+                <div class="listingShopName"><a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></div>
+
+                <div class="listingShopDescription">@Model.Store.Description</div>
+                <br />
+                <div><a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION/messages/new/shop/@Model.Store.MerchantId.ToString().Replace("-", "")">Contact Seller</a></div>
+            </div>
+            <div class="storeAddToCartContainer">
+                <div class="listingSectionTitle">Item</div>
+                <div>@Model.Views views</div>
+            </div>
+            
+            <div class="clear">
+            </div>
+        }
+    </div>
+    <div class="clear"></div>
+    <div id="customerReviewsContainer">
+        <span class="storeSectionTitle">Customer Reviews</span>
+        <br />
+        <br />
+
+        
+        @{if (Model.Reviews.Count > 0) { total = total / Model.Reviews.Count; }}
+        <div class="rateit" data-rateit-resetable="false" id="rateitTotal" data-rateit-readonly="true"  data-rateit-ispreset="true" data-rateit-value="@total" data-rateit-max="5"></div>
+        <span class="reviwTotal">(@Model.Reviews.Count)</span>
+        <br />
+        <span class="reviwTitle">@total.ToString("N1") out of 5 </span>
+        <br />
+        <br />
+
+        @for (int starType = 5; starType >= 1; starType--)
+        {
+            var star5 = 0.00; var n = 0;
+
+            foreach (var star in Model.Reviews)
+            {
+                if (star.rate != null)
+                {
+                    var rateVa = (int)Convert.ToDouble(star.rate.ToString());
+                    if (rateVa == starType)
+                    {
+                        //star5 += rateVa;
+                        n = n + 1;
+                    }
+                }
+            }
+            if (Model.Reviews.Count != 0)
+            {
+                if (n != 0)
+                {
+                    var v = (n * 5) / Model.Reviews.Count; //n * 5 / reviewList.Count();
+                    star5 = v; //(5*v)/100;
+                }
+            }
+            <span class="reviwTotal">@starType Star</span> <div class="rateit kstars" data-rateit-starwidth="32" data-rateit-resetable="false" data-rateit-readonly="true" id="stark" data-rateit-value="@star5" data-rateit-max="5" data-rateit-starheight="20"></div>
+            <span class="reviwTotal">@n </span> 
+            <br />
+        }
+    </div>
+    <br />
+    @foreach (var review in Model.Reviews)
+    {   
+                
+        <div class="rateit" data-rateit-resetable="false" id="eachRate" data-rateit-readonly="true"  data-rateit-ispreset="true" data-rateit-value="@review.rate" data-rateit-max="5"></div>
+                
+        <span class="reviwT">@review.title</span> <br />
+        <span class="reviewAuthor">by @review.userName on @review.Created.ToString("MMMM dd, yyyy")</span>
+        <div class="reviewComment">
+            <p>
+                @review.comment
+            </p>
+        </div>
+        <br />                
+    }
+</div>
+
+<script type="text/JavaScript">
+    UpdateListingViewCount('@Model.StoreItemId');
+</script>
+@if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
+{ 
+    <script type="text/javascript">
+        $("#AddToCart").validate({
+            rules: {
+                ColorTempSelected: "required"
+            }
+        });
+        $(document).ready(function () {
+            LoadDropDownBackgroundColors();
+        });
+    </script>
+                      
+}
+else if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+{ 
+    <script type="text/javascript">
+        $("#AddToCart").validate({
+            rules: {
+                ItemSizeEnum: "required"
+            }
+        });
+    </script>
+}

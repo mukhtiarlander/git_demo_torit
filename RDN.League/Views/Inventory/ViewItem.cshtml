@@ -1,0 +1,71 @@
+﻿@model RDN.Library.Classes.League.ItemInfoDA
+@{
+    ViewBag.Title = "View Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/inventory/all")">All Item</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Item Details
+        </div>
+        <div class="titleDescription">
+            Details of the Item
+     
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="addForumPostTbl">
+
+                <tr>
+                    <td class="b alRight">Item Serial No:
+                    </td>
+                    <td class="vRTD">
+                        @Model.ItemSerialNo
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Item Name:
+                    </td>
+                    <td class="vRTD">
+                        @Model.ItemName
+                    </td>
+                </tr>
+                    <tr>
+                    <td class="b alRight">Unite Price:
+                    </td>
+                    <td class="vRTD">
+                        @Model.UnitePice
+                    </td>
+                </tr>
+             
+                <tr>
+                    <td class="b alRight">Quantity:
+                    </td>
+                    <td class="vRTD">
+                        @Model.Quantity
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Location:
+                    </td>
+                    <td class="vRTD">
+                        @Model.Location
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="b alRight">Notes:</td>
+                    <td class="Details" style="width: 400px; max-width: 400px;">
+                        @Html.Raw(Model.Notes)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

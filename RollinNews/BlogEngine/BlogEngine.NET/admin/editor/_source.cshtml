@@ -1,0 +1,19 @@
+﻿<div id="modal-source" class="modal fade">
+    <div class="modal-dialog" style="width: 80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                <h4 class="modal-title">{{lbl.pageSource}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal clearfix">
+                    <textarea class="wysiwyg-editor" id="editor-source"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="fa fa-ban"></i> {{lbl.cancel}}</button>
+                <button data-ng-click="saveSource()" class="btn btn-success" type="submit"><i class="fa fa-save"></i> {{lbl.save}}</button>
+            </div>
+        </div>
+    </div>
+</div>

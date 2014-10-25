@@ -1,0 +1,689 @@
+﻿@using RDN.Library.Classes.Payment.Enums;
+@using RDN.Library.Classes.Payment.Enums.Paywall;
+@using RDN.Library.Classes.Billing.Enums;
+@model RDN.Library.Classes.Game.Tournament
+@{
+    ViewBag.Title = @Model.Name + " Roller Derby Tournament";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    var PensAbbre = from Scoreboard.Library.Static.Enums.PenaltiesEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesEnum))
+                    select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Abbre = Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(d);
+}
+<script src="@Url.Content("~/Scripts/game.js")" type="text/javascript"></script>
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        @if ((!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId == 0) || (!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId > 0 && Model.Paywall.IsPaid))
+        { 
+            
+            @Html.Raw(Model.EmbedVideoString)
+
+          
+            @Html.HiddenFor(x => x.Paywall.PaywallId)
+            @Html.HiddenFor(x => x.Paywall.PasswordForPaywall)
+            <script type="text/javascript">
+                tournamentViewModel.wall.set({ time: 120000, autostart: true });
+            </script>
+        
+        }
+        else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate > DateTime.UtcNow.AddHours(-6))
+        {
+            <div class="paywallContainer">
+                @using (Html.BeginForm("MakePaywallPayment", "Tournament", FormMethod.Post, new { @id = "PaymentForm" }))
+                {
+                    <div class="liveStreamTitle">This Tournament Offers Live Streaming</div>
+                    <div class="PaywallDesc">
+                        <div class="b c">This is a Pay-Per-Day Stream/Video</div>
+                        <div class="paywallDesc">@Model.Paywall.DescriptionOfPaywall</div>
+                        <br />
+                        @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                        { 
+                            <div>
+                                <span class="b">Login: </span>
+                                <a href="@Url.Content("~/login?returnUrl=" + Request.Url.AbsoluteUri)">Please Login</a> - <span class="i">optional</span>
+                            </div>
+                            <br />
+                        }
+                        <div>
+                            <span class="b">Price: </span>
+                            <ul class="subOptionList center">
+                                @if (Model.Paywall.DailyPrice > 0)
+                                { 
+                                    <li>
+                                        <label class="subOptionPaymentProv">
+                                            <input type="radio" name="PaymentCost" id="@PaywallPriceTypeEnum.Daily_Payment" value="@PaywallPriceTypeEnum.Daily_Payment" checked="checked"  />
+                                            <span>$@Model.Paywall.DailyPrice</span>
+
+                                        </label>
+                                        <span class="i sm">24 Hour Price</span>
+                                    </li>
+                                }
+                                @if (Model.Paywall.TimespanPrice > 0)
+                                { 
+                                    <li>
+                                        <label class="subOptionPaymentProv">
+                                            <input type="radio" name="PaymentCost" id="@PaywallPriceTypeEnum.Full_Payment" value="@PaywallPriceTypeEnum.Full_Payment"  />
+                                            <span>$@Model.Paywall.TimespanPrice</span>
+
+                                        </label>
+                                        <span class="i sm">Full Tournament</span>
+                                    </li>
+                                }
+                            </ul>
+
+
+                        </div>
+                        <br />
+                        <div>
+                            <span class="b">Pay With:</span>
+                            <ul class="subOptionList center">
+                                @if (Model.Paywall.AcceptStripe)
+                                { 
+                                    <li>
+                                        <label class="subOptionPaymentProv">
+                                            <input type="radio" name="PaymentType" id="@PaymentProvider.Stripe" value="@PaymentProvider.Stripe" checked="checked" onclick="javascript: HideShowCCInfo('show')" />
+                                            <span>Credit Card</span>
+                                        </label>
+                                    </li>
+                                }
+                                @if (Model.Paywall.AcceptPaypal)
+                                { 
+                                    <li>
+                                        <label class="subOptionPaymentProv">
+                                            <input type="radio" name="PaymentType" id="@PaymentProvider.Paypal" value="@PaymentProvider.Paypal" onclick="javascript: HideShowCCInfo('hide')" />
+                                            <span><span class="paypalText">Paypal</span></span>
+                                        </label>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+            
+                    <div class="PaywallLogo">
+                        <table id="CCTable">
+                            <tr id="cardNumberTR">
+                                <td class="subTableLD">Card Number:</td>
+                                <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.Paywall.CCNumber, new { @class = "card-number" })</td>
+                            </tr>
+                            <tr id="securityCodeTR">
+                                <td class="subTableLD">Security Code:</td>
+                                <td class="subTableRD smallInput">@Html.TextBoxFor(x => x.Paywall.SecurityCode, new { @class = "card-cvc" })</td>
+                            </tr>
+                            <tr id="expirationDateTR">
+                                <td class="subTableLD">Expiration Date:</td>
+                                <td class="subTableRD smallDropDown">@Html.DropDownList("MonthOfExpiration", RDN.Models.Enums.EnumExt.ToSelectListIdAndName(MonthsEnum.Jan), new { @class = "card-expiry-month" }) @Html.DropDownList("YearOfExpiration", RDN.Models.Enums.EnumExt.ToSelectListId(YearsEnum.Fourteen), new { @class = "card-expiry-year" })</td>
+                            </tr>
+                            <tr>
+                                <td class="subTableLD">Email Address:</td>
+                                <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.Paywall.EmailAddress)</td>
+                            </tr>
+                        </table>
+                        <div class="center">
+                            <div class="paymentErrors red"></div>
+                            <span id="submitButton1">
+                                <input type="submit" class="primary" value="Pay For Stream" /></span><img src="@Url.Content("~/Content/indicator.gif")" id="working1" class="displayNone" />
+                        </div>
+                    </div>
+                    
+                    @Html.HiddenFor(x => x.Id)
+                }
+
+                <div class="PaywallLogo">
+                    <span class="b">OR</span>
+                    @using (Html.BeginForm("TournamentHome", "Tournament", FormMethod.Post, new { @id = "ViewForm" }))
+                    {
+                        <div class="paywallPassword">
+                            <span class="b">Password:</span> @Html.TextBoxFor(x => x.Paywall.PasswordForPaywall)
+                            <input type="submit" class="primary" value="View Stream" />
+                        </div>
+                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.Paywall.PaywallId)
+                    }
+                </div>
+                <div class="clear"></div>
+            </div>
+        }
+        <div class="tournContainer">
+            <div class="tournLogo">
+
+                @if (Model.Photos.FirstOrDefault() != null)
+                {                 
+                    <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt"/>
+                }
+                else
+                { 
+                    <img src="@Url.Content("~/Content/Rollerball_pink_s500.png")" />
+                }
+                <div class="tournLink">
+                    @if (!String.IsNullOrEmpty(Model.TournamentWebsite))
+                    { 
+                        <a href="@Model.TournamentWebsite" target="_blank">Tournament WebSite</a>
+                    }
+                </div>
+            </div>
+            <div class="tourContent">
+                <div class="tournTitle">
+                    @Model.Name
+                </div>
+                <div class="tournLocation">
+                    @if (!String.IsNullOrEmpty(Model.Address))
+                    { 
+                        <span>@Model.Address, </span>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Address2))
+                    { 
+                        <span>@Model.Address2,</span>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.City))
+                    { 
+                        <span>@Model.City,</span>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.State))
+                    { 
+                        <span>@Model.State</span>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.ZipCode))
+                    { 
+                        <span>@Model.ZipCode, </span>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Country))
+                    { 
+                        @Model.Country
+                    }
+                    @if (!String.IsNullOrEmpty(Model.City) || !String.IsNullOrEmpty(Model.Address))
+                    { 
+                        <span>- <a href="http://www.bing.com/maps/default.aspx?q=@Model.Address+@Model.Address2,+@Model.City,+@Model.State+@Model.ZipCode+@Model.Country" target="_blank">View Map</a></span> 
+                    }
+                </div>
+                <div class="tournDates">
+                    @Model.StartDate.ToString("MM/dd/yyyy") - @Model.EndDate.ToString("MM/dd/yyyy")
+                </div>
+                <div class="tournClass">
+                    <span class="tournClassTitle">Tournament Class: </span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.TournamentClass)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        <div id="usual1" class="gameTabs">
+            <ul class="mainTabs usual">
+                <li><a class="selected" href="#gamesTab">Games</a></li>
+                @if (Model.AreBracketsPublished)
+                {
+                    if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                    <li><a href="#bracketTab">Brackets</a></li>
+                    }
+                    if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                    <li><a href="#standingTab">Standings</a></li>
+                    }
+                    if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                    <li><a href="#SbracketTab">Seed Brackets</a></li>
+                    }
+                    if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                    <li><a href="#SstandingTab">Seed Standings</a></li>
+                    }
+                }
+                <li><a href="#leaderTab">Leaderboard</a></li>
+
+
+                <li><a href="#chatTab">Chat</a></li>
+            </ul>
+        </div>
+        <div id="gamesTab" class="tab">
+            <br />
+            <div class="tournLeaderBoardTitle">
+                Games for the Tournament
+            </div>
+            <table class="gridTable" id="games">
+                <thead>
+                    <tr>
+                        <th>Date
+                        </th>
+                        <th>Name
+                        </th>
+
+                        <th>Home Team   
+                        </th>
+                        <th>H Score
+                        </th>
+                        <th>Visitor Team
+                        </th>
+                        <th>V Score
+                        </th>
+                        <th>Diff.
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Games.Count; i++)
+                    {
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>@Model.Games[i].GameDate.ToString("MM/dd/yyyy")
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/roller-derby-game/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
+                                    @Model.Games[i].GameName
+                                </a>
+                            </td>
+
+                            <td>@if (Model.Games[i].Team1ScoreTotal > Model.Games[i].Team2ScoreTotal)
+                                { 
+                                <b>@Model.Games[i].Team1Name</b>
+                                }
+                                else
+                                { @Model.Games[i].Team1Name}
+                            </td>
+                            <td>
+                                @if (Model.Games[i].Team1ScoreTotal > Model.Games[i].Team2ScoreTotal)
+                                { 
+                                    <b>@Model.Games[i].Team1ScoreTotal</b>
+                                }
+                                else
+                                { @Model.Games[i].Team1ScoreTotal}
+
+                            </td>
+                            <td>@if (Model.Games[i].Team1ScoreTotal < Model.Games[i].Team2ScoreTotal)
+                                { 
+                                <b>@Model.Games[i].Team2Name</b>
+                                }
+                                else
+                                { @Model.Games[i].Team2Name}
+                            </td>
+                            <td>@if (Model.Games[i].Team1ScoreTotal < Model.Games[i].Team2ScoreTotal)
+                                { 
+                                <b>@Model.Games[i].Team2ScoreTotal</b>
+                                }
+                                else
+                                { @Model.Games[i].Team2ScoreTotal}
+
+                            </td>
+                            <td>
+                                @Math.Abs(Model.Games[i].Team1ScoreTotal - Model.Games[i].Team2ScoreTotal)
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.AreBracketsPublished)
+        {
+            if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+            {
+            <div id="bracketTab" class="tab">
+                <br />
+                <div class="tournLeaderBoardTitle">
+                    Brackets for the Tournament
+                </div>
+                @if (Model.TournamentRounds.Any() && (Model.TournamentType == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Single_Elimination || Model.TournamentType == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Double_Elimination))
+                { 
+                    <div class="EventTournamentRoundsListVisualization">
+                        <img src="@Url.Action("RenderTournament", new { id = Model.Id.ToString().Replace("-", "") })" />
+                    </div>
+                }
+                <div class="EventTournamentRoundsList">
+                    <br />
+                    @if (!Model.TournamentRounds.Any())
+                    {
+                        <div class="EventTournamentRoundsNotAvailable">The tournament has not yet started.</div>
+                    }
+                    else
+                    {
+                        foreach (var Round in Model.TournamentRounds.OrderByDescending(r => r.RoundNumber))
+                        {
+                        <div class="EventTournamentRound">
+                            <div class="EventTournamentRoundTitle">@("Round " + Round.RoundNumber)</div>
+                            <div class="EventTournamentRoundPairingsList">
+                                <table class="EventTournamentRoundPairingTeamsList">
+                                    <thead>
+                                        <tr>
+                                            <th>Team Name</th>
+                                            <th>Track #</th>
+                                            <th>Time To Start</th>
+                                            <th>Scores</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var Pairing in Round.Pairings)
+                                        {
+                                            int i = 0;
+                                            foreach (var TeamPairing in Pairing.Teams.OrderByDescending(tp => tp.TeamName))
+                                            {
+
+                                            <tr class="EventTournamentRoundPairingTeam">
+                                                <td class="EventTournamentRoundPairingTeamName">@TeamPairing.TeamName</td>
+                                                @if (i == 0)
+                                                {
+                                                    <td rowspan="2" class="verticalMiddle smallInput">
+                                                        <span id="trackNumber-@Pairing.Id"  >@Pairing.TrackId</span>
+                                                    </td>
+                                                    <td rowspan="2" class="verticalMiddle mediumInput">
+                                                        <span  id="trackTime-@Pairing.Id"  >@Pairing.TimeToStartDisplay</span>
+
+                                                    </td>
+                                                        
+                                                }
+
+                                                <td class="smallInput EventTournamentRoundPairingTeamScore">
+                                                    <span id="ScoreId-@i-@Pairing.Id" >@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())</span>
+                                                </td>
+
+                                            </tr>
+                                                i += 1;
+                                            }
+                                            i = 0;
+                                            <tr>
+                                                <td colspan="7">
+                                                    <br />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        }
+                    }
+                </div>
+            </div>
+            }
+
+            if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+            {
+            <div id="standingTab" class="tab">
+                <br />
+                <div class="tournLeaderBoardTitle">
+                    Standings for the Tournament
+                </div>
+                @if (Model.Rankings == null || !Model.Rankings.Any())
+                {
+                    <div class="EventTournamentStandingsNotAvailable">Standings are not currently available.</div>
+                }
+                else
+                {
+                    <table class="EventTournamentStandingsTable">
+                        <tr class="EventTournamentStandingsTableHeader">
+                            <th class="EventTournamentStandingsTableHeaderRank">Rank</th>
+                            <th class="EventTournamentStandingsTableHeaderTeam">Team</th>
+                            <th class="EventTournamentStandingsTableHeaderTeam">Total Points</th>
+                            <th class="EventTournamentStandingsTableHeaderTeam">Point Spread</th>
+                            <th class="EventTournamentStandingsTableHeaderDetails">Details</th>
+                        </tr>
+                        @foreach (var Standing in Model.Rankings)
+                        {
+                            <tr class="EventTournamentStandingsTableStanding">
+                                <td class="EventTournamentStandingsTableStandingRank">@Standing.rank</td>
+                                <td class="EventTournamentStandingsTableStandingTeam">@Standing.TeamName</td>
+                                <td class="EventTournamentStandingsTableStandingTeam">@Standing.TotalPoints</td>
+                                <td class="EventTournamentStandingsTableStandingDetails">@Standing.PointSpread</td>
+                                <td class="EventTournamentStandingsTableStandingDetails">@Standing.scoreDescription</td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
+            }
+            if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+            {
+            <div id="SbracketTab" class="tab">
+                <br />
+                <div class="tournLeaderBoardTitle">
+                    Performance Brackets for the Tournament
+                </div>
+                @if (Model.TournamentRoundsForSeedingGameplay.Any() && (Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Single_Elimination || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Double_Elimination))
+                { 
+                    <div class="EventTournamentRoundsListVisualization">
+                        <img src="@Url.Action("RenderPerformanceTournament", new { id = Model.Id.ToString().Replace("-", "") })" />
+                    </div>
+                }
+                <div class="EventTournamentRoundsList">
+                    <br />
+                    @if (!Model.TournamentRoundsForSeedingGameplay.Any())
+                    {
+                        <div class="EventTournamentRoundsNotAvailable">The tournament has not yet started.</div>
+                    }
+                    else
+                    {
+                        foreach (var Round in Model.TournamentRoundsForSeedingGameplay.OrderByDescending(r => r.RoundNumber))
+                        {
+                        <div class="EventTournamentRound">
+                            <div class="EventTournamentRoundTitle">@("Round " + Round.RoundNumber)</div>
+                            <div class="EventTournamentRoundPairingsList">
+                                <table class="EventTournamentRoundPairingTeamsList">
+                                    <thead>
+                                        <tr>
+                                            <th>Team Name</th>
+                                            <th>Track #</th>
+                                            <th>Time To Start</th>
+                                            <th>Scores</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var Pairing in Round.Pairings)
+                                        {
+                                            int i = 0;
+                                            foreach (var TeamPairing in Pairing.Teams.OrderByDescending(tp => tp.TeamName))
+                                            {
+
+                                            <tr class="EventTournamentRoundPairingTeam">
+                                                <td class="EventTournamentRoundPairingTeamName">@TeamPairing.TeamName</td>
+                                                @if (i == 0)
+                                                {
+                                                    <td rowspan="2" class="verticalMiddle smallInput">
+                                                        <span id="trackNumber-@Pairing.Id"  >@Pairing.TrackId</span>
+                                                    </td>
+                                                    <td rowspan="2" class="verticalMiddle mediumInput">
+                                                        <span  id="trackTime-@Pairing.Id"  >@Pairing.TimeToStartDisplay</span>
+
+                                                    </td>
+                                                        
+                                                }
+
+                                                <td class="smallInput EventTournamentRoundPairingTeamScore">
+                                                    <span id="ScoreId-@i-@Pairing.Id" >@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())</span>
+                                                </td>
+
+                                            </tr>
+                                                i += 1;
+                                            }
+                                            i = 0;
+                                            <tr>
+                                                <td colspan="7">
+                                                    <br />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        }
+                    }
+                </div>
+            </div>
+            }
+
+            if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+            {
+            <div id="SstandingTab" class="tab">
+                <br />
+                <div class="tournLeaderBoardTitle">
+                    Standings for the Tournament
+                </div>
+                @if (Model.RankingsForSeededRounds == null || !Model.RankingsForSeededRounds.Any())
+                {
+                    <div class="EventTournamentStandingsNotAvailable">Standings are not currently available.</div>
+                }
+                else
+                {
+                    <table class="EventTournamentStandingsTable">
+                        <tr class="EventTournamentStandingsTableHeader">
+                            <th class="EventTournamentStandingsTableHeaderRank">Rank</th>
+                            <th class="EventTournamentStandingsTableHeaderTeam">Team</th>
+                            <th class="EventTournamentStandingsTableHeaderTeam">Total Points</th>
+                            <th class="EventTournamentStandingsTableHeaderTeam">Point Spread</th>
+                            <th class="EventTournamentStandingsTableHeaderDetails">Details</th>
+                        </tr>
+                        @foreach (var Standing in Model.RankingsForSeededRounds)
+                        {
+                            <tr class="EventTournamentStandingsTableStanding">
+                                <td class="EventTournamentStandingsTableStandingRank">@Standing.rank</td>
+                                <td class="EventTournamentStandingsTableStandingTeam">@Standing.TeamName</td>
+                                <td class="EventTournamentStandingsTableStandingTeam">@Standing.TotalPoints</td>
+                                <td class="EventTournamentStandingsTableStandingDetails">@Standing.PointSpread</td>
+                                <td class="EventTournamentStandingsTableStandingDetails">@Standing.scoreDescription</td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
+            }
+        }
+
+        <div id="leaderTab" class="tab">
+            <br />
+            <div class="tournLeaderBoardTitle">
+                Leaderboard for the Tournament
+            </div>
+            <table class="gridTable" id="leaderboards">
+                <thead>
+                    <tr>
+                        <th>Skater
+                        </th>
+                        <th>Total Overall Assists
+                        </th>
+                        <th>Total Overall Blocks
+                        </th>
+                        <th>Total Overall Penalties
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.AllSkaters.Count; i++)
+                    {
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @if (Model.AllSkaters[i].SkaterLinkId != new Guid())
+                                {
+                                    <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.AllSkaters[i].SkaterName) + "/" + Model.AllSkaters[i].SkaterLinkId.ToString().Replace("-", ""))">
+                                        @Model.AllSkaters[i].SkaterName
+                                    </a>
+                                }
+                                else
+                                {<span>@Model.AllSkaters[i].SkaterName</span> }
+                            </td>
+                            <td>
+                                @Model.AssistLeaders.Where(x => x.PlayerWhoAssisted.SkaterId == Model.AllSkaters[i].SkaterId).Count()
+                            </td>
+                            <td>@Model.BlockLeaders.Where(x => x.PlayerWhoBlocked.SkaterId == Model.AllSkaters[i].SkaterId).Count()
+                            </td>
+                            <td>@Model.PenaltyLeaders.Where(x => x.PenaltyAgainstMember.SkaterId == Model.AllSkaters[i].SkaterId).Count():
+                                @foreach (var pen in Model.PenaltyLeaders.Where(x => x.PenaltyAgainstMember.SkaterId == Model.AllSkaters[i].SkaterId).GroupBy(x => x.PenaltyType))
+                                {
+                                    <span class="b">@Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(pen.Key)</span><span>:@pen.Count()</span>
+                                }
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+            <ul class="penList">
+                @foreach (var pen in PensAbbre)
+                {
+                    <li><span class="b">@pen.Abbre</span><span>: @pen.Name</span></li>
+                }
+            </ul>
+        </div>
+        <div id="chatTab" class="tab">
+            <div class="gameJamsCon">
+                <div class="gameTabH">
+                    Live Chat Of The Tournament
+                </div>
+                <div>
+                    <div class="gameChatControl">
+                        <textarea id="chat" name="chat" rows="2" class="gameInputChat"></textarea>
+                        <input name="submit" id="submit" type="submit" value="Send Chat" class="primary"
+                            onclick="javascript: tournamentViewModel.postConversation()" />
+                    </div>
+                    <div class="clear messageSeperator">
+                    </div>
+                    <div id="chatMessages" data-bind="foreach: chats">
+                        <div class="chatMessage">
+                            <div class="chatMessageProfile">
+                                <b><span data-bind="text: name"></span></b>
+                                <br />
+                                <span data-bind="text: Created"></span>
+                            </div>
+                            <div class="chatMessageContent">
+                                <span data-bind="text: chat"></span>
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="gpSBVersion">
+            Want to Show Your Games LIVE on RDNation For Free?
+            <br />
+            <a href="http://rdnation.com/roller-derby-scoreboard">Download Thor's Hammer Roller
+                Derby Scoreboard</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#usual1 ul").idTabs();
+
+    ko.applyBindings(tournamentViewModel, document.getElementById("chatTab"));
+
+    tournamentViewModel.initialize("@Model.Id.ToString().Replace("-", "")");
+
+    $(document).ready(function () {
+        $('#games').dataTable({
+            "aaSorting": [[0, "asc"]], "bPaginate": false, "bLengthChange": false, "bFilter":
+true, "bSort": true, "bInfo": false, "bAutoWidth": false
+        }); $('#leaderboards').dataTable({
+            "aaSorting": [[1, "asc"]], "bPaginate": false, "bLengthChange": false, "bFilter":
+true, "bSort": true, "bInfo": false, "bAutoWidth": false
+        });
+    });
+
+    @Html.Raw(Model.StripeKey)
+
+    $("#PaymentForm").validate({
+        rules: {
+            "Paywall.CCNumber": "required",
+            "Paywall.SecurityCode": "required",
+            MonthOfExpiration: "required",
+            YearOfExpiration: "required",
+            "Paywall.EmailAddress": "required"
+        },
+        submitHandler: function (form) {
+            // disable the submit button to prevent repeated clicks
+            $('#submitButton1').toggleClass("displayNone", true);
+            $('#working1').toggleClass("displayNone", false);
+            Stripe.createToken({
+                number: $('.card-number').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val(),
+
+            }, stripeResponseHandler);
+        }
+    });
+    $("#ViewForm").validate({
+        rules: {
+            "Paywall.PasswordForPaywall": "required"
+        }
+    });
+
+</script>

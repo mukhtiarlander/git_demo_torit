@@ -1,0 +1,121 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.Skater"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:ad="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    xmlns:vm="clr-namespace:RDN.WP.Library.ViewModels.Public;assembly=RDN.WP.Library">
+    <phone:PhoneApplicationPage.Resources>
+        <con:DisplayDateConverter x:Key="displayDateConverter"></con:DisplayDateConverter>
+        <vm:SkaterViewModel x:Key="viewModel"/>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" DataContext="{StaticResource viewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"></RowDefinition>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" >
+            <TextBlock Text="{Binding Path=Skater.LeagueName}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" ></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Height="130" Width="130" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"  VerticalAlignment="Top" >
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding Skater.ThumbUrl}" CreateOptions="BackgroundCreation"/>
+                    </Image.Source>
+                </Image>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal"  >
+                    <TextBlock Text="No: "  Style="{StaticResource ProfileDescription}"/>
+                    <TextBlock Text="{Binding Path=Skater.DerbyNumber}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" >
+                    <TextBlock Text="{Binding Path=Skater.DerbyName}" Style="{StaticResource ProfileName}"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <!--Pivot Control-->
+        <phone:Pivot Grid.Row="1" >
+
+            <!--Pivot item one-->
+            <phone:PivotItem Header="info">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="33*"></RowDefinition>
+                        <RowDefinition Height="33*"></RowDefinition>
+                        <RowDefinition Height="33*"></RowDefinition>
+                        <RowDefinition Height="33*"></RowDefinition>
+                        <RowDefinition Height="200*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="121*"></ColumnDefinition>
+                        <ColumnDefinition Width="335*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="First Name:" Style="{StaticResource ProfileDescription}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="DOB:" Style="{StaticResource ProfileDescription}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Weight:" Style="{StaticResource ProfileDescription}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Height:" Style="{StaticResource ProfileDescription}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Gender:" Style="{StaticResource ProfileDescription}"></TextBlock>
+
+
+                    <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.FirstName}"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" >
+                        <TextBlock  Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.Age}"></TextBlock>
+                        <TextBlock  Style="{StaticResource ProfileDetail}" Text="-"></TextBlock>
+                        <TextBlock  Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.DOB, Converter={StaticResource displayDateConverter}}"></TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Grid.Row="2" Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.Weight}"></TextBlock>
+                    <StackPanel Grid.Column="1" Grid.Row="3"  Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.HeightFeet}"></TextBlock>
+                        <TextBlock  Style="{StaticResource ProfileDetail}" Text="-"></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="3" Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.HeightInches}"></TextBlock>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Style="{StaticResource ProfileDetail}" Text="{Binding Path=Skater.Gender}"></TextBlock>
+                </Grid>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="bio">
+                <TextBlock  TextWrapping="Wrap" Text="{Binding Path=Skater.Bio}" ></TextBlock>
+            </phone:PivotItem>
+            <phone:PivotItem Header="scorecard">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35*"></RowDefinition>
+                        <RowDefinition Height="449*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="121*"></ColumnDefinition>
+                        <ColumnDefinition Width="335*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource ProfileDescription}" Text="Played:"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource ProfileDescription}" Text="Won:"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource ProfileDetail}"  Text="{Binding Path=Skater.GamesCount}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Style="{StaticResource ProfileDetail}"  Text="{Binding Path=Skater.Wins}"></TextBlock>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+        <ad:AdControl Grid.Row="2" Width="480" Height="80" AdUnitId="10292519" ApplicationId="5bd68ce8-deba-4efb-8df6-35058d28c4d0" IsAutoRefreshEnabled="True" ></ad:AdControl>
+    </Grid>
+
+</phone:PhoneApplicationPage>

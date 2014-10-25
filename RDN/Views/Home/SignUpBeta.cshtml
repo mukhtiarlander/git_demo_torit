@@ -1,0 +1,39 @@
+﻿@using RDN.Models.Account
+@model SignUpBeta
+@{
+    ViewBag.Title = "Sign Up To Beta";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="signUpLeftContainer">
+    <div class="frontPageItem">
+        <div class="signUpPageTitle">
+            RDNation helps you connect with your fans, manage your teams and view your stats.</div>
+        <div class="frontDescription">
+            <img src="@Url.Content("~/Content/Rollerball_pink_s500.png")" class="signUpImg" />
+        </div>
+    </div>
+</div>
+<div class="signUpContainer">
+    <div class="signUpTitle">
+        Sign Up For Our Beta</div>
+    <div class="signUpDesc">
+        Skate As a Team, Track As a Sport, Love What You Do</div>
+    <hr />
+    @if (!Model.SignedUp)
+    {
+
+        using (Html.BeginForm())
+        {
+        <div>
+            @Html.LabelFor(x => x.Email) @Html.TextBoxFor(x => x.Email)
+        </div>
+        
+        <input class="primary" type="submit" value="Sign Up" />
+        }
+    }
+    else
+    {
+        <div>
+            You Will Be Contacted Once We Open More Spots Up!</div>
+    }
+</div>

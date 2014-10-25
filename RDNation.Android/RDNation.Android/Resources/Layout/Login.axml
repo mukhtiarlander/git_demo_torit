@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="Login"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/loginControl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/warning"
+                android:gravity="center"
+                android:textColor="@color/Red" />
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="fill_parent"
+                android:hint="email"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:password="true"
+                android:layout_width="fill_parent"
+                android:id="@+id/password"
+                android:hint="password"
+                android:maxLines="1" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/loginControl"
+            android:layout_alignParentRight="true"
+            android:text="Login &gt; "
+            style="@style/buyNowButton"
+            android:background="@drawable/buy_now_button" />
+        <Button
+            android:id="@+id/signUpBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/loginBtn"
+            android:layout_alignParentLeft="true"
+            android:text="SignUp &gt; "
+            style="@style/buyNowButton"
+            android:background="@drawable/buy_now_button" />
+    </RelativeLayout>
+</LinearLayout>

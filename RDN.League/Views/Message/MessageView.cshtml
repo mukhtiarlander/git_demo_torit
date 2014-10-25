@@ -1,0 +1,105 @@
+﻿@using RDN.Library.Classes.Messages.Classes
+@using RDN.League.Models.Helpers
+@using RDN.Portable.Classes.Controls.Message
+@model ConversationModel
+@{
+    ViewBag.Title = "View Messages With " + Model.FromName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lastIdShown = String.Empty;
+    var lastDateShown = String.Empty;
+    long lastMessageId = 0;
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + @Model.OwnerUserId.ToString().Replace("-", ""))">Messages</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @if (String.IsNullOrEmpty(Model.Title))
+            {
+                <span>Private: @Model.FromName</span>
+            }
+            else
+            { 
+                <span>Private: @Model.Title</span>
+            }
+        </div>
+         
+            <div class="divider"></div>
+        <div>
+            <div class="messView" id="messageView">
+                @foreach (var message in Model.Messages.OrderBy(x => x.MessageCreated))
+                {
+                    if (lastIdShown != message.FromId.ToString())
+                    { 
+                    <span class="messName">@message.FromName</span>
+                    }
+                    if (lastDateShown != @message.MessageCreated.ToShortDateString())
+                    { 
+                    <span class="messCreated">@message.MessageCreated.ToShortDateString() </span>
+                    }
+                    
+                    <span class="messText clear">
+                        @Html.Nl2Br(message.MessageTextHtml)
+                    </span>
+                  
+                    lastIdShown = message.FromId.ToString();
+                    lastDateShown = message.MessageCreated.ToShortDateString();
+                    lastMessageId = message.MessageId;
+                }
+                <div id="messagesAdd">
+                </div>
+            </div>
+            <div class="messInputCont">
+                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply..." })
+                <input name="submit" id="submit" type="submit" value="Send Reply" class="primary"
+                    onclick="javascript: PostInternalMessage()" />
+            </div>
+        </div>
+        @Html.HiddenFor(x => x.FromName)
+        @Html.HiddenFor(x => x.OwnerUserId)
+        @Html.HiddenFor(x => x.GroupMessageId)
+        @Html.Hidden("lastMessageId", lastMessageId)
+    </div>
+    <div class="panelBox">
+        <div class="panelBoxTitle">
+            Members Of Chat
+            <div class="divider"></div>
+        </div>
+        <ul class="noList">
+            @if (Model.Recipients.Count > 0)
+            {
+
+                foreach (var mem in Model.Recipients.OrderBy(x => x.DerbyName))
+                { 
+                <li>
+                    @if (mem.HasNotReadConversation)
+                    { 
+                        <img title="Unread" src="@Url.Content("~/Content/images/icons/unread.png")" height="20" />
+                    }
+                    else
+                    { 
+                        <img title="Read" src="@Url.Content("~/Content/images/icons/read.png")" height="20" />
+                    }
+                    <a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">
+                        @mem.DerbyName
+                    </a></li>            
+                }
+            }
+        </ul>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var objDiv = document.getElementById("messageView");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        var timerMessages = $.timer(function () {
+            GetInternalMessageHistory();
+        });
+
+        timerMessages.set({ time: 10000, autostart: true });
+    });
+</script>

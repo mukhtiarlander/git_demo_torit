@@ -1,0 +1,47 @@
+﻿@using RDN.League.Models.Forum
+@model MovePost
+@{
+    ViewBag.Title = "Move " + Model.TopicTitle + " To";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Move Forum Post: @Model.TopicTitle
+        </div>
+     
+            <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("MovePost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td colspan="2">Move Forum Topic to another Group or Category</td>
+                    </tr>
+                    <tr>
+                        <td class="alRight b">Select Forum to move to: </td>
+                        <td>
+                            @Html.DropDownListFor(x => x.ChosenForum, Model.MoveToForums, new { @onchange = "changeMoveTopicForum(this)", @class = "largeDropDown" })<img class="displayNone" id="loadingCategories" src="@Url.Content("~/Content/loading_lg.gif")"  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="alRight b">Select Category to move to: </td>
+                        <td>@Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, new { @onchange = "changeMoveTopicCategory(this)", @class = "largeDropDown" })</td>
+                    </tr>   
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Save Changes" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.ForumId)
+                @Html.HiddenFor(x => x.ForumType)
+                @Html.HiddenFor(x => x.TopicId)
+                
+            }
+        </div>
+    </div>
+</div>

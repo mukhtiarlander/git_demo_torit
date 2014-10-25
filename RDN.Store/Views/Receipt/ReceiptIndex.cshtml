@@ -1,0 +1,222 @@
+﻿@model RDN.Library.Classes.Payment.Classes.Display.DisplayInvoice
+@using RDN.Library.Classes.Payment.Enums;
+@using RDN.Portable.Classes.Payment.Enums;
+@using RDN.Utilities.Enums;
+@{
+    ViewBag.Title = "Your Receipt";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<div class="backLinks">
+    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/roller-derby-shops")">Shops at RDNation</a>
+</div>
+<div class="receiptHome">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Your Receipt
+        </div>
+        <div class="clear">
+        </div>
+        <div>
+            Here is your receipt for the order.
+        </div>
+        <hr />
+        <div>
+
+            <table>
+                <tr>
+                    <td class="b vLT2D">Created:
+                    </td>
+                    <td class="largeInput">
+                        @Model.Created.ToString("yyyy/M/d")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Invoice Id:
+                    </td>
+                    <td class="largeInput">
+                        @Model.InvoiceId.ToString().Replace("-", "")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Invoice Status:
+                    </td>
+                    <td id="invoiceStatus">
+                        @EnumExt.ToFreindlyName(Model.InvoiceStatus)
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="b vLT2D">Payment Through:
+                    </td>
+                    <td class="largeInput">
+                        @if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Paypal)
+                        { 
+                            <span><a href="http://paypal.com/" target="_blank">Paypal</a></span>
+                        }
+                        else if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Stripe)
+                        {
+                            <span><a href="http://stripe.com/" target="_blank">Stripe</a></span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Total Payment:
+                    </td>
+                    <td class="smallInput">
+                        @Model.TotalIncludingTax @Model.Currency
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="b vLT2D">Shipping Costs:
+                    </td>
+                    <td>
+                        @if (Model.ShippingType == ShippingType.PickUp)
+                        { 
+                        <span>Will Pickup Locally</span>
+                        }
+                        else
+                        { 
+                       <span> @Model.ShippingCost @Model.Currency</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Shop:
+                    </td>
+                    <td>
+                        <a href="@Url.Content("~/roller-derby-shop/" + Model.Merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Merchant.ShopName))">@Model.Merchant.ShopName</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="b vLT2D">Contact Seller:
+                    </td>
+                    <td>
+                        <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION/messages/new/shop/@Model.Merchant.MerchantId.ToString().Replace("-", "")">Contact @Model.Merchant.ShopName</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="b vLT2D">Buyers Email:
+                    </td>
+                    <td>
+                        @Model.InvoiceShipping.Email
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Shipping Address:
+                    </td>
+                    <td>
+                        @Model.InvoiceShipping.FirstName @Model.InvoiceShipping.LastName<br />
+                        @Model.InvoiceShipping.Street<br />
+                        @if (!String.IsNullOrEmpty(Model.InvoiceShipping.Street2))
+                        { 
+                            <span>@Model.InvoiceShipping.Street2</span><br />
+                        }
+                        @Model.InvoiceShipping.State @Model.InvoiceShipping.Zip<br />
+                        @Model.InvoiceShipping.Country
+                    </td>
+                </tr>
+                @if (Model.ShippingType == ShippingType.PickUp)
+                { 
+                    <tr>
+                        <td class="b vLT2D">Pick Up Address:
+                        </td>
+                        <td>
+                            @Model.SellersAddress.CompanyName<br />
+                            @Model.SellersAddress.Street<br />
+                            @if (!String.IsNullOrEmpty(Model.SellersAddress.Street2))
+                            { 
+                                <span>@Model.SellersAddress.Street2</span><br />
+                            }
+                            @Model.SellersAddress.State @Model.SellersAddress.Zip<br />
+                            @Model.SellersAddress.Country
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="b vLT2D">Buyer Notes:
+                    </td>
+                    <td>
+                        @Model.Note
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Items Bought:
+                    </td>
+                    <td>
+                        <table id="orders" class="listTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>#</th>
+                                    <th>Price</th>
+                                    <th>Shipping</th>
+                                    <th>Size</th>
+                                    <th>Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.InvoiceItems)
+                                { 
+                                    <tr>
+                                        <td><a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Price @Model.Currency</td>
+                                        <td>@item.TotalShipping @Model.Currency</td>
+                                        <td>@if (item.SizeOfItem > 0)
+                                            { 
+                                            @item.SizeOfItemName
+                                            }
+                                        </td>
+                                        <td class="center">@if (item.ColorHex != null && item.ColorHex.Length > 1)
+                                                           { 
+                                            <div class='selectedColorReceipt center'>
+                                                <div class='selectedColor' style='background-color:@item.ColorHex;'>@item.ColorName</div>
+                                            </div>
+                                                           }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+        <br />
+        <br />
+        <div class="center"><b>Invoice Status</b></div>
+        <ul>
+
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order, order is sitting in users Cart.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Payment)</b> - order was sent to paypal or stripe, awaiting purchase.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Payment_Successful)</b> - Payment was successful, moving into shipment mode soon.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Shipping)</b> - Seller needs to ship product.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Archived_Item_Completed)</b> - Order is complete and archived</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Cancelled)</b> - Order is cancelled</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Shipped)</b> - Order is shipped.</li>
+        </ul>
+    </div>
+    <div class="center">Please feel free to contact <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL</a> for anything.</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#orders').dataTable({
+            "aaSorting": [[0, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

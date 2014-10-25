@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="Skaters"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light" />
+    <EditText
+        android:layout_below="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="true"
+        android:id="@+id/search_skaters"
+        android:hint="search"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
+        android:textCursorDrawable="@android:color/black" />
+    <ListView
+        android:layout_below="@+id/search_skaters"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/skaterList"
+        android:orientation="vertical"
+        android:cacheColorHint="#FFDAFF7F" />
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-6279184964362535/4727599000"
+        ads:adSize="BANNER"
+        android:layout_alignParentBottom="true"
+        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+        ads:loadAdOnCreate="true" />
+</RelativeLayout>

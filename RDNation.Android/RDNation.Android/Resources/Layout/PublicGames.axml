@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="Games/Scores"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light" />
+    <LinearLayout
+        android:layout_below="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+        <ListView
+            android:layout_width="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:layout_height="wrap_content"
+            android:id="@+id/pastGamesList"
+            android:orientation="vertical" />
+    </LinearLayout>
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-6279184964362535/4727599000"
+        ads:adSize="BANNER"
+        android:layout_alignParentBottom="true"
+        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+        ads:loadAdOnCreate="true" />
+</RelativeLayout>

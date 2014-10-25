@@ -1,0 +1,103 @@
+﻿@model List<RDN.Library.Classes.League.Organization>
+@{
+    ViewBag.Title = "League's Organizations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+     
+}
+@helper Truncate(string input, int length = 15)
+{
+    if (input != null)
+    {
+    if (input.Length <= length)
+    {
+    @input
+    }
+    else
+    {
+    @input.Substring(0, length)<text>...</text>
+    }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+          League's Organizations
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {
+                <div class="navIcons">
+                    <a title="Designations" href="@Url.Content("~/league/organization/Designation/")">
+                        <img src="@Url.Content("~/Content/images/icons/designation.png")"  />View
+                    </a>
+                </div>
+                <div class="navIcons">
+                    <a title="Add Ogranization" href="@Url.Content("~/league/organization/new/"+ leagueId.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/organization.png")"  />Add
+                    </a>
+                </div>
+                 
+            }
+        </div>
+        <div class="titleDescription">
+            Here you can view your league Organization and manage .
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="Designation">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Organization Title
+                        </th>
+                        <th>Address
+                        </th>
+                        <th>Website</th>
+                        <th>Note
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.OrganizationId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>  
+                     
+                                <div class="spanIcons">
+                                    <a title="View Org Chart" href="@Url.Content("~/league/organization/chart/"+ b.OrganizationId +"/"+ leagueId.ToString().Replace("-", ""))">
+                                    <img src="@Url.Content("~/Content/images/icons/orgChart.png")" style="border:0;"  />
+                                    </a>
+                                </div>
+
+                                
+                            </td>
+                            <td>
+                                @Truncate(b.Name)
+                            </td>
+
+                            <td>  
+                                @Truncate(b.Adress)
+                            </td>
+                            <td>
+                                @Truncate(b.Website)
+                            </td>
+                            <td>
+                                @b.Note
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

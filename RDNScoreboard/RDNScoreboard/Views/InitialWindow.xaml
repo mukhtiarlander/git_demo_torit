@@ -1,0 +1,47 @@
+﻿<Window x:Class="RDNScoreboard.Views.InitialWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="InitialWindow" Height="375" Width="300" Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico"
+        WindowStyle="None"  
+    AllowsTransparency="True" Background="Transparent"
+       BorderThickness="5"   >
+    <Border >
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="27" Color="Black" Opacity="0.8" ShadowDepth="2" Direction="-75" />
+        </Border.Effect>
+        <Border BorderThickness="1" BorderBrush="Black">
+            <StackPanel Background="White"  >
+                <TextBlock Text="Welcome to Thor's Hammer by RDNation.com" FontSize="15" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="What are you doing today?" FontSize="13" TextAlignment="Center" TextWrapping="WrapWithOverflow"></TextBlock>
+
+                <StackPanel VerticalAlignment="Center" Grid.Row="0" Margin="5" Orientation="Horizontal">
+                    <RadioButton GroupName="Today" x:Name="TestingButton" Checked="TestingButton_Checked">
+                        <TextBlock  TextWrapping="Wrap" Width="240">
+                         <Span FontWeight="Bold">Testing - </Span>
+                       Just looking around Thor's Hammer and trying it out. Thor won't be saving any stats in this mode.
+                        </TextBlock>
+                    </RadioButton>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Grid.Row="1" Margin="5" Orientation="Horizontal">
+                    <RadioButton GroupName="Today" x:Name="ScrimmageButton" Checked="ScrimmageButton_Checked">
+                        <TextBlock  TextWrapping="Wrap" Width="240">
+                         <Span FontWeight="Bold">Practice/Scrimmaging - </Span>
+                       You are using it for a practice or scrimmage.  Thor saves all the stats and any other particulars for later use by your team.
+                        </TextBlock>
+                    </RadioButton>
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <RadioButton GroupName="Today" x:Name="LiveGameButton" Checked="LiveGameButton_Checked"                                       >
+                        <TextBlock  TextWrapping="Wrap" Width="240">
+                         <Span FontWeight="Bold">Real/Live Game - </Span>
+                       You are going live. This is a scrimmage or a real game.  Thor will show your game live on the Internet at RDNation.com.  Play by play and point by point will be recorded for all to see. Please be sure to connect and stay connected to the internet for this mode.
+                        </TextBlock>
+                    </RadioButton>
+                </StackPanel>
+
+
+            </StackPanel>
+        </Border>
+    </Border>
+</Window>

@@ -1,0 +1,156 @@
+﻿@using RDN.Library.Classes.Dues
+@model RDN.Portable.Classes.Controls.Dues.DuesPortableModel
+@{
+    ViewBag.Title = "Classify Dues Groups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isManager = RDN.Library.Cache.MemberCache.IsManagerOrBetterOfLeague(memId);
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isOwner = RDN.Library.Cache.MemberCache.IsOwnerOfLeague(memId);
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Classifications for Dues
+        </div>
+        <div class="expandableCenterContainterRightDues">
+
+            <div class="navIcons">
+                <a title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
+                </a>
+            </div>
+        
+
+            <div class="navIcons">
+                <span class="cursor " onclick="document.getElementById('DuesReport').submit();" title="Export Report">
+                    <img src="@Url.Content("~/Content/images/icons/Download.png")"  />Export</span>
+            </div>
+            <div class="navIcons">
+                <a title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/walletmembers.png")"  />Members
+                </a>
+            </div>
+            
+            <div class="navIcons">
+                <a title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
+            </div>
+               <div class="navIcons">
+                <a title="New Group To Classify" href="@Url.Content("~/dues/classification/new/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/group-add.png")"  />New</a>
+            </div>
+        </div>
+        <div class="titleDescription">
+            Group members of your league by how much they pay for dues.  Therefore, moving a member between groups, will ask them to pay different amounts for dues.
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="classTable" id="members">
+                <thead>
+                    <tr>
+                        <th></th>
+                        @if (isAdminOfLeague)
+                        { 
+                            <th>Edit</th>
+                        }
+                        <th>#</th>
+                        <th>Last</th>
+                        <th>Name</th>
+                        <th class="alignCenter">Default</th>
+                        @foreach (var classy in Model.Classifications)
+                        { 
+                            <th class="alignCenter">
+                                <a title="Edit @classy.Name" href="@Url.Content("~/dues/classification/edit/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", "") + "/" + classy.FeeClassificationId)">
+                                    @classy.Name</a>
+
+                            </th>
+                        }
+                    </tr>
+                    <tr>
+                        <th></th>
+                        @if (isAdminOfLeague)
+                        { 
+                            <th></th>
+                        }
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="alignCenter">@Model.DuesCost.ToString("N2")</th>
+                        @foreach (var classy in Model.Classifications)
+                        { 
+                            <th class="alignCenter">
+                                @classy.FeeRequired.ToString("N2")
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Members.Count; i++)
+                    {                    
+                        <tr>
+                            <th style="width: 20px;">
+                                @i
+                            </th>
+                            @if (isAdminOfLeague)
+                            { 
+                                <td style="width: 40px;"><a href="@Url.Content("~/league/member/edit/" + Model.Members[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName))">Edit </a>
+                                </td>
+                            }
+                            <td>@Model.Members[i].PlayerNumber
+                            </td>
+                            <td>@Model.Members[i].LastName</td>
+                            <td>
+                                <a href="@Url.Content("~/member/" + Model.Members[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName))">
+                                    @Model.Members[i].DerbyName
+                                </a>
+                            </td>
+                            <td class="alignCenter">
+                                @if (Model.Members[i].ClassificationId == 0)
+                                { 
+                                    <input type="radio" name="@Model.Members[i].MemberId-radio" checked="checked" onchange="changeDuesClassification(this, '@Model.Members[i].MemberId', '0')"/>
+                                }
+                                else
+                                { 
+                                    <input type="radio" name="@Model.Members[i].MemberId-radio"  onchange="changeDuesClassification(this, '@Model.Members[i].MemberId', '0')"/>
+                                }
+                            </td>
+                            @foreach (var classy in Model.Classifications)
+                            { 
+                                <td class="alignCenter">
+                                    @if (classy.FeeClassificationId == Model.Members[i].ClassificationId)
+                                    {
+                                        <input type="radio" name="@Model.Members[i].MemberId-radio" checked="checked"  onchange="changeDuesClassification(this, '@Model.Members[i].MemberId', '@classy.FeeClassificationId')"/>
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="@Model.Members[i].MemberId-radio" onchange="changeDuesClassification(this, '@Model.Members[i].MemberId', '@classy.FeeClassificationId')"/>
+                                    }
+
+                                </td>
+                            }
+                        </tr>  
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+    </div>
+    @Html.HiddenFor(x => x.DuesId)
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+
+    });
+
+</script>

@@ -1,0 +1,136 @@
+﻿@using RDN.Library.Classes.Calendar
+@using RDN.League.Models.Utilities
+@using RDN.Library.Cache
+@model RDN.League.Models.Calendar.CalendarEventTypeModel
+@{
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
+        ViewBag.Title = "Add New Event Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+            {
+                <span>< <a href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
+            }
+            else
+            { 
+                <span>< <a href="@Url.Content("~/calendar/view/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
+            }
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Add Calendar Event Type
+        </div>
+
+        <div class="titleDescription">
+            Event types are used to describe what type event it is. Creating a Type allows you
+            to assign various point structures to your events. Also when reporting, reports
+            get broken down by what type of event it was and how many each person attended.
+            Therefore giving you a better estimate if a person attended 19 out of 20 mandatory
+            practices when 20 total are required. Be sure to read <b><a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained"
+                target="_blank">Point Types Explained</a></b> before creating your first event
+            type.
+        </div>
+        <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("CalendarNewEventType", "Calendar", FormMethod.Post, new { @id = "CalendarNewEventType" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b vLTD">Name of Event Type:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.EventTypeName) <span class="i">Mandatory Practice, Event, Team
+                                Function, something recongnizable when running reports and creating events.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Event Type Color:
+                        </td>
+                        <td class="largeInput">
+                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()" }) @if(isSec){ <span class="i">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Points For Being Present:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.PointsForPresent)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Points For Being Partially There:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.PointsForPartial)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Points For Being Not Present:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.PointsForNotPresent)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Points For Being Excused:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.PointsForExcused)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Points For Being Tardy:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.PointsForTardy)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @if (ViewBag.IsSuccessful)
+                            { 
+                                <span class="addedSuccessfully">Updated Successfully!</span>
+                            }
+                            <br />
+                            <div>
+                                <input type="submit" class="primary" value="Create Event Type" name="add" />
+                                <input type="submit" class="primary" value="Create & Add Another" name="addAnother" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.CalendarId)
+                @Html.HiddenFor(x => x.OwnerEntity)
+            }
+        </div>
+    </div>
+    <div class="panelBox">
+        <div class="panelBoxTitle">
+            <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained"
+                target="_blank">Point Types Explained</a>
+            <div class="divider"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadDropDownBackgroundColors();
+    });
+    $("#PointsForPresent").numeric({ negative: false });
+    $("#PointsForPartial").numeric({ negative: false });
+    $("#PointsForNotPresent").numeric({ negative: false });
+    $("#PointsForExcused").numeric({ negative: false });
+    $("#PointsForTardy").numeric();
+
+    $("#CalendarNewEventType").validate({
+        rules: {
+            Name: "required"
+        }
+    });
+</script>

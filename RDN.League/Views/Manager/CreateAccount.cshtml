@@ -1,0 +1,157 @@
+﻿@using RDN.League.Models.Helpers
+@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.League.CreateAccount>
+@{    
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<style type="text/css">
+    #id-form label {
+        color: black;
+    }
+</style>
+<div id="page-heading">
+    <h1>
+        Create a new account</h1>
+</div>
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+    <tr>
+        <th rowspan="3" class="sized">
+            <img src="../../Content/theme1/images/shared/side_shadowleft.jpg" width="20" height="300"
+                alt="" />
+        </th>
+        <th class="topleft">
+        </th>
+        <td id="tbl-border-top">
+            &nbsp;
+        </td>
+        <th class="topright">
+        </th>
+        <th rowspan="3" class="sized">
+            <img src="../../Content/theme1/images/shared/side_shadowright.jpg" width="20" height="300"
+                alt="" />
+        </th>
+    </tr>
+    <tr>
+        <td id="tbl-border-left">
+        </td>
+        <td>
+            <!--  start content-table-inner -->
+            <div id="content-table-inner">
+                @Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+                @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")     
+                @using (Html.BeginForm("CreateAccount", "Manager"))
+                {                    
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                        <tr valign="top">
+                            <td>
+                                <!-- start id-form -->
+                                <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+                                    <tr>
+                                        <th valign="top">
+                                            @Html.LabelFor(m => m.Model.League)
+                                        </th>
+                                        <td>
+                                            @Model.Model.League                                            
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">
+                                            @Html.LabelFor(m => m.Model.Email)
+                                        </th>
+                                        <td>                                            
+                                            @Html.TextBoxFor(x => x.Model.Email, new { @class = "inp-form" })                                                                                  
+                                        </td>
+                                        <td>
+                                            @Html.ValidationMessageFor(m => m.Model.Email)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">
+                                            @Html.LabelFor(m => m.Model.ConfirmEmail)
+                                        </th>
+                                        <td>                                            
+                                            @Html.TextBoxFor(x => x.Model.ConfirmEmail, new { @class = "inp-form" })           
+                                        </td>
+                                        <td>
+                                            @Html.ValidationMessageFor(m => m.Model.ConfirmEmail)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">
+                                            @Html.LabelFor(m => m.Model.UserName)
+                                        </th>
+                                        <td>                                            
+                                            @Html.TextBoxFor(x => x.Model.UserName, new { @class = "inp-form" })                                           
+                                        </td>
+                                        <td>
+                                            @Html.ValidationMessageFor(m => m.Model.UserName)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">
+                                            @Html.LabelFor(m => m.Model.Firstname)
+                                        </th>
+                                        <td>                                            
+                                            @Html.TextBoxFor(x => x.Model.Firstname, new { @class = "inp-form" })                                                 
+                                        </td>
+                                        <td>
+                                            @Html.ValidationMessageFor(m => m.Model.Firstname)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">
+                                            @Html.LabelFor(m => m.Model.Surname)
+                                        </th>
+                                        <td>                                            
+                                            @Html.TextBoxFor(x => x.Model.Surname, new { @class = "inp-form" })  
+                                        </td>
+                                        <td>
+                                            @Html.ValidationMessageFor(m => m.Model.Surname)
+                                        </td>
+                                    </tr>                                    
+                                    <tr>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                        <td valign="top">                                            
+                                            <input type="submit" value="Register account" class="form-submit" />
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!-- end id-form  -->
+                            </td>
+                            <td>
+                                <!--  start related-activities -->
+                                <!-- end related-activities -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="../../Content/theme1/images/shared/blank.gif" width="695" height="1" alt="blank" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                }
+                <div class="clear">
+                </div>
+            </div>
+            <!--  end content-table-inner  -->
+        </td>
+        <td id="tbl-border-right">
+        </td>
+    </tr>
+    <tr>
+        <th class="sized bottomleft">
+        </th>
+        <td id="tbl-border-bottom">
+            &nbsp;
+        </td>
+        <th class="sized bottomright">
+        </th>
+    </tr>
+</table>

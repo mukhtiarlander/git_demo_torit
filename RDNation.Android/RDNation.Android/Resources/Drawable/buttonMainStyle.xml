@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+  <item android:state_pressed="false"	   >
+    <shape
+android:shape="rectangle" android:padding="10dp">
+      <!-- you can use any color you want I used here gray color-->
+      <corners android:radius="3dp" />
+      <stroke android:width="3px" android:color="@color/purple" />
+      <solid android:color="@color/white"/>
+    </shape>
+  </item>
+  <item android:state_pressed="true" >
+    <shape android:shape="rectangle" android:padding="10dp">
+      <gradient
+			 android:startColor="#E77A26"
+			   android:endColor="#E77A26"
+			   android:angle="270" />
+      <!-- you can use any color you want I used here gray color-->
+      <corners android:radius="3dp" />
+      <stroke android:width="3px" android:color="@color/purple" />
+    </shape>
+  </item>
+  <item android:state_focused="true" >
+    <shape android:shape="rectangle" android:padding="10dp">
+      <gradient
+			 android:startColor="#E77A26"
+			   android:endColor="#E77A26"
+			   android:angle="270" />
+      <!-- you can use any color you want I used here gray color-->
+      <corners android:radius="3dp" />
+      <stroke android:width="3px" android:color="#53185C" />
+    </shape>
+  </item>
+</selector>

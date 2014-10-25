@@ -1,0 +1,102 @@
+﻿@model List<RDN.Library.Classes.League.BoutList>
+@{
+    ViewBag.Title = "All Bout Challenge Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    
+}
+
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Bout Challenges
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isAdminOfLeague)
+            {                
+                <div class="navIcons">
+                    <a title="Add Members" href="@Url.Content("~/boutchallenge/add/request")">
+                        <img src="@Url.Content("~/Content/images/icons/challengeAdd.png")"  />Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="titleDescription">
+            Bout Challenges are a way for your league to connect with another league around the world.  
+            By adding a bout challenge request, your asking other leagues to come bout with you on a certain weekend.  
+            Each request should be closed when the challenge has been accepted.  Requests are shown to every league within RDNation.
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="boutRequest">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>League
+                        </th>
+                        <th>Location</th>
+                        <th>Date of Game
+                        </th>
+                        <th>Travel Stipend
+                        </th>
+                        <th>Crowd Size</th>
+                        <th>Rule Set
+                        </th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.ChallengeId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @if (isAdminOfLeague && leagueId == b.LeagueId)
+                                { 
+                                    <a href="@Url.Content("~/boutchallenge/edit/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))" >Edit </a> <span>/</span> <a href="@Url.Content("~/boutchallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Content("~/boutchallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>
+                                }
+                            </td>
+
+                            <td>
+                                <span class="vmTeamName"><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
+                                    @b.LeagueName
+                                </a></span>
+                            </td>
+                            <td>@b.Location</td>
+                            <td>@if (b.StartDateOfEvent > new DateTime())
+                                {
+                                @b.StartDateOfEvent.ToShortDateString()
+                                }
+                                @if (b.EndDateOfEvent > new DateTime())
+                                {
+                                    <span>-</span> @b.EndDateOfEvent.ToShortDateString()
+                                }
+                            </td>
+                            <td>
+                                @b.TravelStipendAmount
+                            </td>
+                            <td>
+                                @b.CrowdSize
+                            </td>
+                            <td>
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/messages/new/league/" + b.LeagueId.ToString().Replace("-", ""))" title="Contact" >Contact
+                                </a>
+
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

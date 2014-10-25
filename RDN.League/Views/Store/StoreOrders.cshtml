@@ -1,0 +1,93 @@
+﻿@using RDN.Portable.Classes.Payment.Enums;
+@using RDN.Library.Classes.Payment.Enums;
+@using RDN.Utilities.Enums;
+@model RDN.Library.Classes.Store.Display.DisplayStore
+@{
+    ViewBag.Title = "Your Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            @if (Model.IsPublished)
+            {
+                <a  target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a>
+                <span>- is Published</span>
+            }
+            else
+            {
+                @Model.ShopName
+            }
+
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (RDN.Library.Cache.MemberCache.IsManagerOrBetterOfStore(RDN.Library.Classes.Account.User.GetMemberId(), Model.MerchantId))
+            { 
+               
+                <a  href="@Url.Content("~/store/new/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/plus.png")" height="20px" />
+                    Add Item</a>
+                <span>|</span>
+                <a  href="@Url.Content("~/store/settings/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">Settings</a>
+            }
+        </div>
+        <div class="divider"></div>
+        <table class="listTable  tableExtras" id="orders">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Number</th>
+                    <th>Items Sold</th>
+                    <th>Payment Through</th>
+                    <th>Total</th>
+                    <th>Shipping Costs</th>
+                    @*<th>RDN Fee</th>*@
+                    <th>Invoice Status</th>
+                    <th>Notes</th>
+                    <th>Your Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var invoice in Model.Invoices)
+                { 
+                    <tr>
+                        <td>@invoice.Created.ToString("yyyy/M/d")</td>
+                        <td><a href="@Url.Content("~/store/order/" + invoice.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + invoice.Merchant.MerchantId.ToString().Replace("-", "") + "/" + invoice.InvoiceId.ToString().Replace("-", ""))">@invoice.InvoiceId.ToString().Replace("-", "")</a></td>
+                        <td>@invoice.InvoiceItems.Count</td>
+                        <td>@invoice.PaymentProvider</td>
+                        <td>@invoice.TotalIncludingTax @invoice.Currency</td>
+                        <td>@invoice.ShippingCost @invoice.Currency</td>
+                        @*<td>@invoice.RDNDeductedFee @invoice.Currency</td>*@
+                        <td>@EnumExt.ToFreindlyName(invoice.InvoiceStatus)</td>
+                        <td>@invoice.Note</td>
+                        <td>@invoice.AdminNote</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <ul>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order, order is sitting in users Cart.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Payment)</b> - order was sent to paypal or stripe, awaiting purchase.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Payment_Successful)</b> - Payment was successful, moving into shipment mode soon.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Shipping)</b> - Seller NEEDS to ship product.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Archived_Item_Completed)</b> - Order is complete and archived</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Cancelled)</b> - Order is cancelled</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Shipped)</b> - Order is shipped.</li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#orders').dataTable({
+            "aaSorting": [[0, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

@@ -1,0 +1,177 @@
+﻿@model RDN.Library.Classes.League.Organization
+@{
+    ViewBag.Title = "View Organization Chart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <span><a  href="@Url.Content("~/league/organization/view/all/")">All Organization</a></span>
+
+        </div>
+       
+    </div>
+
+    <div class="panelBoxLeftOrganization">
+        <div class="panelBoxTitle">
+              Add New Member to Organization
+        </div>
+
+        <div class="titleDescription">
+            Manage league organization chart.
+      
+        </div>
+        <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("AddOrganize", "Organization", FormMethod.Post, new { @id = "newOrganize" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">Member Assigned:
+                        </td>
+                        <td class="largeInput">
+                            @Html.DropDownListFor(x => x.StaffId, new SelectList(ViewBag.MemberList, "Value", "Text"),"Select Member")
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="b alRight">Member Designation:
+                        </td>
+                        <td class="largeInput">
+                            @Html.DropDownListFor(x => x.DesignationId, new SelectList(ViewBag.DesignagtionList, "Value", "Text"),"Select ") <span id="Ranks"></span>
+                        </td>
+                    </tr>          
+                     <tr>
+                        <td class="b alRight">Reports To:
+                        </td>
+                        <td class="largeInput">
+                            @Html.DropDownListFor(x => x.ManagerId, new SelectList(ViewBag.MemberList, "Value", "Text"),"Select Member")
+                        </td>
+                    </tr>            
+                    <tr>
+                        <td class="b alRight">Comment:
+                        </td>
+                        <td class="alignTop" > @Html.TextArea("Comment",new{style = "width: 200px; height:50px;"})</td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight"></td>
+                        <td class="largeInput">
+                            <input type="submit" class="primary" value="Submit" name="NewEntry" />
+                        </td>
+                    </tr>
+                     
+                </table>    
+                <div style="visibility:hidden;">@Html.TextBoxFor(x => x.OrganizationId, new { Value = ViewBag.OrganizationId })</div>       
+            }
+        </div>
+     
+    </div>
+    <div class="fixedCenterContainterOrg">
+        <div class="fixTitle">
+           Organization Chart  
+        </div>
+        <div class="titleDescription">
+           You can view and manage your league's Organization easily.
+       
+        </div>
+        <div class="divider"></div>
+
+        <div style="margin-right:50px;">
+          <div id='chart_div' style="width:70%;float:right;"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#newOrganize").validate({
+        rules: {
+            StaffId: "required",
+            DesignationId: "required"
+        }
+    });
+
+</script>
+
+<script type="text/javascript">
+    $("#DesignationId").change(function () {
+        var designationId = $("#DesignationId option:selected").val();
+        var designationTitle = $("#DesignationId option:selected").text();
+
+        var paramValue = JSON.stringify({ designationId: designationId });
+
+        $.ajax({
+
+            url: '/Organization/GetRank', //This will call the function in controller
+            type: 'POST',
+            dataType: 'json',
+            data: paramValue,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('#Ranks').text("Level: " + data.DesigLavel);
+
+                if (data.DesigLavel == 0) {
+                    document.getElementById("ManagerId").disabled = true;
+                }
+                else {
+                    document.getElementById("ManagerId").disabled = false;
+                }
+            },
+            error: function (objAjaxRequest, strError) {
+                $('#Ranks').text("");
+                //var respText = objAjaxRequest.responseText;
+                //alert(respText);
+            }
+
+        });
+
+    });
+
+</script>
+
+ <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+        <script type='text/javascript'>
+            google.load('visualization', '1', { packages: ['orgchart'] });
+
+            google.setOnLoadCallback(drawChart);
+ 
+            function drawChart() {
+                var organizationId = $("#OrganizationId").val();
+                var paramValue = JSON.stringify({ organizationId: organizationId });
+
+                $.ajax({
+
+                    url: '/Organization/getChartData', //This will call the function in controller
+                    type: 'POST',
+                    dataType: 'json',
+                    data: paramValue,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        var tdata = new google.visualization.DataTable();
+                            tdata.addColumn('string', 'Name');
+                            tdata.addColumn('string', 'Manager');
+                            tdata.addColumn('string', 'ToolTip');
+
+                            for (var i = 0; i < data.length; i++) {
+                                tdata.addRow([data[i].StaffName, data[i].ManagerName, data[i].Comment]);
+                                //alert(data[i].OrganizeId.toString());
+                            }
+
+                            var options = {
+                                title: "Org",
+                                allowHtml: true,color:"#edf7ff", selectionColor: "#08df08",
+                                tooltip: { textStyle: { fontName: 'Open Sans' } }
+                            };
+                            var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+                            chart.draw(tdata, options);
+                    },
+                    error: function (objAjaxRequest, strError) {
+                        
+                        //var respText = objAjaxRequest.responseText;
+                        //alert(respText);
+                    }
+
+                });
+
+            }
+    </script>

@@ -1,0 +1,33 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "AttachLeagueToFederation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Attach League To Federation</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        League Id:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Federation Id:
+        @Html.TextBoxFor(x => x.Id2)
+    </div>
+    
+    <div>
+        Use this to attach a league to a federation.
+        <input type="submit" class="primary" />
+    </div>
+    
+    if (Model.IsAttached)
+    { 
+        <div>
+            Attached!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

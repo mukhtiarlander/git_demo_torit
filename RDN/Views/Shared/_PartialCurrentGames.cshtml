@@ -1,0 +1,34 @@
+﻿<div class="currentGamesBar" id="currentGamesBar">
+    <div class="cgbHead">
+        Live Games
+    </div>
+    <!-- ko if: currentGames().length > 0 -->
+    <div class="currentGameContainer" data-bind="foreach: currentGames">
+        <a data-bind="attr: { href: gameUrl }">
+             <!-- ko if: isGameStreaming -->
+                <img style="float:left; vertical-align:middle;" title="Game Is Streaming Live" width="32" src="http://rdnation.com/Content/images/icons/Streaming.png" />
+                <!-- /ko -->
+            <div class="currentGame">
+               
+                <div class="cgName">
+                    <span class="cgGameName" data-bind="text: gameName"></span><span data-bind="text: jamNumber"
+                        class="cgJam"></span><span data-bind="text: periodNumber" class="cgPeriod"></span>
+                </div>
+                <div class="cgTeam">
+                    <span data-bind="text: team1Name" class="cgTeamName"></span><span data-bind="text: team1Score"
+                        class="cgTeamScore"></span>
+                </div>
+                <div class="cgTeam">
+                    <span data-bind="text: team2Name" class="cgTeamName"></span><span data-bind="text: team2Score"
+                        class="cgTeamScore"></span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: currentGames().length === 0 -->
+    <div class="cgNoGames">
+        <a href="http://rdnation.com/roller-derby-games">Past Weeks Games</a>, <a class="green b" href="http://rdnation.com/roller-derby-scoreboard">Download Our Scoreboard</a> to Display Your Games Live Online!
+    </div>
+    <!-- /ko -->
+</div>

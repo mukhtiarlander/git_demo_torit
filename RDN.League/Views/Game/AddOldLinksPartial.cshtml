@@ -1,0 +1,54 @@
+﻿@*This is the partial view for adding links to each game.*@
+@model Scoreboard.Library.ViewModel.GameViewModel
+@{
+    var GameLinks = from Scoreboard.Library.ViewModel.GameLinkTypeEnum d in Enum.GetValues(typeof(Scoreboard.Library.ViewModel.GameLinkTypeEnum))
+                    select new { ID = (int)d, Name = d.ToString() };
+}
+@using (Ajax.BeginForm("AddOld_LinksToGame", new AjaxOptions { UpdateTargetId = "LinksForGameRefreshControl", LoadingElementId = "savingLinks" }))
+{ 
+    <table>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Link
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+            </th>
+        </tr>
+        @for (int i = 0; i < @Model.GameLinks.Count; i++)
+        {
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @Html.TextBox("Link[" + Model.GameLinks[i].LinkId + "]", Model.GameLinks[i].GameLink)
+                </td>
+                <td>
+                    @Html.DropDownList("LinkType[" + Model.GameLinks[i].LinkId + "]", new SelectList(GameLinks, "ID", "Name", Convert.ToInt32(Model.GameLinks[i].LinkType)))
+                </td>
+                <td>
+                    <a href="@Model.GameLinks[i].GameLink" target="_blank">@Model.GameLinks[i].GameLink</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="divider"></div>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">
+            </td>
+            <td>
+                <input type="submit" value="Save/Add Links" name="saveLinks" class="primary" />
+                <img src="@Url.Content("~/Content/loading_lg.gif")" id="savingLinks" style="display:none; width:20px;" />
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(x => x.GameId);
+}

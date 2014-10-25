@@ -1,0 +1,141 @@
+﻿@using RDN.League.Models.League
+@model RegisterLeague
+@{
+    ViewBag.Title = "Setup League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="membersPager">
+        <ul class="membersPagerUl">
+            <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/setup") ? "membersPagerSel" : "")" href="@Url.Content("~/league/setup")">Setup League</a></li>
+            <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/join") ? "membersPagerSel" : "")" href="@Url.Content("~/league/join")">Join League</a></li>
+        </ul>
+    </div>
+    <br /><br />
+    <div class="fixedCenterContainter">
+
+        <div class="fixTitle">
+            League Setup
+        </div>
+     
+         <div class="titleDescription">
+     Here we will set up the league you are in charge of. Once filled out, we will be
+            in contact with you to verify all the information is correct. Once verified, we
+            will give you access to start adding teams/skaters within your league. Also allowing
+            you to add past games and other statistical information.
+            </div>
+            <div class="divider"></div>
+        @if (Model.Created)
+        {
+            <div class="confirmationMessages">
+                Your League has been Created! We will be in contact with you shortly by phone or email.
+            </div>
+        }
+        else if (Model.Updated)
+        {
+            <div class="confirmationMessages">
+                Your League has been Updated!  You now have access to manage your league.
+            </div>
+        }
+        else if (Model == null || !Model.Created)
+        {
+            using (Html.BeginForm())
+            {            
+            <table class="suTable">
+                <tr>
+                    <td class="suLTD">
+                        <img class="displayNone floatLeft" id="loadingLeagueName" src="@Url.Content("~/Content/loading_lg.gif")"  />
+                        @Html.LabelFor(m => m.Name)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.Name, new { onchange = "SearchLeagueNames(this);" })
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.Name)
+                    </td>
+                </tr>
+                <tr class="derbyLeagueRows">
+                    <td></td>
+                    <td colspan="2" id="signUpFindLeagueNameHeader" class="b"></td>
+                </tr>
+                <tr class="derbyLeagueRows">
+                    <td class="suLTD"></td>
+                    <td class="suRTD" id="signUpFindLeagueName"></td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.Email)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.Email)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.Email)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.PhoneNumber)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.PhoneNumber)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.PhoneNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.City)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.City)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.City)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.State)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.State)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.State)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.Country)
+                    </td>
+                    <td class="suRTD">
+                        @Html.DropDownList("Country", Model.Countries)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.Country)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.TimeZone)
+                    </td>
+                    <td class="suRTD">
+                        @Html.DropDownList("TimeZone", Model.TimeZones)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.TimeZone)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">We will contact you shortly by phone. We must verfiy you are the owner of the league.
+                        @Html.HiddenFor(x => x.LeagueId);
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD"></td>
+                    <td class="suRTD">
+                        <input class="primary" type="submit" value="Submit League" />
+                    </td>
+                </tr>
+            </table>
+            
+            }
+        }
+
+    </div>
+</div>

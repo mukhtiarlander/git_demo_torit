@@ -1,0 +1,29 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete a League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Hide A League with its ID</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        League Id To Hide:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Only use this to hide the league.</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsDeleted)
+    { 
+    <div>LEAGUE IS HIDDEN!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

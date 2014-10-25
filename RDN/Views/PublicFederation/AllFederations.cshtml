@@ -1,0 +1,75 @@
+﻿@using RDN.Utilities.Paging
+@model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Federation.FederationDisplay>>
+@{
+    ViewBag.Title = "All Roller Derby Federations";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Federations World Wide
+        </div>
+        <div class="divider"></div>
+        <div class="pager">
+            @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllFederations", "PublicFederation"))
+        </div>
+        <div>
+            <table class="listTable" id="leagues">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Federation
+                        </th>
+                        <th>Leagues
+                        </th>
+                        <th>Members
+                        </th>
+                        <th>Website</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {
+                        if (Model.Model.Items[i].FederationName != null)
+                        {
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @if (Model.Model.Items[i].Logo != null)
+                                {
+                                    <img height="40px" alt="@Model.Model.Items[i].Logo.Alt" src="@Model.Model.Items[i].Logo.ImageUrl" />
+                                }
+                            </td>
+                            <td>
+                                <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-federation/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].FederationName.Replace(" ", "-")) + "/" + Model.Model.Items[i].FederationId.ToString().Replace("-", ""))">
+                                    @Model.Model.Items[i].FederationName
+                                </a></span>
+                            </td>
+                            <td>@Model.Model.Items[i].LeaguesCount
+                            </td>
+                            <td>@Model.Model.Items[i].MembersCount
+                            </td>
+                            <td>@Model.Model.Items[i].Website</td>
+                        </tr>              
+                        }
+                    }
+                </tbody>
+            </table>
+            <div class="pager">
+                @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllFederations", "PublicFederation"))
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#leagues').dataTable({
+            "aaSorting": [[0, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

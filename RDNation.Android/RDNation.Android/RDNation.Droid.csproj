@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5FFE551F-A3F8-4633-A423-472C07C9EBAC}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RDNation.Droid</RootNamespace>
+    <AssemblyName>RDNation.Droid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v2.2</TargetFrameworkVersion>
+    <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <JavaMaximumHeapSize />
+    <JavaOptions />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LegacyBar.Library">
+      <HintPath>..\..\RDNation.Mobile\Libraries\LegacyBar.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Export" />
+    <Reference Include="Mono.Android.Support.v4" />
+    <Reference Include="mscorlib" />
+    <Reference Include="SlidingMenuSharp">
+      <HintPath>..\..\RDNation.Mobile\Libraries\SlidingMenuSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activities\Account\SettingsActivity.cs" />
+    <Compile Include="Activities\Account\SignUpActivity.cs" />
+    <Compile Include="Activities\Account\LoginActivity.cs" />
+    <Compile Include="Activities\Info.cs" />
+    <Compile Include="Activities\Public\Calendar\EventsActivity.cs" />
+    <Compile Include="Activities\Public\Calendar\EventActivity.cs" />
+    <Compile Include="Activities\Public\Games\GamesActivity.cs" />
+    <Compile Include="Activities\Public\League\LeagueActivity.cs" />
+    <Compile Include="Activities\Public\League\LeaguesActivity.cs" />
+    <Compile Include="Activities\Public\Member\SkaterActivity.cs" />
+    <Compile Include="Activities\Public\Member\SkatersActivity.cs" />
+    <Compile Include="Activities\Public\Shop\ShopActivity.cs" />
+    <Compile Include="Activities\Public\Shop\ShopsActivity.cs" />
+    <Compile Include="Activities\UI\CharacterPickerDialog.cs" />
+    <Compile Include="Adapters\ShopItemsAdapter.cs" />
+    <Compile Include="Adapters\EventsAdapter.cs" />
+    <Compile Include="Adapters\GamesAdapter.cs" />
+    <Compile Include="Adapters\LeagueAdapter.cs" />
+    <Compile Include="Adapters\SkaterAdapter.cs" />
+    <Compile Include="Adapters\UI\ImageAdapter.cs" />
+    <Compile Include="Classes\Account\MobileNotification.cs" />
+    <Compile Include="Classes\Account\User.cs" />
+    <Compile Include="Classes\Configuration\Settings.cs" />
+    <Compile Include="Classes\Error\ErrorHandler.cs" />
+    <Compile Include="Classes\Helpers\AdMobHelper.cs" />
+    <Compile Include="Classes\Images\Image.cs" />
+    <Compile Include="Classes\Images\Images.cs" />
+    <Compile Include="Classes\Public\Calendar.cs" />
+    <Compile Include="Classes\Public\Shop.cs" />
+    <Compile Include="Classes\Public\Game.cs" />
+    <Compile Include="Classes\Public\League.cs" />
+    <Compile Include="Classes\Public\Skater.cs" />
+    <AndroidJavaLibrary Include="Jars\GoogleAdMobAdsSdk-6.0.0.jar" />
+    <AndroidJavaSource Include="JarWrappers\AdMobHelper.java" />
+    <Compile Include="Classes\Receivers\GCMBroadcastReceiver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Services\Constants\GCMConstants.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Services\GCMService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Services\PushClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Services\PushHandleServiceBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Splash.cs" />
+    <Compile Include="UI\ActionBarAction\WebBrowserAction.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\Layout\splash.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Login.axml" />
+    <AndroidResource Include="Resources\Layout\Signup.axml" />
+    <AndroidResource Include="Resources\Layout\PublicSkaters.axml" />
+    <AndroidResource Include="Resources\Layout\PublicSkaterRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\AlphaSelectorMenu.axml" />
+    <AndroidResource Include="Resources\Layout\SkaterProfile.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicLeagueRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicLeagues.axml" />
+    <AndroidResource Include="Resources\Layout\PublicLeagueProfile.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicLeagueEventRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicLeagueMemberRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicGameRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicGames.axml" />
+    <AndroidResource Include="Resources\Layout\PublicEvents.axml" />
+    <AndroidResource Include="Resources\Layout\PublicEventRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicEvent.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicShopRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PublicShopItem.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Info.axml" />
+    <AndroidResource Include="Resources\Layout-Large\PublicSkaterRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout-Large\PublicLeagueRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout-Large\PublicGameRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout-XLarge\PublicSkaterRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout-XLarge\PublicGameRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout-XLarge\PublicLeagueRow.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Layout\Main.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <AndroidResource Include="Resources\Drawable\rollerball.png" />
+    <AndroidResource Include="Resources\Values\Styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Values\colors.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\splash.9.png" />
+    <AndroidResource Include="Resources\Drawable\splash.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\splash.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\splash.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\splash.9.png" />
+    <AndroidResource Include="Resources\Drawable\background.xml" />
+    <AndroidResource Include="Resources\Drawable\more.png" />
+    <AndroidResource Include="Resources\Drawable\home.png" />
+    <AndroidResource Include="Resources\Drawable\backgroundNavigation.xml" />
+    <AndroidResource Include="Resources\Drawable\ic_menu_refresh.png" />
+    <AndroidResource Include="Resources\Drawable\ic_menu_right.png" />
+    <AndroidResource Include="Resources\Drawable\ic_menu_search.png" />
+    <AndroidResource Include="Resources\Drawable\ic_menu_up.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_down.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_down_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_left.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_left_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_refresh.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_refresh_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_right.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_right_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_search.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_search_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_share.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_share_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_sort.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_sort_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_up.png" />
+    <AndroidResource Include="Resources\Drawable\ic_action_up_dark.png" />
+    <AndroidResource Include="Resources\Drawable\ic_menu_down.png" />
+    <AndroidResource Include="Resources\Drawable\ic_menu_left.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_share_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_sort.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_sort_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_up.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_up_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_down.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_down_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_left.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_left_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_refresh.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_refresh_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_right.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_right_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_search.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_search_dark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_share.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_down.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_down_dark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_left.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_left_dark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_right.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_right_dark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_search.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_search_dark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_share.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_share_dark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_sort.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_sort_dark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_up.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_up_dark.png" />
+    <AndroidResource Include="Resources\Menu\bottomactionbarmenus.xml" />
+    <AndroidResource Include="Resources\Menu\mainmenu.xml" />
+    <AndroidResource Include="Resources\Menu\othermainmenu.xml" />
+    <AndroidResource Include="Resources\Menu-v11\mainmenu.xml" />
+    <AndroidResource Include="Resources\values-v11\styles_apptheme.xml" />
+    <AndroidResource Include="Resources\values-v11\themes.xml" />
+    <AndroidResource Include="Resources\Values-v14\themes.xml" />
+    <AndroidResource Include="Resources\Drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\social_add_person.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\social_person.png" />
+    <AndroidResource Include="Resources\Drawable\social_add_person.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\social_person.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\social_person.png" />
+    <AndroidResource Include="Resources\Drawable\social_person.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\social_add_person.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\social_add_person.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\action_settings.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\action_settings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\action_settings.png" />
+    <AndroidResource Include="Resources\Layout\simple_spinner_item.xml" />
+    <AndroidResource Include="Resources\Layout\simple_spinner_dropdown_item.xml" />
+    <AndroidResource Include="Resources\Drawable\buttonMainStyle.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\skater.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\skater.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\skater.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\skater.png" />
+    <AndroidResource Include="Resources\Drawable\rowSelected.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\a_z.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\a_z.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\a_z.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\a_z.png" />
+    <AndroidResource Include="Resources\Drawable\shadow.xml" />
+    <AndroidResource Include="Resources\Values\dimens.xml" />
+    <AndroidResource Include="Resources\Drawable\profile_cell_shape.xml" />
+    <AndroidResource Include="Resources\Drawable\profile_cell_shape_header.xml" />
+    <AndroidResource Include="Resources\Drawable\profileTeamNameButton.xml" />
+    <AndroidResource Include="Resources\Drawable\contentBoxHeadBackground.xml" />
+    <AndroidResource Include="Resources\Drawable\contentBoxContent.xml" />
+    <AndroidResource Include="Resources\Drawable\profile_info_cell.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\games.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\games.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\games.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\games.png" />
+    <AndroidResource Include="Resources\Drawable\publicGameRowBackground.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\calendar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\calendar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\calendar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_data_ticket_icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_data_ticket_icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_data_ticket_icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_data_ticket_icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\action_about.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\action_about.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\action_about.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\location_place.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\location_place.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\location_place.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\shop.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\shop.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\shop.png" />
+    <AndroidResource Include="Resources\Drawable\buy_now_button.xml" />
+    <AndroidResource Include="Resources\Values-Large\Styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Values-XLarge\Styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\UI\" />
+    <Folder Include="Resources\Layout-Normal\" />
+    <Folder Include="Resources\Layout-Small\" />
+    <Folder Include="Resources\Layout-sw700dp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RDN.Utilities\RDN.Utilities.csproj">
+      <Project>{ae178407-b8b8-4f97-8613-fb88fead17a9}</Project>
+      <Name>RDN.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RDNation.Mobile\RDN.Mobile.csproj">
+      <Project>{946d7f1e-5c7e-4d64-87aa-cf300e4ba126}</Project>
+      <Name>RDN.Mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RDN.Portable\RDN.Portable.csproj">
+      <Project>{68721C49-C417-40DE-A445-C4077D9469CB}</Project>
+      <Name>RDN.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+     Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

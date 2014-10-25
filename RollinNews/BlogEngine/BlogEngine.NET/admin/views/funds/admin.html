@@ -1,0 +1,32 @@
+﻿<div id="wrap">
+    <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div data-ng-include src="'views/shared/_navfunds.html'"></div>
+    <div class="container admin-views-main admin-views-settings-basic" data-ng-controller="FundsController">
+        <form id="form" action="">
+            <div class="page-header clearfix">
+                <h2 class="page-title pull-left">Declare Months Earnings <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+                </h2>
+               
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="well clearfix">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtName">Total Earnings</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="txtName" name="txtName" data-ng-model="funds.TotalEarningsForMonth" />
+                                </div>
+                            </div>
+                             
+                            <button data-ng-click="submitEarnings(this)" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>Submit Earnings</button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

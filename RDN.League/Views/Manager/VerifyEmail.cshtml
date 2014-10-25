@@ -1,0 +1,52 @@
+﻿@using RDN.League.Models.Helpers
+@using RDN.League.Models.OutModel
+@model GenericSingleModel<RDN.League.Models.User.VerifyEmail>
+@{    
+    Model.Javascripts.Add("JoinContactLeague.js");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="verifyEmailPage">
+    <div class="heading">
+        Verify your email address
+    </div>
+    <div>
+        @Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+        @using (Html.BeginForm())
+        {            
+            <table id="id-form" class="verifyTable">
+                <tr>
+                    <td class="vLTD">
+                        Email:
+                    </td>
+                    <td>
+                        <input type="text" class="inp-form" name="Email" value="@HttpContext.Current.User.Identity.Name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="vLTD">
+                        Email verification code:
+                    </td>
+                    <td>
+                        <input type="text" class="inp-form" name="EmailVerificationCode" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <input type="submit" value="Verify" class="form-submit" />
+                        <a href="@Url.Action("ResendVerificationCode")">Resend the email verification code</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        If you haven't received an email after just a few minutes, please look in your spam folder or email us at <a href="mailto:info@rdnation.com">
+                            info@rdnation.com</a>. 
+                    </td>
+                </tr>
+            </table>        
+        }
+    </div>
+</div>

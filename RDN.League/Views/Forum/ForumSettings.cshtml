@@ -1,0 +1,78 @@
+﻿@model RDN.Library.Classes.Forum.ForumSettings
+@{
+    ViewBag.Title = "Forum Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div>
+        < <a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Back To Forum</a>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.ForumName @Model.GroupName
+           
+
+        </div>
+          <div class="titleDescription">
+Add categories to your forum.  Each category can be created for @Model.ForumName @Model.GroupName.
+            </div>
+            <div class="divider"></div>
+        <div>
+            <table id="settings">
+
+                <tbody>
+                    <tr>
+                        <td class="b vLT2D" style="width:50px;">Default Broadcasts Posts:</td>
+                        <td class="vRTD">@Html.CheckBoxFor(x => x.BroadCastPostsDefault, new { @onchange = "BroadcastMessageChange(this, '" + Model.ForumId + "', '" + Model.GroupId + "')" }) <span class="i">Posters must unselect by Default to NOT broadcast when sending a message.</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="categories">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Category Name</th>
+
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="b vLT2D">Add Category:</td>
+                        <td>@Html.TextBox("NewCategory")</td>
+
+                        <td>
+                            <input type="button" value="Add Category" onclick="javascript:AddCategoryToForum(this)" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="b">Category Name</td>
+
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var mem in Model.Categories)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@Html.TextBox("catName-" + mem.CategoryId, mem.CategoryName)</td>
+                            <td>
+                                <input type="button" value="Update" onclick="javascript:UpdateCategoryToForum(this, '@mem.CategoryId    ')" /></td>
+                            <td>
+                                <input type="button" value="Delete" onclick="javascript:DeleteCategoryToForum(this, '@mem.CategoryId    ')" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @Html.HiddenFor(x => x.ForumId)
+            @Html.HiddenFor(x => x.GroupId)
+            @Html.HiddenFor(x => x.GroupName)
+
+
+        </div>
+    </div>
+</div>

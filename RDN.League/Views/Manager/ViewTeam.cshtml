@@ -1,0 +1,127 @@
+﻿@using RDN.League.Models.Helpers
+@using RDN.League.Models.Utilities
+@model RDN.League.Models.OutModel.GenericSingleModel<RDN.Library.Classes.Team.Classes.ViewTeam>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!--  start page-heading -->
+<div id="page-heading">
+    <h1>
+        Team memberlist</h1>
+</div>
+<!-- end page-heading -->
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+    <tr>
+        <th rowspan="3" class="sized">
+            <img src="../../Content/theme1/images/shared/side_shadowleft.jpg" width="20" height="300"
+                alt="" />
+        </th>
+        <th class="topleft">
+        </th>
+        <td id="tbl-border-top">
+            &nbsp;
+        </td>
+        <th class="topright">
+        </th>
+        <th rowspan="3" class="sized">
+            <img src="../../Content/theme1/images/shared/side_shadowright.jpg" width="20" height="300"
+                alt="" />
+        </th>
+    </tr>
+    <tr>
+        <td id="tbl-border-left">
+        </td>
+        <td>
+            <!--  start content-table-inner ...................................................................... START -->
+            <div id="content-table-inner">
+                @Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+                <!--  start table-content  -->
+                <div id="table-content">
+                    @{
+                        if (MemberStatus.IsInAny(MemberStatusTypes.Manager | MemberStatusTypes.President))
+                        {
+                            using (Html.BeginForm("ViewTeam", "Manager"))
+                            {                                
+                                <input type="hidden" name="Model.TeamId" value="@Model.Model.TeamId.ToString()"/>
+                        <text>Team name:</text>
+                        <br />                                
+                        <input type="text" class="inp-form" name="Model.Name" value="@Model.Model.Name"/>
+                        <br />
+                        <br />
+                        <text>Description:</text>
+                        <br />                                                        
+                        <textarea class="form-textarea" name="Model.Description">@Model.Model.Description</textarea>
+                        <br />
+                        <input type="submit" value="Update" />
+                            }
+                        }
+                        else
+                        {
+                        <h2>@Model.Model.Name</h2>
+                        <p style="font-style: italic;">
+                            @Model.Model.Description
+                        </p>
+                        }
+                    }
+                    <br />
+                    <!--  start product-table ..................................................................................... -->
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" class="product-table">
+                        <tr>
+                            <th class="table-header-repeat line-left minwidth-1">
+                                <a href="" onclick="alert('Not implemented'); return false;">Name</a>
+                            </th>
+                            <th class="table-header-repeat line-left minwidth-1">
+                                <a href="" onclick="alert('Not implemented'); return false;">Nick</a>
+                            </th>
+                            <th class="table-header-options line-left">
+                                <a href="" onclick="alert('Not implemented'); return false;">Options</a>
+                            </th>
+                        </tr>
+                        @{ 
+                            if (!Model.Model.Members.Any())
+                            {
+                            <tr>
+                                <td colspan="3">
+                                    No records found
+                                </td>
+                            </tr>
+                            }
+                            foreach (var item in Model.Model.Members)
+                            {
+                            <tr>
+                                <td>
+                                    <a href="@(Url.Action("ViewMember", "Manager", new { id = item.MemberId }))">@item.Firstname
+                                        @item.Surname</a>
+                                </td>
+                                <td>
+                                    #@item.PlayerNumber @item.PlayerName
+                                </td>
+                                <td class="options-width">
+                                    <a href="@(Url.Action("RemoveMemberFromTeam", "Manager", new { id = item.MemberId }))" title="Remove" class="icon-2 info-tooltip" onclick="return confirm('Are you sure that you want to remove @item.Firstname @item.Surname from the league?');">
+                                    </a>
+                                </td>
+                            </tr>                                    
+                            }      
+                        }
+                    </table>
+                    <!--  end product-table................................... -->
+                </div>
+                <!--  end content-table  -->
+                <div class="clear">
+                </div>
+            </div>
+            <!--  end content-table-inner ............................................END  -->
+        </td>
+        <td id="tbl-border-right">
+        </td>
+    </tr>
+    <tr>
+        <th class="sized bottomleft">
+        </th>
+        <td id="tbl-border-bottom">
+            &nbsp;
+        </td>
+        <th class="sized bottomright">
+        </th>
+    </tr>
+</table>

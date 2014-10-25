@@ -1,0 +1,141 @@
+﻿@model RDN.Raspberry.Models.OutModel.GenericSingleModel<RDN.Raspberry.Models.Utilities.SimpleModPager<RDN.Library.DataModels.Federation.Federation>>
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    New</h2>
+<table>
+    @foreach (var item in Model.Model.Items)
+    {
+        <tr>
+            <td>
+                Federation Name:
+            </td>
+            <td>@item.Name
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Id:
+            </td>
+            <td>@item.FederationId
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Verified:
+            </td>
+            <td>@item.IsVerified
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Emails:
+            </td>
+            <td>
+                <table>
+                @if (item.ContactCard != null && item.ContactCard.Emails != null)
+                { 
+                    foreach (var email in item.ContactCard.Emails)
+                    { 
+                        <tr>
+                            <td>
+                                @email.EmailAddress
+                            </td>
+                        </tr>
+                    }
+                }
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Phone Numbers:
+            </td>
+            <td>
+                <table>
+                   @if (item.ContactCard != null && item.ContactCard.Communications != null)
+                   { 
+                    foreach (var com in item.ContactCard.Communications)
+                    { 
+                        <tr>
+                            <td>
+                                @com.Data
+                            </td>
+                        </tr>
+                    }
+                   }
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Owners:
+            </td>
+            <td>
+                <table>
+                    @foreach (var owner in item.Owners)
+                    { 
+                        <tr>
+                            <td>
+                                Name:
+                            </td>
+                            <td>
+                                @owner.Member.DerbyName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Id:
+                            </td>
+                            <td>
+                                @owner.Member.MemberId
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Type:
+                            </td>
+                            <td>
+                                @owner.OwnerType
+                            </td>
+                        </tr>
+                       
+                    }
+                </table>
+            </td>
+        </tr>   
+        
+         <tr>   
+                            <td>
+                                @using (Html.BeginForm("New", "Federation"))
+                                {
+                                   
+                                    <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()"/>
+                                    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                                    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                                    <input type="hidden" name="ItemToApprove" value="@item.FederationId.ToString()"/>
+                                    <input type="submit" value="Approve" />
+                                   
+                                }
+                            </td>
+                                 <td>
+                                @using (Html.BeginForm("New", "Federation"))
+                                {
+                                  
+                                    <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()"/>
+                                    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                                    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                                    <input type="hidden" name="ItemToDelete" value="@item.FederationId.ToString()"/>
+                                    <input type="submit" value="Delete" />
+                                
+                                }
+                            </td>
+                        </tr>
+         <tr>
+            <td colspan="2">
+                <hr />
+            </td>
+        </tr> 
+    }</table>

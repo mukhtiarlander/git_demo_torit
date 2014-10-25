@@ -1,0 +1,212 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Account.Classes.MemberDisplay>>
+@{
+    ViewBag.Title = "View Members for " + ViewBag.LeagueName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Members For @ViewBag.LeagueName
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isAdminOfLeague)
+            { 
+               
+                <div class="navIcons">
+                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
+                    </a>
+                </div>
+                <div class="navIcons">
+                    <span class="cursor " onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
+                        <img src="@Url.Content("~/Content/images/icons/docs/excel.png")" />Export</span>
+                </div>
+                
+            }
+
+            @if (isPaid)
+            {
+                <div class="navIcons">
+                    <a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/report") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/report")">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+            else
+            { 
+                <div class="navIcons">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+        </div>
+       
+            <div class="divider"></div>
+      
+
+
+        <div class="membersPager">
+            @Html.Partial("Menus/LeagueViewMembers")
+        </div>
+        <br />
+          @if (Model.Model.Items.Count < 10)
+        { 
+            <div class="titleDescription">
+                <br />
+                <span class="b">League Join Code</span> - <span>'@ViewBag.JoinCode'</span> - You
+            can give this code to members who have signed up to RDNation, but have not been
+            connected to your league. This will attach the member who uses this code to your
+            league, so only give it to members you manage.
+            </div>
+        }
+        <div>
+            <table class="listTable tableExtras" id="members">
+                <thead>
+                    <tr>
+                        <th></th>
+                        @if (isAdminOfLeague)
+                        {  <th></th>
+                        }
+                        <th>Derby Name
+                        </th>
+                        <th>#
+                        </th>
+                        <th>First Name
+                        </th>
+                        <th>Last Name
+                        </th>
+                        <th>Phone Number
+                        </th>
+                        <th>Email
+                        </th>
+                        <th class="center">M/F
+                        </th>
+                        <th class="center">Inactive
+                        </th>
+                        <th class="center">SMS
+                        </th>
+                        <th class="center">Joined
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {
+                    
+                        <tr>
+                            <th>
+                                @i
+                            </th>
+                            @if (isAdminOfLeague)
+                            { 
+                                <td>
+
+                                    <a href="@Url.Content("~/League/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">Edit </a>
+
+                                </td>
+                            }
+                            <td>
+                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                                    @Model.Model.Items[i].DerbyName
+                                </a>
+                            </td>
+                            <td>@Model.Model.Items[i].PlayerNumber
+                            </td>
+                            <td>@Model.Model.Items[i].Firstname
+                            </td>
+                            <td>@Model.Model.Items[i].LastName
+                            </td>
+                            <td>
+                                  @if (isAdminOfLeague || !Model.Model.Items[i].Settings.Hide_Phone_Number_From_League || Model.Model.Items[i].MemberId == memId)
+                            { 
+                                @Model.Model.Items[i].PhoneNumber
+                                  }
+                            </td>
+                            <td>
+                                       @if (isAdminOfLeague || !Model.Model.Items[i].Settings.Hide_Email_From_League || Model.Model.Items[i].MemberId == memId)
+                            { 
+                                           @Model.Model.Items[i].Email
+                                       }
+                            </td>
+                            <td class="center">@if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                               { 
+                                <img height="20px" src="@Url.Content("~/Content/images/female.png")" />
+                                               }
+                                               else if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Male)
+                                               { 
+                                <img height="15px" src="@Url.Content("~/Content/images/boy.png")" />
+                                               }
+
+                            </td>
+                            <td class="center">
+                                @if (Model.Model.Items[i].IsInactiveFromCurrentLeague)
+                                {
+                                    <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td class="center">
+                                @if (!Model.Model.Items[i].IsCarrierVerified && Model.Model.Items[i].MemberId == memId)
+                                {
+                                    <a href="@Url.Content("~/member/settings")">Setup</a>
+                                }
+                                else if (Model.Model.Items[i].IsCarrierVerified)
+                                {
+                                    <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td id="@Model.Model.Items[i].MemberId-connected" class="center">
+                                @if (!Model.Model.Items[i].IsConnected && isAdminOfLeague)
+                                {
+                                    <input id="@Model.Model.Items[i].MemberId-invite" class="primary" type="button" value="Send Invite Again" onclick="SendEmailInviteToRDNation('@Model.Model.Items[i].MemberId    ', '@ViewBag.LeagueName    ')" />
+                                }
+                                else if (Model.Model.Items[i].IsConnected)
+                                {
+                                    <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+
+                        </tr>     
+                    
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.Model.Items.Count > 10)
+        { 
+            <div>
+                <span class="b">League Join Code</span> - <span>'@ViewBag.JoinCode'</span>-<Strong><a onclick="return confirm('Really Want To Refresh?')" href="JavaScript:joinCode()" title="Refresh To Generate New Join Code?" >Refresh</a></Strong>  You
+            can give this code to members who have signed up to RDNation, but have not been
+            connected to your league. This will attach the member who uses this code to your
+            league, so only give it to members you manage.
+            </div>
+            <br />}<div>
+                <span class="b">SMS</span> - Can send user Text Messages through the messages Menu.<br />
+                <span class="b">Joined</span> - Shows who is signed up and who isn't. So you
+            can make sure they get setup with RDNation.com.
+            </div>
+
+        @using (Html.BeginForm("ExportMembersRoster", "League", FormMethod.Post, new { @id = "MembersReport" }))
+        {
+
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

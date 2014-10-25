@@ -1,0 +1,84 @@
+﻿@model RDN.Library.Classes.League.Sponsor
+@{
+    ViewBag.Title = "View Sponsor Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/Sponsors")">All Sponsors</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Sponsor Details
+        </div>
+        <div class="tvChanges">
+            <div class="navIcons">
+                <a title="Use Code" href="@Url.Content("~/league/Sponsor/UseCode/" + Model.SponsorId + "/" + Model.SponsorForLeague.ToString().Replace("-", ""))">
+                    <img  src="@Url.Content("~/Content/images/icons/useCode.png")"  />Use
+                </a>
+            </div>
+        </div>
+        <div class="titleDescription">
+            Details of the Sponsor
+     
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="addForumPostTbl">
+
+                <tr>
+                    <td class="b alRight">Sponsor Name:
+                    </td>
+                    <td class="vRTD">
+                        @Model.SponsorName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Started On:
+                    </td>
+                    <td class="vRTD">
+                        @Model.EndDate.ToShortDateString()
+                    </td>
+                </tr>
+                    <tr>
+                    <td class="b alRight">Ends On:
+                    </td>
+                    <td class="vRTD">
+                        @Model.EndDate.ToShortDateString()
+                    </td>
+                </tr>
+             
+                <tr>
+                    <td class="b alRight">Promo Code:
+                    </td>
+                    <td class="vRTD">
+                        @Model.PromoCode
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Web site:
+                    </td>
+                    <td class="vRTD">
+                        @Model.Website
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Code Used Count:
+                    </td>
+                    <td class="vRTD">
+                        @Model.UsedCount
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Sponsor Details:</td>
+                    <td class="Details" style="width: 400px; max-width: 400px;">
+                        @Html.Raw(Model.Description)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

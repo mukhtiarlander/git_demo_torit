@@ -1,0 +1,85 @@
+﻿@model List<RDN.Library.Classes.Game.Tournament>
+@{
+    ViewBag.Title = "Manage Your Tournaments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="rightBackLink">
+        <a href="@Url.Content("~/tournament/create")"><img src="@Url.Content("~/Content/plus.png")" height="20px" />Create Tournament</a>
+    </div>
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Manage Your Owned Tournaments
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable tableExtras" id="tournaments">
+                <thead>
+                    <tr>
+                        <th>
+                            View
+                        </th>
+                        <th>Brackets</th>
+                        <th>
+                            Tournament Name
+                        </th>
+                        <th>
+                            Start Date
+                        </th>
+                        <th>
+                            End Date
+                        </th>
+                        <th>
+                            Games Within Tournament
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    
+                        <tr >
+                            <td>
+                                <a href="@Url.Content("~/tournament/view/" + Model[i].PrivateKey.ToString().Replace("-", "") + "/" + Model[i].Id.ToString().Replace("-", ""))">
+                                    Manage </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/tournament/brackets/" + Model[i].PrivateKey.ToString().Replace("-", "") + "/" + Model[i].Id.ToString().Replace("-", ""))">
+                                    Brackets </a>
+                            </td>
+                            <td>
+                                <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-tournament/" + Model[i].Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model[i].Name))">
+                                    @Model[i].Name </a>
+                            </td>
+                            <td>
+                                @Model[i].StartDate.ToString("MM/dd/yyyy")
+                            </td>
+                            <td>
+                                @Model[i].EndDate.ToString("MM/dd/yyyy")
+                            </td>
+                            <td>
+                                @Model[i].Games.Count
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tournaments').dataTable({
+            "aaSorting": [[1, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+
+        });
+    });
+
+
+</script>

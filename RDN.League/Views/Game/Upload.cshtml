@@ -1,0 +1,42 @@
+﻿@model RDN.League.Models.Utilities.VerifyModel
+@{
+    ViewBag.Title = "Upload An Old Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter2  ">
+        @using (Html.BeginForm("Upload", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        { 
+            <div class="fixTitle">
+                <span>Upload a Game Generated From Thor's Hammer</span>
+            </div>
+            <div class="divider"></div>
+            <div>
+                You can upload a game generated from <a href="http://rdnation.com/roller-derby-scoreboard"
+                    target="_blank">Thor's Hammer, our Roller Derby scoreboard</a>. If your game
+                was online or offline, we allow you to save the game after its completion. The game
+                is saved to a .XML file directly to your computer. You can then come here and upload
+                that .XML file to our server where it can be published and the stats can be used
+                for all to see.<br />
+                This is mainly for offline games, because when connected to the internet during
+                the game, Thor takes over the process of uploading the game to our server. Once
+                uploaded, you will be directed to a page to edit the game, connect the players of
+                that game to RDNation's online profiles and publish it for the world to see.
+            </div>
+            <br />
+            <div class="center">
+             <span class="b">Upload .XML Game File:</span> <input type="file" name="file" id="file" class="fileUpload" onchange="validateXmlGameFile()" />
+            </div>
+            <div class="clear">
+            </div>
+            
+            <div class="updateMemberButton">
+                @if (Model.IsSuccessful == false)
+                { 
+                    <span class="addedSuccessfully">Upload UnSuccesful - @Model.Message</span>
+                }
+                <input type="submit" class="primary" value="Upload Game" />
+            </div>
+        }
+    </div>
+</div>

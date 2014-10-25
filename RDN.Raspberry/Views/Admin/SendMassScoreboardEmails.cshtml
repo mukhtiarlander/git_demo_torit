@@ -1,0 +1,128 @@
+﻿@using RDN.Raspberry.Models.Helpers
+@model RDN.Raspberry.Models.OutModel.GenericSingleModel<RDN.Raspberry.Models.Admin.MassEmail>
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+@{
+    var massEmailTypes = from RDN.Raspberry.Models.Admin.MassEmailEnum d in Enum.GetValues(typeof(RDN.Raspberry.Models.Admin.MassEmailEnum))
+                         select new { ID = (int)d, Name = d.ToString() };
+}
+<h2>
+    Mass email form</h2>
+@Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+<br />
+<br />
+@using (Html.BeginForm("SendMassScoreboardEmails", "Admin"))
+{
+    <table style="border: 0px;">
+        <tr>
+            <td>
+                Subject:
+            </td>
+            <td>
+                @Html.TextBoxFor(x => x.Model.Subject, new { maxlength = "255" })
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Body:
+            </td>
+            <td>
+                @Html.TextAreaFor(x => x.Model.HtmlBody, 20, 50, new { })
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <hr />
+                <h2>
+                    Test sending</h2>
+                <hr />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Test email address:
+            </td>
+            <td>
+                @Html.TextBoxFor(x => x.Model.TestEmail)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Send test email" onclick="document.getElementById('IsMassSendVerified').checked = false;" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <hr />
+                <h2>
+                    Send mass email</h2>
+                <hr />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Mass Email Type
+            </td>
+            <td>
+                @Html.DropDownList("Model.MassEmailType", new SelectList(massEmailTypes, "Name", "Name"))
+                <br />
+                All Leagues - sends emails to all the leagues.
+                <br />
+                Scoreboard and Feedbackers - Sends and email to all those who downloaded the scoreboard.
+                <br />
+                RefMasterList - Sends Emails to Ref Roster Downloaded from Internet
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Verify that you<br />
+                want to send<br />
+                mass emails
+            </td>
+            <td>
+                @Html.CheckBoxFor(x => x.Model.IsMassSendVerified)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Send mass email" />
+            </td>
+        </tr>
+    </table>
+}

@@ -1,0 +1,140 @@
+﻿@using RDN.Library.Cache
+@model RDN.Portable.Classes.Voting.VotingClass
+@{
+    ViewBag.Title = "Vote On Poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isSec = MemberCache.IsPollMgrOrBetterOfLeague(memId);
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            <div class="navIcons">
+                <a title="Polls" href="@Url.Content("~/poll/" + @Model.LeagueId)">
+                    <img src="@Url.Content("~/Content/images/icons/poll.png")"  />Polls
+                </a>
+            </div>
+
+        </div>
+        @if (isSec)
+        {
+            <div class="rightBackLink">
+
+
+                <div class="navIcons">
+                    <a title="Vote" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId + "/" + Model.VotingId)">
+                        <img src="@Url.Content("~/Content/images/icons/vote.png")"  />View
+                    </a>
+                </div>
+                <div class="navIcons">
+                    <a title="Vote" href="@Url.Content("~/poll/edit/" + Model.LeagueId + "/" + Model.VotingId)">
+                        <img src="@Url.Content("~/Content/images/icons/edit.png")"  />Edit
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitlePoll">
+            @Model.Title
+            <br />
+        </div>
+        <br />
+        <br />
+        <div class="fixDescriptionPoll2">
+            <span>@Html.Raw(Model.Description)</span>
+
+
+        </div>
+        <div class="clear"></div>
+
+        <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("VoteOnPollV2", "Vote", FormMethod.Post, new { @id = "VotePoll" }))
+            { 
+                <table class="addForumPostTbl">
+                    @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
+                    {
+                        <tr>
+                            <td class=""><span class="pollViewAdminQuestion">@question.Question</span> 
+                                 @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                        {
+                                <span class="i"> - multiple choice</span>
+                                 }
+
+                            </td>
+                        </tr> 
+                       
+                        if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Single)
+                        {
+                            foreach (var answer in question.Answers)
+                            { 
+                        <tr>
+                            <td>
+                                <label>
+                                    <input type="radio" name="answer-@question.QuestionId"  id="@answer.AnswerId"   value="@answer.AnswerId" />
+                                    <b>@answer.Answer</b>
+                                </label>
+                            </td>
+                        </tr>
+                            }
+                        }
+                        else if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                        {
+                            
+                            foreach (var answer in question.Answers)
+                            { 
+                        <tr>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="answer-@question.QuestionId-@answer.AnswerId"  id="@answer.AnswerId"   />
+                                    <b>@answer.Answer</b>
+                                </label>
+                            </td>
+                        </tr>
+                            }
+                        }
+                        <tr>
+
+                            <td class="b">Comment:
+
+                            </td>
+                        </tr>
+                          
+                        <tr>
+
+                            <td class="extraLargeInput">
+                                @Html.TextBox("comment-" + question.QuestionId)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="divider"></div>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                    <tr>
+
+                        <td>
+                            <input type="submit" class="primary" value="Vote" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.LeagueId)
+                @Html.HiddenFor(x => x.VotingId)
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#PollsAdd").validate({
+        rules: {
+            AnswerType: "required"
+        }
+    });
+
+</script>

@@ -1,0 +1,99 @@
+﻿@using RDN.Library.Classes.Store.Display;
+@using RDN.Library.Classes.Payment.Enums;
+@using RDN.Utilities.Enums;
+@using RDN.Portable.Classes.Payment.Enums;
+@model List<RDN.Library.Classes.Payment.Classes.Display.DisplayInvoice>
+@{
+    ViewBag.Title = "Your Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Orders (@Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful).Count())
+        </div>
+        <div class="expandableCenterContainterRight">
+        </div>
+        <div class="divider"></div>
+        <table class="listTable tableExtras" id="orders">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Number</th>
+                    <th>Payment Through S(@Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Stripe).Count()) PP(@Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Paypal).Count())</th>
+                    <th>Total @Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful || x.InvoiceStatus == InvoiceStatus.Pending_Payment_From_Paypal || x.InvoiceStatus == InvoiceStatus.Partially_Refunded).Sum(x => x.RefundAmount)</th>
+                    <th>Invoice Status</th>
+                    <th>Email</th>
+                    <th>Used</th>
+                    <th>Minutes Watched</th>
+                    <th>Notes</th>
+                    <th>Your Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var invoice in Model)
+                { 
+                    <tr>
+                        <td>@invoice.Created.ToString("yyyy/M/d")</td>
+                        <td><a href="@Url.Content("~/paywall/order/" + invoice.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + invoice.Merchant.MerchantId.ToString().Replace("-", "") + "/" + invoice.InvoiceId.ToString().Replace("-", ""))">@invoice.InvoiceId.ToString().Replace("-", "")</a></td>
+                        <td>@invoice.PaymentProvider</td>
+                        <td>@invoice.RefundAmount @invoice.Currency</td>
+                        @*<td>@invoice.RDNDeductedFee @invoice.Currency</td>*@
+                        <td>@EnumExt.ToFreindlyName(invoice.InvoiceStatus)</td>
+                        <td>@invoice.InvoiceBilling.Email</td>
+                        <td>@invoice.Paywall.TimesUsedPassword</td>
+                        <td>@if (invoice.Paywall.SecondsViewedPaywall > 0)
+                            { 
+                            @((invoice.Paywall.SecondsViewedPaywall / 60))
+                            }
+                            else
+                            {
+                            @invoice.Paywall.SecondsViewedPaywall
+                            }</td>
+                        <td>@invoice.Note</td>
+                        <td>@invoice.AdminNote</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Created</th>
+                    <th>Number</th>
+                    <th>Payment Through S(@Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Stripe).Count()) PP(@Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Paypal).Count())</th>
+                    <th>Total @Model.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful || x.InvoiceStatus == InvoiceStatus.Pending_Payment_From_Paypal || x.InvoiceStatus == InvoiceStatus.Partially_Refunded).Sum(x => x.RefundAmount)</th>
+                    <th>Invoice Status</th>
+                    <th>Email</th>
+                    <th>Used</th>
+                    <th>Minutes Watched</th>
+                    <th>Notes</th>
+
+                    <th>Your Notes</th>
+                </tr>
+            </tfoot>
+        </table>
+        <ul>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order, order is sitting in users Cart.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Payment)</b> - order was sent to paypal or stripe, awaiting purchase.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Payment_Successful)</b> - Payment was successful, moving into shipment mode soon.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Shipping)</b> - Seller NEEDS to ship product.</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Archived_Item_Completed)</b> - Order is complete and archived</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Cancelled)</b> - Order is cancelled</li>
+            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Shipped)</b> - Order is shipped.</li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#orders').dataTable({
+            "aaSorting": [[0, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

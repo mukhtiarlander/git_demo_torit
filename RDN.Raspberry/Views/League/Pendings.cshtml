@@ -1,0 +1,207 @@
+﻿@using RDN.Raspberry.Models.Helpers
+@using RDN.Raspberry.Models.Utilities
+@model RDN.Raspberry.Models.OutModel.GenericEnumerableModel<RDN.Library.Classes.Admin.League.Classes.League>
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+<h2>
+    ContactLeague Pendings</h2>
+@Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+@foreach (var item in Model.Model)
+{
+    <text>
+    <table>
+        <tr>
+            <td>
+                Created
+            </td>
+            <td>@item.Created.ToString("MM.dd.yyyy HH:mm")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ContactLeague name
+            </td>
+            <td>@item.LeagueName
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Country
+            </td>
+            <td>@item.Country
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                State
+            </td>
+            <td>@item.State
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                City
+            </td>
+            <td>@item.City
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Contact phone
+            </td>
+            <td>@item.ContactTelephone
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Contact email
+            </td>
+            <td>@item.ContactEmail
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Additional information
+            </td>
+            <td>@item.AdditionalInformation
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="color: red;">SYSTEM INFO</span><br />
+                (If any)
+            </td>
+            <td>@item.LogInformation
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Creating member firstname
+            </td>
+            <td>@item.MemberFirstname
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Creating member Derby Name
+            </td>
+            <td>@item.MemberDerbyname
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Standard Approval which will assign owners and attached members.
+            </td>
+            <td>
+                @{
+    using (Html.BeginForm(new { Controller = "League", Action = "ApproveLeague" }))
+    {
+                    <input type="hidden" name="id" value="@item.PendingLeagueId.ToString()"/>
+                    <input type="submit" value="Approve league" onclick="return confirm('Are you sure that you want to approve?');" />
+    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Federation approval because league was created by the federation and not by a league
+                owner.
+            </td>
+            <td>
+                @{
+    using (Html.BeginForm(new { Controller = "League", Action = "ApproveLeagueForFederation" }))
+    {
+                    <input type="hidden" name="id" value="@item.PendingLeagueId.ToString()"/>
+                    <input type="submit" value="Approve league For Federation" onclick="return confirm('Are you sure that you want to approve?');" />
+    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        @{
+    using (Html.BeginForm(new { Controller = "League", Action = "RejectLeague" }))
+    {
+            <tr>
+                <td>
+                    Reject message
+                </td>
+                <td>
+                    <textarea name="rejectMessage" cols="50" rows="10"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="hidden" name="id" value="@item.PendingLeagueId.ToString()"/>
+                    <input type="submit" value="Reject league" onclick="return confirm('Are you sure that you want to reject?');" />
+                </td>
+            </tr>
+    }
+        }
+    </table>
+    <hr />
+    <hr />
+    </text>
+    
+}

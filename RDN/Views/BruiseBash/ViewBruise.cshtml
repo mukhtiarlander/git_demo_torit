@@ -1,0 +1,13 @@
+﻿@using RDN.Library.Classes.BruiseBash
+@model BruiseBash
+@{
+    ViewBag.Title = "Roller Derby Bruise " + Model.Title;
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<h2>
+    ViewBruise</h2>
+@Model.BruiseId
+<img src="@Model.File" />
+@Model.File
+@Model.Title
+@Model.Story

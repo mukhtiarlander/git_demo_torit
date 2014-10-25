@@ -1,0 +1,534 @@
+﻿@model RDN.Library.Classes.Game.Tournament
+@{
+    ViewBag.Title = "Brackets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="expandableContainer">
+
+    <div class="expandableCenterContainter">
+        <div class="tvChanges">
+            <div class="navIcons">
+                <a title="Tournament Brackets" href="@Url.Content("~/tournament/view/" + @Model.PrivateKey.ToString().Replace("-", "") + "/" + @Model.Id.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/brackets.png")" />Manage
+                </a>
+            </div>
+            <div class="navIcons">
+                <a href="@Url.Content("~/tournament/owners/" + Model.PrivateKey.ToString().Replace("-", "") + "/" + Model.Id.ToString().Replace("-", ""))" title="Owners">
+                    <img src="@Url.Content("~/Content/images/icons/users.png")" alt="Owners"/>Owners</a>
+            </div>
+            @if (Model.AreBracketsPublished)
+            {
+                <div class="navIcons">
+                    <a title="Tournament Brackets" href="@Url.Content("http://rdnation.com/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">
+                        <img src="@Url.Content("~/Content/images/icons/brackets.png")" />Live
+                    </a>
+                </div>
+            }
+
+        </div>
+        <div class="fixTitle">
+            Tournament Brackets: @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.TournamentType)
+        </div>
+        <div class="titleDescription">
+            Here you can add Teams, Assign the games played and watch the brackets get closer to the winner!
+        </div>
+        <div class="divider"></div>
+        <div class="center">
+            @if (!Model.AreBracketsPublished)
+            {
+                <input type="button" class="primary" style="width: 150px" value="Publish Brackets" onclick="Tournament.PublishBrackets(this)" /><img id="publishTournament" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" />
+            }
+        </div>
+        <div class="vmContactLine">
+            <div class="usual">
+                <ul class="idTabs">
+                    <li><a href="#Teams">Teams
+                    </a></li>
+                    @if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                        <li><a href="#TRounds">Tournament Rounds
+                        </a></li>
+                    }
+                    @if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                        <li><a href="#TStandings">Tournament Standings
+                        </a></li>
+                    }
+                    @if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                        <li><a href="#PRounds">Performance Rounds</a></li>
+                    }
+                    @if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                    {
+                        <li><a href="#PStandings">Performance Standings</a></li>
+                    }
+                </ul>
+                <div id="Teams" class="usualInner">
+                    <table class="bracketTbl">
+                        <tr>
+                            <td colspan="3"></td>
+                        </tr>
+                        <tr>
+                            <td class="bracketColumn">
+                                <div class="center b">Add Teams</div>
+                                <table id="TeamsTable" class="bracketTeamTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="center largeInput">Team Name</th>
+                                            <th class="center smallInput">Seed / Rating</th>
+                                            <th class="center smallInput">Pool #</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="largeInput center">
+                                                <input placeholder="Team Name" id="teamName0" />
+                                            </td>
+                                            <td class="center smallInput">
+                                                <input placeholder="Seed Rating" value="100" id="seedRating0" /><span class="checkboxError" id="seedWarning"></span>
+                                            </td>
+                                            <td class="center smallInput">
+                                                <input placeholder="Pool Number" value="1" id="pool0" />
+                                            </td>
+                                            <td>
+                                                <span class="spanLink" onclick="Tournament.AddTeamName(this)">
+                                                    <img height="20px" src="@Url.Content("~/content/plus.png")" />Add Team
+                                                </span>
+                                                <img src="@Url.Content("~/content/loading_lg.gif")" class="displayNone" id="loadingTeams" /><img id="successTeams" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" />
+                                            </td>
+                                        </tr>
+                                        @foreach (var team in Model.TeamsForTournament)
+                                        {
+                                            <tr>
+                                                <td class='bracketTeamTd center'>
+                                                    <span id='teamName-@team.TeamId'>@team.TeamName</span>
+                                                </td>
+                                                <td class="center">@team.SeedRating</td>
+                                                <td class="center">@team.PoolNumber</td>
+                                                <td><span onclick="Tournament.RemoveTeamName(this, '@team.TeamId')" class='spanLink'>Remove</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="divider"></div>
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </div>
+                @if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                {
+                    <div id="TRounds" class="usualInner">
+                        <table class="bracketTbl">
+                            <tr>
+                                <td colspan="3"></td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div class="EventTournamentRoundsListTitle">Tournament Brackets & Rounds</div>
+                                    <br />
+                                    <div class="center b">Add/Edit Rounds</div>
+                                    <div class="center">
+                                        @if (!Model.IsTournamentFinished)
+                                        {   <input type="button" value="Start Next Round" onclick="Tournament.StartNextRound(this)" />}<img src="@Url.Content("~/content/loading_lg.gif")" class="displayNone" id="loadingRounds" />@if (Model.TournamentRounds.Any())
+                                                                                                                                                                                                                                    {<input type="button" value="Roll Back Round" onclick="    Tournament.RollBackRound(this)" />}
+                                    </div>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="EventTournamentRoundsList">
+                                        @if (Model.TournamentRounds.Any() && (Model.TournamentType == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Double_Elimination || Model.TournamentType == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Single_Elimination))
+                                        {
+                                            <div class="EventTournamentRoundsListVisualization">
+                                                <img src="@Url.Action("RenderTournament", new { id = Model.Id })" />
+                                            </div>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="EventTournamentRoundsList">
+                                        @if (!Model.TournamentRounds.Any())
+                                        {
+                                            <br />
+                    
+                                            <div class="EventTournamentRoundsNotAvailable">The tournament has not yet started.</div>
+                                        }
+                                        else
+                                        {
+                                            foreach (var Round in Model.TournamentRounds.OrderByDescending(r => r.RoundNumber))
+                                            {
+                                            <div class="EventTournamentRound">
+                                                <div class="EventTournamentRoundTitle">@("Round " + Round.RoundNumber)</div>
+                                                <div class="EventTournamentRoundPairingsList">
+                                                    <table class="EventTournamentRoundPairingTeamsList">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Team Name</th>
+                                                                <th>Track #</th>
+                                                                <th>Time To Start</th>
+                                                                <th>Game</th>
+                                                                <th>Team</th>
+                                                                <th>Scores</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var Pairing in Round.Pairings)
+                                                            {
+                                                                int i = 0;
+                                                                foreach (var TeamPairing in Pairing.Teams.OrderByDescending(tp => tp.TeamName))
+                                                                {
+
+                                                                <tr class="EventTournamentRoundPairingTeam">
+                                                                    <td class="EventTournamentRoundPairingTeamName">@TeamPairing.TeamName</td>
+                                                                    @if (i == 0)
+                                                                    {
+                                                                        <td rowspan="2" class="verticalMiddle smallInput">
+                                                                            <input placeholder="Track #" id="trackNumber-@Pairing.Id" value="@Pairing.TrackId" />
+                                                                        </td>
+                                                                        <td rowspan="2" class="verticalMiddle mediumInput">
+                                                                            <input placeholder="2:00 PM" id="trackTime-@Pairing.Id" value="@Pairing.TimeToStartDisplay" />
+                                                                            <script type="text/ecmascript">
+                                                                                $('#trackTime-@Pairing.Id').timepicker();
+                                                                            </script>
+                                                                        </td>
+                                                                        <td rowspan="2" class="verticalMiddle">
+                                                                            @Html.DropDownList("GameId-" + Pairing.Id, new SelectList(Model.Games, "GameId", "GameName", Pairing.GameId), "Choose Game...", new { @onchange = "Tournament.GetTeamsOfGame(this, '" + Pairing.Id + "')" })
+                                                                        </td>
+                                                                    }
+                                                                    <td>
+                                                                        <select id="TeamId-@i-@Pairing.Id" onchange="Tournament.GetScoreOfTeamForGame(this, '@Pairing.Id', '@i')">
+                                                                            @if (TeamPairing.TeamLinkId != new Guid())
+                                                                            {
+                                                                                <option value="@TeamPairing.TeamLinkId">@TeamPairing.TeamName</option>
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td class="smallInput EventTournamentRoundPairingTeamScore">
+                                                                        <input id="ScoreId-@i-@Pairing.Id" value="@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())" placeholder="@(Pairing.Teams.Count() == 1 ? "Bye" : (TeamPairing.Score == 0 ? "?" : TeamPairing.Score.ToString()))" />
+                                                                    </td>
+
+                                                                    @if (i == 0)
+                                                                    {
+                                                                        <td rowspan="2" class="verticalMiddle"><span class="spanLink" onclick="Tournament.SavePairingOfTournament(this, '@Pairing.Id')">Save</span><img src="@Url.Content("~/content/loading_lg.gif")" class="displayNone" id="savePairing-@Pairing.Id" /><img id="savePairingCheck-@Pairing.Id" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" /></td>
+                                                                    }
+                                                                </tr>
+                                                                    i += 1;
+                                                                }
+                                                                i = 0;
+                                                                <tr>
+                                                                    <td colspan="7">
+                                                                        <br />
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            }
+                                        }
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="divider"></div>
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+                }
+
+                @if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                {
+                    <div id="TStandings" class="usualInner">
+                        <table class="bracketTbl">
+                            <tr>
+                                <td colspan="3"></td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div class="EventTournamentRoundsListTitle">Tournament Brackets & Rounds</div>
+
+                                    <br />
+                                </td>
+                            </tr>
+                            @if (Model.TournamentRounds.Any())
+                            { 
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="EventTournamentRoundTitle center ">Standings and Rankings</div>
+                                        @if (Model.Rankings == null || !Model.Rankings.Any())
+                                        {
+                                            <div class="center  EventTournamentStandingsNotAvailable">Standings are not currently available.</div>
+                                        }
+                                        else
+                                        {
+                                            <table class="EventTournamentStandingsTable">
+                                                <tr class="EventTournamentStandingsTableHeader">
+                                                    <th class="EventTournamentStandingsTableHeaderRank">Rank</th>
+                                                    <th class="EventTournamentStandingsTableHeaderTeam">Team</th>
+                                                    <th class="EventTournamentStandingsTableHeaderTeam">Total Points</th>
+                                                    <th class="EventTournamentStandingsTableHeaderTeam">Point Spread</th>
+                                                    <th class="EventTournamentStandingsTableHeaderDetails">Details</th>
+                                                </tr>
+                                                @foreach (var Standing in Model.Rankings)
+                                                {
+                                                    <tr class="EventTournamentStandingsTableStanding">
+                                                        <td class="EventTournamentStandingsTableStandingRank">@Standing.rank</td>
+                                                        <td class="EventTournamentStandingsTableStandingTeam">@Standing.TeamName</td>
+                                                        <td class="EventTournamentStandingsTableStandingTeam">@Standing.TotalPoints</td>
+                                                        <td class="EventTournamentStandingsTableStandingDetails">@Standing.PointSpread</td>
+                                                        <td class="EventTournamentStandingsTableStandingDetails">@Standing.scoreDescription</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="divider"></div>
+                                    </td>
+                                </tr> 
+                            }
+
+
+                        </table>
+                    </div>
+                }
+
+                @if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                {
+                    <div id="PRounds" class="usualInner">
+                        <table class="bracketTbl">
+                            <tr>
+                                <td colspan="3"></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="EventTournamentRoundsListTitle">Performance Brackets & Rounds</div>
+                                    <br />
+                                    <div class="center">
+                                        <span class="b">NOTE: </span>These are the performance rounds.  Once completed, the actual tournament rounds will appear. These rounds/rankings are used to seed the actual tournament.
+                            <br />
+                                        To turn off performance rounds, go manage the tournament.
+                                    </div>
+                                    <br />
+                                    <div class="center b">Add/Edit Rounds</div>
+                                    <div class="center">
+                                        @if (!Model.HasSeedingFinishForTournament)
+                                        {   <input type="button" value="Start Next Round" onclick="Tournament.StartNextPerformanceRound(this)" />}<img src="@Url.Content("~/content/loading_lg.gif")" class="displayNone" id="loadingPerformanceRounds" />
+                                        @if (Model.TournamentRoundsForSeedingGameplay.Any())
+                                        {<input type="button" value="Roll Back Round" onclick="    Tournament.RollBackPerformanceRound(this)" />}
+                                    </div>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="EventTournamentRoundsList">
+                                        @if (Model.TournamentRoundsForSeedingGameplay.Any() && (Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Double_Elimination || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.Single_Elimination))
+                                        {
+                                            <div class="EventTournamentRoundsListVisualization">
+                                                <img src="@Url.Action("RenderPerformanceTournament", new { id = Model.Id })" />
+                                            </div>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="EventTournamentRoundsList">
+
+                                        @if (!Model.TournamentRoundsForSeedingGameplay.Any())
+                                        {
+                                            <br />
+                                            <div class="EventTournamentRoundsNotAvailable">The tournament performance has not yet started.</div>
+                                        }
+                                        else
+                                        {
+                                            foreach (var Round in Model.TournamentRoundsForSeedingGameplay.OrderByDescending(r => r.RoundNumber))
+                                            {
+                                            <div class="EventTournamentRound">
+                                                <div class="EventTournamentRoundTitle">@("Round " + Round.RoundNumber)</div>
+                                                <div class="EventTournamentRoundPairingsList">
+                                                    <table class="EventTournamentRoundPairingTeamsList">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Team Name</th>
+                                                                <th>Track #</th>
+                                                                <th>Time To Start</th>
+                                                                <th>Game</th>
+                                                                <th>Team</th>
+                                                                <th>Scores</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var Pairing in Round.Pairings)
+                                                            {
+                                                                int i = 0;
+                                                                foreach (var TeamPairing in Pairing.Teams.OrderByDescending(tp => tp.TeamName))
+                                                                {
+
+                                                                <tr class="EventTournamentRoundPairingTeam">
+                                                                    <td class="EventTournamentRoundPairingTeamName">@TeamPairing.TeamName</td>
+                                                                    @if (i == 0)
+                                                                    {
+                                                                        <td rowspan="2" class="verticalMiddle smallInput">
+                                                                            <input placeholder="Track #" id="trackNumber-@Pairing.Id" value="@Pairing.TrackId" />
+                                                                        </td>
+                                                                        <td rowspan="2" class="verticalMiddle mediumInput">
+                                                                            <input placeholder="2:00 PM" id="trackTime-@Pairing.Id" value="@Pairing.TimeToStartDisplay" />
+                                                                            <script type="text/ecmascript">
+                                                                                $('#trackTime-@Pairing.Id').timepicker();
+                                                                            </script>
+                                                                        </td>
+                                                                        <td rowspan="2" class="verticalMiddle">
+                                                                            @Html.DropDownList("GameId-" + Pairing.Id, new SelectList(Model.Games, "GameId", "GameName", Pairing.GameId), "Choose Game...", new { @onchange = "Tournament.GetTeamsOfGame(this, '" + Pairing.Id + "')" })
+                                                                        </td>
+                                                                    }
+                                                                    <td>
+                                                                        <select id="TeamId-@i-@Pairing.Id" onchange="Tournament.GetScoreOfTeamForGame(this, '@Pairing.Id', '@i')">
+                                                                            @if (TeamPairing.TeamLinkId != new Guid())
+                                                                            {
+                                                                                <option value="@TeamPairing.TeamLinkId">@TeamPairing.TeamName</option>
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td class="smallInput EventTournamentRoundPairingTeamScore">
+                                                                        <input id="ScoreId-@i-@Pairing.Id" value="@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())" placeholder="@(Pairing.Teams.Count() == 1 ? "Bye" : (TeamPairing.Score == 0 ? "?" : TeamPairing.Score.ToString()))" />
+                                                                    </td>
+
+                                                                    @if (i == 0)
+                                                                    {
+                                                                        <td rowspan="2" class="verticalMiddle"><span class="spanLink" onclick="Tournament.SavePairingOfTournament(this, '@Pairing.Id')">Save</span><img src="@Url.Content("~/content/loading_lg.gif")" class="displayNone" id="savePairing-@Pairing.Id" /><img id="savePairingCheck-@Pairing.Id" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" /></td>
+                                                                    }
+                                                                </tr>
+                                                                    i += 1;
+                                                                }
+                                                                i = 0;
+                                                                <tr>
+                                                                    <td colspan="7">
+                                                                        <br />
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            }
+                                        }
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="divider"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+                @if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+                {
+                    <div id="PStandings" class="usualInner">
+                        <table class="bracketTbl">
+                            <tr>
+                                <td colspan="3"></td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div class="EventTournamentRoundsListTitle">Performance Brackets & Rounds</div>
+
+                                    <br />
+                                </td>
+                            </tr>
+                            @if (Model.TournamentRoundsForSeedingGameplay.Any())
+                            {
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="center EventTournamentRoundTitle">Standings and Rankings</div>
+                                        @if (Model.RankingsForSeededRounds == null || !Model.RankingsForSeededRounds.Any())
+                                        {
+                                            <div class="center EventTournamentStandingsNotAvailable">Standings are not currently available.</div>
+                                        }
+                                        else
+                                        {
+                                            <table class="EventTournamentStandingsTable">
+                                                <tr class="EventTournamentStandingsTableHeader">
+                                                    <th class="EventTournamentStandingsTableHeaderRank">Rank</th>
+                                                    <th class="EventTournamentStandingsTableHeaderTeam">Team</th>
+                                                    <th class="EventTournamentStandingsTableHeaderTeam">Total Points</th>
+                                                    <th class="EventTournamentStandingsTableHeaderTeam">Point Spread</th>
+                                                    <th class="EventTournamentStandingsTableHeaderDetails">Details</th>
+                                                </tr>
+                                                @foreach (var Standing in Model.RankingsForSeededRounds)
+                                                {
+                                                    <tr class="EventTournamentStandingsTableStanding">
+                                                        <td class="EventTournamentStandingsTableStandingRank">@Standing.rank</td>
+                                                        <td class="EventTournamentStandingsTableStandingTeam">@Standing.TeamName</td>
+                                                        <td class="EventTournamentStandingsTableStandingTeam">@Standing.TotalPoints</td>
+                                                        <td class="EventTournamentStandingsTableStandingDetails">@Standing.PointSpread</td>
+                                                        <td class="EventTournamentStandingsTableStandingDetails">@Standing.scoreDescription</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="divider"></div>
+                                    </td>
+                                </tr> 
+                            }
+
+                        </table>
+                    </div>
+        
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () { // wait for document to load
+
+        Tournament.SetTournamentId("@Model.Id");
+        $("seedRating0").numeric();
+        $("pool0").numeric();
+    });
+</script>

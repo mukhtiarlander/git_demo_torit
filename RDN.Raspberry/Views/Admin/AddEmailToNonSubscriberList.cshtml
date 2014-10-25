@@ -1,0 +1,30 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "UnSubscribe an Email.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Un Subscribe an email</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Add Email To Non Subscriber List
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Use this to remove a persons email from the mass email sends</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+    <div>
+        Non Subscriber Added!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

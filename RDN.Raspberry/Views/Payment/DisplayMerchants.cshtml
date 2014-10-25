@@ -1,0 +1,30 @@
+﻿@model System.Collections.Generic.List<RDN.Library.Classes.Payment.Classes.Display.OverviewMerchant>
+
+@{
+    ViewBag.Title = "Display merchants";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Owner name</th>        
+        <th>Amount on account</th>
+        <th>Payed fees to RDN</th>
+        <th>Number of items for sale</th>        
+        <th>Created</th>
+        <th>Shop name</th>
+    </tr>
+    @foreach(var merchant in Model)
+    {
+        <tr>
+            <td>@merchant.InternalReferenceType.ToString()</td>
+            <td>@merchant.OwnerName</td>
+            <td>@merchant.AmountOnAccount.ToString()</td>
+            <td>@merchant.PayedFeesToRDN.ToString()</td>
+            <td>@merchant.NumberOfItemsForSale.ToString()</td>
+            <td>@merchant.Created.ToString("MM/dd/yyyy")</td>
+            <td>@merchant.ShopName</td>
+        </tr>
+    }
+</table>

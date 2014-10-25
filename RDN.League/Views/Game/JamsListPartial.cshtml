@@ -1,0 +1,69 @@
+﻿@model Scoreboard.Library.ViewModel.GameViewModel
+@using (Ajax.BeginForm("AddOld_AddJamToGame", new AjaxOptions { UpdateTargetId = "JamPointsRefreshControl", LoadingElementId = "loadingJam", OnSuccess = "onReturnOfJamsInAddGame()" }))
+{ 
+    <table>
+        <tr>
+            <th>
+                Jam Number
+            </th>
+            <th>
+                Points Scored Team 1
+            </th>
+            <th>
+                Points Scored Team 2
+            </th>
+        </tr>
+        @for (int i = 0; i < @Model.Jams.Count; i++)
+        { 
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => x.Jams[i].JamNumber)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.ScoresTeam1[i].Points)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.ScoresTeam2[i].Points)
+                </td>
+            </tr> 
+            <tr>
+                <td>
+                    <span class="b">Line Ups Team 1:</span>
+                </td>
+                <td colspan="2">
+                    @Html.DropDownListFor(x => x.Jams[i].Blocker1T1, new SelectList(Model.Team1.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].Blocker1T1 == null ? new Guid() : Model.Jams[i].Blocker1T1.SkaterId)), "Blocker")
+                    @Html.DropDownListFor(x => x.Jams[i].Blocker2T1, new SelectList(Model.Team1.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].Blocker2T1 == null ? new Guid() : Model.Jams[i].Blocker2T1.SkaterId)), "Blocker")
+                    @Html.DropDownListFor(x => x.Jams[i].Blocker3T1, new SelectList(Model.Team1.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].Blocker3T1 == null ? new Guid() : Model.Jams[i].Blocker3T1.SkaterId)), "Blocker")
+                    @Html.DropDownListFor(x => x.Jams[i].PivotT1, new SelectList(Model.Team1.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].PivotT1 == null ? new Guid() : Model.Jams[i].PivotT1.SkaterId)), "Pivot")
+                    @Html.DropDownListFor(x => x.Jams[i].JammerT1, new SelectList(Model.Team1.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].JammerT1 == null ? new Guid() : Model.Jams[i].JammerT1.SkaterId)), "Jammer")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="b">Line Ups Team 2:</span>
+                </td>
+                <td colspan="2">
+                    @Html.DropDownListFor(x => x.Jams[i].Blocker1T2, new SelectList(Model.Team2.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].Blocker1T2 == null ? new Guid() : Model.Jams[i].Blocker1T2.SkaterId)), "Blocker")
+                    @Html.DropDownListFor(x => x.Jams[i].Blocker2T2, new SelectList(Model.Team2.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].Blocker2T2 == null ? new Guid() : Model.Jams[i].Blocker2T2.SkaterId)), "Blocker")
+                    @Html.DropDownListFor(x => x.Jams[i].Blocker3T2, new SelectList(Model.Team2.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].Blocker3T2 == null ? new Guid() : Model.Jams[i].Blocker3T2.SkaterId)), "Blocker")
+                    @Html.DropDownListFor(x => x.Jams[i].PivotT2, new SelectList(Model.Team2.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].PivotT2 == null ? new Guid() : Model.Jams[i].PivotT2.SkaterId)), "Pivot")
+                    @Html.DropDownListFor(x => x.Jams[i].JammerT2, new SelectList(Model.Team2.TeamMembers, "SkaterId", "SkaterName", (Model.Jams[i].JammerT2 == null ? new Guid() : Model.Jams[i].JammerT2.SkaterId)), "Jammer")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="divider"></div>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">
+            </td>
+            <td>
+                <input type="submit" name="AddJamToGame" id="AddJamToGame" value="Add/Save Jam" class="primary" />
+                <img src="@Url.Content("~/Content/loading_lg.gif")" id="loadingJam" style="display:none; width:20px;" />
+                @Html.HiddenFor(x => x.GameId);
+            </td>
+        </tr>
+    </table>
+}

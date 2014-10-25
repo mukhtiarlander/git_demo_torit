@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<authorization-amount-notification xmlns="http://checkout.google.com/schema/2" serial-number="732303272437194-00005-6">
+  <authorization-amount currency="USD">20.0</authorization-amount>
+  <authorization-expiration-date>2012-10-20T15:55:57.000Z</authorization-expiration-date>
+  <avs-response>Y</avs-response>
+  <cvn-response>M</cvn-response>
+  <timestamp>2012-10-13T15:57:03.268Z</timestamp>
+  <google-order-number>732303272437194</google-order-number>
+  <order-summary>
+    <total-chargeback-amount currency="USD">0.0</total-chargeback-amount>
+    <google-order-number>732303272437194</google-order-number>
+    <total-charge-amount currency="USD">0.0</total-charge-amount>
+    <total-refund-amount currency="USD">0.0</total-refund-amount>
+    <risk-information>
+      <billing-address>
+        <email>messages@rdnation.com</email>
+        <contact-name>Patrik Fomin</contact-name>
+        <company-name></company-name>
+        <phone>+46-58258258</phone>
+        <fax></fax>
+        <address1>MyYorkStreet 4E</address1>
+        <address2></address2>
+        <country-code>US</country-code>
+        <city>New York</city>
+        <region>NY</region>
+        <postal-code>10453</postal-code>
+      </billing-address>
+      <ip-address>10.64.45.65</ip-address>
+      <avs-response>Y</avs-response>
+      <cvn-response>M</cvn-response>
+      <eligible-for-protection>false</eligible-for-protection>
+      <partial-cc-number>4980</partial-cc-number>
+      <buyer-account-age>123</buyer-account-age>
+    </risk-information>
+    <authorization>
+      <authorization-amount currency="USD">20.0</authorization-amount>
+      <authorization-expiration-date>2012-10-20T15:55:57.000Z</authorization-expiration-date>
+    </authorization>
+    <purchase-date>2012-10-13T15:55:56.000Z</purchase-date>
+    <archived>false</archived>
+    <shopping-cart>
+      <items>
+        <item>
+          <tax-table-selector></tax-table-selector>
+          <item-name>RDN Member portal recurring</item-name>
+          <item-description>Monthly fee for RDN League portal subscription</item-description>
+          <unit-price currency="USD">20.0</unit-price>
+          <quantity>1</quantity>
+          <merchant-private-item-data>
+            
+          
+              
+          
+            <invoice-id>793f79ad-d75a-4209-ab35-57e0e07fc673</invoice-id>
+            
+          
+              
+          
+            <article-id>EV45</article-id>
+            
+          
+              
+          
+            <is-subscription>yes</is-subscription>
+            
+          
+            
+        
+          </merchant-private-item-data>
+        </item>
+      </items>
+    </shopping-cart>
+    <order-adjustment>
+      <merchant-codes />
+      <adjustment-total currency="USD">0.0</adjustment-total>
+      <total-tax currency="USD">0.0</total-tax>
+    </order-adjustment>
+    <buyer-id>615712778820289</buyer-id>
+    <buyer-shipping-address>
+      <email>messages@rdnation.com</email>
+      <contact-name>Mr. Andersson</contact-name>
+      <company-name></company-name>
+      <phone>(201) 234-5678</phone>
+      <fax></fax>
+      <address1>MyYorkStreet 4E</address1>
+      <address2></address2>
+      <structured-name>
+        <first-name></first-name>
+        <last-name>Andersson</last-name>
+      </structured-name>
+      <country-code>US</country-code>
+      <city>New York</city>
+      <region>NY</region>
+      <postal-code>10000</postal-code>
+    </buyer-shipping-address>
+    <buyer-marketing-preferences>
+      <email-allowed>false</email-allowed>
+    </buyer-marketing-preferences>
+    <promotions />
+    <order-total currency="USD">20.0</order-total>
+    <fulfillment-order-state>NEW</fulfillment-order-state>
+    <financial-order-state>CHARGEABLE</financial-order-state>
+  </order-summary>
+</authorization-amount-notification>
+
+

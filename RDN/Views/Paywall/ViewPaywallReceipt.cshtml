@@ -1,0 +1,85 @@
+﻿@using RDN.Library.Classes.Payment.Paywall
+@using RDN.Utilities.Enums;
+@model PaywallReceipt
+@{
+    ViewBag.Title = "Receipt";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+    
+        </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.DescriptionOfPayment
+        </div>
+        <div class="divider"></div>
+       
+        <div>
+            <table>
+                <tr>
+                    <td class="b vLT2D">Invoice Id:</td>
+                    <td class="vRTD">@Model.InvoiceId.ToString().Replace("-", "")</td>
+                  @*  <td><a href="@Url.Content("~/billing/league/history/" + Model.LeagueId.ToString().Replace("-", ""))">View Billing History</a></td>*@
+                </tr>
+                 <tr>
+                    <td class="b vLT2D">Status:</td>
+                    <td class="vRTD">@RDN.Utilities.Enums.EnumExt.ToFreindlyName( Model.InvoiceStatus)</td>
+                  @*  <td><a href="@Url.Content("~/billing/league/history/" + Model.LeagueId.ToString().Replace("-", ""))">View Billing History</a></td>*@
+                </tr>
+                
+                <tr>
+                    <td class="b vLT2D">Description:</td>
+                    <td class="vRTD">@Model.DescriptionOfPayment</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Your Password:</td>
+                    <td class="vRTD">@Model.GeneratedPassword</td>
+                    <td></td>
+                </tr>
+                   <tr>
+                    <td class="b vLT2D">Go Watch the Stream:</td>
+                    <td class="vRTD"><a href="@Model.Location">View Streaming Content</a></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Amount Paid:</td>
+                    <td class="vRTD">$@Model.AmountPaid.ToString("N2")
+                    </td>
+                    <td></td>
+                </tr>
+                @if (Model.InvoiceStatus == RDN.Portable.Classes.Payment.Enums.InvoiceStatus.Partially_Refunded || Model.InvoiceStatus == RDN.Portable.Classes.Payment.Enums.InvoiceStatus.Refunded) { 
+                     <tr>
+                    <td class="b vLT2D">Amount Refunded:</td>
+                    <td class="vRTD">$@Model.AmountRefunded.ToString("N2")
+                    </td>
+                    <td></td>
+                </tr>
+                }
+                <tr>
+                    <td class="b vLT2D">Expires:</td>
+                    <td class="vRTD">
+                        @if (Model.Expires.ToShortDateString() != "1/1/0001")
+                        {
+                            @Model.Expires <span>UTC</span>
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="b vLT2D">Receipt Emailed To:</td>
+                    <td class="vRTD">@Model.EmailForReceipt</td>
+                    <td></td>
+                </tr>
+                    <tr>
+                    <td class="b vLT2D">Ask The Provider Something:</td>
+                    <td class="vRTD"><a href='@RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION/messages/new/paywall/@Model.MerchantId.ToString().Replace("-", "")'>Send the Streaming Provider a Message</a></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

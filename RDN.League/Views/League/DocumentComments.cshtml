@@ -1,0 +1,80 @@
+﻿@model RDN.Library.Classes.Document.Document
+@{
+    ViewBag.Title = "Document " + Model.DocumentName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool manager = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+}
+
+<div class="fixedContainer">
+    <div>
+        < <a href="@Url.Content("~/league/documents/" + Model.OwnerId.ToString().Replace("-", ""))">Back To Documents</a>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+        Comments For <a href="@Url.Content("~/document/download/" + Model.DocumentId.ToString().Replace("-", ""))">@Model.DocumentName</a> - @RDN.Utilities.Strings.StringExt.FormatBytes(Model.SizeOfDocument)
+        </div>
+        <div class="divider"></div>
+        <div>
+
+            <div>
+                Add Comment:
+                <span class="extraLargeInput"><input  id="comment" type="text" /></span>
+                <input type="button" value="Add Comment" onclick="AddCommentToDocument('@Model.DocumentId', '@Model.OwnerDocId')" />
+            </div>
+            <br />
+            <table id="folders" class="calendarTable">
+                <thead class="vmTableHead">
+                    <tr>
+                        <th>Comment</th>
+                        <th class="center">By</th>
+                        <td></td>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="folderBody">
+                    @foreach (var folder in Model.Comments)
+                    { 
+                        <tr>
+                            <td>@folder.Comment</td>
+                            <td class="center"><a target="_blank" href="@Url.Content("~/Member/" + folder.Commentor.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(folder.Commentor.DerbyName))">
+                                @folder.Commentor.DerbyName
+                            </a></td>
+                            <td>@folder.CreatedHuman</td>
+                            <td>
+                                @if (folder.Commentor.MemberId == memId || manager)
+                                { 
+                                    <div class="spanIconsDoc floatLeft">
+                                        <span title="Delete" onclick="DeleteCommentFromDocument(this,'@Model.OwnerDocId', '@folder.CommentId')">
+                                            <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />
+                                        </span>
+                                    </div>
+                                   
+                                }
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @Html.HiddenFor(x => x.OwnerId)
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#folders').dataTable({
+            "aaSorting": [],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "aoColumns": [null, null,  { "sType": "natural" }, null]
+        });
+    });
+
+
+</script>

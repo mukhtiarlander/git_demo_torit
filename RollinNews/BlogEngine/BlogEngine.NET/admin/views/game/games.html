@@ -1,0 +1,183 @@
+﻿<div id="wrap">
+    <div data-ng-include="" src="'views/shared/_nav.html'"></div>
+
+    <div class="container admin-views-main admin-views-content-posts" data-ng-controller="GamesController">
+        <form id="form" action="">
+            <div id="modal-edit" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                            <h4 class="modal-title">Game</h4>
+                        </div>
+                        <div class="modal-body modal-roles">
+                            <div class="form-group">
+                                <label class=" col-sm-4 control-label" for="TimeEntered">Date & Time of Game</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="txtTimeEntered" name="txtTimeEntered" class="form-control" data-ng-model="editItem.TimeEntered" />
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <input type="text" id="txtTeam1Name" placeholder="Team 1 Name" name="txtTeam1Name" class="form-control" data-ng-model="editItem.Team1Name" />
+                                </div>
+                                <div class="col-sm-4">
+
+                                    <input type="text" id="txtTeam1Score" name="txtTeam1Score" placeholder="Team 1 Score" class="form-control " data-ng-model="editItem.Team1Score" />
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+
+
+                                    <input type="text" id="txtTeam2Name" name="txtTeam2Name" placeholder="Team 2 Name" class="form-control" data-ng-model="editItem.Team2Name" />
+                                </div>
+                                <div class="col-sm-4">
+
+
+                                    <input type="text" id="txtTeam2Score" name="txtTeam2Score" placeholder="Team 2 Score" class="form-control" data-ng-model="editItem.Team2Score" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <textarea id="txtNotes" name="txtNotes" class="form-control" placeholder="Notes..." data-ng-model="editItem.Notes"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Rule Set</label>
+                                <ul style="list-style: none;">
+                                    <li ng-repeat="todo in ruleSets" style="display: inline-block; padding: 3px;">
+                                        <label>
+                                            <input title="{{todo.Name}}" type="radio" onchange="angular.element(this).scope().RulesChange(this)" name="RuleSetEnumDisplay" data-ng-model="todo.Value" />
+                                            {{todo.Name}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Sanctioning Federation</label>
+                                <ul style="list-style: none;">
+                                    <li ng-repeat="todo in federations" style="display: inline-block; padding: 3px;">
+                                        <label>
+                                            <input type="radio" title="{{todo.Name}}" onchange="angular.element(this).scope().FederationChange(this)" name="SanctionedByFederationEnumDisplay" data-ng-model="todo.Value" />
+                                            {{todo.Name}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button data-ng-click="save()" class="btn btn-primary btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                            <button data-ng-click="saveAndPublish()" class="btn btn-primary btn-tabkey pull-right"><i class="fa fa-save"></i>Save and Publish </button>
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="page-header clearfix">
+            <h2 class="page-title pull-left">Games
+                <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+            </h2>
+            <button data-ng-click="loadGameForm()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>Add New Game</button>
+        </div>
+        <div class="toolbar-grid clearfix">
+            <!-- <div class="pull-left">
+                    <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                    <button ng-if="canPublishPosts" ng-click="processChecked('publish')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.publish}}</button>
+
+                </div>-->
+            <div class="pull-right btn-flt-r hmin767">
+                <button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i><span>{{lbl.filter}}</span></button>
+            </div>
+            <div class="pull-right filterbar flt-r clearfix">
+                <div class="active-flt-r"></div>
+                <div class="navbar-left search-grid pull-right">
+                    <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}" />
+                </div>
+                <div class="btn-toolbar pull-right">
+                    <div class="btn-group">
+                        <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all','all')">{{lbl.all}}</button>
+                        <button id="fltr-pub" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true,'pub')">{{lbl.published}}</button>
+                        <button id="fltr-dft" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false,'dft')">Submitted</button>
+                    </div>
+                </div>
+                <span class="pull-right lbl-show">{{lbl.show}} :</span>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
+                    <th>Approved <a data-ng-click="sort_by('IsApproved',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Published <a data-ng-click="sort_by('IsPublished',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Team 1 <a data-ng-click="sort_by('Team1Name',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Score 1 <a data-ng-click="sort_by('Team1Score',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Team 2 <a data-ng-click="sort_by('Team2Name',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Score 2 <a data-ng-click="sort_by('Team2Score',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Rule Set <a data-ng-click="sort_by('RuleSetEnumDisplay',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Federation <a data-ng-click="sort_by('SanctionedByFederationEnumDisplay',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Game DateTime <a data-ng-click="sort_by('TimeEntered',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+                    <td>
+                        <input type="checkbox" id="{{item.Slug}}" data-ng-model="item.IsChecked" />
+
+                        <a title="{{SiteVars.RelativeWebRoot}}admin/#/game/?id={{item.ScoreId}}" class="external-link pull-right" data-ng-click="editGame(item.ScoreId)"><i class="fa fa-external-link"></i></a>
+                    </td>
+
+                    <td>
+                        <input type="checkbox" data-ng-model="item.IsApproved"></td>
+
+                    <td>
+                        <input type="checkbox" data-ng-model="item.IsPublished"></td>
+                    <td class="table-item-title">{{item.Team1Name}}
+                    </td>
+                    <td class="table-item-title">{{item.Team1Score}}
+                    </td>
+                    <td class="table-item-title">{{item.Team2Name}}
+                    </td>
+                    <td class="table-item-title">{{item.Team2Score}}
+                    </td>
+
+                    <td class="table-item-title">{{item.RuleSetEnumDisplay}}
+                    </td>
+                    <td class="table-item-title">{{item.SanctionedByFederationEnumDisplay}}
+                    </td>
+                    <td class="table-item-title">{{item.TimeEntered}}
+                    </td>
+                    <td class="table-item-title">{{item.Notes}}
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-right pagination-wrapper">
+            <ul class="pagination pagination-sm">
+                <li data-ng-class="{disabled: currentPage == 0}">
+                    <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
+                </li>
+                <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
+                    <a data-ng-bind="n + 1">1</a>
+                </li>
+                <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                    <a data-ng-click="nextPage()">{{lbl.next}} »</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>
+

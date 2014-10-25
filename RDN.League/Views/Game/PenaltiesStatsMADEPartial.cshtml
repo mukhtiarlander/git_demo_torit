@@ -1,0 +1,86 @@
+﻿@*This is the partial view for the MADE rule set when adding stats and penalties*@
+@model Scoreboard.Library.ViewModel.GameViewModel
+@{
+    var penalties = from Scoreboard.Library.Static.Enums.PenaltiesMADEEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesMADEEnum))
+                    select new { ID = (int)d, Name = d.ToString() };
+}
+@using (Ajax.BeginForm("AddOld_AddPenaltiesToGame", new AjaxOptions { UpdateTargetId = "PenaltiesStatsRefreshControl", LoadingElementId = "savingPenalties" }))
+{ 
+    <table>
+        <tr>
+            <th>
+                Skater
+            </th>
+            <th>
+                Penalties Received
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="3" class="b">
+                Team 1
+            </td>
+        </tr>
+        @for (int i = 0; i < @Model.Team1.TeamMembers.Count; i++)
+        {
+            int penCount = 0;
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => x.Team1.TeamMembers[i].SkaterName)
+                </td>
+                <td colspan="2">
+                    @foreach (var pen in Model.PenaltyBox.Where(x => x.PlayerSentToBox.SkaterId == Model.Team1.TeamMembers[i].SkaterId))
+                    { 
+                        @Html.DropDownList("Team1." + penCount + "[" + Model.Team1.TeamMembers[i].SkaterId + "]", new SelectList(penalties, "ID", "Name", Convert.ToInt32(pen.PenaltyType)), "Penalty")
+                        penCount += 1;
+                    }
+                    @for (int j = penCount; j < 5; j++)
+                    {
+                        @Html.DropDownList("Team1." + j + "[" + Model.Team1.TeamMembers[i].SkaterId + "]", new SelectList(penalties, "ID", "Name"), "Penalty")
+                    }
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3">
+                <div class="divider"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="b">
+                Team 2
+            </td>
+        </tr>
+        @for (int i = 0; i < @Model.Team2.TeamMembers.Count; i++)
+        {
+            int penCount = 0;
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => x.Team2.TeamMembers[i].SkaterName)
+                </td>
+                <td colspan="2">
+                    @foreach (var pen in Model.PenaltyBox.Where(x => x.PlayerSentToBox.SkaterId == Model.Team2.TeamMembers[i].SkaterId))
+                    {
+                        @Html.DropDownList("Team2." + penCount + "[" + Model.Team2.TeamMembers[i].SkaterId + "]", new SelectList(penalties, "ID", "Name", Convert.ToInt32(pen.PenaltyType)), "Penalty")
+                        penCount += 1;
+                    }
+                    @for (int j = penCount; j < 5; j++)
+                    {
+                        @Html.DropDownList("Team2." + j + "[" + Model.Team2.TeamMembers[i].SkaterId + "]", new SelectList(penalties, "ID", "Name"), "Penalty")
+                    }
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">
+            </td>
+            <td>
+                <input type="submit" value="Save Penalties" name="savePenalties" class="primary" />
+                <img src="@Url.Content("~/Content/loading_lg.gif")" id="savingPenalties" style="display:none; width:20px;" />
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(x => x.GameId);
+    <input type="submit" style="display: none;" id="hiddenSubmitForPenalties" name="hiddenSubmitForPenalties" />
+}

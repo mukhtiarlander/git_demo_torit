@@ -1,0 +1,31 @@
+﻿@model RDN.Raspberry.Models.Team.AddLogo
+@{
+    ViewBag.Title = "UploadLogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    UploadLogo</h2>
+@using (Html.BeginForm("UploadLogo", "Team", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" id="file" class="fileUpload" />
+    
+    <br />
+    <br />
+    
+    <span>Team Name:</span>
+    
+    @Html.TextBoxFor(x => x.TeamName)
+    
+    
+    <br />
+    <br />
+
+    <input type="submit" />
+    
+    
+    if (ViewBag.Saved)
+    { 
+    <div>
+        SAVED!!!!!!</div>
+    }
+}

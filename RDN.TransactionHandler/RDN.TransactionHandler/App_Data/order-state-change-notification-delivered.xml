@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order-state-change-notification xmlns="http://checkout.google.com/schema/2" serial-number="930952710695214-00011-1">
+  <new-fulfillment-order-state>DELIVERED</new-fulfillment-order-state>
+  <new-financial-order-state>CHARGED</new-financial-order-state>
+  <previous-fulfillment-order-state>NEW</previous-fulfillment-order-state>
+  <previous-financial-order-state>CHARGED</previous-financial-order-state>
+  <timestamp>2012-10-14T15:34:20.233Z</timestamp>
+  <google-order-number>930952710695214</google-order-number>
+  <order-summary>
+    <total-chargeback-amount currency="USD">0.0</total-chargeback-amount>
+    <google-order-number>930952710695214</google-order-number>
+    <total-charge-amount currency="USD">16.96</total-charge-amount>
+    <total-refund-amount currency="USD">0.0</total-refund-amount>
+    <risk-information>
+      <billing-address>
+        <email>messages@rdnation.com</email>
+        <contact-name>Patrik Fomin</contact-name>
+        <company-name></company-name>
+        <phone>+46-58258258</phone>
+        <fax></fax>
+        <address1>MyYorkStreet 4E</address1>
+        <address2></address2>
+        <country-code>US</country-code>
+        <city>New York</city>
+        <region>NY</region>
+        <postal-code>10453</postal-code>
+      </billing-address>
+      <ip-address>178.251.130.137</ip-address>
+      <avs-response>Y</avs-response>
+      <cvn-response>M</cvn-response>
+      <eligible-for-protection>false</eligible-for-protection>
+      <partial-cc-number>4980</partial-cc-number>
+      <buyer-account-age>124</buyer-account-age>
+    </risk-information>
+    <authorization>
+      <authorization-amount currency="USD">16.96</authorization-amount>
+      <authorization-expiration-date>2012-10-21T14:54:24.000Z</authorization-expiration-date>
+    </authorization>
+    <purchase-date>2012-10-14T14:54:24.000Z</purchase-date>
+    <archived>false</archived>
+    <shopping-cart>
+      <items>
+        <item>
+          <item-weight value="0.5" unit="LB" />
+          <tax-table-selector></tax-table-selector>
+          <item-name>T-Shirt with print (Large)</item-name>
+          <item-description>T-Shirt with a very cool logo on it!</item-description>
+          <unit-price currency="USD">11.0</unit-price>
+          <quantity>1</quantity>
+          <merchant-private-item-data>
+            
+          
+            <invoice-id>53cd93e7-0af9-461d-8d78-040a92b60c07</invoice-id>
+            
+          
+            <article-id>tdp1large</article-id>
+            
+        
+          </merchant-private-item-data>
+        </item>
+        <item>
+          <tax-table-selector></tax-table-selector>
+          <item-name>Shipping</item-name>
+          <item-description>Shipping method: Postal</item-description>
+          <unit-price currency="USD">5.0</unit-price>
+          <quantity>1</quantity>
+        </item>
+      </items>
+      <cart-expiration>
+        <good-until-date>2012-12-23T01:30:45.890Z</good-until-date>
+      </cart-expiration>
+    </shopping-cart>
+    <order-adjustment>
+      <merchant-codes />
+      <adjustment-total currency="USD">0.96</adjustment-total>
+      <total-tax currency="USD">0.96</total-tax>
+    </order-adjustment>
+    <buyer-id>615712778820289</buyer-id>
+    <buyer-shipping-address>
+      <email>messages@rdnation.com</email>
+      <contact-name>Mr. Andersson</contact-name>
+      <company-name></company-name>
+      <phone>(201) 234-5678</phone>
+      <fax></fax>
+      <address1>MyYorkStreet 4E</address1>
+      <address2></address2>
+      <structured-name>
+        <first-name></first-name>
+        <last-name>Andersson</last-name>
+      </structured-name>
+      <country-code>US</country-code>
+      <city>New York</city>
+      <region>NY</region>
+      <postal-code>10000</postal-code>
+    </buyer-shipping-address>
+    <buyer-marketing-preferences>
+      <email-allowed>false</email-allowed>
+    </buyer-marketing-preferences>
+    <promotions />
+    <order-total currency="USD">16.96</order-total>
+    <fulfillment-order-state>DELIVERED</fulfillment-order-state>
+    <financial-order-state>CHARGED</financial-order-state>
+  </order-summary>
+</order-state-change-notification>
+
+

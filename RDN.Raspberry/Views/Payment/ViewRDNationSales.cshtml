@@ -1,0 +1,33 @@
+﻿@model System.Collections.Generic.List<RDN.Library.Classes.Payment.Classes.Display.OverviewInvoice>
+@{
+    ViewBag.Title = "List invoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table>
+    <tr>
+        <th>Created</th>
+        <th>Amount</th>
+        <th>Is paid?</th>
+        <th>Status</th>
+        <th>Last status change</th>
+    </tr>
+    @foreach (var invoice in Model)
+    {
+        <tr>
+            <td>@invoice.Created.ToString("MM/dd/yyyy")</td>
+            <td>@invoice.TotalIncludingTax.ToString() @invoice.Currency.ToString()</td>
+            <td>@(invoice.IsPaid ? "Yes" : "No")</td>
+            <td>@invoice.InvoiceStatus.ToString()</td>
+            <td>@invoice.InvoiceStatusUpdated.ToString("MM/dd/yyyy")</td>
+        </tr>
+        if (!string.IsNullOrEmpty(invoice.Note))
+        {
+            <text>
+                 <tr>
+                    <td><span style="font-style: italic;">@invoice.Note</span></td>
+                </tr>
+             </text>
+        }        
+    }
+</table>

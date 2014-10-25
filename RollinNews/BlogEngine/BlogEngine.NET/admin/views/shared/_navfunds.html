@@ -1,0 +1,9 @@
+﻿<div class="subnav admin-views-subnav" data-ng-controller="SubNavController">
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li data-ng-class="{ active: isActive('/funds')}"><a href="#/funds">Withdraw</a></li>
+            <li data-ng-class="{ active: isActive('/funds/settings')}"><a href="#/funds/settings">Settings</a></li>
+            <li ng-if="canSetMonthlyEarnings" data-ng-class="{ active: isActive('/funds/admin')}"><a href="#/funds/admin">Admin</a></li>
+        </ul>
+    </div>
+</div>

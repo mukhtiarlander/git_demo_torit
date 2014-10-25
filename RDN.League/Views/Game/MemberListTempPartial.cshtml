@@ -1,0 +1,20 @@
+﻿@model System.Collections.ObjectModel.ObservableCollection<Scoreboard.Library.ViewModel.Members.TeamMembersViewModel>
+<table>
+    @foreach (var skater in Model)
+    { 
+        <tr>
+            <td>
+                <div class="agSkaterNameAll">
+                    <img src="@Url.Content("~/Content/plus.png")" height="20px" />
+                    @Ajax.ActionLink(skater.SkaterName, "AddOld_AddSkaterToPlayedTeam", new { SkaterId = skater.SkaterId, GameId = ViewBag.GameId, LeagueId = ViewBag.LeagueId }, new AjaxOptions
+               {
+                   HttpMethod = "Get",
+                   UpdateTargetId = ViewBag.LeagueId + "RealList",
+                   OnSuccess = "onReturnOfSkaterAddedToTeam()"
+
+               })
+                </div>
+            </td>
+        </tr>
+    }
+</table>

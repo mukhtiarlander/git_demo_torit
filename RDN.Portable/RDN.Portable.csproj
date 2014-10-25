@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{68721C49-C417-40DE-A445-C4077D9469CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RDN.Portable</RootNamespace>
+    <AssemblyName>RDN.Portable</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile14</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <NuGetPackageImportStamp>cf36f9d9</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Account\AccountSettings.cs" />
+    <Compile Include="Classes\Account\Classes\MedicalInformation.cs" />
+    <Compile Include="Classes\Account\Classes\MemberContact.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplay.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayBasic.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayAPI.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayDues.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayEdit.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayFederation.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayGame.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayModel.cs" />
+    <Compile Include="Classes\Account\Classes\MemberDisplayMessage.cs" />
+    <Compile Include="Classes\Account\Classes\MemberPassParams.cs" />
+    <Compile Include="Classes\Account\Classes\MemberSettingsClass.cs" />
+    <Compile Include="Classes\Account\Classes\SkaterPositionDisplay.cs" />
+    <Compile Include="Classes\Account\Enums\ContactLensesEnum.cs" />
+    <Compile Include="Classes\Account\Enums\DefaultPositionEnum.cs" />
+    <Compile Include="Classes\Account\Enums\GenderEnum.cs" />
+    <Compile Include="Classes\Account\Enums\GenderHelper.cs" />
+    <Compile Include="Classes\Account\Enums\GenderPlaysAsEnum.cs" />
+    <Compile Include="Classes\Account\Enums\MemberContactTypeEnum.cs" />
+    <Compile Include="Classes\Account\Enums\MemberPrivacySettingsEnum.cs" />
+    <Compile Include="Classes\Account\Enums\Settings\CalendarDefaultViewEnum.cs" />
+    <Compile Include="Classes\Account\NotificationMobile.cs" />
+    <Compile Include="Classes\Account\UserMobile.cs" />
+    <Compile Include="Classes\Billing\Enums\CurrentStatusOfBillingEnum.cs" />
+    <Compile Include="Classes\Colors\ColorDisplay.cs" />
+    <Compile Include="Classes\Communications\Enums\MobileServiceProvider.cs" />
+    <Compile Include="Classes\ContactCard\Address.cs" />
+    <Compile Include="Classes\ContactCard\ContactCard.cs" />
+    <Compile Include="Classes\ContactCard\Email.cs" />
+    <Compile Include="Classes\ContactCard\Enums\AddressTypeEnum.cs" />
+    <Compile Include="Classes\ContactCard\Im.cs" />
+    <Compile Include="Classes\Contacts\ContactDisplayBasic.cs" />
+    <Compile Include="Classes\Contacts\Enums\ContactTypeEnum.cs" />
+    <Compile Include="Classes\Contacts\Enums\ContactTypeForOrganizationEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Calendar.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarAttendance.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEventPortable.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEventJson.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEventType.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEventTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarOwner.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarSendParams.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarViewEventJson.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\AvailibilityEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\CalendarEventPointTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\CalendarImportTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\CalendarOwnerEntityEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\EndsWhenReoccuringEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\FrequencyTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Dues\Classify\FeeClassification.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesCollected.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesItem.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesMemberItem.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesModel.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesReceipt.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesRequired.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesSendParams.cs" />
+    <Compile Include="Classes\Controls\Dues\Enums\WhoPaysProcessorFeesEnum.cs" />
+    <Compile Include="Classes\Controls\Forum\AddForumTopicModel.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumCategory.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumGroupModel.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumModel.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumPostModel.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumTopicInbox.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumTopicModel.cs" />
+    <Compile Include="Classes\Controls\Message\ConversationModel.cs" />
+    <Compile Include="Classes\Controls\Message\Enums\GroupOwnerTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Message\Enums\MessageTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Message\MessageModel.cs" />
+    <Compile Include="Classes\Controls\Message\MessageSingleModel.cs" />
+    <Compile Include="Classes\ErrorHandling\Enums\ErrorGroupEnum.cs" />
+    <Compile Include="Classes\ErrorHandling\Enums\ErrorSeverityEnum.cs" />
+    <Compile Include="Classes\ErrorHandling\ErrorManager.cs" />
+    <Compile Include="Classes\ErrorHandling\ErrorManagerMobile.cs" />
+    <Compile Include="Classes\ErrorHandling\ErrorObject.cs" />
+    <Compile Include="Classes\Controls\Forum\Enums\ForumOwnerTypeEnum.cs" />
+    <Compile Include="Classes\Federation\Enums\FederationsEnum.cs" />
+    <Compile Include="Classes\Federation\Enums\RuleSetsUsedEnum.cs" />
+    <Compile Include="Classes\Federation\FederationDisplay.cs" />
+    <Compile Include="Classes\Games\Officiating\RequestDA.cs" />
+    <Compile Include="Classes\Games\Officiating\RequestsModel.cs" />
+    <Compile Include="Classes\Games\Scoreboard\Game\Game.cs" />
+    <Compile Include="Classes\Games\Scoreboard\Game\GameScore.cs" />
+    <Compile Include="Classes\Games\ManualGame.cs" />
+    <Compile Include="Classes\Games\Scoreboard\JamModel.cs" />
+    <Compile Include="Classes\Games\Scoreboard\TeamMembersModel.cs" />
+    <Compile Include="Classes\Games\Tournament\TournamentBase.cs" />
+    <Compile Include="Classes\Geo\CountryClass.cs" />
+    <Compile Include="Classes\Imaging\PhotoItem.cs" />
+    <Compile Include="Classes\League\Classes\League.cs" />
+    <Compile Include="Classes\League\Classes\LeagueBase.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroup.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroupBasic.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroupMember.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroupModel.cs" />
+    <Compile Include="Classes\League\Classes\LeagueStartModel.cs" />
+    <Compile Include="Classes\League\Enums\GroupMemberAccessLevelEnum.cs" />
+    <Compile Include="Classes\League\Enums\LeagueGroupTypeEnum.cs" />
+    <Compile Include="Classes\League\Enums\LeagueOwnersEnum.cs" />
+    <Compile Include="Classes\League\Enums\TaskStatusEnum.cs" />
+    <Compile Include="Classes\Location\GeoCoordinate.cs" />
+    <Compile Include="Classes\Location\Location.cs" />
+    <Compile Include="Classes\Location\TimeZone.cs" />
+    <Compile Include="Classes\Payment\Classes\CreateInvoiceReturn.cs" />
+    <Compile Include="Classes\Payment\Classes\CurrencyExchange.cs" />
+    <Compile Include="Classes\Payment\Enums\InvoiceStatus.cs" />
+    <Compile Include="Classes\RN\RSSFeedCategory.cs" />
+    <Compile Include="Classes\RN\RSSFeedItem.cs" />
+    <Compile Include="Classes\RN\RSSFeedTag.cs" />
+    <Compile Include="Classes\Settings\Enums\MobileNotificationTypeEnum.cs" />
+    <Compile Include="Classes\Settings\SettingsMobile.cs" />
+    <Compile Include="Classes\Store\Enums\StoreItemShirtSizesEnum.cs" />
+    <Compile Include="Classes\Store\Enums\StoreItemTypeEnum.cs" />
+    <Compile Include="Classes\Team\TeamDisplay.cs" />
+    <Compile Include="Classes\Team\TeamLogo.cs" />
+    <Compile Include="Classes\Utilities\Enums\FeedbackTypeEnum.cs" />
+    <Compile Include="Classes\Utilities\Feedback.cs" />
+    <Compile Include="Classes\Utilities\Json.cs" />
+    <Compile Include="Classes\Voting\Enums\QuestionTypeEnum.cs" />
+    <Compile Include="Classes\Voting\PollBase.cs" />
+    <Compile Include="Classes\Voting\VotesClass.cs" />
+    <Compile Include="Classes\Voting\VotingAnswersClass.cs" />
+    <Compile Include="Classes\Voting\VotingClass.cs" />
+    <Compile Include="Classes\Voting\VotingQuestionClass.cs" />
+    <Compile Include="Config\Enums\MobileTypeEnum.cs" />
+    <Compile Include="Config\FederationConfig.cs" />
+    <Compile Include="Config\MobileConfig.cs" />
+    <Compile Include="Config\RolesConfig.cs" />
+    <Compile Include="Config\RollinNewsConfig.cs" />
+    <Compile Include="Config\Server.cs" />
+    <Compile Include="Models\Json\Calendar\EventJson.cs" />
+    <Compile Include="Models\Json\Calendar\EventsJson.cs" />
+    <Compile Include="Models\Json\DataJson.cs" />
+    <Compile Include="Models\Json\Games\CurrentGameJson.cs" />
+    <Compile Include="Models\Json\Games\Enums\GameLocationFromEnum.cs" />
+    <Compile Include="Models\Json\Games\GamesJson.cs" />
+    <Compile Include="Models\Json\Public\LeagueJsonDataTable.cs" />
+    <Compile Include="Models\Json\Public\LeaguesJson.cs" />
+    <Compile Include="Models\Json\Public\SkaterJson.cs" />
+    <Compile Include="Models\Json\Public\SkaterOfTheDay.cs" />
+    <Compile Include="Models\Json\Public\SkatersJson.cs" />
+    <Compile Include="Models\Json\Shop\ShopItemJson.cs" />
+    <Compile Include="Models\Json\Shop\ShopsJson.cs" />
+    <Compile Include="Network\Network.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Culture.cs" />
+    <Compile Include="Util\DateTime\DateTimeExt.cs" />
+    <Compile Include="Util\Enums\EnumClass.cs" />
+    <Compile Include="Util\Enums\EnumExt.cs" />
+    <Compile Include="Util\Languages.cs" />
+    <Compile Include="Util\Log\Enums\LoggerEnum.cs" />
+    <Compile Include="Util\Log\Enums\LogTypeEnum.cs" />
+    <Compile Include="Util\Log\Log.cs" />
+    <Compile Include="Util\Log\LoggerMobile.cs" />
+    <Compile Include="Util\Strings\StringExt.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.666\lib\portable-sl4+net40+wp7+windows8\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\API\" />
+    <Folder Include="Classes\Public\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

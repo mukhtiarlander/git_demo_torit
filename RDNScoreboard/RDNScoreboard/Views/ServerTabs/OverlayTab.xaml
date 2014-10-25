@@ -1,0 +1,217 @@
+﻿<Page x:Class="RDNScoreboard.Views.ServerTabs.OverlayTab"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	  xmlns:g="clr-namespace:Scoreboard.Library.ViewModel;assembly=Scoreboard.Library"
+	  mc:Ignorable="d" ShowsNavigationUI="False" d:DesignWidth="500"
+		xmlns:RDN="clr-namespace:RDNScoreboard.Code"
+	Title="OverlayTab" Height="460">
+    <ScrollViewer >
+        <Grid VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
+            <StackPanel >
+                <StackPanel>
+                    <Border BorderBrush="Black"
+					BorderThickness="1"
+					Margin="0,0,0,6">
+                        <StackPanel>
+                            <TextBlock  x:Name="TitlePolicy"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Top"
+								TextAlignment="Center"
+								Background="#872f95"
+								Foreground="#FFFFFF"
+								FontSize="16" 
+								Padding="5"
+								Margin="0,0,-2,0"
+								
+								><Run Text="Video Overlay Capabilities" /></TextBlock>
+                            <TextBlock  x:Name="titleDescription" TextAlignment="Center" Background="#872f95"  Foreground="#FFFFFF" FontSize="12">
+							<Run Text="Video Overlays Can Be Managed Here, Colors are hex without the # sign. " /></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock TextAlignment="Center" Text="Make sure your Firewall is turned OFF" ></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock TextAlignment="Center" Text=" The main control web page also has links to the overlay. - " ></TextBlock>
+                        <TextBlock   x:Name="mainScreen" Grid.Row="0" Grid.Column="1">
+					<Hyperlink x:Name="mainScreenLink" Click="mainScreenLink_Click" ></Hyperlink>
+                        </TextBlock>
+
+
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"></ColumnDefinition>
+                            <ColumnDefinition Width="55*"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Text="Streaming Video Overlay 4x3: " HorizontalAlignment="Right"  Grid.Row="0" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="videoOverLayText" Grid.Row="0" Grid.Column="1">
+		<Hyperlink x:Name="videoOverlayLink" Click="videoOverlayLink_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Streaming Video Overlay 16x9: "  HorizontalAlignment="Right"  Grid.Row="1" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="videoOverLayText16x9" Grid.Row="1" Grid.Column="1">
+		<Hyperlink x:Name="videoOverlayLink16x9" Click="videoOverlayLink16x9_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="WFTDA Video Overlay 4x3: "  HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="videoOverLay2Text" Grid.Row="2" Grid.Column="1">
+		<Hyperlink x:Name="videoOverlay2Link" Click="videoOverlay2Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="WFTDA Video Overlay 16x9: "  HorizontalAlignment="Right"  Grid.Row="3" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="videoOverLay2Text16x9" Grid.Row="3" Grid.Column="1">
+		<Hyperlink x:Name="videoOverlay2Link16x9" Click="videoOverlay2Link16x9_Click" ></Hyperlink>
+                        </TextBlock>
+
+                        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" >
+                            <Button  BorderThickness="10" Content="Color"  HorizontalAlignment="Left" Width="60" Height="20" x:Name="GreenScreen" Click="GreenScreen_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - gscreen"  Grid.Row="4" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Color of Green Screen: "  HorizontalAlignment="Right" Grid.Row="4" Grid.Column="0"></TextBlock>
+
+                        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" >
+                            <Button  BorderThickness="10" Content="Color"  HorizontalAlignment="Left" Width="60" Height="20" x:Name="OverlayColor" Click="OverlayColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - modcolor"  Grid.Row="5" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Color of Overlay: "  HorizontalAlignment="Right" Grid.Row="5" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel  Grid.Row="11" Grid.Column="1" Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="OverlayTransparent" Click="OverlayTransparent_Click_2" />
+                            </StackPanel>
+                            <TextBlock  Text=" - modtrans=true"  Grid.Row="6" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Set Overlay as Transparent: "  HorizontalAlignment="Right" Grid.Row="6" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" >
+                            <Button  BorderThickness="10" Content="Color"  HorizontalAlignment="Left" Width="60" Height="20" x:Name="Team1TopColor" Click="Team1TopColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - t1color"  Grid.Row="7" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Top Color of Team 1: "  HorizontalAlignment="Right" Grid.Row="7" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal" >
+                            <Button  Grid.Row="8" Grid.Column="1" BorderThickness="10"  Content="Color" HorizontalAlignment="Left" Width="60" Height="20" x:Name="Team1BottomColor" Click="Team1BottomColor_Click_1" VerticalAlignment="Bottom">
+                            </Button>
+                            <TextBlock  Text=" - b1color"  Grid.Row="8" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Bottom Color of Team 1: " HorizontalAlignment="Right" ></TextBlock>
+                        <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" >
+                            <Button   BorderThickness="10" Grid.Row="9" Grid.Column="1"  Content="Color" HorizontalAlignment="Left" Width="60" Height="20" x:Name="Team1FontColor" Click="Team1FontColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - f1color"  Grid.Row="9" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Team 1 Font Color: " HorizontalAlignment="Right"  Grid.Row="9" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="10" Grid.Column="1" Orientation="Horizontal" >
+                            <Button Grid.Row="10" Grid.Column="1"  BorderThickness="10"   Content="Color" HorizontalAlignment="Left" Width="60" Height="20" x:Name="Team2TopColor" Click="Team2TopColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - t2color"  Grid.Row="10" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Top Color of Team 2: "  HorizontalAlignment="Right" Grid.Row="10" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal" >
+                            <Button  Grid.Row="11" Grid.Column="1" BorderThickness="10"  Content="Color" HorizontalAlignment="Left" Width="60" Height="20" x:Name="Team2BottomColor" Click="Team2BottomColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - b2color"  Grid.Row="11" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Bottom Color of Team 2: " HorizontalAlignment="Right" ></TextBlock>
+                        <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal" >
+                            <Button   BorderThickness="10" Grid.Row="12" Grid.Column="1" Content="Color"  HorizontalAlignment="Left" Width="60" Height="20" x:Name="Team2FontColor" Click="Team2FontColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - f2color"  Grid.Row="12" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Team 2 Font Color: "  HorizontalAlignment="Right" Grid.Row="12" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal" >
+                            <Button   BorderThickness="10" Grid.Row="13" Grid.Column="1" Content="Color"  HorizontalAlignment="Left" Width="60" Height="20" x:Name="TimeOutColor" Click="TimeOutColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - tocolor"  Grid.Row="13" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Time Out Color: "  HorizontalAlignment="Right" Grid.Row="13" Grid.Column="0"></TextBlock>
+                        <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal" >
+                            <Button   BorderThickness="10" Grid.Row="14" Grid.Column="1"  Content="Color" HorizontalAlignment="Left" Width="60" Height="20" x:Name="TextColor" Click="TextColor_Click_1">
+                            </Button>
+                            <TextBlock  Text=" - tecolor"  Grid.Row="14" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Text Color: "  HorizontalAlignment="Right" Grid.Row="14" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="Vertical Position Pixels from Bottom: " x:Name="VerticalPositionText"  HorizontalAlignment="Right" Grid.Row="15" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+                        <StackPanel Grid.Row="15" Grid.Column="1" Orientation="Horizontal" >
+                            <TextBox Text="30" Width="50" VerticalAlignment="Center" x:Name="VerticalPosition" KeyUp="VerticalPosition_KeyUp" PreviewTextInput="VerticalPosition_PreviewTextInput" HorizontalAlignment="Left"></TextBox>
+                            <TextBlock Text="px  - vertical=30"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Text Size Percentage: " Grid.Row="16" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                        <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal" >
+                            <TextBox Text="1.0" Width="50" VerticalAlignment="Center" x:Name="TextSizePosition" KeyUp="TextSizePosition_KeyUp" PreviewTextInput="TextSizePosition_PreviewTextInput" HorizontalAlignment="Left"></TextBox>
+                            <TextBlock Text="em  - tsize=1.1"></TextBlock>
+                        </StackPanel>
+
+                        <TextBlock Text="Logo On / Off: "  HorizontalAlignment="Right" Grid.Row="17" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+                        <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel  Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="LogoOnOff" Click="LogoOnOff_Click_1" />
+                            </StackPanel>
+                            <TextBlock  Text=" - logo=off"  Grid.Row="15" Grid.Column="2"></TextBlock>
+                            <Button Content="Change Logo" BorderThickness="10" Width="77" Margin="13,3,0,3" x:Name="ChangeLogo" Click="ChangeLogo_Click_1" />
+                        </StackPanel>
+                        <TextBlock Text="Scores On Top Of Screen: "  HorizontalAlignment="Right" Grid.Row="18" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+                        <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel  Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="OverlayTopBottom" Click="OverlayTopBottom_Click_1" />
+                            </StackPanel>
+                            <TextBlock  Text=" - mod=top/bottom"  Grid.Row="16" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Turn On Bottom Row, Shows Jammers: "  HorizontalAlignment="Right" Grid.Row="19" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+                        <StackPanel Grid.Row="19" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel  Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="TurnThirdRowOn" Click="TurnThirdRowOn_Click_1" />
+                            </StackPanel>
+                            <TextBlock  Text=" - brow=on"  Grid.Row="17" Grid.Column="2"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Show Jam Score: "  HorizontalAlignment="Right" Grid.Row="20" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+                        <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel   Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="showJamScore" Click="showJamScore_Click_1" />
+                            </StackPanel>
+                            <TextBlock  Text=" - sjam=on"  ></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Turn Off Time Outs: "  HorizontalAlignment="Right" Grid.Row="21" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+                        <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel   Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="showTimeOuts" Click="showTimeOuts_Click" />
+                            </StackPanel>
+                            <TextBlock  Text=" - sto=off"  ></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text=""  HorizontalAlignment="Right" Grid.Row="22" Grid.Column="0"></TextBlock>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+    </ScrollViewer>
+  </Page>

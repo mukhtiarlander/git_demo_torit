@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/publicLeagueRow"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        style="@style/publicLeagueEventRowStyle"
+        android:id="@+id/publicLeagueRowId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <TextView
+        style="@style/publicLeagueEventRowStyle"
+        android:id="@+id/publicLeagueRowDate"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+    <TextView
+        style="@style/publicLeagueEventRowStyle"
+        android:id="@+id/publicLeagueRowTime"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+    <TextView
+        style="@style/publicLeagueEventRowStyleName"
+        android:id="@+id/publicLeagueRowEventName"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+</TableRow>

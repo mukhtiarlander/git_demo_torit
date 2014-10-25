@@ -1,0 +1,36 @@
+﻿@model RDN.Models.Payments.PaymentViewModel
+@{
+    ViewBag.Title = "Advertise with Rollin News";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<center>
+<h2>Advertise on Rollin News Through Great Content!</h2>
+<br />
+<p>
+    Pay here so we may publish your content on Rollin News.
+
+</p>
+    <br />
+
+<form method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="@Model.StripeKey"
+    data-image="https://rdnation.com/Content/Rollerball_pink_s100.png"
+    data-name="Rollin News Content"
+    data-description="Advertising Content For Rollin News"
+    data-amount="2000"
+      data-currency="GBP">
+  </script>
+</form>
+    </center>
+
+
+
+<br />
+<br />
+@if (Model.SuccessfullyCharged)
+{ 
+    <div style="color: green; font-size: 1.3em;">Successfully Charged!  We will be publishing your content right away!</div>
+}

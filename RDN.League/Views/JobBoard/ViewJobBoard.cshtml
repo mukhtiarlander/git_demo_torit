@@ -1,0 +1,115 @@
+﻿@model List<RDN.Library.Classes.League.JobBoard>
+@{
+    ViewBag.Title = "Job Board";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    
+}
+@helper Truncate(string input, int length = 30)
+{
+    if (input != null)
+    {
+        if (input.Length <= length)
+        {
+    @input
+        }
+        else
+        {
+    @input.Substring(0, length)<text>...</text>
+        }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Jobs For The League
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {                
+                <div class="navIcons">
+                    <a title="Add Jobs" href="@Url.Content("~/league/job/add")">
+                        <img src="@Url.Content("~/Content/images/icons/Job.png")"  />Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="titleDescription">
+            Here you can setup jobs for your league and have members review and apply.
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="jobBoard">
+                <thead>
+                    <tr>
+
+                        <th></th>
+                        <th>Job Title
+                        </th>
+                        <th>Completes On
+                        </th>
+                        <th>Hrs a Week
+                        </th>
+                        <th>Job Desc</th>
+                        <th>Reports To
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.JobId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @if (memId == b.JobCreator || isSec)
+                                { 
+                                    <a href="@Url.Content("~/league/Job/edit/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))" >Edit </a> <span> / </span> <a href="@Url.Content("~/view/job/detail/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Content("~/view/job/detail/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>
+                                }
+                            </td>
+
+                            <td>
+                                @b.JobTitle
+                            </td>
+
+                            <td>@if (b.JobEnds > new DateTime())
+                                {
+                                @b.JobEnds.ToShortDateString() <br />   
+                                
+                                    if (b.DaysRemaining == 0)
+                                    { <text>(Today)</text>  }
+                                    else if (b.DaysRemaining == 1)
+                                    {<text>(Tomorrow)</text>}
+                                    else if (b.DaysRemaining > 1)
+                                    {  <text> (@b.DaysRemaining Days left) </text> }
+
+
+                                }
+                            </td>
+                            <td>
+                                @b.HoursPerWeek
+                            </td>
+                            <td>
+                                @Truncate(b.JobDesc)
+                            </td>
+                            <td>
+                                @b.ReportsTo
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@using RDN.Models.Account
+@model LogOnModel
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div class="signUpLeftContainer">
+    <div class="frontPageItem">
+        <div class="signUpPageTitle">
+            RDNation helps you connect with your fans, manage your teams and view your stats.</div>
+        <div class="frontDescription">
+            <img src="@Url.Content("~/Content/Rollerball_pink_s500.png")" class="signUpImg" />
+        </div>
+    </div>
+</div>
+<div class="signUpContainer">
+    <div class="signUpTitle">
+        Login</div>
+    <div class="signUpDesc">
+        Skate As a Team, Track As a Sport, Love Derby</div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+      
+        <div>
+            <fieldset>
+                <table class="suTable">
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Email)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.Email)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Email)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Password)
+                        </td>
+                        <td class="suRTD">
+                            @Html.PasswordFor(m => m.Password)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Password)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.RememberMe)
+                        </td>
+                        <td class="suRTD">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.RememberMe)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                        </td>
+                        <td class="suRTD">
+                            <input class="primary" type="submit" value="Login" />
+                            <a href="@Url.Content("~/Recover")">Lost Password?</a>
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                </p>
+            </fieldset>
+        </div>
+    }
+</div>

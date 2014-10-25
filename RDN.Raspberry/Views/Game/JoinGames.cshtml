@@ -1,0 +1,35 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Join Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+Delete A Game with its ID</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Original Game Id:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Game Moving From Id:
+        @Html.TextBoxFor(x => x.Id2)
+    </div>
+    
+    <div>
+        Your moving the second game and merging it into the first one. This will NOT merge
+        the teams and members, but will merge everything else.</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+    <div>
+        Games Are Merged</div>
+    
+    }
+}

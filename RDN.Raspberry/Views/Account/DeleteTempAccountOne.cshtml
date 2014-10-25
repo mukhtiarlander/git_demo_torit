@@ -1,0 +1,38 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete a Temp Member";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Delete A Member with its ID Imported from a Two Evils</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Member Id To Delete:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Only use this to delete the member entirely in case their are duplicates or something
+        like that. This is a final delete, no going back and it deletes just the league,
+        not the members of the league.</div>
+
+    
+    <input type="submit" class="primary" />
+    <br />
+    <br />
+    <div>
+        Once Deleted, remove the sitemap item. <a href="@Url.Content("~/Sitemap/Delete")">Delete
+            Profile Sitemap</a>
+    </div>
+    <br />
+    
+    if (Model.IsDeleted)
+    { 
+    <div>
+        Temp MEMBER IS DELETED!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

@@ -1,0 +1,133 @@
+﻿@model List<RDN.Portable.Models.Json.SkaterJson>
+@{
+    ViewBag.Title = "Map for Members in " + ViewBag.LeagueName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Members For @ViewBag.LeagueName
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isAdminOfLeague)
+            { 
+                <div class="navIcons">
+                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
+                    </a>
+                </div>
+            }
+            <div class="navIcons">
+                <a href="@Url.Content("~/league/ViewMembersJobsExportExcel")" title="Export Excel">
+                    <img src="@Url.Content("~/Content/images/icons/docs/excel.png")"  />Export
+                </a>
+            </div>
+            @if (isPaid)
+            {
+                <div class="navIcons">
+                    <a  href="@Url.Content("~/league/members/view/report")">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+            else
+            {
+
+           
+                <div class="navIcons">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+        </div>
+        <hr />
+
+        <div class="membersPager">
+            @Html.Partial("Menus/LeagueViewMembers")
+
+        </div>
+        <br />
+        <br />
+
+        <table class="mapmemtable">
+            <tr>
+                <td class="tdmain">
+                    <div class="memmaindiv">
+                        <table id="members" class="mapmemtable">
+
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td class="tdwidth">
+                                        @if (!String.IsNullOrEmpty(Model[i].ThumbUrl))
+                                        { 
+                                            <img class="memimage"  alt="@Model[i].DerbyName" src="@Model[i].ThumbUrl" />
+                                        }
+                                        else if (!String.IsNullOrEmpty(Model[i].photoUrl))
+                                        { 
+                                            <img class="memimage" alt="@Model[i].DerbyName" src="@Model[i].photoUrl" />
+                                        }
+
+                                    </td>
+                                    <td class="alignTop"> @(i + 1)<span>.</span></td>
+                                    <td class="memdetail">
+                                           @Model[i].DerbyName
+                                        @if (!String.IsNullOrEmpty(Model[i].Address1))
+                                        { 
+                                            <br />
+                                            @Model[i].Address1 @Model[i].Address2 
+                                            <br />
+                                        }
+                                        @Model[i].City @Model[i].State @Model[i].Zip
+
+                                        @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
+                                        {
+                                                
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
+                                                    createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
+                                                });
+                                            </script>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="divider"></div>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </table>
+                    </div>
+                </td>
+                <td style="width: 70%">
+                    <div id="mapdiv" style="height: 500px; width: 100%;"></div>
+                    <script src="@Url.Content("~/scripts/openlayers.js")"></script>
+                    <style>
+                        .olControlAttribution { bottom: 0px; }
+                    </style>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<script type="text/javascript">
+    map = new OpenLayers.Map("mapdiv");
+    map.addLayer(new OpenLayers.Layer.OSM());
+    var PROJECTIONFROM = "EPSG:4326";
+    var PROJECTIONTO = "EPSG:900913";
+    var bounds = new OpenLayers.Bounds();
+
+    $(document).ready(function () {
+        map.zoomTo(map.zoomToExtent(bounds));
+    });
+
+</script>

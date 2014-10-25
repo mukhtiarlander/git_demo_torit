@@ -1,0 +1,178 @@
+﻿@using RDN.Library.Classes.Account.Classes
+@model RDN.Portable.Classes.Account.Classes.MemberDisplay
+@{
+    ViewBag.Title = "Your Contacts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedCenterContainter2">
+        <div class="fixTitle">
+            @Model.DerbyName's Contacts
+        </div>
+         <div class="titleDescription">
+    All the contacts for yourself.  Add parents, spouses, and emergency doctor information.  Your league managers will use this information in case of an emergency or any other reason.
+      
+            </div>
+            <div class="divider"></div>
+     
+              <div id="Contacts" class="contactsContainer">
+            @foreach (var contact in Model.MemberContacts)
+            { 
+                <div class="contactBox" id="@contact.ContactId-div">
+                    <table>
+                        <tr>
+                            <td class="b">Name:</td>
+                            <td>
+                                @contact.Firstname @contact.Lastname
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b">Type:</td>
+                            <td>
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b">Email:</td>
+                            <td>
+                                @contact.Email
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b">Phone Number:</td>
+                            <td>
+                                @contact.PhoneNumber
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b">Address:<br />
+                                @if (contact.Address!= null)
+                                { 
+                                    <a href="http://www.bing.com/maps/default.aspx?q=@contact.Address.Address1+@contact.Address.Address2,+@contact.Address.CityRaw,+@contact.Address.StateRaw+@contact.Address.Zip+@contact..Country" target="_blank">View Map</a>
+                                }</td>
+                            <td>
+                                @if (contact.Address != null)
+                                { 
+                                    @contact.Address.Address1<br />
+                                    if (!String.IsNullOrEmpty(contact.Address.Address2))
+                                    { 
+                                    @contact.Address.Address2<br />
+                                    }
+                                    if (!String.IsNullOrEmpty(contact.Address.CityRaw))
+                                    { 
+                                    @contact.Address.CityRaw<br />}
+                                    if (!String.IsNullOrEmpty(contact.Address.StateRaw))
+                                    { 
+                                    @contact.Address.StateRaw
+                                    }
+                                    if (!String.IsNullOrEmpty(contact.Address.Zip))
+                                    { 
+                                    <span> @contact.Address.Zip</span>
+                                    }
+                                    if (!String.IsNullOrEmpty(contact.Address.Country))
+                                    { 
+                                    <br />@contact.Address.Country
+                                    }
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span class="spanLink" onclick="javascript:removeMemberContact('@contact.ContactId')">Remove Contact</span></td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        </div>
+  <div class="divider"></div>
+        <div class="contactContainer center">
+            <table>
+                <tr>
+                    <td class="b center" colspan="2">Add Contact</td>
+                </tr>
+                <tr>
+                    <td class="b center" colspan="2">
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Name:</td>
+                    <td>
+                        @Html.TextBox("FirstName") @Html.TextBox("LastName")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Contact Type:</td>
+                    <td class="largeInput">
+                        @Html.DropDownList("ContactType", (SelectList)ViewBag.Contacts)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Email:</td>
+                    <td class="largeInput">
+                        @Html.TextBox("Email")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Phone Number:</td>
+                    <td>
+                        @Html.TextBox("PhoneNumber")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Address Line 1:</td>
+                    <td class="largeInput">
+                        @Html.TextBox("Address1")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Address Line 2:</td>
+                    <td class="largeInput">
+                        @Html.TextBox("Address2")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">City:</td>
+                    <td class="largeInput">
+                        @Html.TextBox("City")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">State:</td>
+                    <td>
+                        @Html.TextBox("State")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Zip Code:</td>
+                    <td>
+                        @Html.TextBox("ZipCode")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Country:</td>
+                    <td>
+                        @Html.DropDownList("Country", (SelectList) ViewBag.Countries, "Select Country...")
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center" colspan="2"><span class="primaryLink spanLink" onclick="javascript:AddContactToMember()">Add Contact</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        @Html.HiddenFor(x => x.MemberId)
+
+        <br />
+    </div>
+</div>

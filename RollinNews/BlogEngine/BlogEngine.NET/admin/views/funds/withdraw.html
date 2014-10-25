@@ -1,0 +1,58 @@
+﻿<div id="wrap">
+    <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div data-ng-include src="'views/shared/_navfunds.html'"></div>
+    <div class="container admin-views-main admin-views-settings-controls" data-ng-controller="FundsController">
+        <form id="form" action="">
+            <div class="page-header clearfix">
+                <h2 class="page-title pull-left">Withdraw <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="well clearfix">
+                        <h4>Funds</h4>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtNumberOfRecentPosts">Total Paid</label>
+                                <div class="col-md-8">
+                                    {{funds.TotalPaidToUser}}
+                                </div>
+                            </div>
+                                 <div class="form-group">
+                                <label class="control-label col-md-4" for="txtNumberOfRecentPosts">Active In Account</label>
+                                <div class="col-md-8">
+                                    {{funds.ActiveInUserAccount}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="well clearfix">
+                        <h4>Withdraw</h4>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Amount To Withdraw</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="txtContactFormMessage" data-ng-model="funds.AmountToWithdraw"></input>
+                                </div>
+                            </div>
+                           <!-- <div class="form-group" ng-if="funds.BitCoinId && funds.AmountToWithdraw > 0">
+                                <button data-ng-click="withdrawBitcoin()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>Withdraw to Bitcoin</button><span class="i marginSpacingRight  pull-right">Payments Are Instant and are free.</span>
+                            </div>-->
+                            <div class="form-group" ng-if="funds.PaypalAddress && funds.AmountToWithdraw > 0">
+                                <button data-ng-click="withdrawPaypal()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>Withdraw to Paypal</button><span class="i marginSpacingRight  pull-right">Payments Take 24 hours and cost $1.00.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

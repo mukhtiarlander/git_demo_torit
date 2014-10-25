@@ -1,0 +1,40 @@
+﻿@using RDN.Library.Classes.Store.Display;
+@model DisplayStore
+@{
+    ViewBag.Title = Model.ShopName + " Store";
+    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+}
+<br />
+<div>
+    <span class="storeTitle">@Model.ShopName</span>
+    <hr />
+    <div>
+        @foreach (var item in Model.StoreItems)
+        {
+            <div class="storeItem">
+                <div class="storeItemPhoto center">
+                    @if (item.Photos.FirstOrDefault() != null)
+                    { 
+                        <img src="@item.Photos.FirstOrDefault().ImageUrl" style="width:120px; max-width:120px;" alt="@item.Photos.FirstOrDefault().Alt" />
+                    }
+                </div>
+                <div class="storeItemInfo">
+                    <div class="storeItemTitle">
+                        <a href="@Url.Content("~/roller-derby-store/item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
+                    </div>
+                    <div class="storeItemPrice">
+                        $@item.Price.ToString("N2")</div>
+                    <div class="storeItemDesc">@item.Description</div>
+                    @if (item.QuantityInStock > 0)
+                    { 
+                        <div class="storeLeftInStock">
+                            @item.QuantityInStock <span class="storeGray">items left in stock</span>
+                        </div>
+                    }
+                </div>
+                <div class="clear">
+                </div>
+            </div>                
+        }
+    </div>
+</div>

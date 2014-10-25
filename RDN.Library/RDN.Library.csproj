@@ -1,0 +1,823 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RDN.Library</RootNamespace>
+    <AssemblyName>RDN.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>2b3a0f38</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime">
+      <HintPath>..\packages\iCal\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DDay.Collections">
+      <HintPath>..\packages\iCal\DDay.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="DDay.iCal">
+      <HintPath>..\packages\DDay.iCal.1.0.2.575\lib\DDay.iCal.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.3.1.3.3\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelLibrary">
+      <HintPath>..\packages\ExcelLibrary.1.2011.7.30\lib\ExcelLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Facebook.6.8.0\lib\net40-client\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="GCheckout, Version=2.5.0.11, Culture=neutral, PublicKeyToken=5e40256fdac63301, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Checkout.2.5.0.11\lib\GCheckout.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.GData.Client">
+      <HintPath>..\packages\Google.GData.Client.1.9.0.0\lib\Google.GData.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Hammock.ClientProfile">
+      <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.4.4\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=1.1.17511.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\morelinq.1.1.0\lib\net35\MoreLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalAdaptivePaymentsSDK">
+      <HintPath>..\packages\PayPalAdaptivePaymentsSDK.2.12.117\lib\net20\PayPalAdaptivePaymentsSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalCoreSDK">
+      <HintPath>..\packages\PayPalCoreSDK.1.4.2\lib\net45\PayPalCoreSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalMerchantSDK">
+      <HintPath>..\packages\PayPalMerchantSDK.2.12.117\lib\net20\PayPalMerchantSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.666, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\protobuf-net.2.0.0.666\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Amazon.Adm">
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Amazon.Adm.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Android, Version=2.2.1.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Apple, Version=2.2.1.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Apple.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Blackberry">
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Blackberry.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.FirefoxOS">
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.FirefoxOS.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Google.Chrome">
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Google.Chrome.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Windows, Version=2.2.1.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.WindowsPhone, Version=2.2.1.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="ScheduleWidget">
+      <HintPath>..\packages\ScheduleWidget.2.4.0\lib\NET40\ScheduleWidget.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Stripe.net.1.6.2\lib\net40\Stripe.net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Device" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TweetSharp">
+      <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\TweetSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\CacheLock.cs" />
+    <Compile Include="Cache\APICache.cs" />
+    <Compile Include="Cache\FederationCache.cs" />
+    <Compile Include="Cache\Site\RNCache.cs" />
+    <Compile Include="Cache\Site\Management\Controls\ForumTopicCache.cs" />
+    <Compile Include="Cache\GameCache.cs" />
+    <Compile Include="Cache\Singletons\SiteSingleton.cs" />
+    <Compile Include="Cache\Singletons\PaywallViewers.cs" />
+    <Compile Include="Cache\SiteCache.cs" />
+    <Compile Include="Cache\MemberCache.cs" />
+    <Compile Include="Cache\Site\Management\ManagementCache.cs" />
+    <Compile Include="Cache\Site\PublicSiteCache.cs" />
+    <Compile Include="Classes\AutomatedTask\Enums\IntroductoryEmailEnum.cs" />
+    <Compile Include="Classes\Billing\Classes\UpdateSubscription.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEvent.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarSyncGoogle.cs" />
+    <Compile Include="Classes\Controls\Calendar\Models\CalendarImport.cs" />
+    <Compile Include="Classes\Controls\Calendar\Models\EventsForLeagueOutModel.cs" />
+    <Compile Include="Classes\Controls\Calendar\Models\EventsOutModel.cs" />
+    <Compile Include="Classes\Communications\Carrier.cs" />
+    <Compile Include="Classes\Account\Classes\Json\MemberJsonAutoComplete.cs" />
+    <Compile Include="Classes\Account\Classes\Json\MemberJsonDataTable.cs" />
+    <Compile Include="Classes\Account\Classes\MedicalInformation.cs" />
+    <Compile Include="Classes\Account\Classes\MemberContact.cs" />
+    <Compile Include="Classes\Account\Classes\Display\MemberDisplayFactory.cs" />
+    <Compile Include="Classes\Account\Classes\MemberJson.cs" />
+    <Compile Include="Classes\Account\Classes\MemberSettings.cs" />
+    <Compile Include="Classes\Account\Enums\InsuranceProviderEnum.cs" />
+    <Compile Include="Classes\AutomatedTask\AutomatedTask.cs" />
+    <Compile Include="Classes\AutomatedTask\Enums\TaskTypeEnum.cs" />
+    <Compile Include="Classes\Billing\Classes\AddSubscription.cs" />
+    <Compile Include="Classes\Billing\Classes\LeagueBilling.cs" />
+    <Compile Include="Classes\Billing\Classes\LeagueBillingHistory.cs" />
+    <Compile Include="Classes\Billing\Classes\LeagueReceipt.cs" />
+    <Compile Include="Classes\Billing\Enums\AutoRenewalTypeEnum.cs" />
+    <Compile Include="Classes\Billing\Enums\CurrentStatusOfBilling.cs" />
+    <Compile Include="Classes\Billing\Enums\LeaguePlanTypesEnum.cs" />
+    <Compile Include="Classes\Billing\Enums\MonthsEnum.cs" />
+    <Compile Include="Classes\Billing\Enums\YearsEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Calendar.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEventFactory.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarEventPoint.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarMemberOwner.cs" />
+    <Compile Include="Classes\Controls\Calendar\ProtoContract.cs" />
+    <Compile Include="Classes\Controls\Calendar\Reports\CalendarReport.cs" />
+    <Compile Include="Classes\Controls\Calendar\Reports\EventForReport.cs" />
+    <Compile Include="Classes\Controls\Calendar\CalendarView.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\CalendarPointTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Enums\CalendarOwnerTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Calendar\Reports\EventTypeForReport.cs" />
+    <Compile Include="Classes\Controls\Calendar\Reports\MembersReport.cs" />
+    <Compile Include="Classes\Controls\Dues\FeeClassificationFactory.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumNotificationFactory.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumTopicWatchList.cs" />
+    <Compile Include="Classes\Controls\Voting\VotingFactory.cs" />
+    <Compile Include="Classes\Display\Colors\ColorDisplay.cs" />
+    <Compile Include="Classes\Contacts\Contact.cs" />
+    <Compile Include="Classes\Document\CommentForDocument.cs" />
+    <Compile Include="Classes\Document\Document.cs" />
+    <Compile Include="Classes\Document\DocumentRepository.cs" />
+    <Compile Include="Classes\Document\DocumentSearch.cs" />
+    <Compile Include="Classes\Document\Enums\MimeType.cs" />
+    <Compile Include="Classes\Document\Folder.cs" />
+    <Compile Include="Classes\Document\Json\DocumentJson.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesFactory.cs" />
+    <Compile Include="Classes\Controls\Dues\Enums\DuesOwnerEntityEnum.cs" />
+    <Compile Include="Classes\Controls\Dues\Enums\DuesTypeEnum.cs" />
+    <Compile Include="Classes\Controls\Dues\DuesReceipt.cs" />
+    <Compile Include="Classes\Controls\Forum\Json\ForumSelectedJson.cs" />
+    <Compile Include="Classes\Controls\Forum\Json\ForumTopicJson.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumGroup.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumSettings.cs" />
+    <Compile Include="Classes\Communications\Enums\ConversationTypeEnum.cs" />
+    <Compile Include="Classes\EmailServer\EmailServer.cs" />
+    <Compile Include="Classes\EmailServer\SubscriptionFactory.cs" />
+    <Compile Include="Classes\EmailServer\SubscriptionType.cs" />
+    <Compile Include="Classes\Error\Classes\Data.cs" />
+    <Compile Include="Classes\Error\Classes\Detail.cs" />
+    <Compile Include="Classes\Error\Classes\Error.cs" />
+    <Compile Include="Classes\Error\ErrorDatabaseManager.cs" />
+    <Compile Include="Classes\Error\ErrorManagerWeb.cs" />
+    <Compile Include="Classes\Game\GameFactory.cs" />
+    <Compile Include="Classes\League\ItemInfoDA.cs" />
+    <Compile Include="Classes\League\JobBoard.cs" />
+    <Compile Include="Classes\League\Organization.cs" />
+    <Compile Include="Classes\League\TaskList\TaskDA.cs" />
+    <Compile Include="Classes\League\TaskList\TaskListDA.cs" />
+    <Compile Include="Classes\Officials\RequestDA.cs" />
+    <Compile Include="Classes\League\Sponsor.cs" />
+    <Compile Include="Classes\Mobile\Enums\NotificationTypeEnum.cs" />
+    <Compile Include="Classes\Mobile\MobileNotificationFactory.cs" />
+    <Compile Include="Classes\RN\RSS\RSSFactory.cs" />
+    <Compile Include="Classes\Social\Enums\SiteTypeEnum.cs" />
+    <Compile Include="Classes\Social\Facebook\Classes\FacebookMessage.cs" />
+    <Compile Include="Classes\Social\Facebook\Enum\SitesEnum.cs" />
+    <Compile Include="Classes\Social\Facebook\FacebookData.cs" />
+    <Compile Include="Classes\Social\Facebook\FacebookFactory.cs" />
+    <Compile Include="Classes\Game\Actions\GameAssistsClass.cs" />
+    <Compile Include="Classes\Game\Actions\GameBlocksClass.cs" />
+    <Compile Include="Classes\Game\Actions\GamePenaltiesClass.cs" />
+    <Compile Include="Classes\Game\Enums\GameOwnerEnum.cs" />
+    <Compile Include="Classes\Game\Enums\OfficialTypeEnum.cs" />
+    <Compile Include="Classes\Game\GameClock.cs" />
+    <Compile Include="Classes\Game\GameJamClass.cs" />
+    <Compile Include="Classes\Game\GameScoreClass.cs" />
+    <Compile Include="Classes\Game\Json\TournamentJson.cs" />
+    <Compile Include="Classes\Game\Officials\GameOfficialsClass.cs" />
+    <Compile Include="Classes\Game\Officials\OfficialReviewsClass.cs" />
+    <Compile Include="Classes\Game\Teams\Members\GameMemberClass.cs" />
+    <Compile Include="Classes\Game\Teams\GameTeamClass.cs" />
+    <Compile Include="Classes\Game\Tournaments\Tournament.cs" />
+    <Compile Include="Classes\Game\Tournaments\TournamentClassEnum.cs" />
+    <Compile Include="Classes\Game\Tournaments\TournamentPairingClass.cs" />
+    <Compile Include="Classes\Game\Tournaments\TournamentRoundsClass.cs" />
+    <Compile Include="Classes\Game\Tournaments\TournamentStandings.cs" />
+    <Compile Include="Classes\Game\Tournaments\TournamentTypeEnum.cs" />
+    <Compile Include="Classes\Imports\Rinxter\BusinessLogic.cs" />
+    <Compile Include="Classes\Imports\Rinxter\RinxterImportFactory.cs" />
+    <Compile Include="Classes\Imports\Rinxter\WebProvider.cs" />
+    <Compile Include="Classes\League\BoutList.cs" />
+    <Compile Include="Classes\League\Classes\Json\LeagueJsonAutoComplete.cs" />
+    <Compile Include="Classes\League\Classes\LeagueDocument.cs" />
+    <Compile Include="Classes\League\Classes\LeagueFolder.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroup.cs" />
+    <Compile Include="Classes\League\Classes\LeagueMemberClass.cs" />
+    <Compile Include="Classes\League\Enums\LeaguePhotoTypeEnum.cs" />
+    <Compile Include="Classes\League\Reports\LeagueReportBuilder.cs" />
+    <Compile Include="Classes\League\Reports\MembersReportEnum.cs" />
+    <Compile Include="Classes\Location\Location.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Communications\Messages\Classes\MessageDisplay.cs" />
+    <Compile Include="Classes\Communications\Messages\Messages.cs" />
+    <Compile Include="Classes\Communications\Messages\MessagesCache.cs" />
+    <Compile Include="Classes\Location\LocationOwnerType.cs" />
+    <Compile Include="Classes\Location\OpenStreetMap.cs" />
+    <Compile Include="Classes\Location\TimeZone.cs" />
+    <Compile Include="Classes\Mobile\MobileNotification.cs" />
+    <Compile Include="Classes\Mobile\PushSharp.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceWriterPayout.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceRefund.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoicePaywall.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceDuesItem.cs" />
+    <Compile Include="Classes\Payment\Classes\Display\DisplayPaywall.cs" />
+    <Compile Include="Classes\Payment\Enums\ChargeTypeEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\PaymentMode.cs" />
+    <Compile Include="Classes\Payment\Enums\Paypal\ActionTypEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\Paypal\FeesPayerEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\Paypal\PaymentTypeEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\Paywall\PaywallPriceTypeEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\Paywall\PaywallTypeEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\Stripe\StripeConnectCodes.cs" />
+    <Compile Include="Classes\Payment\Enums\Stripe\StripeEventTypeEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\Stripe\StripePlanNames.cs" />
+    <Compile Include="Classes\Payment\Enums\Stripe\StripeStateReturnCodeEnum.cs" />
+    <Compile Include="Classes\Payment\Enums\SubscriptionPeriodStripe.cs" />
+    <Compile Include="Classes\Payment\MerchantGateway.cs" />
+    <Compile Include="Classes\Payment\Money\CurrencyConverter.cs" />
+    <Compile Include="Classes\Payment\Money\CurrencyExchange.cs" />
+    <Compile Include="Classes\Payment\Money\ExchangeRateJson.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPNHandler.cs" />
+    <Compile Include="Classes\Payment\Paypal\PaypalDbFactory.cs" />
+    <Compile Include="Classes\Payment\Paypal\PaypalPaymentFactory.cs" />
+    <Compile Include="Classes\Payment\Paypal\PayPalMessage.cs" />
+    <Compile Include="Classes\Payment\Paypal\PayPalTransaction.cs" />
+    <Compile Include="Classes\Payment\Paywall\PaywallReceipt.cs" />
+    <Compile Include="Classes\Payment\Paywall\Paywall.cs" />
+    <Compile Include="Classes\Payment\StripeHandler.cs" />
+    <Compile Include="Classes\RN\Funds\Fund.cs" />
+    <Compile Include="Classes\RN\Funds\MonthlyStatementsFactory.cs" />
+    <Compile Include="Classes\RN\Funds\Monthly\Statement.cs" />
+    <Compile Include="Classes\RN\Funds\Monthly\TotalPayment.cs" />
+    <Compile Include="Classes\RN\Posts\Classes\Post.cs" />
+    <Compile Include="Classes\RN\Posts\PostManager.cs" />
+    <Compile Include="Classes\Scoreboard\ScoreboardFeedback.cs" />
+    <Compile Include="Classes\Scoreboard\Scoreboard.cs" />
+    <Compile Include="Classes\Communications\Enums\CommunicationTypeEnum.cs" />
+    <Compile Include="Classes\Account\Enums\MemberLogEnum.cs" />
+    <Compile Include="Classes\Account\Register.cs" />
+    <Compile Include="Classes\Admin\Account\Member.cs" />
+    <Compile Include="Classes\Admin\Admin\Enums\CreateLeagueContactEnum.cs" />
+    <Compile Include="Classes\Beta\Beta.cs" />
+    <Compile Include="Classes\BruiseBash\BruiseBash.cs" />
+    <Compile Include="Classes\BruiseBash\BruiseBashComment.cs" />
+    <Compile Include="Classes\BruiseBash\BruiseBashRatings.cs" />
+    <Compile Include="Classes\ContactCard\ContactCardFactory.cs" />
+    <Compile Include="Classes\Account\Classes\ViewMember.cs" />
+    <Compile Include="Classes\Account\Enums\VerifyEmailEnum.cs" />
+    <Compile Include="Classes\Account\User.cs" />
+    <Compile Include="Classes\Account\Enums\NewUserEnum.cs" />
+    <Compile Include="Classes\Admin\Admin\Admin.cs" />
+    <Compile Include="Classes\Admin\Admin\Classes\ContactLeague.cs" />
+    <Compile Include="Classes\Admin\Admin\Classes\ContactLeagueAddress.cs" />
+    <Compile Include="Classes\Admin\Federation\Classes\Federation.cs" />
+    <Compile Include="Classes\Admin\League\Classes\League.cs" />
+    <Compile Include="Classes\Admin\League\League.cs" />
+    <Compile Include="Classes\Federation\Classes\MadeMember.cs" />
+    <Compile Include="Classes\Federation\Enums\FederationOwnerEnum.cs" />
+    <Compile Include="Classes\Federation\Enums\MADEClassRankEnum.cs" />
+    <Compile Include="Classes\Federation\Enums\MemberTypeFederationEnum.cs" />
+    <Compile Include="Classes\Federation\Enums\NewFederationEnum.cs" />
+    <Compile Include="Classes\Federation\Federation.cs" />
+    <Compile Include="Classes\Controls\Forum\Forum.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumMessage.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumTopic.cs" />
+    <Compile Include="Classes\Communications\Conversation.cs" />
+    <Compile Include="Classes\Game\CurrentGame.cs" />
+    <Compile Include="Classes\Game\Enums\GameAddedByEnum.cs" />
+    <Compile Include="Classes\Game\Game.cs" />
+    <Compile Include="Classes\Game\GameManager.cs" />
+    <Compile Include="Classes\League\Classes\LeagueList.cs" />
+    <Compile Include="Classes\League\Enums\CreateLeagueEnum.cs" />
+    <Compile Include="Classes\League\Enums\LeagueOwnerEnum.cs" />
+    <Compile Include="Classes\League\Enums\JoinLeagueEnum.cs" />
+    <Compile Include="Classes\League\League.cs" />
+    <Compile Include="Classes\Payment\Classes\Display\DisplayInvoice.cs" />
+    <Compile Include="Classes\Payment\Classes\Display\OverviewInvoice.cs" />
+    <Compile Include="Classes\Payment\Classes\Display\OverviewMerchant.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceContactInfo.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\Invoice.cs" />
+    <Compile Include="Classes\Payment\Enums\MerchantAccountStatus.cs" />
+    <Compile Include="Classes\Payment\Enums\MerchantInternalReference.cs" />
+    <Compile Include="Classes\Payment\Enums\MerchantSlipStatus.cs" />
+    <Compile Include="Classes\Payment\InvoiceFactory.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceFinancial.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceItem.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoicePayment.cs" />
+    <Compile Include="Classes\Payment\Classes\Invoice\InvoiceSubscription.cs" />
+    <Compile Include="Classes\Payment\Enums\Currency.cs" />
+    <Compile Include="Classes\Payment\Enums\PaymentProvider.cs" />
+    <Compile Include="Classes\Payment\Enums\ShippingType.cs" />
+    <Compile Include="Classes\Payment\Enums\SubscriptionPeriodGoogle.cs" />
+    <Compile Include="Classes\Payment\PaymentGateway.cs" />
+    <Compile Include="Classes\Site\FrontPageHistorySite.cs" />
+    <Compile Include="Classes\Social\Twitter\TwitterFactory.cs" />
+    <Compile Include="Classes\Store\Classes\ShoppingCart.cs" />
+    <Compile Include="Classes\Store\Classes\ShoppingCartContactInfo.cs" />
+    <Compile Include="Classes\Store\Classes\ShoppingCartItem.cs" />
+    <Compile Include="Classes\Store\Classes\Store.cs" />
+    <Compile Include="Classes\Store\Classes\StoreCategory.cs" />
+    <Compile Include="Classes\Store\Classes\StoreItem.cs" />
+    <Compile Include="Classes\Store\Classes\StoreItemJson.cs" />
+    <Compile Include="Classes\Store\Display\CheckOut.cs" />
+    <Compile Include="Classes\Store\Display\CheckOutShippingRow.cs" />
+    <Compile Include="Classes\Store\Display\DisplayCategory.cs" />
+    <Compile Include="Classes\Store\Display\DisplayStore.cs" />
+    <Compile Include="Classes\Store\Classes\StoreItemDisplay.cs" />
+    <Compile Include="Classes\Store\ItemReview.cs" />
+    <Compile Include="Classes\Store\StoreGateway.cs" />
+    <Compile Include="Classes\Team\Classes\Team.cs" />
+    <Compile Include="Classes\Team\Classes\ViewTeam.cs" />
+    <Compile Include="Classes\Team\Enums\CreateTeamEnum.cs" />
+    <Compile Include="Classes\Team\Enums\UpdateTeamEnum.cs" />
+    <Compile Include="Classes\Team\Team.cs" />
+    <Compile Include="Classes\Utilities\DerbyRosterWebsite.cs" />
+    <Compile Include="Classes\Utilities\EmailValidator.cs" />
+    <Compile Include="Classes\Utilities\IClientValidatable.cs" />
+    <Compile Include="Classes\Utilities\SitemapHelper.cs" />
+    <Compile Include="Classes\Utilities\TimeZone.cs" />
+    <Compile Include="Classes\Utilities\TwoEvilsWebsite.cs" />
+    <Compile Include="Classes\Yaf\Yaf.cs" />
+    <Compile Include="Classes\Yaf\YafDataContext.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>YafDataContext.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseInitializers\ErrorInitializer.cs" />
+    <Compile Include="DatabaseInitializers\EmailServerInitializer.cs" />
+    <Compile Include="DatabaseInitializers\ManagementInitializer.cs" />
+    <Compile Include="DataModels\Admin\Download\Scoreboard.cs" />
+    <Compile Include="DataModels\Admin\Email\AdminEmailMessages.cs" />
+    <Compile Include="DataModels\Admin\LeagueContacts\ContactLeague.cs" />
+    <Compile Include="DataModels\Admin\LeagueContacts\LeagueAddress.cs" />
+    <Compile Include="DataModels\Admin\LeagueContacts\LeagueAssociation.cs" />
+    <Compile Include="DataModels\Admin\LeagueContacts\LeagueType.cs" />
+    <Compile Include="DataModels\Admin\RefContacts\RefMasterRoster.cs" />
+    <Compile Include="DataModels\AutomatedTasks\TaskForRunning.cs" />
+    <Compile Include="DataModels\Base\Base.cs" />
+    <Compile Include="DataModels\Beta\BetaSignUp.cs" />
+    <Compile Include="DataModels\Bouts\BoutList.cs" />
+    <Compile Include="DataModels\BruiseBash\BruiseBashComments.cs" />
+    <Compile Include="DataModels\BruiseBash\BruiseBashImages.cs" />
+    <Compile Include="DataModels\BruiseBash\BruiseBashItem.cs" />
+    <Compile Include="DataModels\BruiseBash\BruiseBashRatings.cs" />
+    <Compile Include="DataModels\Context\EmailServerContext.cs" />
+    <Compile Include="DataModels\Context\ErrorContext.cs" />
+    <Compile Include="DataModels\Context\RNManagementContext.cs" />
+    <Compile Include="DataModels\Controls\Calendar\Calendar.cs" />
+    <Compile Include="DataModels\Controls\Calendar\CalendarAttendance.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\CalendarEventPoint.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\CalendarEventType.cs" />
+    <Compile Include="DataModels\Controls\Calendar\CalendarFederationOwnership.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\CalendarEvent.cs" />
+    <Compile Include="DataModels\Controls\Calendar\CalendarLeagueOwnership.cs" />
+    <Compile Include="DataModels\Controls\Calendar\CalendarMemberOwnership.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\CalendarEventReoccuring.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\CalendarEventGroup.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\CalendarEventReoccuringGroup.cs" />
+    <Compile Include="DataModels\Controls\Calendar\EventsCalendar\EventCalendarConversation.cs" />
+    <Compile Include="DataModels\Colors\Color.cs" />
+    <Compile Include="DataModels\ContactCard\Address.cs" />
+    <Compile Include="DataModels\ContactCard\Communication.cs" />
+    <Compile Include="DataModels\ContactCard\CommunicationType.cs" />
+    <Compile Include="DataModels\ContactCard\ContactCard.cs" />
+    <Compile Include="DataModels\ContactCard\Email.cs" />
+    <Compile Include="DataModels\Contacts\Contact.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumMessageAgree.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumMessageLike.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumTopicWatchList.cs" />
+    <Compile Include="DataModels\Controls\Voting\VotesAnswersSelected.cs" />
+    <Compile Include="DataModels\Controls\Voting\VotingVoters.cs" />
+    <Compile Include="DataModels\Controls\Voting\VotingQuestion.cs" />
+    <Compile Include="DataModels\Controls\Voting\VotingV2.cs" />
+    <Compile Include="DataModels\Controls\Voting\Votes.cs" />
+    <Compile Include="DataModels\Controls\Voting\VotingAnswer.cs" />
+    <Compile Include="DataModels\Controls\Voting\Voting.cs" />
+    <Compile Include="DataModels\EmailServer\EmailLayout.cs" />
+    <Compile Include="DataModels\EmailServer\EmailProperty.cs" />
+    <Compile Include="DataModels\EmailServer\EmailSendItem.cs" />
+    <Compile Include="DataModels\EmailServer\Enums\SubscriberTypeEnum.cs" />
+    <Compile Include="DataModels\EmailServer\Subscriptions\EmailBlast.cs" />
+    <Compile Include="DataModels\EmailServer\Subscriptions\SubscriptionOwner.cs" />
+    <Compile Include="DataModels\EmailServer\Subscriptions\SubscriptionsList.cs" />
+    <Compile Include="DataModels\EmailServer\Enums\Priority.cs" />
+    <Compile Include="DataModels\EmailServer\NonSubscribersList.cs" />
+    <Compile Include="DataModels\EmailServer\SubscribersList.cs" />
+    <Compile Include="DataModels\EmailServer\Subscriptions\Subscriber.cs" />
+    <Compile Include="DataModels\Exception\Exception.cs" />
+    <Compile Include="DataModels\Exception\ExceptionData.cs" />
+    <Compile Include="DataModels\Exception\ExceptionDetail.cs" />
+    <Compile Include="DataModels\Game\Jams\GameJamPasses.cs" />
+    <Compile Include="DataModels\Game\Officials\GameOfficialReviews.cs" />
+    <Compile Include="DataModels\Game\Officials\GameOfficialPhoto.cs" />
+    <Compile Include="DataModels\Game\RN\RNScore.cs" />
+    <Compile Include="DataModels\Game\Teams\GameTeamLineupSettings.cs" />
+    <Compile Include="DataModels\Game\Tournaments\TournamentPairingTeam.cs" />
+    <Compile Include="DataModels\Game\Tournaments\TournamentPairing.cs" />
+    <Compile Include="DataModels\Game\Tournaments\TournamentRound.cs" />
+    <Compile Include="DataModels\Game\Tournaments\TournamentOwner.cs" />
+    <Compile Include="DataModels\Game\Tournaments\TournamentTeam.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\SkaterLogo.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\TeamsLogo.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\TournamentsLogo.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\LeagueLogo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataModels\League\Documents\DocumentComment.cs" />
+    <Compile Include="DataModels\League\ItemInfo.cs" />
+    <Compile Include="DataModels\League\JobBoard.cs" />
+    <Compile Include="DataModels\League\LeagueContacts.cs" />
+    <Compile Include="DataModels\Context\ManagementContext.cs" />
+    <Compile Include="DataModels\Document\Document.cs" />
+    <Compile Include="DataModels\Federation\FederationLeagues.cs" />
+    <Compile Include="DataModels\Federation\FederationPhoto.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumCategories.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumTopicInbox.cs" />
+    <Compile Include="DataModels\Game\Officials\GameOfficial.cs" />
+    <Compile Include="DataModels\Game\Tournaments\TournamentConversation.cs" />
+    <Compile Include="DataModels\Game\Tournaments\GameTournamentPhoto.cs" />
+    <Compile Include="DataModels\League\Documents\DocumentCategory.cs" />
+    <Compile Include="DataModels\League\Documents\LeagueDocument.cs" />
+    <Compile Include="DataModels\League\Group\GroupPhoto.cs" />
+    <Compile Include="DataModels\League\Group\GroupMembers.cs" />
+    <Compile Include="DataModels\League\Group\Group.cs" />
+    <Compile Include="DataModels\League\LeagueMembersClass.cs" />
+    <Compile Include="DataModels\League\LeagueMembers.cs" />
+    <Compile Include="DataModels\League\OrganizationChart\Designation.cs" />
+    <Compile Include="DataModels\League\OrganizationChart\Organization.cs" />
+    <Compile Include="DataModels\League\OrganizationChart\Organize.cs" />
+    <Compile Include="DataModels\League\Report\LeagueReport.cs" />
+    <Compile Include="DataModels\League\LeagueColor.cs" />
+    <Compile Include="DataModels\League\Task\Task.cs" />
+    <Compile Include="DataModels\League\Task\TaskList.cs" />
+    <Compile Include="DataModels\Officials\RefereeRequest.cs" />
+    <Compile Include="DataModels\League\Sponsorship.cs" />
+    <Compile Include="DataModels\MemberFees\FeeClassificationByMember.cs" />
+    <Compile Include="DataModels\MemberFees\FeeClassification.cs" />
+    <Compile Include="DataModels\MemberFees\FeesRequired.cs" />
+    <Compile Include="DataModels\MemberFees\FeeItem.cs" />
+    <Compile Include="DataModels\MemberFees\FeesCollected.cs" />
+    <Compile Include="DataModels\MemberFees\FeeManagement.cs" />
+    <Compile Include="DataModels\Federation\Federation.cs" />
+    <Compile Include="DataModels\Federation\FederationMembers.cs" />
+    <Compile Include="DataModels\Federation\FederationOwnership.cs" />
+    <Compile Include="DataModels\Controls\Forum\Forum.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumMessages.cs" />
+    <Compile Include="DataModels\Controls\Forum\ForumTopics.cs" />
+    <Compile Include="DataModels\GamePrep\GameConnector.cs" />
+    <Compile Include="DataModels\Game\GameFederationOwnership.cs" />
+    <Compile Include="DataModels\Game\GameLeagueOwnership.cs" />
+    <Compile Include="DataModels\Game\Game.cs" />
+    <Compile Include="DataModels\Game\GameAdvertisement.cs" />
+    <Compile Include="DataModels\Game\Members\GameMemberAssist.cs" />
+    <Compile Include="DataModels\Game\Members\GameMemberBlock.cs" />
+    <Compile Include="DataModels\Game\GameConversation.cs" />
+    <Compile Include="DataModels\Game\Jams\GameJam .cs" />
+    <Compile Include="DataModels\Game\Jams\GameLeadJammer.cs" />
+    <Compile Include="DataModels\Game\GameLink.cs" />
+    <Compile Include="DataModels\Game\Members\GameMember.cs" />
+    <Compile Include="DataModels\Game\Members\GameMemberPenalty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataModels\Game\Members\GameMemberPenaltyBox.cs" />
+    <Compile Include="DataModels\Game\GamePolicy.cs" />
+    <Compile Include="DataModels\Game\GameScore.cs" />
+    <Compile Include="DataModels\Game\GameStopwatch.cs" />
+    <Compile Include="DataModels\Game\Teams\GameTeam.cs" />
+    <Compile Include="DataModels\Game\GameTimeout.cs" />
+    <Compile Include="DataModels\Game\Members\GameMemberPhoto.cs" />
+    <Compile Include="DataModels\Game\Tournaments\GameTournament.cs" />
+    <Compile Include="DataModels\Game\Members\GameMemberOwnership.cs" />
+    <Compile Include="DataModels\League\League.cs" />
+    <Compile Include="DataModels\League\LeagueOwnership.cs" />
+    <Compile Include="DataModels\League\LeaguePhoto.cs" />
+    <Compile Include="DataModels\League\News.cs" />
+    <Compile Include="DataModels\League\Pending\Pending.cs" />
+    <Compile Include="DataModels\League\Pending\PendingMember.cs" />
+    <Compile Include="DataModels\Location\Country.cs" />
+    <Compile Include="DataModels\Location\Location.cs" />
+    <Compile Include="DataModels\Member\AspNetMembership.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspNetMembership.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Member\AspNetMembership.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspNetMembership.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Member\AspNetMembership.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspNetMembership.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Member\aspnet_Users.cs">
+      <DependentUpon>AspNetMembership.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Member\MemberNotifications.cs" />
+    <Compile Include="DataModels\Member\MemberSettings.cs" />
+    <Compile Include="DataModels\Member\MemberContact.cs" />
+    <Compile Include="DataModels\Member\MemberMedical.cs" />
+    <Compile Include="DataModels\Member\MemberInsurance.cs" />
+    <Compile Include="DataModels\Member\MemberLog.cs" />
+    <Compile Include="DataModels\Member\EmailVerification.cs" />
+    <Compile Include="DataModels\Member\MemberLogReason.cs" />
+    <Compile Include="DataModels\Member\Member.cs" />
+    <Compile Include="DataModels\Member\MemberPhoto.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataModels\Member\TwoEvilsProfiles.cs" />
+    <Compile Include="DataModels\Controls\Messages\GroupMessage.cs" />
+    <Compile Include="DataModels\Controls\Messages\Message.cs" />
+    <Compile Include="DataModels\Controls\Messages\MessageInbox.cs" />
+    <Compile Include="DataModels\Controls\Messages\MessageRecipient.cs" />
+    <Compile Include="DataModels\Mobile\MobileNotificationSettings.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceWriterPayoutItem.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceRefunds.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceDuesItem.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\Invoice.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceContactInfo.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceLogs.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoicePayment.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceItem.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoicePaywall.cs" />
+    <Compile Include="DataModels\PaymentGateway\Invoices\InvoiceSubscription.cs" />
+    <Compile Include="DataModels\PaymentGateway\Merchants\MerchantRDNationFee.cs" />
+    <Compile Include="DataModels\PaymentGateway\Merchants\Merchant.cs" />
+    <Compile Include="DataModels\PaymentGateway\Merchants\MerchantFeeSlip.cs" />
+    <Compile Include="DataModels\PaymentGateway\Merchants\MerchantTransaction.cs" />
+    <Compile Include="DataModels\PaymentGateway\Money\CurrencyExchangeRate.cs" />
+    <Compile Include="DataModels\PaymentGateway\Paypal\IPNNotificationTransaction.cs" />
+    <Compile Include="DataModels\PaymentGateway\Paypal\IPNNotification.cs" />
+    <Compile Include="DataModels\PaymentGateway\Paywall\Paywall.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripePlanDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeSubscriptionDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeFeeDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeChargeDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeInvoiceDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeCardDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeCustomerDb.cs" />
+    <Compile Include="DataModels\PaymentGateway\Stripe\StripeEventDb.cs" />
+    <Compile Include="DataModels\RN\Authors\Author.cs" />
+    <Compile Include="DataModels\RN\Financials\FundsForWriter.cs" />
+    <Compile Include="DataModels\RN\Financials\MonthlyStatement.cs" />
+    <Compile Include="DataModels\RN\Posts\Post.cs" />
+    <Compile Include="DataModels\RN\RSS\RSSFeedTags.cs" />
+    <Compile Include="DataModels\RN\RSS\RSSFeed.cs" />
+    <Compile Include="DataModels\RN\RSS\RSSFeedCategory.cs" />
+    <Compile Include="DataModels\Social\SocialAuthKeys.cs" />
+    <Compile Include="DataModels\Scoreboard\ScoreboardFeedback.cs" />
+    <Compile Include="DataModels\Scoreboard\ScoreboardInstance.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Bouts.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\League.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\LineUps.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Penalties.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Position.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Regions.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Scores.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Seasons.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Skaters.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\SkaterTeam.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Teams.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\TeamTournaments.cs" />
+    <Compile Include="DataModels\Imports\Rinxter\Tournaments.cs" />
+    <Compile Include="DataModels\Site\FrontPageHistory.cs" />
+    <Compile Include="DataModels\Store\Review.cs" />
+    <Compile Include="DataModels\Store\StoreItemAttribute.cs" />
+    <Compile Include="DataModels\Store\ShippingTable.cs" />
+    <Compile Include="DataModels\Store\ShoppingCart.cs" />
+    <Compile Include="DataModels\Store\ShoppingCartContactInfo.cs" />
+    <Compile Include="DataModels\Store\ShoppingCartItem.cs" />
+    <Compile Include="DataModels\Store\StoreItem.cs" />
+    <Compile Include="DataModels\Store\StoreItemCategory.cs" />
+    <Compile Include="DataModels\Store\StoreItemColor.cs" />
+    <Compile Include="DataModels\Store\StoreItemPhoto.cs" />
+    <Compile Include="DataModels\Team\DerbyRosterLeague.cs" />
+    <Compile Include="DataModels\Team\TeamMembers.cs" />
+    <Compile Include="DataModels\Team\TeamLogo.cs" />
+    <Compile Include="DataModels\Team\Team.cs" />
+    <Compile Include="DataModels\Team\TwoEvilsLeague.cs" />
+    <Compile Include="DataModels\TimeZone\TimeZone.cs" />
+    <Compile Include="DataModels\TimeZone\CountryTimeZone.cs" />
+    <Compile Include="DataModels\TimeZone\Zone.cs" />
+    <Compile Include="DataModels\Utilities\Sitemap.cs" />
+    <Compile Include="Exceptions\SerializableException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Util\SiteMessage.cs" />
+    <Compile Include="Util\Markdown.cs" />
+    <Compile Include="Util\Enum\SiteMessagesEnum.cs" />
+    <Compile Include="Util\Tumblr.cs" />
+    <Compile Include="ViewModel\ErrorServerViewModel.cs" />
+    <Compile Include="Classes\Game\GameServerViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Classes\Yaf\YafDataContext.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>YafDataContext.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="DataModels\Member\AspNetMembership.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AspNetMembership.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DataModels\Member\AspNetMembership.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AspNetMembership.edmx</DependentUpon>
+      <LastGenOutput>AspNetMembership.Context.cs</LastGenOutput>
+    </None>
+    <None Include="DataModels\Member\AspNetMembership.edmx.diagram">
+      <DependentUpon>AspNetMembership.edmx</DependentUpon>
+    </None>
+    <None Include="DataModels\Member\AspNetMembership.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AspNetMembership.edmx</DependentUpon>
+      <LastGenOutput>AspNetMembership.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\Controls\Dues\Classes\" />
+    <Folder Include="Classes\Error\Enum\" />
+    <Folder Include="Classes\Game\RN\" />
+    <Folder Include="Classes\Imports\Rinxter\Enums\" />
+    <Folder Include="Classes\Payment\Classes\ReturnTypes\" />
+    <Folder Include="Classes\RN\Author\" />
+    <Folder Include="Classes\Store\Enums\" />
+    <Folder Include="Classes\Utilities\Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RDN.Portable\RDN.Portable.csproj">
+      <Project>{68721c49-c417-40de-a445-c4077d9469cb}</Project>
+      <Name>RDN.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RDN.Utilities\RDN.Utilities.csproj">
+      <Project>{AE178407-B8B8-4F97-8613-FB88FEAD17A9}</Project>
+      <Name>RDN.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RDNation.Mobile\RDN.Mobile.csproj">
+      <Project>{946d7f1e-5c7e-4d64-87aa-cf300e4ba126}</Project>
+      <Name>RDN.Mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RDNScoreboard\RDN.Scoreboard.Library\Scoreboard.Library.csproj">
+      <Project>{AD6CCA72-D788-4104-BF27-61A918C6D1D0}</Project>
+      <Name>Scoreboard.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StandardTournaments\StandardTournaments.csproj">
+      <Project>{3eaa8071-f4a9-4daa-a964-52db7fa0c553}</Project>
+      <Name>StandardTournaments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TournamentApi\TournamentApi.csproj">
+      <Project>{826afcf0-646a-4bbf-a2ac-70dcf4ab4f52}</Project>
+      <Name>TournamentApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Classes\Yaf\YafDataContext.dbml.layout">
+      <DependentUpon>YafDataContext.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

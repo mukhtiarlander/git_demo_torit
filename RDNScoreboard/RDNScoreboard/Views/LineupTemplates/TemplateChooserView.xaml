@@ -1,0 +1,72 @@
+﻿<Window x:Class="RDNScoreboard.Views.LineupTemplates.TemplateChooserView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TemplateChooserView" Height="300" Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="95"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="95"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <CheckBox Style="{StaticResource OrangeSwitchStyle}" Grid.Column="0" Grid.Row="0" x:Name="PlainLogoOn" Click="PlainLogoOn_Click"/>
+        <Frame  x:Name="PlainLogoFrame" Grid.Column="1"></Frame>
+        <Frame  x:Name="PlainProfileFrame" Grid.Column="2"></Frame>
+        <StackPanel Orientation="Vertical" Grid.Column="3">
+            <StackPanel Orientation="Horizontal">
+                <Button  Width="20" Height="20" x:Name="PlainBorderColor" Click="PlainBorderColor_Click"></Button>
+                <TextBlock Text="Border"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Width="20" Height="20" x:Name="PlainTextColor" Click="PlainTextColor_Click"></Button>
+                <TextBlock Text="Text"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Width="20" Height="20" x:Name="PlainBackgroundColor" Click="PlainBackgroundColor_Click"></Button>
+                <TextBlock Text="Background"></TextBlock>
+            </StackPanel>
+
+        </StackPanel>
+
+        <CheckBox Style="{StaticResource OrangeSwitchStyle}" Grid.Column="0" Grid.Row="1" x:Name="SideBarLogoOn" Click="SideBarLogoOn_Click"/>
+        <Frame  x:Name="SideBarLogoFrame" Grid.Column="1" Grid.Row="1"></Frame>
+        <Frame  x:Name="SideBarProfileFrame" Grid.Column="2" Grid.Row="1"></Frame>
+
+        <StackPanel Orientation="Vertical" Grid.Column="3" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                
+                    <Button   BorderThickness="10" Width="20" Height="20" x:Name="SidebarColor" Click="SidebarColor_Click">
+                    
+                </Button>
+                
+                <TextBlock Text="Sidebar"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Width="20" Height="20" x:Name="SidebarTextColor" Click="SidebarTextColor_Click"></Button>
+                <TextBlock Text="Sidebar Text"></TextBlock>
+            </StackPanel>
+            <!--<StackPanel Orientation="Horizontal">
+                <TextBox  Width="80" Height="20" ></TextBox>
+                <TextBlock Text="Sidebar Text"></TextBlock>
+            </StackPanel>-->
+            <StackPanel Orientation="Horizontal">
+                <Button Width="20" Height="20" x:Name="SidebarSkaterColor" Click="SidebarSkaterColor_Click"></Button>
+                <TextBlock Text="Skater Text"></TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Width="20" Height="20" x:Name="SidebarBackgroundColor" Click="SidebarBackgroundColor_Click"></Button>
+                <TextBlock Text="Background"></TextBlock>
+            </StackPanel>
+
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2">
+            <Button Content="Ok" Height="25" Width="70"  Margin="5" x:Name="OkButton" Click="OkButton_Click"></Button>
+                   </StackPanel>
+    </Grid>
+</Window>

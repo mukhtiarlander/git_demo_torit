@@ -1,0 +1,327 @@
+﻿@using RDN.Library.Classes.Game
+@using RDN.League.Classes.Enums
+@model Tournament
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "View " + Model.Name + " Tournament";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/tournament/view/all/")">Tournaments</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.Name
+        </div>
+        <div class="tvChanges">
+        @if (Model.TournamentType > RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+        {
+            
+                <div class="navIcons">
+                    <a title="Tournament Brackets" href="@Url.Content("~/tournament/brackets/" + @Model.PrivateKey.ToString().Replace("-", "") + "/" + @Model.Id.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/brackets.png")"  />Brackets</a>
+                </div>
+            
+        }
+            <div class="navIcons">
+                <a href="@Url.Content("~/tournament/owners/" + Model.PrivateKey.ToString().Replace("-", "") + "/" + Model.Id.ToString().Replace("-", ""))" title="Owners">
+                    <img src="@Url.Content("~/Content/images/icons/users.png")" alt="Owners"/>Owners</a>
+            </div>
+        </div>
+
+        <div class="titleDescription">
+            Here you can view the tournament. In order to add games to this tournament, you will need to go to the manage
+            game screen for the game you wish to add. This can be seen under the <a href="@Url.Content("~/game/manage/all")" >owned games menu</a>.
+      
+        </div>
+        <div class="divider"></div>
+
+        @using (Html.BeginForm("UpdateTournament", "Tournament", FormMethod.Post, new { @id = "createNewItem" }))
+        {  
+            <table class="sutTable">
+                <tr>
+                    <td class="sutLTD">Tournament Name:
+                    </td>
+                    <td class="sutRTD largeInput">
+                        @Html.TextBoxFor(x => x.Name) @if (Model.IsPublished)
+                                                      {<span> - <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">View Public Tournament</a></span>}
+                                                      else { 
+                                                      <input type="button" class="primary" style="width:100px" value="Publish" onclick="Tournament.PublishTournament(this)"/><img id="publishTournament" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" />
+                                                      }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Start Date:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.StartDateDisplay)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">End Date:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.EndDateDisplay)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Passcode for Adding Games:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.PassCodeForGames)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD largeInput">Tournament Website:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.TournamentWebsite)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subTableLD">Class Type:</td>
+                    <td class="subTableRD">
+                        @Html.DropDownListFor(x => x.TournamentClass, Model.TournamentClass.ToSelectListDropDown(), "Choose Class...")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subTableLD">Seeding Performance Rounds:</td>
+                    <td class="subTableRD">
+                        @Html.DropDownListFor(x => x.TouramentTypeForSeedingEnum, Model.TouramentTypeForSeedingEnum.ToSelectListDropDown(), "Choose Class...") - <span class="i">To seed based on performance, choose class.  <a href="http://wiki.rdnation.com/Online_Tournament#Seeding_a_Tournament_for_Performance_Rounds">Help</a></span>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="subTableLD">Tournament Type:</td>
+                    <td class="subTableRD">
+                        @Html.DropDownListFor(x => x.TournamentType, Model.TournamentType.ToSelectListDropDown(), "Choose Class...")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Address:
+                    </td>
+                    <td class="sutRTD largeInput">
+                        @Html.TextBoxFor(x => x.Address) - <span class="i">Address of the tournament</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Address 2:
+                    </td>
+                    <td class="sutRTD largeInput">
+                        @Html.TextBoxFor(x => x.Address2)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">City:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.City)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">State:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.State)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Zip Code:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.ZipCode)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subTableLD">Country:</td>
+                    <td class="subTableRD">
+                        @Html.DropDownListFor(x => x.CountryId, (SelectList)ViewBag.Countries)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Paywall For Video:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.DropDownListFor(x => x.PaywallId, (SelectList)ViewBag.PayWalls, "Select Paywall...") - <span class="i">Optional: Paywall used on Video</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Embed Video String:
+                    </td>
+                    <td class="sutRTD">
+                        @Html.TextBoxFor(x => x.EmbedVideoString) - <span class="i">Embed String for Live Video Feed</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD">Shop To Advertise:
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(x => x.SelectedShop, new SelectList(Model.AvailableShops, "MerchantId", "ShopName"), "--Select Shop")
+                        <span class="i">If You select a Shop, the game screen will show the merchandise from that shop</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sutLTD"></td>
+                    <td class="sutRTD">
+                        <input class="primary" type="submit" value="Update" />
+                    </td>
+                </tr>
+            </table>
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.PrivateKey)
+        }
+        <table class="listTable tableExtras" id="games">
+            <thead>
+                <tr>
+                    <th>Game Name
+                    </th>
+                    <th>Date
+                    </th>
+                    <th>Team 1
+                    </th>
+                    <th>Team 2
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Games.Count; i++)
+                {
+                    
+                    <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                        <td>
+                            <a href="@Url.Content("~/Game/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + Model.Games[i].GameName)">
+                                @Model.Games[i].GameName
+                            </a>
+                        </td>
+                        <td>
+                            @Model.Games[i].GameDate.ToString("MM/dd/yyyy")
+                        </td>
+                        <td>
+                            @if (Model.Games[i].Team1LinkId == new Guid())
+                            {@Model.Games[i].Team1Name}
+                            else
+                            { 
+                                <a href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + Model.Games[i].Team1LinkId.ToString().Replace("-", ""))">
+                                    @Model.Games[i].Team1Name
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            @if (Model.Games[i].Team2LinkId == new Guid())
+                            {@Model.Games[i].Team2Name}
+                            else
+                            { 
+                                <a href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name) + "/" + Model.Games[i].Team2LinkId.ToString().Replace("-", ""))">
+                                    @Model.Games[i].Team2Name
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="panelBox">
+        <div class="panelBoxTitle">
+            Upload Logo
+        </div>
+        <div class="divider"></div>
+        @using (Html.BeginForm("UploadItemPictures", "Tournament", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+
+            foreach (var image in Model.Photos)
+            {
+            <div class="center">
+                <img src="@image.ImageUrl" alt="@image.Alt" id="image-@image.PhotoId" style="max-width:150px; max-height:150px;"/>
+
+            </div>
+            }
+          
+            <div class="center">
+                <span class="b">Upload Default Picture</span>
+                <input type="file" name="file" id="file" class="fileUpload" onchange="ValidatePhoto(this)" />
+            </div>
+          
+           
+            <div class="clear">
+            </div>
+            
+            <div class="updateMemberButton">
+                <input type="submit" class="primary" value="Upload Pictures" />
+            </div>
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.PrivateKey)
+            
+        }
+    </div>
+    @if (!subPaid)
+    { 
+        <div class="fixedAd">
+            <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-1376896373478670";
+    /* RDNation SideAd */
+    google_ad_slot = "9959849457";
+    google_ad_width = 120;
+    google_ad_height = 600;
+    //-->
+            </script>
+            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+
+    $('#EndDateDisplay').datepicker({
+        onSelect: function (value, date) {
+            endDate = new Date(value);
+            if (endDate < startDate) {
+                $('#StartDateDisplay').val($('#EndDateDisplay').val());
+                startDate = endDate;
+            }
+        }
+    });
+    $('#StartDateDisplay').datepicker({
+        onSelect: function (value, date) {
+            startDate = new Date(value);
+            if (endDate < startDate) {
+                $('#EndDateDisplay').val($('#StartDateDisplay').val());
+                endDate = startDate;
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        Tournament.SetTournamentId("@Model.Id");
+
+        $('#games').dataTable({
+            "aaSorting": [[1, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+
+        });
+    });
+
+    $("#createNewItem").validate({
+        rules: {
+            DescriptionOfPaywall: "required",
+            StartDateDisplay: { required: true, lessThanEqual: "#EndDateDisplay" },
+            EndDateDisplay: { required: true, greaterThanEqual: "#StartDateDisplay" },
+            PassCodeForGames: {
+                required: true
+            }
+        }
+    });
+
+</script>

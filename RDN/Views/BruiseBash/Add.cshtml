@@ -1,0 +1,46 @@
+﻿@using RDN.Models.BruiseBash
+@model BruiseBashAddModel
+@{
+    ViewBag.Title = "Add Bruise";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+@using (Html.BeginForm("Add", "BruiseBash", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <div>
+            Add Bruise To BruiseBash</div>
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Title)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Title)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Story)
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.Story);
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.File)
+                </td>
+                <td>
+                    <input type="file" name="file" id="file" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" class="primary" />
+                </td>
+            </tr>
+        </table>
+    </div>
+}

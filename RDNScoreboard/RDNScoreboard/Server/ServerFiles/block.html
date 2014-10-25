@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Blocks - RDNation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.timer.js"></script>
+    <script type="text/javascript" src="js/jquery.easydate.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.naturalSort.js"></script>
+    <script src="js/windowfunctions.js" type="text/javascript"></script>
+    <script src="js/knockout-2.0.0.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/inputStats.js"></script>
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+</head>
+<body>
+    <div id="inputStats">
+           <ul class="isTopLinks">
+            <li><a href="block.html?t=1">Team 1 Link</a></li>
+            <li><a href="block.html?t=2">Team 2 Link</a></li>
+            <li><a href="index.html">All Links</a></li>
+        </ul>
+        <div class="isTeamName">
+            Team: <span data-bind="text: teamName"></span>
+        </div>
+     
+        <table class="isTable">
+            <thead>
+                <tr class="jthr">
+                    <th>
+                        Subtract
+                    </th>
+                    <th>
+                        Number
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Jam/Total
+                    </th>
+                    <th>
+                        Add
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: currentMembers">
+                <tr data-bind="css: { jr1: rowNumber() > 0 }">
+                    <td>
+                        <button data-bind="click: $parent.removeBlock">
+                            Subtract Block</button>
+                    </td>
+                    <td data-bind="text: memberNumber">
+                    </td>
+                    <td data-bind="text: memberName">
+                    </td>
+                    <td>
+                        <span data-bind="text: blocksForJam"></span>/<span data-bind="text: totalBlocks">
+                        </span>
+                    </td>
+                    <td>
+                        <button data-bind="click: $parent.addBlock">
+                            Add Block</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       <div class="isJamNumbers">
+            Jam: <span data-bind="text: currentJam"></span>/<span data-bind="text: totalJams"></span>
+        </div>
+        <br />
+        <div class="isJamNumbers">
+            Jam Refresh has ~ 4 second delay.
+        </div>
+        <br />
+          <div class="isJamNumbers">
+            if something stops working: Delete Browsing Cache of Device.
+        </div>
+        <br />
+        <div>  
+                   Brought to you by <a href="http://rdnation.com">RDNation.com</a>
+                </div>
+    </div>
+    <script type="text/javascript">
+        ko.applyBindings(currentTeamViewModel, document.getElementById("inputStats"));
+        currentTeamViewModel.initialize();
+    </script>
+</body>
+</html>

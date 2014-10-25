@@ -1,0 +1,62 @@
+﻿@model RDN.Raspberry.Models.Store.CheckOut
+
+@{
+    ViewBag.Title = "Check out";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset>
+    <legend>Cart items</legend>
+    <table>
+        @foreach (var cartItem in Model.ShoppingCart.Items)
+        {
+            <tr>
+                <td>Art.nr: @cartItem.ArticleNumber</td>
+                <td>@cartItem.Name</td>
+                <td>@cartItem.Price @cartItem.Currency.ToString()</td>
+                <td>Quantity: @cartItem.QuantityOrdered</td>                
+            </tr>
+        }
+    </table>
+</fieldset>
+
+@using(Html.BeginForm("CheckOut", "Store", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Checkout information</legend>
+        <table>
+            <tr>
+                <td>Excl tax</td>
+                <td>@Model.TotalExclVat.ToString() @Model.Currency.ToString()</td>
+            </tr>
+            <tr>
+                <td>Tax</td>
+                <td>@Model.Tax.ToString() @Model.Currency.ToString() (@Model.TaxRate.ToString("#0.##%"))</td>
+            </tr>
+            <tr>
+                <td>Incl tax</td>
+                <td>@Model.TotalInclVat.ToString() @Model.Currency.ToString()</td>
+            </tr>
+            <tr>
+                <td>Shipping</td>
+                <td>@Html.DropDownList("ShippingOptionSelectedId", Model.ShippingOptions)</td>
+            </tr>
+            <tr>
+                <td>Payment provider</td>
+                <td>@Html.DropDownList("PaymentProviderId", Model.PaymentProviders)</td>
+            </tr>        
+        </table>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Billing address</legend>
+        @Html.DisplayFor(x => x.BillingAddress)
+    </fieldset>
+    
+    <fieldset>
+        <legend>Shipping address</legend>
+        @Html.DisplayFor(x => x.ShippingAddress)
+    </fieldset>
+    <br/>
+    <input type="submit" value="Send order" />
+}

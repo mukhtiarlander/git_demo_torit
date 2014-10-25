@@ -1,0 +1,31 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Handle Dues Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Handle Dues Payment for Invalid Paypal SHIT!</h2>
+
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Invoice Id To Handle:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        The dues payment will be handled here when you set the invoice number.  It will be marked as completed all nformation for the dues payment will be updated.  Just like if Paypal considered if VALID.
+    </div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+    <div>Handled!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

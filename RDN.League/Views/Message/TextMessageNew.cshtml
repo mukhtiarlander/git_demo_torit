@@ -1,0 +1,146 @@
+﻿@using RDN.League.Models.Messages
+@using RDN.Library.Cache
+@model MessageModel
+@{
+    ViewBag.Title = "Create New Message";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + RDN.Library.Classes.Account.User.GetMemberId().ToString().Replace("-", ""))">Messages</a>
+
+        </div>
+        <div class="rightBackLink">
+            <span><a href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + RDN.Library.Classes.Account.User.GetMemberId().ToString().Replace("-", ""))">View All Members</a> | </span>
+            @if (MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()) != new Guid())
+            {
+                <span><a href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.League + "/" + MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">League Members</a></span>
+            }
+
+        </div>
+    </div>
+
+    <div class="panelBoxLeftMessages">
+        <div class="panelBoxTitle">
+            Known Recipients
+        </div>
+
+        <div class="titleDescription">
+            This list is people you are connected to within RDNation.
+    
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <label><input type="checkbox" onchange="Messages.toggleCheckedForRecipients(this)" id="checkAll" /><b>Check
+                All</b></label>
+        </div>
+        <div id="checkboxes">
+
+            @foreach (var mem in Model.Recipients)
+            { 
+                <div>
+                    <label>@Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "Messages.ChangeDictionaryItem(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })<span id="@mem.MemberId.ToString()-name">@mem.DerbyName  @if (!String.IsNullOrEmpty(mem.Firstname) || !String.IsNullOrEmpty(mem.LastName))
+                                                                                                                                                                                                                                                         {
+                        <span>[@((mem.Firstname + " " + mem.LastName).Trim())]</span>
+                                                                                                                                                                                                                                                         }</span></label>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="fixedCenterContainterMessages">
+        <div class="fixTitle">
+            Send New Text Message
+        </div>
+        <div class="titleDescription">
+            You can send a Text Message to those people you are connected with through RDNation. Text Messages are NOT saved within RDNation nor can anyone reply to them. If someones phone number isn't verified with RDNation, they will be sent an email instead.  @if (!Model.IsCarrierVerified)
+                                                                                                                                                                                                                                                                       { 
+                <span><a href="@Url.Content("~/member/settings")">Verify Your Phone Number Now</a></span>                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                       }
+
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            @using (Html.BeginForm("CreateNewTextMessage", "Message", FormMethod.Post))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">To Selected:
+                        </td>
+                        <td>
+                            <div name="ToMemberNamesSelected" id="ToMemberNamesSelected">
+                            </div>
+                            @Html.HiddenFor(x => x.ToMemberIds)
+                        </td>
+                    </tr>
+                            <tr>
+                        <td class="b alRight alignMiddle" style="white-space: nowrap;">To Additional:
+                        </td>
+                        <td  class="messagesInput">
+                           <img src="@Url.Content("~/Content/images/icons/down.png")" onclick="Messages.ExpandGroupMemberList()" class="spanLink"  width="25px" />
+                           <div class="displayNone groupMemberLists" id="groupMemberLists">
+                               <ul id="groupList" class="noList">
+                                
+                               </ul>
+                               <div class="clear"></div>
+                           </div>
+                            
+                            @Html.HiddenFor(x=>x.ToGroupIds)
+                        </td>
+                    </tr>
+             
+
+                    <tr>
+                        <td class="b alignTop alRight">Text To Send:
+                        </td>
+                        <td>
+                            @Html.TextArea("MessageTextWriting", new { maxlength = "150", rows = "2", style = "height:60px" })
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><span id="counter"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/messages/" + Model.OwnerType.ToString() + "/" + Model.OwnerId.ToString().Replace("-", ""))">Cancel Message</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Send Text" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.OwnerType)
+                @Html.HiddenFor(x => x.OwnerId)
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Messages.InitializeNewMessages();
+        /**
+         * Character Counter for inputs and text areas
+         */
+        $('#MessageTextWriting').each(function () {
+            // get current number of characters
+            var length = $(this).val().length;
+            // get current number of words
+            // update characters
+            $("#counter").html(length + ' characters');
+            // bind on key up event
+            $(this).keyup(function () {
+                // get new length of characters
+                var new_length = $(this).val().length;
+                $("#counter").html(new_length + ' characters');
+            });
+        });
+
+    });
+</script>

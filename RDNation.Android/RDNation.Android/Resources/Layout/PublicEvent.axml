@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="League"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light"
+        android:layout_weight="1" />
+    <ScrollView
+        android:layout_below="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+        <LinearLayout
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/eventName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventName" />
+            <ImageView
+                android:id="@+id/eventImage"
+                android:src="@drawable/icon"
+                android:layout_width="200dp"
+                android:padding="5dp"
+                android:layout_height="200dp" />
+            <TextView
+                android:id="@+id/eventLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventLocation" />
+            <TextView
+                android:id="@+id/eventAddress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventAddress" />
+            <TextView
+                android:id="@+id/eventDateTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventDateTime" />
+            <TextView
+                android:id="@+id/eventOrganizerInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventOrganizerInfo" />
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventDescription" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                orientation="horizontal" />
+        </LinearLayout>
+    </ScrollView>
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-6279184964362535/4727599000"
+        ads:adSize="BANNER"
+        android:layout_alignParentBottom="true"
+        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+        ads:loadAdOnCreate="true" />
+</RelativeLayout>

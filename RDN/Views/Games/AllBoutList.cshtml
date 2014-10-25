@@ -1,0 +1,84 @@
+﻿@model List<RDN.Library.Classes.League.BoutList>
+@{
+    ViewBag.Title = "All Bout Challenges";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Bout Challenges
+        </div>
+
+    </div>
+    <div>
+        Bout Challenges are a way for leagues to connect with other leagues around the world.  
+            By adding a bout challenge request, leagues ask other leagues to play on a certain weekend.  
+           Requests are shown to all leagues around the world.
+    </div>
+    <div class="divider"></div>
+    <div>
+        <table class="listTable listMedTable" id="boutRequest">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>League</th>
+                    <th>Location</th>
+                    <th>Date of Game</th>
+                    <th>Travel Stipend</th>
+
+                    <th>Rule Set</th>
+                    <th>Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var b in Model)
+                {                 
+                    <tr class="@(b.ChallengeId % 2 == 0 ? "tr1" : "tr0")">
+                        <td>
+                            <a href="@Url.Content("~/bout-challenge/view/" + b.ChallengeId)" >View </a>
+
+                        </td>
+
+                        <td>
+                            <span class="vmTeamName"><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
+                                @b.LeagueName
+                            </a></span>
+                        </td>
+                        <td>@b.Location</td>
+                        <td>@if (b.StartDateOfEvent > new DateTime())
+                            {
+                            @b.StartDateOfEvent.ToShortDateString()
+                            }
+                            @if (b.EndDateOfEvent > new DateTime())
+                            {
+                                <span>-</span> @b.EndDateOfEvent.ToShortDateString()
+                            }
+                        </td>
+                        <td>
+                            @b.TravelStipendAmount
+                        </td>
+
+                        <td>
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
+                        </td>
+                        <td>
+                            <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "/messages/new/league/" + b.LeagueId.ToString().Replace("-", ""))" title="Contact" >Contact
+                            </a>
+
+                        </td>
+
+                    </tr>     
+                }
+            </tbody>
+        </table>
+
+        <br />
+        <br />
+        <div class="center">
+            <a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]boutchallenge/view/all">Add New Challenge</a>
+        </div>
+    </div>
+</div>

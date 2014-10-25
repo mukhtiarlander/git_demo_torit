@@ -1,0 +1,104 @@
+﻿@model List<RDN.Library.Classes.League.TaskList.TaskDA>
+@{
+    ViewBag.Title = "Task Lists";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+     
+}
+@helper Truncate(string input, int length = 20)
+{
+    if (input != null)
+    {
+        if (input.Length <= length)
+        {
+    @input
+        }
+        else
+        {
+    @input.Substring(0, length)<text>...</text>
+        }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+ 
+
+         
+<div class="fixedContainer">
+     < <a  href="@Url.Content("~/tasks/league/list/")">Task Lists</a> 
+   <div class="expandableCenterContainter">
+      <div class="fixTitle">
+            Tasks For The League
+        </div>
+        
+        <div class="expandableCenterContainterRight">
+                          
+                <div class="navIcons">
+                    <a title="New Task" href="@Url.Content("~/tasks/league/task/add/" + ViewBag.id + "/" + ViewBag.ListTitle)">
+                        <img src="@Url.Content("~/Content/images/icons/tasks.png")" />Add
+                    </a>
+                </div>
+                <div class="navIcons">
+                    <a title="Delete Task List" onclick="return confirm('Really Delete?')" href="@Url.Content("~/tasks/league/task/delete/" + ViewBag.id + "/" + ViewBag.ListTitle)">
+                        <img src="@Url.Content("~/Content/images/icons/delete.png")" />Delete
+                    </a>
+                </div>
+            
+        </div>
+        <div class="titleDescription">
+            Here You Can Manage The Tasks in task list @ViewBag.ListTitle  ...
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="taskList">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Completed</th>
+                        <th>Dead Line</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.TaskId % 2 == 0 ? "tr1" : "tr0")">
+                             <td>
+                                <a href="@Url.Content("~/tasks/league/task/view/" + b.TaskId + "/" +  b.Title)" >View</a>
+                                 <a href="@Url.Content("~/tasks/league/task/update/" + b.TaskId + "/" +  b.Title)" >Update</a>
+                                
+                            </td>
+                              <td>
+                                @Truncate(b.Title)
+                            </td>
+                            <td>
+                                @b.StartDate.Value.ToShortDateString()
+                            </td>
+                            <td>
+                                @b.EndDate.Value.ToShortDateString()
+                            </td>
+                            <td>
+                                @b.Completed%
+                            </td> 
+                            <td>
+                                @b.DeadLine.Value.ToShortDateString()
+                            </td>
+                            <td>
+                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.League.Enums.TaskStatusEnum)b.StatusId)
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+﻿@using RDN.League.Models.Forum
+@model NewPost
+@{
+    ViewBag.Title = "Quote " + Model.TopicTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Quote Forum Post
+        </div>
+        <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("QuotePost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td colspan="2">
+                            @Html.LabelFor(x => x.Message)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Html.TextArea("Message", Model.Message, new
+                           {
+                               id = "wmd-input",
+                               style = "width:700px"
+                           })
+                        </td>
+                    </tr>
+                    @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main) { 
+                    <tr>
+                        <td colspan="2">
+                            <br />
+                            @Html.CheckBoxFor(x => x.BroadcastMessage) <span class="b">Broadcast this message</span> Entire group will be sent copy via email.</td>
+                    </tr>
+                    }
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Save Post" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.ForumId)
+                @Html.HiddenFor(x => x.ForumType)
+                @Html.HiddenFor(x => x.TopicId)
+                @Html.HiddenFor(x => x.MessageId)
+            }
+        </div>
+
+        <div class="divider"></div>
+        <div class="forumMessages">
+            @foreach (var message in Model.Messages)
+            { 
+                <div id="msg-@message.MessageId">
+                    <div class="forumPostHead">
+                        <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "#msg-" + message.MessageId)"><b>Posted</b> @message.Created.ToLongDateString()</a>
+                    </div>
+
+                    <div class="forumPostProfile">
+                        @if (message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                        { 
+                            <img height="65px" alt="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                        }
+                        else if (message.Member.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                        { 
+                            <img height="65px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                        }
+                        else
+                        {
+                            <img height="65px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                        }
+                        <br />
+                       
+                        @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
+                        { 
+                            <a target="_blank" href="@Url.Content("~/member/" + message.Member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName))">
+                                @message.Member.DerbyName
+                            </a>
+                        }
+                        else
+                        { 
+                            <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName) + "/" + message.Member.MemberId.ToString().Replace("-", ""))">
+                                @message.Member.DerbyName
+                            </a>                                            
+                        }
+                        <div><span><b>Posts:</b> </span>@message.Member.TotalForumPostsCount</div>
+                    </div>
+                    <div class="forumPostMessage">
+                        @Html.Raw(message.MessageHTML)
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#editMessage").validate({
+        rules: {
+            Message: "required"
+        }
+    });
+    $(function () {
+
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "advanced",
+            skin: "o2k7",
+            skin_variant: "silver",
+            plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+            // Theme options
+            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
+            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
+            theme_advanced_buttons3: "",
+            theme_advanced_buttons4: "",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+            language: "en",
+            relative_urls: false,
+            uploadType: "Forum",
+            ForumId: '@Model.ForumId',
+            ForumType: '@Model.ForumType',
+            TopicId: '@Model.TopicId',
+            UploadFileUrl: "/forum/postimageupload"
+        });
+    });
+</script>

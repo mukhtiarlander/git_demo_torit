@@ -1,0 +1,94 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Polls.CreatePoll"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <phone:Pivot Title="CREATE POLL" x:Name="pivotContainer" SelectionChanged="Pivot_SelectionChanged">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="poll">
+                <ScrollViewer>
+                    <StackPanel >
+                        <TextBox TextWrapping="Wrap" GotFocus="Title_GotFocus" Text="Title Of Poll..." LostFocus="Title_LostFocus"   x:Name="Title"></TextBox>
+                        <TextBox TextWrapping="Wrap" Text="Description of Poll..." GotFocus="Description_GotFocus" LostFocus="Description_LostFocus" AcceptsReturn="True" Height="200" x:Name="Description"></TextBox>
+                        <CheckBox x:Name="OpenResults">
+                            <TextBlock Text="Open Results to League"></TextBlock>
+                        </CheckBox>
+                        <CheckBox x:Name="IsAnonymous">
+                            <TextBlock Text="Is Anonymous, Votes are Hidden"></TextBlock>
+                        </CheckBox>
+                        <CheckBox x:Name="BroadcastPoll">
+                            <TextBlock Text="Broadcast Poll to League"></TextBlock>
+                        </CheckBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="questions">
+                <phone:LongListSelector x:Name="QuestionList" SelectionChanged="QuestionList_SelectionChanged"  ItemsSource="{Binding}">
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,15" >
+                                <TextBlock x:Name="question" Style="{StaticResource QuestionText}" Text="{Binding Question, Mode=TwoWay}"></TextBlock>
+                                <StackPanel Margin="10,0,0,0" >
+                                    <phone:LongListSelector x:Name="AnswerListInsideQuestions"  ItemsSource="{Binding Answers}">
+                                        <phone:LongListSelector.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="0,0,0,0" >
+                                                    <TextBlock x:Name="Answer" Text="{Binding Answer, Mode=TwoWay}" ></TextBlock>
+
+                                                </StackPanel>
+
+                                            </DataTemplate>
+                                        </phone:LongListSelector.ItemTemplate>
+                                    </phone:LongListSelector>
+                                </StackPanel>
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem >
+            <phone:PivotItem Header="members">
+                <phone:LongListSelector x:Name="RecipientsList"  ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,0" >
+                                <TextBlock Text="{Binding  Path=Name}" Style="{StaticResource ForumTopicListName}"   />
+                                            
+                            </StackPanel>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/check.png" x:Name="SendPost" Click="SendPost_Click" Text="Create"/>
+            <!--<shell:ApplicationBarIconButton IconUri="/Assets/Icons/cancel.png" x:Name="Cancel" Click="Cancel_Click" Text="Cancel"/>-->
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/add.png" x:Name="AddQuestion" Click="AddQuestion_Click" Text="Questions"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/add.png" x:Name="AddMembers" Click="AddMembers_Click" Text="Members"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Add Question" x:Name="AddQuestionMenu" Click="AddQuestion_Click"/>
+                <shell:ApplicationBarMenuItem Text="Add Members" x:Name="AddMembersMenu" Click="AddMembers_Click"/>
+                <shell:ApplicationBarMenuItem Text="Cancel" x:Name="Cancel" Click="Cancel_Click"/>
+                
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

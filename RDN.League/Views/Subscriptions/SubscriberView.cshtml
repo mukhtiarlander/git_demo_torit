@@ -1,0 +1,71 @@
+﻿@model RDN.Library.Classes.EmailServer.SubscriptionFactory
+@{
+    ViewBag.Title = "View Subscription Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/subscriptions/View/" + @Model.listId + "/" + @Model.ListName )">All Subscribers</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Subscriber Details
+        </div>
+        <div class="tvChanges">
+            <div class="navIcons">
+              
+            </div>
+        </div>
+        <div class="titleDescription">
+            Details of the Subscriber
+     
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="addForumPostTbl">
+
+                <tr>
+                        <td class="b alRight">Subscriber Name:
+                        </td>
+                        <td class="largeInput">
+                            @Model.Name
+                        </td>
+                    </tr>
+                @*      <tr>
+                        <td class="b alRight">Subscriber Type:
+                        </td>
+                        <td class="largeInput">
+                           
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Library.DataModels.EmailServer.Enums.SubscriberTypeEnum)@Model.SubscriberTypeEnum)
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td class="b alRight">Phone/Email:
+                        </td>
+                        <td class="largeInput">
+                        @Model.Data
+                        </td>
+                    </tr> 
+                 <tr>
+                        <td class="b alRight">OptedOut:
+                        </td>
+                        <td >
+                      <label>      @Html.CheckBoxFor(models => models.OptedOut)
+                          <span class="i">OptedOut</span></label>
+                        </td>
+                    </tr> 
+               @*     <tr>
+                        <td class="b alRight">OptedOutDateTime:
+                        </td>
+                        <td >
+                      <label>      @Html.CheckBoxFor(models => models.OptedOutDateTime)
+                          <span class="i">OptedOutDateTime</span></label>
+                        </td>
+                    </tr> *@
+            </table>
+        </div>
+    </div>
+</div>

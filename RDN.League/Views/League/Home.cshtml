@@ -1,0 +1,66 @@
+﻿@using RDN.Portable.Classes.League.Classes;
+@model League
+@{
+    ViewBag.Title = Model.Name + " Roller Derby League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.Name Homepage</div>
+        <div class="divider"></div>
+        @if (Model.InternalWelcomeImage != null)
+        {
+            <div>
+                <img alt="Internal Picture set by the league" class="lhsPicture" src="@Model.InternalWelcomeImage.ImageUrl"  />
+            </div>        
+        }
+        @if (!String.IsNullOrEmpty(Model.InternalWelcomeMessageHtml))
+        { 
+            <div>
+                @Html.Raw(Model.InternalWelcomeMessageHtml)
+            </div>
+        }
+        <br />
+        <div>
+            <ul>
+                @*<li><a href="@Url.Content("~/League/Members/Add")">Add Members</a></li>*@
+                <li><a href="@Url.Content("~/league/members/view/all")">View Members</a></li>
+                @*<li><a href="@Url.Content("~/Game/Add/" + RDN.Library.Cache.MemberCache.GetAllOwnedFederations(RDN.Library.Classes.Account.User.GetMemberId(), HttpContext.Current.Cache).FirstOrDefault().Federation.FederationId.ToString().Replace("-", "") + "/" + RDN.Library.Classes.Game.Enums.GameAddedByEnum.federation.ToString())">
+                    View Members</a></li>
+                <li><a href="@Url.Content("~/Game/View/All")">View All Games</a></li>*@
+            </ul>
+        </div>
+        <br />
+        <br />
+        <div>
+            <div class="panelBoxTitle">
+                Helpful Definitions</div>
+            <ul>
+                <li><b>Federation</b> - We consider different rule sets or organizing bodies federations.
+                    For example, MADE, WFTDA, MRD, UKRD, etc are a federation. Each federation is filled
+                    with many leagues.</li>
+                <li><b>League</b> - We consider different entities in control of skaters as Leagues.
+                    This will be what is most known as a team, but we think Leagues is a better term
+                    for it. Leagues can control or manage many teams. Larger Leagues will be filled
+                    with many teams. Each League can be filled with many Teams. Smaller Leagues will
+                    only have one team.</li>
+                <li><b>Team</b> - 15/14 skaters is a Team depending on the rule set. There can be many
+                    teams inside a league. There can be more than 15/14 skaters rostered per team.</li>
+            </ul>
+        </div>
+    </div>
+    @if (Model.Logo != null)
+    { 
+        <div class="panelBox">
+    <img alt="@Model.Logo.Alt" src="@Model.Logo.ImageUrl" style="max-width:250px; max-height:210px; margin:0px auto 0px auto;" />
+        </div>
+        <br />
+    }
+    <div class="panelBox">
+        <div class="panelBoxTitle">
+            @Model.Name News</div>
+        <div class="divider"></div>
+    </div>
+   
+</div>

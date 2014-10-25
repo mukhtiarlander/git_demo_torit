@@ -1,0 +1,409 @@
+﻿@using RDN.Library.Classes.Billing.Classes
+@using RDN.Utilities.Enums;
+@using RDN.League.Models.Billing;
+@using RDN.Library.Classes.Payment.Enums;
+@model AddSubscriptionModel
+@{
+    ViewBag.Title = "Add Subscription to Your League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+
+    <div class="fixedCenterContainterSubscription">
+        <div class="fixTitle">
+            Choose a Subscription for @Model.AddSubscriptionOwnerName
+        </div>
+        <div class="titleDescription">
+            Choose a plan that best fits your leagues needs.
+        </div>
+        <div class="divider"></div>
+        @using (Html.BeginForm("LeagueAddSubscription", "Billing", FormMethod.Post, new { @id = "PaymentForm" }))
+        {
+            <div>
+                <ul class="subOptionListPlans">
+                    <li>
+                        <label class="subOption subOptionSel" onclick="selectSubOption(this,'$131.99')">
+                            <span class="subOptionTitle">12 Months</span>
+                            <input type="radio" name="SubscriptionType" id="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.Twelve_Months.ToString()" checked="checked"  value="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.Twelve_Months.ToString()" />
+                            <span class="subOptionPrice">$10.<span class="subOptionPriceS">99/mo</span></span>
+                            <span class="subOptionPTotal">one payment of $131.99</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="subOption" onclick="selectSubOption(this,'$71.99')">
+                            <span class="subOptionTitle">6 Months</span>
+                            <input type="radio" name="SubscriptionType" id="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.Six_Months.ToString()" value="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.Six_Months.ToString()" />
+                            <span class="subOptionPrice">$11.<span class="subOptionPriceS">99/mo</span></span>
+                            <span class="subOptionPTotal">one payment of $71.99</span>
+                        </label>
+
+                    </li>
+                    <li>
+                        <label class="subOption" onclick="selectSubOption(this,'$41.99')">
+                            <span class="subOptionTitle">3 Months</span>
+                            <input type="radio" name="SubscriptionType" id="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.Three_Months.ToString()" value="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.Three_Months.ToString()" />
+                            <span class="subOptionPrice">$13.<span class="subOptionPriceS">99/mo</span></span>
+                            <span class="subOptionPTotal">one payment of $41.99</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="subOption" onclick="selectSubOption(this,'$15.99')">
+                            <span class="subOptionTitle">1 Month</span>
+                            <input type="radio" name="SubscriptionType" id="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.One_Month.ToString()" value="@RDN.Library.Classes.Billing.Enums.LeaguePlanTypesEnum.One_Month.ToString()" />
+                            <span class="subOptionPrice">15.<span class="subOptionPriceS">99/mo</span></span>
+                            <span class="subOptionPTotal">one payment of $15.99</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="subDivider">
+                Payment Information
+            </div>
+            
+            <div>
+                <ul class="subOptionList center">
+                    <li>
+                        <label class="subOptionPaymentProv">
+                            <input type="radio" name="PaymentType" id="@PaymentProvider.Stripe" value="@PaymentProvider.Stripe" checked="checked" onclick="javascript: HideShowCCInfo('show')" />
+                            <span>Pay with Credit/Debit Card</span>
+                        </label>
+                    </li>
+
+                    <li>
+                        <label class="subOptionPaymentProv">
+                            <input type="radio" name="PaymentType" id="@PaymentProvider.Paypal" value="@PaymentProvider.Paypal" onclick="javascript: HideShowCCInfo('hide')" />
+                            <span>Pay with <span class="paypalText">Paypal</span></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <table class="subTable">
+                    <tr>
+                        <td class="subTableLD">First Name:</td>
+                        <td class="subTableRD">@Html.TextBoxFor(x => x.FirstName)</td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Last Name:</td>
+                        <td class="subTableRD">
+                            @Html.TextBoxFor(x => x.LastName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Address:</td>
+                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.Address)</td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">City:</td>
+                        <td class="subTableRD">
+                            @Html.TextBoxFor(x => x.City)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">State:</td>
+                        <td class="subTableRD">
+                            @Html.TextBoxFor(x => x.State)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Zip Code:</td>
+                        <td class="subTableRD">
+                            @Html.TextBoxFor(x => x.ZipCode)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Country:</td>
+                        <td class="subTableRD">
+                            @Html.DropDownList("Country", Model.Countries)
+                        </td>
+                    </tr>
+                </table>
+                <table class="subTable" id="CCTable">
+                    <tr id="cardNumberTR">
+                        <td class="subTableLD">Card Number:</td>
+                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.CCNumber, new { @class = "card-number" })</td>
+                    </tr>
+                    <tr id="securityCodeTR">
+                        <td class="subTableLD">Security Code:</td>
+                        <td class="subTableRD">@Html.TextBoxFor(x => x.SecurityCode, new { @class = "card-cvc" })</td>
+                    </tr>
+                    <tr id="expirationDateTR">
+                        <td class="subTableLD">Expiration Date:</td>
+                        <td class="subTableRD smallDropDown">@Html.DropDownList("MonthOfExpiration", Model.Months, new { @class = "card-expiry-month" }) @Html.DropDownList("YearOfExpiration", Model.Years, new { @class = "card-expiry-year" })</td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Email Address:</td>
+                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.EmailAddress)</td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Phone Number:</td>
+                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.PhoneNumber)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clear"></div>
+            <div class="center">
+                <div class="paymentErrors red"></div>
+                <span id="submitButton1">
+                    <input type="submit" class="primary" value="Subscribe Now" /></span><img src="@Url.Content("~/Content/indicator.gif")" id="working1" class="displayNone" />
+                <span>Amount Due: <span class="dueAmount">$131.99</span></span>
+            </div>
+            @Html.HiddenFor(x => x.AddSubscriptionOwnerId)
+            @Html.HiddenFor(x => x.AddSubscriptionOwnerName)
+       
+            <br />
+
+            <div>
+                <div class="subDivider">
+                    What You Are Getting?
+                </div>
+                <div>
+                    <table class="subGetTable">
+                        <tr>
+                            <th class="subHead alignCenter" style="font-size: 1.5em;">Features</th>
+                            <th class="subHead alignCenter">Free/Ad Supported</th>
+                            <th class="subHead alignCenter">
+                                <div style="margin-bottom: 10px;"><span style="vertical-align: text-top;">$</span><span style="font-size: 1.5em;">131</span>/year</div>
+                                <div>$10.99/month</div>
+                            </th>
+                            <th class="subHead alignCenter">Descriptions</th>
+                        </tr>
+                        <tr>
+                            <td class="subF">Attendance Tracking</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>RDNations state of the art attendance tracking software uses the popular points based system.  It tracks attendace at all the events within the league calendar.  It uses the popular points based system for tracking leagues attendace within Roller Derby.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Dues Collection</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Track every dollar received from your members and verify that your league is getting paid by everyone required to pay. Each payment and the entire history can be export via excel. 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Track & Export Insurance Numbers</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Track all the insurance numbers of your skaters.  No longer fiddle with excel spreadsheets. We also offer exporting the list of numbers into a easily managed CSV document.
+                            </td>
+                        </tr>
+                          <tr>
+                <td class="subF">Jobs Board</td>
+                <td></td>
+                <td class="alignCenter alignMiddle">
+                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                <td>Ever wanted a jobs board for your league?  RDNation provides each league with their own jobs board.  Anyone can add a job and anyone can also apply.  Free up your management from asking if someone can take a job.  Just post it and wait for your members to apply.
+                </td>
+            </tr>
+                         <tr>
+                <td class="subF">Sponsors</td>
+                <td></td>
+                <td class="alignCenter alignMiddle">
+                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                <td>Track your sponsors, their promo codes, and what they gave to the league to be a sponsor.
+                </td>
+            </tr>
+                        <tr>
+                            <td class="subF">Groups, Teams and Commitees</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>You can dynamically organize your league into groups of people that can communicate with each other.  We give each group their own messaging, forums and much more.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Skills Completed Dates</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Track when your skaters complete their annual assessments.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Medical Records</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Track the most important information for your skaters. If EMTs need to know about your skater quickly, <a href="http://blog.rdnation.com/post/42033277962/track-medical-records" target="_blank">you can now access such information online</a>.  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Member Contacts</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Need to get in touch with a members parents, emergency contact or even someones doctor? Store <a href="http://blog.rdnation.com/post/42296998505/introducing-contacts" target="_blank">all the contacts of each member within the league</a>.  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">League Calendar</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Each league gets a calendar.  The calendar is used to schedule events, set RSVP availability, track attendance and show the locations of those such events.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Document Repository</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Maintain all your league documents online organized within folders.  Give access to the documents only to certain people of particular groups.  Each document can also be commented on with the comments being saved directly in RDNation.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Voting Polls</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Ask questions to your league with polls members can vote on.  Ask anything and get answers from everyone.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Contacts Management</td>
+                            <td></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Maintain all your contacts within your league.  Sponsors, businesses, traveling officials, parents of junior skaters etc..  We allow you to take notes and track their information to keep in all in one place.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Text Messaging</td>
+                            <td class="alignCenter alignMiddle"></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Send a Text Message to anyone or everyone within your league.  Instantly just by the press of a button.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Bout Challenges</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Add and View bout challenges posted by other leagues.  Have an open bout date?  Well add a Bout Challenge and receive requests by other leagues to play!</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">League & Roster Management</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Your own League site with all your members, their information, profile pictures and more.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">League Messaging</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>You can message and chat with anyone in your league.  Send a message to your entire league or just a select few people.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">League Forums</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Forums are an integral part of any team.  They help communication and keep people in touch with everyone else in the group.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Games Online</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>All your games when using <a target="_blank" href="http://rdnation.com/roller-derby-scoreboard">Thor's Hammer</a> are posted online.  Your scoreboard operator attaches the players of the league with the game they played.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Member Site</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Each member gets their own site.  With their own profile picture and a public resume for all the fans to see.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Member Messaging</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Any member of RDNation can message and chat with any other member of RDNation.  We hope this communication will help keep leagues communicating which will grow the sport.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Your Personal or League Store</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Each league can sell their personal items and goods on the public RDNation store.</td>
+                        </tr>
+                        <tr>
+                            <td class="subF">Maintain Your Insurance Numbers</td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td class="alignCenter alignMiddle">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
+                            <td>Track your personal skater insurance numbers.  No longer needing to find it or request it from any source.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="clear"></div>
+            <div class="center">
+                <div class="paymentErrors red"></div>
+                <span id="submitButton">
+                    <input type="submit" class="primary" value="Subscribe Now" /></span><img src="@Url.Content("~/Content/indicator.gif")" id="working" class="displayNone" />
+                <span>Amount Due: <span class="dueAmount">$131.99</span></span>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    @Html.Raw(Model.StripeKey)
+
+    $("#PaymentForm").validate({
+        rules: {
+            FirstName: "required",
+            LastName: "required",
+            Address: "required",
+            City: "required",
+            State: "required",
+            ZipCode: "required",
+            Country: "required",
+            CCNumber: "required",
+            SecurityCode: "required",
+            MonthOfExpiration: "required",
+            YearOfExpiration: "required",
+            EmailAddress: "required",
+            PhoneNumber: "required"
+        },
+        submitHandler: function (form) {
+            // disable the submit button to prevent repeated clicks
+            $('#submitButton1').toggleClass("displayNone", true);
+            $('#submitButton').toggleClass("displayNone", true);
+            $('#working').toggleClass("displayNone", false);
+            $('#working1').toggleClass("displayNone", false);
+            Stripe.createToken({
+                number: $('.card-number').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val(),
+                name: $('#FirstName').val() + " " + $('#LastName').val(),
+                address_line1: $('#Address').val(),
+                address_city: $('#City').val(),
+                address_state: $('#State').val(),
+                address_zip: $('#ZipCode').val(),
+                address_country: $("#Country option:selected").text()
+            }, stripeResponseHandler);
+        }
+    });
+
+</script>

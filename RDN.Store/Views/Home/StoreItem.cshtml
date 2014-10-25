@@ -1,0 +1,111 @@
+﻿@using RDN.Library.Classes.Store.Classes
+@model StoreItemDisplay
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+}
+<div class="storeMenu">
+    <a href="@Url.Content("~/roller-derby-store")">Store Home</a> | <a href="@Url.Content("~/roller-derby-store/cart")">View Cart (@Model.CartItemsCount)</a>
+</div>
+<div class="clear">
+</div>
+<div class="storePhotoContainer center">
+    @if (Model.Photos.FirstOrDefault() != null)
+    { 
+        <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt"
+            style="max-width: 200px; max-height: 200px;" id="mainPhoto" />
+    }
+    <div class="storePhotosList">
+        @foreach (var photo in Model.Photos)
+        { 
+            <img src="@photo.ImageUrl" alt="@photo.Alt"
+                style="max-width: 30px; max-height: 30px;" onmouseover="javascript:MouseOverPhotoStore('@photo.ImageUrl')"  />
+        }
+    </div>
+</div>
+@using (Html.BeginForm("AddToCart", "Store", FormMethod.Post))
+{
+    <div class="storeItemInfoContainer">
+        <div>
+            <span class="storeItemName">@Model.Name</span>
+            <br />
+            <div class="storeItemSoldBy">
+                Sold by <a href="@Url.Content("~/roller-derby-store/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Merchant.Name) + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">@Model.Merchant.Name</a>
+            </div>
+        </div>
+        <hr />
+        <span class="storeItemPrice">@if (Model.Currency == "USD") {  <span>$</span>}@Model.Price @Model.Currency</span>
+        <br />
+        @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+        { 
+            <div>
+                <b>Sizes:</b><br />
+                @Html.DropDownListFor(x => x.ItemSizeEnum, (SelectList)ViewBag.ItemSizes, "Choose Size...")
+            </div>
+        }
+        @if (Model.QuantityInStock > 0)
+        { 
+            <div class="storeLeftInStock">
+                @Model.QuantityInStock <span class="storeGray">items left in stock</span>
+            </div>
+        }
+    </div>
+    <div class="storeAddToCartContainer">
+        <div class="storeQuantity">
+            Quantity:
+            <select name="quantityToBuy" style="width: 50px;">
+                @if (Model.QuantityInStock > 0)
+                {
+                    <option selected="selected" value="1">1</option>
+                    for (int i = 1; i < Model.QuantityInStock; i++)
+                    {
+                    <option value="@(i + 1)">@(i + 1)</option>
+                    }
+                }
+                else
+                { 
+                    <option selected="selected" value="1">1</option>
+                }
+            </select>
+        </div>
+        <div class="clear">
+        </div>
+        <div class="storePriceShipping">
+            <span class="priceColor b">@if (Model.Currency == "USD") {  <span>$</span>}@Model.Price.ToString("N2")</span>
+            @if (Model.Shipping > 0)
+            { 
+                <span>+</span> if (Model.Currency == "USD") {  <span>$</span>}@Model.Shipping.ToString("N2") <span>shipping</span>
+            }
+        </div>
+        @Html.HiddenFor(x => x.StoreItemId)
+        @Html.HiddenFor(x => x.MerchantId)
+        @Html.HiddenFor(x => x.MerchantId)
+        @Html.HiddenFor(x => x.CartId)
+        @Html.HiddenFor(x => x.Price)
+        @Html.HiddenFor(x => x.Shipping)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.ArticleNumber)
+        @if (Model.IsPublished)
+        { 
+            <div class="center">
+                <input type="submit" value="Add To Cart" class="primary" />
+            </div>
+        }
+        else
+        { 
+            <br />
+            <div class="center">
+                This item currently isn't available
+            </div>
+        }
+    </div>
+    <div class="clear">
+    </div>
+}
+<hr />
+<div class="storeItemDescContainer">
+    <span class="storeSectionTitle">Product Description</span><br />
+    <div class="storeItemDesc">
+        @Html.Raw(Model.Description)
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@model List<RDN.Library.Classes.Store.Display.DisplayStore>
+@{
+    ViewBag.Title = "Shops at RDNation";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<div class="backLinks">
+    <a href="@Url.Content("~/")">Home</a> > Shops at RDNation
+</div>
+<div class="shopsList">
+    @foreach (var shop in Model)
+    { 
+    <div class="shopItemList">
+        <div class="shopsName">
+            <span class="shopName"><a href="@Url.Content("~/roller-derby-shop/" + shop.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(shop.ShopName))">@shop.ShopName</a></span> - 
+            <span class="shopDescriptionList">@shop.Description</span></div>
+        <div>
+            <div class="shopItemsList">
+             @foreach (var item in shop.StoreItems.Take(4))
+        {
+            <div class="storeItem">
+                <div class="storeItemInner">
+                    <a href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                        <div class="storeItemPhoto center">
+                            @if (item.Photos.FirstOrDefault() != null)
+                            { 
+                                <img src="@item.Photos.FirstOrDefault().ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault().Alt" />
+                            }
+                        </div>
+                    </a>
+
+                    <div class="storeItemTitle">
+                        <a href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                    </div>
+                    <div class="storeItemN">
+                        <a href="@Url.Content("~/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                    </div>
+                    <div class="storeItemPrice">
+                        @if (item.Currency == "USD") {  <span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
+                    </div>
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        }</div>
+
+        </div>
+        <div class="clear">
+                    </div>
+    </div>
+    }
+
+</div>

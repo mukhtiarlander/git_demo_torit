@@ -1,0 +1,223 @@
+﻿@model RDN.League.Models.Store.StoreItemDisplayModel
+@{
+    ViewBag.Title = "New Store Item";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+    <div class="backLink">
+        < <a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Store</a>
+    </div>
+        </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Add New Store Item
+        </div>
+        
+         <div class="titleDescription">
+    Here you can add items to your store. It can be anything derby related, but try
+            to keep it inline with what Roller Derby people will want to see.
+      
+            </div>
+            <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("StoreNewItem", "Store", FormMethod.Post, new { @id = "createNewItem" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">Name:
+                        </td>
+                        <td class="subject">
+                            @Html.TextBoxFor(x => x.Name)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Sellers Id Number:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.TextBoxFor(x => x.ArticleNumber) - Fill Out incase you have a specific ID
+                            for this item.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Description Of Item:
+                        </td>
+                        <td class="subject">
+                            @Html.TextBoxFor(x => x.Description)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Weight:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.TextBoxFor(x => x.Weight) lbs
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Price:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.TextBox("Price", Model.Price.ToString("N2")) @Model.Currency
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Can Pick Up Locally:
+                        </td>
+                        <td >
+                            @Html.CheckBoxFor(x=>x.CanPickUpLocally) <span class="i">Can they come to a store to pick up?</span>
+                        </td>
+                    </tr>
+                      <tr>
+                        <td class="b alRight">Shipping Costs:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.TextBox("Shipping", Model.Shipping.ToString("N2"))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Quantity In Stock:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.QuantityInStock)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Can This Item Ever Run Out?:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.CanRunOutOfStock) - Items in stock count down if checked.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Type Of Item:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)" })  - <span class="i">To Add Type, Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a></span>
+                        </td>
+                    </tr>
+                    <tr class="@(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt ? "" : "displayNone")" id="shirtSize">
+                        <td class="b alRight">Sizes Sold In:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.HasExtraSmall)X-Small
+                            @Html.CheckBoxFor(x => x.HasSmall)Small
+                            @Html.CheckBoxFor(x => x.HasMedium)Medium
+                            @Html.CheckBoxFor(x => x.HasLarge)Large
+                            @Html.CheckBoxFor(x => x.HasExtraLarge)X-Large
+                            @Html.CheckBoxFor(x => x.HasXXLarge)XX-Large
+                        </td>
+                    </tr>
+                    <tr class="@(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal ? "" : "displayNone")" id="colors">
+                        <td class="b alignTop alRight">Add Colors to Item:
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()" })  <span class="spanLink" onclick="AddSelectedColor()">Add Selected</span>
+                            <div><b>OR</b></div>
+                            <div>
+                                <input id="colorName" placeholder="Name Of New Color" />
+                                <div id="colorSelector" class="colorPickerC">
+                                    <div class="colorPickerIn" style="background-color: #0000ff;"></div>
+                                </div>
+                                <span class="spanLink" onclick="CreateNewColor()">Create New Color</span>
+                                <div id="colorSelected" class="displayNone"></div>
+                            </div>
+
+                            <div id="colorsToAdd"></div>
+                            @Html.HiddenFor(x => x.ColorsSelected)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Public Description of the Item:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                               @Html.TextArea("HtmlNote", string.Empty, new
+                           {
+                               id = "wmd-input",
+                               style="width:720px;"
+                           })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Cancel Item</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Add New Item" />
+                            - Pictures Added Once Created
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.PrivateManagerId)
+                @Html.HiddenFor(x => x.MerchantId)
+                @Html.HiddenFor(x => x.InternalId)
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#Price").numeric({ negative: false });
+    $("#Weight").numeric({ negative: false });
+    $("#Shipping").numeric({ negative: false });
+    $("#QuantityInStock").numeric({ negative: false, decimal: false });
+
+    $("#createNewItem").validate({
+        rules: {
+            Name: "required",
+            ItemTypeEnum: "required",
+            Description: "required",
+            Price: {
+                required: true,
+                minStrict: .49,
+            },
+            QuantityInStock: {
+                number: true
+            }
+        }
+    });
+
+    $('#colorSelector').ColorPicker({
+        color: '#0000ff',
+        onShow: function (colpkr) {
+            $(colpkr).fadeIn(500);
+            return false;
+        },
+        onHide: function (colpkr) {
+            $(colpkr).fadeOut(500);
+            return false;
+        },
+        onChange: function (hsb, hex, rgb) {
+            $('#colorSelector div').css('backgroundColor', '#' + hex);
+            $("#colorSelected").html('#' + hex);
+        }
+    });
+
+    $(document).ready(function () {
+        LoadDropDownBackgroundColors();
+    });
+
+    $(function () {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "advanced",
+            skin: "o2k7",
+            skin_variant: "silver",
+            plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+            // Theme options
+            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
+            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
+            theme_advanced_buttons3: "",
+            theme_advanced_buttons4: "",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+        });
+    });
+
+</script>

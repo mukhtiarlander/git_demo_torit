@@ -1,0 +1,109 @@
+﻿@using RDN.Models.Account
+@model RegisterModel
+@{
+    ViewBag.Title = "Verify Your Derby Name";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div class="recoverPassContainer">
+    <div class="signUpTitle">
+        Connect To Your Derby Profile</div>
+    <div class="signUpDesc">
+        Connect With Your Derby Profile Already On RDNation</div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+        if (Model != null && Model.Errors != null && Model.Errors.Count > 0)
+        {
+        <p>
+            @foreach (var error in Model.Errors)
+            { 
+                <span style="color: red;">@error</span><br />
+            }
+        </p>
+        }
+        <div>
+            <fieldset>
+                <table class="suTable">
+                    <tr>
+                        <td class="suLTD">
+                            <img class="displayNone floatLeft" id="loadingDerbyName" src="@Url.Content("~/Content/loading_lg.gif")"  />
+                            @Html.LabelFor(m => m.DerbyName)
+                        </td>
+                        <td class="suRTD">
+                            @Html.DisplayFor(m => m.DerbyName)
+                        </td>
+                    </tr>
+                  
+                   
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Email)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.Email)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Email)</span>
+                        </td>
+                    </tr>
+                    @if (Model.EmailVerify != null)
+                    { 
+                        <tr>
+                            <td>
+                            </td>
+                            <td colspan="2">
+                                Records show that the Email ends with <b>@Model.EmailVerify</b>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.ConfirmEmail)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.ConfirmEmail)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.ConfirmEmail)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Password)
+                        </td>
+                        <td class="suRTD">
+                            @Html.PasswordFor(m => m.Password)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Password)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.GenderName)
+                        </td>
+                        <td class="suRTD">
+                            @Html.DisplayFor(m => m.GenderName)
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                        </td>
+                        <td class="suRTD">
+                            <input class="primary" type="submit" value="Sign Up" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                        </td>
+                        <td class="suRTD">
+                            If there are any errors with this information, please feel free to contact us at
+                            <a href="mailto:info@rdnation.com">info@rdnation.com</a>
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.MemberId)
+                <p>
+                </p>
+            </fieldset>
+        </div>
+    }
+</div>

@@ -1,0 +1,29 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete a League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Set Owner of League</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        League Id:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    <div>
+        Member User Name:
+        @Html.TextBoxFor(x => x.Id2)
+    </div>
+    
+   
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+        <div>Owner Is Added!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

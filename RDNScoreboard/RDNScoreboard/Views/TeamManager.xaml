@@ -1,0 +1,305 @@
+﻿<Window x:Class="RDNScoreboard.Views.TeamManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico"
+        Title="TeamManager" Height="600" Width="975" Loaded="Window_Loaded" Closing="Window_Closing" xmlns:RDN="clr-namespace:RDNScoreboard.Code"
+        Background="{DynamicResource WindowBackgroundBrush}" 
+        >
+    <Window.Resources>
+        <RDN:ImageConverter x:Key="ImageConverter" />
+    </Window.Resources>
+    <StackPanel>
+        <Border BorderBrush="Black"
+                BorderThickness="1"
+                Margin="0,0,0,6">
+            <StackPanel>
+                <TextBlock  x:Name="TitleSettings"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            TextAlignment="Center"
+                            Background="#872f95"
+                                Foreground="#FFFFFF"
+                            FontSize="16"
+                            Padding="5"
+                            Margin="0,0,-2,0"><Run Text="Thor's Hammer Team Manager" /></TextBlock>
+
+            </StackPanel>
+
+        </Border>
+        <TabControl SelectionChanged="TabControl_SelectionChanged" >
+            <TabItem Header="Team Manager" VerticalContentAlignment="Top" Name="TeamManagerTab"  >
+                <StackPanel>
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Setter Property="Margin" Value="2,2,2,2" />
+                            </Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="2,2,2,2" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0"  Text="League Name"  VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="0" Text="Team Name (Required)" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+
+                        <TextBox Grid.Column="0" Grid.Row="1"  x:Name="LeagueName1" TextChanged="LeagueName1_TextChanged"></TextBox>
+                        <TextBox Grid.Column="1" Grid.Row="1"  x:Name="TeamName1" TextChanged="TeamName1_TextChanged"></TextBox>
+                        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+                            <Button  x:Name="saveTeam1" Content="Save Team" Click="saveTeam1_Click_1" ></Button>
+                            <Button  x:Name="loadTeam1" Content="Load Team"  Click="loadTeam1_Click_1" ></Button>
+                        </StackPanel>
+                        <TextBlock Grid.Column="3" Grid.Row="0"  Text="League Name"  VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Column="4" Grid.Row="0" Text="Team Name (Required)" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBox Grid.Column="3" Grid.Row="1"  x:Name="LeagueName2" TextChanged="LeagueName2_TextChanged"></TextBox>
+                        <TextBox Grid.Column="4" Grid.Row="1"  x:Name="TeamName2" TextChanged="TeamName2_TextChanged"></TextBox>
+                        <StackPanel Grid.Column="6" Grid.Row="1" Orientation="Horizontal">
+                            <Button  x:Name="saveTeam2" Content="Save Team" Click="saveTeam2_Click_1" ></Button>
+                            <Button  x:Name="loadTeam2" Content="Load Team" Click="loadTeam2_Click_1" ></Button>
+                        </StackPanel>
+                        <TextBlock Grid.Column="0" Grid.Row="2"  Text="Skater Name"  VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="2" Text="Skater Number" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Column="2" Grid.Row="2"  x:Name="team1SkaterCount" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBox Grid.Column="0" Grid.Row="3" x:Name="skaterNameTeam1"></TextBox>
+                        <TextBox Grid.Column="1" Grid.Row="3" x:Name="skaterNumberTeam1"></TextBox>
+
+                        <Button Grid.Column="2" Grid.Row="3" x:Name="submitSkaterTeam1" Content="Add Team 1 Skater" Click="submitSkaterTeam1_Click"></Button>
+                        <TextBlock Grid.Column="3" Grid.Row="2"  Text="Skater Name" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Column="4" Grid.Row="2" Text="Skater Number" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Column="5" Grid.Row="2" x:Name="team2SkaterCount" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+
+                        <TextBox Grid.Column="3" Grid.Row="3" x:Name="skaterNameTeam2"></TextBox>
+                        <TextBox  Grid.Column="4" Grid.Row="3" x:Name="skaterNumberTeam2"></TextBox>
+                        <Button Grid.Column="5" Grid.Row="3" x:Name="submitSkaterTeam2"  Content="Add Team 2 Skater" Click="submitSkaterTeam2_Click"></Button>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" MinHeight="100" />
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding}"  HorizontalContentAlignment="Center"        CanUserReorderColumns="True" CanUserResizeColumns="True" IsReadOnly="false" CanUserAddRows="false"
+          CanUserResizeRows="False" CanUserSortColumns="True" Grid.Column="0" Grid.RowSpan="3" AutoGenerateColumns="False" x:Name="TeamOneList">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn    Header="Del">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button  Content="X" x:Name="deleteSkaterTeam1" Click="deleteSkaterTeam1_Click"></Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn  Header="Picture">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button   x:Name="setPictureTeam1" Click="setPictureTeam1_Click">
+                                                <Image  Source="{Binding Path=SkaterPictureLocation,  Converter={StaticResource ImageConverter}}" Height="15">
+                                                </Image>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Path=SkaterName}" />
+                                
+                                <!--<DataGridTemplateColumn Header="Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SkaterName}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding SkaterName}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>-->
+                                
+                                
+                                <DataGridTextColumn Header="Number" Binding="{Binding Path=SkaterNumber}" />
+                                <DataGridTemplateColumn Header="Bench">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton IsChecked="{Binding Path=IsBenched, Mode=TwoWay}" Content="Bench" x:Name="BenchTeam1" Click="BenchTeam1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 1">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton IsChecked="{Binding Path=IsBlocker1, Mode=TwoWay}" Content="B 1" x:Name="blocker1Team1" Click="blocker1Team1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 2">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 2" IsChecked="{Binding Path=IsBlocker2, Mode=TwoWay}" x:Name="blocker2Team1" Click="blocker2Team1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 3">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 3" IsChecked="{Binding Path=IsBlocker3, Mode=TwoWay}" x:Name="blocker3Team1" Click="blocker3Team1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 4">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 4" IsChecked="{Binding Path=IsBlocker4, Mode=TwoWay}" x:Name="blocker4Team1" Click="blocker4Team1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Pivot">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="P 1" IsChecked="{Binding Path=IsPivot, Mode=TwoWay}" x:Name="pivotTeam1" Click="pivotTeam1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Jammer">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="J 1" IsChecked="{Binding Path=IsJammer, Mode=TwoWay}" x:Name="jammerTeam1" Click="jammerTeam1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Box">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="Box" IsChecked="{Binding Path=IsInBox, Mode=TwoWay}" x:Name="gameSpecialTypeBoxTeam1" Click="gameSpecialTypeBoxTeam1_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                        <GridSplitter ResizeDirection="Columns"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch"
+                     Background="Black"
+                     Grid.Column="1" />
+                        <DataGrid ItemsSource="{Binding}"           CanUserReorderColumns="True" CanUserResizeColumns="True" IsReadOnly="false" CanUserAddRows="false"
+          CanUserResizeRows="False" CanUserSortColumns="True" AutoGenerateColumns="False" Grid.Column="2" Grid.RowSpan="3" x:Name="TeamTwoList">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn  Header="Del">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button  Content="X" x:Name="deleteSkaterTeam2" Click="deleteSkaterTeam2_Click"></Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn  Header="Picture">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button   x:Name="setPictureTeam2" Click="setPictureTeam2_Click">
+                                                <Image  Source="{Binding Path=SkaterPictureLocation,  Converter={StaticResource ImageConverter}}" Height="15">
+                                                </Image>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Header="Name" Binding="{Binding Path=SkaterName}" />
+                                <DataGridTextColumn Header="Number" Binding="{Binding Path=SkaterNumber}" />
+                                <DataGridTemplateColumn Header="Bench">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="Bench" IsChecked="{Binding Path=IsBenched, Mode=TwoWay}" x:Name="benchTeam2" Click="benchTeam2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 1" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 1" IsChecked="{Binding Path=IsBlocker1, Mode=TwoWay}" x:Name="blocker1Team2" Click="blocker1Team2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 2" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 2" IsChecked="{Binding Path=IsBlocker2, Mode=TwoWay}" x:Name="blocker2Team2" Click="blocker2Team2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 3">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 3" IsChecked="{Binding Path=IsBlocker3, Mode=TwoWay}" x:Name="blocker3Team2" Click="blocker3Team2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="B 4">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="B 4" IsChecked="{Binding Path=IsBlocker4, Mode=TwoWay}" x:Name="blocker4Team2" Click="blocker4Team2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Pivot">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="P 2" IsChecked="{Binding Path=IsPivot, Mode=TwoWay}" x:Name="pivotTeam2" Click="pivotTeam2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Jammer">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="J 2"  IsChecked="{Binding Path=IsJammer, Mode=TwoWay}" x:Name="jammerTeam2" Click="jammerTeam2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Box">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton  Content="Box" x:Name="boxSpecialTypeTeam2" IsChecked="{Binding Path=IsInBox, Mode=TwoWay}" Click="boxSpecialTypeTeam2_Click"></ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <StackPanel VerticalAlignment="Bottom"  HorizontalAlignment="Center"  
+                Orientation="Vertical"                Panel.ZIndex="9999"                >
+                        <Label  MaxWidth="950">
+                            <TextBlock  TextWrapping="Wrap"  FontSize="12" Text="By filling out the Team Manager and using it during Jams to mark player positions, you will be saving stats of each Jam and storing them for future use, also for Live Game Play. Its recommended to keep this window open during the game."></TextBlock>
+                        </Label>
+                        <TextBlock HorizontalAlignment="Center">
+    
+    <Hyperlink x:Name="wikiHelpLink" Click="wikiHelpLink_Click">Online Help For Team Manager</Hyperlink>
+                        </TextBlock>
+
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Referee Manager" VerticalContentAlignment="Top" Name="RefereeManager" >
+                <Frame x:Name="OfficialsManagerFrame" Height="540" NavigationUIVisibility="Hidden" ></Frame>
+            </TabItem>
+            <TabItem Header="Logo Manager" VerticalContentAlignment="Top" Name="LogoManager" >
+                <Frame x:Name="LogoManagerFrame" Height="540" NavigationUIVisibility="Hidden" ></Frame>
+            </TabItem>
+        </TabControl>
+
+
+    </StackPanel>
+</Window>

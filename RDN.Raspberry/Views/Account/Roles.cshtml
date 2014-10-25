@@ -1,0 +1,35 @@
+﻿@model RDN.Raspberry.Models.Account.Role
+@{
+    ViewBag.Title = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Roles</h2>
+Add User To admin Role.
+@using (Html.BeginForm())
+{
+    <br />
+    <br />  
+    <div>
+        User Name: @Html.TextBoxFor(x => x.EmailAddress)
+    </div>  
+    <br />
+    <br />
+    <div>
+        Role: @Html.TextBoxFor(x => x.RoleForMember)
+    </div>  
+    <br />
+    <br />
+    <input type="submit" />
+
+    if (Model.Added)
+    {
+    <div>
+        @Model.EmailAddress added to the role: @Model.RoleForMember
+    </div>
+    }
+
+}
+<br />
+<br />
+<br />

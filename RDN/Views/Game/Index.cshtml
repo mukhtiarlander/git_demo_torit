@@ -1,0 +1,565 @@
+﻿@model RDN.Models.OutModel.GameOutModel
+@using RDN.Library.ViewModel;
+@using RDN.Library.Classes.Payment.Enums;
+@using RDN.Library.Classes.Payment.Enums.Paywall;
+@using RDN.Library.Classes.Billing.Enums;
+@using System.Text.RegularExpressions;
+@{
+    
+    ViewBag.Title = Model.Game.GameName + " - " + Model.Game.Team1.TeamName + " vs. " + Model.Game.Team2.TeamName;
+    if (Model.Game.GameDate != new DateTime())
+    {
+        ViewBag.Title += " on " + Model.Game.GameDate.ToLongDateString();
+    }
+
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+
+    var PensAbbre = from Scoreboard.Library.Static.Enums.PenaltiesEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesEnum))
+                    select new { ID = (int)d, Name = d.ToString(), Abbre = Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(d) };
+}
+<script src="@Url.Content("~/Scripts/game.js")" type="text/javascript"></script>
+@if ((!string.IsNullOrEmpty(Model.Game.EmbededVideoHtml) && Model.Game.PaywallId == 0) || (!string.IsNullOrEmpty(Model.Game.EmbededVideoHtml) && Model.Game.PaywallId > 0 && Model.Paywall.IsPaid))
+{ 
+            
+    <div class="embedIframe">
+        @Html.Raw(Model.Game.EmbededVideoHtml)
+    </div>
+  
+       @Html.HiddenFor(x => x.Paywall.PaywallId)
+            @Html.HiddenFor(x => x.Paywall.PasswordForPaywall)
+      <script type="text/javascript">
+          gameViewModel.wall.set({ time: 120000, autostart: true });
+    </script>
+}
+else if (!Model.Paywall.IsPaid && Model.Game.PaywallId > 0 && Model.Paywall.EndDate > DateTime.UtcNow.AddHours(-6))
+{
+    <div class="paywallContainer">
+        @using (Html.BeginForm("MakePaywallPayment", "Game", FormMethod.Post, new { @id = "PaymentForm" }))
+        {
+            <div class="liveStreamTitle">This Game Offers Live Streaming</div>
+            <div class="PaywallDesc">
+                <div class="b c">This is a Pay-Per-Day Stream/Video</div>
+                <div class="paywallDesc">@Model.Paywall.DescriptionOfPaywall</div>
+                <br />
+                @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                { 
+                    <div>
+                        <span class="b">Login: </span>
+                        <a href="@Url.Content("~/login?returnUrl=" + Request.Url.AbsoluteUri)">Please Login</a> - <span class="i">optional</span>
+                    </div>
+                    <br />
+                }
+                <div>
+                    <span class="b">Price: </span>
+                    <ul class="subOptionList center">
+                        @if (Model.Paywall.DailyPrice > 0)
+                        { 
+                            <li>
+                                <label class="subOptionPaymentProv">
+                                    <input type="radio" name="PaymentCost" id="@PaywallPriceTypeEnum.Daily_Payment" value="@PaywallPriceTypeEnum.Daily_Payment" checked="checked"  />
+                                    <span>$@Model.Paywall.DailyPrice</span>
+
+                                </label>
+                                <span class="i sm">24 Hour Price</span>
+                            </li>
+                        }
+                        @if (Model.Paywall.TimespanPrice > 0)
+                        { 
+                            <li>
+                                <label class="subOptionPaymentProv">
+                                    <input type="radio" name="PaymentCost" id="@PaywallPriceTypeEnum.Full_Payment" value="@PaywallPriceTypeEnum.Full_Payment"  />
+                                    <span>$@Model.Paywall.TimespanPrice</span>
+
+                                </label>
+                                <span class="i sm">Full Tournament</span>
+                            </li>
+                        }
+                    </ul>
+
+
+                </div>
+                <br />
+                <div>
+                    <span class="b">Pay With:</span>
+                    <ul class="subOptionList center">
+                        @if (Model.Paywall.AcceptStripe)
+                        { 
+                            <li>
+                                <label class="subOptionPaymentProv">
+                                    <input type="radio" name="PaymentType" id="@PaymentProvider.Stripe" value="@PaymentProvider.Stripe" checked="checked" onclick="javascript: HideShowCCInfo('show')" />
+                                    <span>Credit Card</span>
+                                </label>
+                            </li>
+                        }
+                        @if (Model.Paywall.AcceptPaypal)
+                        { 
+                            <li>
+                                <label class="subOptionPaymentProv">
+                                    <input type="radio" name="PaymentType" id="@PaymentProvider.Paypal" value="@PaymentProvider.Paypal" onclick="javascript: HideShowCCInfo('hide')" />
+                                    <span><span class="paypalText">Paypal</span></span>
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="PaywallLogo">
+                <table id="CCTable">
+                    <tr id="cardNumberTR">
+                        <td class="subTableLD">Card Number:</td>
+                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.Paywall.CCNumber, new { @class = "card-number" })</td>
+                    </tr>
+                    <tr id="securityCodeTR">
+                        <td class="subTableLD">Security Code:</td>
+                        <td class="subTableRD smallInput">@Html.TextBoxFor(x => x.Paywall.SecurityCode, new { @class = "card-cvc" })</td>
+                    </tr>
+                    <tr id="expirationDateTR">
+                        <td class="subTableLD">Expiration Date:</td>
+                        <td class="subTableRD smallDropDown">@Html.DropDownList("MonthOfExpiration", RDN.Models.Enums.EnumExt.ToSelectListIdAndName(MonthsEnum.Jan), new { @class = "card-expiry-month" }) @Html.DropDownList("YearOfExpiration", RDN.Models.Enums.EnumExt.ToSelectListId(YearsEnum.Fourteen), new { @class = "card-expiry-year" })</td>
+                    </tr>
+                    <tr>
+                        <td class="subTableLD">Email Address:</td>
+                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.Paywall.EmailAddress)</td>
+                    </tr>
+                </table>
+                <div class="center">
+                    <div class="paymentErrors red"></div>
+                    <span id="submitButton1">
+                        <input type="submit" class="primary" value="Pay For Stream" /></span><img src="@Url.Content("~/Content/indicator.gif")" id="working1" class="displayNone" />
+                </div>
+            </div>
+                    
+            @Html.HiddenFor(x => x.Game.GameId)
+        }
+
+        <div class="PaywallLogo">
+            <span class="b">OR</span>
+            @using (Html.BeginForm("Index", "Game", FormMethod.Post, new { @id = "ViewForm" }))
+            {
+                <div class="paywallPassword">
+                    <span class="b">Password:</span> @Html.TextBoxFor(x => x.Paywall.PasswordForPaywall)
+                    <input type="submit" class="primary" value="View Stream" />
+                </div>
+                @Html.HiddenFor(x => x.Game.GameId)
+                @Html.HiddenFor(x => x.Paywall.PaywallId)
+            }
+        </div>
+        <div class="clear"></div>
+    </div>
+}
+<div id="gamePage">
+    <div class="gpTitle b">
+        <span data-bind="text: gameName">@Model.Game.GameName</span><span data-bind="text: gameLocation">@if (!String.IsNullOrEmpty(Model.Game.GameLocation))
+                                                                                                         {
+                                                                                                             @Model.Game.GameLocation
+                                                                                                         }</span>
+        <span class="gText" data-bind="text: hasGameEnded"></span>
+        @if (Model.Game.TournamentId != new Guid())
+        { 
+            <span>apart of the</span> <a  href="@Url.Content("~/roller-derby-tournament/" + Model.Game.TournamentId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Game.TournamentName))">
+                The @Model.Game.TournamentName Tournament</a> 
+        }
+    </div>
+
+    <div class="gpHeader">
+        <div class="gpTeamC">
+            <div class="gpTeamName">
+                @if (Model.Game.Team1.Logo.ImageUrl != null)
+                { 
+                    <img  src="@Model.Game.Team1.Logo.ImageUrl" alt="@Model.Game.Team1.TeamName" height="50px"/>
+                }
+                <span data-bind="text: team1Name">@Model.Game.Team1.TeamName</span> <span class="b" data-bind="text: team1Score"></span>@*<a href="http://rdnation.com/roller-derby-league/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Game.Team1.TeamName)/+ " data-bind="if: team2Id">Go To</a>*@
+            </div>
+        </div>
+        <div class="gpTeamC">
+            <div class="gpTeamName">
+                @if (Model.Game.Team2.Logo.ImageUrl != null)
+                { 
+                    <img  src="@Model.Game.Team2.Logo.ImageUrl" alt="@Model.Game.Team2.TeamName" height="50px"/>
+                }
+                <span data-bind="text: team2Name">@Model.Game.Team2.TeamName</span> <span class="b" data-bind="text: team2Score">@Model.Game.CurrentTeam2Score</span>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+    <div class="gpHDivider">
+        <div class="gpHCDate">
+            <b><span data-bind="text: hasGameStarted"></span></b>
+            @if (Model.Game.GameDate != new DateTime())
+            {
+                @Model.Game.GameDate.ToLongTimeString();
+                @(", ");
+                @Model.Game.GameDate.ToLongDateString();
+            }
+        </div>
+    </div>
+    <div class="gpHContent">
+        <div id="usual1" class="gameTabs">
+            <ul class="mainTabs usual">
+                <li><a class="selected" href="#tab10">Jams</a></li>
+                <li><a href="#tab11">Player Stats</a></li>
+                @*<li><a href="#tab11">Links</a></li>*@
+                <li><a href="#tab12">Photos</a></li>
+                <li><a href="#tab13">Chat</a></li>
+            </ul>
+        </div>
+        <div id="tab10">
+            @if (Model.Game.CurrentJam != null)
+            {
+                <div class="gameTabH">
+                    Current Jam
+                </div>
+            }
+            <div class="gameJamsCon">
+                <div class="gameTabH">
+                    Jams
+                </div>
+                <table class="jamTable">
+                    <thead>
+                        <tr>
+                            <th colspan="3"></th>
+                            <th class="tht" colspan="6" data-bind="text: team1Name">@Model.Game.Team1.TeamName
+                            </th>
+                            <th class="tht" colspan="6" data-bind="text: team2Name">@Model.Game.Team2.TeamName
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="jthr">
+                            <th>Prd
+                            </th>
+                            <th>Jam
+                            </th>
+                            <th>Called
+                            </th>
+                            <th>Pts
+                            </th>
+                            <th>B1
+                            </th>
+                            <th>B2
+                            </th>
+                            <th>B3
+                            </th>
+                            <th>P1
+                            </th>
+                            <th>J1
+                            </th>
+                            <th>Pts
+                            </th>
+                            <th>B1
+                            </th>
+                            <th>B2
+                            </th>
+                            <th>B3
+                            </th>
+                            <th>P1
+                            </th>
+                            <th>J1
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: jams">
+                        <tr>
+                            <td data-bind="text: period"></td>
+                            <td data-bind="text: jamNumber"></td>
+                            <td data-bind="text: calledTime"></td>
+                            <td data-bind="text: t1Points"></td>
+                            <td>
+                                <div data-bind="if: b1t1Url">
+                                    <a data-bind="attr: { href: b1t1Url }, text: b1t1Name"></a>
+                                </div>
+                                <div data-bind="ifnot: b1t1Url">
+                                    <span data-bind="text: b1t1Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: b2t1Url">
+                                    <a data-bind="attr: { href: b2t1Url }, text: b2t1Name"></a>
+                                </div>
+                                <div data-bind="ifnot: b2t1Url">
+                                    <span data-bind="text: b2t1Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: b3t1Url">
+                                    <a data-bind="attr: { href: b3t1Url }, text: b3t1Name"></a>
+                                </div>
+                                <div data-bind="ifnot: b3t1Url">
+                                    <span data-bind="text: b3t1Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: p1t1Url">
+                                    <a data-bind="attr: { href: p1t1Url }, text: p1t1Name"></a>
+                                </div>
+                                <div data-bind="ifnot: p1t1Url">
+                                    <span data-bind="text: p1t1Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: j1t1Url">
+                                    <a data-bind="attr: { href: j1t1Url }, text: j1t1Name"></a>
+                                </div>
+                                <div data-bind="ifnot: j1t1Url">
+                                    <span data-bind="text: j1t1Name"></span>
+                                </div>
+                            </td>
+                            <td data-bind="text: t2Points"></td>
+                            <td>
+                                <div data-bind="if: b1t2Url">
+                                    <a data-bind="attr: { href: b1t2Url }, text: b1t2Name"></a>
+                                </div>
+                                <div data-bind="ifnot: b1t2Url">
+                                    <span data-bind="text: b1t2Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: b2t2Url">
+                                    <a data-bind="attr: { href: b2t2Url }, text: b2t2Name"></a>
+                                </div>
+                                <div data-bind="ifnot: b2t2Url">
+                                    <span data-bind="text: b2t2Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: b3t2Url">
+                                    <a data-bind="attr: { href: b3t2Url }, text: b3t2Name"></a>
+                                </div>
+                                <div data-bind="ifnot: b3t2Url">
+                                    <span data-bind="text: b3t2Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: p1t2Url">
+                                    <a data-bind="attr: { href: p1t2Url }, text: p1t2Name"></a>
+                                </div>
+                                <div data-bind="ifnot: p1t2Url">
+                                    <span data-bind="text: p1t2Name"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-bind="if: j1t2Url">
+                                    <a data-bind="attr: { href: j1t2Url }, text: j1t2Name"></a>
+                                </div>
+                                <div data-bind="ifnot: j1t2Url">
+                                    <span data-bind="text: j1t2Name"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @*<div id="tab11">
+        Links
+    </div>*@
+        <div id="tab11">
+            <div class="gameJamsCon">
+                <div class="gameTabH">
+                    Roller Derby Players
+                </div>
+                <div>
+                    <table class="jamTable">
+                        <thead>
+                            <tr>
+                                <th class="tht" colspan="6" data-bind="text: team1Name"></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr class="jthr">
+                                <th>Name
+                                </th>
+                                <th>Number
+                                </th>
+                                <th>Total Blocks
+                                </th>
+                                <th>Total Assists
+                                </th>
+                                <th>Total Penalties
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Team1Members">
+                            <tr>
+                                <td>
+                                    <div data-bind="if: skaterUrl">
+                                        <a data-bind="attr: { href: skaterUrl }, text: name"></a>
+                                    </div>
+                                    <div data-bind="ifnot: skaterUrl">
+                                        <span data-bind="text: name"></span>
+                                    </div>
+                                </td>
+                                <td data-bind="text: skaterNumber"></td>
+                                <td>
+                                    <div data-bind="text: Blocks().length">
+                                        0
+                                    </div>
+                                </td>
+                                <td>
+                                    <div data-bind="text: Assists().length">
+                                        0
+                                    </div>
+                                </td>
+                                <td>
+                                    <span data-bind="text: Penalties().length"></span>: <span data-bind="foreach: Penalties">
+                                        <span data-bind="text: penaltyType"></span></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div>
+                    <table class="jamTable">
+                        <thead>
+                            <tr>
+                                <th class="tht" colspan="6" data-bind="text: team2Name"></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr class="jthr">
+                                <th>Name
+                                </th>
+                                <th>Number
+                                </th>
+                                <th>Total Blocks
+                                </th>
+                                <th>Total Assists
+                                </th>
+                                <th>Total Penalties
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Team2Members">
+                            <tr>
+                                <td>
+                                    <div data-bind="if: skaterUrl">
+                                        <a data-bind="attr: { href: skaterUrl }, text: name"></a>
+                                    </div>
+                                    <div data-bind="ifnot: skaterUrl">
+                                        <span data-bind="text: name"></span>
+                                    </div>
+                                </td>
+                                <td data-bind="text: skaterNumber"></td>
+                                <td>
+                                    <div data-bind="text: Blocks().length">
+                                        0
+                                    </div>
+                                </td>
+                                <td>
+                                    <div data-bind="text: Assists().length">
+                                        0
+                                    </div>
+                                </td>
+                                <td>
+                                    <span data-bind="text: Penalties().length"></span>: <span data-bind="foreach: Penalties">
+                                        <span data-bind="text: penaltyType"></span></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clear">
+                </div>
+                <ul class="penList">
+                    @foreach (var pen in PensAbbre)
+                    {
+                        <li><span class="b">@pen.Abbre</span><span>: @pen.Name</span></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div id="tab12">
+            <div class="gameJamsCon">
+                <div class="gameTabH">
+                    Pictures Of Game
+                </div>
+                <div data-bind="foreach: pictures">
+                    <div class="gamePictureContainer">
+                        <img data-bind="attr: {src: url, alt: alt}" class="gamePicture" />
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div id="tab13">
+            <div class="gameJamsCon">
+                <div class="gameTabH">
+                    Live Chat Of The Game
+                </div>
+                <div>
+                    <div class="gameChatControl">
+                        <textarea id="chat" name="chat" rows="2" class="gameInputChat"></textarea>
+                        <input name="submit" id="submit" type="submit" value="Send Chat" class="primary"
+                            onclick="javascript: gameViewModel.postConversation()" />
+                    </div>
+                    <div class="clear messageSeperator">
+                    </div>
+                    <div id="chatMessages" data-bind="foreach: chats">
+                        <div class="chatMessage">
+                            <div class="chatMessageProfile">
+                                <b><span data-bind="text: name"></span></b>
+                                <br />
+                                <span data-bind="text: Created"></span>
+                            </div>
+                            <div class="chatMessageContent">
+                                <span data-bind="text: chat"></span>
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div class="gpSBVersion">
+            Want to Show Your Games LIVE on RDNation For Free?
+            <br />
+            <a href="http://rdnation.com/roller-derby-scoreboard">Download Thor's Hammer Roller
+                Derby Scoreboard</a>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $("#usual1 ul").idTabs();
+
+    ko.applyBindings(gameViewModel, document.getElementById("gamePage"));
+
+    gameViewModel.initialize("@Model.Game.GameId.ToString().Replace("-", "")");
+         
+      @Html.Raw(Model.StripeKey)
+
+    $("#PaymentForm").validate({
+        rules: {
+            "Paywall.CCNumber": "required",
+            "Paywall.SecurityCode": "required",
+            MonthOfExpiration: "required",
+            YearOfExpiration: "required",
+            "Paywall.EmailAddress": "required"
+        },
+        submitHandler: function (form) {
+            // disable the submit button to prevent repeated clicks
+            $('#submitButton1').toggleClass("displayNone", true);
+            $('#working1').toggleClass("displayNone", false);
+            Stripe.createToken({
+                number: $('.card-number').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val(),
+
+            }, stripeResponseHandler);
+        }
+    });
+    $("#ViewForm").validate({
+        rules: {
+            "Paywall.PasswordForPaywall": "required"
+        }
+    });
+
+</script>

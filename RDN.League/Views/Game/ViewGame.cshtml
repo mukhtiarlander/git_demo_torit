@@ -1,0 +1,467 @@
+﻿@model Scoreboard.Library.ViewModel.GameViewModel
+@{
+    ViewBag.Title = Model.GameName + " Roller Derby Bout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.GameName - Final</div>
+
+            <div class="divider"></div>
+        <div>
+            <div class="vgTeamNameCon">
+                <div class="vgTeamName">
+                    @*If the team is a real one, we get the real name*@
+                    @if (Model.Team1AttachedToGame != null)
+                    {
+                        @Model.Team1AttachedToGame.TeamName}
+                    else
+                    { 
+                        @Model.Team1.TeamName
+                    }
+                    @{
+                        //figuring out the final score
+                        int totalScoreTeam1 = 0;
+                        foreach (var item in Model.ScoresTeam1)
+                        {
+                            totalScoreTeam1 += item.Points;
+                        }
+                    }
+                    <span class="b">@totalScoreTeam1</span>
+                </div>
+            </div>
+            <div class="vgTeamNameCon">
+                <div class="vgTeamName">
+                    @*If the team is a real one, we get the real name*@
+                    @if (Model.Team2AttachedToGame != null)
+                    {
+                        @Model.Team2AttachedToGame.TeamName
+                    }
+                    else
+                    { 
+                        @Model.Team2.TeamName
+                    }
+                    @{                        //figuring out the final score
+                        int totalScoreTeam2 = 0;
+                        foreach (var item in Model.ScoresTeam2)
+                        {
+                            totalScoreTeam2 += item.Points;
+                        }
+                    }
+                    <span class="b">@totalScoreTeam2</span>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+            <div class="divider"></div>
+            <div class="vgDate">
+                @Model.GameDate.ToLongDateString()
+            </div>
+            <div class="vgLocation">
+                @Model.GameLocation
+            </div>
+            <table class="vgJamTable">
+                <tr class="vghightLightTop">
+                    <th>
+                    </th>
+                    @for (int i = 1; i < Model.Jams.Count + 1; i++)
+                    { 
+                        <th>
+                            @i
+                        </th>
+                    }
+                    <th class="vgfinalColumn">
+                        F
+                    </th>
+                </tr>
+                <tr>
+                    <td class="b vgJTNames">
+                        @if (Model.Team1AttachedToGame != null)
+                        {
+                            @RDN.Utilities.Strings.StringExt.Initials(Model.Team1AttachedToGame.TeamName);
+                        }
+                        else
+                        {
+                            @RDN.Utilities.Strings.StringExt.Initials(Model.Team1.TeamName);
+                        }
+                    </td>
+                    @for (int i = 0; i < Model.Jams.Count; i++)
+                    { 
+                        <td>
+                            @{
+                        int j = 0;
+                        var list = Model.ScoresTeam1.Where(x => x.JamNumber == Model.Jams[i].JamNumber).ToList();
+                        foreach (var item in list)
+                        {
+                            j += item.Points;
+                        }
+                            }
+                            @j
+                        </td>
+                    }
+                    <td class="vgfinalColumn">
+                        @totalScoreTeam1
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b vgJTNames">
+                        @if (Model.Team2AttachedToGame != null)
+                        {
+                            @RDN.Utilities.Strings.StringExt.Initials(Model.Team2AttachedToGame.TeamName);
+                        }
+                        else
+                        {
+                            @RDN.Utilities.Strings.StringExt.Initials(Model.Team2.TeamName);
+                        }
+                    </td>
+                    @for (int i = 0; i < Model.Jams.Count; i++)
+                    { 
+                        <td>
+                            @{
+                        int j = 0;
+                        var list = Model.ScoresTeam2.Where(x => x.JamNumber == Model.Jams[i].JamNumber).ToList();
+                        foreach (var item in list)
+                        {
+                            j += item.Points;
+                        }
+                            }
+                            @j
+                        </td>
+                    }
+                    <td class="vgfinalColumn">
+                        @totalScoreTeam2
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="usual">
+            <ul class="idTabs">
+                <li><a href="#Penalties">Players And Penalties</a></li>
+                <li><a href="#Jams">Jam By Jam</a></li>
+            </ul>
+            <div id="Penalties" class="usualInner">
+                <table>
+                    <tr>
+                        <td class="vgcolumnDivided">
+                            <div class="vgTeamsDivide">
+                                <div class="vgTTitle">
+                                    @if (Model.Team1AttachedToGame != null)
+                                    {
+                                        @Model.Team1AttachedToGame.TeamName}
+                                    else
+                                    { 
+                                        @Model.Team1.TeamName
+                                    }
+                                </div>
+                                <table class="vgPlayersTable">
+                                    @for (int i = 0; i < Model.Team1.TeamMembers.Count; i++)
+                                    { 
+                                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                                            <td>
+                                                @if (Model.Team1.TeamMembers[i].SkaterLinkId != new Guid())
+                                                { 
+                                                    <a href="@Url.Content("~/Member/" + Model.Team1.TeamMembers[i].SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Team1.TeamMembers[i].SkaterName))">
+                                                        @Model.Team1.TeamMembers[i].SkaterName
+                                                    </a>
+                                                }
+                                                else
+                                                { 
+                                                    @Model.Team1.TeamMembers[i].SkaterName
+                                                }
+                                            </td>
+                                            @for (int j = 0; j < Model.Team1.TeamMembers[i].Penalties.Count; j++)
+                                            {
+                                                <td>
+                                                    @Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(Model.Team1.TeamMembers[i].Penalties[j].PenaltyType)
+                                                </td>
+                                            }
+                                            @for (int k = Model.Team1.TeamMembers[i].Penalties.Count; k < 5; k++)
+                                            {
+                                                <td>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </td>
+                        <td class="vgcolumnDivided">
+                            <div class="vgTeamsDivide">
+                                <div class="vgTTitle">
+                                    @if (Model.Team1AttachedToGame != null)
+                                    {
+                                        @Model.Team2AttachedToGame.TeamName}
+                                    else
+                                    { 
+                                        @Model.Team2.TeamName
+                                    }
+                                </div>
+                                <table class="vgPlayersTable">
+                                    @for (int i = 0; i < Model.Team2.TeamMembers.Count; i++)
+                                    { 
+                                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                                            <td>
+                                                @if (Model.Team2.TeamMembers[i].SkaterLinkId != new Guid())
+                                                { 
+                                                    <a href="@Url.Content("~/Member/" + Model.Team2.TeamMembers[i].SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Team2.TeamMembers[i].SkaterName))">
+                                                        @Model.Team2.TeamMembers[i].SkaterName
+                                                    </a>
+                                                }
+                                                else
+                                                { 
+                                                    @Model.Team2.TeamMembers[i].SkaterName
+                                                }
+                                            </td>
+                                            @for (int j = 0; j < Model.Team2.TeamMembers[i].Penalties.Count; j++)
+                                            {
+                                                <td>
+                                                    @Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(Model.Team2.TeamMembers[i].Penalties[j].PenaltyType)
+                                                </td>
+                                            }
+                                            @for (int k = Model.Team2.TeamMembers[i].Penalties.Count; k < 5; k++)
+                                            {
+                                                <td>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="vgEnumsRow">
+                        <td colspan="2">
+                            @foreach (Scoreboard.Library.Static.Enums.PenaltiesMADEEnum item in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesMADEEnum)))
+                            { 
+                                <span><span class="b">@Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(item)</span>
+                                    - @item; </span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            @*Shows the jams for the game along with the skaters in each jam.*@
+            <div id="Jams" class="usualInner">
+                <table class="vgJBJTable">
+                    <tr>
+                        <th>
+                        </th>
+                        <th colspan="5" class="vgjbjTeam1">
+                            Team 1
+                        </th>
+                        <th colspan="5" class="vgjbjTeam2">
+                            Team 2
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Jam
+                        </th>
+                        <th class="vgjbjTeam1">
+                            P
+                        </th>
+                        <th class="vgjbjTeam1">
+                            B1
+                        </th>
+                        <th class="vgjbjTeam1">
+                            B2
+                        </th>
+                        <th class="vgjbjTeam1">
+                            B3
+                        </th>
+                        <th class="vgjbjTeam1">
+                            J
+                        </th>
+                        <th class="vgjbjTeam2">
+                            P
+                        </th>
+                        <th class="vgjbjTeam2">
+                            B1
+                        </th>
+                        <th class="vgjbjTeam2">
+                            B2
+                        </th>
+                        <th class="vgjbjTeam2">
+                            B3
+                        </th>
+                        <th class="vgjbjTeam2">
+                            J
+                        </th>
+                    </tr>
+                    @for (int i = 0; i < Model.Jams.Count; i++)
+                    { 
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @Model.Jams[i].JamNumber
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].PivotT1 != null)
+                                {
+                                    if (Model.Jams[i].PivotT1.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].PivotT1.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].PivotT1.SkaterName))">
+                                        @Model.Jams[i].PivotT1.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].PivotT1.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].Blocker1T1 != null)
+                                {
+                                    if (Model.Jams[i].Blocker1T1.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].Blocker1T1.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].Blocker1T1.SkaterName))">
+                                        @Model.Jams[i].Blocker1T1.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].Blocker1T1.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].Blocker2T1 != null)
+                                {
+                                    if (Model.Jams[i].Blocker2T1.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].Blocker2T1.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].Blocker2T1.SkaterName))">
+                                        @Model.Jams[i].Blocker2T1.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].Blocker2T1.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].Blocker3T1 != null)
+                                {
+                                    if (Model.Jams[i].Blocker3T1.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].Blocker3T1.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].Blocker3T1.SkaterName))">
+                                        @Model.Jams[i].Blocker3T1.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].Blocker3T1.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].JammerT1 != null)
+                                {
+                                    if (Model.Jams[i].JammerT1.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].JammerT1.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].JammerT1.SkaterName))">
+                                        @Model.Jams[i].JammerT1.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].JammerT1.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].PivotT2 != null)
+                                {
+                                    if (Model.Jams[i].PivotT2.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].PivotT2.SkaterLinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Jams[i].PivotT2.SkaterName))">
+                                        @Model.Jams[i].PivotT2.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].PivotT2.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].Blocker1T2 != null)
+                                {
+                                    if (Model.Jams[i].Blocker1T2.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].Blocker1T2.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].Blocker1T2.SkaterName))">
+                                        @Model.Jams[i].Blocker1T2.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].Blocker1T2.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].Blocker2T2 != null)
+                                {
+                                    if (Model.Jams[i].Blocker2T2.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].Blocker2T2.SkaterLinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Jams[i].Blocker2T2.SkaterName))">
+                                        @Model.Jams[i].Blocker2T2.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].Blocker2T2.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].Blocker3T2 != null)
+                                {
+                                    if (Model.Jams[i].Blocker3T2.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].Blocker3T2.SkaterLinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Jams[i].Blocker3T2.SkaterName))">
+                                        @Model.Jams[i].Blocker3T2.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].Blocker3T2.SkaterName
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Jams[i].JammerT2 != null)
+                                {
+                                    if (Model.Jams[i].JammerT2.SkaterLinkId != new Guid())
+                                    { 
+                                    <a href="@Url.Content("~/Member/" + Model.Jams[i].JammerT2.SkaterLinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Jams[i].JammerT2.SkaterName))">
+                                        @Model.Jams[i].JammerT2.SkaterName
+                                    </a>
+                                    }
+                                    else
+                                    { 
+                                    @Model.Jams[i].JammerT2.SkaterName
+                                    }
+                                }
+                            </td>
+                        </tr>                       
+                    }
+                </table>
+            </div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div class="panelBox">
+        <div class="panelBoxTitle">
+            Links For The Game</div>
+        <div class="divider"></div>
+        <ul>
+            @foreach (var link in Model.GameLinks)
+            { 
+                <li><a target="_blank" href="@link.GameLink">@link.LinkType</a> </li>
+            }
+        </ul>
+    </div>
+</div>

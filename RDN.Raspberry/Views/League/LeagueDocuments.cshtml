@@ -1,0 +1,44 @@
+﻿@model RDN.Library.Classes.Document.DocumentRepository
+@{
+    ViewBag.Title = "Delete a League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Get All League Docs</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        League Id:
+        @Html.TextBoxFor(x => x.OwnerId)
+    </div>
+    
+    
+    <input type="submit" class="primary" />
+
+    <div>
+        <table>
+            @foreach (var doc in Model.Documents)
+            { 
+                <tr>
+                    <td>
+                        @doc.DocumentName
+                    </td>
+                    <td>@doc.IsRemoved</td>
+                    <td>@doc.SaveLocation</td>
+                    <td>@doc.SizeOfDocument</td>
+                    
+                    <td>@doc.Comments.Count</td>
+                    <td>
+                        @if (doc.IsRemoved) { 
+                        
+                        <a href="@Url.Content("~/League/RestoreLeagueDoc?docId=" + doc.OwnerDocId +"&ownerId="+ Model.OwnerId)">Restore</a>
+                        }
+                        </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+}

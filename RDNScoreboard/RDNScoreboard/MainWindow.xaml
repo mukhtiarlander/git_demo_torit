@@ -1,0 +1,530 @@
+﻿<Ribbon:RibbonWindow x:Uid="Window_MainWindow" x:Class="RDNScoreboard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="MainWindow" x:Name="Window" Height="600" Width="700"
+        xmlns:Ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+        xmlns:themes="clr-namespace:RDNScoreboard.Themes"
+                      xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="en"
+        lex:ResxLocalizationProvider.DefaultAssembly="RDNScoreboard"
+        lex:ResxLocalizationProvider.DefaultDictionary="language"
+        themes:ThemeManager.Theme="{Binding ElementName=themeHolder, Path=SelectedItem}"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        WindowStartupLocation="CenterScreen" Activated="Window_Activated"
+                     xmlns:controls="clr-namespace:RDNScoreboard.Controls.Watermark"
+                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Closed="Window_Closed" Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico" ResizeMode="CanMinimize">
+    <Grid>
+        <Popup x:Name="ClockEditWarning" VerticalOffset="10" HorizontalOffset="20" Placement="Right"  PlacementTarget="{Binding ElementName=editPeriodClockText}" IsOpen="False">
+            <Border BorderBrush="Black" BorderThickness="1"  CornerRadius="3,3,3,3" Padding="5" Background="White">
+                
+                <StackPanel >
+                    <TextBlock >Because its an Active Clock, Delete and</TextBlock>
+                    <TextBlock>Backspace don't work. Put cursor at</TextBlock>
+                    <TextBlock>beggining of #'s and overtype them.</TextBlock>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <StackPanel VerticalAlignment="Top"  HorizontalAlignment="Right" 
+                Orientation="Horizontal"
+                Margin="0,20,5,0"
+             Panel.ZIndex="9999"
+                Background="Transparent">
+            <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="3" x:Name="OnlineAdminLink" Visibility="Collapsed">
+    
+    <Hyperlink x:Name="OnlineAdministration" Click="OnlineAdministration_Click">Online Game Administration</Hyperlink>
+            </TextBlock>
+            <TextBlock Text="Offline" VerticalAlignment="Center" FontSize="15" x:Name="onOffLabel" Margin="3"></TextBlock>
+            <Image Source="Images/red.png" Width="20" x:Name="onOffImage"></Image>
+        </StackPanel>
+        <StackPanel>
+
+            <Ribbon:Ribbon WindowIconVisibility="Visible" VerticalAlignment="Top" Panel.ZIndex="999" >
+                <Ribbon:RibbonTab x:Uid="RibbonTab_Game" Header="Game" KeyTip="G" Selector.IsSelected="False">
+                    <Ribbon:RibbonGroup x:Uid="NewGame" x:Name="NewGame" Header="New Game">
+                        <!--TODO: New Game Icon-->
+                        <Ribbon:RibbonButton  Click="CreateNewGame_Click" x:Name="CreateNewGame" Label="New Game" ToolTip="Creates a Brand New Game/Resets all values." Margin="0,5"  BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                        <Ribbon:RibbonButton  Click="SaveSendGame_Click" x:Name="SaveGame" Label="Save Game" Margin="0,5"  BorderBrush="Black" BorderThickness="1" IsEnabled="False"></Ribbon:RibbonButton>
+                        <Ribbon:RibbonButton  Click="LoadGame_Click" x:Name="LoadGame" Label="Load Game" Margin="0,5"  BorderBrush="Black" BorderThickness="1"></Ribbon:RibbonButton>
+
+                    </Ribbon:RibbonGroup>
+                    <Ribbon:RibbonGroup x:Uid="TeamControl" x:Name="TeamControl" Header="Active Windows">
+                        <Ribbon:RibbonButton  x:Name="teamManagerButton" IsEnabled="False" Click="teamManagerButton_Click" Label="Team Manager" Margin="2,5"  BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                        <Ribbon:RibbonButton  Click="CRGWindow_Click" x:Name="CRGWindow" Label="Scoreboard" Margin="2,5"  BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+
+                    </Ribbon:RibbonGroup>
+                    <Ribbon:RibbonGroup x:Uid="Server" x:Name="ServerGroup" Header="Windows">
+                        <!--TODO: New Game Icon-->
+                        <Ribbon:RibbonButton  Click="OpenServerWindow_Click"  x:Name="OpenServerWindow" Label="Stats, Mobile and Video" Margin="5,5"  BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                        <Ribbon:RibbonButton Label="Scoreboard Policy" Margin="5,5"  x:Name="PolicyButton" Click="PolicyButton_Click" BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                    </Ribbon:RibbonGroup>
+                    <Ribbon:RibbonGroup x:Uid="GameName" x:Name="GameName" Header="Game Info">
+
+                        <TextBlock x:Uid="tbGameName" Text="Game Name:" ></TextBlock>
+                        <Ribbon:RibbonTextBox Text="Scrimmage" x:Name="gameNameText" TextChanged="gameNameText_TextChanged"  IsKeyboardFocusedChanged="gameNameText_IsKeyboardFocusedChanged" ></Ribbon:RibbonTextBox>
+                        <StackPanel>
+                            <xctk:WatermarkTextBox Watermark="Location (Arena)" x:Name="gameLocationText"   TextChanged="gameLocationText_TextChanged" IsKeyboardFocusedChanged="gameLocationText_IsKeyboardFocusedChanged" Width="100" />
+                            <xctk:WatermarkTextBox Watermark="City" x:Name="gameCityText"   TextChanged="gameCityText_TextChanged_1" IsKeyboardFocusedChanged="gameCityText_IsKeyboardFocusedChanged_1" Width="100"/>
+                            <xctk:WatermarkTextBox Watermark="State" x:Name="gameStateText"   TextChanged="gameStateText_TextChanged_1" IsKeyboardFocusedChanged="gameStateText_IsKeyboardFocusedChanged_1" Width="100"/>
+
+                        </StackPanel>
+                    </Ribbon:RibbonGroup>
+
+                </Ribbon:RibbonTab>
+                <Ribbon:RibbonTab x:Uid="RibbonTab_GameSettings" Header="Game Settings/Reports" KeyTip="S" >
+
+                    <Ribbon:RibbonGroup x:Uid="Report" x:Name="ReportGroup" Header="Export Reports">
+                        <!--TODO: New Game Icon-->
+                        <Ribbon:RibbonButton  Click="ExportMadeReport_Click"  x:Name="ExportMadeReport" Label="MADE Workbook" Margin="5,5"  BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                        <Ribbon:RibbonButton Label="WFTDA Report Workbook" Margin="5,5"  x:Name="ExportWFTDAReport" Click="ExportWFTDAReport_Click" BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                        <Ribbon:RibbonButton Label="RDNation Report" Margin="5,5"  x:Name="ExportRDNationReport" Click="ExportRDNationReport_Click" BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                    </Ribbon:RibbonGroup>
+                </Ribbon:RibbonTab>
+
+                <Ribbon:RibbonTab x:Uid="RibbonTab_Settings" Header="Settings" KeyTip="S">
+                    <Ribbon:RibbonGroup x:Uid="Font" x:Name="Font" Header="Program settings">
+                        <TextBlock x:Uid="TextBlock_SpecifyLanguage" Text="Specify language:" ></TextBlock>
+                        <Ribbon:RibbonComboBox SelectionBoxWidth="70">
+                            <Ribbon:RibbonGallery  Name="LanguagesHolder">
+                                <Ribbon:RibbonGalleryCategory ItemsSource="{Binding}" Name="Languages"></Ribbon:RibbonGalleryCategory>
+                            </Ribbon:RibbonGallery>
+                        </Ribbon:RibbonComboBox>
+
+                    </Ribbon:RibbonGroup>
+                    <!--<Ribbon:RibbonGroup  Header="Themes">
+                        <TextBlock  Text="Theme:" ></TextBlock>
+                        <Ribbon:RibbonComboBox SelectionBoxWidth="110" x:Name="themeSelector">
+                            <Ribbon:RibbonGallery  x:Name="themeHolder" SelectionChanged="themeHolder_SelectionChanged">
+                                <Ribbon:RibbonGalleryCategory  ItemsSource="{Binding}" x:Name="ThemesInBox"></Ribbon:RibbonGalleryCategory>
+                            </Ribbon:RibbonGallery>
+                        </Ribbon:RibbonComboBox>
+                    </Ribbon:RibbonGroup>-->
+                    <Ribbon:RibbonGroup x:Uid="OtherSettings" x:Name="OtherSettings" Header="Other Settings">
+                        <Ribbon:RibbonButton Label="Keyboard Shortcuts" Margin="0,5"  Click="SettingsView_Click" x:Name="SettingsView" BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                    </Ribbon:RibbonGroup>
+                </Ribbon:RibbonTab>
+                <Ribbon:RibbonTab x:Uid="RibbonTab_Help" Header="Help" KeyTip="H">
+                    <Ribbon:RibbonGroup  Header="Online Help">
+                        <TextBlock>
+    
+    <Hyperlink x:Name="wikiHelpLink" Click="wikiHelpLink_Click">Wiki For Thor's Hammer </Hyperlink>
+                        </TextBlock>
+                        <TextBlock>
+    
+    <Hyperlink x:Name="onlineSupportLink" Click="onlineSupportLink_Click">Online Support</Hyperlink>
+                        </TextBlock>
+                    </Ribbon:RibbonGroup>
+                    <Ribbon:RibbonGroup x:Uid="Feedback" x:Name="Feedback" Header="Feedback">
+                        <Ribbon:RibbonButton Label="Submit Feedback" Margin="0,5"  Click="FeedbackButton_Click" x:Name="FeedbackButton" BorderBrush="Black" BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                    </Ribbon:RibbonGroup>
+                    <Ribbon:RibbonGroup  Header="Misc">
+                        <Ribbon:RibbonButton Label="Release notes"
+                                             Margin="0,5"
+                                             Click="ReleaseNotesButton_Click"
+                                             x:Name="ReleaseNotesButton"
+                                             BorderBrush="Black"
+                                             BorderThickness="1">
+                        </Ribbon:RibbonButton>
+                    </Ribbon:RibbonGroup>
+                </Ribbon:RibbonTab>
+                <Ribbon:Ribbon.ApplicationMenu>
+                    <Ribbon:RibbonApplicationMenu Visibility="Collapsed"></Ribbon:RibbonApplicationMenu>
+                </Ribbon:Ribbon.ApplicationMenu>
+            </Ribbon:Ribbon>
+            <TabControl   Name="tabControl" VerticalAlignment="Top" >
+                <TabItem Header="Main Control" Name="MainTab" VerticalContentAlignment="Top">
+                    <StackPanel >
+                        <StackPanel Orientation="Horizontal" Width="680" Height="370" >
+
+                            <StackPanel  Width="340" Height="370" VerticalAlignment="Top">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="35" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="114" />
+                                        <ColumnDefinition Width="114" />
+                                        <ColumnDefinition Width="114" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0" Grid.Row="0" Style="{StaticResource BoldLargeControllerButton}"   Content="{lex:Loc StartJam}" IsEnabled="False" x:Name="startJamBtn"   />
+                                    <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource BoldLargeControllerButton}" Content="Stop Jam" ToolTip="Stops the Jam" x:Name="stopJamBtn" IsEnabled="False"  />
+                                    <Button Grid.Column="2" Grid.Row="0" Style="{StaticResource BoldLargeControllerButton}" Content="Game Is Over" IsEnabled="False" x:Name="gameOverBtn" Click="gameOverBtn_Click"  />
+
+                                    <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource BoldLargeControllerButton}" ToolTip="Stops the Jam, Team 1 Jammer Called It" Content="Stop Jam T1 Called" x:Name="stopJamT1Btn" Click="stopJamBtn_Click"  IsEnabled="False"  />
+                                    <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource BoldLargeControllerButton}" ToolTip="Stops the Jam, Team 2 Jammer Called It" Content="Stop Jam T2 Called" x:Name="stopJamT2Btn" Click="stopJamBtn_Click" IsEnabled="False"  />
+                                    <Button Grid.Column="2" Grid.Row="1" Style="{StaticResource BoldLargeControllerButton}" ToolTip="Stops the Jam because of an Injury" Content="Stop Jam for Injury" x:Name="stopJambyInjuryBtn" Click="stopJamBtn_Click" IsEnabled="False"  />
+
+                                    <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource BoldLargeControllerButton}" Content="Official Timeout" IsEnabled="False"  x:Name="timeOutBtn"   />
+                                    <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource BoldLargeControllerButton}" Content="Official Review" IsEnabled="False" x:Name="officialReviewBtn" Click="officialReviewBtn_Click" />
+                                    <Button Grid.Column="2" Grid.Row="2" Style="{StaticResource BoldLargeControllerButton}" Content="Start Intermission" IsEnabled="False" x:Name="startIntermissionBtn" Click="startIntermissionBtn_Click" />
+                                    
+
+
+                                </Grid>
+                                <Grid Width="Auto" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35" />
+
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="35" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="85" />
+                                        <ColumnDefinition Width="85" />
+                                        <ColumnDefinition Width="85" />
+                                        <ColumnDefinition Width="85" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Team 1" Grid.Row="0" Grid.Column="0"  x:Name="team1Label" Grid.ColumnSpan="2" Style="{StaticResource TeamLabelsMain}"></TextBlock>
+                                    <TextBlock Text="Team 2" Grid.Row="0" Grid.Column="2" x:Name="team2Label" Grid.ColumnSpan="2" Style="{StaticResource TeamLabelsMain}"></TextBlock>
+
+
+                                    <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100*"></ColumnDefinition>
+                                            <ColumnDefinition Width="100*"></ColumnDefinition>
+                                            <ColumnDefinition Width="100*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Column="0"  Style="{StaticResource BoldLargeControllerButton}"  IsEnabled="False"  Content="Up +1" x:Name="Team1ScoreUpBtn" />
+                                        <Button Grid.Column="1" Style="{StaticResource BoldLargeControllerButton}"  IsEnabled="False"  Content="Up +4"  Click="Team1ScoreUpBtn4_Click" x:Name="Team1ScoreUpBtn4" />
+                                        <Button Grid.Column="2" Style="{StaticResource BoldLargeControllerButton}"  IsEnabled="False"  Content="Up +5" Click="Team1ScoreUpBtn5_Click" x:Name="Team1ScoreUpBtn5" />
+                                    </Grid>
+                                    <Grid Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100*"></ColumnDefinition>
+                                            <ColumnDefinition Width="100*"></ColumnDefinition>
+                                            <ColumnDefinition Width="100*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Column="0"  Style="{StaticResource BoldLargeControllerButton}"  IsEnabled="False"  Content="Up +1" x:Name="Team2ScoreUpBtn" />
+                                        <Button Grid.Column="1" Style="{StaticResource BoldLargeControllerButton}"  IsEnabled="False"  Content="Up +4" Click="Team2ScoreUpBtn4_Click" x:Name="Team2ScoreUpBtn4" />
+                                        <Button Grid.Column="2" Style="{StaticResource BoldLargeControllerButton}"  IsEnabled="False"  Content="Up +5" Click="Team2ScoreUpBtn5_Click" x:Name="Team2ScoreUpBtn5"  />
+                                    </Grid>
+
+
+
+                                    <TextBlock x:Name="Team1Scorelbl" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+                                    <TextBlock x:Name="Team2Scorelbl" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+
+                                    <Button Grid.Column="0" Style="{StaticResource BoldLargeControllerButton}" Grid.ColumnSpan="2" IsEnabled="False" Grid.Row="3"  Content="Down -1" x:Name="Team1ScoreDownBtn" />
+                                    <Button Grid.Column="2" Style="{StaticResource BoldLargeControllerButton}" Grid.ColumnSpan="2" IsEnabled="False" Grid.Row="3" Content="Down -1"  x:Name="Team2ScoreDownBtn" />
+
+                                    <Button Grid.Column="0"  Style="{StaticResource BoldLargeControllerButton}"  Grid.Row="4"  Content="Time Out"  IsEnabled="False" x:Name="timeOutTeam1Btn" Click="timeOutTeam1Btn_Click" />
+                                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="TimeOutsRemainingTeam1"  Style="{StaticResource BoldLargeScoreController}" HorizontalAlignment="Center" ></TextBlock>
+                                        <TextBox x:Name="editTimeOutsRemainingTeam1Text" Style="{StaticResource BoldLargeScoreTextBox}" Visibility="Collapsed" TextChanged="editTimeOutsRemainingTeam1Text_TextChanged" ></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed"  x:Name="editModeTeam1TimeOut" >
+                                            <Button x:Name="upTeam1TimeOut" Click="upTeam1TimeOut_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downTeam1TimeOut" Click="downTeam1TimeOut_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20"  ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="2" Style="{StaticResource BoldLargeControllerButton}" Grid.Row="4" Content="Time Out"  IsEnabled="False" x:Name="timeOutTeam2Btn" Click="timeOutTeam2Btn_Click" />
+                                    <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="TimeOutsRemainingTeam2"  Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+                                        <TextBox x:Name="editTimeOutsRemainingTeam2Text" Style="{StaticResource BoldLargeScoreTextBox}" Visibility="Collapsed" TextChanged="editTimeOutsRemainingTeam2Text_TextChanged"></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed" x:Name="editModeTeam2TimeOut" >
+                                            <Button x:Name="upTeam2TimeOut" Click="upTeam2TimeOut_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downTeam2TimeOut" Click="downTeam2TimeOut_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20"  ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+
+                                    <TextBlock Text="J T1" Grid.Row="5" Grid.Column="0" Style="{StaticResource TeamLabelsJPNames}"></TextBlock>
+                                    <TextBlock Text="P T1" Grid.Row="5" Grid.Column="1" Style="{StaticResource TeamLabelsJPNames}"></TextBlock>
+                                    <TextBlock Text="J T2" Grid.Row="5" Grid.Column="2" Style="{StaticResource TeamLabelsJPNames}"></TextBlock>
+                                    <TextBlock Text="P T2" Grid.Row="5" Grid.Column="3" Style="{StaticResource TeamLabelsJPNames}"></TextBlock>
+
+                                    <Viewbox Grid.Row="6" Grid.Column="0">
+                                        <TextBlock Text="Jammer1"  x:Name="Jammer1Lbl" Style="{StaticResource SkaterLabelsMainGrey}"></TextBlock>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="6" Grid.Column="1">
+                                        <TextBlock Text="Pivot1"  x:Name="Pivot1Lbl" Style="{StaticResource SkaterLabelsMainGrey}"></TextBlock>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="6" Grid.Column="2">
+                                        <TextBlock Text="Jammer2"  x:Name="Jammer2Lbl" Style="{StaticResource SkaterLabelsMainGrey}"></TextBlock>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="6" Grid.Column="3">
+                                        <TextBlock Text="Pivot2"  x:Name="Pivot2Lbl" Style="{StaticResource SkaterLabelsMainGrey}"></TextBlock>
+                                    </Viewbox>
+                                    <ToggleButton Grid.Row="7" Style="{StaticResource BoldLargeControllerToggleButton}" Grid.Column="0"  Content="Lead" IsEnabled="False" x:Name="team1JammerLead" Click="team1JammerLead_Click"   />
+                                    <ToggleButton Grid.Row="7" Style="{StaticResource BoldLargeControllerToggleButton}" Grid.Column="1"  Content="Lead" IsEnabled="False" x:Name="team1PivotLead" Click="team1PivotLead_Click" />
+                                    <ToggleButton Content="Lead" Style="{StaticResource BoldLargeControllerToggleButton}" Grid.Row="7" Grid.Column="2" IsEnabled="False" x:Name="team2JammerLead" Click="team2JammerLead_Click" />
+                                    <ToggleButton Content="Lead" Style="{StaticResource BoldLargeControllerToggleButton}" Grid.Row="7" Grid.Column="3" IsEnabled="False" x:Name="team2PivotLead" Click="team2PivotLead_Click" />
+
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel Width="340" Height="350" VerticalAlignment="Top">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="45" />
+
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="115" />
+                                        <ColumnDefinition Width="115" />
+                                        <ColumnDefinition Width="115" />
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <TextBlock Text="Clock" Grid.Row="1" Grid.Column="0" Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+                                    <TextBlock Text="Number" Grid.Row="1" Grid.Column="1" Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+                                    <TextBlock Text="Time" Grid.Row="1" Grid.Column="2" Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+
+                                    <TextBlock Text="Period" Grid.Row="2" Grid.Column="0"  Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+
+                                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="PeriodNumberLbl" Style="{StaticResource BoldLargeScoreController}" ></TextBlock>
+                                        <TextBox x:Name="editPeriodNumberText" Style="{StaticResource BoldLargeScoreTextBox}" Visibility="Collapsed"  TextChanged="editPeriodNumberText_TextChanged"></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right"  Visibility="Collapsed" x:Name="editModePeriodNumber" >
+
+                                            <Button x:Name="upPeriodNumber" Click="upPeriodNumber_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downPeriodNumber" Click="downPeriodNumber_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    
+                                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="PeriodClockLbl" Style="{StaticResource BoldLargeScoreController}" ></TextBlock>
+                                        <TextBox x:Name="editPeriodClockText" GotFocus="editPeriodClockText_GotFocus" GotMouseCapture="editPeriodClockText_GotMouseCapture" Style="{StaticResource BoldLargeScoreTextBox}" MaxLength="5" Visibility="Collapsed"  LostFocus="editPeriodClockText_LostFocus" PreviewKeyDown="editPeriodClockText_PreviewKeyDown"  PreviewKeyUp="editPeriodClockText_PreviewKeyUp" ></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed" x:Name="editModePeriodTime" >
+                                            <Button x:Name="upPeriodTime" Click="upPeriodTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downPeriodTime" Click="downPeriodTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Text="Jam" Grid.Row="3" Grid.Column="0" Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+                                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="JamNumberLbl" Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+                                        <TextBox x:Name="editJamNumberText" Style="{StaticResource BoldLargeScoreTextBox}" Visibility="Collapsed" TextChanged="editJamNumberText_TextChanged" ></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed" x:Name="editModeJamNumber" >
+                                            <Button x:Name="upJamNumber" Click="upJamNumber_Click"  >
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downJamNumber" Click="downJamNumber_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock   x:Name="jamClockLbl" Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+                                        <TextBox x:Name="editJamClockText" GotFocus="editJamClockText_GotFocus" GotMouseCapture="editJamClockText_GotMouseCapture" Style="{StaticResource BoldLargeScoreTextBox}" MaxLength="5"  LostFocus="editJamClockText_LostFocus" Visibility="Collapsed" PreviewKeyUp="editJamClockText_PreviewKeyUp" PreviewKeyDown="editJamClockText_PreviewKeyDown" ></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed" x:Name="editModeJamTime" >
+                                            <Button x:Name="upJamTime" Click="upJamTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downJamTime" Click="downJamTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20"  ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Text="Line Up" Grid.Row="4" Grid.Column="0" Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" x:Name="LineUpNumberLbl"  Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+
+                                    <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="LineUpClockLbl"  Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+                                        <TextBox x:Name="editLineUpClockText" GotFocus="editLineUpClockText_GotFocus" GotMouseCapture="editLineUpClockText_GotMouseCapture" Style="{StaticResource BoldLargeScoreTextBox}" MaxLength="5" Visibility="Collapsed"  LostFocus="editLineUpClockText_LostFocus" PreviewKeyUp="editLineUpClockText_PreviewKeyUp" PreviewKeyDown="editLineUpClockText_PreviewKeyDown"  ></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed" x:Name="editModeLineUpTime" >
+                                            <Button x:Name="upLineUpTime" Click="upLineUpTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downLineUpTime" Click="downLineUpTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20"  ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Text="Time Out" Grid.Row="5" Grid.Column="0" x:Name="TimeOutName" Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+                                    <!--<Label Content="1" Grid.Row="5" Grid.Column="1"></Label>-->
+
+                                    <TextBlock Grid.Row="5" Grid.Column="2" x:Name="TimeOutClockLbl"  Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+
+
+                                    <!--<Label Content="0" Grid.Row="6" Grid.Column="1"></Label>-->
+                                    <StackPanel Grid.Row="6" Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Intermission" x:Name="IntermissionLbl"  Style="{StaticResource BoldTitlesScoreController}"></TextBlock>
+                                        <TextBox x:Name="editIntermissionName" TextChanged="editIntermissionName_TextChanged" IsKeyboardFocusedChanged="editIntermissionName_IsKeyboardFocusedChanged" Style="{StaticResource BoldLargeTextBox}" Visibility="Collapsed"   ></TextBox>
+                                    </StackPanel>
+
+
+                                    <StackPanel Grid.Row="6" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="IntermissionClockLbl"  Style="{StaticResource BoldLargeScoreController}"></TextBlock>
+                                        <TextBox x:Name="editIntermissionClockText" GotFocus="editIntermissionClockText_GotFocus" GotMouseCapture="editIntermissionClockText_GotMouseCapture"  Style="{StaticResource BoldLargeScoreTextBox}" MaxLength="5" Visibility="Collapsed"  LostFocus="editIntermissionClockText_LostFocus" PreviewKeyUp="editIntermissionClockText_PreviewKeyUp" PreviewKeyDown="editIntermissionClockText_PreviewKeyDown"  ></TextBox>
+                                        <StackPanel Orientation="Vertical" Width="20" HorizontalAlignment="Right" Visibility="Collapsed" x:Name="editModeIntermissionTime" >
+                                            <Button x:Name="upIntermissionTime" Click="upIntermissionTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/up.png" Height="20" ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button x:Name="downIntermissionTime" Click="downIntermissionTime_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                            <Image Source="Images/down.png" Height="20"  ></Image>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+
+                                    <!--<Label Content="Count Down" Grid.Row="7" Grid.Column="0"></Label>
+                            <Label Content="1" Grid.Row="7" Grid.Column="1"></Label>
+                            <Label Content="0:30" Grid.Row="7" Grid.Column="2"></Label>-->
+                                    <Button   Grid.Row="7" Grid.Column="1"  Style="{StaticResource BoldLargeControllerButton}" Content="Edit Mode" IsEnabled="False"  x:Name="startEditMode" Click="startEditMode_Click" Margin="2,2,2,6" />
+                                </Grid>
+
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Bottom"  HorizontalAlignment="Center"                 Orientation="Vertical"                Panel.ZIndex="1" Background="Transparent">
+                            <TextBlock    HorizontalAlignment="Center" x:Name="shortcutsTextBlock"></TextBlock>
+                            <TextBlock   Style="{StaticResource BottomDescriptionOfMain}" Text="Please Mention RDNation.com During The Game For Live Derby Games And Stats!"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+
+                </TabItem>
+                <TabItem Header="SlideShow" Name="SlideShowTab" VerticalContentAlignment="Top">
+                    <Frame x:Name="SlideShowFrame" Height="400"></Frame>
+
+                </TabItem>
+                <TabItem Header="Advertisements During Lineups" Name="AdvertisementTab" VerticalContentAlignment="Top">
+                    <Frame x:Name="AdvertisementFrame" Height="400"></Frame>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+
+
+
+
+    </Grid>
+
+</Ribbon:RibbonWindow>

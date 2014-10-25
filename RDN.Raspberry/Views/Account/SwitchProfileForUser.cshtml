@@ -1,0 +1,33 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Switch User.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Switch User to another profile.</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        User NAme:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    <div>
+        Member Id To Switch To:
+        @Html.TextBoxFor(x => x.Id2)
+    </div>
+    
+    <div>
+        Switches user to new profile removing all user information about old profile.</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+    <div>MEMBER IS SWITCHED!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

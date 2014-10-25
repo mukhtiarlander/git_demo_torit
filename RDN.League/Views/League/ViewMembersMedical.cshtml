@@ -1,0 +1,243 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Account.Classes.MemberDisplay>>
+@{
+    ViewBag.Title = "View Members for " + ViewBag.LeagueName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Members For @ViewBag.LeagueName
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isAdminOfLeague)
+            { 
+                <div class="navIcons">
+                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
+                    </a>
+                </div>
+            }
+            @if (isPaid)
+            {
+                <div class="navIcons">
+                    <a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/report") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/report")">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+            else
+            { 
+                <div class="navIcons">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div class="titleDescription">
+            Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from RDNation can be considered against the law in some countries.  Members only granted these rights to Managers of the league and not to anyone else.  Please stay within the law.
+       
+        </div>
+        <div class="divider"></div>
+        <div class="membersPager">
+            @Html.Partial("Menus/LeagueViewMembers")
+
+        </div>
+        <br /><br />
+        <div class="clear"></div>
+        <div>
+            <table class="listTable listMedTable" id="members">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Derby Name
+                        </th>
+                        <th>Epilepsy
+                        </th>
+                        <th>Diabetes
+                        </th>
+                        <th>Heart Problems
+                        </th>
+                        <th>Heart Murmur
+                        </th>
+                        <th>Asthma Bronchitis
+                        </th>
+                        <th>Hernia
+                        </th>
+                        <th>Concussion
+                        </th>
+                        <th>Glasses
+                        </th>
+                        <th>Contacts
+                        </th>
+                        <th>Hard Soft
+                        </th>
+                        <th>Fractured
+                        </th>
+                        <th></th>
+                        <th>Dislocation
+                        </th>
+                        <th></th>
+                        <th>Recurring Pain</th>
+                        <th></th>
+                        <th>Back Pain</th>
+                        <th>Injuries</th>
+                        <th></th>
+                        <th>Meds</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {                    
+                        <tr>
+                            <th>@i</th>
+                            <td>
+                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                                    @Model.Model.Items[i].DerbyName
+                                </a>
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.Epilepsy)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.Diabetes)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.HeartProblems)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.HeartMurmur)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.AsthmaBronchitis)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.Hernia)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.Concussion)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.WearGlasses)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.ContactLenses)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.HardSoftLensesEnum != RDN.Portable.Classes.Account.Enums.ContactLensesEnum.None)
+                                { 
+                                @Model.Model.Items[i].Medical.HardSoftLensesEnum.ToString()
+                                }
+                            </td>
+                            <td>@if (Model.Model.Items[i].Medical.FractureInThreeYears)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@Model.Model.Items[i].Medical.FractureText</td>
+                            <td>@if (Model.Model.Items[i].Medical.Dislocation)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@Model.Model.Items[i].Medical.DislocationText</td>
+                            <td>@if (Model.Model.Items[i].Medical.ReoccurringPain)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@Model.Model.Items[i].Medical.ReoccurringPainText</td>
+                            <td>@if (Model.Model.Items[i].Medical.BackNeckPain)
+                                { 
+                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                }
+                            </td>
+                            <td>@Model.Model.Items[i].Medical.SportsInjuriesText</td>
+
+                            <td>@Model.Model.Items[i].Medical.DoAnyConditionsAffectPerformanceText</td>
+                            <td>@Model.Model.Items[i].Medical.RegularMedsText</td>
+                            <td>@Model.Model.Items[i].Medical.AdditionalDetailsText</td>
+                        </tr>     
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>Derby Name
+                        </th>
+                        <th>Epilepsy
+                        </th>
+                        <th>Diabetes
+                        </th>
+                        <th>Heart Problems
+                        </th>
+                        <th>Heart Murmur
+                        </th>
+                        <th>Asthma Bronchitis
+                        </th>
+                        <th>Hernia
+                        </th>
+                        <th>Concussion
+                        </th>
+                        <th>Glasses
+                        </th>
+                        <th>Contacts
+                        </th>
+                        <th>Hard Soft
+                        </th>
+                        <th>Fractured
+                        </th>
+                        <th></th>
+                        <th>Dislocation
+                        </th>
+                        <th></th>
+                        <th>Recurring Pain</th>
+                        <th></th>
+                        <th>Back Pain</th>
+                        <th>Injuries</th>
+                        <th></th>
+                        <th>Meds</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+
+</script>

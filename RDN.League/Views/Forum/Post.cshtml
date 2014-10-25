@@ -1,0 +1,186 @@
+﻿@using RDN.Library.Classes.Forum;
+@model ForumTopic
+@{
+    ViewBag.Title = Model.TopicTitle + " Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div>
+        < <a href="@Url.Content("~/forum/posts/" + Model.ForumType.ToString() + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.GroupId)">Back To @Model.ForumName
+        </a>
+    </div>
+    <br />
+    <div class="expandableCenterContainter">
+        <div class="floatLeft alignMiddleCen">
+            <span class="fixTitle" id="topicTitle">@Model.TopicTitle</span>
+            @if (Model.IsManagerOfTopic)
+            {
+                <span class="spanLink" id="editTitle" onclick="EnableForumTopicEdit(this,'true')">
+                    <img height="22" src="@Url.Content("~/Content/images/icons/edit_league.png")" />
+                </span>
+                <span id="topicEditTitle" class="displayNone">
+                    <span class="extraLargeInput">
+                        <input type="text" id="topicTitleEdit" placeholder="@Model.TopicTitle" />
+                    </span>
+                    <input type="button" value="Change Name" onclick="ForumTopicEditSub(this)" /><span class="spanLink" id="cancelEditTitle" onclick="EnableForumTopicEdit(this,'false')">Cancel</span>
+                </span>
+            }
+            - @Model.Created.ToLongDateString() @Model.Created.ToShortTimeString() (@Model.ViewCount views)
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (!Model.IsLocked)
+            {
+                <a href="@Url.Content("~/forum/post/reply/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @Model.TopicId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/plus.png")" height="25px" />
+                    Reply To Post
+                </a>
+            }
+            else
+            {
+                <img alt="Topic is Locked" title="Topic is Locked" src="@Url.Content("~/Content/images/lock.png")" />
+            }
+            @if (!Model.IsWatching)
+            {
+                <span onclick="ForumPostToggleWatch(this)" class="spanLink" title="Sends email notifications when someone replies">
+                    <img src="@Url.Content("~/Content/images/icons/watch.png")" height="25px" />
+                    Watch
+                </span>
+            }
+            else
+            {
+                <span onclick="ForumPostToggleWatch(this)" class="spanLink" title="Sends email notifications when someone replies">
+                    <img src="@Url.Content("~/Content/images/icons/watch.png")" height="25px" />
+                    Stop Watching
+                </span>
+            }
+        </div>
+        <div class="divider"></div>
+        <div class="forumMessages">
+            @foreach (var message in Model.Messages)
+            {
+                <div id="msg-@message.MessageId">
+                    <div class="forumPostHead">
+                        <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "#msg-" + message.MessageId)"><b>Posted</b> @message.Created.ToLongDateString() @message.Created.ToShortTimeString()</a>
+
+                        <div class="vmChanges">
+
+                            @if (message.Member.MemberId == Model.CurrentMemberId)
+                            {
+                                <span><a href="@Url.Content("~/forum/post/edit/" + Model.ForumId.ToString().Replace("-", "") + "/" + message.MessageId)">Edit</a> | </span>
+                            }
+                            @if (Model.IsManagerOfTopic || message.Member.MemberId == Model.CurrentMemberId)
+                            {
+                                <span class="spanLink" onclick="javascript:RemovePostOfForumTopic(this, '@message.MessageId')">Delete</span><span> | </span>
+                            }
+                            <span><a href="@Url.Content("~/forum/post/quote/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "/" + message.MessageId)">Quote</a></span>
+                        </div>
+
+                    </div>
+
+                    <div class="forumPostProfile">
+                        @if (message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                        {
+                            <img height="65px" alt="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                        }
+                        else if (message.Member.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                        {
+                            <img height="65px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                        }
+                        else
+                        {
+                            <img height="65px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                        }
+                        <br />
+                        @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
+                        {
+                            <a target="_blank" href="@Url.Content("~/member/" + message.Member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName))">
+                                @message.Member.DerbyName
+                            </a>
+                        }
+                        else
+                        {
+                            <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName) + "/" + message.Member.MemberId.ToString().Replace("-", ""))">
+                                @message.Member.DerbyName
+                            </a>
+                        }
+                        <div><span><b>Posts:</b> </span>@message.Member.TotalForumPostsCount</div>
+                    </div>
+                    <div class="forumPostMessage">
+                        <div class="formPostMessageContent">
+                            @Html.Raw(message.MessageHTML)
+                        </div>
+
+
+                        <div class=" messageLikeAgree">
+                            <span >
+                                <a class="spanLink" onclick="MsgLike('@message.MessageId','@message.Member.MemberId','@message.ForumId','@message.TopicId')" >
+                                    <label class="LA" id="L-@message.MessageId">@message.MessageLike</label></a>
+                            </span>
+                            <span >
+                                <a class="spanLink" onclick="MsgIAgree('@message.MessageId','@message.Member.MemberId','@message.ForumId','@message.TopicId')" >
+                                    <label class="LA" id="A-@message.MessageId">@message.MessageIAgree</label></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            }
+
+        </div>
+
+        <div class="forumLinksRightBottom">
+            @if (!Model.IsLocked)
+            {
+                <a href="@Url.Content("~/forum/post/reply/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @Model.TopicId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/plus.png")" height="25px" />
+                    Reply To Post
+                </a>
+            }
+            else
+            {
+                <img alt="Topic is Locked" title="Topic is Locked" src="@Url.Content("~/Content/images/lock.png")" />
+            }
+            @if (!Model.IsWatching)
+            {
+                <span onclick="ForumPostToggleWatch(this)" class="spanLink" title="Sends email notifications when someone replies">
+                    <img src="@Url.Content("~/Content/images/icons/watch.png")" height="25px" />
+                    Watch
+                </span>
+            }
+            else
+            {
+                <span onclick="ForumPostToggleWatch(this)" class="spanLink" title="Sends email notifications when someone replies">
+                    <img src="@Url.Content("~/Content/images/icons/watch.png")" height="25px" />
+                    Stop Watching
+                </span>
+            }
+        </div>
+        <br />
+        <div>
+            < <a href="@Url.Content("~/forum/posts/" + Model.ForumType.ToString() + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.GroupId)">Back To @Model.ForumName
+            </a>
+        </div>
+        <div class="divider"></div>
+        <div>
+            <div>Members Unread</div>
+            <div class="forumPostInboxMember">
+                @foreach (var user in Model.TopicInbox)
+                {
+                    <span>
+                        <a target="_blank" href="@Url.Content("~/member/" + user.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(user.DerbyName))">
+                            @user.DerbyName
+                        </a>,
+                    </span>
+                }
+            </div>
+
+        </div>
+    </div>
+
+    @Html.HiddenFor(x => x.TopicId)
+    @Html.HiddenFor(x => x.ForumId)
+</div>
+<script type="text/JavaScript">
+    AddPageViewToCount('@Model.ForumId', '@Model.TopicId');
+</script>

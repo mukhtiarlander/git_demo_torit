@@ -1,0 +1,67 @@
+﻿@model List<RDN.Portable.Classes.Team.TeamDisplay>
+@{
+    ViewBag.Title = "TeamsForLeagues";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Sub-Teams In Your League
+        </div>
+         <div class="titleDescription">
+  Here you can view the sub teams in your league. In derby, when your league is large
+            enough, you start seperating your league into sub-teams. This is where you can view
+            and organize those sub teams.
+            </div>
+            <div class="divider"></div>
+        <div>
+            <table class="listTable" id="teams">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                <a href="@Url.Content("~/team/edit/" + Model[i].TeamId.ToString().Replace("-", ""))">
+                                    Edit </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/team/view/" + Model[i].TeamId.ToString().Replace("-", "") + "/" + Model[i].TeamName)">
+                                    @Model[i].TeamName
+                                </a>
+                            </td>
+                            <td>@Model[i].Description
+                            </td>
+                        </tr>     
+                    
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#teams').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

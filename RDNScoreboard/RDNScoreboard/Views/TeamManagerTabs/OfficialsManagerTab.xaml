@@ -1,0 +1,159 @@
+﻿<Page x:Class="RDNScoreboard.Views.TeamManagerTabs.OfficialsManagerTab"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	  xmlns:g="clr-namespace:Scoreboard.Library.ViewModel;assembly=Scoreboard.Library"
+	  mc:Ignorable="d" ShowsNavigationUI="False"       
+	  d:DesignHeight="550" d:DesignWidth="975"   xmlns:RDN="clr-namespace:RDNScoreboard.Code"
+	Title="OfficialsManagerTab">
+    <Page.Resources>
+        <RDN:ImageConverter x:Key="ImageConverter" />
+        <RDN:EnumStringConverter x:Key="EnumConverter" />
+    </Page.Resources>
+    <Grid VerticalAlignment="Top">
+
+        <StackPanel >
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Margin" Value="2,2,2,2" />
+                    </Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="2,2,2,2" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="10" FontSize="20" FontWeight="Bold"  TextWrapping="Wrap" Padding="1" Text="The Referee and NSO Crew"  HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" FontSize="20" FontWeight="Bold"  TextWrapping="Wrap" Padding="1" Text="Referees"  HorizontalAlignment="Center"/>
+                <StackPanel Grid.Column="7" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button  x:Name="saveAllRefs" Content="Save All Refs/NSOs" Click="saveAllRefs_Click_1" ></Button>
+                    <Button  x:Name="loadAllRefs" Content="Load All Refs/NSOs"  Click="loadAllRefs_Click_1" ></Button>
+                </StackPanel>
+                <TextBlock Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" FontSize="20" FontWeight="Bold"  TextWrapping="Wrap" Padding="1" Text="Non-Skating Officials"  HorizontalAlignment="Center" Margin="45,0,0,0"/>
+                <TextBlock Grid.Column="0" Grid.Row="2"  Text="Derby Name"  VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="Position" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="League" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="2" Text="Certification" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <StackPanel Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button  x:Name="saveRefs" Content="Save Refs" Click="saveRefs_Click_1" ></Button>
+                    <Button  x:Name="loadRefs" Content="Load Refs"  Click="loadRefs_Click_1" ></Button>
+                </StackPanel>
+                <TextBox Grid.Column="0" Grid.Row="3" x:Name="skaterNameRefs"></TextBox>
+                <ComboBox Grid.Column="1" Grid.Row="3"   x:Name="skaterPositionRef"/>
+                <TextBox Grid.Column="2" Grid.Row="3" x:Name="skaterLeagueRef"></TextBox>
+                
+                <ComboBox Grid.Column="3" Grid.Row="3"   x:Name="skaterCertRef"/>
+                <Button Grid.Column="4" Grid.Row="3" x:Name="submitSkaterRefs" Content="Add Ref" Click="submitSkaterRefs_Click_1"></Button>
+                <TextBlock Grid.Column="5" Grid.Row="2"  Text="Name" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Grid.Column="6" Grid.Row="2" Text="Position" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Grid.Column="7" Grid.Row="2" Text="League" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Grid.Column="8" Grid.Row="2" Text="Certification" VerticalAlignment="Bottom" HorizontalAlignment="Left"></TextBlock>
+                <StackPanel Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button  x:Name="saveNSOs" Content="Save NSOs" Click="saveNSOs_Click_1" ></Button>
+                    <Button  x:Name="loadNSOs" Content="Load NSOs"  Click="loadNSOs_Click_1" ></Button>
+                </StackPanel>
+                <TextBox Grid.Column="5" Grid.Row="3" x:Name="skaterNameNso"></TextBox>
+                <ComboBox Grid.Column="6" Grid.Row="3"  x:Name="skaterPositionNso"/>
+                <TextBox Grid.Column="7" Grid.Row="3" x:Name="skaterLeagueNso"></TextBox>
+                
+                <ComboBox Grid.Column="8" Grid.Row="3"   x:Name="skaterCertNso"/>
+                <Button Grid.Column="9" Grid.Row="3" x:Name="submitNso"  Content="Add NSO" Click="submitNso_Click_1"></Button>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="100" />
+                </Grid.RowDefinitions>
+                <DataGrid ItemsSource="{Binding}"  HorizontalContentAlignment="Center"        CanUserReorderColumns="True" CanUserResizeColumns="True" IsReadOnly="True"
+		  CanUserResizeRows="False" CanUserSortColumns="True" Grid.Column="0" Grid.RowSpan="3" AutoGenerateColumns="False" x:Name="RefList">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn    Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button  Content="X" x:Name="deleteRef" Click="deleteRef_Click_1"></Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Picture">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button   x:Name="setPictureRef" Click="setPictureRef_Click_1">
+                                        <Image  Source="{Binding Path=SkaterPictureLocation,  Converter={StaticResource ImageConverter}}" Height="15">
+                                        </Image>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Derby Name" Binding="{Binding Path=SkaterName}" />
+                        <DataGridTextColumn Header="Position" Binding="{Binding Path=RefereeType,  Converter={StaticResource EnumConverter}}" />
+                        <DataGridTextColumn Header="League" Binding="{Binding Path=League}" />
+                        
+                        <DataGridTextColumn Header="Certification" Binding="{Binding Path=Cert,  Converter={StaticResource EnumConverter}}" />
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <GridSplitter ResizeDirection="Columns"
+					 HorizontalAlignment="Stretch"
+					 VerticalAlignment="Stretch"
+					 Background="Black"
+					 Grid.Column="1" />
+                <DataGrid ItemsSource="{Binding}"           CanUserReorderColumns="True" CanUserResizeColumns="True" IsReadOnly="True"
+		  CanUserResizeRows="False" CanUserSortColumns="True" AutoGenerateColumns="False" Grid.Column="2" Grid.RowSpan="3" x:Name="NsoList">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn  Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button  Content="X" x:Name="deleteNso" Click="deleteNso_Click_1"></Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Picture">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button   x:Name="setPictureNso" Click="setPictureNso_Click_1">
+                                        <Image  Source="{Binding Path=SkaterPictureLocation,  Converter={StaticResource ImageConverter}}" Height="15">
+                                        </Image>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=SkaterName}" />
+                        <DataGridTextColumn Header="Position" Binding="{Binding Path=RefereeType,  Converter={StaticResource EnumConverter}}" />
+                        <DataGridTextColumn Header="League" Binding="{Binding Path=League}" />
+                        <DataGridTextColumn Header="Certification" Binding="{Binding Path=Cert,  Converter={StaticResource EnumConverter}}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <StackPanel VerticalAlignment="Bottom"  HorizontalAlignment="Center"  
+				Orientation="Vertical"                Panel.ZIndex="9999"                >
+                <Label  MaxWidth="950">
+                    <TextBlock  TextWrapping="Wrap"  FontSize="12" Text="By filling out the Team Manager and using it during Jams to mark player positions, you will be saving stats of each Jam and storing them for future use, also for Live Game Play. Its recommended to keep this window open during the game."></TextBlock>
+                </Label>
+                <TextBlock HorizontalAlignment="Center"><Hyperlink x:Name="wikiHelpLink" Click="wikiHelpLink_Click_1"><Run Text="Online Help For Referee Manager"/></Hyperlink></TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

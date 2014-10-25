@@ -1,0 +1,80 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Calendar.CalendarList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+  
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <con:DisplayDateConverter x:Key="displayDateConverter"></con:DisplayDateConverter>
+        <con:DisplayLongDateConverter  x:Key="displayLongDateConverter"></con:DisplayLongDateConverter>
+        <con:DisplayTimeConverter  x:Key="displayTimeConverter"></con:DisplayTimeConverter>
+        <con:DoubleConverter x:Key="doubleConverter"></con:DoubleConverter>
+        <con:VisibilityConverter x:Key="VisibilityConverter" x:Name="VisibilityConverter" />
+        <DataTemplate x:Name="EventTemplate">
+            <Border BorderBrush="#872f95" BorderThickness="0 0 0 1" VerticalAlignment="Top">
+                <StackPanel Style="{StaticResource RosterTemplateContainer}" >
+                    <toolkit:ContextMenuService.ContextMenu  >
+                        <toolkit:ContextMenu x:Name="ContextMenu1" >
+                            <toolkit:MenuItem x:Name="RSVP" Header="RSVP" Click="RSVP_Click"  />
+                            <toolkit:MenuItem x:Name="CheckIn" Header="Check In" Click="CheckIn_Click"  Visibility="{Binding CanCurrentUserCheckIn, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}"/>
+                            <toolkit:MenuItem x:Name="CheckInMembers" Header="Check In Members" Click="CheckInMembers_Click"  Visibility="{Binding IsAttendanceManagerOrBetter, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}"/>
+                        </toolkit:ContextMenu>
+                    </toolkit:ContextMenuService.ContextMenu>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  Text="{Binding Path=Name}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  Text="{Binding Path=StartDate, Converter={StaticResource displayLongDateConverter}}"></TextBlock>
+                        <TextBlock Text=" "></TextBlock>
+                        <TextBlock  Text="{Binding Path=StartDate, Converter={StaticResource displayTimeConverter}}"></TextBlock>
+                        <TextBlock Text=" - "></TextBlock>
+                        <TextBlock  Text="{Binding Path=EndDate, Converter={StaticResource displayTimeConverter}}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  Text="{Binding Path=Location.LocationName}"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+
+    </phone:PhoneApplicationPage.Resources>
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="EVENTS" Style="{StaticResource PhoneTextNormalStyle}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.Background>
+                <ImageBrush AlignmentY="Bottom"  Opacity=".3"  Stretch="Uniform" ImageSource="../../../Assets/banner.jpg" />
+            </Grid.Background>
+
+            <phone:LongListSelector x:Name="EventList"  ItemTemplate="{StaticResource EventTemplate}" SelectionChanged="EventList_SelectionChanged" ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            </phone:LongListSelector>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar  IsVisible="False"  >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/add.png" x:Name="Add" Click="Add_Click" Text="Add"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

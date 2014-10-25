@@ -1,0 +1,140 @@
+﻿@model RDN.Portable.Classes.Federation.FederationDisplay
+@{
+    ViewBag.Title = Model.FederationName;
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="tvTitle">
+            @Model.FederationName
+            <br />
+            <div class="tvDesc">
+                @if (!String.IsNullOrEmpty(Model.Website))
+                { 
+                <span>Website: <a href="@Model.Website">@Model.Website</a></span>
+                }
+            </div>
+        </div>
+        <hr />
+        <div class="gpHContent">
+            <div id="usual1" class="gameTabs">
+                <ul class="mainTabs usual">
+                    <li><a class="selected" href="#memberstab">Members</a></li>
+                    <li><a href="#leagues">Leagues</a></li>
+                </ul>
+            </div>
+            <div id="memberstab">
+                @if (Model.Members != null && Model.Members.Count > 0)
+                {
+                    <table class="listTable" id="members">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Derby Name
+                                </th>
+                                <th>Derby Number
+                                </th>
+                                <th>Gender
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Members.Count; i++)
+                            {
+                                <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                                    <td>
+                                        @if (Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                                        { 
+                                            <img height="40px" alt="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                                        }
+                                        else if (Model.Members[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                        { 
+                                            <img height="40px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                                        }
+                                        else
+                                        {
+                                            <img height="40px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
+                                            @Model.Members[i].DerbyName
+                                        </a>
+                                    </td>
+                                    <td>@Model.Members[i].PlayerNumber
+                                    </td>
+                                    <td>@Model.Members[i].Gender
+                                    </td>
+                                </tr>     
+                            }
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+            <div id="leagues">
+
+                <table class="listTable" id="leagueTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>League Name
+                            </th>
+                            <th>State
+                            </th>
+                            <th>Country
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Leagues.Count; i++)
+                        {
+                            <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                                <td>
+                                    @if (Model.Leagues[i].Logo != null)
+                                    {
+                                        <img height="40px" alt="@Model.Leagues[i].Logo.Alt" src="@Model.Leagues[i].Logo.ImageUrl" />
+                                    }
+                                </td>
+                                <td>
+                                    <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
+                                        @Model.Leagues[i].Name
+                                    </a></span>
+                                </td>
+                                <td>@Model.Leagues[i].State
+                                </td>
+                                <td>@Model.Leagues[i].Country
+                                </td>
+                            </tr>              
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+        $('#leagueTable').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+    $("#usual1 ul").idTabs();
+</script>

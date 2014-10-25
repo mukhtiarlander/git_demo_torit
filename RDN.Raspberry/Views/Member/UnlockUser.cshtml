@@ -1,0 +1,31 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Unlock a Member";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Unlock User</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Email of User to Unlock:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+   
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+    <div>Unlocked User.....</div>
+    
+    }
+     if (!Model.IsSuccess)
+    { 
+    <div>NOT UNLOCKED.....</div>
+    
+    }
+}

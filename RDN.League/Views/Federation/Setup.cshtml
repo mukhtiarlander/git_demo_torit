@@ -1,0 +1,80 @@
+﻿@using RDN.League.Models.Federation
+@model RegisterFederation
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Federation Setup</div>
+         <div class="titleDescription">
+ Here we will set up the federation you are in charge of. Once filled out, we will
+            be in contact with you to verify all the information is correct. Once verified,
+            we will give you access to start adding teams/leagues within your federation. Add
+            their players if you wish and any other statistical information.
+            </div>
+            <div class="divider"></div>
+       
+        @if (Model == null || !Model.FederationCreated)
+        {
+            using (Html.BeginForm())
+            {            
+            <table class="suTable">
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.FederationName)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.FederationName)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.FederationName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.FederationEmail)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.FederationEmail)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.FederationEmail)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                        @Html.LabelFor(m => m.FederationPhoneNumber)
+                    </td>
+                    <td class="suRTD">
+                        @Html.TextBoxFor(m => m.FederationPhoneNumber)
+                    </td>
+                    <td class="suValid">@Html.ValidationMessageFor(m => m.FederationPhoneNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        We will contact you shortly by phone. We must verfiy you are the owner of the federation.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="suLTD">
+                    </td>
+                    <td class="suRTD">
+                        <input class="primary" type="submit" value="Submit Federation" />
+                    </td>
+                </tr>
+            </table>
+        
+            }
+        }
+        else
+        { 
+            <div class="confirmationMessages">
+                Your Federation has been Created! We will be in contact with you shortly by phone.
+            </div>
+        }
+    </div>
+</div>

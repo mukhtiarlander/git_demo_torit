@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="Roller Derby Skaters"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light"
+        android:layout_weight="1" />
+    <ScrollView
+        android:layout_below="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+        <LinearLayout
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <LinearLayout
+                android:id="@+id/topLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                orientation="horizontal">
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:src="@drawable/skater"
+                    android:layout_width="130dp"
+                    android:padding="5dp"
+                    android:layout_height="130dp" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ProfileNameNumber"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/profileName" />
+                    <TableLayout
+                        android:id="@+id/profileStatTable"
+                        android:layout_height="match_parent"
+                        android:layout_width="fill_parent">
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_cell_shape_header"
+                                android:padding="5dp"
+                                android:id="@+id/textView1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Games"
+                                style="@style/profileTableStat" />
+                            <TextView
+                                android:background="@drawable/profile_cell_shape_header"
+                                android:padding="5dp"
+                                android:id="@+id/textView1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="W-L"
+                                style="@style/profileTableStat" />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/tableRow2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_cell_shape"
+                                android:padding="5dp"
+                                android:id="@+id/gamesCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                style="@style/profileTableStat" />
+                            <TextView
+                                android:background="@drawable/profile_cell_shape"
+                                android:padding="5dp"
+                                android:id="@+id/winsLoses"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                style="@style/profileTableStat" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <Button
+                android:layout_below="@+id/topLayout"
+                android:id="@+id/teamNameBtn"
+                android:background="@drawable/profileTeamNameButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/teamNameBtn" />
+            <LinearLayout
+                android:layout_below="@+id/teamNameBtn"
+                android:id="@+id/bottomLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                orientation="vertical">
+                <LinearLayout
+                    style="@style/contentBoxHead"
+                    android:background="@drawable/contentBoxContent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:padding="5dp"
+                        android:background="@drawable/contentBoxHeadBackground"
+                        style="@style/contentBoxText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bio" />
+                    <TextView
+                        style="@style/contentBoxText"
+                        android:padding="5dp"
+                        android:id="@+id/bio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:padding="5dp"
+                        android:background="@drawable/contentBoxHeadBackground"
+                        style="@style/contentBoxText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Info" />
+                    <TableLayout
+                        android:id="@+id/profileStatTable"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent">
+                        <TableRow
+                            android:id="@+id/nameRow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableHead"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="First Name" />
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                android:id="@+id/profileName"
+                                style="@style/profileInfoTableContent"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/ageRow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableHead"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Age" />
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                android:id="@+id/profileAge"
+                                style="@style/profileInfoTableContent"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/bornRow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableHead"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Born" />
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableContent"
+                                android:id="@+id/profileBorn"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/heightRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableHead"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Height" />
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableContent"
+                                android:id="@+id/profileHeight"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/weightRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableHead"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Weight" />
+                            <TextView
+                                android:background="@drawable/profile_info_cell"
+                                style="@style/profileInfoTableContent"
+                                android:id="@+id/profileWeight"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                orientation="horizontal" />
+        </LinearLayout>
+    </ScrollView>
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-6279184964362535/4727599000"
+        ads:adSize="BANNER"
+        android:layout_alignParentBottom="true"
+        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+        ads:loadAdOnCreate="true" />
+</RelativeLayout>

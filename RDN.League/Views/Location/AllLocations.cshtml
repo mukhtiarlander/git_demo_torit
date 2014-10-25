@@ -1,0 +1,67 @@
+﻿@using RDN.League.Models.Location
+@using RDN.League.Models.Utilities
+@model List<RDN.Portable.Classes.Location.Location>
+@{
+    ViewBag.Title = "All Locations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            All League Locations
+        </div>
+        <div class="divider"></div>
+        <div>
+
+            <table class="eventTypeTable">
+                <thead>
+                    <tr>
+                        <th class="tht">Location Name</th>
+                        <th class="tht">Address</th>
+                        <th class="tht">Delete</th>
+                    </tr>
+                </thead>
+                @foreach (var loc in Model)
+                { 
+                    <tr>
+                        <td >
+                            @loc.LocationName
+                        </td>
+                        <td>
+                            @if (loc.Contact != null && loc.Contact.Addresses.FirstOrDefault() != null)
+                            {
+                                var a = loc.Contact.Addresses.FirstOrDefault();
+                                @a.Address1<br />
+                                if (!String.IsNullOrEmpty(a.Address2))
+                                { 
+                                @a.Address2<br />
+                                }
+                                if (!String.IsNullOrEmpty(a.CityRaw))
+                                { 
+                                @a.CityRaw<span>,</span>}
+                                if (!String.IsNullOrEmpty(a.StateRaw))
+                                { 
+                                @a.StateRaw 
+                                }
+                                if (!String.IsNullOrEmpty(a.Zip))
+                                { 
+                                @a.Zip
+                                }
+                                if (!String.IsNullOrEmpty(a.Country))
+                                { 
+                                <br />@a.Country
+                                }
+                            }
+
+                        </td>
+                        <td>
+                            <span class="spanLink" onclick="Locations.RemoveLocation(this,'@loc.LocationId')" >Delete</span></td>
+                    </tr>
+                 
+                }
+            </table>
+
+        </div>
+    </div>
+</div>
+

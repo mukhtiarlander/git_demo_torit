@@ -1,0 +1,61 @@
+﻿@model IOrderedEnumerable<RDN.Portable.Classes.League.Classes.League>
+@{
+    ViewBag.Title = "SubscriptionsOfAllLeagues";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SubscriptionsOfAllLeagues</h2>
+@using (Html.BeginForm())
+{
+    <table class="subscriptionTable">
+        <tr>
+            <th>League Name</th>
+            <th>Subscription Ends</th>
+            <th>Subscription is Current</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Owners of League</th>
+            <th></th>
+        </tr>
+
+
+        @foreach (var league in Model)
+        {
+       
+            <tr>
+                <td>@league.Name</td>
+
+                <td>@Html.TextBox("sub-" + league.LeagueId, league.SubscriptionPeriodEnds)</td>
+                <td>@league.HasCurrentSubscription</td>
+                <td>@league.Email</td>
+                <td>@league.PhoneNumber</td>
+                <td>
+                    <table>
+                        <tr>
+                            <th>Derby Name</th>
+                            <th>Real Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                        </tr>
+                        @foreach (var mem in league.LeagueMembers.Where(x => x.LeagueOwnersEnum.HasFlag(RDN.Portable.Classes.League.Enums.LeagueOwnersEnum.Owner)))
+                        { 
+                            <tr>
+                                <td>@mem.DerbyName</td>
+                                <td>@mem.Firstname @mem.LastName</td>
+                                <td>@mem.Email</td>
+                                <td>@mem.PhoneNumber</td>
+                            </tr>    
+                        }
+
+
+                    </table>
+
+                </td>
+                <td>
+                    <input type="submit" value="@league.LeagueId" name="updateLeague" /></td>
+            </tr>
+        
+        }
+
+    </table>
+}

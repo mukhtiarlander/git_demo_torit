@@ -1,0 +1,179 @@
+﻿@using RDN.Library.Cache
+@model RDN.Portable.Classes.Voting.VotingClass
+@{
+    ViewBag.Title = "View Poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isSec = MemberCache.IsPollMgrOrBetterOfLeague(memId);
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            <div class="navIcons">
+                <a title="Polls" href="@Url.Content("~/poll/" + @Model.LeagueId)">
+                    <img src="@Url.Content("~/Content/images/icons/poll.png")"  />Polls
+                </a>
+            </div>
+        </div>
+        <div class="rightBackLink">
+            <div class="navIcons">
+                <a title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId + "/" + Model.VotingId)">
+                    <img src="@Url.Content("~/Content/images/icons/vote.png")"  />Vote
+                </a>
+            </div>
+            @if (isSec)
+            {
+                <div class="navIcons">
+                    <a title="Vote" href="@Url.Content("~/poll/edit/" + Model.LeagueId + "/" + Model.VotingId)">
+                        <img src="@Url.Content("~/Content/images/icons/edit.png")"  />Edit
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitlePoll superLargeInput">
+            @Model.Title
+            <br />
+        </div>
+        <div class="divider"></div>
+        <div class="fixDescriptionPoll">
+            
+             @Html.Raw(Model.Description)
+        </div>
+        <div class="clear"></div>
+        
+        <br />
+
+        <div class="clear"></div>
+        <div>
+            <table class="addForumPostTbl">
+                <tr>
+                    <td class="b " colspan="3">@if (Model.IsPollAnonymous)
+                                               {<span>Anonymous Questions & Answers:</span> }
+                                               else
+                                               {  <span>Questions & Answers:</span> }
+                    </td>
+                </tr>
+            </table>
+            <div id="pollQuestions">
+                @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
+                {
+                    <table id="questionTable-@question.QuestionId">
+                        <tr>
+                            <td colspan="2" id="updateQuestionTd-@question.QuestionId"><span class="pollViewAdminQuestion">@question.Question </span>@if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                                                                                                                                                     {  <span class="i"> - multiple choice</span>}</td>
+                        </tr>
+                        @foreach (var answer in question.Answers.OrderBy(x => x.AnswerId))
+                        {               
+                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                <td>
+                                    @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() <span class="smallFont">vote(s)</span> @question.GetPercentage(answer.AnswerId)%</td>
+                                <td  id="updateAnswerTd-@answer.AnswerId"><b>@answer.Answer</b>
+                                </td>
+                                <td class="extraLargeInput noTwoLine">
+                                    @if (!answer.WasRemoved)
+                                    {
+
+                                    }
+                                    else
+                                    { 
+                                        <span>Answer Was Removed From Poll</span>
+                                    }
+                                </td>
+                            </tr>
+                                    if (!Model.IsPollAnonymous)
+                                    {
+                                        foreach (var vote in question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).OrderBy(x => x.DerbyName))
+                                        { 
+                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                <td></td>
+                                <td>
+                                    <a href="@Url.Content("~/Member/" + vote.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(vote.DerbyName))">@vote.DerbyName</a>
+                                    - @vote.OtherText</td>
+                                <td></td>
+                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var vote in question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).OrderBy(x => x.DerbyName))
+                                        { 
+                            if (!String.IsNullOrEmpty(vote.OtherText))
+                            { 
+<tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                <td></td>
+                                <td>
+                                    @vote.OtherText</td>
+                                <td></td>
+                            </tr>
+                            }
+                                        }
+                                    }
+                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                <td colspan="3">
+                                    <div style="width: @question.GetBarLength(answer.AnswerId, 720)px" class="VoteControlPollBar">
+                                        &nbsp;
+                                    </div>
+                                </td>
+
+                            </tr>
+                                    { i += 1; }
+                        }
+
+                        <tr>
+                            <td colspan="3">
+                                <div class="divider"></div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+
+            </div>
+            <table>
+                <tr>
+                    <td class="b">Didn't Vote:
+                    </td>
+                    <td></td>
+                    <td id="emailPollLink"></td>
+                </tr>
+                @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
+                { 
+                    <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                        <td></td>
+
+                        <td>
+                            <a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </table>
+            @Html.HiddenFor(x => x.LeagueId)
+            @Html.HiddenFor(x => x.VotingId)
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Polls.Initialize('@Model.VotingId');
+    });
+    $("#PollsAdd").validate({
+        rules: {
+            AnswerType: "required"
+        }
+    });
+    $("#pollQuestions").sortable({
+        handle: '.sortableHandle',
+        helper: jquerySortableHelper,
+        update: function (event, ui) {
+            var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
+
+            Polls.SaveResortedPoll(idsInOrder);
+        }
+    }).disableSelection();
+
+</script>

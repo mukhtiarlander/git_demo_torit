@@ -1,0 +1,111 @@
+﻿@using RDN.League.Models.Helpers
+@model RDN.League.Models.OutModel.GenericEnumerableModel<RDN.Library.Classes.Team.Classes.ViewTeam>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!--  start page-heading -->
+<div id="page-heading">
+    <h1>
+        Teams list</h1>
+    <br />    
+</div>
+<!-- end page-heading -->
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+    <tr>
+        <th rowspan="3" class="sized">
+            <img src="../../Content/theme1/images/shared/side_shadowleft.jpg" width="20" height="300"
+                alt="" />
+        </th>
+        <th class="topleft">
+        </th>
+        <td id="tbl-border-top">
+            &nbsp;
+        </td>
+        <th class="topright">
+        </th>
+        <th rowspan="3" class="sized">
+            <img src="../../Content/theme1/images/shared/side_shadowright.jpg" width="20" height="300"
+                alt="" />
+        </th>
+    </tr>
+    <tr>
+        <td id="tbl-border-left">
+        </td>
+        <td>
+            <!--  start content-table-inner ...................................................................... START -->
+            <div id="content-table-inner">
+                @Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+                
+                <!--  start table-content  -->
+                <div id="table-content">
+                    <!--  start product-table ..................................................................................... -->                    
+                    
+                    @{
+                        foreach (var record in Model.Model)
+                        {            
+                            <h2><a href="@Url.Action("ViewTeam", "Manager", new { id = record.TeamId })">@record.Name</a></h2>
+                            <p style="font-style: italic;">
+                                @record.Description
+                            </p>
+                            <br/>
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0" class="product-table">
+                                                              
+                                <tr>                                
+                                    <th class="table-header-repeat line-left minwidth-1">
+                                        <a href="" onclick="alert('Not implemented'); return false;">Name</a>
+                                    </th>                                
+                                    <th class="table-header-repeat line-left minwidth-1">
+                                        <a href="" onclick="alert('Not implemented'); return false;">Nick</a>
+                                    </th>                                
+                                    <th class="table-header-options line-left">
+                                        <a href="" onclick="alert('Not implemented'); return false;">Options</a>
+                                    </th>
+                                </tr>
+                                @{       
+                                    if (record.Members.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="3">No records found</td>
+                                        </tr>
+                                    }                                                      
+                                    foreach (var member in record.Members)
+                                    {
+                                        <tr>                                                                        
+                                            <td>
+                                                <a href="@(Url.Action("ViewMember", "Manager", new { id = member.MemberId }))">@member.Firstname @member.Surname</a>
+                                            </td>                                        
+                                            <td>
+                                                #@member.PlayerNumber @member.PlayerName                                            
+                                            </td>                                        
+                                            <td class="options-width">                                            
+                                                <a href="@(Url.Action("RemoveMemberFromTeam", "Manager", new { id = member.MemberId }))" title="Remove" class="icon-2 info-tooltip" onclick="return confirm('Are you sure that you want to remove @member.Firstname @member.Surname from this team?');"></a>
+                                            </td>
+                                        </tr>                                    
+                                    }      
+                                }                   
+                            </table>
+                            <br />
+                        }
+                    }
+
+                    <!--  end product-table................................... -->                    
+                </div>
+                <!--  end content-table  -->                         
+                <div class="clear">
+                </div>
+            </div>
+            <!--  end content-table-inner ............................................END  -->
+        </td>
+        <td id="tbl-border-right">
+        </td>
+    <//tr>
+    <tr>
+        <th class="sized bottomleft">
+        </th>
+        <td id="tbl-border-bottom">
+            &nbsp;
+        </td>
+        <th class="sized bottomright">
+        </th>
+    </tr>
+</table>

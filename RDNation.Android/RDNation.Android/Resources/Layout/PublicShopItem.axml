@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="League"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light"
+        android:layout_weight="1" />
+    <ScrollView
+        android:layout_below="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+        <LinearLayout
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white">
+            <Gallery
+                android:id="@+id/shopItemImage"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp" />
+            <TextView
+                android:id="@+id/shopItemName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventName" />
+            <TextView
+                android:id="@+id/shopItemSoldBy"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventDateTime" />
+            <TextView
+                android:id="@+id/shopItemPrice"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventAddress" />
+            <TextView
+                android:id="@+id/shopItemDescription"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/publicEventProfileeventOrganizerInfo" />
+            <Button
+                android:id="@+id/shopItemBuyNow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Buy Now"
+                style="@style/buyNowButton"
+                android:background="@drawable/buy_now_button" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                orientation="horizontal" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

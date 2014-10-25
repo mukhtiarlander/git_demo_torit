@@ -1,0 +1,30 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete a League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Delete A League with its URL</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        League Logo To Delete by URL:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Only use this to delete the league entirely in case their are duplicates or something
+        like that.  This is a final delete, no going back and it deletes just the league, not the members of the league.</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsDeleted)
+    { 
+    <div>LOGO IS DELETED!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

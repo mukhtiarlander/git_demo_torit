@@ -1,0 +1,134 @@
+﻿@using RDN.Raspberry.Models.Helpers
+@model RDN.Raspberry.Models.OutModel.GenericSingleModel<RDN.Raspberry.Models.Utilities.SimplePager<RDN.Library.DataModels.RDN_Errors_Log>>
+
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+<h2>
+    Errors</h2>
+    
+@Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+
+Number of errors: @Model.Model.NumberOfRecords
+<br />
+<br />
+@using (Html.BeginForm("ErrorsOld", "Admin"))
+{
+    <text>
+        <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+        <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+        Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+        <input type="submit" value="Show"/>
+    </text>
+}
+<br/>
+<br/>
+<table>
+@foreach (var item in Model.Model.Items)
+{
+    
+    <tr>
+        <td style="font-weight: bold;">Error date:</td>
+        <td>@item.Date_Time.Value.ToString("MM.dd.yyyy HH:MM:ss")</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Error source:</td>
+        <td>@item.Error_Source</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Error target:</td>
+        <td>@(string.IsNullOrEmpty(item.Error_Target) ? string.Empty : item.Error_Target)</td>
+    </tr>
+    <tr>        
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Error message:</td>
+        <td>@item.Error_Message</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Error trace:</td>
+        <td>@item.Error_Trace</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Error target:</td>
+        <td>@item.Error_Target</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Last exception:</td>
+        <td>@item.Last_Exception</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Version:</td>
+        <td>@item.Version</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Additional info:</td>
+        <td>@item.Additional_Info</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold;">Session data:</td>
+        <td>@item.Session_Data</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            @using (Html.BeginForm("ErrorsOld", "Admin"))
+            {
+                <text>
+                    <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()"/>
+                    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                    <input type="hidden" name="ItemToDelete" value="@item.uid.ToString()"/>                    
+                    <input type="submit" value="Delete"/>
+                </text>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: 15px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="2"><hr /></td>
+    </tr>
+}
+</table>
+<br/>
+<br />
+@using (Html.BeginForm("ErrorsOld", "Admin"))
+{
+    <text>
+        <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+        <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+        Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+        <input type="submit" value="Show"/>
+    </text>
+}
+<br/>
+<br/>

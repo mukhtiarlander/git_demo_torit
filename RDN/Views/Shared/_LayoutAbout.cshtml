@@ -1,0 +1,180 @@
+﻿@using RDN.Models.Helpers
+@{
+    RDN.Library.Classes.Store.Display.DisplayStore store;
+    if (ViewData["merchantId"] == null)
+    {
+        store = RDN.Library.Cache.SiteCache.GetRandomPublishedStoreItems(3);
+    }
+    else { 
+        store = RDN.Library.Cache.SiteCache.GetRandomPublishedStoreItems(3, new Guid(ViewData["merchantId"].ToString()));
+    }
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    @using StackExchange.Profiling;
+<head runat="server">
+    <title>
+        @if (ViewBag.Title == null)
+        {
+            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT;
+        }
+        else
+        {    @ViewBag.Title
+            @Html.Raw(" - ")
+            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT 
+        }
+    </title>
+    <link href="@Url.Content("~/Content/Site.css?v=" + RDN.Portable.Config.ServerConfig.CSS_VERSION)" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.idtabs.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.timer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.easydate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/knockout-2.0.0.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/main.js?v=" + RDN.Portable.Config.ServerConfig.JS_VERSION)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29843570-1']);
+        _gaq.push(['_setDomainName', 'rdnation.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <link rel="apple-touch-icon" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon-precomposed" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+</head>
+<body>
+    <div id="fb-root">
+    </div>
+    <script>        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="mainContent">
+        <div class="header">
+        </div>
+        <div class="hTitle">
+            Roller Derby Nation
+        </div>
+        <div class="hDescription">
+            @RDN.Portable.Config.ServerConfig.WEBSITE_SLOGAN_DEFAULT
+        </div>
+          @if (DateTime.UtcNow < new DateTime(2014, 1, 1)) { 
+        <div class="smallAd"><a target="_blank" href="https://www.2n1skateshoppe.com/"><img height="90px" src="@Url.Content("~/Content/ads/2n1.png")" /></a></div>
+        }
+        <div class="hLogo">
+            <a href="@Url.Content("~/")">
+                <img class="hLogoImg" src="@Url.Content("~/Content/Rollerball_pink_s100.png")" /></a>
+        </div>
+        @*<div>Guaranteed to make your fans and team happier.</div>*@
+        <div class="hFBLike">
+            <div class="fb-like-box" data-href="http://www.facebook.com/rdnation" data-width="292"
+                data-colorscheme="dark" data-show-faces="false" data-stream="false" data-header="false">
+            </div>
+        </div>
+        @Html.Partial("_PartialUpperLinks")
+        @Html.Partial("_PartialLoginLinks")
+        @Html.Partial("_PartialCurrentGames")
+        <div>
+            <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-1376896373478670";
+    /* RDNationTop */
+    google_ad_slot = "0714080766";
+    google_ad_width = 728;
+    google_ad_height = 90;
+    //-->
+            </script>
+        </div>
+
+        <div class="sidebar">
+            <h2 class="newsTitle"><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION ">Shops at RDNation</a></h2>
+            @foreach (var item in store.StoreItems)
+            {
+                <div class="storeItem">
+                    <div class="storeItemInner">
+                        <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                            <div class="storeItemPhoto center">
+                                @if (item.Photos.FirstOrDefault() != null)
+                                { 
+                                    <img src="@item.Photos.FirstOrDefault().ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault().Alt" />
+                                }
+                            </div>
+                        </a>
+
+                        <div class="storeItemTitle">
+                            <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                        </div>
+                        <div class="storeItemN">
+                            <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                        </div>
+                        <div class="storeItemPrice">
+                            @if (item.Currency == "USD") {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
+                        </div>
+
+
+                        <div class="clear">
+                        </div>
+                    </div>
+                </div>
+            }
+            <br />
+            <div class="clear center"><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/sell")">Sell Gear At RDNation</a></div>
+        </div>
+
+        @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
+        <div class="aboutCont">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="footer">
+        @Html.Partial("_PartialFooter")
+    </div>
+    <script type="text/JavaScript">
+        AddSiteMapNode(location.href, true);
+        ko.applyBindings(currentGamesViewModel, document.getElementById("currentGamesBar"));
+
+        currentGamesViewModel.initialize();
+
+        (function () {
+            var a = document.createElement('a');
+            a.setAttribute('id', 'uservoice-feedback-tab');
+            a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
+            a.setAttribute('target', '_blank');
+            a.style.cssText = [
+      'position: fixed',
+      'top: 45%',
+      'width: 25px',
+      'height: 90px',
+      'margin: -45px 0 0',
+      'right: 0',
+      'background: #882f96 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
+      'border: outset 1px #000',
+      'border-right: none'
+            ].join(';');
+            document.body.appendChild(a);
+        })();
+
+    </script>
+    <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=RDNation Feedback"
+        target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>
+@MiniProfiler.RenderIncludes()
+</body>
+</html>

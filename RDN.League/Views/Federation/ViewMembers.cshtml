@@ -1,0 +1,141 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Account.Classes.MemberDisplayFederation>>
+@{
+    ViewBag.Title = "View Members for " + ViewBag.FederationName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Members For @ViewBag.FederationName
+        </div>
+         <div class="titleDescription">
+     Here you can view the Members Attached to Your Federation.
+       
+            </div>
+            <div class="divider"></div>
+    
+        <div>
+            <table class="listTable" id="members">
+                <thead>
+                    <tr>
+                        <th>Edit
+                        </th>
+                        <th>Internal Id</th>
+                        <th>Derby Name
+                        </th>
+                        <th>Derby Number
+                        </th>
+                        <th>Class
+                        </th>
+                        <th>First Name
+                        </th>
+                        <th>Last Name
+                        </th>
+                        <th>Phone Number
+                        </th>
+                        <th>Email
+                        </th>
+                        <th>M/F
+                        </th>
+                        <th>League
+                        </th>
+                        <th>Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Content("~/Federation/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">Edit </a>
+                            </td>
+                            <td>@Model.Model.Items[i].MembershipId</td>
+                            <td>
+                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                                    @Model.Model.Items[i].DerbyName
+                                </a>
+                            </td>
+                            <td>@Model.Model.Items[i].PlayerNumber
+                            </td>
+                            <td>@Model.Model.Items[i].MadeClassRank
+                            </td>
+                            <td>@Model.Model.Items[i].Firstname
+                            </td>
+                            <td>@Model.Model.Items[i].LastName
+                            </td>
+                            <td>@Model.Model.Items[i].PhoneNumber
+                            </td>
+                            <td>@Model.Model.Items[i].Email
+                            </td>
+                            <td class="center">
+                                @if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                { 
+                                    <img height="20px" src="@Url.Content("~/Content/images/female.png")" />
+                                }
+                                else if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Male)
+                                { 
+                                    <img height="15px" src="@Url.Content("~/Content/images/boy.png")" />
+                                }
+                            </td>
+                            <td>
+
+                                @foreach (var league in @Model.Model.Items[i].Leagues)
+                                { 
+                                    <div>
+                                        <a href="@Url.Content("~/Federation/League/" + league.LeagueId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name))">
+                                            @league.Name
+                                        </a>
+                                    </div>
+                                }
+                            </td>
+                            <td>@Model.Model.Items[i].FederationMemberType
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="uglyPager">
+            @using (Html.BeginForm("ViewMembers", "Federation"))
+            {
+                <text>
+                <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+                <input type="submit" value="Show" />
+                </text>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[2, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            //            "bProcessing": true,
+            //            "sAjaxSource": '@Url.Action("ViewMembersJson", "Federation")',
+            //            "aoColumns": [
+            //            { "mDataProp": "Edit" },
+            //            { "mDataProp": "MemberUrl" },
+            //            { "mDataProp": "PlayerNumber" },
+            //            { "mDataProp": "MadeClassRank" },
+            //            { "mDataProp": "Firstname" },
+            //            { "mDataProp": "LastName" },
+            //            { "mDataProp": "PhoneNumber" },
+            //            { "mDataProp": "Email" },
+            //            { "mDataProp": "Gender" },
+            //            { "mDataProp": "TeamName" },
+            //            { "mDataProp": "FederationMemberType" },
+            //]
+        });
+    });
+
+
+</script>

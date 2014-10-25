@@ -1,0 +1,17 @@
+﻿<Window x:Uid="Window_FeedbackView" x:Class="RDNScoreboard.Views.FeedbackView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Closing="Window_Closing" Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico"
+        Title="Give us feedback..." Height="398" Width="300">
+    <StackPanel DockPanel.Dock="Bottom">
+        <TextBlock Text="Enter your email (optional):"></TextBlock>
+        <TextBox MaxLength="250" Name="emailTb"></TextBox>
+        <TextBlock Text="Enter the league name (optional):"></TextBlock>
+        <TextBox MaxLength="250" Name="leagueTb"></TextBox>
+        <TextBlock Text="Enter Your Feedback Here:"></TextBlock>
+        <TextBox Height="220" AcceptsReturn="True" TextWrapping="Wrap" x:Name="feedbackTb" DockPanel.Dock="Top" />
+        <TextBlock x:Name="thankYouTb" Text=""></TextBlock>
+        <Button x:Uid="Button_SubmitFeedback" Click="Button_Click" Content="Submit feedback" Height="auto" VerticalAlignment="Top" DockPanel.Dock="Bottom"/>
+
+    </StackPanel>
+
+</Window>

@@ -1,0 +1,96 @@
+﻿@using RDN.Library.Classes.Messages;
+@using RDN.Library.Cache
+@model RDN.Portable.Classes.Controls.Message.MessageModel
+@{
+    ViewBag.Title = "Messages For " + Model.NameOfEntity;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+@if (!subPaid)
+{ 
+    <div class="expandableAd2">
+        <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-1376896373478670";
+    /* RDNation SideAd */
+    google_ad_slot = "9959849457";
+    google_ad_width = 120;
+    google_ad_height = 600;
+    //-->
+        </script>
+        <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+}
+<div class="@(subPaid ? "expandableContainer" : "expandableContainerAd")">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+          Private Conversations
+        </div>
+        <div class="expandableCenterContainterRight">
+            <div class="navIcons">
+                <a title="New Message" href="@Url.Content("~/messages/new/" + @Model.OwnerType.ToString() + "/" + @Model.IdOfEntity.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/message-add.png")" alt="New Message"  />New
+                </a>
+            </div>
+
+
+            @if (subPaid)
+            { 
+                <div class="navIcons">
+                    <a title="New Text" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/textmessage.png")" alt="New Text Message"  />New Text
+                    </a>
+                </div>
+            }
+            else
+            { 
+                <div class="navIcons">
+                    <a title="New Message" href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)">
+                        <img src="@Url.Content("~/Content/images/icons/textmessage.png")"  alt="New Message" />New
+                    </a>
+                </div>
+                
+            }
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="calendarTable" id="messages">
+                <thead>
+                    <tr>
+                        <th>Title
+                        </th>
+                        <th>Last Received
+                        </th>
+                        <th>Last Post
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var topic in Model.Conversations.OrderByDescending(x => x.LastPostDate))
+                    {
+                        <tr class="forumTopicRow @(topic.IsConversationRead ? "" : "calCurrentDateEvent")">
+                            <td>
+                                <a @(topic.IsConversationRead ? "" : "class=b") href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())">@topic.Title</a>
+
+                            </td>
+                            <td>
+                                @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)
+                            </td>
+                            <td>
+                                @topic.Messages.LastOrDefault().MessageText by <b>@topic.LastPostBy</b>
+                            </td>
+                            <td>
+
+                                <span class="spanLink" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')">Delete</span>
+
+                            </td>
+                        </tr>           
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

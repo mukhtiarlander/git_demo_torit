@@ -1,0 +1,60 @@
+﻿@model RDN.Library.Classes.Store.Display.DisplayStore
+@{
+    ViewBag.Title = "Display store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset>
+    <legend>Cart items</legend>
+    <table>
+        @foreach (var cartItem in Model.ShoppingCart.Items)
+        {
+            <tr>
+                <td>Art.nr: @cartItem.ArticleNumber</td>
+                <td>@cartItem.Name</td>
+                <td>@cartItem.Price @cartItem.Currency.ToString()</td>
+                <td>Quantity: @cartItem.QuantityOrdered</td>
+                <td>
+                    @using (Html.BeginForm("RemoveItemFromCart", "Store", FormMethod.Post))
+                    {
+                        <input type="submit" value="Remove"/>
+                        @Html.Hidden("shoppingcartitem", cartItem.ShoppingCartItemId)
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>Store items</legend>
+    <table>
+        @foreach (var item in Model.StoreItems)
+        {
+            using (Html.BeginForm("AddItemToCart", "Store", FormMethod.Post))
+            {
+                <tr>
+                    <td>Art.nr: @item.ArticleNumber</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price @item.Currency.ToString()</td>
+                    @if (item.CanRunOutOfStock)
+                    {
+                        <td>InStock: @item.QuantityInStock</td>   
+                    }          
+                    @Html.Hidden("merchantid", Model.MerchantId)
+                    @Html.Hidden("articleid", item.StoreItemId)
+                    <td><input type="text" name="quantity" value="1" maxlength="2" style="width: 50px;"/></td>    
+                    <td><input type="submit" value="Add to cart"/></td>  
+                </tr>
+            }
+        }
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>Checkout</legend>
+    @using(Html.BeginForm("CheckOut", "Store", FormMethod.Get))
+    {
+        <input type="submit" value="Checkout" />
+    }
+</fieldset>

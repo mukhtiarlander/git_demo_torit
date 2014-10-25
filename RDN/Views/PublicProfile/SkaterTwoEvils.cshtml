@@ -1,0 +1,79 @@
+﻿@using RDN.Portable.Classes.Account.Classes;
+@model MemberDisplay
+@{
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    ViewBag.Title = Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + " Roller Derby League";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter2  ">
+        <div class="vmPicture">
+            <img src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+        </div>
+        <div class="vmMemberDescription">
+            <div class="vmMemberName">
+                @Model.DerbyName
+                @if (!String.IsNullOrEmpty(Model.PlayerNumber))
+                {
+                    <span>(@Model.PlayerNumber)</span>
+                }
+            </div>
+            <hr />
+            @if (Model.Team != null)
+            { 
+                <div class="vmContactLine">
+                    <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-league/" + Model.Team1ScoreTotal + "/" + Model.TeamName.Replace(" ", "-") + "/" + Model.Team.ToString().Replace("-", ""))">
+                        @Model.TeamName
+                    </a></span>
+                </div>
+            }
+            <div class="vmContactLine">
+                <br />
+                <span class="SignUpTemp greenLink"><a href="http://rdnation.com/SignUp">Claim This Profile!</a>
+                </span>
+                <br />
+                <br />
+                @Model.DerbyName has yet to be claimed by the actual skater.
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        <div class="usual">
+            <ul class="idTabs">
+                <li><a href="#Stats">Stats</a></li>
+                <li><a href="#Bio">Biography</a></li>
+            </ul>
+            <div id="Stats" class="usualInner">
+                <br />
+                <br />
+                <table class="vmTable">
+                    <tr>
+                        <td colspan="4" class="vmTableHead">
+                            Games Played
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Opponent
+                        </th>
+                        <th>
+                            Final : Delta
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div id="Bio" class="usualInner">
+                <div class="vmTabTitle">
+                    Biography Of @Model.DerbyName</div>
+                <br />
+                @Html.Raw(Model.Bio)
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>

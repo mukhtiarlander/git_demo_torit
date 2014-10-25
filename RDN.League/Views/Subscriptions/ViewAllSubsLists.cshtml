@@ -1,0 +1,76 @@
+﻿@model List<RDN.Library.Classes.EmailServer.SubscriptionFactory>
+@{
+    ViewBag.Title = "Subscription Name";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    
+}
+@helper Truncate(string input, int length = 15)
+{
+    if (input != null)
+    {
+    if (input.Length <= length)
+    {
+    @input
+    }
+    else
+    {
+    @input.Substring(0, length)<text>...</text>
+    }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Subscriptions
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {                
+                <div class="navIcons">
+                    <a title="New Subscription" href="@Url.Content("~/subscriptions/List/Add")">
+                        <img src="@Url.Content("~/Content/images/icons/SubscriptionList.png")" />Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="titleDescription">
+            Add and view Subscriptions for your league.
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="Sponsors">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Subscription Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.listId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                <a href="@Url.Content("~/subscriptions/List/Edit/" + b.listId )" >Edit </a> @*<span> / </span>*@ 
+                            </td>
+
+                            <td>
+                               <a href="@Url.Content("~/subscriptions/View/" + b.listId +"/" + b.ListName )" > @Truncate(b.ListName ,18) </a>  
+                            </td>                            
+                       </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

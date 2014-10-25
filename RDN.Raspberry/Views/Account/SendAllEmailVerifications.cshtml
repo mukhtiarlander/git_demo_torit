@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "SendAllEmailVerifications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SendAllEmailVerifications</h2>
+
+<div>This will send all email verifications stuck in the queue...</div>
+
+<div>
+@using (Html.BeginForm("SendEmails", "Account"))
+{
+     <input type="submit" value="Send Emails" />
+}
+</div>

@@ -1,0 +1,99 @@
+﻿@model List<RDN.Library.Classes.League.Sponsor>
+@{
+    ViewBag.Title = "Sponsors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    
+}
+@helper Truncate(string input, int length = 15)
+{
+    if (input != null)
+    {
+    if (input.Length <= length)
+    {
+    @input
+    }
+    else
+    {
+    @input.Substring(0, length)<text>...</text>
+    }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Sponsors For The League
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {                
+                <div class="navIcons">
+                    <a title="New Sponsor" href="@Url.Content("~/league/sponsor/add")">
+                        <img src="@Url.Content("~/Content/images/icons/AddSponsor.png")" />Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="titleDescription">
+            Add and view sponsors for your league.
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="jobBoard">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Sponsor Name</th>
+                        <th>Ends On</th>
+                        <th>Promo Code</th>
+                        <th>Website</th>
+                        <th>Times Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.SponsorId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @if (memId == b.SponsorAddByMember || isSec)
+                                { 
+                                    <a href="@Url.Content("~/league/sponsor/edit/" + b.SponsorId + "/" + b.SponsorForLeague.ToString().Replace("-", ""))" >Edit </a> <span> / </span> <a href="@Url.Content("~/league/Sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))" >View </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))" >View </a>
+                                }
+                            </td>
+
+                            <td>
+                                @Truncate(b.SponsorName,18)
+                            </td>
+                            <td>
+                                @b.EndDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @Truncate(b.PromoCode,10)
+                            </td>
+                            <td>
+                                @Truncate(b.Website,20)
+                            </td>
+                            <td>
+                                @b.UsedCount
+                            </td>                            
+                       </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,230 @@
+﻿@model RDN.Portable.Classes.Voting.VotingClass
+@{
+    ViewBag.Title = "Create New Poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="panelBoxLeft">
+        <div class="panelBoxTitle">
+            League Members
+        </div>
+        <div class="divider"></div>
+        <div>
+           <label> <input type="checkbox" onchange="javascript:toggleCheckedForRecipients(this)" id="checkAll" /><b>Check
+                All</b></label>
+        </div>
+        <div id="checkboxes">
+
+            @foreach (var mem in Model.Voters)
+            { 
+                <div>
+                   <label> @Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "ChangeDictionaryItem(this, '" + mem.MemberId + "','" + RDN.Utilities.Strings.StringExt.ToJavascriptFriendly(mem.DerbyName) + "')" })<span id="@mem.MemberId.ToString()-name">@mem.DerbyName</span></label>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Create a New Poll
+        <br />
+            <br />
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+            @using (Html.BeginForm("CreatePollAdd", "Vote", FormMethod.Post, new { @id = "PollsAdd" }))
+            { 
+                <table class="addPollQuestionTable">
+                    <tr>
+                        <td class="b alRight">Title:
+                        </td>
+                        <td class="extraLargeInput">
+                            @Html.TextBoxFor(x => x.Title) - <span class="i">Title of Poll.</span>
+                        </td>
+                    </tr>
+                      <tr>
+                        <td class="b alRight">Description:
+                        </td>
+                        <td class="extraLargeInput"><span class="i">- Explain what the vote is on or about.</span>
+                               
+                        @Html.TextArea("Description", string.Empty, new
+                           {
+                               id = "wmd-input",
+                               style = "width:350px"
+                           })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+
+                    @*<tr>
+                        <td class="b">Is Poll Public:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.IsPublic) - <span class="i">Public Polls can be voted on by the world.</span>
+                        </td>
+                    </tr>*@
+                     <tr>
+                        <td class="b alRight">Open Results:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.IsOpenToLeague) - <span class="i">Results can be seen by league.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Is Anonymous:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.IsPollAnonymous) - <span class="i">Votes are hidden. Only results are shown and who hasn't voted.</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Broadcast Poll:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.BroadcastPoll) - <span class="i">Poll will be broadcasted to league</span>
+                        </td>
+                    </tr>
+
+                    <tr id="addQuestionRow">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Add Question:
+                        </td>
+                        <td>
+                            <span class="spanLink" onclick="AddPollAnswerCreate()"><img width="20px" src="@Url.Content("~/Content/plus.png")" alt="Add Answer"/>Add Question</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/poll/" + Model.LeagueId)">Cancel Poll</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Create Poll" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.LeagueId)
+                @Html.HiddenFor(x => x.ToMemberIds)
+            }
+        </div>
+    </div>
+</div>
+<div id="createPollPopup" class="createPollPopUp">
+    <div class="popUpHeader">
+        Add a Question
+    </div>
+    <div class="divider"></div>
+    <table>
+        <tr>
+            <td class="b alRight">Question:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="questionInput" /></td>
+        </tr>
+        <tr>
+            <td class="b alRight">Answer:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="answer1Input" />
+                <span>- I obstain from voting</span>
+
+
+            </td>
+        </tr>
+        <tr>
+            <td class="b alRight">Answer:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="answer2Input" />
+                <span>- I would like to NOT use that sponsor</span></td>
+        </tr>
+        <tr>
+            <td class="b alRight">Answer:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="answer3Input" />
+                <span>- I would like to use that sponsor</span></td>
+        </tr>
+        <tr>
+            <td class="b alRight">Answer:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="answer4Input" />
+              
+            </td>
+        </tr>
+        <tr>
+            <td class="b alRight">Answer:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="answer5Input" />
+              
+            </td>
+        </tr>
+        <tr>
+            <td class="b alRight">Answer:</td>
+            <td class="extraLargeInput">
+                <input type="text" id="answer6Input" /><span class="addAnswerPoll" title="Create Poll" onclick="AddAnotherAnswerToPoll(this, '6')">
+                <img src="@Url.Content("~/Content/plus.png")" alt="Add Answer"/></span>
+              
+            </td>
+        </tr>
+        <tr id="addAnswerToAnswersList">
+            <td></td>
+            <td>
+            </td>
+        </tr>
+        <tr><td class="b alRight">Multiple Options:</td><td>
+           <label> <input type="checkbox" id="multipleOptionsInput" /> <span class="i">Want users to select multiple options?</span></label>
+                                                       </td></tr>
+        <tr>
+            <td><span class="spanLink" onclick="closePopUp('createPollPopup')">Cancel</span></td>
+            <td>
+                <input type="button" value="Add Question" class="primary" onclick="Polls.AddQuestionToPoll()" /></td>
+        </tr>
+    </table>
+    <div></div>
+</div>
+
+<script type="text/javascript">
+    simpleIdTwo = 6;
+    $("#PollsAdd").validate({
+        rules: {
+            Question: "required"
+        }
+    });
+    $(document).ready(function () {
+        $("#checkAll").attr("checked", "checked");
+        toggleCheckedForRecipients($("#checkAll"));
+   
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "advanced",
+            skin: "o2k7",
+            skin_variant: "silver",
+            plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+            // Theme options
+            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
+            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
+            theme_advanced_buttons3: "",
+            theme_advanced_buttons4: "",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+        });
+    });
+
+
+</script>
+

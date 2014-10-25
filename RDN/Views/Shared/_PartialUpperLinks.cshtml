@@ -1,0 +1,32 @@
+﻿<ul class="dropdown">
+
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        <li>
+            <a href="https://league.rdnation.com">MY LEAGUE</a>
+        </li> 
+    }
+    <li><a href="@Url.Content("~/roller-derby-federations")">Federations</a></li>
+    <li><a href="@Url.Content("~/roller-derby-leagues")">Leagues</a></li>
+    <li><a href="@Url.Content("~/roller-derby-skaters")">Skaters</a></li>
+    <li><a href="@Url.Content("~/roller-derby-games")">Games</a>
+        <ul class="sub_menu">
+            <li><a href="@Url.Content("~/roller-derby-tournaments")">Tournaments</a></li>
+            <li><a href="@Url.Content("~/bout-challenge/view/all")">Bout Challenges</a></li>
+        </ul>
+    </li>
+    
+    <li><a href="@Url.Content("~/roller-derby-events")">Events</a></li>
+    <li><a href="@Url.Content("~/pricing")">Pricing</a></li>
+    <li><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION">Shops</a></li>
+    <li><a href="http://rdnation.com/roller-derby-scoreboard">Scoreboard</a></li>
+    
+    <li><a href="http://zebras.rdnation.com">Officials</a>
+           <ul class="sub_menu">
+            <li><a href="@Url.Content("~/officiating-requests/view/all")">Requests</a></li>
+        </ul>
+    </li>
+    @*<span><a href="@Url.Content("~/hiring")">Hiring</a></span>*@
+
+
+</ul>

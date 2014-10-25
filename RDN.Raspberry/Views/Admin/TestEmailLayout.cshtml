@@ -1,0 +1,56 @@
+﻿@model RDN.Raspberry.Models.Admin.TestEmailLayout
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+@if (Model.Sent && String.IsNullOrEmpty(Model.Error))
+{
+    <p>
+        <span style="color: green;">Your email has been sent successfully!</span>
+    </p>
+}
+else if (!String.IsNullOrEmpty(Model.Error))
+{
+    <p>
+        <span style="color: red;">The email could not be sent.<br/>Reason: @Model.Error</span>
+    </p>
+}
+
+@using(Html.BeginForm())
+{
+    <text>
+        <table>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" maxlength="100" name="Email" value="@Model.Email" /></td>
+            </tr>
+            <tr>
+                <td>Layout file id:</td>
+                <td><input type="text" maxlength="100" name="LayoutId" value="@Model.LayoutId" /> Add the name of the layout file without the file extension. (See layout files on the server. C:\websites services\EmailLayouts)</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="height: 25px;"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Email properties:</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea rows="25" cols="100" name="Xml">
+@Model.Xml
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">The properties from the layoutfile is entered in xml format. So if the marking in the layoutfile is: %body% then it would be &#060;body&#062;test text&#060;/body&#062; in the xml above</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Send email with layout"/></td>
+            </tr>
+        </table>                       
+    </text>
+}
+
+<br/>
+<br/>
+<br/>

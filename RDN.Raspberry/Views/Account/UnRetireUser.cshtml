@@ -1,0 +1,28 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "UnRetireUser";
+}
+
+<h2>UnRetire User with UserName</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        UserName To UnRetire:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+      Will unretire all profiles for the user.</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsDeleted)
+    { 
+    <div>User IS UNRETIRED!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

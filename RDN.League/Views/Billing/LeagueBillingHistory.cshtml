@@ -1,0 +1,61 @@
+﻿@using RDN.Library.Classes.Billing.Classes
+@using RDN.Utilities.Enums;
+@model LeagueBillingHistory
+@{
+    ViewBag.Title = "League Billing History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscriptions</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Biling History for @Model.LeagueName
+        </div>
+      
+       <div class="titleDescription">
+            Billing history for your league.  Please let us know if there is anything we can do for you by contacting us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here for you.
+        
+        </div>
+        <div class="divider"></div>
+      
+        <div>
+            <table class="listTable" id="receipts">
+                <thead>
+                    <tr>
+                        <th>Invoice Id</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Expires</th>
+                    </tr>
+                </thead>
+                @foreach (var receipt in Model.Receipts)
+                { 
+                    <tr>
+                        <td>@receipt.InvoiceId.ToString().Replace("-", "")</td>
+                        <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(receipt.Status)</td>
+                        <td>$@receipt.AmountPaid.ToString("N2")</td>
+                        <td>@receipt.Expires.ToShortDateString()</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#receipts').dataTable({
+            "aaSorting": [[2, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

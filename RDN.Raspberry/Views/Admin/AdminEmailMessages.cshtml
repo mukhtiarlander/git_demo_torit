@@ -1,0 +1,44 @@
+﻿@using RDN.Raspberry.Models.Helpers
+@model RDN.Raspberry.Models.Admin.AdminMessagesModel
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+<h2>Messages</h2>
+@using (Html.BeginForm("AdminEmailMessages", "Admin"))
+{
+    @Html.TextAreaFor(x => x.NewMessage)
+    <input type="submit" value="Add New Message" />
+}
+<br />
+<br />
+<table>
+    @foreach (var item in Model.Items)
+    {
+    
+        <tr>
+            <td style="font-weight: bold;">date:
+            </td>
+            <td>@item.Created.ToString("MM.dd.yyyy HH:MM:ss")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;">Message:
+            </td>
+            <td>@item.Message
+            </td>
+        </tr>
+       
+        <tr>
+            <td style="font-weight: bold;">Id:
+            </td>
+            <td>@item.EmailId
+            </td>
+        </tr>
+       
+     
+    }
+</table>

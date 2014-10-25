@@ -1,0 +1,87 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Dues.Dues"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:RDN.WP.Classes.UI.Roster"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <con:DisplayDateConverter x:Key="displayDateConverter"></con:DisplayDateConverter>
+        <con:DisplayLongDateConverter  x:Key="displayLongDateConverter"></con:DisplayLongDateConverter>
+        <con:DoubleConverter x:Key="doubleConverter"></con:DoubleConverter>
+        <con:VisibilityConverter x:Key="VisibilityConverter" x:Name="VisibilityConverter" />
+        <DataTemplate x:Name="DuesTemplate">
+            <Border BorderBrush="#872f95" BorderThickness="0 0 0 1" VerticalAlignment="Top">
+                <StackPanel Style="{StaticResource RosterTemplateContainer}" >
+                    <toolkit:ContextMenuService.ContextMenu  >
+                        <toolkit:ContextMenu x:Name="ContextMenu1" >
+                            <toolkit:MenuItem x:Name="ViewDues" Header="View Dues" Click="ViewDues_Click"/>
+                            <toolkit:MenuItem  x:Name="EditDues" Header="Edit Dues" Click="EditDues_Click"/>
+                        </toolkit:ContextMenu>
+                    </toolkit:ContextMenuService.ContextMenu>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  Text="{Binding Path=PayBy, Converter={StaticResource displayLongDateConverter}}"></TextBlock>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Cost: "></TextBlock>
+                                <TextBlock Text="{Binding  Path=CostOfDues, Converter={StaticResource doubleConverter}}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Withstanding: "></TextBlock>
+                                <TextBlock Text="{Binding  Path=TotalWithstanding, Converter={StaticResource doubleConverter}}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Total Paid: "></TextBlock>
+                                <TextBlock Text="{Binding  Path=TotalPaid, Converter={StaticResource doubleConverter}}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button x:Name="PayBtn" Grid.Column="1" Click="PayBtn_Click" Visibility="{Binding IsCurrentMemberPaidOrWaivedInFull, Converter={StaticResource VisibilityConverter}, ConverterParameter=Collapsed}">Pay</Button>
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+
+    </phone:PhoneApplicationPage.Resources>
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Border Background="Black">
+        <Grid x:Name="LayoutRoot" >
+            <Grid.Background>
+                <ImageBrush AlignmentY="Bottom"  Opacity=".3"  Stretch="Uniform" ImageSource="../../../Assets/banner.jpg" />
+            </Grid.Background>
+            <!--Pivot Control-->
+            <phone:Pivot Title="Dues Collection" x:Name="LeagueRoster">
+                <!--Pivot item one-->
+                <phone:PivotItem Header="dues">
+                    <Grid>
+                        <phone:LongListSelector x:Name="DuesList"  ItemTemplate="{StaticResource DuesTemplate}" ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="DuesList_SelectionChanged" >
+                        </phone:LongListSelector>
+                    </Grid>
+                </phone:PivotItem>
+            </phone:Pivot>
+        </Grid>
+    </Border>
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar IsVisible="False"  >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/settings.png" x:Name="Settings" Click="Settings_Click" Text="Settings"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,114 @@
+﻿@using RDN.League.Models.Dues
+@using RDN.Library.Classes.Dues
+@model RDN.Portable.Classes.Controls.Dues.DuesMemberItem
+@{
+    ViewBag.Title = "Edit Member Paid Dues";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a href="@Url.Content("~/dues/collection/" + Model.DuesItem.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">Dues Item</a> | <a href="@Url.Content("~/dues/" + Model.OwnerEntity + "/" + Model.OwnerId.ToString().Replace("-", ""))">Dues Management </a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Modify Payments Made by @Model.Member.DerbyName
+        </div>
+      
+          <div class="titleDescription">
+  You may remove and review payments made by this member.
+       
+            </div>
+            <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("EditMemberDuesItem", "Dues", FormMethod.Post))
+            { 
+                <table class="viewEventTable">
+                    <tr class="trBorderB">
+                        <td class="veLC">For:
+                        </td>
+                        <td>
+                            @Model.Member.DerbyName
+                        </td>
+                    </tr>
+                    <tr class="trBorderB">
+                        <td class="veLC">Payment Due Date:
+                        </td>
+                        <td>
+                            @Model.DuesItem.PayBy.ToLongDateString()
+                        </td>
+                    </tr>
+                    <tr class="trBorderB">
+                        <td class="veLC">Amount:
+                        </td>
+                        <td>
+                            @Html.TextBox("amountDue", Model.DuesItem.CostOfDues.ToString("N2")) <span class="spanLink" onclick="updateEditMemberDuesCost(this, '@Model.Member.MemberId', '@Model.DuesId', '@Model.DuesItem.DuesItemId')">Update</span>
+                        </td>
+                    </tr>
+                    @if (Model.DuesItem.DuesCollected.Sum(x => x.DuesPaid) != Model.DuesItem.CostOfDues && Model.DuesItem.DuesCollected.Where(x => x.IsWaived == true).FirstOrDefault() == null)
+                    { 
+                        <tr class="trBorderB">
+                            <td class="veLC">Send Reminder:
+                            </td>
+                            <td>
+                                <input type="button" class="primary" value="Send Reminder Email" onclick="javascript:SendReminderToPayDues(this,'@Model.Member.MemberId    ')" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <br />
+                <table id="members" class="viewDuesTable">
+                    <thead class="vmTableHead">
+                        <tr>
+                            <th></th>
+                            <th class="alignCenter">Paid On
+                            </th>
+                            <th class="alignCenter">Paid
+                            </th>
+                            <th class="alignCenter">Notes
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.DuesItem.DuesCollected.Count; i++)
+                        {   
+                            <tr class="trBorderB" id="@Model.DuesItem.DuesCollected[i].DuesCollectedId-row">
+                                <td class="b alignCenter">@(i + 1).
+                                </td>
+                                <td class="alignCenter">
+                                    @Model.DuesItem.DuesCollected[i].PaidDate.ToLongDateString()
+                                </td>
+                                <td class="alignCenter" id="@Model.DuesItem.DuesCollected[i].DuesCollectedId-Collected">
+                                    @if (Model.DuesItem.DuesCollected[i].IsWaived)
+                                    { 
+                                        <span>Waived</span>
+                                    }
+                                    else
+                                    { 
+                                        @Model.DuesItem.DuesCollected[i].DuesPaid.ToString("N2")
+                                    }
+                                </td>
+                                <td>
+                                    @Model.DuesItem.DuesCollected[i].Note
+                                </td>
+                                <td class="alignCenter">
+                                    <span class="spanLink" onclick="javascript:RemoveDuesPayment('@Model.DuesItem.DuesCollected[i].DuesCollectedId', '@Model.Member.MemberId', '@Model.DuesId', '@Model.DuesItem.DuesItemId')">Remove Payment</span>
+                                </td>
+                            </tr> 
+                        }
+                    </tbody>
+                </table>
+     
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.HiddenFor(x => x.OwnerId)
+                @Html.Hidden("LeagueOwnerId",Model.OwnerId)
+                @Html.HiddenFor(x => x.DuesItem.DuesItemId)
+                @Html.HiddenFor(x => x.Member.MemberId)
+                @Html.HiddenFor(x => x.OwnerEntity)
+                @Html.Hidden("DuesItemId", Model.DuesItem.DuesItemId)
+            }
+        </div>
+    </div>
+</div>

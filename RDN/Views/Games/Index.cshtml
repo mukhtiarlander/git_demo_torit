@@ -1,0 +1,86 @@
+﻿@model List<RDN.Portable.Models.Json.Games.CurrentGameJson>
+@{
+    ViewBag.Title = "The Last Seven Days of Roller Derby Games";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="gamesPageTitle">
+    This Past Weeks Roller Derby Games
+</div>
+@foreach (RDN.Portable.Models.Json.Games.CurrentGameJson game in Model)
+{
+    
+    <div class="gsPGameContainer">
+        <div class="gsPTitle">
+            <a href="@Url.Content("~/roller-derby-game/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
+                @game.GameName
+            </a>
+        </div>
+        <div class="gsPContent">
+            <div class="gsPDate">
+                @game.StartTime.ToShortDateString()
+            </div>
+            <div class="gsPDivider">
+            </div>
+            <div>
+                <br />
+                <div>
+                    @if (!String.IsNullOrEmpty(game.Team1LogoUrl))
+                    { 
+                        <img  src="@game.Team1LogoUrl" alt="@game.Team1Name" class="gameLogo"/>
+                    }
+                    <span class="gsPTeamName">@game.Team1Name </span>
+                    @if (game.Team1Score > game.Team2Score)
+                    {
+                        <span class="gsPTeamScore b u">@game.Team1Score</span>
+                    }
+                    else
+                    { <span class="gsPTeamScore">@game.Team1Score</span>
+                    }
+                </div>
+                <div class="gsPDivider">
+                </div>
+                <div>
+                    @if (!String.IsNullOrEmpty(game.Team2LogoUrl))
+                    { 
+                        <img  src="@game.Team2LogoUrl" alt="@game.Team2Name" class="gameLogo"/>
+                    }
+                    <span class="gsPTeamName">@game.Team2Name</span>
+                    @if (game.Team2Score > game.Team1Score)
+                    {
+                        <span class="gsPTeamScore b u">@game.Team2Score</span>
+                    }
+                    else
+                    { <span class="gsPTeamScore">@game.Team2Score</span>
+                    }
+                </div>
+                <div class="gsPDivider">
+                </div>
+                <div class="gsPRuleSet">
+                    @if (game.RuleSet == "MADE")
+                    { 
+                        <a href="http://www.skatemade.org/" target="_blank">
+                            @game.RuleSet
+                        </a>
+                    }
+                    else if (game.RuleSet == "WFTDA")
+                    {
+                        <a href="http://wftda.com/" target="_blank">
+                            @game.RuleSet
+                        </a>                    
+                    }
+                    else
+                    {
+                        @game.RuleSet
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clear">
+</div>
+<div class="gpSBVersion">
+    Want to Show Your Games LIVE on RDNation For Free?
+    <br />
+    <a href="http://rdnation.com/roller-derby-scoreboard">Download Thor's Hammer Roller Derby Scoreboard</a>
+</div>

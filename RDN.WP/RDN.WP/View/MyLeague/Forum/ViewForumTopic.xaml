@@ -1,0 +1,85 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Forum.ViewForumTopic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <phone:Pivot Title="Forum Topic" x:Name="topicName">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="messages">
+                <phone:LongListSelector x:Name="MessageList"  ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1" SelectionChanged="MessageList_SelectionChanged"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Gray">
+                                <StackPanel Margin="0,0,0,10" >
+                                        <TextBlock x:Name="title" Style="{StaticResource ForumTopicText}"   Text="{Binding  Path=Text}"></TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource ForumLastCounts}" Text="by "></TextBlock>
+                                        <TextBlock x:Name="startedBy" Margin="0,0,0,0" Style="{StaticResource ForumLastCounts}" Text="{Binding  Path=PostedByName}"></TextBlock>
+                                        <TextBlock Text=", "></TextBlock>
+                                        <TextBlock x:Name="replyCount" Style="{StaticResource ForumLastCounts}" Text="{Binding  Path=DatePostedByHuman}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="stats">
+                <ScrollViewer>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Locked:" Grid.Row="0" Grid.Column="0" Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="" x:Name="Locked" Grid.Row="0" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="Started By:" Grid.Row="1" Grid.Column="0"  Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="" x:Name="StartedBy" Grid.Row="1" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="View Count:" Grid.Row="2" Grid.Column="0"  Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="0" x:Name="ViewCount" Grid.Row="2" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="Category:" Grid.Row="3" Grid.Column="0"  Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="" x:Name="Category" Grid.Row="3" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="Pinned:" Grid.Row="4" Grid.Column="0"  Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="" x:Name="Pinned" Grid.Row="4" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="Watching?:" Grid.Row="5" Grid.Column="0"  Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="" x:Name="Watching" Grid.Row="5" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="Those Unread:" Grid.Row="6" Grid.Column="0"  Style="{StaticResource LeftColumnText}"></TextBlock>
+                    <TextBlock Text="" x:Name="Unread" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap"></TextBlock>
+                </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/appbar.reply.email.png" x:Name="ReplyPostBar" Click="ReplyPost_Click" Text="Reply"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/appbar.smiley.glasses.png" x:Name="WatchPostBar" Click="WatchPostBar_Click" Text="Watch"/>
+
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

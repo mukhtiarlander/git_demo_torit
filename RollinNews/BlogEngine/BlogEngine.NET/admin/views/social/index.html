@@ -1,0 +1,186 @@
+﻿<div id="wrap">
+    <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div class="container admin-views-main admin-views-settings-controls" data-ng-controller="SocialController">
+        <form id="form" action="">
+            <div class="page-header clearfix">
+                <h2 class="page-title pull-left">Social <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+                </h2>
+                <div id="fb-root"></div>
+                <script>
+                   
+                </script>
+                <div class="fb-login-button pull-right" perms="manage_pages,publish_stream" style="margin-top: 10px;" data-show-faces="true" data-width="200" data-max-rows="1"></div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="well clearfix">
+                        <h4>Save Scores</h4>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Message</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="Text4" data-ng-model="social.Message"></input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Link</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="text5" data-ng-model="social.Link"></input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Picture Url</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height  pull-left" style="width:80%;" id="pictureUrl1" data-ng-model="social.PictureUrl" /><span onclick="angular.element(this).scope().openImageGalleryForInitial1(this)" class="spanLink pull-right"><img src="{{SiteVars.AbsoluteWebRoot}}Content/images/icons/image.png" /></span>
+                                </div>
+                            </div>
+                            <div class="form-group displayNone" id="galleryForInitialImage1">
+                                <input placeholder="Search Images" id="postImageInitialSearch1" class="form-control ng-pristine displayNone" data-ng-model="social.SearchImages" ng-change="searchImageChanged()" />
+                                <div class="galleryForInitialImage " >
+                                    <div class="imageList pointer" ng-repeat="file in images">
+                                        <img src="{{file.FileDownloadPath}}" onclick="angular.element(this).scope().setUrlImageFromClick(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Name</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="text7" data-ng-model="social.Name"></input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Caption</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="text8" data-ng-model="social.Caption"></input>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" for="txtContactFormMessage">Team 1 Name</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control xlarge-width small-height" id="text9" data-ng-model="social.Team1Name"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" for="txtContactFormMessage">Team 1 Score</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control xlarge-width small-height" id="text10" data-ng-model="social.Team1Score"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" for="txtContactFormMessage">Team 2 Name</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control xlarge-width small-height" id="text11" data-ng-model="social.Team2Name"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" for="txtContactFormMessage">Team 2 Score</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control xlarge-width small-height" id="text12" data-ng-model="social.Team2Score"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" for="txtContactFormMessage">Date Of Game</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control xlarge-width small-height" id="DateOfGame" data-ng-model="social.DateOfGame"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" for="txtContactFormMessage">DateTime For Message</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control xlarge-width small-height" id="dateTimeForMessage" data-ng-model="social.DateForMessage"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button data-ng-click="saveAndPostToFacebook()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>Save Scores & Post To Facebook</button><span class="i marginSpacingRight  pull-right"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button ng-if="social.IsLoggedIntoFacebook" data-ng-click="postScoreToFacebook()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>Only Post To Facebook</button><span class="i marginSpacingRight  pull-right"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="well clearfix">
+                        <h4>Post To Facebook</h4>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Message</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="txtContactFormMessage" data-ng-model="social.Message"></input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Link</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="textLink" data-ng-model="social.Link"></input>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Picture Url</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height  pull-left" style="width:80%;" id="pictureUrl" data-ng-model="social.PictureUrl" /><span onclick="angular.element(this).scope().openImageGalleryForInitial(this)" class="spanLink pull-right"><img src="{{SiteVars.AbsoluteWebRoot}}Content/images/icons/image.png" /></span>
+                                </div>
+                            </div>
+                            <div class="form-group displayNone" id="galleryForInitialImage">
+                                <input placeholder="Search Images" id="postImageInitialSearch" class="form-control ng-pristine displayNone" data-ng-model="social.SearchImages" ng-change="searchImageChanged()" />
+                                <div class="galleryForInitialImage " >
+                                    <div class="imageList pointer" ng-repeat="file in images">
+                                        <img src="{{file.FileDownloadPath}}" onclick="angular.element(this).scope().setUrlImageFromClick(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Name</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="text2" data-ng-model="social.Name"></input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">Caption</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="text3" data-ng-model="social.Caption"></input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">DateTime For Message</label>
+                                <div class="col-md-8">
+                                    <input class="form-control xlarge-width small-height" id="dateTimeForMessage1" data-ng-model="social.DateForMessage"></input>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="social.IsLoggedIntoFacebook">
+                                <button data-ng-click="postToFacebook()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>Post To Facebook</button><span class="i marginSpacingRight  pull-right"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>
+<script type="text/javascript">
+    $('#DateOfGame').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        stepMinute: 5,
+        timeFormat: 'HH:mm'
+    });
+    $('#dateTimeForMessage1').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        stepMinute: 5,
+        timeFormat: 'HH:mm'
+    });
+    $('#dateTimeForMessage').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        stepMinute: 5,
+        timeFormat: 'HH:mm'
+    });
+    
+</script>

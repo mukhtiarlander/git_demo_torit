@@ -1,0 +1,111 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Library.Classes.Game.Game>>
+@{
+    ViewBag.Title = "All Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Games For @ViewBag.Name
+        </div>
+          <div class="titleDescription">
+            Here you can view the games for @ViewBag.Name.</div>
+        <div>
+               <div class="divider"></div>
+       
+            <table class="listTable  tableExtras" id="games">
+                <thead>
+                    <tr>
+                        <th>
+                            Game Name
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Team 1
+                        </th>
+                        
+                        <th>
+                            Final Team 1
+                        </th>
+                        <th>
+                            Team 2
+                        </th>
+                        <th>
+                            Final Team 2
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {
+                    
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                <a href="@Url.Content("~/game/" + Model.Model.Items[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].GameName))">
+                                    @Model.Model.Items[i].GameName
+                                </a>
+                            </td>
+                            <td>
+                                @Model.Model.Items[i].GameDate.ToString("MM/dd/yyyy")
+                            </td>
+                            <td>
+                                @if (Model.Model.Items[i].Team1LinkId == new Guid())
+                                {@Model.Model.Items[i].Team1Name}
+                                else
+                                { 
+                                    <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].Team1LinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].Team1Name))">
+                                        @Model.Model.Items[i].Team1Name
+                                    </a>
+                                }
+                            </td>
+                           
+                            <td>@Model.Model.Items[i].Team1ScoreTotal
+                            </td>
+                             <td>
+                                @if (Model.Model.Items[i].Team2LinkId == new Guid())
+                                {@Model.Model.Items[i].Team2Name}
+                                else
+                                { 
+                                    <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].Team2LinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].Team2Name))">
+                                        @Model.Model.Items[i].Team2Name
+                                    </a>
+                                }
+                            </td>
+                            <td>@Model.Model.Items[i].Team2ScoreTotal
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="uglyPager">
+            @using (Html.BeginForm("ViewMembers", "Federation"))
+            {
+                <text>
+                <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+                <input type="submit" value="Show" />
+                </text>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#games').dataTable({
+            "aaSorting": [[1, "desc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+
+        });
+    });
+
+
+</script>

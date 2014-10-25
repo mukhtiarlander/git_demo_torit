@@ -1,0 +1,64 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.Public.EventPublic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:ad="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    xmlns:vm="clr-namespace:RDN.WP.Library.ViewModels.Public;assembly=RDN.WP.Library">
+    <phone:PhoneApplicationPage.Resources>
+        <vm:EventViewModel x:Key="viewModel"/>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" DataContext="{StaticResource viewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <StackPanel  >
+            <Image Height="200" Width="200" VerticalAlignment="Top" >
+                <Image.Source>
+                    <BitmapImage UriSource="{Binding EventPublic.LogoUrl}" CreateOptions="BackgroundCreation"/>
+                </Image.Source>
+            </Image>
+        </StackPanel>
+        <!--Pivot Control-->
+        <phone:Pivot Grid.Row="1" >
+            <phone:PivotItem Header="info">
+                <StackPanel>
+                    <TextBlock Text="{Binding Path=EventPublic.Name}" Style="{StaticResource EventName}"/>
+                    <TextBlock  TextWrapping="Wrap" Tap="TextBlock_Tap_1" Text="{Binding Path=EventPublic.OrganizersName}" Style="{StaticResource EventDetails}"></TextBlock>
+                    <TextBlock  TextWrapping="Wrap" Tap="TextBlock_Tap" Text="{Binding Path=EventPublic.Location}" Style="{StaticResource EventDetails}" ></TextBlock>
+                    <TextBlock  TextWrapping="Wrap" Tap="TextBlock_Tap" Text="{Binding Path=EventPublic.AddressHuman}" Style="{StaticResource EventDetails}"></TextBlock>
+                    <TextBlock  TextWrapping="Wrap" Text="{Binding Path=EventPublic.DateTimeHuman}" Style="{StaticResource EventDateDetails}"></TextBlock>
+                </StackPanel>
+            </phone:PivotItem>
+            <phone:PivotItem Header="desc">
+                <StackPanel>
+                    <TextBlock Text="{Binding Path=EventPublic.DescriptionNonHtml}"  TextWrapping="Wrap"></TextBlock>
+                </StackPanel>
+            </phone:PivotItem>
+            <phone:PivotItem Header="links">
+                <StackPanel>
+                    <TextBlock Text="Tickets:" Style="{StaticResource EventLinkHeader}"/>
+                    <TextBlock  TextWrapping="Wrap" Tap="TicketsTap" Text="{Binding Path=EventPublic.TicketUrl}" Style="{StaticResource EventDetails}"></TextBlock>
+                    <TextBlock Text="Event:" Style="{StaticResource EventLinkHeader}"/>
+                    <TextBlock  TextWrapping="Wrap" Tap="EventTap" Text="{Binding Path=EventPublic.EventUrl}" Style="{StaticResource EventDetails}" ></TextBlock>
+                    <TextBlock Text="RDNation:" Style="{StaticResource EventLinkHeader}"/>
+                    <TextBlock  TextWrapping="Wrap" Tap="RDNTap" Text="{Binding Path=EventPublic.RDNUrl}" Style="{StaticResource EventDetails}"></TextBlock>
+                </StackPanel>
+            </phone:PivotItem>
+        </phone:Pivot>
+        <ad:AdControl Grid.Row="2" Width="480" Height="80" AdUnitId="10292519" ApplicationId="5bd68ce8-deba-4efb-8df6-35058d28c4d0" IsAutoRefreshEnabled="True" ></ad:AdControl>
+    </Grid>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,31 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "unpublish a Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Unpublish A Game with its ID</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Game Id To UnPublish:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Only use this to Uppublish the Game
+    </div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsSuccess)
+    { 
+    <div>
+        Game IS UNPublished!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

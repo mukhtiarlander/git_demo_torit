@@ -1,0 +1,38 @@
+﻿@model RDN.Portable.Classes.Account.Classes.MemberDisplay
+@{
+    ViewBag.Title = "Change Your Account Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Change Your Account Email
+        </div>
+        <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("ChangeEmail", "Member", FormMethod.Post))
+            { 
+                <table class="addForumPostTbl">
+
+                    <tr>
+                        <td class="b">New Email:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.UserName)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" class="primary" value="Change Email" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.MemberId)
+                @Html.HiddenFor(x => x.UserId)
+                @Html.HiddenFor(x => x.DerbyName)
+            }
+        </div>
+    </div>
+</div>

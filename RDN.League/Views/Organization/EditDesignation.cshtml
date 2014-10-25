@@ -1,0 +1,95 @@
+﻿@model RDN.Library.Classes.League.Organization
+@{
+    ViewBag.Title = "Edit Designation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+    
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/organization/Designation")">Cancel Edit</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Edit Designation
+        </div>
+         <div class="tvChanges">
+               
+        </div>
+
+        <div class="titleDescription">
+            Edit Designation for the league organization.
+     
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            @using (Html.BeginForm("EditDesignation", "Organization", FormMethod.Post, new { @id = "EditDesig" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">Designation Title:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.DesigTitle)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Rank:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.DesigLavel)
+                        </td>
+                    </tr>
+                      <tr>
+                        <td class="b alRight">Short Notes:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.ShortNote)
+                        </td>
+                    </tr>
+                     
+                    <tr>
+                        <td class="b alRight"></td>
+                        <td class="largeInput">
+                            <input type="submit" class="primary" value="Submit" name="EditDesignation" />
+
+                        </td>
+                    </tr>
+
+                </table>
+                @Html.HiddenFor(models => models.DesignationId)
+                @Html.HiddenFor(models => models.LeagueId)
+          
+            }
+        </div>
+    </div>
+     @if (!subPaid)
+    { 
+        <div class="fixedAd">
+            <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-1376896373478670";
+    /* RDNation SideAd */
+    google_ad_slot = "9959849457";
+    google_ad_width = 120;
+    google_ad_height = 600;
+    //-->
+            </script>
+            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        </div>
+    }
+</div>
+ 
+<script type="text/javascript">
+    $("#EditDesig").validate({
+        rules: {
+            DesigTitle: "required",
+            DesigLavel: "required"
+        }
+    });
+</script>

@@ -1,0 +1,138 @@
+﻿@using RDN.League.Models.Dues
+@using RDN.League.Models.Utilities
+@model DuesModel
+@{
+    ViewBag.Title = "Modify Dues Collection Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+            <div class="navIcons">
+                <a title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
+            </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Modify Dues Settings
+        </div>
+      
+         <div class="titleDescription">
+              Here you can modify the dues management settings for your league.
+      
+        </div>
+        <div class="divider"></div>
+       
+        <div>
+            @using (Html.BeginForm("DuesSettings", "Dues", FormMethod.Post))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b vLTD">Day Of Month To Collect:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.DayOfMonthToCollectDefault) (1-28) <span class="i">Sets default
+                                calendar day of month to collect dues.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Days Before to Notify Member:
+                        </td>
+                        <td class="smallInput">
+                            @Html.TextBoxFor(x => x.DaysBeforeDeadlineToNotifyDefault) (1-28) <span class="i">Amount
+                                of days before deadline to notify dues are due. </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Amount of Money To Collect:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.DuesCostDisplay)
+                            (45.00) <span class="i">Payment required for each collection </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Dues Management for Managers Only:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)
+                            <span class="i">Users only shown their payments and withstanding. Not leagues.</span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="b vLTD">Currency for Dues:
+                        </td>
+                        <td class="smallInput">
+                            @Html.DropDownListFor(x => x.Currency, Model.CurrencyList) <span class="i">To add your currency, email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">info@rdnation.com</a></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Accept <span class="paypalText">Paypal</span> Dues Payments:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.AcceptPaymentsOnline)
+                            <span class="i">Members can pay with their Paypal account</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b vLTD">Leagues <span class="paypalText">Paypal</span> Email Address:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.PayPalEmailAddress)
+                            <span class="i">Email Address of the league to collect dues, this needs to be a <b><a href="@RDN.Portable.Config.ServerConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT" target="_blank">VERIFIED</a></b> paypal account.</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b vLTD">Text For Email Notification:
+                        </td>
+                        <td>
+                                @Html.TextAreaFor(x => x.DuesEmailDisplayText, new { id = "wmd-input", width="300px"     })
+                         
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @if (ViewBag.IsSuccessful)
+                            { 
+                                <span class="addedSuccessfully">Updated Successfully!</span>
+                            }
+                            <input type="submit" class="primary" value="Update Settings" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.HiddenFor(x => x.LeagueOwnerId)
+                @Html.HiddenFor(x => x.OwnerEntity)
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#DuesCostDisplay").numeric({ negative: false });
+    $("#DayOfMonthToCollectDefault").numeric({ negative: false, decimal: false });
+    $("#DaysBeforeDeadlineToNotifyDefault").numeric({ negative: false, decimal: false });
+
+    $(function () {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "advanced",
+            skin: "o2k7",
+            skin_variant: "silver",
+            plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+            // Theme options
+            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
+            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
+            theme_advanced_buttons3: "",
+            theme_advanced_buttons4: "",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+        });
+    });
+</script>
+

@@ -1,0 +1,31 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete a Member";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Delete A Sitemap Item with its URL</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Sitemap URL To Delete:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Deletes a sitemap url that might not exist anymore.
+    </div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsDeleted)
+    { 
+    <div>
+        Item IS DELETED!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

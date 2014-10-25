@@ -1,0 +1,158 @@
+﻿@using RDN.League.Models.Messages
+@using RDN.Library.Cache
+@model MessageModel
+@{
+    ViewBag.Title = "Create New Message";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + RDN.Library.Classes.Account.User.GetMemberId().ToString().Replace("-", ""))">Messages</a>
+
+        </div>
+        <div class="rightBackLink">
+            <span><a href="@Url.Content("~/messages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + RDN.Library.Classes.Account.User.GetMemberId().ToString().Replace("-", ""))">View All Members</a> | </span>
+            @if (MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()) != new Guid())
+            {
+                <span><a href="@Url.Content("~/messages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.League + "/" + MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">League Members</a> | </span>
+            }
+            @if (MemberCache.GetFederationIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()) != new Guid())
+            {
+                <span><a href="@Url.Content("~/messages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.Federation + "/" + MemberCache.GetFederationIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Federation Members</a></span>
+            }
+        </div>
+    </div>
+
+    <div class="panelBoxLeftMessages">
+        <div class="panelBoxTitle">
+            Known Recipients
+        </div>
+
+        <div class="titleDescription">
+            This list is people you are connected to within RDNation.
+      
+        </div>
+        <div class="divider"></div>
+        <div>
+            <label><input type="checkbox" onchange="Messages.toggleCheckedForRecipients(this)" id="checkAll" /><b>Check
+                All</b></label>
+        </div>
+        <div id="checkboxes">
+
+            @foreach (var mem in Model.Recipients)
+            { 
+                <div><label>@Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "Messages.ChangeDictionaryItem(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })<span id="@mem.MemberId.ToString()-name">@mem.DerbyName @if(!String.IsNullOrEmpty(mem.Firstname) || !String.IsNullOrEmpty(mem.LastName)){
+                                                                                                                                                                                                                                                             <span>[@((mem.Firstname+" "+mem.LastName).Trim())]</span>
+                                                                                                                                                                                                                                                         }</span></label>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="fixedCenterContainterMessages">
+        <div class="fixTitle">
+            Send New Private Message
+        </div>
+        <div class="titleDescription">
+            You can send a message to anyone within RDNation by just typing their name into
+            the "To Additional Members Field" or just select their name from the list on the
+            left.
+       
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            @using (Html.BeginForm("CreateNewMessage", "Message", FormMethod.Post))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">Message Title:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Title)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight alignMiddle">To Selected:
+                        </td>
+                        <td>
+                            <div name="ToMemberNamesSelected" id="ToMemberNamesSelected">
+                            </div>
+                            @Html.HiddenFor(x => x.ToMemberIds)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight alignMiddle" style="white-space: nowrap;">To Additional:
+                        </td>
+                        <td  class="messagesInput">
+                            @Html.TextBoxFor(x => x.ToMemberNames, new { @class="messagesInput" })<img src="@Url.Content("~/Content/images/icons/down.png")" onclick="Messages.ExpandGroupMemberList()" class="spanLink"  width="25px" />
+                           <div class="displayNone groupMemberLists" id="groupMemberLists">
+                               <ul id="groupList" class="noList">
+                                
+                               </ul>
+                               <div class="clear"></div>
+                           </div>
+                            
+                             <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $("#ToMemberNames").tokenInput('@Url.Action("SearchNamesObjects", "Utilities")', {
+                                        theme: "facebook",
+                                        preventDuplicates: true,
+                                        hintText: "Begin typing the DerbyName of the person you wish to assign.",
+                                        noResultsText: "No results",
+                                        searchingText: "Searching..."
+                                    });
+                                });
+                            </script>
+                            @Html.HiddenFor(x => x.ToMemberEnteredIds)
+                            @Html.HiddenFor(x=>x.ToGroupIds)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Email Message:
+                        </td>
+                        <td>
+                           <label> @Html.CheckBoxFor(x => x.SendEmailForMessage) <span class="i">Notifies the member via
+                                email of the new message. (recommended)</span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alignTop alRight">Message:
+                        </td>
+                        <td>
+                            @Html.TextArea("MessageTextWriting")
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/messages/" + Model.OwnerType.ToString() + "/" + Model.OwnerId.ToString().Replace("-", ""))">Cancel Message</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Send Message" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.OwnerType)
+                @Html.HiddenFor(x => x.OwnerId)
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.OwnerType == RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.officiating ||  Model.OwnerType == RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.league || Model.OwnerType == RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.jobboard || Model.OwnerType == RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.shop || Model.OwnerType == RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.paywall || Model.OwnerType == RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.calevent)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#checkAll").attr("checked", "checked");
+            Messages.toggleCheckedForRecipients($("#checkAll"));
+        });
+    </script>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        Messages.InitializeNewMessages();
+    });
+</script>

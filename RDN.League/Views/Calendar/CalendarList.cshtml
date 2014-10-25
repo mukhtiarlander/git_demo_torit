@@ -1,0 +1,306 @@
+﻿@using RDN.Library.Classes.Calendar;
+@using RDN.Library.Classes.Calendar.Enums;
+@using RDN.Portable.Classes.Controls.Calendar.Enums;
+@using RDN.Portable.Classes.Controls.Calendar;
+@using RDN.Library.Cache;
+@model Calendar
+@{
+    ViewBag.Title = "Calendar for " + Model.EntityName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var CalendarPointType = from CalendarEventPointTypeEnum d in Enum.GetValues(typeof(CalendarEventPointTypeEnum))
+                            where d.ToString() != "None" && d.ToString() != "Tardy"
+                            select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
+    var AvailableType = from AvailibilityEnum d in Enum.GetValues(typeof(AvailibilityEnum))
+                        where d.ToString() != "None"
+                        select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    var isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
+    var isAttendance = MemberCache.IsAttendanceManager(memId);
+}
+@if (Model.CalendarId == new Guid())
+{
+    <div class="fixedContainer">
+        <div class="fixedCenterContainter">
+            <div class="fixTitle">
+                Calendar Setup
+            </div>
+            <div class="divider"></div>
+            <div>
+                It looks like your calendar has not yet been created. Go ahead and create one so
+                you can start scheduling events and tracking attendance! This calendar will be open
+                to all your members!
+            </div>
+            @using (Html.BeginForm("CreateCalendar", "Calendar"))
+            { 
+                <div>
+                    <input type="submit" class="primary" value="Create Calendar" />
+                </div>
+                @Html.HiddenFor(x => x.OwnerEntity);
+            }
+        </div>
+    </div>
+}
+else
+{ 
+    <div class="expandableContainer">
+        <div class="expandableCenterContainter">
+            <div class="fixTitle">
+                Schedule
+            </div>
+            <div class="calPager">
+                <ul class="calPagerUl">
+                    @for (int i = -3; i < 4; i++)
+                    {
+                        
+                        <li class="calPagerLi"><a class="@(i == 0 ? "calPagerSel" : "")" href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", "") + "/" + @Model.CurrentDateSelected.AddMonths(i).Year + "/" + @Model.CurrentDateSelected.AddMonths(i).Month)">
+                            @Model.CurrentDateSelected.AddMonths(i).Month/@Model.CurrentDateSelected.AddMonths(i).Year.ToString().Remove(0, 2)
+                        </a></li>
+                    }
+                </ul>
+            </div>
+            <div class="expandableCenterContainterRight">
+                @if (isSec || isAttendance || isEventsCourd)
+                { 
+                    <div class="navIcons">
+                        <a title="Import Calendar" href="@Url.Content("~/calendar/import/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/upload.png")"  />Import
+                        </a>
+                    </div>                    
+                    <div class="navIcons">
+                        <a title="Calendar Settings" href="@Url.Content("~/calendar/settings/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
+                        </a>
+                    </div>
+                    
+                }
+                <div class="navIcons">
+                    <a title="Run Report" href="@Url.Content("~/calendar/reports/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+
+
+                @if (isSec || isAttendance||isEventsCourd)
+                {                   
+                    <div class="navIcons">
+                        <a title="New Event" href="@Url.Content("~/calendar/new/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/calendar-add.png")"  />New
+                        </a>
+                    </div>
+                }
+                <div class="navIcons">
+                    <a title="Large Calendar" href="@Url.Content("~/calendar/view/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/calendar.png")"  />Large
+                    </a>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div>
+                <table class="calendarTable">
+                    <tr>
+                        <th></th>
+                        <th class="smallCaps">RSVP</th>
+                        <th></th>
+                        <th>Event
+                        </th>
+                        <th>Date
+                        </th>
+                        <th>Time
+                        </th>
+                        <th>Location
+                        </th>
+                        <th>Attendees
+                        </th>
+                        <th>Points
+                        </th>
+                        @if (isSec || isAttendance)
+                        { 
+                            <th>Check In Mems.
+                            </th>
+                        }
+                        else
+                        { <th></th>}
+                    </tr>
+                    @foreach (var calEvent in Model.Events.OrderByDescending(x => x.StartDate))
+                    {
+
+                        var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
+                        var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
+                        var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId ).FirstOrDefault();
+                        <tr id="@calEvent.CalendarItemId-mainrow" class="forumTopicRow @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "calCurrentDateEvent" : "")">
+                            <td>
+
+                                <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
+
+                            </td>
+                            <td>
+                                @if (calEvent.EventType.EventType != CalendarEventTypeEnum.Birthday && calEvent.EventType.EventType != CalendarEventTypeEnum.StartSkatingDate)
+                                {
+                                    if (avail == null)
+                                    { 
+                                    <div class="spanIcons">
+                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')">
+                                            <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")"  />
+                                        </span>
+                                    </div>
+                                    }
+                                    else if (avail != null)
+                                    { 
+                                    <div class="spanIcons">
+                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')">
+                                            <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + avail.Availability + ".png")"  />
+                                        </span>
+                                    </div>
+                                    }
+                                }
+
+                            </td>
+                            <td class="noTwoLine">
+                                @if (attend != null)
+                                { 
+                                    <span class="spanLink" id="@calEvent.CalendarItemId" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')">Checked In</span>
+                                }
+                                else if (calEvent.AllowSelfCheckIn && calEvent.IsCurrentMemberApartOfEvent || (calEvent.AllowSelfCheckIn && isApartOfEvent!= null))
+                                {
+                                    <span class="spanLink" id="@calEvent.CalendarItemId" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')">Check In</span>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
+                                {
+                                    <img src="@Url.Content("~/Content/images/icons/birthday.png")"  height="25px" />
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
+                                { 
+                                    <img src="@Url.Content("~/Content/images/icons/games.png")"  height="25px" />
+                                }
+
+                            </td>
+                            <td class="noTwoLine @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "b" : "")">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                { 
+                                    <a href="@Url.Content("~/calendar/event/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
+                                { 
+                                    <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
+                                { 
+                                    <a href="@Url.Content("~/calendar/started-skating/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                }
+                            </td>
+                            <td class="noTwoLine">
+                                @calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()
+                            </td>
+                            <td class="noTwoLine">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                { 
+                                    <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
+                                }
+                            </td>
+                            <td>
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                {
+                                    if (calEvent.Location != null)
+                                    { 
+                                    @calEvent.Location.LocationName
+                                    }
+                                }
+                            </td>
+                            <td>@if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                { 
+                                <span><b>@calEvent.Attendees.Where(x => x.PointType == CalendarEventPointTypeEnum.Present).Count()</b>
+                                    Pre, <b>@calEvent.Attendees.Where(x => x.PointType == CalendarEventPointTypeEnum.Partial).Count()</b>
+                                    Par, <b>@calEvent.Attendees.Where(x => x.PointType == CalendarEventPointTypeEnum.Not_Present).Count()</b>
+                                    Not, <b>@calEvent.Attendees.Where(x => x.PointType == CalendarEventPointTypeEnum.Excused).Count()</b>
+                                    Exc, <b>@calEvent.Attendees.Where(x => x.SecondaryPointType == CalendarEventPointTypeEnum.Tardy).Count()</b>
+                                    Tar</span>
+                                }
+                            </td>
+                            <td>
+                                @if (calEvent.EventType != null && calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                {
+
+                                    <span><b>@calEvent.EventType.PointsForPresent</b> Pre, <b>@calEvent.EventType.PointsForPartial</b>
+                                        Par, <b>@calEvent.EventType.PointsForNotPresent</b> Not, <b>@calEvent.EventType.PointsForExcused</b>
+                                        Exc, <b>@calEvent.EventType.PointsForTardy</b> Tar</span>
+                                }
+                            </td>
+                            <td class="noTwoLine">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && (isSec || isAttendance))
+                                { 
+                                    <a href="@Url.Content("~/calendar/event/checkin-l/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Check In Large</a>
+                                    <br />
+                                    <a href="@Url.Content("~/calendar/event/checkin-s/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Check In Small</a>
+                             
+                                }
+                            </td>
+                        </tr>                       
+                    }
+                </table>
+            </div>
+        </div>
+        <div id="checkInPopUp" style="display: none;">
+            <table class="checkInTable">
+                <tr>
+                    <td class="b alignRight">Check In Type:
+                    </td>
+                    <td colspan="2">
+                        @Html.DropDownList("checkInSelection", new SelectList(CalendarPointType, "ID", "Name"), "Check In...")
+                       <label> @Html.CheckBox("IsTardy")<span class="b">Tardy?</span></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Notes/Excuse:
+                    </td>
+                    <td colspan="2">
+                        <input type="text" id="notes" style="width: 95%;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="alignRight">
+                        <input type="button" id="checkInButtonPopUp" value="Check In" class="primary" onclick="javascript: checkInMemberToEvent()" />
+                    </td>
+                    <td>
+                        <span class="spanLink" onclick="javascript:CloseAddedRow()">Cancel</span>
+                    </td>
+                    <td>
+                        <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="availablePopUp" style="display: none;">
+            <table class="checkInTable">
+                <tr>
+                    <td class="b alignRight">Available Type:
+                    </td>
+                    <td colspan="2">
+                        @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...")
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alignRight">Notes:
+                    </td>
+                    <td colspan="2">
+                        <input type="text" id="availableNotes" style="width: 95%;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="alignRight">
+                        <input type="button" id="availableButtonPopUp" value="Set Availability" class="primary" onclick="javascript: setAvailabilityMemberToEvent()" />
+                    </td>
+                    <td>
+                        <span class="spanLink" onclick="javascript:CloseAddedRow()">Cancel</span>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+}

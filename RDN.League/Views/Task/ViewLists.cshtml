@@ -1,0 +1,86 @@
+﻿@model List<RDN.Library.Classes.League.TaskList.TaskListDA>
+@{
+    ViewBag.Title = "Task Lists";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+     
+}
+@helper Truncate(string input, int length = 20)
+{
+    if (input != null)
+    {
+        if (input.Length <= length)
+        {
+    @input
+        }
+        else
+        {
+    @input.Substring(0, length)<text>...</text>
+        }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Task Lists
+        </div>
+        <div class="expandableCenterContainterRight">
+                          
+                <div class="navIcons">
+                    <a title="New Task" href="@Url.Content("~/tasks/league/list/add")">
+                        <img src="@Url.Content("~/Content/images/icons/taskList.png")" />Add
+                    </a>
+                </div>
+            
+        </div>
+        <div class="titleDescription">
+           Manage multiple tasks lists for your league.  Create a new list for each big event, meeting etc...  
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable tableExtras" id="itemList">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>List Title</th>
+                        <th>Dead Line</th>
+                        <th>Assigned</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.ListId % 2 == 0 ? "tr1" : "tr0")">
+                             <td>
+                                 <a href="@Url.Content("~/tasks/league/list/update/" + b.ListId + "/" + b.TaskListForLeague.ToString().Replace("-", ""))">Update</a>
+                                 
+                                 
+                             
+                             </td>
+                            
+                            <td>
+                                <a href="@Url.Content("~/tasks/league/list/view/" + b.ListId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( b.ListName))">@b.ListName</a>
+                            </td>
+                            <td>
+                                @b.EndDate.Value.ToShortDateString()
+                            </td>
+                            <td>
+                                @Truncate(b.AssignedTo, 20)
+                            </td> 
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

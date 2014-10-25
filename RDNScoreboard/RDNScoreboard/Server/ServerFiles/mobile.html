@@ -1,0 +1,404 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>RDNation Mobile Controls</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.timer.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
+    <script type="text/javascript" src="js/knockout-2.0.0.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+
+</head>
+
+<body>
+    <div id="MobileContainer">
+        <div data-role="page" id="Main">
+            <div data-role="header">
+                <h1>Controls</h1>
+            </div>
+
+            <div data-role="content">
+                <ul data-role="listview">
+                    <li><a href="#JamControlPage">Jam Control</a></li>
+                    <!--<li><a href="#PeriodTimePage">Period Time</a></li>-->
+                    <li><a href="#TeamBothScorePage">Team Score</a></li>
+                    <!--<li><a href="#PenaltyPage">Penalty Timing</a></li>-->
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="page" id="PenaltyPage">
+            <div data-role="header">
+                <a href="#Main" data-direction="reverse" data-icon="arrow-l">Main</a>
+                <h1>Penalty Timing</h1>
+            </div>
+            <div data-role="content">
+                <div class='ui-grid-c'>
+                    <div class="ui-block-a">
+                        <div class="TimeHeader">Jam Time</div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div class="TimeHeader">Lineup Time</div>
+                    </div>
+                    <div class="ui-block-c">
+                        <div class="TimeHeader">Timeout Time</div>
+                    </div>
+                    <div class="ui-block-d">
+                        <div class="TimeHeader">Period Time</div>
+                    </div>
+
+                    <div class="ui-block-a">
+                        <div id="JamTime" data-bind="html: JamTime"></div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div id="LineupTime"><a class="LineupTime"></a></div>
+                    </div>
+                    <div class="ui-block-c">
+                        <div id="TimeoutTime"><a class="TimeoutTime"></a></div>
+                    </div>
+                    <div class="ui-block-d">
+                        <div id="PeriodTime"><a class="PeriodTime"></a></div>
+                    </div>
+
+                    <div class="ui-block-a">
+                        <button type="button" id='Jammer1' data-theme="b">Jammer</button>
+                    </div>
+                    <div class="ui-block-b" id='Jammer1Box'><span class="PenaltyTime" id='Jammer1Time'></span></div>
+                    <div class="ui-block-c" id='Jammer2Box'><span class="PenaltyTime" id='Jammer2Time'></span></div>
+                    <div class="ui-block-d">
+                        <button type="button" id='Jammer2' data-theme="b">Jammer</button>
+                    </div>
+
+                    <div class="ui-block-a">
+                        <button type="button" id='Blocker1Team1' data-theme="b">Blocker 1</button>
+                    </div>
+                    <div class="ui-block-b" id='Blocker1Team1Box'><span class="PenaltyTime" id='Blocker1Team1Time'></span></div>
+                    <div class="ui-block-c" id='Blocker1Team2Box'><span class="PenaltyTime" id='Blocker1Team2Time'></span></div>
+                    <div class="ui-block-d">
+                        <button type="button" id='Blocker1Team2' data-theme="b">Blocker 1</button>
+                    </div>
+
+                    <div class="ui-block-a">
+                        <button type="button" id='Blocker2Team1' data-theme="b">Blocker 2</button>
+                    </div>
+                    <div class="ui-block-b" id='Blocker2Team1Box'><span class="PenaltyTime" id='Blocker2Team1Time'></span></div>
+                    <div class="ui-block-c" id='Blocker2Team2Box'><span class="PenaltyTime" id='Blocker2Team2Time'></span></div>
+                    <div class="ui-block-d">
+                        <button type="button" id='Blocker2Team2' data-theme="b">Blocker 2</button>
+                    </div>
+
+                    <div class="ui-block-a">
+                        <button type="button" id='Blocker3Team1' data-theme="a">Blocker 3</button>
+                    </div>
+                    <div class="ui-block-b" id='Blocker3Team1Box'><span class="PenaltyTime" id='Blocker3Team1Time'></span></div>
+                    <div class="ui-block-c" id='Blocker3Team2Box'><span class="PenaltyTime" id='Blocker3Team2Time'></span></div>
+                    <div class="ui-block-d">
+                        <button type="button" id='Blocker3Team2' data-theme="a">Blocker 3</button>
+                    </div>
+                </div>
+            </div>
+            <div data-role="popup" id="PenaltyPopup">
+                <ul data-role="listview" data-inset="true">
+                    <li data-role="divider" data-theme="a" style='text-align: center'>Time Controls</li>
+                </ul>
+                <div id="PopupTitle">Title <span id="PopupTeamName"></span></div>
+                <div>Button pushed with <span id='timeremaining'>error</span> seconds left</div>
+                <p>
+                    <button id="BtnCancel">Cancel Penalty</button>
+                </p>
+                <p>
+                    <button id="BtnClock">Stop/Start Clock</button>
+                </p>
+                <p>
+                    <button id="BtnAdd1">Add 1 minute</button>
+                </p>
+                <p>
+                    <button id="BtnDel1">Subtract 1 minute</button>
+                </p>
+            </div>
+            <div data-role="popup" id="JammerPopup">
+                <ul data-role="listview" data-inset="true">
+                    <li data-role="divider" data-theme="a" style='text-align: center'>Jammer Timings</li>
+                </ul>
+                <div id="Div1">Jammer Penalty Time</div>
+                <p>Timing will start from when button is pushed.</p>
+                <p>
+                    <button id="BtnJammer1m">1 Minute</button>
+                </p>
+                <p>
+                    <button id="BtnJammer2m">2 Minutes</button>
+                </p>
+                <p>
+                    <button id="BtnJammerCancel">Cancel this</button>
+                </p>
+            </div>
+        </div>
+
+        <div data-role="page" id="JamControlPage">
+            <div data-role="header">
+                <a href="#Main" data-direction="reverse" data-icon="arrow-l">Main</a>
+                <h1>Jam Control</h1>
+            </div>
+
+            <div data-role="content">
+                <div class="ui-grid-a Period">
+                    <div class="ui-block-b PeriodNumber">
+                        <div class="Title">Period</div>
+                        <div class="Number" data-bind="html: PeriodNumber"></div>
+                    </div>
+                    <div class="ui-block-b ">
+                        <div class="PeriodTime" data-bind="visible: IsEditingPeriodTime() == false">
+                            <span data-bind="html: PeriodTime, click: EditPeriodTime"></span>
+                        </div>
+                        <div data-bind="visible: IsEditingPeriodTime() == true">
+                            <input data-bind="value: PeriodTimeInEditMode" class="timeOnly" type="text" />
+                            <div class="ui-block-b">
+                                <button value="Save" data-bind="click: SavePeriodTime"></button>
+                            </div>
+                            <div class="ui-block-b">
+                                <button value="Cancel" data-bind="click: CancelEditPeriodTime"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-a Period">
+                    <div class="ui-block-b PeriodNumber">
+                        <div class="Title">Jam</div>
+                        <div class="JamNumber" data-bind="visible: IsEditingJamNumber() == false">
+                            <span data-bind="html: JamNumber, click: EditJamNumber"></span>
+                        </div>
+                        <div data-bind="visible: IsEditingJamNumber() == true">
+                            <input data-bind="value: JamNumberInEditMode" class="numberOnly" type="text" />
+                            <div class="ui-block-b">
+                                <button value="Save" data-bind="click: SaveJamNumber"></button>
+                            </div>
+                            <div class="ui-block-b">
+                                <button value="Cancel" data-bind="click: CancelEditJamNumber"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-block-b ">
+                        <div class="JamTime" data-bind="visible: IsEditingJamTime() == false">
+                            <span data-bind="html: JamTime, click: EditJamTime"></span>
+                        </div>
+
+                        <div data-bind="visible: IsEditingJamTime() == true">
+
+                            <input data-bind="value: JamTimeInEditMode" class="timeOnly" type="text" />
+                            <div class="ui-block-b">
+                                <button value="Save" data-bind="click: SaveJamTime"></button>
+                            </div>
+                            <div class="ui-block-b">
+                                <button value="Cancel" data-bind="click: CancelEditJamTime"></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="LineupTime Time">
+                    <h2>Lineup Time</h2>
+                    <span data-bind="text: LineUpTime"></span>
+                </div>
+                <div class="TimeoutTime Time">
+                    <h2>TIMEOUT Time</h2>
+                    <span data-bind="text: TimeOutTime"></span>
+                </div>
+                <div class="c">
+                    <div class="c" data-bind="visible: IsJamRunning() == false">
+                        <button class="StartJam" data-role="button" data-icon="check" data-iconpos="right" data-bind="click: StartJam">Start Jam</button>
+                    </div>
+                    <div class="c" data-bind="visible: IsJamRunning()">
+                        <button class="StopJam" data-role="button" data-icon="plus" data-iconpos="left" data-bind="click: StartJam">Stop Jam</button>
+                    </div>
+                </div>
+
+                <hr />
+                <h2>Time Out</h2>
+                <div class="ui-grid-b Timeout">
+                    <div class="ui-block-a" data-bind="visible: IsJamRunning() == false">
+                        <button class="Team1" data-bind="    click: TakeTeam1Timeout">Team 1</button>
+                    </div>
+                    <div class="ui-block-b" data-bind="visible: IsJamRunning() == false">
+                        <button class="Official" data-bind="    click: StartOfficialTimeOut">Official</button>
+                    </div>
+                    <div class="ui-block-c" data-bind="visible: IsJamRunning() == false">
+                        <button class="Team2" data-bind="    click: TakeTeam2Timeout">Team 2</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div data-role="page" id="PeriodTimePage">
+            <div data-role="header">
+                <a href="#Main" data-direction="reverse" data-icon="arrow-l">Main</a>
+                <h1>Period Time</h1>
+            </div>
+
+            <div data-role="content">
+                <h2>
+                    <p class="Time c" data-bind="html: PeriodTime"></p>
+                </h2>
+                <hr />
+                <p>
+                    <button class="TimeDown" data-inline="true" value="-1000">-1 sec</button>
+                    <button class="TimeUp" data-inline="true" value="1000">+1 sec</button>
+                </p>
+
+            </div>
+        </div>
+
+        <div data-role="page" id="TeamScorePage">
+            <div data-role="header">
+                <a href="#Main" data-direction="reverse" data-icon="arrow-l">Main</a>
+                <h1>Team Score</h1>
+            </div>
+
+            <div data-role="content">
+                <ul data-role="listview">
+                    <li><a href="#TeamBothScorePage">Both Teams Score</a></li>
+                    <li><a href="#Team1ScorePage">Team 1 Score</a></li>
+                    <li><a href="#Team2ScorePage">Team 2 Score</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="page" id="TeamBothScorePage">
+            <div data-role="header">
+                <a href="#Main" data-direction="reverse" data-icon="arrow-l">Main</a>
+                <h1>Both Team Score</h1>
+            </div>
+
+            <div data-role="content">
+                <div>
+                    <h2 data-bind="html: TeamName1"></h2>
+                </div>
+                <div>
+                    <button class="Team1 ScoreDown" data-inline="true" value="-1" data-bind="click: SubtractT1">-1</button>
+                    <a class="Team1 Score"></a>
+                    <button class="Team1 ScoreUp" data-inline="true" value="1" data-bind="click: AddT1P1">+1</button>
+                    <button class="Team1 ScoreUp" data-inline="true" value="1" data-bind="click: AddT1P4">+4</button>
+                    <button class="Team1 ScoreUp" data-inline="true" value="1" data-bind="click: AddT1P5">+5</button>
+                </div>
+                <div data-bind="html: Team1Score">
+                </div>
+                <hr />
+                <div>
+                    <h2 data-bind="html: TeamName2"></h2>
+                </div>
+                <div>
+                    <button class="Team2 ScoreDown" data-inline="true" value="-1" data-bind="click: SubtractT2">-1</button>
+
+                    <a class="Team2 Score"></a>
+                    <button class="Team2 ScoreUp" data-inline="true" value="1" data-bind="click: AddT2P1">+1</button>
+                    <button class="Team2 ScoreUp" data-inline="true" value="1" data-bind="click: AddT2P4">+4</button>
+                    <button class="Team2 ScoreUp" data-inline="true" value="1" data-bind="click: AddT2P5">+5</button>
+                </div>
+                <div data-bind="html: Team2Score">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="page" id="Team1ScorePage">
+            <div data-role="header">
+                <a href="#TeamScorePage" data-direction="reverse" data-icon="arrow-l">Score</a>
+                <h1>Team 1 Score</h1>
+            </div>
+
+            <div data-role="content">
+                <div><a class="Team1 Name"></a></div>
+                <div><a class="Team1 Score"></a></div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="Team1 ScoreDown" data-inline="true" value="-1">-1</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team1 ScoreUp" data-inline="true" value="1">+1</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team1 ScoreDown" data-inline="true" value="-2">-2</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team1 ScoreUp" data-inline="true" value="2">+2</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team1 ScoreDown" data-inline="true" value="-3">-3</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team1 ScoreUp" data-inline="true" value="3">+3</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team1 ScoreDown" data-inline="true" value="-4">-4</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team1 ScoreUp" data-inline="true" value="4">+4</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team1 ScoreDown" data-inline="true" value="-5">-5</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team1 ScoreUp" data-inline="true" value="5">+5</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="page" id="Team2ScorePage">
+            <div data-role="header">
+                <a href="#TeamScorePage" data-direction="reverse" data-icon="arrow-l">Score</a>
+                <h1>Team 2 Score</h1>
+            </div>
+
+            <div data-role="content">
+                <div><a class="Team2 Name"></a></div>
+                <div><a class="Team2 Score"></a></div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="Team2 ScoreDown" data-inline="true" value="-1">-1</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team2 ScoreUp" data-inline="true" value="1">+1</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team2 ScoreDown" data-inline="true" value="-2">-2</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team2 ScoreUp" data-inline="true" value="2">+2</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team2 ScoreDown" data-inline="true" value="-3">-3</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team2 ScoreUp" data-inline="true" value="3">+3</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team2 ScoreDown" data-inline="true" value="-4">-4</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team2 ScoreUp" data-inline="true" value="4">+4</button>
+                    </div>
+                    <div class="ui-block-a">
+                        <button class="Team2 ScoreDown" data-inline="true" value="-5">-5</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="Team2 ScoreUp" data-inline="true" value="5">+5</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            ko.applyBindings(mobileViewModel, document.getElementById("MobileContainer"));
+            mobileViewModel.initialize();
+            $(".timeOnly").ForceTimeOnly();
+            $(".numberOnly").ForceNumberOnly();
+        </script>
+    </div>
+</body>
+
+</html>

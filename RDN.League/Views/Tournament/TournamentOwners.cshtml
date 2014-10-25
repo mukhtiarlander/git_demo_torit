@@ -1,0 +1,141 @@
+﻿@using RDN.Library.Classes.Game
+@using RDN.League.Classes.Enums
+@model Tournament
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "View " + Model.Name + " Tournament";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/tournament/view/all/")">Tournaments</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.Name
+        </div>
+        <div class="tvChanges">
+            @if (Model.TournamentType > RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
+            {
+            
+                <div class="navIcons">
+                    <a title="Tournament Brackets" href="@Url.Content("~/tournament/brackets/" + Model.PrivateKey.ToString().Replace("-", "") + "/" + Model.Id.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/brackets.png")"  />Brackets</a>
+                </div>
+            
+            }
+       <div class="navIcons">
+                <a title="Tournament Brackets" href="@Url.Content("~/tournament/view/" + @Model.PrivateKey.ToString().Replace("-", "") + "/" + @Model.Id.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/brackets.png")" />Manage
+                </a>
+            </div>
+        </div>
+
+
+
+
+        <div class="titleDescription">
+            Here you can view the tournament. In order to add games to this tournament, you will need to go to the manage
+            game screen for the game you wish to add. This can be seen under the <a href="@Url.Content("~/game/manage/all")" >owned games menu</a>.
+      
+        </div>
+        <div class="divider"></div>
+
+        @using (Html.BeginForm("TournamentOwners", "Tournament", FormMethod.Post, new { @id = "createNewItem" }))
+        {  
+            <table class="manageGameTable">
+                <thead>
+                    <tr>
+                        <th>Add More Owners of the Tournament
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Owners.Count; i++)
+                    { 
+                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                @if (String.IsNullOrEmpty(Model.Owners[i].DerbyName))
+                                {
+                                    <span>Owner:</span>   @Html.TextBox("MemberOwner" + i, Model.Owners[i].DerbyName, new { @id = "MemberOwner" + i })
+                                            
+                                               
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('#MemberOwner' + @i).autocomplete({
+                                                            source: '@Url.Action("SearchNames", "Utilities")',
+                                                            width: 140,
+                                                            max: 10,
+                                                            select: function (event, ui) {
+                                                                $('#MemberOwner' + @i +'hidden').val(ui.item.MemberId);
+                                                                return false;
+                                                            },
+                                                            focus: function (event, ui) {
+                                                                $('#MemberOwner' + @i)
+                                                            .val(ui.item.DerbyName + " " + ui.item.DerbyNumber);
+                                                                return false;
+                                                            },
+                                                        })
+                                                    .data("ui-autocomplete")._renderItem = function (ul, item) {
+                                                        return $("<li>")
+                                                            .append("<a>" + item.DerbyName + " " + item.DerbyNumber + "</a>")
+                                                            .appendTo(ul);
+                                                    };
+                                                        $('#MemberOwner' + @i).blur(function () {
+                                                            if ($('#MemberOwner' + @i).val().length < 2)
+                                                                $('#MemberOwner' + @i +'hidden').val("");
+                                                        });
+                                                    });
+                                    </script>
+                                    @Html.Hidden("MemberOwner" + i + "hidden", "", new { @id = "MemberOwner" + i + "hidden" })
+                                }
+                                else
+                                {
+                                    <span>Owner:</span> @Model.Owners[i].DerbyName
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+  
+            <input type="submit" class="primary" value="Update Owners" />
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.PrivateKey)
+        }
+    </div>
+    @if (!subPaid)
+    { 
+        <div class="fixedAd">
+            <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-1376896373478670";
+    /* RDNation SideAd */
+    google_ad_slot = "9959849457";
+    google_ad_width = 120;
+    google_ad_height = 600;
+    //-->
+            </script>
+            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+
+  
+
+    $(document).ready(function () {
+        Tournament.SetTournamentId("@Model.Id");
+
+       
+    });
+
+ 
+
+</script>

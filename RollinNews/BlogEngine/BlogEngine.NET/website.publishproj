@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+***********************************************************************************************
+website.publishproj
+
+WARNING: DO NOT MODIFY this file, it is used for the web publish process.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+***********************************************************************************************
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.30319</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2943c2c2-dfab-4d38-a7c9-4e9f23dbe366}</ProjectGuid>
+    <SourceWebPhysicalPath>$(MSBuildThisFileDirectory)</SourceWebPhysicalPath>
+    <SourceWebVirtualPath>/BlogEngine.NET</SourceWebVirtualPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SourceWebProject>
+    </SourceWebProject>
+    <SourceWebMetabasePath>
+    </SourceWebMetabasePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <!-- for VS2010 we need to use 10.5 but for VS2012+ we should use VisualStudioVersion -->
+    <WebPublishTargetsVersion Condition=" '$(WebPublishTargetsVersion)' =='' and '$(VisualStudioVersion)' == 10.0 ">10.5</WebPublishTargetsVersion>
+    <WebPublishTargetsVersion Condition=" '$(WebPublishTargetsVersion)'=='' ">$(VisualStudioVersion)</WebPublishTargetsVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(WebPublishTargetsVersion)</VSToolsPath>
+    <_WebPublishTargetsPath Condition=" '$(_WebPublishTargetsPath)'=='' ">$(VSToolsPath)</_WebPublishTargetsPath>
+    <AssemblyFileVersion Condition="'$(AssemblyFileVersion)' == ''">1.0.0.0</AssemblyFileVersion>
+    <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">1.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttributes Include="AssemblyFileVersion">
+      <Value>$(AssemblyFileVersion)</Value>
+    </AssemblyAttributes>
+    <AssemblyAttributes Include="AssemblyVersion">
+      <Value>$(AssemblyVersion)</Value>
+    </AssemblyAttributes>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\RDN.Library\RDN.Library.csproj">
+      <Project>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</Project>
+      <Name>RDN.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RDN.Portable\RDN.Portable.csproj">
+      <Project>{68721C49-C417-40DE-A445-C4077D9469CB}</Project>
+      <Name>RDN.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RDN.Utilities\RDN.Utilities.csproj">
+      <Project>{AE178407-B8B8-4F97-8613-FB88FEAD17A9}</Project>
+      <Name>RDN.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RDNation.Mobile\RDN.Mobile.csproj">
+      <Project>{946D7F1E-5C7E-4D64-87AA-CF300E4BA126}</Project>
+      <Name>RDN.Mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RDNScoreboard\RDN.Scoreboard.Library\Scoreboard.Library.csproj">
+      <Project>{AD6CCA72-D788-4104-BF27-61A918C6D1D0}</Project>
+      <Name>Scoreboard.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\StandardTournaments\StandardTournaments.csproj">
+      <Project>{3EAA8071-F4A9-4DAA-A964-52DB7FA0C553}</Project>
+      <Name>StandardTournaments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TournamentApi\TournamentApi.csproj">
+      <Project>{826AFCF0-646A-4BBF-A2AC-70DCF4AB4F52}</Project>
+      <Name>TournamentApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlogEngine.Core\BlogEngine.Core.csproj">
+      <Project>{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}</Project>
+      <Name>BlogEngine.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />
+</Project>

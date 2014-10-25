@@ -1,0 +1,85 @@
+﻿@model RDN.Library.Classes.Account.Classes.MemberDisplay
+@{
+    ViewBag.Title = Model.DerbyName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Member @Model.DerbyName -
+            @if(Model.PlayerNumber!=null){
+            @Model.PlayerNumber
+                
+            }
+        </div>
+        <hr />
+        <div>
+            Here you can view the information on @Model.DerbyName.</div>
+        <div>
+            <div>
+                <div class="subSectionsTitle">
+                    Contact</div>
+                <table>
+                    <tr>
+                        <td>
+                            Name:
+                        </td>
+                        <td>
+                            @if (Model.Firstname != null)
+                            {@Model.Firstname 
+                            }
+                            @if (Model.LastName != null)
+                            {  @Model.LastName}
+                        </td>
+                    </tr>
+                    @if (Model.Email != null)
+                    { 
+                    <tr>
+                        <td>
+                            Email:
+                        </td>
+                        <td>@Model.Email
+                        </td>
+                    </tr>
+                    }
+                     @if (Model.PhoneNumber != null)
+                     { 
+                    <tr>
+                        <td>
+                            Phone:
+                        </td>
+                        <td>@Model.PhoneNumber
+                        </td>
+                    </tr>
+                     }
+                      @if (Model.Gender != null)
+                      { 
+                    <tr>
+                        <td>
+                            Gender:
+                        </td>
+                        <td>@Model.Gender
+                        </td>
+                    </tr>
+                      }
+                </table>
+            </div>
+            <div>
+                <div class="subSectionsTitle">
+                    Team Information</div>
+                <table>
+                    <tr>
+                        <td>
+                            Team:
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Federation/League/" + Model.Team.ToString().Replace("-", "") + "/" + Model.TeamName)">
+                                @Model.TeamName
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

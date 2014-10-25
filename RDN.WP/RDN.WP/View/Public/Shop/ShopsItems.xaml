@@ -1,0 +1,61 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.ShopItems"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    xmlns:vm="clr-namespace:RDN.WP.Library.ViewModels.Public.Shop;assembly=RDN.WP.Library"
+         shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <vm:ShopItemsViewModel x:Key="viewModel"/>
+        <DataTemplate x:Key="ResultItemTemplate">
+            <Border  BorderBrush="#872f95" BorderThickness="2,2,2,0">
+                <Grid Style="{StaticResource SkatersRowStyle}"  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                   
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="1*"/>                        
+                    </Grid.ColumnDefinitions>
+                    <Image Height="150" Width="150" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Top" Margin="0,7,7,0" Grid.RowSpan="2">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding FirstPhotoUrl}" CreateOptions="BackgroundCreation"/>
+                        </Image.Source>
+                    </Image>
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap"  Style="{StaticResource ShopItemName}" VerticalAlignment="Top"/>
+                    <TextBlock Text="{Binding Description}"   Style="{StaticResource ShopItemDescription}" VerticalAlignment="Top" />
+                    <TextBlock Text="{Binding Price}"  Style="{StaticResource ShopItemDescription}"  VerticalAlignment="Top" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            
+        </Grid.RowDefinitions>
+        
+        <StackPanel Background="Black" Grid.Row="0"  x:Name="searchBar" Visibility="Collapsed" >
+            <TextBlock Text="search shop items" />
+            <TextBox x:Name="SearchTextBox" InputScope="Search"                 KeyUp="OnKeyUp"                      GotFocus="OnGotFocus" Margin="0,0,34,0"/>
+        </StackPanel>
+        <phone:LongListSelector Margin="10,0,0,0" Name="resultListBox" Grid.Row="1" SelectionChanged="resultListBox_SelectionChanged"
+                 DataContext="{StaticResource viewModel}"
+                 ItemTemplate="{StaticResource ResultItemTemplate}"                 
+                 ItemsSource="{Binding ShopItems}"                               
+                 ListFooter="{Binding}"/>
+    </Grid>
+
+</phone:PhoneApplicationPage>

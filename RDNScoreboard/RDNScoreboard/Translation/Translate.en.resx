@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="mainwindow:AtTheHalfClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:At The Half Clock</comment>
+  </data>
+  <data name="mainwindow:Feedback:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Feedback</comment>
+  </data>
+  <data name="mainwindow:Font:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Program settings</comment>
+  </data>
+  <data name="mainwindow:GameClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Game Clock</comment>
+  </data>
+  <data name="mainwindow:JamClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Jam Clock</comment>
+  </data>
+  <data name="mainwindow:lineUpClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Line Up Clock</comment>
+  </data>
+  <data name="mainwindow:NewGame:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:New Game</comment>
+  </data>
+  <data name="mainwindow:periodSplitClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Period Split Clock</comment>
+  </data>
+  <data name="mainwindow:Policy:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Scoreboard Policy</comment>
+  </data>
+  <data name="mainwindow:RibbonTab_Game:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Game</comment>
+  </data>
+  <data name="mainwindow:RibbonTab_Scoreboard:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Scoreboard</comment>
+  </data>
+  <data name="mainwindow:RibbonTab_Settings:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Settings</comment>
+  </data>
+  <data name="mainwindow:Team1Control:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Team 1 Controls</comment>
+  </data>
+  <data name="mainwindow:Team2Control:Header" xml:space="preserve">
+    <value />
+    <comment>en-US:Team 2 Controls</comment>
+  </data>
+  <data name="mainwindow:TextBlock_SpecifyLanguage:Text" xml:space="preserve">
+    <value />
+    <comment>en-US:Specify language:</comment>
+  </data>
+  <data name="mainwindow:timeOutClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Time Out Clock</comment>
+  </data>
+  <data name="mainwindow:TopRegion:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:GAME PREVIEW REGION</comment>
+  </data>
+  <data name="mainwindow:Window_MainWindow:Title" xml:space="preserve">
+    <value />
+    <comment>en-US:MainWindow</comment>
+  </data>
+  <data name="resources/policyviewmodeltext:FirstIntermissionNameConfirmedText:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Halftime</comment>
+  </data>
+  <data name="resources/policyviewmodeltext:String_Halftime:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Halftime</comment>
+  </data>
+  <data name="views/feedbackview:Button_SubmitFeedback:Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Submit feedback</comment>
+  </data>
+  <data name="views/feedbackview:TextBlock_Feedback:Text" xml:space="preserve">
+    <value />
+    <comment>en-US:Feedback:</comment>
+  </data>
+  <data name="views/feedbackview:Window_FeedbackView:Title" xml:space="preserve">
+    <value />
+    <comment>en-US:FeedbackView</comment>
+  </data>
+  <data name="views/policyview:AdChangeAutomaticallyChangeImage:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Automatically change the ad image</comment>
+  </data>
+  <data name="views/policyview:AdChangeDisplayChangesInSeconds:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Ads change at the seconds specified</comment>
+  </data>
+  <data name="views/policyview:AdChangeShowAdsDuringIntermission:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Show Ads during intermission</comment>
+  </data>
+  <data name="views/policyview:AdChangeShowAdsRandomly:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Show Ads in Random Order</comment>
+  </data>
+  <data name="views/policyview:AdChangeUseLineUpClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Shows the adds where the line up clock sits.</comment>
+  </data>
+  <data name="views/policyview:AlwaysShowJamClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Always Show Jam Clock</comment>
+  </data>
+  <data name="views/policyview:ClockSyncPolicy:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Clock Sync: When enabled, all clocks will sync to the nearest second. This allows all clocks to change in sync, however when any clock is started it will either be delayed or accelerated by up to 500 ms. When disabled, clocks will start immediately, but will run out of sync with each other. If disabled and then re-enabled, any currently running clock will remain unsynced until it stops.</comment>
+  </data>
+  <data name="views/policyview:CountdownClockControlsStartJamPolicy:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Countdown Clock Controls Start of Jam: Starts the Jam automatically when the time between jams has ended.</comment>
+  </data>
+  <data name="views/policyview:EnableAdChange:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Enables the Ad change policy on the board</comment>
+  </data>
+  <data name="views/policyview:EnableIntermissionNaming:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Enable the intermission naming scheme.</comment>
+  </data>
+  <data name="views/policyview:FirstIntermissionName:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Name of the First Intermission</comment>
+  </data>
+  <data name="views/policyview:FirstIntermissionNameConfirmed:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Intermission Name after Confirmed Points</comment>
+  </data>
+  <data name="views/policyview:HideClockTimeAfterBout:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Hides the clocks after Bout is over.</comment>
+  </data>
+  <data name="views/policyview:IntermissionClockEnable:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Enable Intermission Clock: Starts the intermission clock to the default or designated intermission time.</comment>
+  </data>
+  <data name="views/policyview:IntermissionClockStartEnable:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Enable Intermission Start Clock: Starts the intermission clock to the default or designated intermission time.</comment>
+  </data>
+  <data name="views/policyview:IntermissionClockTime:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Set Intermission Time: Sets the time for intermission</comment>
+  </data>
+  <data name="views/policyview:IntermissionOther:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Some Other Text used for Intermission</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopClockEnable:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Enable Intermission Stop Clock: When the Intermission clock is over, this resets the Period and Jam clock time.</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopClockIncrementJamNumber:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Increment Jam Number At Stop of Intermission: Increments the jam number automatically at stop of intermission.</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopClockResetJamNumber:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Reset Jam Number At Stop of Intermission: Resets the jam number to zero automatically at stop of intermission.</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopClockResetJamTime:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Reset Jam Time At Stop of Intermission: Resets the jam Time to zero automatically at stop of intermission.</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopIncrementPeriodNumber:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Increment Period Number At Stop of Intermission Clock.</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopResetPeriodNumber:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Reset Period Number At Stop of Intermission Clock.</comment>
+  </data>
+  <data name="views/policyview:IntermissionStopResetPeriodTime:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Reset Period Time At Stop of Intermission Clock.</comment>
+  </data>
+  <data name="views/policyview:JamClockControlsLineUpClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Starts the line up clock when the jam clock stops.  Starts the Jam clock when the line up clock stops.</comment>
+  </data>
+  <data name="views/policyview:JamClockControlsTeamPositions:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:This clears all Team Positions (who are not in the Penalty Box) when the Jam clock is stopped, sets all Skaters to Not Lead Jammer, and sets the Team to Not Lead Jammer.</comment>
+  </data>
+  <data name="views/policyview:PenaltyBoxControlsLeadJammer:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:This removes Lead Jammer from any Skater sent to the Penalty Box.</comment>
+  </data>
+  <data name="views/policyview:PeriodClockControlsLineupJamClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:This controls the Lineup clock based on the Period clock. When the Period clock stops and its time is equal to its 0 (i.e. its minimum), and the Jam clock is also stopped, the Lineup clock is stopped and reset.</comment>
+  </data>
+  <data name="views/policyview:SecondIntermissionName:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Name of Second Intermission</comment>
+  </data>
+  <data name="views/policyview:SecondIntermissionNameConfirmed:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Name of Second Intermission Confirmed</comment>
+  </data>
+  <data name="views/policyview:TimeoutCloclControlsLineupClock:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:This controls the Lineup clock based on the Timeout clock. When the Timeout clock starts, the Lineup clock is stopped then reset.</comment>
+  </data>
+  <data name="views/policyview:Title:$Content" xml:space="preserve">
+    <value />
+    <comment>en-US:Core Scoreboard Policies</comment>
+  </data>
+  <data name="views/policyview:Window_PolicyView:Title" xml:space="preserve">
+    <value />
+    <comment>en-US:PolicyView</comment>
+  </data>
+</root>

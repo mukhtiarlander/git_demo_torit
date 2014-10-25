@@ -1,0 +1,50 @@
+﻿@model RDN.Library.Classes.League.Classes.LeagueMemberClass
+@{
+    ViewBag.Title = "Add a Skater Class";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Add Skater Class
+        </div>
+                  <div class="titleDescription">
+     Here you can add a Skater Class to the list of Skater Classes.  This list of skater classes is shown to all the managers of all the leagues signed up.  Sort of like a group think for better League Management.  So before you create a new one, please review the ones already there.  Please <a href="http://wiki.rdnation.com/League_Member_Skater_Classes" target="_blank">read the wiki</a> for more information.
+       
+            </div>
+            <div class="divider"></div>
+       
+
+        @using (Html.BeginForm())
+        {
+            <table class="suTable">
+                <tr>
+                    <td class="b" style="width:140px;">Name of Class:
+                    </td>
+                    <td  style="text-align:left;">
+                        @Html.TextBoxFor(m => m.NameOfClass)
+                    </td>
+                </tr>
+                <tr>
+                                        <td  colspan="2">
+                        <input class="primary" type="submit" value="Create Class" />
+                        <input class="primary" type="submit" value="Create & Add Another" name="addAnother" />
+                    </td>
+                </tr>
+            </table>
+        }
+        <br /><br />
+        <div>List of Classes Already Available</div>
+        <table>
+            <tr><th>Class</th></tr>
+            @foreach (var cl in RDN.Library.Cache.SiteCache.GetLeagueMemberClasses())
+            {
+                <tr>
+                    <td>
+                        @cl.NameOfClass
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

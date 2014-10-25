@@ -1,0 +1,31 @@
+﻿<Page x:Class="RDNScoreboard.Views.LineupTemplates.SideBarLogo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" ShowsNavigationUI="False"
+      
+	     d:DesignHeight="600" d:DesignWidth="800"
+	Title="SideBarLogo">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".20*"></ColumnDefinition>
+            <ColumnDefinition Width=".80*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Rectangle  Grid.Column="0"     x:Name="SidePanelColor"    Width="Auto" Height="Auto"  StrokeThickness="1"          Fill="#000000" />
+        <Viewbox Grid.Column="0">
+            <TextBlock Margin="10"  FontFamily="Arial Black" x:Name="SidePanelText" FontSize="64" Foreground="#FFFFFF" Text="Team Name"  VerticalAlignment="Center" HorizontalAlignment="Center"  >
+    <TextBlock.LayoutTransform>
+     <RotateTransform Angle="270"></RotateTransform>
+      </TextBlock.LayoutTransform>
+            </TextBlock>
+        </Viewbox>
+        <Rectangle  Grid.Column="1"    x:Name="BackgroundColor"    StrokeThickness="1"          Fill="#FFFFFF" />
+        <Viewbox Grid.Column="1"  Grid.Row="0">
+            <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <Image x:Name="LogoPicture" Source="../../Images/Rollerball_pink_s500.png" Margin="40"></Image>
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Page>

@@ -1,0 +1,105 @@
+@using RDN.Library.Classes.Store.Classes
+@model StoreItem
+@{
+    ViewBag.Title = "Roller Derby Online Store Product Review";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <div class="categories">
+        <div class="catHead">Browse</div>
+        <ul class="catList">
+            <li><a href="@Url.Content("~/roller-derby-shops")">Shops</a></li>
+            <li><a href="@Url.Content("~/category/shirts/1")">Shirts</a></li>
+            <li><a href="@Url.Content("~/category/item/2")">Items</a></li>
+            <li><a href="@Url.Content("~/category/item/3")">Decals</a></li>
+        </ul>
+    </div>
+    <div class="mainListReview" id="mainList">
+        @*<div class="fixTitle">
+            Product Review
+        </div>*@
+        <div class="clear">
+        </div>
+
+        <div>
+            <span class="storeItemName">@Model.Name</span>
+            <br />
+            <div class="storeItemSoldBy">
+                Sold by <a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+            </div>
+        </div>
+        <div class="storePhotoContainer center">
+            @if (Model.Photos.FirstOrDefault() != null)
+            { 
+                <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt" style="max-width: 500px; max-height: 500px; min-width: 500px; margin: 0px auto 0px auto;" id="mainPhoto" />
+@*<img src="~/Content/profile__medium.gif" style="max-width: 500px; max-height: 500px; min-width: 300px; margin: 0px auto 0px auto;" id="mainPhoto" />*@
+            }
+            <ul class="storePhotosList">
+
+                @foreach (var photo in Model.Photos)
+                { 
+                    <li>
+                        <img src="@photo.ImageUrl" alt="@photo.Alt" style="max-width: 60px; max-height: 60px;" onmouseover="javascript:MouseOverPhotoStore('@photo.ImageUrl')"  /></li>
+
+@*<li> <img src="~/Content/profile__medium.gif" style="max-width: 60px; max-height: 60px;" /></li>
+                    <li> <img src="~/Content/Rollerball_pink_s500.png" style="max-width: 60px; max-height: 60px;" /></li>*@
+                    
+                }
+            </ul>
+        </div>
+        <div class="clear"></div>
+        @using (Html.BeginForm("Review", "Home", FormMethod.Post, new { @id = "addNewReview" }))
+        {  
+                
+            <table>
+                <tr>
+                    <td class="largeInput">
+                        <div class="rateit bigstars" onclick="v()" data-rateit-starwidth="32" data-rateit-value="@Model.rate" data-rateit-resetable="false" id="starRate" data-rateit-step="0.5" data-rateit-starheight="32"></div>
+                     
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MegalargeInput">Review Title @Html.TextBoxFor(x => x.ReviewTitle)</td>
+                </tr>
+                <tr>
+                    <td class="MegalargeInput">Details @Html.TextAreaFor(x => x.ReviewComment)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="largeInput">
+                        <input type="submit" class="primary" value="Submit" name="submit" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+
+                </tr>
+            </table>
+               @Html.HiddenFor(x => x.ratings)
+                        @Html.HiddenFor(x => x.StoreItemId)
+                        @Html.HiddenFor(x => x.InvoiceItemId)
+                        @Html.HiddenFor(x => x.ReviewId)
+        }
+    </div>
+    <br />
+
+</div>
+
+<script type="text/javascript">
+
+    function v(event, value) {
+        var val = $('#starRate').rateit('value');
+        document.getElementById('ratings').value = val;
+        //alert(val);
+    }
+</script>
+<script type="text/javascript">
+    $("#addNewReview").validate({
+        rules: {
+            comment: "required"
+            , reviewTitle: "required"
+            , ratings: "required"
+        }
+    });
+</script>

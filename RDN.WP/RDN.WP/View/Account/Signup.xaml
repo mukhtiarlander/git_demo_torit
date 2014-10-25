@@ -1,0 +1,60 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.Account.Signup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="#5e3a63" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="RDNATION" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="signup" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+          
+            <StackPanel >
+                <TextBlock Grid.Row="0" Padding="15,0,10,0">Do You Derby?</TextBlock>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <RadioButton GroupName="derby" x:Name="YesRadio" Click="YesRadio_Click" Content="Yes" IsChecked="True"/>
+                    <RadioButton GroupName="derby" x:Name="NoRadio" Click="NoRadio_Click" Content="No" />
+                </StackPanel>
+                <TextBlock Grid.Row="2" x:Name="DerbyNameText" Padding="15,0,10,0">DERBY NAME</TextBlock>
+                <TextBox x:Name="DerbyName" Grid.Row="3" ></TextBox>
+                <TextBlock Grid.Row="5" x:Name="FirstNameText" Padding="15,0,10,0">FIRST NAME</TextBlock>
+                <TextBox x:Name="FirstName" Grid.Row="6" ></TextBox>
+                <TextBlock Grid.Row="8" Padding="15,0,10,0">EMAIL</TextBlock>
+                <TextBox x:Name="Email" InputScope="EmailNameOrAddress" Grid.Row="9" ></TextBox>
+
+                <TextBlock Grid.Row="11" Padding="15,0,10,0">PASSWORD</TextBlock>
+                <TextBox x:Name="Password" Grid.Row="12" ></TextBox>
+
+                <TextBlock Grid.Row="14" x:Name="GenderText" Padding="15,0,10,0">GENDER</TextBlock>
+                <toolkit:ListPicker  Grid.Row="15" x:Name="GenderSelect"/>
+
+                <TextBlock Grid.Row="14" x:Name="PositionText" Padding="15,0,10,0">POSITION</TextBlock>
+                <toolkit:ListPicker  Grid.Row="15" x:Name="PositionSelect"/>
+
+                <TextBlock Grid.Row="17" Padding="15,0,10,0" x:Name="warning"></TextBlock>
+                <Button x:Name="RegisterBtn"  Grid.Row="18" Margin="0,0,0,20" Click="RegisterBtn_Click_1" >Register with RDNation</Button>
+            </StackPanel>
+            <!--</Grid>-->
+        </ScrollViewer>
+    </Grid>
+
+</phone:PhoneApplicationPage>

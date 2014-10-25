@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    style="@style/gamesRow">
+    <LinearLayout
+        android:id="@+id/publicGameRowHeader"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/publicGameRowHeader">
+        <TextView
+            android:id="@+id/publicGameRowHeaderPeriodJam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/publicGameRowTeamOne"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/publicGameRow">
+        <ImageView
+            android:id="@+id/publicGameRowTeamOneLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:layout_alignParentLeft="true" />
+        <TextView
+            android:id="@+id/publicGameRowTeamOneName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/publicGameRowTeamName"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/publicGameRowTeamOneLogo" />
+        <TextView
+            android:id="@+id/publicGameRowTeamOneScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/publicGameRowTeamOneWinner" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/publicGameRowTeamOneWinner"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/publicGameRowTeamTwo"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        style="@style/publicGameRow">
+        <ImageView
+            android:id="@+id/publicGameRowTeamTwoLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:layout_alignParentLeft="true" />
+        <TextView
+            android:id="@+id/publicGameRowTeamTwoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/publicGameRowTeamName"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/publicGameRowTeamTwoLogo" />
+        <TextView
+            android:id="@+id/publicGameRowTeamTwoScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/publicGameRowTeamTwoWinner" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/publicGameRowTeamTwoWinner"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+</LinearLayout>

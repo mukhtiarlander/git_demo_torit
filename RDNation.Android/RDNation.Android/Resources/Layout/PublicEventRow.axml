@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/publicLeagueRow"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@style/publicEventRow">
+    <TextView
+        style="@style/publicEventRowStyle"
+        android:id="@+id/publicEventRowId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <ImageView
+        android:id="@+id/publicEventRowImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:padding="5dp"
+        android:layout_alignParentLeft="true" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/publicEventRowTitleStyle"
+            android:id="@+id/publicEventRowName"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            style="@style/publicEventRowStyle"
+            android:id="@+id/publicEventRowDetails"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</TableRow>

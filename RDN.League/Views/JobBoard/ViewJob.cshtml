@@ -1,0 +1,73 @@
+﻿@model RDN.Library.Classes.League.JobBoard
+@{
+    ViewBag.Title = "View Job Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/jobboard")">All Jobs</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+           Job Details
+        </div>
+        <div class="tvChanges">
+            <div class="navIcons">
+                <a title="Contact" href="@Url.Content("~/messages/new/jobboard/"+ Model.JobCreator.ToString().Replace("-", ""))">
+                    <img  src="@Url.Content("~/Content/images/icons/contact.png")"  />Contact
+                </a>
+            </div>
+        </div>
+        <div class="titleDescription">
+            Details of the Job
+     
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="addForumPostTbl">
+
+                <tr>
+                    <td class="b alRight">Job Title:
+                    </td>
+                    <td class="vRTD">
+                        @Model.JobTitle
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Job Completed:
+                    </td>
+                    <td class="vRTD">
+                        @Model.JobEnds.ToShortDateString()
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Hours Per Week:
+                    </td>
+                    <td class="vRTD">
+                        @Model.HoursPerWeek
+                    </td>
+                </tr>     
+                <tr>
+                    <td class="b alRight">Reports To:
+                    </td>
+                    <td class="vRTD">
+                        @Model.ReportsTo
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Job Details:</td>
+                    <td>
+                       <div class="Details">
+                          <p>
+                            @Html.Raw( Model.JobDesc)
+                           </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

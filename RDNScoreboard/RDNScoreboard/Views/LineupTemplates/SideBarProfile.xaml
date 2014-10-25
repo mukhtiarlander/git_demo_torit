@@ -1,0 +1,58 @@
+﻿<Page x:Class="RDNScoreboard.Views.LineupTemplates.SideBarProfile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" ShowsNavigationUI="False"
+      d:DesignHeight="600" d:DesignWidth="800"
+	Title="SideBarProfile">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".20*"></ColumnDefinition>
+            <ColumnDefinition Width=".80*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Rectangle  Grid.Column="0"     x:Name="SidePanelColor"    Width="Auto" Height="Auto"  StrokeThickness="1"          Fill="#000000" />
+        <Viewbox Grid.Column="0">
+            <TextBlock Margin="10"  FontFamily="Arial Black" x:Name="SidePanelText" FontSize="64" Foreground="#FFFFFF" Text="Team Name"  VerticalAlignment="Center" HorizontalAlignment="Center"  >
+    <TextBlock.LayoutTransform>
+     <RotateTransform Angle="270"></RotateTransform>
+      </TextBlock.LayoutTransform>
+            </TextBlock>
+        </Viewbox>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".50*"></ColumnDefinition>
+                <ColumnDefinition Width=".50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".33*"></RowDefinition>
+                <RowDefinition Height=".33*"></RowDefinition>
+                <RowDefinition Height=".33*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle  Grid.Column="0"   Grid.RowSpan="3" Grid.ColumnSpan="2"  x:Name="BackgroundColor"    StrokeThickness="1"          Fill="#eb98f4" />
+            <StackPanel Grid.Column="0" Grid.RowSpan="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image x:Name="SkaterPicture" Source="../../Images/profilePicture.jpg" Margin="20,0,0,0"></Image>
+
+            </StackPanel>
+
+            <Viewbox Grid.Column="1"  Grid.Row="0">
+                <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <Image x:Name="LogoPicture" Source="../../Images/Rollerball_pink_s500.png"></Image>
+                </StackPanel>
+            </Viewbox>
+            <Viewbox Grid.Column="1"  Grid.Row="1">
+                <StackPanel Grid.Column="1"  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+                    <TextBlock Text="Veggie Delight"  FontFamily="Arial Black" TextAlignment="Center" FontSize="54" x:Name="SkaterName" TextWrapping="Wrap"></TextBlock>
+                </StackPanel>
+            </Viewbox>
+            <Viewbox Grid.Column="1"  Grid.Row="2">
+                <StackPanel Grid.Column="1"  Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="400">
+                    <TextBlock Text="#29" x:Name="SkaterNumber" TextWrapping="Wrap"  FontFamily="Arial Black" TextAlignment="Center" FontSize="84"></TextBlock>
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+
+    </Grid>
+</Page>

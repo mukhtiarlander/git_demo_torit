@@ -1,0 +1,82 @@
+﻿@model RDN.Portable.Classes.League.Classes.League
+@{
+    ViewBag.Title = Model.Name.Replace("Roller Derby League", "") + " Roller Derby League";
+    if (!String.IsNullOrEmpty(Model.State) && !String.IsNullOrEmpty(Model.Country))
+    {
+        ViewBag.Title += " in " + Model.State + ", " + Model.Country;
+    }
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="tvTitle">
+            @Model.Name
+            @if (!String.IsNullOrEmpty(Model.Website))
+            { 
+                <span class="tvWebsite">- <a target="_blank" href="@Model.Website">League WebSite</a></span>
+            }
+            <br />
+            <div class="tvDesc">
+                @Model.State - @Model.Country</div>
+        </div>
+        <div class="leagueTempSign">
+            <span class="SignUpTemp greenLink"><a href="http://rdnation.com/SignUp">Claim This League!</a>
+            </span>
+            <br />
+            <br />
+            @Model.Name has yet to be claimed by the actual owners.
+        </div>
+        <hr />
+        <div>
+            @if (Model.LeagueMembers != null && Model.LeagueMembers.Count > 0)
+            {
+            
+                <table class="listTable" id="members">
+                    <thead>
+                        <tr>
+                            <th>
+                            </th>
+                            <th>
+                                Derby Name
+                            </th>
+                            <th>
+                                Derby Number
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.LeagueMembers.Count; i++)
+                        {
+                            <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                                <td>
+                                    <img height="40px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby person" />
+                                </td>
+                                <td>
+                                    <a href="@Url.Content("~/roller-derby-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
+                                        @Model.LeagueMembers[i].DerbyName
+                                    </a>
+                                </td>
+                                <td>@Model.LeagueMembers[i].PlayerNumber
+                                </td>
+                            </tr>     
+                        }
+                    </tbody>
+                </table>
+            
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

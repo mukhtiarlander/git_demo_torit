@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Add Multiple Leagues";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+                //allows federation owners to add multiple leagues at once.
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Add Multiple Leagues to @ViewBag.FederationName
+        </div>
+        <div class="divider"></div>
+        <div>
+            Here you can add leagues to your particular federation.</div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Full League Name
+                        </th>
+                        <th>
+                            Contact Email
+                        </th>
+                        <th>
+                            Contact Phone
+                        </th>
+                        <th>
+                            City
+                        </th>
+                        <th>
+                            State
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: league">
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: leagueName, hasfocus: true" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: contactEmail" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" data-bind="value: contactPhone" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: city" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: state" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <select data-bind="options: countries,
+                   optionsText: 'Code',
+                   optionsValue : 'CountryId',
+                   value: country,
+                   optionsCaption: 'Choose...'">
+                            </select>
+                        </td>
+                        <td valign="top" style="vertical-align: top;">
+                            <a href="#" data-bind="click: $parent.removeLeague">
+                                <img alt="remove" height="25px" src="@Url.Content("~/Content/minus.png")" /></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <div class="addedSuccessfully displayNone" id="addedSuccessfully">
+                                All Teams Were Added Successfully! You will receive an email when they are approved.</div>
+                        </td>
+                        <td>
+                            <button data-bind="click: addLeague">
+                                Add</button>
+                            <button class="primary" data-bind="click: saveLeagues">
+                                Submit</button>
+                            <img src="@Url.Content("~/Content/loading_lg.gif")" id="addLeagues" class="displayNone" style=" width:20px;" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                    var leagues = new LeaguesViewModel();
+                    leagues.errors = ko.validation.group(leagues);
+                    ko.applyBindings(leagues);
+                    leagues.addLeague();
+
+
+                    $.ajax({
+                        url: '/Utilities/GetCountries',
+                        type: 'GET',
+                        success: function (data) {
+                            countries(data)
+                        }
+                    });
+
+                });
+                
+            </script>
+        </div>
+    </div>
+</div>

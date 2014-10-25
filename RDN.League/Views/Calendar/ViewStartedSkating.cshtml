@@ -1,0 +1,43 @@
+﻿@using RDN.League.Models.Calendar
+@using RDN.League.Models.Utilities
+@using RDN.Library.Classes.Calendar.Enums
+@using RDN.Library.Cache
+@model NewCalendarEvent
+@{
+    ViewBag.Title = "View Calendar Event " + Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    
+}
+<div class="fixedContainer"> 
+      <div class="fixedlinksContainter">
+        <div class="backLink">
+            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+            {
+                <span>< <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
+            }
+            else
+            { 
+                <span>< <a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
+            }
+
+        </div>
+        <div class="rightBackLink">
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            @Model.Name Started Skating Today
+        </div>
+        <div class="tvChanges">
+        </div>
+        <br /><br />
+        <div class="viewEventNotes">
+             @Model.Name started skating on @Model.StartDate.ToShortDateString()
+        </div>
+        <div class="divider"></div>
+       
+        <div>
+        </div>
+    </div>
+</div>

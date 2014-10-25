@@ -1,0 +1,98 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Dues.DuesSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Name="currencyPickerItemTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding CurrencyNameDisplay}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Name="currencyPickerFullItemTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding CurrencyNameDisplay}"/>
+            </StackPanel>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Background>
+            <ImageBrush AlignmentY="Bottom"  Opacity=".3"  Stretch="Uniform" ImageSource="../../../Assets/banner.jpg" />
+        </Grid.Background>
+
+        <!--Pivot Control-->
+        <phone:Pivot Title="DUES SETTINGS">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="settings">
+                <ScrollViewer>
+                    <StackPanel>
+
+                        <TextBlock  Text="Day Of Month To Collect:"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox InputScope="Number" x:Name="DayOfMonthToCollect" Style="{StaticResource SmallTextBox}"></TextBox>
+                            <TextBlock Style="{StaticResource Note}" Text="1 - 28"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Text="Days Before to Notify Member:"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox InputScope="Number" x:Name="DaysBeforeToNotify" Style="{StaticResource SmallTextBox}"></TextBox>
+                            <TextBlock Style="{StaticResource Note}" Text="1 - 28"></TextBlock>
+                        </StackPanel>
+                        <TextBlock  Text="Amount of Money To Collect:"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox InputScope="Number" x:Name="AmountToCollect"  Style="{StaticResource SmallTextBox}"></TextBox>
+
+                        </StackPanel>
+                        <TextBlock  Text="Dues Management for Managers Only:"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="DuesForManagementOnly"></CheckBox>
+                            <TextBlock Style="{StaticResource Note}" Text="- Only Managers Can See Full Dues"></TextBlock>
+                        </StackPanel>
+                        <TextBlock   Text="Accept Paypal Payments:"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="PayPalPaymentsAllowed"></CheckBox>
+                            <TextBlock Style="{StaticResource Note}" Text="- Can Receive Paypal Payments"></TextBlock>
+                        </StackPanel>
+                        <TextBlock  Text="Leagues Paypal Email Address:"></TextBlock>
+                        <TextBox x:Name="PaypalEmailAddress"  ></TextBox>
+                        <TextBlock   Text="Currency for Dues:"></TextBlock>
+                        <toolkit:ListPicker FullModeHeader="Currencies"  x:Name="CurrencySelect">
+                            <toolkit:ListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding CurrencyNameDisplay}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.ItemTemplate>
+                            <toolkit:ListPicker.FullModeItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding CurrencyNameDisplay}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.FullModeItemTemplate>
+                        </toolkit:ListPicker>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+
+        </phone:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar   >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/save.png" x:Name="Save" Click="Save_Click" Text="Save"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

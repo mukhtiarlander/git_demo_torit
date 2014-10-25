@@ -1,0 +1,124 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Calendar.ViewCalendarEvent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+   
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <con:VisibilityConverter x:Key="VisibilityConverter" x:Name="VisibilityConverter" />
+        <con:DoubleConverter x:Key="doubleConverter"></con:DoubleConverter>
+        <con:FriendlyEnumNameConverter x:Key="enumConverter"></con:FriendlyEnumNameConverter>
+        <DataTemplate x:Name="RosterTemplate">
+            <Border BorderBrush="#872f95" BorderThickness="0 0 0 1" VerticalAlignment="Top">
+                <StackPanel Style="{StaticResource RosterTemplateContainer}" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource RowTitle}" Text="{Binding  Path=MemberNumber}"/>
+                        <TextBlock Style="{StaticResource RowTitle}" Text=" - "></TextBlock>
+                        <TextBlock Style="{StaticResource RowTitle}" Text="{Binding  Path=MemberName}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding isWaived, Converter={StaticResource VisibilityConverter}, ConverterParameter=Collapsed}">
+                        <TextBlock Text="Point Type: " Style="{StaticResource RosterText}"></TextBlock>
+                        <TextBlock Style="{StaticResource RosterTextValue}" Text="{Binding  Path=PointType}"/>
+                        <TextBlock Text=" - " Style="{StaticResource RosterText}"></TextBlock>
+                        <TextBlock Style="{StaticResource RosterTextValue}" Text="{Binding  Path=SecondaryPointType}"/>
+                        <TextBlock Text=" - " Style="{StaticResource RosterText}"></TextBlock>
+                        <TextBlock Style="{StaticResource RosterTextValue}" Text="{Binding  Path=PointsStringForReading}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsCheckedIn, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}">
+                        <TextBlock Width="150" TextWrapping="Wrap" Text="{Binding Note}"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Name="AvailableTemplate">
+            <Border BorderBrush="#872f95" BorderThickness="0 0 0 1" VerticalAlignment="Top">
+                <StackPanel Style="{StaticResource RosterTemplateContainer}" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource RowTitle}" Text="{Binding  Path=MemberNumber}"/>
+                        <TextBlock Style="{StaticResource RowTitle}" Text=" - "></TextBlock>
+                        <TextBlock Style="{StaticResource RowTitle}" Text="{Binding  Path=MemberName}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding isWaived, Converter={StaticResource VisibilityConverter}, ConverterParameter=Collapsed}">
+                        <TextBlock Text="Availability: " Style="{StaticResource RosterText}"></TextBlock>
+                        <TextBlock Style="{StaticResource RosterTextValue}" Text="{Binding  Path=Availability}"/>
+                    </StackPanel>
+                    <TextBlock Width="150" TextWrapping="Wrap" Text="{Binding AvailableNotes}"></TextBlock>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Background>
+            <ImageBrush AlignmentY="Bottom"  Opacity=".3"  Stretch="Uniform" ImageSource="../../../Assets/banner.jpg" />
+        </Grid.Background>
+        <!--Pivot Control-->
+        <phone:Pivot Title="View Event" x:Name="pivotTitle">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="details">
+                <ScrollViewer>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Date and Time:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="5 10 5 10">
+                                <TextBlock x:Name="StartDate" ></TextBlock>
+                                <TextBlock Text=" "></TextBlock>
+                                <TextBlock x:Name="StartTime" ></TextBlock>
+                                <TextBlock Text=" - "></TextBlock>
+                                <TextBlock x:Name="EndTime" ></TextBlock>
+                            </StackPanel>
+                            <TextBlock Text="Location:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <TextBlock x:Name="Location" Margin="5 10 5 10" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Address:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <TextBlock x:Name="Address1"  TextWrapping="Wrap"></TextBlock>
+                            <TextBlock x:Name="Address2"  TextWrapping="Wrap"></TextBlock>
+                            <TextBlock x:Name="Address3"  TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Website:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <TextBlock x:Name="WebsiteUrl"  Tap="WebsiteUrl_Tap"  TextWrapping="Wrap"></TextBlock>
+
+                            <TextBlock Text="Tickets:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <TextBlock x:Name="TicketUrl"  Tap="TicketUrl_Tap"  TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="On RDNation:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <TextBlock x:Name="RDNationUrl"  Tap="RDNationUrl_Tap"  TextWrapping="Wrap"></TextBlock>
+
+                            <TextBlock Text="Description:" Style="{StaticResource QuestionText}"></TextBlock>
+                            <TextBlock x:Name="Description" Margin="5 10 5 10" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <!--Pivot item two-->
+            <phone:PivotItem Header="coming">
+                <Grid>
+                    <phone:LongListSelector x:Name="RosterList"  ItemTemplate="{StaticResource AvailableTemplate}" ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    </phone:LongListSelector>
+                </Grid>
+            </phone:PivotItem>
+            <phone:PivotItem Header="checked in">
+                <Grid>
+                    <phone:LongListSelector x:Name="checkedInList"  ItemTemplate="{StaticResource RosterTemplate}" ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    </phone:LongListSelector>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/appbar.man.suitcase.run.png" x:Name="SetAvailability" Click="SetAvailability_Click" Text="Going?"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/check.png" x:Name="CheckMembersIn" Click="CheckMembersIn_Click" Text="CheckIn"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+
+</phone:PhoneApplicationPage>

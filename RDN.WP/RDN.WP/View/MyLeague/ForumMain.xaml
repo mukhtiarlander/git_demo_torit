@@ -1,0 +1,97 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.ForumMain"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
+            <con:UnreadMessageBrushConverter x:Key="UnreadBrushConverter" UnreadMessageColorHex="#33cfabd4" />
+        </Grid.Resources>
+        <!--Pivot Control-->
+        <phone:Pivot Title="RDNation" x:Name="ForumPivot">
+            <phone:Pivot.Background>
+                <ImageBrush AlignmentY="Bottom"  Opacity=".3"  Stretch="Uniform" ImageSource="../../Assets/banner.jpg" />
+            </phone:Pivot.Background>
+            <!--Pivot item one-->
+            <phone:PivotItem Header="groups">
+                <ListBox x:Name="GroupNamesList" ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1" SelectionChanged="GroupNamesList_SelectionChanged"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,10"  Orientation="Horizontal" >
+                                <TextBlock x:Name="title" Style="{StaticResource TextBlockListItem}"   TextWrapping="Wrap" Text="{Binding  Path=GroupName}"></TextBlock>
+                                <TextBlock  Style="{StaticResource TextBlockListItem}"   TextWrapping="Wrap" Text=" ("></TextBlock>
+                                <TextBlock  Style="{StaticResource TextBlockListItem}"   TextWrapping="Wrap" Text="{Binding  Path=UnreadTopicsCount}"></TextBlock>
+                                <TextBlock  Style="{StaticResource TextBlockListItem}"   TextWrapping="Wrap" Text=")"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="forum" x:Name="ForumName">
+
+                <phone:LongListSelector x:Name="TopicsList"  ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1" SelectionChanged="TopicsList_SelectionChanged"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Gray">
+                                <StackPanel Margin="0,0,0,10" Background="{Binding Path=HasRead, Converter={StaticResource UnreadBrushConverter}}" >
+                                    
+                                        <TextBlock x:Name="title" Style="{StaticResource ForumTopicListName}"   Text="{Binding  Path=TopicName}"></TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource ForumLastCounts}" Text="started by "></TextBlock>
+                                        <TextBlock x:Name="startedBy" Margin="0,0,10,0" Style="{StaticResource ForumLastCounts}" Text="{Binding  Path=StartedByName}"></TextBlock>
+
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock x:Name="replyCount" Style="{StaticResource ForumLastCounts}" Text="{Binding  Path=PostCount}"></TextBlock>
+                                        <TextBlock Style="{StaticResource ForumLastCounts}" Text=" replies" Margin="0,0,10,0" ></TextBlock>
+                                        <TextBlock x:Name="viewCount"  Style="{StaticResource ForumLastCounts}" Text="{Binding  Path=ViewCount}"></TextBlock>
+                                        <TextBlock Style="{StaticResource ForumLastCounts}" Margin="0,0,10,0" Text=" views"></TextBlock>
+
+                                        <TextBlock Text="last replied " ></TextBlock>
+                                        <TextBlock x:Name="lastReply" Style="{StaticResource ForumLastPostTime}"  Text="{Binding  Path=LastPostRelativeTime}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+            <phone:PivotItem Header="categories" x:Name="ForumCategories">
+                <ListBox x:Name="CategoryNamesList" ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1" SelectionChanged="CategoryNamesList_SelectionChanged"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,10"  >
+                                <TextBlock x:Name="title" Style="{StaticResource TextBlockListItem}"   TextWrapping="Wrap" Text="{Binding  Path=CategoryName}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/add.png" x:Name="AddPost" Click="AddPost_Click" Text="Add"/>
+
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

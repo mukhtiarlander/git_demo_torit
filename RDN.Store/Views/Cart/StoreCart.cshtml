@@ -1,0 +1,161 @@
+﻿@using RDN.Library.Classes.Store.Classes;
+@model StoreShoppingCart
+@{
+    ViewBag.Title = "Shopping Cart For Roller Derby Items";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="backLinks">
+    <a href="@Url.Content("~/")">Store Home</a>
+</div>
+
+<div class="cartHome">
+    <span class="storeItemName">Your Cart</span>
+    <br />
+    <br />
+    @foreach (var merchant in Model.Stores)
+    {
+        <div class="cartShop">
+            <div class="cartShopName">Order For <a href="@Url.Content("~/roller-derby-shop/" + @merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(merchant.Name))">@merchant.Name</a></div>
+            <table class="storeShoppingCartTable">
+                <thead>
+                    <tr>
+                        <th colspan="2"></th>
+                        <th>Price
+                        </th>
+                        <th class="center">Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in merchant.StoreItems)
+                    { 
+                        <tr id="@item.ShoppingCartItemId-row" class="cartItemRow">
+                            <td>
+                                <div class="cartItemPhoto center">
+                                    @if (item.Photos.FirstOrDefault() != null)
+                                    { 
+                                        <img src="@item.Photos.FirstOrDefault().ImageUrl" style="width:120px; max-width:120px; " alt="@item.Photos.FirstOrDefault().Alt" />
+                                    }
+                                </div>
+                            </td>
+                            <td class="cartItemInfo">
+
+                                <div class="cartItemTitle">
+                                    <a target="_blank" href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
+                                </div>
+                                <div class="cartItemDesc">
+
+                                    @if (item.QuantityInStock > 0)
+                                    { 
+                                        <div class="cartLeftInStock">
+                                            @item.QuantityInStock <span class="storeGray">items left in stock</span>
+                                        </div>
+                                    }
+                                    @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+                                    { 
+                                        <div class="cartLeftInStock">
+                                            <b>Size:</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
+                                        </div>
+                                    }
+                                    @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
+                                    { 
+                                        <div class="cartLeftInStock">
+
+                                            @foreach (var color in item.Colors)
+                                            {  
+                                                <div class='selectedColorCon'>
+                                                    <div class='selectedColor' style='background-color:@color.HexColor;'>@color.NameOfColor</div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    <div class="clear"></div>
+                                    <div class="cartItemDelete"  id="@item.ShoppingCartItemId-delete">
+                                        <span class="cartDelete" onclick="javascript:DeleteItemFromCart('@item.ShoppingCartItemId', '@merchant.MerchantId', '@Model.ShoppingCartId')">delete</span>
+                                    </div>
+                            </td>
+                            <td style="vertical-align: top">
+                                <div class="cartItemPrice" id="@item.ShoppingCartItemId-price">
+                                    @if (item.Currency == "USD") {  <span>$</span>}@item.Price.ToString("N2") @item.Currency
+                                    @if (!item.WillPickUpLocally)
+                                    {
+                                        if (item.Shipping > 0)
+                                        { <span>+ @if (item.Currency == "USD") {  <span>$</span>}@item.Shipping.ToString("N2") shipping</span> }
+                                    }
+                                    
+                                   
+                                </div>
+                                <div class="clear"></div>
+                                <div class="cartItemDelete"  >
+                                 @if (!item.WillPickUpLocally)
+                                    {
+                                        <span class="cartDelete" onclick="javascript:ToggleShipment(this, '@item.ShoppingCartItemId', '@merchant.MerchantId', '@Model.ShoppingCartId')">pick up locally</span>
+                                    }
+                                    else
+                                    { 
+                                        <span class="cartDelete" onclick="javascript:ToggleShipment(this, '@item.ShoppingCartItemId', '@merchant.MerchantId', '@Model.ShoppingCartId')">ship item</span>
+                                    }
+                                    </div>
+                            </td>
+                            <td style="vertical-align: top">
+                                <div class="smallInput">
+                                    @Html.TextBox(item.ShoppingCartItemId.ToString() + "-item", item.QuantityOrdered, new { @class = "center", @id = item.ShoppingCartItemId.ToString() + "-item", @maxlength = "3", @onkeyup = "javascript:showCartQuantityUpdate('" + item.ShoppingCartItemId + "', '" + item.ItemSizeEnum + "')" })
+                                    <input type="hidden" id="@item.ShoppingCartItemId.ToString()-oldVal" value="@item.QuantityOrdered"/>
+                                    <div class="displayNone tc" id="@item.ShoppingCartItemId-update">
+                                        <span class="u cur" onclick="javascript:UpdateCartItemQuantity('@item.ShoppingCartItemId','@merchant.MerchantId', '@Model.ShoppingCartId')">Update</span>
+                                    </div>
+                                    <div class="displayNone tc" id="@item.ShoppingCartItemId-saved">
+                                        <span class="green">Saved</span>
+                                    </div>
+                                    <script type="text/javascript">
+                                        $("#@item.ShoppingCartItemId-item").numeric({ negative: false });
+                                    </script>
+                                </div>
+                            </td>
+
+                        </tr>  
+                    }
+
+
+                </tbody>
+            </table>
+            <div class="cartPayments">
+                @using (Html.BeginForm("StoreCheckOut", "Cart", FormMethod.Post))
+                {   
+                    <div class="storePriceShipping">
+                        <table class="cartTotalsTable">
+                            <tr>
+                                <td>Items Total:</td>
+                                <td><span id="@merchant.MerchantId-subTotal">@if (merchant.Currency== "USD") {  <span>$</span>}@merchant.TotalPrice.ToString("N2")  @merchant.Currency</span></td>
+                            </tr>
+                            <tr>
+                                <td>Shipping:</td>
+                                <td><span id="@merchant.MerchantId-shippingTotal">@if (merchant.Currency== "USD") {  <span>$</span>}@merchant.TotalShipping.ToString("N2")  @merchant.Currency</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="seperator"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Order Total:</b></td>
+                                <td><span class="b" id="@merchant.MerchantId-orderTotal">@if (merchant.Currency== "USD") {  <span>$</span>}@merchant.TotalAfterShipping.ToString("N2") @merchant.Currency</span></td>
+                            </tr>
+                        </table>
+                    </div>                    
+                    <br />
+                    @Html.HiddenFor(x => x.ShoppingCartId)
+                    @Html.Hidden("merchantId", merchant.MerchantId)
+                    <div class="center">
+                        <a class="primaryLink" href="@Url.Content("~/checkout/" + merchant.MerchantId.ToString().Replace("-", ""))">Proceed to Checkout</a>
+                    </div>
+                    <div class="clear"></div>
+                }
+            </div>
+            <div class="clear"></div>
+        </div>
+    }
+
+
+
+</div>

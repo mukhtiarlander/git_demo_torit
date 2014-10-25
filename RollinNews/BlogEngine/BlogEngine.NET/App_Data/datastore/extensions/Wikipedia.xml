@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ManagedExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Wikipedia">
+  <AdminPage />
+  <Author>&lt;a href="http://www.cristianofino.net"&gt;Cristiano Fino&lt;/a&gt;</Author>
+  <Description>Autolink from Wikipedia terms into posts and pages</Description>
+  <Enabled>false</Enabled>
+  <Priority>0</Priority>
+  <SubBlogEnabled>true</SubBlogEnabled>
+  <Settings>
+    <Delimiter>44</Delimiter>
+    <Help>Link automatically all the highlighted words with the syntax [w:&lt;em&gt;{term}&lt;/em&gt;] on the definition from Wikipedia.&lt;br /&gt;&lt;br /&gt;Optionally you can use the following syntax:&lt;br /&gt;&lt;br/&gt;1) [w:&lt;em&gt;{term}&lt;/em&gt;|&lt;em&gt;{LC}&lt;/em&gt;] where &lt;em&gt;{LC}&lt;/em&gt; is a different localization code for the specific &lt;em&gt;{term}&lt;/em&gt; (Ex.: &lt;b&gt;en&lt;/b&gt; instead &lt;b&gt;it&lt;/b&gt;)&lt;br /&gt;&lt;br /&gt;2) [w:&lt;em&gt;{term1}&lt;/em&gt;|&lt;em&gt;{LC}&lt;/em&gt;|&lt;em&gt;{term2}&lt;/em&gt;] where &lt;em&gt;{term1}&lt;/em&gt; is linked to definition of &lt;em&gt;{term2}&lt;/em&gt; with a different localization code &lt;em&gt;{LC}&lt;/em&gt;&lt;br /&gt;&lt;br /&gt;</Help>
+    <Hidden>false</Hidden>
+    <Index>0</Index>
+    <IsScalar>true</IsScalar>
+    <Name>Wikipedia</Name>
+    <Parameters>
+      <KeyField>false</KeyField>
+      <Label>Localization Code</Label>
+      <MaxLength>2</MaxLength>
+      <Name>CultureCode</Name>
+      <ParamType>String</ParamType>
+      <Required>true</Required>
+      <SelectedValue />
+      <Values>en</Values>
+    </Parameters>
+    <Parameters>
+      <KeyField>false</KeyField>
+      <Label>Enable link to</Label>
+      <MaxLength>10</MaxLength>
+      <Name>AutoLink</Name>
+      <ParamType>DropDown</ParamType>
+      <Required>true</Required>
+      <SelectedValue>Term</SelectedValue>
+      <Values>Term</Values>
+      <Values>Icon</Values>
+      <Values>Both</Values>
+      <Values>Disable</Values>
+    </Parameters>
+    <Parameters>
+      <KeyField>false</KeyField>
+      <Label>Enable noFollow</Label>
+      <MaxLength>3</MaxLength>
+      <Name>noFollow</Name>
+      <ParamType>RadioGroup</ParamType>
+      <Required>true</Required>
+      <SelectedValue>No</SelectedValue>
+      <Values>Yes</Values>
+      <Values>No</Values>
+    </Parameters>
+    <Parameters>
+      <KeyField>false</KeyField>
+      <Label>Link description</Label>
+      <MaxLength>50</MaxLength>
+      <Name>TitleLink</Name>
+      <ParamType>String</ParamType>
+      <Required>true</Required>
+      <SelectedValue />
+      <Values>From the Wikipedia definition of {0}</Values>
+    </Parameters>
+    <ShowAdd>true</ShowAdd>
+    <ShowDelete>true</ShowDelete>
+    <ShowEdit>true</ShowEdit>
+    <BlogId>96d5b379-7e1d-4dac-a6ba-1e50db561b04</BlogId>
+  </Settings>
+  <ShowSettings>true</ShowSettings>
+  <Version>1.1.0</Version>
+</ManagedExtension>

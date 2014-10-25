@@ -1,0 +1,38 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="admin.master.cs" Inherits="Admin.AdminMasterPage" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+<html>
+<head id="Head1" runat="server">
+    <title>BlogEngine.NET Admin</title>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap/bootstrap-theme.css" rel="stylesheet"/>
+    <link href="~/Content/toastr.css" rel="stylesheet"/>
+    <link href="~/Content/app.css" rel="stylesheet"/>
+    <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <script type="text/javascript">
+        var SiteVars = {
+            ApplicationRelativeWebRoot: '<%= Utils.ApplicationRelativeWebRoot %>',
+            RelativeWebRoot: '<%= Utils.RelativeWebRoot %>',
+            BlogInstanceId: '<%= Blog.CurrentInstance.Id %>'
+        };
+    </script>
+    <script type="text/javascript" src="admin.res.axd"></script>
+
+<section class="container editor admin-editor admin-editor-post">
+    <div class="row">
+        <div class="col-sm-12">
+            <form id="form1" runat="server">
+                <div id="StatusBox">
+                    <div id="AdminStatus" runat="server"></div>
+                </div>
+                <asp:ContentPlaceHolder ID="cphAdmin" runat="server" />
+            </form>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

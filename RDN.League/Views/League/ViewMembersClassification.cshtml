@@ -1,0 +1,128 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Account.Classes.MemberDisplay>>
+@{
+    ViewBag.Title = "View Members for " + ViewBag.LeagueName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Members For @ViewBag.LeagueName
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isAdminOfLeague)
+            { 
+               
+                <div class="navIcons">
+                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
+                    </a>
+                </div>
+            }
+            @if (isPaid)
+            {
+                <div class="navIcons">
+                    <a href="@Url.Content("~/league/members/view/report")">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+            else
+            { 
+                <div class="navIcons">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+
+        </div>
+
+        <div class="titleDescription">
+            Here you can view the Member Skating Levels for your league
+      
+        </div>
+        <div class="divider"></div>
+
+
+        <div class="membersPager">
+            @Html.Partial("Menus/LeagueViewMembers")
+
+
+        </div>
+        <br />
+        <br />
+        <div class="clear"></div>
+        <div>
+            <table class="listTable" id="members">
+                <thead>
+                    <tr>
+                        <th></th>
+                        @if (isAdminOfLeague)
+                        { 
+                            <th></th>
+                        }
+                        <th>Derby Name
+                        </th>
+                        <th>#
+                        </th>
+                        <th>First Name
+                        </th>
+                        <th>Last Name
+                        </th>
+                        <th>Classification/Skating Level
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {                    
+                        <tr>
+                            <th>
+                                @i
+                            </th>
+                            @if (isAdminOfLeague)
+                            { 
+                                <td>
+
+                                    <a href="@Url.Content("~/League/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">Edit </a>
+
+                                </td>
+                            }
+                            <td>
+                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                                    @Model.Model.Items[i].DerbyName
+                                </a>
+                            </td>
+                            <td>@Model.Model.Items[i].PlayerNumber
+                            </td>
+                            <td>@Model.Model.Items[i].Firstname
+                            </td>
+                            <td>@Model.Model.Items[i].LastName
+                            </td>
+                            <td>@Model.Model.Items[i].LeagueClassificationOfSkatingLevel</td>
+                        </tr>  
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+
+</script>

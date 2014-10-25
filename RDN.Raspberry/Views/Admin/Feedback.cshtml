@@ -1,0 +1,125 @@
+﻿@using RDN.Raspberry.Models.Helpers
+@model RDN.Raspberry.Models.OutModel.GenericSingleModel<RDN.Raspberry.Models.Utilities.SimplePager<RDN.Library.DataModels.Scoreboard.ScoreboardFeedback>>
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+<h2>
+    Feedback items</h2>
+@Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+Number of feedback items: @Model.Model.NumberOfRecords
+<br />
+<br />
+@using (Html.BeginForm("Feedback", "Admin"))
+{
+    <text>
+    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+    Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+    <input type="submit" value="Show" />
+    </text>
+}
+<br />
+<br />
+<table>
+    @foreach (var item in Model.Model.Items)
+    {
+    
+        <tr>
+            <td style="font-weight: bold;">
+                Feedback date:
+            </td>
+            <td>@item.Created.ToString("MM.dd.yyyy HH:MM:ss")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;">
+                Submitter league:
+            </td>
+            <td>@item.League
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;">
+                Submitter email:
+            </td>
+            <td>@item.Email
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;">
+                Feedback:
+            </td>
+            <td>@item.Feedback
+            </td>
+        </tr>   
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @using (Html.BeginForm("Feedback", "Admin"))
+                {
+                    <text>
+                    <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()"/>
+                    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                    <input type="hidden" name="ItemToArchive" value="@item.FeedBackId.ToString()"/>
+                    <input type="submit" value="Archive" />
+                    </text>
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("Feedback", "Admin"))
+                {
+                    <text>
+                    <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()"/>
+                    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                    <input type="hidden" name="ItemToDelete" value="@item.FeedBackId.ToString()"/>
+                    <input type="submit" value="Delete" />
+                    </text>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 15px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <hr />
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<br />
+@using (Html.BeginForm("Feedback", "Admin"))
+{
+    <text>
+    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+    Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+    <input type="submit" value="Show" />
+    </text>
+}
+<br />
+<br />

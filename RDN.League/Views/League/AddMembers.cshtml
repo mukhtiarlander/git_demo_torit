@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Add Members To " + ViewBag.League.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Add Multiple Members to @ViewBag.League.Name
+        </div>
+        <div class="divider"></div>
+        <div>
+            <b>Please Read:</b> We are not ready to invite all the members of the leagues. You
+            can fill out the members, but we will not be inviting them to RDNation.com just
+            yet. They can sign up at <a href="http://rdnation.com/signup">http://rdnation.com/signup</a>, and verifiy their membership
+            with their First Name, Derby Name and Email Address. So please make sure those three are correct.</div><br /><br />
+        <div>
+            Here you can add Members to your league.</div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            First Name
+                        </th>
+                        <th>
+                            Last Name
+                        </th>
+                        <th>
+                            Derby Name
+                        </th>
+                        <th>
+                            Player Number
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone Number
+                        </th>
+                        <th>
+                            Gender
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: members">
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: firstName, hasfocus: true" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" data-bind="value: lastName" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: derbyName" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" data-bind="value: playerNumber" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" class="required" data-bind="value: email" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input type="text" data-bind="value: phoneNumber" />
+                        </td>
+                        <td style="vertical-align: top;">
+                            @*This gender matches with the sign up page gender...*@
+                            <select data-bind="options: genderList,
+                   optionsText: 'name',
+                   optionsValue : 'type',
+                   value: gender,
+                   optionsCaption: 'Choose...'">
+                            </select>
+                        </td>
+                        <td valign="top" style="vertical-align: top;">
+                            <a href="#" data-bind="click: $parent.removeMember">
+                                <img alt="remove" height="25px" src="@Url.Content("~/Content/minus.png")" /></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <div class="addedSuccessfully displayNone" id="addedSuccessfully">
+                                All Members Were Added Successfully!</div>
+                        </td>
+                        <td>
+                            <img src="@Url.Content("~/Content/loading_lg.gif")" id="savingMembers" class="displayNone" style="width:20px;" />
+                            <button data-bind="click: addMemberForLeague">
+                                Add</button>
+                            <button class="primary" data-bind="click: saveMembersForLeague">
+                                Submit</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                    var members = new MembersViewModel();
+                    members.errors = ko.validation.group(members);
+                    ko.applyBindings(members);
+                    members.addMemberForLeague();
+                });
+                
+            </script>
+        </div>
+    </div>
+</div>

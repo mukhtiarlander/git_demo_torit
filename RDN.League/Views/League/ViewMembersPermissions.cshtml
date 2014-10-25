@@ -1,0 +1,314 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Account.Classes.MemberDisplay>>
+@using RDN.Library.Classes.League.Enums
+@using RDN.Portable.Classes.League.Enums;
+@{
+    ViewBag.Title = "Permissions for " + ViewBag.LeagueName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool isManager = RDN.Library.Cache.MemberCache.IsManagerOrBetterOfLeague(memId);
+    bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isOwner = RDN.Library.Cache.MemberCache.IsOwnerOfLeague(memId);
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Members For @ViewBag.LeagueName
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isAdminOfLeague)
+            { 
+                 <div class="navIcons">
+                        <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                            <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
+                        </a>
+                    </div>
+            }
+            
+            @if (isPaid)
+            {
+                <div class="navIcons">
+                    <a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/report") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/report")">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+            else
+            { 
+                <div class="navIcons">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+            }
+        </div>
+      <div class="titleDescription">
+  Change the permissions of people within your league.  Allow them to do various things within RDNation.
+      
+            </div>
+            <div class="divider"></div>
+       
+        <div class="membersPager">
+            @Html.Partial("Menus/LeagueViewMembers")
+         
+          
+        </div>
+        <br /><br />
+        <div class="clear"></div>
+        <div>
+            <table class="permissionsTable" id="members">
+                <thead>
+                    <tr>
+                        <th></th>
+                        @if (isAdminOfLeague)
+                        { 
+                            <th></th>
+                        }
+                        <th>Derby Name
+                        </th>
+                        <th>#
+                        </th>
+                        @if (isOwner)
+                        { 
+                            <th class="center">
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Owner)
+                            </th>
+                        }
+                        @if (isManager)
+                        { 
+                            <th class="center">
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Manager)
+                            </th>
+                        }
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Secretary)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Treasurer)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Head_Ref)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Shops)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Events_Coord)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Medical)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Attendance)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Polls)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Inventory)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    {                    
+                        <tr>
+                            <th>
+                                @i
+                            </th>
+                            @if (isAdminOfLeague)
+                            { 
+                                <td>
+
+                                    <a href="@Url.Content("~/League/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">Edit </a>
+
+                                </td>
+                            }
+                            <td>
+                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                                    @Model.Model.Items[i].DerbyName
+                                </a>
+                            </td>
+                            <td>@Model.Model.Items[i].PlayerNumber
+                            </td>
+                            @if (isOwner)
+                            { 
+                                <td>
+                                    <input type="checkbox" id="@Model.Model.Items[i].MemberId-o" @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Owner) ? "checked='checked'" : "") />
+                                </td>
+                            }
+                            @if (isManager)
+                            { 
+                                <td>
+                                    <input type="checkbox" id="@Model.Model.Items[i].MemberId-m"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Manager) ? "checked='checked'" : "")/></td>
+                            }
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-s"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Secretary) ? "checked='checked'" : "") /></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-t"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Treasurer) ? "checked='checked'" : "") /></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-r"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Head_Ref) ? "checked='checked'" : "")/></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-sm"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Shops) ? "checked='checked'" : "")/></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-ec"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Events_Coord) ? "checked='checked'" : "")/></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-med"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Medical) ? "checked='checked'" : "")/></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-attn"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Attendance) ? "checked='checked'" : "")/></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-poll"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Polls) ? "checked='checked'" : "")/></td>
+                            <td>
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-inventory"  @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Inventory) ? "checked='checked'" : "")/></td>
+                        </tr>  
+                    }
+                </tbody>
+                     <tfoot>
+                    <tr>
+                        <th></th>
+                        @if (isAdminOfLeague)
+                        { 
+                            <th></th>
+                        }
+                        <th>Derby Name
+                        </th>
+                        <th>#
+                        </th>
+                        @if (isOwner)
+                        { 
+                            <th class="center">
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Owner)
+                            </th>
+                        }
+                        @if (isManager)
+                        { 
+                            <th class="center">
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Manager)
+                            </th>
+                        }
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Secretary)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Treasurer)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Head_Ref)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Shops)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Events_Coord)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Medical)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Attendance)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Polls)
+                        </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Inventory)
+                        </th>
+                    </tr>
+                </tfoot>
+     
+                  </table>
+        </div>
+        <br />
+        <ul class="permissionDetails">
+            <li><b>
+                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Owner)</b> - Can do anything within RDNation.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Manager)</b> - Can do anything within RDNation, but does not own the league. Does NOT have access to Medical Records.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Secretary)</b> - Has manager access to Forums, Insurance, Contacts, Groups, Skating Levels, Documents, Contacts, Polls, Inventory and Attendance.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Treasurer)</b> - Has manager access to Dues Management.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Head_Ref)</b> - Has manager access to Games.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Shops)</b> - Has manager access to the shop of the league.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Events_Coord)</b> - Manages the Calendar & answers messages about public events from the general public.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Medical)</b> - Has Access to Medical Records.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Attendance)</b> - Attendance Manager deals with all attendance records along.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Polls)</b> - Poll Manager can create, edit and view polls and their results.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Inventory)</b> - Inventory Manager manages the leagues inventory and items for the league.
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+         @for (int i = 0; i < Model.Model.Items.Count; i++)
+         {
+             if (isOwner)
+             { 
+        <text>$("#@Model.Model.Items[i].MemberId-o").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'o');
+         });</text>
+             }
+             if (isManager)
+             { 
+             <text>$("#@Model.Model.Items[i].MemberId-m").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'm');
+         });</text>
+             }
+             <text>$("#@Model.Model.Items[i].MemberId-s").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 's');
+         });</text>
+             <text>$("#@Model.Model.Items[i].MemberId-t").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 't');
+         });</text>
+             <text>$("#@Model.Model.Items[i].MemberId-r").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'r');
+         });</text>
+              <text>$("#@Model.Model.Items[i].MemberId-sm").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'sm');
+         });</text>
+               <text>$("#@Model.Model.Items[i].MemberId-ec").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'ec');
+         });</text>
+                <text>$("#@Model.Model.Items[i].MemberId-med").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'med');
+         });</text>
+                <text>$("#@Model.Model.Items[i].MemberId-attn").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'attn');
+         });</text>
+             <text>$("#@Model.Model.Items[i].MemberId-poll").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'poll');
+         });</text>
+              <text>$("#@Model.Model.Items[i].MemberId-inventory").change(function () {
+             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'inventory');
+         });</text>
+         }
+    });
+
+</script>

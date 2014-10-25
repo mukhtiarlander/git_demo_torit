@@ -1,0 +1,30 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete a Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Delete A Game with its ID</h2>
+@using (Html.BeginForm())
+{
+
+    
+    <div>
+        Game Id To Delete:
+        @Html.TextBoxFor(x => x.Id)
+    </div>
+    
+    <div>
+        Only use this to delete the Game entirely in case their are duplicates or something
+        like that.  This is a final delete, no going back and it deletes just the league, not the members of the league.</div>
+
+    
+    <input type="submit" class="primary" />
+    
+    
+    if (Model.IsDeleted)
+    { 
+    <div>Game IS DELETED!!!!!!!!!!!!!!!!!!!!</div>
+    
+    }
+}

@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E90C22E2-1C92-4827-813B-83B6778E3D6E}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RDN.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>RDNiOS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchSdkVersion>Default</MtouchSdkVersion>
+    <MtouchProfiling>False</MtouchProfiling>
+    <MtouchExtraArgs />
+    <MtouchFastDev>True</MtouchFastDev>
+    <MtouchArch>Default, ARMv7</MtouchArch>
+    <MtouchUseLlvm>False</MtouchUseLlvm>
+    <MtouchUseThumb>False</MtouchUseThumb>
+    <MtouchUseSGen>False</MtouchUseSGen>
+    <MtouchUseRefCounting>False</MtouchUseRefCounting>
+    <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <MtouchEnableGenericValueTypeSharing>False</MtouchEnableGenericValueTypeSharing>
+    <MtouchI18n />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <BuildIpa>True</BuildIpa>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Account\User.cs" />
+    <Compile Include="Classes\Error\ErrorHandler.cs" />
+    <Compile Include="Classes\League\Forum.cs" />
+    <Compile Include="Classes\MainScreenEnum.cs" />
+    <Compile Include="Classes\Network\Reachability.cs" />
+    <Compile Include="Classes\Public\Calendar.cs" />
+    <Compile Include="Classes\Public\Game.cs" />
+    <Compile Include="Classes\Public\League.cs" />
+    <Compile Include="Classes\Public\Shop.cs" />
+    <Compile Include="Classes\Public\Skater.cs" />
+    <Compile Include="Classes\UI\LoadingView.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Screens\League\Forum\AddForumPostViewController.cs" />
+    <Compile Include="Screens\League\Forum\ReplyForumPostViewController.cs" />
+    <Compile Include="Screens\League\Forum\ForumPostViewController.cs" />
+    <Compile Include="Screens\League\Forum\ForumTopicsViewController.cs" />
+    <Compile Include="Screens\Member\SignUpViewController.cs" />
+    <Compile Include="Screens\Member\LoginViewController.cs" />
+    <Compile Include="Screens\Public\Events\EventsViewController.cs" />
+    <Compile Include="Screens\Public\Events\EventViewController.cs" />
+    <Compile Include="Screens\Public\Games\GamesViewController.cs" />
+    <Compile Include="Screens\Public\Leagues\LeaguesViewController.cs" />
+    <Compile Include="Screens\Public\Leagues\LeagueViewController.cs" />
+    <Compile Include="Screens\Public\Shops\ShopViewController.cs" />
+    <Compile Include="Screens\Public\Shops\ShopsViewController.cs" />
+    <Compile Include="Screens\Public\Skaters\SkatersViewController.cs" />
+    <Compile Include="Screens\Public\Skaters\SkaterViewController.cs" />
+    <Compile Include="TableStructure\Cells\GenericTableCell.cs" />
+    <Compile Include="TableStructure\Cells\ImageTableCell.cs" />
+    <Compile Include="TableStructure\Cells\League\Forum\ForumTopicPostsTableCell.cs" />
+    <Compile Include="TableStructure\Cells\League\Forum\ForumTopicsTableCell.cs" />
+    <Compile Include="TableStructure\Cells\Public\GamesTableCell.cs" />
+    <Compile Include="TableStructure\Cells\Public\ShopsTableCell.cs" />
+    <Compile Include="TableStructure\Cells\Public\EventsTableCell.cs" />
+    <Compile Include="TableStructure\Cells\Public\LeaguesTableCell.cs" />
+    <Compile Include="TableStructure\Cells\Public\SkatersTableCell.cs" />
+    <Compile Include="TableStructure\Cells\MainTableCell.cs" />
+    <Compile Include="TableStructure\Datasources\GenericTableItem.cs" />
+    <Compile Include="TableStructure\Views\League\Forum\TopicPostsTableView.cs" />
+    <Compile Include="TableStructure\Views\League\Forum\ForumTableView.cs" />
+    <Compile Include="TableStructure\Views\League\LeagueTableView.cs" />
+    <Compile Include="TableStructure\Views\ImagesTableView.cs" />
+    <Compile Include="TableStructure\Views\GenericTableView.cs" />
+    <Compile Include="TableStructure\Views\Public\LeaguesTableView.cs" />
+    <Compile Include="TableStructure\Views\Public\ShopsTableView.cs" />
+    <Compile Include="TableStructure\Views\Public\EventsTableView.cs" />
+    <Compile Include="TableStructure\Views\Public\GamesTableView.cs" />
+    <Compile Include="TableStructure\Views\Public\SkatersTableView.cs" />
+    <Compile Include="TableStructure\Views\MainTableView.cs" />
+    <None Include="Info.plist" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainViewController.cs" />
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default@2x.png" />
+    <BundleResource Include="Resources\Default-568h@2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="flyoutnavigation">
+      <Visible>False</Visible>
+      <Version>1.3</Version>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FlyoutNavigation">
+      <HintPath>..\Components\flyoutnavigation-1.3\lib\ios\FlyoutNavigation.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="MonoTouch.Slideout">
+      <HintPath>..\..\..\Libraries\SlideOutNav\MonoTouch.Slideout.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\calendar.png" />
+    <Content Include="Images\forum.png" />
+    <Content Include="Images\leagues.png" />
+    <Content Include="Images\games.png" />
+    <Content Include="Images\icon.png" />
+    <Content Include="Images\shop.png" />
+    <Content Include="Images\skater.png" />
+    <Content Include="Images\skaters.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\RDN.Utilities\RDN.Utilities.csproj">
+      <Project>{ae178407-b8b8-4f97-8613-fb88fead17a9}</Project>
+      <Name>RDN.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RDNation.Mobile\RDN.Mobile.csproj">
+      <Project>{946d7f1e-5c7e-4d64-87aa-cf300e4ba126}</Project>
+      <Name>RDN.Mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RDN.WP\RDN.Portable\RDN.Portable.csproj">
+      <Project>{68721C49-C417-40DE-A445-C4077D9469CB}</Project>
+      <Name>RDN.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+</Project>

@@ -1,0 +1,140 @@
+﻿<Window x:Class="RDNScoreboard.Views.SettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         Height="470" Width="300"
+        xmlns:txtBox="clr-namespace:RDNScoreboard.Controls"
+        Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico"
+        Closing="Window_Closing"  
+        >
+    <Grid Height="450">
+        <StackPanel>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock  x:Name="TitleSettings"
+        			HorizontalAlignment="Stretch"
+        			VerticalAlignment="Top"
+        			TextAlignment="Center"
+        			 Background="#872f95"
+                                Foreground="#FFFFFF"
+        			FontSize="16"
+        			Padding="5"
+                     Margin="0,0,-2,0"
+                     ><Run Text="Thor's Hammer Settings"/></TextBlock>
+                    <TextBlock  x:Name="titleDescription"
+        			TextAlignment="Center"
+        			 Background="#872f95"
+                                Foreground="#FFFFFF"
+        			FontSize="12"
+        			  
+                     ><Run Text="Settings For Thor's Hammer (Scoreboard)."/></TextBlock>
+                </StackPanel>
+
+
+            </Border>
+            <ScrollViewer Height="Auto" x:Name="mainScroll">
+                <StackPanel Orientation="Vertical" >
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="JamStartKeyBoardShortcut" CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="JamStartKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="JamStartKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold"> Start Jam Shortcut Key</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="JamEndKeyBoardShortcut" CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="JamEndKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="JamEndKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">End Jam Shortcut Key</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="OfficialTimeoutKeyBoardShortcut" CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="OfficialTimeoutKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="OfficialTimeoutKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Official Timeout Shortcut Key</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team1ScoreUpKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team1ScoreUpKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team1ScoreUpKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 1: Add 1 Point To Score</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team1ScoreDownKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team1ScoreDownKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team1ScoreDownKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 1: Subtract 1 Point From Score</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team1TimeOutKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team1TimeOutKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team1TimeOutKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 1: TimeOut Shortcut Key</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team1JammerLeadKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team1JammerLeadKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team1JammerLeadKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 1: Jammer Takes Lead</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team2ScoreUpKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team2ScoreUpKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team2ScoreUpKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 2: Add 1 Point To Score</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team2ScoreDownKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team2ScoreDownKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team2ScoreDownKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 2: Subtract 1 Point From Score</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team2TimeOutKeyBoardShortcut"  CharacterCasing="Lower" MaxLength="1" TextAlignment="Center" Width="50" TextChanged="Team2TimeOutKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team2TimeOutKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 2: Timeout Shortcut Key</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox x:Name="Team2LeadJammerKeyBoardShortcut" CharacterCasing="Lower" MaxLength="1"  TextAlignment="Center" Width="50" TextChanged="Team2LeadJammerKeyBoardShortcut_TextChanged" ></TextBox>
+                        <TextBlock  x:Name="Team2LeadJammerKeyboardShortcutText"        				HorizontalAlignment="Stretch"        				VerticalAlignment="Stretch"        				TextAlignment="Justify"        				TextWrapping="Wrap"        				>
+                      <Span  FontWeight="Bold">Team 2: Jammer Takes Lead</Span>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border  Height="10"  >
+                        <GridSplitter />
+                    </Border>
+                    <TextBlock TextWrapping="WrapWithOverflow" Text="Some Shortcut 'Symbols' might not work, so be sure to test them after setting them." ></TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</Window>

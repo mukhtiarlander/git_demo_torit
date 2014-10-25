@@ -1,0 +1,296 @@
+﻿@using RDN.Library.Classes.Document.Enums
+@model RDN.Library.Classes.Document.DocumentRepository
+@{
+    ViewBag.Title = "Documents for " + Model.OwnerName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool manager = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainterDocs">
+        <div>
+            <span class="fixTitleDocs">Documents 
+            </span>
+
+            <div class="documentSearchContainer" id="header-anchor">
+                <div id="header-scroller" class="documentHeaderScroller">
+
+
+                    <span class="extraLargeInput">
+                        <input type="text" id="textSearchBox" placeholder="Search Documents, Seperate, By, Comma" /></span><input type="button" value="Search" onclick="FullTextDocumentSearchLeague()" /><img src="@Url.Content("~/Content/loading_lg.gif")" id="loading" class="displayNone loadingDocs" />
+
+                    @if (manager)
+                    { 
+                        <div id="itemOptions" class="displayNone documentOptions">
+                            <div class="spanIconsDoc floatRight">
+                                <span title="Delete" onclick="League.DeleteDocument(this)">
+                                    <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />
+                                </span>
+                            </div>
+                            <div class="spanIconsDoc floatRight">
+                                <span title="Rename" onclick="League.RenameDocument(this)">
+                                    <img  src="@Url.Content("~/Content/images/icons/edit.png")"  />
+                                </span>
+                            </div>
+                            <span class="floatRight">
+                                @Html.DropDownList("dd-MoveItem", (SelectList)ViewBag.FoldersSelect, "Move To...", new { @onchange = "League.MoveDocumentToFolder(this)" })
+                                <img id="img-MoveItem" src="@Url.Content("~/Content/images/greenCheck.png")" class="displayNone"/>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="expandableCenterContainterRightDocs">
+                @if (manager)
+                { 
+                    <div class="navIcons">
+                        <a title="Document Settings" href="@Url.Content("~/league/documents/settings/" + @Model.OwnerId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="documentsFolderColumn scroller-anchor" id="folder-anchor">
+            <div id="folder-scroller" class="scroller documentsFolderColumnScroller">
+                <div class="foldersTitle">
+                    <img src="@Url.Content("~/Content/images/icons/folder.png")" width="20px" />
+                    Folders
+                </div>
+                <ul class="groupOfDocs">
+                    <li class="groupOfDocuments">
+                        <b>- <a  href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", ""))">League Docs</a></b>
+                        <ul class="groupFolder">
+                            @foreach (var folder in Model.Folders.Where(x => x.GroupId == 0 && x.ParentFolderId == 0).OrderBy(x => x.FolderName))
+                            {
+                                
+                                <li>
+                                    <a  href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + folder.FolderId)">@folder.FolderName</a>
+                                    @if (Model.Folders.Where(x => x.ParentFolderId == folder.FolderId).Count() > 0)
+                                    { 
+                                        <ul>
+                                            @foreach (var subFolder in Model.Folders.Where(x => x.ParentFolderId == folder.FolderId).OrderBy(x => x.FolderName))
+                                            {
+                                                <li>
+                                                    <a  href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + subFolder.FolderId)">@subFolder.FolderName</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </li>
+
+
+                    @foreach (var group in Model.GroupsApartOf.OrderBy(x => x.GroupName))
+                    {
+                        <li class="groupOfDocuments">
+                            <b>- <a  href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?g=" + group.Id)">@group.GroupName</a></b>
+                            <ul class="groupFolder">
+                                @foreach (var groupFolder in Model.Folders.Where(x => x.GroupId == group.Id).OrderBy(x => x.FolderName))
+                                {
+                                    <li>
+                                        <a  href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + groupFolder.FolderId)">@groupFolder.FolderName</a>
+                                        @if (Model.Folders.Where(x => x.ParentFolderId == groupFolder.FolderId).Count() > 0)
+                                        { 
+                                            <ul>
+                                                @foreach (var subFolder in Model.Folders.Where(x => x.ParentFolderId == groupFolder.FolderId).OrderBy(x => x.FolderName))
+                                                {
+                                                    <li>
+                                                        <a  href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + subFolder.FolderId)">@subFolder.FolderName</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                  
+                    }
+
+                </ul>
+
+
+                <br />
+                <div class="center">
+                    <div class="foldersTitle">Upload Documents</div>
+                    @using (Html.BeginForm("UploadLeagueDocuments", "Document", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                    {                    
+                        <input type="file" name="files" id="documentUpload" />
+                        <div id="fileUpload-list" class="uploadList"></div> 
+                        @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...") 
+                        <input id="submitDocs" type="submit" value="Upload Documents" />
+                        @Html.HiddenFor(x => x.OwnerId)
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="documentsContainer">
+
+            <table id="documents" class="documentsTable">
+                <thead class="vmTableHead">
+                    <tr>
+                        <th></th>
+                        <th>Folder</th>
+                        <th></th>
+                        <th>Document</th>
+                        <th></th>
+                        <th>Size</th>
+                        <th>Uploaded</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody id="documentsBody">
+                    @foreach (var doc in Model.Documents)
+                    { 
+                        <tr id="docRow-@doc.OwnerDocId" name="@doc.DocumentName">
+                            <td>
+                                <input type="checkbox"  id="cb-@doc.OwnerDocId" />
+                            </td>
+                            <td id="fn-@doc.OwnerDocId">
+                                @if (doc.GroupId > 0)
+                                { 
+                                    <span>@doc.GroupName</span>
+                                }
+                                else if (doc.Folder != null)
+                                {
+                                    <span>@doc.Folder.FolderName</span>
+                                }
+
+                            </td>
+                            <td>@switch (doc.MimeType)
+                                {
+                                    case MimeType.excel:
+                                    case MimeType.excelOld:
+                                    case MimeType.xlsm:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/excel.png")" />
+                                        break;
+                                    case MimeType.doc:
+                                    case MimeType.rtf:
+                                    case MimeType.dotx:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/word.png")" />
+                                        break;
+                                    case MimeType.csv:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/csv.png")" />
+                                        break;
+                                    case MimeType.odf:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/odf.png")" />
+                                        break;
+                                    case MimeType.ods:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ods.png")" />
+                                        break;
+                                    case MimeType.png:
+                                    case MimeType.tif:
+                                    case MimeType.jpg:
+                                    case MimeType.bmp:
+                                    case MimeType.jpeg:
+                                    case MimeType.gif:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/pic.png")" />
+                                        break;
+                                    case MimeType.txt:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs.png")" />
+                                        break;
+                                    case MimeType.ai:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ai.png")" />
+                                        break;
+                                    case MimeType.pdf:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/pdf.png")" />
+                                        break;
+                                    case MimeType.zip:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/zip.png")" />
+                                        break;
+                                    case MimeType.xml:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/xml.png")" />
+                                        break;
+                                    case MimeType.ppt:
+                                    case MimeType.odp:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ppt.png")" />
+                                        break;
+                                    case MimeType.svg:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/svg.png")" />
+                                        break;
+                                    case MimeType.html:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/html.png")" />
+                                        break;
+                                    case MimeType.pages:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/pages.png")" />
+                                        break;
+                                    case MimeType.mht:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/generic.jpg")" />
+                                        break;
+                                    case MimeType.mp3:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/mp3.jpg")" />
+                                        break;
+                                    case MimeType.wmv:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/wmv.png")" />
+                                        break;
+                                    case MimeType.ps:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ps.png")" />
+                                        break;
+                                           case MimeType.wps:
+                                <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/wps.png")" />
+                                        break;
+                                }
+
+
+                            </td>
+                            <td id="rn-@doc.OwnerDocId" class="largeInput">
+                                <a href="@Url.Content("~/document/download/" + doc.DocumentId.ToString().Replace("-", ""))">@doc.DocumentName</a>
+                            </td>
+                            <td>
+                                <div class="spanIconsDoc">
+                                    <a title="Comments (@doc.CommentCount)" href="@Url.Content("~/league/document/comments/" + @doc.DocumentId.ToString().Replace("-", "") + "/" + @doc.OwnerDocId)">
+                                        <img src="@Url.Content("~/Content/images/icons/comment.png")"  />
+                                        @if (doc.CommentCount > 0)
+                                        {<span class="docCount">@doc.CommentCount</span>}
+                                    </a>
+
+                                </div>
+                            </td>
+                            <td>@RDN.Utilities.Strings.StringExt.FormatKiloBytes(doc.SizeOfDocument)</td>
+                            <td>@doc.UploadedHuman</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+
+
+            </table>
+            @Html.HiddenFor(x => x.OwnerId)
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () { // wait for document to load
+        $('#documentUpload').MultiFile({
+            list: '#fileUpload-list'
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#documents').dataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "aoColumns": [null, null, null, null, null, { "sType": "natural" }, { "sType": "natural" }, null, null],
+            "aaSorting": []
+        });
+        League.SetUpDocumentsSection();
+
+    });
+
+</script>

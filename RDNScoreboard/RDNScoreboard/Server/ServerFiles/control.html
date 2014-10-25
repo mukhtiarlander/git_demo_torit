@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Controls - RDNation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+</head>
+<body>
+    <div id="inputStats">
+        <div id="page-body">
+            <table class="controlTable">
+                <tr>
+                    <td colspan="3"><a href="index.html">All Links</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" value="Start Jam" id="startStopJam" class="bt" onclick="javascript: StartJam()" />
+                    </td>
+                    <td></td>
+                    <td>
+                        <input type="button" value="Off TimeOut" id="officialTimeOut" class="bt" onclick="javascript: StartOfficialTimeOut()" />
+                    </td>
+                </tr>
+                <tr>
+                    <td id="team1Score">0
+
+                    </td>
+                    <td></td>
+                    <td id="team2Score">0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" value="Add" id="addScoreTeam1" class="pnt" onclick="javascript: AddToScore('1', 1)" />
+                        <input type="button" value="Add 4" id="addScoreTeam1Plus4" class="pnt" onclick="javascript: AddToScore('1', 4)" />
+                        <input type="button" value="Add 5" id="addScoreTeam1Plus5" class="pnt" onclick="javascript: AddToScore('1', 5)" />
+                    </td>
+                    <td></td>
+                    <td>
+                        <input type="button" value="Add" id="addScoreTeam2" class="pnt" onclick="javascript: AddToScore('2', 1)" />
+                        <input type="button" value="Add 4" id="addScoreTeam2Plus4" class="pnt" onclick="javascript: AddToScore('2', 4)" />
+                        <input type="button" value="Add 5" id="addScoreTeam2Plus5" class="pnt" onclick="javascript: AddToScore('2', 5)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td id="team1Name">Team 1
+
+                    </td>
+                    <td></td>
+                    <td id="team2Name">Team 2</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" value="Subtract" id="subtractTeam1" class="bt" onclick="javascript: SubtractFromScore('1')" />
+                        <br />
+                        <br />
+                    </td>
+                    <td></td>
+                    <td>
+                        <input type="button" value="Subtract" id="subtractTeam2" class="bt" onclick="javascript: SubtractFromScore('2')" />
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="button" value="Timeout" id="timeOutTeam1" class="bt" onclick="javascript: TakeTimeOut('1')" />
+                    </td>
+                    <td></td>
+                    <td>
+                        <input type="button" value="Timeout" id="timeOutTeam2" class="bt" onclick="javascript: TakeTimeOut('2')" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">Brought to you by <a href="http://rdnation.com">RDNation.com</a></td>
+                </tr>
+            </table>
+        </div>
+
+
+
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetTeamNames();
+        });
+    </script>
+</body>
+</html>

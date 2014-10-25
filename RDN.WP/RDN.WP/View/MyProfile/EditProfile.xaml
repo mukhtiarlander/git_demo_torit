@@ -1,0 +1,166 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyProfile.EditProfile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <phone:Pivot Title="EDIT PROFILE">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="personal">
+                <ScrollViewer>
+                    <StackPanel>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}" Grid.Column="0" Grid.Row="0">Derby Name:</TextBlock>
+                        <TextBox x:Name="DerbyName" Grid.Column="1" Grid.Row="0"></TextBox>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="1">Derby Number:</TextBlock>
+                        <TextBox x:Name="DerbyNumber" Grid.Column="1" Grid.Row="1"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="2">First Name:</TextBlock>
+                        <TextBox x:Name="FirstName" Grid.Column="1" Grid.Row="2"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="3">Last Name:</TextBlock>
+                        <TextBox x:Name="LastName" Grid.Column="1" Grid.Row="3"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="6">Gender:</TextBlock>
+                        <toolkit:ListPicker  x:Name="Gender"  Grid.Row="5" Grid.Column="1" SelectionChanged="Gender_SelectionChanged" ItemsSource="{Binding}" FullModeHeader="Select Culture"               ExpansionMode="ExpansionAllowed"  >
+                            <toolkit:ListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.ItemTemplate>
+                            <toolkit:ListPicker.FullModeItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.FullModeItemTemplate>
+                        </toolkit:ListPicker>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="7">Height:</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="HeightFeet" Grid.Column="1" Grid.Row="7" Style="{StaticResource SmallTextBox}"></TextBox>
+                            <TextBlock Text="'"></TextBlock>
+                            <TextBox x:Name="HeightInches" Style="{StaticResource SmallTextBox}" Grid.Column="1" Grid.Row="7"></TextBox>
+                            <TextBlock VerticalAlignment="Bottom" Text="inches" ></TextBlock>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >Weight (lbs):</TextBlock>
+                        <TextBox x:Name="Weight" HorizontalAlignment="Left" Style="{StaticResource SmallTextBox}"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="7">Date Of Birth:</TextBlock>
+                        <toolkit:DatePicker x:Name="DOB" />
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="7">Phone Number:</TextBlock>
+                        <TextBox x:Name="Phone" Grid.Column="1" Grid.Row="7"></TextBox>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="8">Email Address:</TextBlock>
+                        <TextBox x:Name="Email" Grid.Column="1" Grid.Row="8"></TextBox>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="8">Day Job:</TextBlock>
+                        <TextBox x:Name="Job" Grid.Column="1" Grid.Row="8"></TextBox>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="skating">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >Started Skating:</TextBlock>
+                        <toolkit:DatePicker x:Name="StartSkating" />
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >Stopped Skating:</TextBlock>
+                        <toolkit:DatePicker x:Name="StopSkating" />
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >WFTDA Insurance #/Expires:</TextBlock>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox x:Name="WFTDANum" Style="{StaticResource MediumTextBox}" ></TextBox>
+                            <TextBlock Text="/" VerticalAlignment="Center"></TextBlock>
+                            <toolkit:DatePicker x:Name="WFTDAExpires" Width="160"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >USARS Insurance #/Expires:</TextBlock>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox x:Name="USARSNum" Style="{StaticResource MediumTextBox}" ></TextBox>
+                            <TextBlock Text="/" VerticalAlignment="Center"></TextBlock>
+                            <toolkit:DatePicker x:Name="USARSExpires" Width="160"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >CRDI Insurance #/Expires:</TextBlock>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox x:Name="CRDINum" Style="{StaticResource MediumTextBox}" ></TextBox>
+                            <TextBlock Text="/" VerticalAlignment="Center"></TextBlock>
+                            <toolkit:DatePicker x:Name="CRDIExpires" Width="160"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  >Other Insurance #/Expires:</TextBlock>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox x:Name="OtherNum" Style="{StaticResource MediumTextBox}" ></TextBox>
+                            <TextBlock Text="/" VerticalAlignment="Center"></TextBlock>
+                            <toolkit:DatePicker x:Name="OtherExpires" Width="160"  />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="public">
+                <StackPanel>
+                    <CheckBox x:Name="HideProfileFromPublic">
+                        <TextBlock Text="Hide Profile From Public"></TextBlock>
+                    </CheckBox>
+                </StackPanel>
+            </phone:PivotItem>
+            <phone:PivotItem Header="address">
+                    <ScrollViewer>
+                    <StackPanel>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}" Grid.Column="0" Grid.Row="0">Address:</TextBlock>
+                        <TextBox x:Name="Address1" Grid.Column="1" Grid.Row="0"></TextBox>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="1">Address2:</TextBlock>
+                        <TextBox x:Name="Address2" Grid.Column="1" Grid.Row="1"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="2">City:</TextBlock>
+                        <TextBox x:Name="City" Grid.Column="1" Grid.Row="2"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="3">State:</TextBlock>
+                        <TextBox x:Name="State" Grid.Column="1" Grid.Row="3"></TextBox>
+
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="8">Zip Code:</TextBlock>
+                        <TextBox x:Name="Zip" Grid.Column="1" Grid.Row="8"></TextBox>
+                        <TextBlock Style="{StaticResource LeagueEditTitle}"  Grid.Column="0" Grid.Row="7">Country:</TextBlock>
+                        <toolkit:ListPicker  x:Name="Country"  Grid.Row="5" Grid.Column="1" SelectionChanged="Country_SelectionChanged" ItemsSource="{Binding}" FullModeHeader="Select Culture"               ExpansionMode="ExpansionAllowed"  >
+                            <toolkit:ListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.ItemTemplate>
+                            <toolkit:ListPicker.FullModeItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.FullModeItemTemplate>
+                        </toolkit:ListPicker>
+                  
+                    </StackPanel>
+                </ScrollViewer>
+
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/save.png" x:Name="Done" Click="Done_Click" Text="Save"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/cancel.png" x:Name="Cancel" Click="Cancel_Click" Text="Cancel"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,73 @@
+﻿@using RDN.Raspberry.Models.Helpers
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+<h2>Main menu</h2>
+@Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
+@if (User.IsInRole("admin"))
+{ 
+    <a href="@Url.Action("Errors")">Errors</a><br />
+    <a href="@Url.Action("Feedback")">Feedback</a><br />
+    <hr />
+    
+    <a href="@Url.Action("AdminEmailMessages", "Admin")">Admin Email Messages</a><br />
+    <a href="@Url.Action("TestEmailLayout", "Admin")">Test email layouts</a><br />
+    <a href="@Url.Action("SendMassScoreboardEmails", "Admin")">Send mass scoreboard emails</a><br />
+    <a href="@Url.Action("AddEmailToNonSubscriberList", "Admin")">UnSubscribe Email</a><br />
+    <a href="@Url.Action("AddEmailToSubscriberList", "Admin")">Subscribe Email</a><br />
+    <a href="@Url.Action("ChangeEmailFromThenTo", "Admin")">Change Email For Mass Sending</a><br />
+    <hr />
+    <a href="@Url.Action("New", "Federation")">New Federations</a><br />
+    <a href="@Url.Action("AttachLeagueToFederation", "Federation")">Attach League To Fed</a>
+    <hr />
+    <a href="@Url.Action("Pendings", "League")">Pending leagues</a><br />
+    <a href="@Url.Action("LeagueContacts", "Admin")">League contact information</a><br />
+    <a href="@Url.Action("Delete", "League")">Delete League</a><br />
+    <a href="@Url.Action("SetOwner", "League")">Set Owner</a><br />
+    <a href="@Url.Action("DeleteMemberFromLeague", "League")">Delete Member From League</a><br />
+    <a href="@Url.Action("DeleteLogo", "League")">Delete Logo</a><br />
+    <a href="@Url.Action("LeagueDocuments", "League")">League Docs</a><br />
+    <hr />
+    <a href="@Url.Action("UnRetireUser", "Account")">UnRetire User</a><br />
+    <a href="@Url.Action("DeleteUser", "Account")">Delete User</a><br />
+    <a href="@Url.Action("Delete", "Account")">Delete Member</a><br />
+    <a href="@Url.Action("Roles", "Account")">Roles For Member</a><br />
+    <a href="@Url.Action("SendAllEmailVerifications", "Account")">Send All Email Verifications</a><br />
+    <a href="@Url.Action("ViewAllNonVerifiedUsers", "Account")">View All Non Verified Users</a><br />
+    <a href="@Url.Action("ResetUserPassword", "Member")">Change User Password.</a><br />
+    <a href="@Url.Action("UnlockUser", "Member")">Unlock User.</a><br />
+    <a href="@Url.Action("SwitchProfileForUser", "Account")">Switch User To Other Profile.</a><br />
+    <hr />
+    <a href="@Url.Action("UploadLogo", "Team")">Upload Logo</a><br />
+    <a href="@Url.Action("AllLogos", "Team")">All Logos</a><br />
+    <hr />
+    <a href="@Url.Action("SyncYafUsers", "Yaf")">Sync Yaf Users</a><br />
+    <hr />
+    <a href="@Url.Action("Delete", "Game")">Delete Game</a><br />
+    <a href="@Url.Action("JoinGames", "Game")">Merge 2 Games</a><br />
+    <a href="@Url.Action("UnPublish", "Game")">Unpublish a Game</a><br />
+    <a href="@Url.Action("DeleteTournament", "Game")">Delete Tournament</a><br />
+    <hr />
+    <a href="@Url.Action("Delete", "Sitemap")">Delete Sitemap Item</a><br />
+    <hr />
+    <a href="@Url.Action("ViewRDNStore", "Store")">RDN Store</a><br />
+    <a href="@Url.Action("CheckOut", "Store")">Check Out</a><br />
+    <a href="@Url.Action("SetLeagueMerchantId", "League")">Change Store Owner</a><br />
+    <hr />
+    <a href="@Url.Action("DisplayMerchants", "Payment")">Display Merchants</a><br />
+    <a href="@Url.Action("ViewInvoice", "Payment")">View Invoice</a><br />
+    <a href="@Url.Action("ViewRDNationInvoice", "Payment")">View RDNation Invoice</a><br />
+    <a href="@Url.Action("ViewRDNationSales", "Payment")">View Sales</a><br />
+    <a href="@Url.Action("PayDuesPayment", "Payment")">Handle Paypal Invalid Payments.</a><br />
+}
+
+@if (User.IsInRole("admin") || User.IsInRole("moderator"))
+{
+    <hr />
+    <a href="@Url.Action("SubscriptionsOfAllLeagues", "League")">Display Subscription Dates Of Leagues</a><br />
+    <hr />
+}
+<hr />
+<hr />
+<hr />
+<br />

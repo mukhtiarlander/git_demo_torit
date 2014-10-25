@@ -1,0 +1,175 @@
+﻿<Window x:Class="RDNScoreboard.Views.ServerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Closing="Window_Closing" 
+                Title="ServerView" Height="530" Width="500" Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico">
+    <Grid>
+        <TabControl SelectionChanged="TabControl_SelectionChanged" >
+            <TabItem Header="Stats Collection" VerticalContentAlignment="Top" Name="ServerTab"  >
+                <StackPanel>
+                    <Border BorderBrush="Black"
+                    BorderThickness="1"
+                    Margin="0,0,0,6">
+                        <StackPanel>
+                            <TextBlock  x:Name="TitlePolicy"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Background="#872f95"
+                                Foreground="#FFFFFF"
+                                FontSize="16" 
+                                Padding="5"
+                                Margin="0,0,-2,0"
+                                
+                                ><Run Text="Stats Collection Capabilities" /></TextBlock>
+                            <TextBlock  x:Name="titleDescription"
+                                TextAlignment="Center"
+                                Background="#872f95"
+                                Foreground="#FFFFFF"
+                                FontSize="12"
+                                ><Run Text="Stats Collection Can Be Managed Here" /></TextBlock>
+                            <TextBlock TextAlignment="Center"
+                                Background="#872f95"
+                                Foreground="#FFFFFF"
+                                FontSize="12"   >
+                        <Run Text="ITS BEST PRACTICES TO USE THESE FORMS AS THEY PROVIDE MORE DETAILED STATS" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock TextAlignment="Center" Text="Make sure your Firewall is turned OFF" ></TextBlock>
+                    <TextBlock HorizontalAlignment="Center">
+    
+    <Hyperlink x:Name="wikiHelpLink" Click="wikiHelpLink_Click"><Run Text="Please Read First Time Before Using Stats Collection" FontWeight="Bold"/></Hyperlink>
+                    </TextBlock>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60*"></ColumnDefinition>
+                            <ColumnDefinition Width="40*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock  >
+                                 <Hyperlink x:Name="lineUpTrackerHelp" Click="lineUpTrackerHelp_Click_1">
+                            <Run Text="LineUp/Score Tracker can Change Score" FontWeight="Bold"/>
+                            </Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
+                            <StackPanel  Width="90" HorizontalAlignment="Left">
+                                <CheckBox Style="{StaticResource OrangeSwitchStyle}" x:Name="lineUpTrackerControlsPoints" Click="lineUpTrackerControlsPoints_Click_1" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"></ColumnDefinition>
+                            <ColumnDefinition Width="60*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+
+                        <TextBlock  Text="Main Screen For All Links"  Grid.Row="0" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="mainScreen" Grid.Row="0" Grid.Column="1">
+                    <Hyperlink x:Name="mainScreenLink" Click="mainScreenLink_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Scoreboard Controls"  Grid.Row="1" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="controlScreen" Grid.Row="1" Grid.Column="1">
+        <Hyperlink x:Name="controlScreenLink" Click="controlScreenLink_Click_1" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Assists Team 1"  Grid.Row="4" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="assistsTeam1" Grid.Row="4" Grid.Column="1">
+        <Hyperlink x:Name="assistsTeam1Link" Click="assistsTeam1Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Assists Team 2"  Grid.Row="5" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="assistsTeam2" Grid.Row="5" Grid.Column="1">
+        <Hyperlink x:Name="assistsTeam2Link" Click="assistsTeam2Link_Click" ></Hyperlink>
+                        </TextBlock>
+
+                        <TextBlock  Text="Blocks Team 1"  Grid.Row="6" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="blocksTeam1" Grid.Row="6" Grid.Column="1">
+        <Hyperlink x:Name="blocksTeam1Link" Click="blocksTeam1Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Blocks Team 2"  Grid.Row="7" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="blocksTeam2" Grid.Row="7" Grid.Column="1">
+        <Hyperlink x:Name="blocksTeam2Link" Click="blocksTeam2Link_Click" ></Hyperlink>
+                        </TextBlock>
+
+                        <TextBlock  Text="Assists and Blocks Team 1" Grid.Row="8" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="assistsBlocksTeam1" Grid.Row="8" Grid.Column="1">
+        <Hyperlink x:Name="assistBlocksTeam1Link" Click="assistBlocksTeam1Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Assists and Blocks Team 2"  Grid.Row="9" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="assistBlocksTeam2" Grid.Row="9" Grid.Column="1">
+        <Hyperlink x:Name="assistsBlocksTeam2Link" Click="assistsBlocksTeam2Link_Click" ></Hyperlink>
+                        </TextBlock>
+
+                        <TextBlock  Text="Penalties Team 1"  Grid.Row="10" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="penaltyTeam1" Grid.Row="10" Grid.Column="1">
+        <Hyperlink x:Name="penatlyTeam1Link" Click="penatlyTeam1Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Penalties Team 2"  Grid.Row="11" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="penaltyTeam2" Grid.Row="11" Grid.Column="1">
+        <Hyperlink x:Name="penaltyTeam2Link" Click="penaltyTeam2Link_Click" ></Hyperlink>
+                        </TextBlock>
+
+                        <TextBlock  Text="Penalties Team 1 and 2"  Grid.Row="12" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="penaltyTeam1and2" Grid.Row="12" Grid.Column="1">
+        <Hyperlink x:Name="penaltyTeam1and2Link" Click="penaltyTeam1and2Link_Click" ></Hyperlink>
+                        </TextBlock>
+
+                        <TextBlock  Text="LineUps, Passes, Scores Team 1"  Grid.Row="13" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="lineupTeam1" Grid.Row="13" Grid.Column="1">
+        <Hyperlink x:Name="lineupTeam1Link" Click="lineupTeam1Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="LineUps, Passes, Scores Team 2"  Grid.Row="14" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="lineupsTeam2" Grid.Row="14" Grid.Column="1">
+        <Hyperlink x:Name="lineUpsTeam2Link" Click="lineUpsTeam2Link_Click" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Announcers Page"  Grid.Row="16" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="announcers" Grid.Row="16" Grid.Column="1">
+        <Hyperlink x:Name="announcersLink" Click="announcersLink_Click_1" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Scores Team 1"  Grid.Row="17" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="scoresTeam1" Grid.Row="17" Grid.Column="1">
+        <Hyperlink x:Name="scoresTeam1Link" Click="scoresTeam1Link_Click_1" ></Hyperlink>
+                        </TextBlock>
+                        <TextBlock  Text="Scores Team 2"  Grid.Row="18" Grid.Column="0"></TextBlock>
+                        <TextBlock   x:Name="ScoresTeam2" Grid.Row="18" Grid.Column="1">
+        <Hyperlink x:Name="scoresTeam2Link" Click="scoresTeam2Link_Click_1" ></Hyperlink>
+                        </TextBlock>
+
+                    </Grid>
+
+
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Video Overlay" VerticalContentAlignment="Top" Name="VideoOverlay" >
+                <Frame x:Name="VideoOverlayFrame" Height="457" NavigationUIVisibility="Hidden" ></Frame>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,30 @@
+﻿@using RDN.Portable.Classes.Account.Classes
+@model List< MemberDisplayBasic>
+@{
+    ViewBag.Title = "ViewAllNonVerifiedUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    All Non Verified Users</h2>
+<br />
+<br />
+<div>
+    <table>
+        @foreach (var user in Model)
+        { 
+            <tr>
+                <td>@user.DerbyName
+                </td>
+                <td>@user.UserId
+                </td>
+                <td>
+                    @Html.TextBox(user.UserId + "-Email", user.Email, new { @id = user.UserId + "-Email" })
+                </td>
+                <td>
+                    <span style="cursor: pointer; text-decoration: underline;" onclick="javascript:UpdateEmailAddressVerification('@user.UserId')">
+                        Update</span> <span class="displayNone" id="@user.UserId-confirm">Worked</span>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

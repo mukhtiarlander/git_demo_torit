@@ -1,0 +1,174 @@
+﻿@model RDN.Portable.Classes.Contacts.ContactDisplayBasic
+@{
+    ViewBag.Title = "Add Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+
+            <span>< <a href="@Url.Content("~/" + Model.ContactType + "/contacts")">Contacts</a></span>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Add New Contact
+        </div>
+      
+           <div class="titleDescription">
+           Here you can add contacts.  So that you may help manage anyone you have a relationship with.
+     
+        </div>
+        <div class="divider"></div>
+       
+        <div>
+            @using (Html.BeginForm("AddContact", "Contact", FormMethod.Post, new { @id = "createNewContact" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">First Name:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.FirstName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Last Name:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.LastName) <span class="i">optional</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Company Name:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.CompanyName) <span class="i">optional</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Contact Type:
+                        </td>
+                        <td class="largeInput">@Html.DropDownListFor(x => x.ContactTypeForOrg, (SelectList)ViewData["ContactTypeForOrg"]) <span class="i">Want another? Email <a href="mailto:info@rdnation.com">info@rdnation.com</a></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Email:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Email) <span class="i">optional</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Phone Number:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.PhoneNumber) <span class="i">optional</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Address Line 1:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Address1) <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Address Line 2:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Address2) <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">City:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.CityRaw) <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">State:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.StateRaw) <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Zip Code:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Zip) <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Country:
+                        </td>
+                        <td class="">
+                            @Html.DropDownListFor(x => x.CountryId, (SelectList)ViewBag.Countries, "Select Country...")
+                            <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Link:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Link) <span class="i">optional</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Notes:
+                        </td>
+                        <td class="largeInput"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="wmd-editor" class="wmd-panel">
+                                <div id="wmd-button-bar">
+                                </div>
+                                @Html.TextArea("Notes", string.Empty, new
+                           {
+                               id = "wmd-input"
+                           })
+                            </div>
+                            <div id="wmd-preview" class="wmd-panel">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/" + Model.ContactType + "/contacts")">Cancel</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Create Contact" name="createContact" />
+                            <input type="submit" class="primary" value="Create & Add Another" name="createAnother" />
+
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.ContactType)
+                
+           
+         
+            }
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/wmd.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/showdown.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $("#createNewContact").validate({
+        rules: {
+            FirstName: "required",
+            ContactTypeForOrg: "required"
+        }
+    });
+</script>

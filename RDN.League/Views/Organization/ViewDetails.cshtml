@@ -1,0 +1,55 @@
+﻿@model RDN.Library.Classes.League.Organization
+@{
+    ViewBag.Title = "View Designation Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/organization/Designation")">All Designations</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+           Designation Details
+        </div>
+        <div class="tvChanges">
+            
+        </div>
+        <div class="titleDescription">
+            Details of the Designation
+     
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="addForumPostTbl">
+
+                <tr>
+                    <td class="b alRight">Designation Title:
+                    </td>
+                    <td class="vRTD">
+                        @Model.DesigTitle
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Rank:
+                    </td>
+                    <td class="vRTD">
+                        @Model.DesigLavel
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="b alRight">Short Note:</td>
+                    <td>
+                       <div class="Details vRTD">
+                          <p>
+                            @Html.Raw( Model.ShortNote)
+                           </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

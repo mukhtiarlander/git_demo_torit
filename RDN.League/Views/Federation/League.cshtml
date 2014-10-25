@@ -1,0 +1,105 @@
+﻿@model RDN.Portable.Classes.League.Classes.League
+@{
+    ViewBag.Title = Model.Name + " Roller Derby League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="tvTitle">
+            @Model.Name
+            <br />
+            <div class="tvDesc">@Model.City,
+                @Model.State - @Model.Country</div>
+        </div>
+ 
+            <div class="divider"></div>
+        <div>
+            @if (Model.Teams != null && Model.Teams.Count == 1)
+            { 
+                <div>
+                    Teams within @ViewBag.League.Name</div>
+            }
+            else if (Model.Teams != null && Model.Teams.Count > 1)
+            {
+
+            }
+            @if (Model.LeagueMembers != null && Model.LeagueMembers.Count > 0)
+            {
+            
+                <table class="listTable" id="members">
+                
+                    <thead>
+                        <tr>
+                            <th>
+                                Derby Name
+                            </th>
+                            <th>
+                                Derby Number
+                            </th>
+                            <th>
+                                First Name
+                            </th>
+                            <th>
+                                Last Name
+                            </th>
+                            <th>
+                                Phone Number
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.LeagueMembers.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Content("~/Member/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", "") + "/" + Model.LeagueMembers[i].DerbyName)">
+                                        @Model.LeagueMembers[i].DerbyName
+                                    </a>
+                                </td>
+                                <td>@Model.LeagueMembers[i].PlayerNumber
+                                </td>
+                                <td>@Model.LeagueMembers[i].Firstname
+                                </td>
+                                <td>@Model.LeagueMembers[i].LastName
+                                </td>
+                                <td>@Model.LeagueMembers[i].PhoneNumber
+                                </td>
+                                <td>@Model.LeagueMembers[i].Email
+                                </td>
+                                <td>@Model.LeagueMembers[i].Gender
+                                </td>
+                            </tr>     
+                        }
+                    </tbody>
+                </table>
+            
+               
+            
+            }
+@* @if (Model.ContactCard != null && Model.ContactCard.Emails.Count > 0)
+            { 
+                <div>
+                    Email for @Model.ContactCard.Emails.FirstOrDefault().EmailAddress</div>
+            }*@
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

@@ -1,0 +1,232 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite28" %>
+
+<%@ Import Namespace="BlogEngine.Core" %>
+<%@ Import Namespace="System.Linq" %>
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <link href="<%# Page.ResolveUrl("~/themes/Standard-28/include/core.css") %>" rel="stylesheet" />
+    <link href="<%# Page.ResolveUrl("~/themes/Standard-28/include/styles.min.css") %>" rel="stylesheet" />
+    <link href="<%# Page.ResolveUrl("~/Content/jquery-ui-1.10.4.custom.css")%>" rel="stylesheet" />
+    <link href='<%# Page.ResolveUrl("~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css") %>' rel="stylesheet" />
+    <link href='<%# Page.ResolveUrl("~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css") %>' rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+    <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon" />
+    <script type="text/javascript" src="<%# ShRoot %>scripts/XRegExp.js"></script>
+    <script type="text/javascript" src="<%# ShRoot %>scripts/shCore.js"></script>
+    <script type="text/javascript" src="<%# ShRoot %>scripts/shAutoloader.js"></script>
+    <script type="text/javascript" src="<%# ShRoot %>shActivator.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="https://ads.rdnation.com/scripts/adsbyathleticads.js"></script>
+    <script type="text/javascript" src="<%# Page.ResolveUrl("~/scripts/main.js") %>"></script>
+    <script src="<%# Page.ResolveUrl("~/Scripts/jQuery/jquery-ui-1.10.4.custom.min.js") %>"></script>
+    <script type="text/javascript" src="<%# Page.ResolveUrl("~/scripts/easySlider1.7.js") %>"></script>
+    <script type="text/javascript" src="<%# Page.ResolveUrl("~/Scripts/jQuery/jquery.webticker.min.js") %>"></script>
+</head>
+<body class="<%= Resources.labels.LangDirection %>">
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=648592428540709&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/platform.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+
+        (function () {
+            var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+            li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+        })();
+
+        !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');
+
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/platform.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+    <form runat="Server" class="LayoutPage">
+
+        <!-- Header -->
+        <header class="Header">
+
+            <% if (HttpContext.Current.User.Identity.IsAuthenticated)
+               { %>
+            <div class="LoggedInHead">
+                <ul>
+                    <li><a href="<%=Utils.AbsoluteWebRoot%>admin/#/dashboard">Dashboard</a></li>
+                    <li><a runat="server" id="aLogin1"></a></li>
+
+                </ul>
+
+            </div>
+            <% }
+            %>
+            <div class="LoggedOutHead">
+                <ul class="loggedOutLeft">
+                    <li>
+                        <div class="fb-like" data-href="https://www.facebook.com/RollinNews" data-layout="button_count" data-share="false" data-action="like" data-show-faces="false" data-kid-directed-site="true"></div>
+                    </li>
+                    <li>
+                        <div class="g-follow" data-annotation="bubble" data-height="20" data-href="//plus.google.com/u/0/112104134031647583608" data-rel="publisher"></div>
+
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/rollinnews" class="twitter-follow-button" data-show-count="false">Follow @rollinnews</a>
+                    </li>
+                    <li><a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>">
+                        <img style="height: 22px;" src="<%= ResolveUrl("~/Content/images/icons/rss.png") %>" />
+
+                    </a></li>
+                </ul>
+                <ul class="loggedOutRight">
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>write-for-rollin-news<%= BlogEngine.Core.BlogConfig.FileExtension %>">Make Money Writing</a></li>
+                    <% if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                       { %><li><a runat="server" id="aLogin2"></a></li>
+                    <%} %>
+                </ul>
+            </div>
+
+
+            <div class="center">
+
+                <%--<!-- RN Banner Top -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1376896373478670"
+     data-ad-slot="5593549880"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>--%>
+            </div>
+            <div class="BlogTitle">
+                <div class="Container ClearFix">
+                    <h1 class="Title">
+                        <a href="<%=Utils.AbsoluteWebRoot %>">
+                            <img src="<%=Utils.AbsoluteWebRoot %>[CUSTOMFIELD|THEME|Standard|Logo Address|themes/Standard/images/logo.png/]" class="pull-left logo" alt="<%=BlogSettings.Instance.Name %>" /></a>
+
+                    </h1>
+                    <span class="Desc"><%=BlogSettings.Instance.Description %></span>
+                </div>
+            </div>
+            <%-- <nav class="TopBar">
+                <div class="Container ClearFix">
+                    <ul class="Left NavBar">
+                        <li class="Home Left"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
+                        <li class="Left"><a href="<%= RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_ALL_LEAGUES %>" target="_blank" rel="Leagues"><span>Leagues</span></a></li>
+                        <li class="Left"><a href="<%= RDN.Portable.Config.ServerConfig.WEBSITE_EVENTS_URL %>" target="_blank" rel="Events"><span>Events</span></a></li>
+                        <% if (Utils.IsMobile)
+                           { %>
+                        <li class="Left">
+                            <blog:MobileThemeSwitch ID="MobileThemeSwitch1" runat="server" /></li>
+                        <% } %>
+                    </ul>
+
+                    <script>$(".NavBar li:has(ul)").addClass("HasChild");</script>
+                </div>
+            </nav> --%>
+            <div class="clear"></div>
+            <div class="upperLinks">
+                <ul>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/Womens-Roller-Derby">Women</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/Mens-Roller-Derby">Men</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/Junior-Roller-Derby">Juniors</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/African-Roller-Derby">Africa</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/Asian-Roller-Derby">Asia</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/Australian-Roller-Derby">Australia</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/European-Roller-Derby">Europe</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/North-American-Roller-Derby">North America</a>  </li>
+                    <li><a href="<%=Utils.AbsoluteWebRoot %>news/South-American-Roller-Derby">South America</a>  </li>
+                    <li></li>
+                </ul>
+            </div>
+        </header>
+        <!-- /Header -->
+
+        <!-- PageWrapper -->
+        <section class="Container" id="PageWrapper">
+            <section class="Left Content">
+                <blog:SearchOnSearch ID="SearchOnSearch1" runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
+                <asp:ContentPlaceHolder ID="cphBody" runat="server" />
+
+            </section>
+
+        </section>
+        <!-- /PageWrapper -->
+        <div class="center">
+
+            <!-- RN Banner Bottom -->
+            <ins class="adsbygoogle"
+                style="display: inline-block; width: 728px; height: 90px"
+                data-ad-client="ca-pub-1376896373478670"
+                data-ad-slot="5835725484"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <footer class="LinksFooter">
+            <div class="LinksFooterInner">
+
+            <div class="LinksFooterTitle">News Sources</div>
+            <ul>
+                <% foreach (var feed in Feeds)
+                   { %>
+                <li><a target="_blank" href="<%= feed.MainUrl %>"><%= feed.NameOfOrganization %></a> </li>
+                <%} %>
+            </ul>
+                
+            </div>
+        </footer>
+
+        <!-- Footer -->
+        <footer class="Footer">
+            <div class="Container">
+                <nav class="NavBarFooter">
+                    <ul class="clearFix">
+                        <li class="Home"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
+                        <li>|</li>
+
+                        <li><a href="<%=Utils.AbsoluteWebRoot %>write-for-rollin-news<%= BlogEngine.Core.BlogConfig.FileExtension %>">Write For Rollin News</a></li>
+                        <li>|</li>
+                        <li><a href="<%=Utils.FeedUrl %>" class="feed"><%=Resources.labels.subscribe %></a></li>
+                        <li>|</li>
+                        <li><a href="javascript:void(BlogEngine.filterByAPML())" class="apmlfilter"><%=Resources.labels.filterByApml %></a></li>
+                        <li>|</li>
+                        <li><a runat="server" id="aLogin"></a></li>
+                    </ul>
+                </nav>
+                <div class="License">
+
+                    <div class="copyRight">
+                        site design / logo © <%=DateTime.Now.Year %> RDNation inc
+                        <br>
+                        <div class="tc">All league logos are copywritten per their respective copyright holders.</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /Footer -->
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-48332250-1', 'rollinnews.com');
+            ga('send', 'pageview');
+
+        </script>
+    </form>
+</body>
+</html>

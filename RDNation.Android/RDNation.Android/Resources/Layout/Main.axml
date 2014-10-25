@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="RDNation"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroundNavigation"
+        android:padding="3dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/status"
+            android:text="@string/home_welcome"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/games"
+        android:background="@drawable/buttonMainStyle"
+        android:drawableRight="@drawable/ic_action_right"
+        android:id="@+id/gamesBtn"
+        android:scaleType="fitXY"
+        android:text="Scores/Games"
+        style="@style/mainButtons" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/calendar"
+        android:background="@drawable/buttonMainStyle"
+        android:drawableRight="@drawable/ic_action_right"
+        android:id="@+id/calendarBtn"
+        android:scaleType="fitXY"
+        android:text="Events"
+        style="@style/mainButtons" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/skater"
+        android:background="@drawable/buttonMainStyle"
+        android:drawableRight="@drawable/ic_action_right"
+        android:id="@+id/skatersBtn"
+        android:scaleType="fitXY"
+        android:text="Skaters"
+        style="@style/mainButtons" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/icon"
+        android:background="@drawable/buttonMainStyle"
+        android:drawableRight="@drawable/ic_action_right"
+        android:id="@+id/leaguesBtn"
+        android:scaleType="fitXY"
+        android:text="Leagues"
+        style="@style/mainButtons" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/shop"
+        android:background="@drawable/buttonMainStyle"
+        android:drawableRight="@drawable/ic_action_right"
+        android:id="@+id/shopsBtn"
+        android:scaleType="fitXY"
+        android:text="Shop"
+        style="@style/mainButtons" />
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ab="http://schemas.android.com/apk/res/com.RDNation.Droid"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/background">
+    <legacybar.library.bar.LegacyBar
+        android:id="@+id/actionbar"
+        style="@style/actionbar"
+        ab:title="Sign Up"
+        ab:separator="@color/actionbar_separator_alt"
+        ab:theme="holo_light" />
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/loginControl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/derby"
+                    android:gravity="left"
+                    android:text="Do You Derby?"
+                    android:textSize="20dp"
+                    android:textColor="@color/White" />
+                <RadioGroup
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radio_yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:checked="true" />
+                    <RadioButton
+                        android:id="@+id/radio_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+                </RadioGroup>
+                <EditText
+                    android:id="@+id/derbyName"
+                    android:layout_width="fill_parent"
+                    android:hint="Derby Name"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/firstName"
+                    android:layout_width="fill_parent"
+                    android:hint="first Name"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/emailAddress"
+                    android:layout_width="fill_parent"
+                    android:hint="email"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:password="true"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/password"
+                    android:hint="password"
+                    android:maxLines="1" />
+                <Spinner
+                    android:id="@+id/spinnerGender"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/gender_prompt" />
+                <Spinner
+                    android:id="@+id/spinnerPosition"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/position_prompt" />
+                <Button
+                    android:id="@+id/signUpBtn"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_below="@+id/loginBtn"
+                    android:gravity="center"
+                    android:text="SignUp"
+                    style="@style/buyNowButton"
+                    android:background="@drawable/buy_now_button" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/warning"
+                    android:gravity="center"
+                    android:textColor="@color/Red" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

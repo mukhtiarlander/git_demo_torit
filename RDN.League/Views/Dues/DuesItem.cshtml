@@ -1,0 +1,191 @@
+﻿@using RDN.League.Models.Calendar
+@using RDN.League.Models.Utilities
+@using RDN.Library.Classes.Dues
+@model RDN.Portable.Classes.Controls.Dues.DuesPortableModel
+@{
+    var Fee = Model.DuesFees.FirstOrDefault();
+    ViewBag.Title = "Pay Dues For " + Fee.PayBy.ToLongDateString();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+<div class="fixedContainer">
+
+    <div class="fixedCenterContainter2">
+        <div class="fixTitle">
+            Collect Dues For @Fee.PayBy.ToLongDateString()
+        </div>
+        <div class="tvChanges">
+
+            <div class="navIcons">
+                <span class="cursor " onclick="document.getElementById('DuesReport').submit();" title="Export Report">
+                    <img src="@Url.Content("~/Content/images/icons/Download.png")"  />Export</span>
+            </div>
+            <div class="navIcons">
+                <a title="Edit Item" href="@Url.Content("~/dues/collection/edit/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/edit_league.png")"  />Edit
+                </a>
+            </div>
+            <div class="navIcons">
+                <a title="Dues Management" href="@Url.Content("~/dues/" + Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
+            </div>
+            <div class="navIcons">
+                <a title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/group.png")"  />Classify
+                </a>
+            </div>
+        </div>
+
+        <div class="titleDescription">
+            This page allows you to define who has paid dues and who hasn't. You can send them
+            reminders, pay only a fraction of the required payment or just review who paid and
+            who didn't. Only a owner or manager can see this page.
+      
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="viewEventTable">
+                <tr class="trBorderB">
+                    <td class="veLC">For:
+                    </td>
+                    <td>
+                        @Model.LeagueOwnerName
+                    </td>
+                </tr>
+                <tr class="trBorderB">
+                    <td class="veLC">Date of Payment:
+                    </td>
+                    <td>
+                        @Fee.PayBy.ToLongDateString()
+                    </td>
+                </tr>
+                <tr class="trBorderB">
+                    <td class="veLC">Amount:
+                    </td>
+                    <td>
+                        @Fee.CostOfDues.ToString("N2")
+                    </td>
+                </tr>
+                <tr class="trBorderB">
+                    <td class="veLC">Send Reminder Email To All:
+                    </td>
+                    <td>
+                        <input type="button" class="primary" value="Send Emails" onclick="javascript:SendReminderToPayDuesAll(this)" />
+                    </td>
+                </tr>
+            </table>
+            <table id="members" class="viewDuesTable">
+                <thead class="vmTableHead">
+                    <tr>
+                        <th></th>
+                        <th class="alignCenter">Edit
+                        </th>
+                        <th class="alignCenter">Last</th>
+                        <th class="alignCenter">Name
+                        </th>
+                        <th class="alignCenter">Due
+                        </th>
+                        <th class="alignCenter">Collected
+                        </th>
+                        <th class="alignCenter">Pay
+                        </th>
+                        <th></th>
+                        <th class="alignCenter">Email Reminder
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Members.Count; i++)
+                    {   
+                       
+                        <tr class="trBorderB">
+                            <td class="b">@(i + 1).
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/dues/member/edit/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">Edit</a>
+                            </td>
+                            <td>@Model.Members[i].LastName</td>
+                            <td>
+                                <a target="_blank"  href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">@Model.Members[i].DerbyName</a>
+                            </td>
+
+
+                            <td class="alignCenter" id="@Model.Members[i].MemberId-Due">
+                                @if (Model.Members[i].isWaived || Model.Members[i].isPaidFull)
+                                { 
+                                    <span>0.00</span>
+                                }
+                                else
+                                { 
+                                    @Model.Members[i].due.ToString("N2")
+                                }
+                            </td>
+                            <td class="alignCenter" id="@Model.Members[i].MemberId-Collected">
+                                @if (Model.Members[i].isWaived)
+                                { 
+                                    <span>Waived</span>
+                                }
+                                else
+                                {
+                                    @Model.Members[i].collected.ToString("N2")
+                                }
+                            </td>
+                            <td class="alignCenter">
+                                @if (Model.Members[i].isWaived)
+                                {
+                                    <span onclick="Dues.RemoveWaivedFee(this,'@Model.Members[i].MemberId    ')"  class="spanLink">Clear Waived</span>
+                                }
+                                else if (!Model.Members[i].isPaidFull)
+                                { 
+                                    <input id="@Model.Members[i].MemberId-Dues-Amount" type="text" value="@Model.Members[i].due.ToString("N2")" />
+                                }
+
+
+                            </td>
+
+                            <td class="alignCenter">
+                                @if (!Model.Members[i].isPaidFull)
+                                { 
+                                    <input id="@Model.Members[i].MemberId-button" type="button" class="primary" value="Paid" onclick="javascript:PayDues(this,'@Model.Members[i].MemberId    ')" />
+                                    <input id="@Model.Members[i].MemberId-waive-button" type="button" value="Waive" onclick="javascript:WaiveDues(this,'@Model.Members[i].MemberId    ')" />
+                                                                              
+                                }
+                            </td>
+                            <td class="alignCenter">
+                                @if (!Model.Members[i].isPaidFull && Model.Members[i].UserId != new Guid())
+                                {                                         
+                                    <input id="@Model.Members[i].MemberId-button-email" type="button" class="primary"
+                                            value="Send Reminder" onclick="javascript:SendReminderToPayDues(this,'@Model.Members[i].MemberId    ')"
+                                        />
+                                }
+                            </td>
+
+
+                        </tr> 
+                    }
+                </tbody>
+            </table>
+
+            @using (Html.BeginForm("DuesItemReport", "Dues", FormMethod.Post, new { @id = "DuesReport" }))
+            {
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.Hidden("DuesItemId", Fee.DuesItemId)
+                @Html.HiddenFor(x => x.LeagueOwnerId)
+
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

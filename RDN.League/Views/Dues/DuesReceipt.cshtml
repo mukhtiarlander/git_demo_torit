@@ -1,0 +1,70 @@
+﻿@using RDN.Library.Classes.Dues
+@using RDN.Utilities.Enums;
+@model RDN.Portable.Classes.Controls.Dues.DuesReceipt
+@{
+    ViewBag.Title = "Dues Receipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+    <div class="backLink">
+        < <a href="@Url.Content("~/dues/league/" + Model.LeagueId.ToString().Replace("-", ""))">Dues</a>
+    </div>
+        </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Receipt for @Model.MemberPaid
+        </div>
+      
+      <div class="titleDescription">
+             Your league appreciates you paying them in a timely manner!
+        
+        </div>
+        <div class="divider"></div>
+       
+        <div>
+            <table>
+                <tr>
+                    <td class="b vLT2D">Invoice Id:</td>
+                    <td class="vRTD">@Model.InvoiceId.ToString().Replace("-", "")</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Dues Date:</td>
+                    <td class="vRTD">
+                        @if (Model.PaidDuesForMonth.ToShortDateString() != "1/1/0001")
+                        {
+                            @Model.PaidDuesForMonth.ToShortDateString()
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Dues Paid:</td>
+                    <td class="vRTD">$@Model.BasePrice.ToString("N2")
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Fees Paid:</td>
+                    <td class="vRTD">$@Model.Fees.ToString("N2")
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Total Paid:</td>
+                    <td class="vRTD">$@Model.PriceAfterFees.ToString("N2")
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="b vLT2D">Receipt Emailed To:</td>
+                    <td class="vRTD">@Model.EmailForReceipt</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

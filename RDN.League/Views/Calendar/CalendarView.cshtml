@@ -1,0 +1,128 @@
+﻿@using RDN.Library.Classes.Calendar;
+@using RDN.Library.Classes.Calendar.Enums;
+@using RDN.Library.Cache;
+@model RDN.Portable.Classes.Controls.Calendar.Calendar
+@{
+    ViewBag.Title = "Calendar for " + Model.EntityName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    var isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
+    var isAttendance = MemberCache.IsAttendanceManager(memId);
+}
+@if (Model.CalendarId == new Guid())
+{
+    <div class="fixedContainer">
+        <div class="fixedCenterContainter">
+            <div class="fixTitle">
+                Calendar Setup
+            </div>
+           <div class="divider"></div>
+       
+            <div>
+                It looks like your calendar has not yet been created. Go ahead and create one so
+                you can start scheduling events and tracking attendance! This calendar will be open
+                to all your members!
+            </div>
+            @using (Html.BeginForm("CreateCalendar", "Calendar"))
+            { 
+                <div>
+                    <input type="submit" class="primary" value="Create Calendar" />
+                </div>
+                @Html.HiddenFor(x => x.OwnerEntity);
+            }
+        </div>
+    </div>
+}
+else
+{ 
+    <script src="@Url.Content("~/Scripts/FullCalendar/fullcalendar.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/FullCalendar/gcal.js")" type="text/javascript"></script>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                eventBackgroundColor: "#872f95",
+                eventBorderColor: "#c5c5c5",
+                selectable: true,
+                events: function (start, end, callback) {
+                    start = start.getTime() / 1000;
+                    end = end.getTime() / 1000;
+                    $.getJSON("/calendar/LoadCalendarView", { type: '@Model.OwnerEntity', id: '@Model.CalendarId.ToString().Replace("-", "")', startDt: start, endDt: end }, function (result) {
+                    var events = [];
+                    $.each(result.events, function (i, field) {
+                        events.push({
+                            title: $(field).attr('title'),
+                            start: $(field).attr('start'),
+                            id: $(field).attr('id'),
+                            end: $(field).attr('end'),
+                            url: $(field).attr('url'),
+                            allDay: $(field).attr('allDay'),
+                            backgroundColor: $(field).attr('backColor')
+                        });
+                    });
+                    callback(events);
+                });
+            }
+        });
+    });
+        
+    </script>
+    <style type='text/css'>
+        #calendar { width: 900px; margin: 0 auto; }
+    </style>
+    <div class="expandableContainer">
+        <div class="expandableCenterContainter">
+            <div class="fixTitle">
+                Schedule
+            </div>
+            <div class="expandableCenterContainterRight">
+               @if (isSec || isAttendance||isEventsCourd)
+                { 
+                    <div class="navIcons">
+                        <a title="Import Calendar" href="@Url.Content("~/calendar/import/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/upload.png")"  />Import
+                        </a>
+                    </div> 
+                    <div class="navIcons">
+                        <a title="Calendar Settings" href="@Url.Content("~/calendar/settings/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
+                        </a>
+                    </div>
+                }
+                <div class="navIcons">
+                    <a title="Run Report" href="@Url.Content("~/calendar/reports/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    </a>
+                </div>
+                @if (isSec || isAttendance || isEventsCourd)
+                {                   
+                    <div class="navIcons">
+                        <a title="New Event" href="@Url.Content("~/calendar/new/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <img src="@Url.Content("~/Content/images/icons/calendar-add.png")"  />New
+                        </a>
+                    </div>
+                }
+                                <div class="navIcons">
+                    <a title="Calendar List" href="@Url.Content("~/calendar/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                        <img src="@Url.Content("~/Content/images/icons/calendar.png")"  />List
+                    </a>
+                </div>
+                 </div>
+          
+        <div class="divider"></div>
+       
+            <div id="calendar">
+            </div>
+        </div>
+    </div>
+}

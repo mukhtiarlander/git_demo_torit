@@ -1,0 +1,187 @@
+﻿@model RDN.Portable.Classes.Games.Officiating.RequestDA
+           @using RDN.Portable.Classes.Controls.Message.Enums
+@{
+    ViewBag.Title = "Request Details";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/officiating-requests/view/all")">All Requests</a>
+        </div>
+    </div>
+       <div class="tvChanges">
+            <div class="navIcons">
+                <a title="Contact" href="@Model.UrlToContact">
+                    <img  src="@Url.Content("~/Content/images/icons/contact.png")"  />Contact
+                </a>
+            </div>
+        </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle c" >
+            
+            Officiating Request Details
+        </div>
+
+        <div class="titleDescription">
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            <table class="addForumPostTbl">
+                <tr>
+                    <td class="b alRight">Teams Playing:
+                    </td>
+                    <td class="vRTD">
+                        @Model.TeamsPlaying
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="b alRight">Date:
+                    </td>
+                    <td class="vRTD">
+                        @Model.Date.Value.ToShortDateString()
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">First Whistle:
+                    </td>
+                    <td class="vRTD">
+                        @Model.FirstWhistle
+
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="b alRight">Location Name:
+                    </td>
+                    <td class="vRTD">
+                        @Model.LocationName
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td></td>
+                    <td  class="vRTD">
+                        @if (!String.IsNullOrEmpty(Model.Address))
+                        {
+                            <div>
+                                @Model.Address
+                            </div>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Address1))
+                        { <div>
+                            @Model.Address1
+                        </div>
+                        }
+                        <div>
+                            @if (!String.IsNullOrEmpty(Model.City))
+                            { 
+                                @Model.City<span>,</span>
+                            }
+                            @if (!String.IsNullOrEmpty(Model.State))
+                            { 
+                                @Model.State<span> </span>
+                            }
+                            @if (!String.IsNullOrEmpty(Model.Zip))
+                            { 
+                                @Model.Zip
+                            }
+                        </div>
+
+                        @if (!String.IsNullOrEmpty(Model.Country))
+                        {<div>
+                            @Model.Country
+                        </div> 
+                        }
+                        <span class="evMap"><a href="http://www.bing.com/maps/default.aspx?q=@Model.Address+@Model.Address1,+@Model.City,+@Model.State+@Model.Zip+@Model.Country" target="_blank">View Map</a></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Is Regulation:
+                    </td>
+                    <td class="vRTD">
+                        <label>@Html.CheckBox("IsRegulation", Model.IsRegulation, new { @disabled = "disabled" })</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Evaluations Provided:
+                    </td>
+                    <td class="vRTD">
+                        <label>@Html.CheckBox("Evaluation", Model.EvaluationsProvided, new { @disabled = "disabled" })</label>
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td class="b alRight">Snacks Provided?:
+                    </td>
+                    <td class="vRTD">
+                        <label>@Html.CheckBox("IsSnacksProvided", Model.IsSnacksProvided, new { @disabled = "disabled" }) </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Referees needed?:
+                    </td>
+                    <td class="vRTD">
+                        @Model.NoRefNeded
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Non Skating Officials needed?:
+                    </td>
+                    <td class="vRTD">
+                        @Model.NonsoNeded
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="b alRight">Reimbursement?:
+                    </td>
+                    <td class="vRTD">
+                        <label>@Html.CheckBox("IsReimbursement", Model.IsReimbursement, new { @disabled = "disabled" })</label>
+                    </td>
+                </tr>
+                  <tr>
+                    <td class="b alRight">Stipend for Refs:
+                    </td>
+                    <td class="vRTD">
+                        @Model.TravelStipendForRefs
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Stipend for NSOs:</td>
+                    <td class="vRTD">
+                        @Model.TravelStipendForNSO
+                    </td>
+                </tr>
+
+              
+                <tr>
+                    <td class="b alRight">Select Rule Set:
+                    </td>
+                    <td class="vRTD">
+                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">Description:
+                    </td>
+                    <td class="Details" style="width: 400px; max-width: 400px;">
+                        @Html.Raw(Model.Description)
+                    </td>
+                </tr>
+
+
+            </table>
+
+            <br /><br />
+
+            <div class="center">
+                <a href="@Model.UrlToRequest">Add New Request</a>
+            </div>
+        </div>
+    </div>
+</div>

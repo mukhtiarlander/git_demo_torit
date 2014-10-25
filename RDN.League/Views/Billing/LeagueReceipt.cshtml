@@ -1,0 +1,63 @@
+﻿@using RDN.Library.Classes.Billing.Classes
+@using RDN.Utilities.Enums;
+@model LeagueReceipt
+@{
+    ViewBag.Title = "League Receipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+    <div class="backLink">
+        < <a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscriptions</a>
+    </div>
+        </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Receipt for @Model.LeagueName
+        </div>
+         <div class="titleDescription">
+               Your receipt for subscribing to RDNation.com!  We greatly appreciate your business.  If there is anything we can do for your league, please feel free to contact us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here to make the entire Derby community a better place.
+       
+        </div>
+        <div class="divider"></div>
+       
+         
+        <div>
+            <table>
+                <tr>
+                    <td class="b vLT2D">Invoice Id:</td>
+                    <td class="vRTD">@Model.InvoiceId.ToString().Replace("-", "")</td>
+                    <td><a href="@Url.Content("~/billing/league/history/" + Model.LeagueId.ToString().Replace("-", ""))">View Billing History</a></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Current Status:</td>
+                    <td class="vRTD">@EnumExt.ToFreindlyName(Model.MembershipStatus)</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Amount Paid:</td>
+                    <td class="vRTD">$@Model.AmountPaid.ToString("N2")
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="b vLT2D">Expires:</td>
+                    <td class="vRTD">
+                        @if (Model.Expires.ToShortDateString() != "1/1/0001")
+                        {
+                            @Model.Expires.ToShortDateString()
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="b vLT2D">Receipt Emailed To:</td>
+                    <td class="vRTD">@Model.EmailForReceipt</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

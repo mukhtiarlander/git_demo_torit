@@ -1,0 +1,148 @@
+﻿@model RDN.Library.Classes.League.ItemInfoDA
+@{
+    ViewBag.Title = "Edit Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+    bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
+    
+}
+
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/inventory/all")">Cancel Edit</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Edit Item 
+        </div>
+         <div class="tvChanges"> 
+            <div class="navIcons">
+                <a onclick="return confirm('Really Delete?')" title="Delete Item" href="@Url.Content("~/league/inventory/delete/" + Model.ItemId + "/" +          Model.ItemsForLeague.ToString().Replace("-", ""))">
+                    <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />Delete
+                </a>
+            </div>
+        </div>
+        <div class="titleDescription">
+           Edit item in the leagues inventory.
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            @using (Html.BeginForm("EditItem", "Inventory", FormMethod.Post, new { @id = "EditItem" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">Item Serial No:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.ItemSerialNo)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Item Name:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.ItemName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Unite Price:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.UnitePice)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Location:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Location)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Quantity:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.Quantity)
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="b alRight alignTop">Notes:
+                        </td>
+                        <td class="largeInput">  @Html.TextArea("Notes", new
+                                            {
+                                                id = "wmd-input",
+                                                @Value = Model.Notes != null ? Model.Notes.ToString() : "",
+                                                style = "width:350px"
+                                            })</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="b alRight"></td>
+                        <td class="largeInput">
+                            <input type="submit" class="primary" value="Save" name="EditItem" />
+
+                        </td>
+                    </tr>
+
+                </table>
+                @Html.HiddenFor(models => models.ItemId)
+                @Html.HiddenFor(models => models.ItemsForLeague)
+                @Html.HiddenFor(models => models.ItemAddByMember)
+                  
+            }
+        </div>
+    </div>
+     @if (!subPaid)
+     { 
+        <div class="fixedAd">
+            <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-1376896373478670";
+    /* RDNation SideAd */
+    google_ad_slot = "9959849457";
+    google_ad_width = 120;
+    google_ad_height = 600;
+    //-->
+            </script>
+            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        </div>
+     }
+</div>
+
+<script type="text/javascript">
+    $("#EditItem").validate({
+        rules: {
+            ItemName: "required",
+            UnitePice: "required",
+            Location: "required"            
+        }
+    });
+ 
+    $(function () {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "advanced",
+            skin: "o2k7",
+            skin_variant: "silver",
+            plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+            // Theme options
+            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
+            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
+            theme_advanced_buttons3: "",
+            theme_advanced_buttons4: "",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+        });
+    });
+
+</script>

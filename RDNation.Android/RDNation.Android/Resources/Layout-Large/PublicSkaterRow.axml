@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rowSelected"
+    android:padding="8dp">
+    <LinearLayout
+        android:id="@+id/publicSkaterRow"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/white"
+        android:paddingLeft="10dip">
+        <TextView
+            android:id="@+id/skaterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF7F3300"
+            android:textSize="20dip" />
+        <LinearLayout
+            android:id="@+id/publicSkaterRowSub"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/skaterNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="10dip" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="10dip"
+                android:text=" - " />
+            <TextView
+                android:id="@+id/skaterGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="10dip" />
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/skaterImageRow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="5dp"
+        android:src="@drawable/skater"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

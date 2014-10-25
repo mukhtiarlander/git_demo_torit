@@ -1,0 +1,78 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Polls.Polls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="POLLS" Style="{StaticResource PhoneTextNormalStyle}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.Resources>
+                <con:VisibilityConverter x:Key="VisibilityConverter" x:Name="VisibilityConverter" />
+            </Grid.Resources>
+            <phone:LongListSelector x:Name="PollsList"  ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1" SelectionChanged="PollsList_SelectionChanged"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                <phone:LongListSelector.ItemTemplate>
+                    <DataTemplate x:Name="template">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="Gray" >
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  >
+                                <toolkit:ContextMenuService.ContextMenu  >
+                                    <toolkit:ContextMenu x:Name="ContextMenu1" >
+                                        <toolkit:MenuItem Visibility="{Binding CanVotePoll, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}" x:Name="VotePollItem1" Header="Vote On Poll" Click="VotePoll_Click_1"/>
+                                        <toolkit:MenuItem Visibility="{Binding CanViewPoll, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}" x:Name="ViewPollItem" Header="View Poll" Click="ViewPoll_Click"/>
+                                        <toolkit:MenuItem Visibility="{Binding CanEditPoll, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}" x:Name="EditPollItem" Header="Edit Poll" Click="EditPoll_Click"/>
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="VotePoll" Visibility="{Binding CanVotePoll, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}" Click="VotePoll_Click" >Vote</Button>
+                                    <StackPanel >
+                                        <TextBlock x:Name="title" Style="{StaticResource MessageMemberNames}"   Text="{Binding  Path=Question}"></TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Visibility="{Binding IsClosed, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}" Text="Closed" Style="{StaticResource MessageLastText}" Margin="10,0,5,0" >
+
+                                            </TextBlock>
+                                            <TextBlock Text="Votes:" Style="{StaticResource MessageLastText}" Margin="10,0,5,0" ></TextBlock>
+                                            <TextBlock x:Name="Voted" Text="{Binding Voted}" Style="{StaticResource MessageLastText}" ></TextBlock>
+                                            <TextBlock Text="Total:" Style="{StaticResource MessageLastText}" Margin="10,0,5,0" ></TextBlock>
+                                            <TextBlock x:Name="NonVotes" Text="{Binding NonVotes}" Style="{StaticResource MessageLastText}" ></TextBlock>
+                                        </StackPanel>
+
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </phone:LongListSelector.ItemTemplate>
+            </phone:LongListSelector>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar IsVisible="False" x:Name="AppBar" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/add.png" x:Name="AddPost" Click="AddPost_Click" Text="Add"/>
+
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

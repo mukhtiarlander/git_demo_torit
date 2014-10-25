@@ -1,0 +1,186 @@
+﻿@using RDN.League.Models.Calendar
+@using RDN.League.Models.Utilities
+@using RDN.Library.Classes.Dues
+@model RDN.Portable.Classes.Controls.Dues.DuesPortableModel
+@{
+    var Fee = Model.DuesFees.FirstOrDefault();
+    ViewBag.Title = "Edit Dues For " + Fee.PayBy.ToLongDateString();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+<div class="fixedContainer">
+
+    <div class="fixedCenterContainter2">
+        <div class="fixTitle">
+            Edit Dues For @Fee.PayBy.ToLongDateString()
+        </div>
+        <div class="tvChanges">
+
+            <div class="navIcons">
+                <a title="Dues Management" href="@Url.Content("~/dues/" + Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
+            </div>
+            <div class="navIcons">
+                <a title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                    <img src="@Url.Content("~/Content/images/icons/group.png")"  />Classify
+                </a>
+            </div>
+            <a href="@Url.Content("~/dues/collection/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">View Item</a>
+        </div>
+
+        <div class="titleDescription">
+            This page allows you to define who has paid dues and who hasn't. You can send them
+            reminders, pay only a fraction of the required payment or just review who paid and
+            who didn't. Only a owner or manager can see this page.
+       
+        </div>
+        <div class="divider"></div>
+
+        <div>
+            @using (Html.BeginForm("EditDuesItem", "Dues", FormMethod.Post, new { @id = "editDuesForm" }))
+            { 
+                <table class="viewEventTable">
+                    <tr class="trBorderB">
+                        <td class="veLC">For:
+                        </td>
+                        <td>
+                            @Model.LeagueOwnerName
+                        </td>
+                    </tr>
+                    <tr class="trBorderB">
+                        <td class="veLC ">Date of Payment:
+                        </td>
+                        <td>
+                            @Html.TextBox("PayBy", Fee.PayBy.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker" })
+                        </td>
+                    </tr>
+                    <tr class="trBorderB">
+                        <td class="veLC">Amount:
+                        </td>
+                        <td>
+                            @Html.TextBox("DuesCost", Fee.CostOfDues.ToString("N2"))
+                        </td>
+                    </tr>
+                </table>
+                <div class="updateMemberButton">
+                    @if (ViewBag.Saved)
+                    { 
+                        <span class="addedSuccessfully">Updated Successfully!</span>
+                    }
+                    <input type="submit" class="primary" value="Update Dues Item" />
+                </div>
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.Hidden("DuesItemId", Fee.DuesItemId)
+             
+            }
+
+            @using (Html.BeginForm("DeleteDuesItem", "Dues", FormMethod.Post, new { @id = "deleteDuesForm" }))
+            {                 
+                <div class="removeMemberButton">
+                    <input onclick="return confirm('Remove Dues Item and all Fees Associated?')" type="submit" class="remove" value="Delete Dues Item" />
+                </div>
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.Hidden("DuesItemId", Fee.DuesItemId)
+                @Html.HiddenFor(x => x.OwnerEntity)
+                @Html.HiddenFor(x => x.LeagueOwnerId)
+            }
+
+            <div class="clear">
+            </div>
+            <br />
+            <table id="members" class="tableExtras">
+                <thead class="vmTableHead">
+                    <tr>
+                        <th></th>
+                        <th class="alignCenter">Edit
+                        </th>
+                        <th class="alignCenter">Last
+                        </th>
+                         <th class="alignCenter">Name
+                        </th>
+                        <th class="alignCenter">Total Due
+                        </th>
+                        <th class="alignCenter">Collected
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Members.Count; i++)
+                    {   
+                       
+                        <tr class="trBorderB">
+                            <td class="b">@(i + 1).
+                            </td>
+                            <td class="alignCenter">
+                                <a href="@Url.Content("~/dues/member/edit/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">Edit</a>
+                            </td>
+                           <td>@Model.Members[i].LastName</td>
+                             <td>
+                                <a  href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">@Model.Members[i].DerbyName</a>
+                            </td>
+                            @{
+                     
+                                <td id="@Model.Members[i].MemberId-Due" class="alignCenter alignMiddle">
+                                    @if (Model.Members[i].isWaived || Model.Members[i].isPaidFull)
+                                    { 
+                                        <span>0.00</span>
+                                    }
+                                    else
+                                    { 
+                                        @Html.TextBox("due-" + Model.Members[i].MemberId, Model.Members[i].due.ToString("N2"))
+                                    }
+                                </td>   
+                                <td id="@Model.Members[i].MemberId-Collected" class="alignCenter">
+                                    @if (Model.Members[i].isWaived)
+                                    { 
+                                        <span>Waived</span>
+                                    }
+                                    else
+                                    {
+                                        @Model.Members[i].collected.ToString("N2")
+                                    }
+                                </td>   
+                                <td>@if (Model.Members[i].isWaived)
+                                    {
+                                        <span onclick="Dues.RemoveWaivedFee(this,'@Model.Members[i].MemberId    ')"  class="spanLink">Clear Waived</span>
+                                    }
+                                    else if (Model.Members[i].isPaidFull)
+                                    { }
+                                    else
+                                    { 
+                                    <input id="@Model.Members[i].MemberId-button" type="button" class="primary" value="Update" onclick="javascript:UpdateDuesDueForMem(this,'@Model.Members[i].MemberId    ')" />
+                                    }
+                                </td>
+                                
+                            }
+                        </tr> 
+                    }
+                </tbody>
+            </table>
+            @Html.HiddenFor(x => x.DuesId)
+            @Html.Hidden("DuesItemId", Fee.DuesItemId)
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#members').dataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+    $('#PayBy').datepicker({});
+    $("#DuesCost").numeric({ negative: false });
+
+    $("#editDuesForm").validate({
+        rules: {
+            PayBy: "required",
+            DuesCost: "required"
+        }
+    });
+</script>

@@ -1,0 +1,77 @@
+﻿@model List<RDN.Library.Classes.Game.Tournament>
+@{
+    ViewBag.Title = "Roller Derby Tournaments";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle ">Roller Derby Tournaments</div>
+        <div class="divider"></div>
+        <table class="gridTable" id="tourns">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Location</th>
+                    <th>Class</th>
+                    <th>Games</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tourny in Model)
+                { 
+                    <tr>
+                        <td>
+                            @if (tourny.Photos.FirstOrDefault() != null)
+                            { 
+                                <img src="@tourny.Photos.FirstOrDefault().ImageThumbUrl" class="tournyLogo"  alt="Logo" />
+                            }
+                        </td>
+                        <td>
+                            <a  href="@Url.Content("~/roller-derby-tournament/" + tourny.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(tourny.Name))">
+                                @tourny.Name </a>
+                        </td>
+                        <td>@tourny.StartDateDisplay</td>
+                        <td>@tourny.EndDateDisplay</td>
+                        <td>@if (!String.IsNullOrEmpty(tourny.City))
+                            { 
+                            <span>@tourny.City,</span>
+                            }
+                            @if (!String.IsNullOrEmpty(tourny.State))
+                            { 
+                                <span>@tourny.State,</span>
+                            }
+                            @if (!String.IsNullOrEmpty(tourny.Country))
+                            { 
+                                @tourny.Country
+                            }
+
+                            (<a href="http://www.bing.com/maps/default.aspx?q=@tourny.Address+@tourny.Address2,+@tourny.City,+@tourny.State+@tourny.ZipCode+@tourny.Country" target="_blank">View</a>)</td>
+                        <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(tourny.TournamentClass)</td>
+                        <td>@tourny.Games.Count</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="gpSBVersion">
+            Want to Show Your Games LIVE on RDNation For Free?
+            <br />
+            <a href="http://rdnation.com/roller-derby-scoreboard">Download Thor's Hammer Roller
+                Derby Scoreboard</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#usual1 ul").idTabs();
+    $(document).ready(function () {
+        $('#tourns').dataTable({
+            "aaSorting": [[2, "desc"]], "bPaginate": false, "bLengthChange": false, "bFilter":
+true, "bSort": true, "bInfo": false, "bAutoWidth": false
+        });
+    });
+
+</script>

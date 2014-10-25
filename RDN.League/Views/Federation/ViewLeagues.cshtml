@@ -1,0 +1,87 @@
+﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.League.Classes.League>>
+@{
+    ViewBag.Title = "View Leagues for " + ViewBag.FederationName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Leagues For @ViewBag.FederationName
+        </div>
+      
+          <div class="titleDescription">
+  Here you can view the Leagues Attached to Your Federation.
+        
+            </div>
+            <div class="divider"></div>
+        <div>
+            <div>
+                Leagues
+            </div>
+            <table class="listTable" id="leagues">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Internal Id</th>
+                        <th>League
+                        </th>
+                        <th>State
+                        </th>
+                        <th>Country
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+                    { 
+                        <tr>
+                            <td>
+                                <a href="@Url.Content("~/federation/league/edit/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].Name))">Edit</a>
+                            </td>
+                            <td>
+                                @Model.Model.Items[i].InternalFederationIdForLeague
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].Name))">@Model.Model.Items[i].Name</a>
+                            </td>
+                            <td>@Model.Model.Items[i].State
+                            </td>
+                            <td>@Model.Model.Items[i].Country
+                            </td>
+                        </tr>              
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="uglyPager">
+            @using (Html.BeginForm("ViewLeagues", "Federation"))
+            {
+                <text>
+                <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
+                <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+                Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+                <input type="submit" value="Show" />
+                </text>
+            }
+        </div>
+        <div class="divider"></div>
+        <div>
+            <div>
+                Pending Leagues
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#leagues').dataTable({
+            "aaSorting": [[2, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });
+</script>

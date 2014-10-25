@@ -1,0 +1,25 @@
+﻿@model List<RDN.Portable.Classes.Team.TeamLogo>
+@{
+    ViewBag.Title = "All Logos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>AllLogos</h2>
+
+@using (Html.BeginForm("UpdateLogo", "Team"))
+{
+    
+    <input type="submit" value="Merge" name="Merge" />
+    foreach (var item in Model)
+    {
+    <div>
+        <input type="submit" value="Delete-@item.TeamLogoId" name="Delete" />
+        <img src="@item.ImageUrl" width="300px" />
+        @Html.TextBox("TeamName-" + item.TeamLogoId, item.TeamName)
+        @Html.Hidden("LogoId", item.TeamLogoId)
+        <input type="submit" value="Update-@item.TeamLogoId" name="Update" />
+        <input type="checkbox" value="@item.TeamLogoId" name="checkbox-@item.TeamLogoId" />
+        <span>Merge Two Logos</span>
+
+    </div>
+    }
+}

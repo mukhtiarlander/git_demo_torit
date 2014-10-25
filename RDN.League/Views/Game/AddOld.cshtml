@@ -1,0 +1,144 @@
+﻿@model RDN.League.Models.Game.GameModel
+@{
+    ViewBag.Title = "Add An Old Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            @using (Html.BeginForm("AddOld_UpdateDetails", "Game", FormMethod.Post))
+            { 
+                <span>Add Game From the Past</span> 
+                <input style="text-align: right; float: right;" type="submit" name="Finalize" id="Finalize"
+                    onclick="return confirm('Are You Sure? This Will Finalize Stats and Make the Game Public')"
+                    value="Finalize Game" class="primary" />
+                @Html.HiddenFor(x => x.GameId);
+            }
+        </div>
+       
+            <div class="divider"></div>
+        <div class="usual">
+            <ul class="idTabs">
+                <li><a href="#AddFirstGame">Game And Players</a></li>
+                <li><a href="#JamsPoints">Jams And Points</a></li>
+                <li><a href="#PenaltiesStats">Penalties And Stats</a></li>
+                <li><a href="#LinksForGame">Links For Game</a></li>
+            </ul>
+            <div id="AddFirstGame" class="usualInner">
+                <table class="addGameTable">
+                    <tr>
+                        <td class="agTL">
+                            Game Name:
+                        </td>
+                        <td class="agTR">
+                            @using (Ajax.BeginForm("AddOld_UpdateDetails", new AjaxOptions()))
+                            { 
+                                @Html.TextBoxFor(x => x.GameName, new { onblur = "document.getElementById('GameNameChanged').click();" })
+                                <input type="submit" name="GameNameChanged" id="GameNameChanged" style="visibility: hidden" />
+                                @Html.HiddenFor(x => x.GameId);
+                            }
+                        </td>
+                        <td class="agTL">
+                            Game Date:
+                        </td>
+                        <td class="agTR">
+                            @using (Ajax.BeginForm("AddOld_UpdateDetails", new AjaxOptions()))
+                            { 
+                                @Html.TextBoxFor(model => model.GameDate, new { @class = "jquery_datepicker", @Value = Model.GameDate.ToString("MM/dd/yyyy"), onchange = "document.getElementById('dateChanged').click();" })
+                                <input type="submit" name="dateChanged" id="dateChanged" style="visibility: hidden" />
+                                @Html.HiddenFor(x => x.GameId);
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="agTL">
+                            Team 1:
+                        </td>
+                        <td class="agTR">
+                            @using (Ajax.BeginForm("AddOld_GetListLeagueMembers", new AjaxOptions { UpdateTargetId = Model.Team1.TeamId.ToString() + "TempList", LoadingElementId = "loadingTeam1" }))
+                            { 
+                                @Html.DropDownListFor(x => x.Team1.TeamId, @Model.ListOfTeams, "--Select Team 1--", new { id = "ddlLeague1", onchange = "document.getElementById('league1Submit').click();" })
+                                <img src="@Url.Content("~/Content/loading_lg.gif")" id="loadingTeam1" style="display:none; width:20px;" />
+                                //we need an inviisible submit button so the model can hit the form submit
+                                <input type="submit" name="league1Submit" id="league1Submit" style="visibility: hidden" />
+                                @Html.HiddenFor(x => x.GameId);
+                            }
+                        </td>
+                        <td class="agTL">
+                            Team 2:
+                        </td>
+                        <td class="agTR">
+                            @using (Ajax.BeginForm("AddOld_GetListLeagueMembers", new AjaxOptions { UpdateTargetId = Model.Team2.TeamId.ToString() + "TempList", LoadingElementId = "loadingTeam2" }))
+                            { 
+                                @Html.DropDownListFor(x => x.Team2.TeamId, @Model.ListOfTeams, "--Select Team 2--", new { id = "ddlLeague2", onchange = "document.getElementById('league2Submit').click();" })  
+                                <img src="@Url.Content("~/Content/loading_lg.gif")" id="loadingTeam2" style="display:none; width:20px;" />
+                                //we need an inviisible submit button so the model can hit the form submit
+                                <input type="submit" name="league2Submit" id="league2Submit" style="visibility: hidden" />
+                                @Html.HiddenFor(x => x.GameId);
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alignCenter">
+                            Members Of League
+                        </td>
+                        <td class="b alignCenter">
+                            Played In The Game
+                        </td>
+                        <td class="b alignCenter">
+                            Members Of League
+                        </td>
+                        <td class="b alignCenter">
+                            Played In The Game
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="agTL">
+                            <div id="@Model.Team1.TeamId.ToString()TempList" class="agTempMembers">
+                                @{Html.RenderPartial("MemberListTempPartial", Model.TempTeam1Members);}
+                            </div>
+                        </td>
+                        <td class="agTR">
+                            <div class="agRealMembers" id="@Model.Team1.TeamId.ToString()RealList">
+                                @{Html.RenderPartial("MemberListPlayedPartial", Model.Team1.TeamMembers);}
+                            </div>
+                        </td>
+                        <td class="agTL">
+                            <div id="@Model.Team2.TeamId.ToString()TempList" class="agTempMembers">
+                                @{Html.RenderPartial("MemberListTempPartial", Model.TempTeam2Members);}
+                            </div>
+                        </td>
+                        <td class="agTR">
+                            <div class="agRealMembers" id="@Model.Team2.TeamId.ToString()RealList">
+                                @{Html.RenderPartial("MemberListPlayedPartial", Model.Team2.TeamMembers);}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="JamsPoints" class="usualInner">
+                *Please be sure to add teams and their skaters first.<br />
+                *Its not required to fill out the line ups for each game.
+                <div id="JamPointsRefreshControl">
+                    @{  Html.RenderPartial("JamsListPartial", (Scoreboard.Library.ViewModel.GameViewModel)Model);}
+                </div>
+            </div>
+            <div id="PenaltiesStats" class="usualInner">
+                <div id="PenaltiesStatsRefreshControl">
+                    @{  Html.RenderPartial("PenaltiesStatsMADEPartial", (Scoreboard.Library.ViewModel.GameViewModel)Model);}
+                </div>
+            </div>
+            <div id="LinksForGame" class="usualInner">
+                <div id="LinksForGameRefreshControl">
+                    @{  Html.RenderPartial("AddOldLinksPartial", (Scoreboard.Library.ViewModel.GameViewModel)Model);}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#GameDate').datepicker({
+        onSelect: function (dateText, inst) { document.getElementById('dateChanged').click(); }
+    }); 
+</script>

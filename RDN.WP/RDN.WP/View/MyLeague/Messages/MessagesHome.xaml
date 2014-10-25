@@ -1,0 +1,69 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Messages.MessagesHome"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Background>
+            <ImageBrush AlignmentY="Bottom"  Opacity=".3"  Stretch="Uniform" ImageSource="../../Assets/banner.jpg" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="MESSAGES" Style="{StaticResource PhoneTextNormalStyle}"/>
+
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.Resources>
+                <con:UnreadMessageBrushConverter x:Key="UnreadBrushConverter" x:Name="UnreadBrushConverter" UnreadMessageColorHex="#33cfabd4" />
+            </Grid.Resources>
+            <phone:LongListSelector x:Name="MessagesList"  ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1" SelectionChanged="MessagesList_SelectionChanged"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                <phone:LongListSelector.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0,0,0,1" BorderBrush="Gray">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  Background="{Binding Path=IsConversationRead, Converter={StaticResource UnreadBrushConverter}}" >
+                                <Image Height="75" Width="75" VerticalAlignment="Top" Margin="0,7,7,0" >
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding LastPostThumbUrl}" CreateOptions="BackgroundCreation"/>
+                                    </Image.Source>
+                                </Image>
+
+                                <StackPanel >
+                                    <TextBlock x:Name="title" Style="{StaticResource MessageMemberNames}"   Text="{Binding  Path=LastPostNames}"></TextBlock>
+                                    <TextBlock x:Name="startedBy" Margin="0,0,10,0" Style="{StaticResource MessageLastText}" Text="{Binding  Path=LastMessageText}"></TextBlock>
+                                    <TextBlock x:Name="replyCount" Style="{StaticResource MessageLastDateTime}" Text="{Binding  Path=LastPostDateTime}"></TextBlock>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </phone:LongListSelector.ItemTemplate>
+            </phone:LongListSelector>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" >
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/add.png" x:Name="AddPost" Click="AddPost_Click" Text="Add"/>
+
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

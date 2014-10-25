@@ -1,0 +1,50 @@
+﻿@using RDN.Models.Account
+@model LostAccountModel
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Recover Password";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<div class="recoverPassContainer">
+    <div class="signUpTitle">
+        Recover Your Password</div>
+    <div class="signUpDesc">
+        Help Us Recover Your Password By Filling Out the Form Below</div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "Could Not Find Your Email.")
+      
+        <div>
+            <fieldset>
+                <table class="suTable">
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Email)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.Email)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Email)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                        </td>
+                        <td class="suRTD">
+                            <input class="primary" type="submit" value="Search" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Html.DisplayTextFor(m => m.ConfirmationMessage)
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                </p>
+            </fieldset>
+        </div>
+    }
+</div>

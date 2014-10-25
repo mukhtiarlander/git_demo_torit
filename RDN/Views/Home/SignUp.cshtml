@@ -1,0 +1,151 @@
+﻿@using RDN.Models.Account
+@model RegisterModel
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Sign Up";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div class="signUpLeftContainer">
+    <div class="frontPageItem">
+        <div class="signUpPageTitle">
+            RDNation helps you connect with your fans, manage your teams and view your stats.
+        </div>
+        <div class="frontDescription">
+            <img src="@Url.Content("~/Content/Rollerball_pink_s500.png")" class="signUpImg" />
+        </div>
+    </div>
+</div>
+<div class="signUpContainer">
+    <div class="signUpTitle">
+        Sign Up
+    </div>
+    <div class="signUpDesc">
+        Skate As a Team, Track As a Sport, Love Derby
+    </div>
+    <hr />
+    @using (Html.BeginForm("SignUp", "Home", FormMethod.Post, new { @id = "signUp" }))
+    {
+        @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+        if (Model != null && Model.Errors != null && Model.Errors.Count > 0)
+        {
+        <p>
+            @foreach (var error in Model.Errors)
+            { 
+                <span style="color: red;">@error</span><br />
+            }
+        </p>
+        }
+        <div>
+            <fieldset>
+                <table class="suTable">
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.IsConnectedToRollerDerby)
+                        </td>
+                        <td class="suRTD">
+                            @Html.CheckBoxFor(m => m.IsConnectedToRollerDerby, new { onchange = "IsConnectedToDerby();" })
+                        </td>
+                    </tr>
+                    <tr id="derbyNameRow">
+                        <td class="suLTD">
+                            <img class="displayNone floatLeft" id="loadingDerbyName" src="@Url.Content("~/Content/loading_lg.gif")"  />
+                            @Html.LabelFor(m => m.DerbyName)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.DerbyName, new { onchange = "SearchForDerbyName(this);" })
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.DerbyName)</span>
+                        </td>
+                    </tr>
+                    <tr class="derbyNameRows">
+                        <td colspan="2" id="signUpFindDerbyNameHeader" class="b"></td>
+                    </tr>
+                    <tr class="derbyNameRows">
+                        <td class="suLTD"></td>
+                        <td class="suRTD" id="signUpFindDerbyName"></td>
+                    </tr>
+                    <tr id="firstNameRow">
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Firstname)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.Firstname)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Firstname)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Email)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.Email)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Email)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.ConfirmEmail)
+                        </td>
+                        <td class="suRTD">
+                            @Html.TextBoxFor(m => m.ConfirmEmail)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.ConfirmEmail)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD">
+                            @Html.LabelFor(m => m.Password)
+                        </td>
+                        <td class="suRTD">
+                            @Html.PasswordFor(m => m.Password)
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Password)</span>
+                        </td>
+                    </tr>
+                    <tr id="genderRow">
+                        <td class="suLTD">@Html.LabelFor(m => m.Gender)
+                        </td>
+                        <td class="suRTD">
+                            @Html.DropDownListFor(x => x.Gender, new SelectList(ViewBag.Genders, "Value", "Text"))
+                           
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Gender)</span>
+                        </td>
+                    </tr>
+                    <tr id="positionRow">
+                        <td class="suLTD">@Html.LabelFor(m => m.PositionType)
+                        </td>
+                        <td class="suRTD">
+                            @Html.DropDownListFor(x => x.PositionType, new SelectList(ViewBag.Positions, "Value", "Text"))
+                            
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.PositionType)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="suLTD"></td>
+                        <td class="suRTD">
+                            <input class="primary" type="submit" value="Sign Up" />
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                </p>
+            </fieldset>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IsConnectedToDerby();
+    });
+    $("#signUp").validate({
+        rules: {
+            DerbyName: "required",
+            Firstname: "required",
+            Email: "required",
+            ConfirmEmail: "required",
+            Password: "required",
+            PositionType: "required"
+        }
+    });
+</script>

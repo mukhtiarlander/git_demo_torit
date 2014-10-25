@@ -1,0 +1,97 @@
+﻿@model List<RDN.Library.Classes.EmailServer.SubscriptionFactory>
+@{
+    ViewBag.Title = "Subscriber List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    
+}
+@helper Truncate(string input, int length = 15)
+{
+    if (input != null)
+    {
+    if (input.Length <= length)
+    {
+    @input
+    }
+    else
+    {
+    @input.Substring(0, length)<text>...</text>
+    }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+  
+
+ 
+<div class="fixedContainer">
+     < <a  href="@Url.Content("~/subscriptions/Lists")">All Subscriptions</a>
+    <div class="fixedlinksContainter">
+       
+    </div>
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Subscribers in  @ViewBag.Name Subscription Type:  @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Library.DataModels.EmailServer.Enums.SubscriberTypeEnum) @ViewBag.SubscriptionType)
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {                
+                <div class="navIcons">
+                    <a title="New Subscription" href="@Url.Content("~/subscriptions/subscriber/Add/"+ ViewBag.listId + "/" + @ViewBag.Name)">
+                        <img src="@Url.Content("~/Content/images/icons/Subscriber.png")" />Add
+                    </a>
+                </div>
+                if (@ViewBag.SubscriptionType == 0)
+                {
+                 <div class="navIcons">
+                    <a title="Email Blast" href="@Url.Content("~/subscriptions/email/blast/"+ ViewBag.listId + "/" + @ViewBag.Name)">
+                        <img src="@Url.Content("~/Content/images/icons/E-mail-Blast.png")" />Blast
+                    </a>
+                </div>
+                }
+            }
+        </div>
+        <div class="titleDescription">
+            Add and view Subscriptions for your league.
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="Sponsors">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Subscription Name</th>
+                      <th>Email/Phone</th>
+                       @*   <th>OptedOut</th>
+                        <th>OptedOutDateTime</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.listId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>
+                                <a href="@Url.Content("~/subscriptions/subscriber/Edit/"+ b.listId + "/" + @ViewBag.Name + "/" + b.SubscriberId )" > Edit </a> <span> / </span>
+                                <a href="@Url.Content("~/subscriptions/subscriber/View/"+ b.listId + "/" + @ViewBag.Name + "/" + b.SubscriberId )" > View </a>
+                            </td>
+
+                            <td>
+                                @Truncate(b.Name ,18)  
+                            </td> 
+                            <td> @Truncate(b.Data ,18) </td> 
+                          @*  <td> @b.OptedOut  </td>  
+                            <td> @b.OptedOutDateTime </td>  *@                     
+                       </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

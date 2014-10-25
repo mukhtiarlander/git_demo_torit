@@ -1,0 +1,86 @@
+﻿@model List<RDN.Library.Classes.League.Organization>
+@{
+    ViewBag.Title = "Designation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    
+}
+@helper Truncate(string input, int length = 15)
+{
+    if (input != null)
+    {
+    if (input.Length <= length)
+    {
+    @input
+    }
+    else
+    {
+    @input.Substring(0, length)<text>...</text>
+    }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+<div class="fixedContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Designation For The League Organizations
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {                
+                <div class="navIcons">
+                    <a title="Add Designation" href="@Url.Content("~/league/organization/Designation/Add")">
+                        <img src="@Url.Content("~/Content/images/icons/designation.png")"  />Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="titleDescription">
+            Here you can setup Designations for your league Organization and manage .
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable listMedTable" id="Designation">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Designation Title
+                        </th>
+                        <th>Rank
+                        </th>
+                        <th>Note
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.DesignationId % 2 == 0 ? "tr1" : "tr0")">
+                            <td>  
+                                    <a href="@Url.Content("~/league/organization/designation/edit/" + b.DesignationId + "/" + b.LeagueId.ToString().Replace("-", ""))" >Edit </a> <span> / </span> <a href="@Url.Content("~/league/organization/designation/details/" + b.DesignationId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>   
+                            </td>
+                            <td>
+                                @Truncate(b.DesigTitle)
+                            </td>
+
+                            <td>  
+                                @Truncate(b.DesigLavel)
+                            </td>
+                            <td>
+                                @b.ShortNote
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

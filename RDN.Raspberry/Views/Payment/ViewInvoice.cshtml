@@ -1,0 +1,269 @@
+﻿@using RDN.Raspberry.Models.Utilities
+@model RDN.Library.Classes.Payment.Classes.Display.DisplayInvoice
+@{
+    ViewBag.Title = "View invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset>
+    <legend>Status</legend>
+    <table>
+        <tr>
+            <td>Invoice created</td>
+            <td>@Model.Created.ToString("MM/dd/yyyy")</td>
+        </tr>
+        <tr>
+            <td>Invoice status</td>
+            <td>@Model.InvoiceStatus.ToString() (Updated: @Model.InvoiceStatusUpdated)</td>            
+        </tr>
+        <tr>
+            <td>Actions</td>
+            <td>View logs - Charge - Ship - Archive</td>
+        </tr>
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>Financial</legend>
+    <table>
+        <tr>
+            <td>Type:</td>
+            <td>subscription and items or just items or just subscription</td>
+            <td style="width: 40px;">&nbsp;</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Total incl tax:</td>
+            <td>@Model.TotalIncludingTax.ToString() @Model.Currency.ToString()</td>
+            <td style="width: 40px;">&nbsp;</td>
+            <td>Total excl tax:</td>
+            <td>@Model.TotalBeforeTax.ToString() @Model.Currency.ToString()</td>
+        </tr>
+        <tr>
+            <td>Tax rate:</td>
+            <td>@Model.TaxRate.ToString()%</td>
+            <td style="width: 40px;">&nbsp;</td>
+            <td>Total tax:</td>
+            <td>@Model.Tax.ToString() @Model.Currency.ToString()</td>
+        </tr>
+        <tr>
+            <td>Credit company fee:</td>
+            <td>@Model.CreditCardCompanyProcessorDeductedFee.ToString() @Model.Currency.ToString()</td>
+            <td style="width: 40px;">&nbsp;</td>
+            <td>RDN fee:</td>
+            <td>@Model.Tax.ToString() @Model.Currency.ToString()</td>
+        </tr>
+        <tr>
+            <td>Shipping:</td>
+            <td>@Model.ShippingCost.ToString() @Model.Currency.ToString()</td>
+            <td style="width: 40px;">&nbsp;</td>
+            <td>Shipping method:</td>
+            <td>@Model.ShippingType.ToString()</td>
+        </tr>
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>Note</legend>
+    @Model.Note.ToMvcDisplayRegardlessOfNull("No note")
+</fieldset>
+
+@if (Model.Subscription != null)
+{
+    <fieldset>
+        <legend>Subscription</legend>
+        <table>
+            <tr>
+                <td>Name (art.no)</td>
+                <td>@Model.Subscription.Name (@Model.Subscription.ArticleNumber)</td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td>@Model.Subscription.Description</td>
+            </tr>
+            <tr>
+                <td>Subscription period:</td>
+                <td>@Model.Subscription.SubscriptionPeriod.ToString()</td>
+            </tr>
+            <tr>
+                <td>Subscription recurring price:</td>
+                <td>@Model.Subscription.Price.ToString()</td>
+            </tr>
+            <tr>
+                <td>Valid until:</td>
+                <td>@Model.Subscription.ValidUntil.ToString("MM/dd/yyyy")</td>
+            </tr>
+        </table>
+    </fieldset>    
+}
+
+
+<fieldset>
+    <legend>Items</legend>
+    <table>
+        @foreach (var item in Model.Items)
+        {        
+            <tr>
+                <td>Name (art.no)</td>
+                <td>@item.Name (@item.ArticleNumber)</td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td>@item.Description</td>
+            </tr>
+            <tr>
+                <td>Quantity:</td>
+                <td>@item.Quantity.ToString()</td>
+            </tr>            
+            <tr>
+                <td>Weight:</td>
+                <td>@item.Weight.ToString() lbs</td>
+            </tr>
+            if(item.Quantity > 1)
+            {
+                <tr>
+                    <td>Price per item:</td>
+                    <td>@((item.Price / item.Quantity).ToString())</td>
+                </tr>
+            }
+            <tr>
+                <td>Total:</td>
+                <td>@item.Price.ToString()</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width: 8px;"></td>
+            </tr>
+        }
+    </table>
+    <table>
+        <tr>
+            <td>Total number of items</td>
+            <td>@Model.Items.Count.ToString()</td>
+        </tr>
+        <tr>
+            <td>Total weight</td>
+            <td>@Model.Items.Sum(x => x.Weight).ToString()</td>
+        </tr>
+        <tr>
+            <td>Total amount</td>
+            <td>@Model.Items.Sum(x => x.Price)</td>
+        </tr>
+    </table>
+</fieldset>
+
+<div style="width: 100%">
+    <fieldset style="float: left;">
+        <legend>Billing address</legend>
+        @if (Model.InvoiceBilling != null)
+        {
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td>@Model.InvoiceBilling.Name.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Company name</td>
+                    <td>@Model.InvoiceBilling.CompanyName.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Street</td>
+                    <td>@Model.InvoiceBilling.Street.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Street 2</td>
+                    <td>@Model.InvoiceBilling.Street2.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>State (State code)</td>
+                    <td>@Model.InvoiceBilling.State.ToMvcDisplayRegardlessOfNull(defaultValueIfNull: "--") (@Model.InvoiceBilling.StateCode.ToMvcDisplayRegardlessOfNull())</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>@Model.InvoiceBilling.City.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Zip</td>
+                    <td>@Model.InvoiceBilling.Zip.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td>@Model.InvoiceBilling.Country.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Model.InvoiceBilling.Email.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td>@Model.InvoiceBilling.Phone.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Fax</td>
+                    <td>@Model.InvoiceBilling.Fax.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <text>No billing address found</text>
+        }
+    </fieldset>
+    <fieldset style="float: left;">
+        <legend>Shipping address</legend>
+        @if (Model.InvoiceShipping != null)
+        {
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td>@Model.InvoiceShipping.Name.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Company name</td>
+                    <td>@Model.InvoiceShipping.CompanyName.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Street</td>
+                    <td>@Model.InvoiceShipping.Street.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Street 2</td>
+                    <td>@Model.InvoiceShipping.Street2.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>State (State code)</td>
+                    <td>@Model.InvoiceShipping.State.ToMvcDisplayRegardlessOfNull(defaultValueIfNull: "--") (@Model.InvoiceShipping.StateCode.ToMvcDisplayRegardlessOfNull())</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>@Model.InvoiceShipping.City.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Zip</td>
+                    <td>@Model.InvoiceShipping.Zip.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td>@Model.InvoiceShipping.Country.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Model.InvoiceShipping.Email.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td>@Model.InvoiceShipping.Phone.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+                <tr>
+                    <td>Fax</td>
+                    <td>@Model.InvoiceShipping.Fax.ToMvcDisplayRegardlessOfNull()</td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <text>No shipping address found</text>
+        }
+    </fieldset>
+    <div style="clear: left;"></div>
+</div>

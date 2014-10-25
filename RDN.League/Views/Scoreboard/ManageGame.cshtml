@@ -1,0 +1,127 @@
+﻿@model RDN.Library.Classes.Game.Game
+@{
+    ViewBag.Title = "Manage Game For " + @Model.GameName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Manage Your Live @Model.GameName Game
+        </div>
+        <div class="clear">
+        </div>
+        <div>
+            <b>First Time? Please Read:</b> While using the Scoreboard, we allow you to manage
+            the content online for the scoreboard. The scoreboard automatically sends the entire
+            game to our servers. Here we save for both using it for later as well as displaying
+            it LIVE to the world. Below, you have those options.
+        </div>
+        <div class="manageGamePanel">
+            <div class="manageGameTitle">
+                Publish Your Live Game
+            </div>
+            @if (Model.IsGamePublishedOnline)
+            { 
+                <div>
+                    Game has been published online for the world the see.
+                    <br />
+                    <br />
+                    <div class="manageGameLink">
+                        <a target="_blank" href="http://rdnation.com/roller-derby-game/@Model.GameId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GameName)/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team1Name)/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team2Name)">
+                            Your Game Can Be Seen LIVE ONLINE here </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                using (Html.BeginForm("PublishGameOnline", "Scoreboard"))
+                { 
+                <div>
+                    You have the ability publish this game ONLINE. It will show all the stats LIVE to
+                    the world, just as how ESPN or any other television network and website shows their
+                    stats of their broadcasted games. You will be shown a URL once posted live online.
+                    <br />
+                    <br />
+                    <input type="submit" class="primary" value="Publish Game
+                    Online" />
+                    Once Live, You cannot remove the game from Live View until it is over.
+                </div>
+                @Html.HiddenFor(x => x.GameId)
+                @Html.HiddenFor(x => x.PrivateKeyForGame)
+                }
+            }
+        </div>
+        <div class="manageGamePanel">
+            <div class="manageGameTitle">
+                Manage Your Game
+            </div>
+            <div>
+                Manage your game, connect the players to their profiles and update details including
+                adding to a tournament of games.
+                <br />
+                <br />
+                <div class="manageGameLink">
+                    <a target="_blank" href="@Url.Content("~/game/manage/" + Model.PrivateKeyForGame.ToString().Replace("-", "") + "/" + Model.GameId.ToString().Replace("-", ""))">
+                        Manage Your Game Here</a>
+                </div>
+            </div>
+        </div>
+        <div class="manageGamePanel">
+         
+        </div>
+        <div class="manageGamePanel">
+            <div class="manageGameTitle">
+                Owner Of Game
+            </div>
+            You have been assigned the Ownership of the game record on our server. You will
+            be allowed LATER to transfer the ownership or give your league and your federation
+            more access to this game.
+        </div>
+        <div class="manageGamePanel">
+            <div class="manageGameTitle">
+                Links For Silverlight Streaming
+            </div>
+            @using (Html.BeginForm("EmbedSilverlightWithGame", "Scoreboard"))
+            { 
+                    <table class="manageGameTable">
+                        <tr>
+                            <td class="b">
+                                Silverlight Url/Mobile:
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.StreamingUrlSilverlight)/@Html.TextBoxFor(x => x.StreamingMobileUrlSilverlight)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                RDNation.com supports <a href="http://www.iis.net/media/experiencesmoothstreaming"
+                                    target="_blank">silverlight streaming of games</a>.
+                                <br />
+                                We use these inputs to define Silverlight Urls to stream online.
+                                <br />
+                                For more information on how RDNation.com can LIVE stream your game online, please
+                                email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.
+                                <br />
+                                Examples: http://host/LiveStream.isml/manifest
+                                <br />
+                                http://host/LiveStream.isml/manifest(format=m3u8-aapl).m3u8
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" id="removeSilverlight" name="removeSilverlight" class="remove"
+                                    value="Remove Silverlight" />
+                            </td>
+                            <td>
+                                <input type="submit" id="addSilverlight" name="addSilverlight" class="primary" value="Include Silverlight In Game" />
+                            </td>
+                        </tr>
+                    </table>
+                    @Html.HiddenFor(x => x.GameId)
+                @Html.HiddenFor(x => x.PrivateKeyForGame)
+            }
+        </div>
+    </div>
+</div>

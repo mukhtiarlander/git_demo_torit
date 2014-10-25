@@ -1,0 +1,56 @@
+﻿<div id="wrap">
+    <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div data-ng-include src="'views/shared/_navsettings.html'"></div>
+    <div class="container admin-views-main admin-views-settings-pingservices" data-ng-controller="SettingsController">
+        <div class="page-header clearfix">
+            <h2 class="page-title pull-left">
+                {{lbl.pingService}}
+                <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+            </h2>
+            <button class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>{{lbl.save}}</button>
+        </div>
+        <div id="modal" class="modal hide fade in" style="display: none;">
+            <div class="modal-header">Add new service<a class="close" data-dismiss="modal">x</a></div>
+            <div class="modal-body">
+                <input type="text" class="input-xlarge" id="txtPingService" data-bind="hasfocus: true" />
+                <div>
+                    <button data-bind="click: save" class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </div>
+            <div class="modal-footer">&nbsp;</div>
+        </div>
+
+        <h2 class="page-title" data-bind="text: title"></h2>
+
+        <div class="well">
+            <div class="toolbar-grid clearfix">
+                <button data-bind="text: lbl.add, click: addService" data-target="#modal" data-toggle="modal" class="btn btn-sm btn-success" type="button"><i class="fa-plus"></i>Add</button>
+                <button data-bind="text: lbl.deleteSelected, click: deleteService" class="btn btn-sm btn-danger" type="button"><i class="fa-remove"></i>Delete</button>
+            </div>
+
+            <table id="PingServicesList" class="table table-blogengine table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="chkSelectAll" />
+                        </th>
+                        <th class="table-item-title table-item-w60">Service</th>
+                        <th>Tools</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: pingServices">
+                    <tr>
+                        <td>
+                            <input type="checkbox" data-bind="checked: IsSelected" />
+                        </td>
+                        <td class="item-title" data-bind="text: OptionValue"></td>
+                        <td class="tools tools-medium">
+                            <button data-bind="click: $parent.editService" data-target="#modal" data-toggle="modal" class="btn btn-sm btn-info" type="button"><i class="fa-pencil"></i>Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

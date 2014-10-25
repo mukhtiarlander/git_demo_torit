@@ -1,0 +1,361 @@
+﻿<Window x:Class="RDNScoreboard.Views.DefaultClockView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="ClockWindow"
+        Closing="ClockWindow_Closing"
+        ResizeMode="CanResizeWithGrip"
+        Icon="/RDNScoreboard;component/Images/Rollerball_pink_s100.ico"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        MouseEnter="ClockWindow_MouseEnter"
+        MouseLeave="ClockWindow_MouseLeave"
+        Background="{DynamicResource ClockViewBackgroundBrush}"
+        Width="800"
+        Height="600"
+        xmlns:ImageBehavior="clr-namespace:RDNScoreboard.Controls">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" x:Name="OpenCloseControls" Margin="0,5,5,0" Panel.ZIndex="9999"
+                    Height="300" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="wikiHelpLink" Grid.Row="0"
+                    Click="wikiHelpLink_Click">Online Help</Button>
+            <TextBlock Text="Themes: " Grid.Row="1"
+                       VerticalAlignment="Center"
+                       Padding="5"
+                       x:Name="themeTextBox" />
+
+            <ComboBox x:Name="ChooseThemesPanel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
+                      SelectionChanged="ChooseThemesPanel_SelectionChanged"
+                      Width="150"
+                      Margin="0,0,15, 0">
+                <ComboBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+
+                    </GroupStyle>
+                </ComboBox.GroupStyle>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Background Pic: " Grid.Row="2" VerticalAlignment="Center" Padding="5" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.Column="1">
+                <TextBox x:Name="uploadFileTextBox" Width="100"></TextBox>
+                <Button x:Name="uploadFileBrowse" Width="100" Content="Browse" Click="uploadFileBrowse_Click"></Button>
+                <Button x:Name="deleteFile" Width="30" Content="X" Click="deleteFile_Click"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+                <TextBlock x:Name="ChangeViewButton"
+                       Text="2"
+                       FontFamily="Webdings"
+                       Foreground="Gray"
+                       Margin="0"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Right"
+                       MouseLeftButtonUp="ChangeViewButtonMouseLeftButtonUp" />
+                <TextBlock x:Name="MinimizeButton"
+                       Text="0"
+                       FontFamily="Webdings"
+                       Foreground="Gray"
+                       Margin="5,0,0,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       MouseLeftButtonUp="MinimizeButtonMouseLeftButtonUp" />
+                <TextBlock x:Name="MaximizeButton"
+                       Text="1"
+                       FontFamily="Webdings"
+                       Foreground="Gray"
+                       Margin="5,0,0,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       MouseLeftButtonUp="MaximizeButtonMouseLeftButtonUp" />
+                <TextBlock x:Name="CloseButton"
+                       Text="r"
+                       FontFamily="Webdings"
+                       Foreground="Gray"
+                       Margin="5,0,0,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       MouseLeftButtonUp="CloseButtonMouseLeftButtonUp" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Height="200"
+              VerticalAlignment="Top"
+              Background="Transparent"
+              Panel.ZIndex="999"
+              MouseLeftButtonDown="TitleBarGrid_MouseLeftButtonDown"
+              x:Name="TitleBarGrid">
+        </Grid>
+
+        <Grid x:Name="DefaultScoreboard">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*" />
+                <ColumnDefinition Width="30*" />
+                <ColumnDefinition Width="30*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="65*" />
+                <RowDefinition Height="25*" />
+            </Grid.RowDefinitions>
+
+            <Viewbox Stretch="Uniform"
+                     Grid.Column="0"
+                     Grid.Row="0"
+                     Grid.ColumnSpan="3">
+                <Label  Content="Scrimmage"
+                        x:Name="gameNameLblDefault"
+                        Style="{DynamicResource GameNameTitle}"></Label>
+            </Viewbox>
+            <!--Left Column-->
+            <Grid Grid.Column="0" x:Name="LeftColumnDefault"
+                  Grid.Row="1" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="101*" />
+                    <RowDefinition Height="68*" />
+                    <RowDefinition Height="108*" />
+                    <RowDefinition Height="152*" />
+                    <RowDefinition Height="76*" />
+                </Grid.RowDefinitions>
+                <Viewbox Stretch="Uniform"
+                         Grid.Row="1"
+                         Grid.Column="0">
+                    <Label  Content="Home"
+                            HorizontalContentAlignment="Center"
+                            x:Name="team1LblDefault"
+                            Style="{DynamicResource TeamLeftNameLabel}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="2"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Label   Content="0"
+                             x:Name="team1ScoreLblDefault"
+                             ClipToBounds="True"
+                             Style="{DynamicResource TeamScoreLabelsMainScoreBoard}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="2"
+                         Grid.Column="0"
+                         VerticalAlignment="Bottom"
+                         HorizontalAlignment="Right"
+                         Stretch="Uniform">
+                    <Label   Content="0"
+                             x:Name="team1JamScoreLblDefault"
+                             Style="{DynamicResource TeamJamScoreLabelsMainScoreBoard}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="3"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Image   x:Name="team1JammerimgDefault"></Image>
+                </Viewbox>
+                <Viewbox Grid.Row="4"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Label   Content="Lead Jammer"
+                             x:Name="team1JammerLblDefault"
+                             Style="{DynamicResource TeamJammerLabelsMainScoreBoard}" Visibility="Hidden"></Label>
+                </Viewbox>
+
+                <Viewbox Grid.Row="0"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Image x:Name="team1imgDefault"></Image>
+                </Viewbox>
+
+
+            </Grid>
+            <!--Middle Column-->
+            <Grid Grid.Column="1" Grid.Row="1" x:Name="MiddleGrid" Grid.RowSpan="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90*" />
+                    <RowDefinition Height="100*" />
+                    <RowDefinition Height="90*" />
+                    <RowDefinition Height="100*" />
+                    <RowDefinition Height="100*" />
+                </Grid.RowDefinitions>
+                <Viewbox Stretch="Uniform"
+                         Grid.Column="0"
+                         Grid.Row="0">
+                    <Label  Content="Period"
+                            HorizontalContentAlignment="Center"
+                            x:Name="PeriodLblDefault"
+                            Style="{DynamicResource JamPeriodMainLabelsScoreBoard}"></Label>
+                </Viewbox>
+
+                <Grid Grid.Column="0"
+                      Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0"
+                             Grid.Row="0"
+                             Grid.RowSpan="3"
+                             Grid.ColumnSpan="3">
+                        <Label  Content="0:00"
+                                HorizontalContentAlignment="Center"
+                                x:Name="PeriodTimeLblDefault"
+                                Style="{DynamicResource MainTimeLabelsScoreBoard}"></Label>
+                    </Viewbox>
+                </Grid>
+
+                <Viewbox Stretch="Uniform"
+                         Grid.Row="2">
+                    <Label  Content="Jam"
+                            HorizontalContentAlignment="Center"
+                            x:Name="JamLblDefault"
+                            Style="{DynamicResource JamPeriodMainLabelsScoreBoard}"></Label>
+                </Viewbox>
+                <Viewbox Stretch="Uniform"
+                         Grid.Row="3">
+                    <Label  Content="0:00"
+                            HorizontalContentAlignment="Center"
+                            x:Name="JamTimeLblDefault"
+                            Style="{DynamicResource MainTimeLabelsScoreBoard}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="4"
+                         Stretch="Uniform"
+                         x:Name="TimeOutsViewBox">
+                    <Grid x:Name="TeamLeadGridDefault">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Viewbox Stretch="Uniform"
+                                 Grid.Row="0"
+                                 Grid.Column="0"
+                                 Margin="0,0,7,0">
+                            <Label x:Name="timeOutsTeam1Default"
+                                   Content="0"
+                                   Foreground="White"
+                                   VerticalAlignment="Top"
+                                   Style="{DynamicResource TeamJammerLabelsMainScoreBoard}" />
+                        </Viewbox>
+
+                        <Viewbox Stretch="Uniform"
+                                 Grid.Row="0"
+                                 Grid.Column="2"
+                                 Margin="7,0,0,0">
+                            <Label  x:Name="timeOutsTeam2Default"
+                                    Content="0"
+                                    Foreground="White"
+                                    Style="{DynamicResource TeamJammerLabelsMainScoreBoard}" />
+                        </Viewbox>
+                        <Viewbox Stretch="Uniform"
+                                 Grid.Row="1"
+                                 Grid.Column="0"
+                                 Margin="0,0,7,0">
+                            <TextBlock x:Name="JammerLeadLeftDefault"
+                                       Text="7"
+                                       FontFamily="Webdings"
+                                       Foreground="White"
+                                       VerticalAlignment="Top" Visibility="Hidden" />
+                        </Viewbox>
+
+                        <Viewbox Stretch="Uniform"
+                                 Grid.Row="1"
+                                 Grid.Column="2"
+                                 Margin="7,0,0,0">
+                            <TextBlock  x:Name="JammerLeadRightDefault"
+                                        Text="8"
+                                        FontFamily="Webdings"
+                                        Foreground="White"
+                                        Visibility="Hidden" />
+                        </Viewbox>
+
+                    </Grid>
+                </Viewbox>
+            </Grid>
+            <Grid Grid.Column="2" x:Name="RightColumnDefault" Grid.RowSpan="2"
+                  Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="101*" />
+                    <RowDefinition Height="68*" />
+                    <RowDefinition Height="108*" />
+                    <RowDefinition Height="152*" />
+                    <RowDefinition Height="76*" />
+                </Grid.RowDefinitions>
+                <Viewbox Stretch="Uniform"
+                         Grid.Row="1">
+                    <Label  Content="Away"
+                            HorizontalContentAlignment="Center"
+                            x:Name="team2LblDefault"
+                            Style="{DynamicResource TeamRightNameLabel}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="2"
+                         Stretch="Uniform">
+                    <Label   Content="0"
+                             x:Name="team2ScoreLblDefault"
+                             ClipToBounds="True"
+                             Style="{DynamicResource TeamScoreLabelsMainScoreBoard}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="2"
+                         Grid.Column="0"
+                         VerticalAlignment="Bottom"
+                         HorizontalAlignment="Right">
+                    <Label   Content="0"
+                             x:Name="team2JamScoreLblDefault"
+                             Style="{DynamicResource TeamJamScoreLabelsMainScoreBoard}"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="3"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Image  x:Name="team2JammerimgDefault"></Image>
+                </Viewbox>
+                <Viewbox Grid.Row="4"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Label   Content="Lead Jammer"
+                             x:Name="team2JammerLblDefault"
+                             Style="{DynamicResource TeamJammerLabelsMainScoreBoard}" Visibility="Hidden"></Label>
+                </Viewbox>
+                <Viewbox Grid.Row="0"
+                         Grid.Column="0"
+                         Stretch="Uniform">
+                    <Image x:Name="team2imgDefault"></Image>
+                </Viewbox>
+
+
+            </Grid>
+
+            <Image    x:Name="lineUpImageDefault"                     
+                     Margin="10px, 0px, 10px, 0px"
+                     VerticalAlignment="Bottom"
+                    
+                     Grid.Column="0"
+                     Grid.ColumnSpan="3"
+                     Grid.Row="2"></Image>
+        </Grid>
+     
+    </Grid>
+</Window>

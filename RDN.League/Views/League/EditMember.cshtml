@@ -1,0 +1,468 @@
+﻿@using RDN.Library.Cache
+@using RDN.Library.Classes.Federation.Enums
+@using RDN.Library.Classes.League.Enums
+@model RDN.Portable.Classes.Account.Classes.MemberDisplay
+@{
+    ViewBag.Title = "Edit " + Model.DerbyName + " (" + Model.PlayerNumber + ")";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+}
+@{
+    var ClassTypes = from MADEClassRankEnum d in Enum.GetValues(typeof(MADEClassRankEnum))
+                     select new { ID = (int)d, Name = d.ToString() };
+    var OwnerTypes = from FederationOwnerEnum d in Enum.GetValues(typeof(FederationOwnerEnum))
+                     select new { ID = (int)d, Name = d.ToString() };
+    var LeagueOwnerTypes = from LeagueOwnerEnum d in Enum.GetValues(typeof(LeagueOwnerEnum))
+                           select new { ID = (int)d, Name = d.ToString() };
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a  href="@Url.Content("~/league/members/view/all")">View Members</a>
+        </div>
+    </div>
+    <div class="fixedCenterContainter2  ">
+        <div class="vmChanges">
+            <a target="_blank" href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.DerbyName))">View Changes</a>
+        </div>
+        @using (Html.BeginForm("EditMember", "League", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        { 
+            <div class="vmPicture">
+                @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                { 
+                    <img alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                }
+                else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                { 
+                    <img src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                }
+                <input type="file" name="file" id="file" class="fileUpload" />
+            </div>
+            <div class="vmMemberDescription">
+
+                <div class="vmContactLine">
+                    <div class="usual">
+                        <ul class="idTabs">
+                            <li><a href="#Personal">Personal
+                            </a></li>
+                            <li><a href="#Skating">Skating
+                            </a></li>
+                            <li><a href="#Contacts">Contacts</a></li>
+                            <li><a href="#League">League
+                            </a></li>
+                            <li><a href="#Federation">Federation</a></li>
+                        </ul>
+                        <div id="Personal" class="usualInner">
+                            <table class="editMemberTable">
+                                <tr>
+                                    <td class="b">Derby Name:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.DerbyName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Derby Number:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.PlayerNumber)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">First Name:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.Firstname)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Last Name:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.LastName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Phone Number:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.PhoneNumber)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Email Address:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.Email)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Day Job:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.DayJob) <span class="i">For use by the league in case they need your expertise.</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Date Of Birth:
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("DOB", Model.DOB.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker" })
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </div>
+
+                        <div id="Skating" class="usualInner">
+                            @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
+                            {
+                                <table class="editSkatingTable">
+                                    <tr>
+                                    <td class="b">Date Started Skating:
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                    </td>
+                                        <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Date Stopped Skating:
+                                    </td>
+                                    <td>
+                                        @if (Model.StoppedSkating.HasValue)
+                                        { 
+                                            @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker", @Value = Model.StoppedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker" })
+                                        }
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                    <tr>
+                                        <td class="b">Insurance Number WFTDA/Expires:
+                                        </td>
+                                        <td>@Html.TextBoxFor(x => x.InsuranceNumWftda)
+                                        </td>
+                                        <td>
+                                            @if (Model.InsuranceNumWftdaExpires.HasValue)
+                                            { 
+                                                @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                            }
+                                            else
+                                            { 
+                                                @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker" })
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Insurance Number USARS/Expires:
+                                        </td>
+                                        <td>@Html.TextBoxFor(x => x.InsuranceNumUsars)
+                                        </td>
+                                        <td>@if (Model.InsuranceNumUsarsExpires.HasValue)
+                                            { 
+                                            @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                            }
+                                            else
+                                            { 
+                                            @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker" })
+                                            } </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Insurance Number CRDI/Expires:
+                                        </td>
+                                        <td>@Html.TextBoxFor(x => x.InsuranceNumCRDI)
+                                        </td>
+                                        <td>@if (Model.InsuranceNumCRDIExpires.HasValue)
+                                            { 
+                                            @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                            }
+                                            else
+                                            { 
+                                            @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker" })
+                                            } </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Insurance Number Other/Expires:
+                                        </td>
+                                        <td>@Html.TextBoxFor(x => x.InsuranceNumOther)
+                                        </td>
+                                        <td>@if (Model.InsuranceNumOtherExpires.HasValue)
+                                            { 
+                                            @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                            }
+                                            else
+                                            { 
+                                            @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker" })
+                                            } </td>
+                                    </tr>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="subPleaseSubscribeMessage">Subscribe to RDNation to store Insurance Numbers of each skater in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></div>
+                            }
+                        </div>
+                        <div id="Contacts" class="usualInner">
+                            <div class="vmTabTitle">
+                                Contacts of Members
+                            </div>
+                            <div>Only Managers of the league can see this information.</div>
+                            <br />
+                            @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
+                            {
+                                if (Model.MemberContacts.Count == 0)
+                                { 
+                                <div>Member has no personal contacts</div>
+                                <br />
+                                
+                                }
+                                <a href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))">Add Contacts To Member</a>
+                                <br />
+                                <br />
+                                <div class="contactsContainer">
+
+                                    @foreach (var contact in Model.MemberContacts)
+                                    { 
+                                        <div class="contactBox" id="@contact.ContactId-div">
+                                            <table>
+                                                <tr>
+                                                    <td class="b">Name:</td>
+                                                    <td>
+                                                        @contact.Firstname @contact.Lastname
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Type:</td>
+                                                    <td>
+                                                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Email:</td>
+                                                    <td>
+                                                        @contact.Email
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Phone Number:</td>
+                                                    <td>
+                                                        @contact.PhoneNumber
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Address:<br />
+                                                        @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
+                                                        { 
+                                                            <a href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank">View Map</a>
+                                                        }</td>
+                                                    <td>
+                                                        @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
+                                                        { 
+                                                            @contact.Addresses.FirstOrDefault().Address1<br />
+                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Address2))
+                                                            { 
+                                                            @contact.Addresses.FirstOrDefault().Address2<br />
+                                                            }
+                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().CityRaw))
+                                                            { 
+                                                            @contact.Addresses.FirstOrDefault().CityRaw<br />}
+                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().StateRaw))
+                                                            { 
+                                                            @contact.Addresses.FirstOrDefault().StateRaw<br />
+                                                            }
+                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Zip))
+                                                            { 
+                                                            @contact.Addresses.FirstOrDefault().Zip<br />
+                                                            }
+                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Country))
+                                                            { 
+                                                            @contact.Addresses.FirstOrDefault().Country
+                                                            }
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    }
+                                </div>
+                                
+                            }
+                            else
+                            {
+                                <div class="subPleaseSubscribeMessage">Subscribe to RDNation to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
+                            }
+
+                        </div>
+                        <div id="Federation" class="usualInner">
+                            <ul>
+                                @foreach (var fed in Model.FederationsApartOf)
+                                { 
+                                    <li class="vmTeamName">
+                                        @fed.FederationName - Class: @fed.MADEClassRank
+                                        @*- Ownership: @Html.DropDownList("FEDOwner[" + fed.FederationId + "]", new SelectList(OwnerTypes, "ID", "Name", OwnerTypes.Where(x => x.Name == fed.OwnerType).FirstOrDefault().ID))*@
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="League" class="usualInner">
+
+                            <table>
+                                @foreach (var leag in Model.Leagues)
+                                { 
+                                    <tr>
+                                        <td class="b">Name: </td>
+                                        <td><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.Name) + "/" + leag.LeagueId.ToString().Replace("-", "") + "/")">
+                                            @leag.Name
+                                        </a></td>
+                                    </tr>@*
+                                    <tr>
+                                        <td class="b">Management Role:
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("LEAGUEOwner[" + leag.LeagueId + "]", new SelectList(LeagueOwnerTypes, "ID", "Name", LeagueOwnerTypes.Where(x => x.Name == leag.LeagueOwnerType).FirstOrDefault().ID))
+                                            - Assign to help manage your league
+                                        </td>
+                                    </tr>*@
+                                    <tr>
+                                        <td class="b">Is Inactive:</td>
+                                        <td>
+                                            @Html.CheckBox("LEAGUEIsInactive[" + leag.LeagueId + "]", leag.IsInactiveInLeague) - <a href="http://wiki.rdnation.com/Member_Information#League_Member_Information" target="_blank">Help</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Membership Date:</td>
+                                        <td>
+                                            @if (leag.MembershipDate.HasValue)
+                                            { 
+                                                @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", leag.MembershipDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker" })
+                                            }
+                                            else
+                                            { 
+                                                @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", "", new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker" })
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Departure Date:</td>
+                                        <td>
+                                            @if (leag.DepartureDate.HasValue)
+                                            { 
+                                                @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", leag.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker" })
+                                            }
+                                            else
+                                            { 
+                                                @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", "", new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker" })
+                                            }
+                                        </td>
+                                    </tr>
+                                            if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
+                                            {
+                                    <tr>
+                                        <td class="b">Skills Test Date:</td>
+                                        <td>
+                                            @if (leag.SkillsTestDate.HasValue)
+                                            { 
+                                                @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", leag.SkillsTestDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker" })
+                                            }
+                                            else
+                                            { 
+                                                @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", "", new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker" })
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Skater Class:
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")
+                                            <a href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)" >Add A Class</a> - Please <a href="http://wiki.rdnation.com/League_Member_Skater_Classes" target="_blank">read the wiki</a> to understand Class Types.
+                                        </td>
+                                    </tr>
+                                            }
+                                    <tr>
+                                        <td class="b alignTop">Notes:
+                                        </td>
+                                        <td>
+                                            @Html.TextArea(leag.LeagueId + "-LEAGUEMemberNotes", leag.NotesAboutMember)
+                                            <br />
+                                            These notes can only be seen by managers of the league.
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="divider"></div>
+                                        </td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        $('#@leag.LeagueId-LEAGUESkillsDate').datepicker({
+                                            required: false
+                                        });
+                                        $('#@leag.LeagueId-LEAGUEDepartureDate').datepicker({
+                                            required: false
+                                        });
+                                        $('#@leag.LeagueId-LEAGUEMembershipDate').datepicker({
+                                            required: false
+                                        });
+                                    </script>
+                                  
+                                }
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="clear">
+            </div>
+            
+            <div class="updateMemberButton">
+                @if (ViewBag.Saved)
+                { 
+                    <span class="addedSuccessfully">Updated Successfully!</span>
+                }
+                <input type="submit" class="primary" value="Update Member" />
+            </div>
+            @Html.HiddenFor(x => x.MemberId)
+            @Html.HiddenFor(x => x.CurrentLeagueId)
+        }
+        @using (Html.BeginForm("RemoveMember", "League"))
+        { 
+            <div class="removeMemberButton">
+                @if (ViewBag.Removed)
+                { 
+                    <span class="addedSuccessfully">Removed Successfully!</span>
+                }
+                <input type="submit" class="remove" onclick="return confirm('Really Remove Member?');"
+                    value="Remove Member From League" />
+            </div>
+            @Html.HiddenFor(x => x.MemberId)
+            @Html.HiddenFor(x => x.CurrentLeagueId)
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $('#StartedSkating').datepicker({
+        required: false
+    });
+    $('#StoppedSkating').datepicker({
+        required: false
+    });
+    $('#DOB').datepicker({
+        required: false
+    });
+    $('#InsuranceNumOtherExpires').datepicker({
+        required: false
+    });
+    $('#InsuranceNumUsarsExpires').datepicker({
+        required: false
+    });
+    $('#InsuranceNumWftdaExpires').datepicker({
+        required: false
+    });
+    $('#InsuranceNumCRDIExpires').datepicker({
+        required: false
+    });
+</script>

@@ -1,0 +1,106 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RDN.WP.View.MyLeague.Messages.MessagesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:con="clr-namespace:RDN.WP.Helpers.Converters"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
+            <con:VisibilityConverter x:Key="VisibilityConverter" x:Name="VisibilityConverter" />
+        </Grid.Resources>
+        <!--Pivot Control-->
+        <phone:Pivot Title="Message Topic" x:Name="topicName">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="messages">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    
+                        <TextBox Grid.Row="1" TextWrapping="Wrap" Grid.ColumnSpan="2" Text="Write a Reply..." x:Name="ReplyText" GotFocus="ReplyText_GotFocus" LostFocus="ReplyText_LostFocus" AcceptsReturn="True"></TextBox>
+                    <Button Grid.Row="1" Grid.Column="1" x:Name="SendMessageBtn" Click="SendMessageBtn_Click">
+                     
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border Background="Purple" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <Image Source="../../../Assets/Icons/appbar.sendmessage.rest.png" 
+                               Width="50" 
+                               Height="40"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <phone:LongListSelector Grid.Row="0" Grid.ColumnSpan="2" x:Name="MessageList"  ItemsSource="{Binding}" BorderThickness="0"    Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,0" >
+                                    <TextBlock x:Name="FromName" Style="{StaticResource MessageViewFromName}"   Text="{Binding  Path=FromName}"></TextBlock>
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Height="75" Width="75" Grid.Column="0" VerticalAlignment="Top"  >
+                                            <Image.Source>
+                                                <BitmapImage UriSource="{Binding ThumbUrl}" CreateOptions="BackgroundCreation"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                                            <TextBlock x:Name="title" Style="{StaticResource MessageViewText}"   Text="{Binding  Path=MessageText}"></TextBlock>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                    
+                </Grid>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="recipients">
+                <phone:LongListSelector x:Name="RecipientsList"  ItemsSource="{Binding}" BorderThickness="0" Grid.Row="1"   Grid.Column="0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,0" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../../../Assets/Icons/read.png" Visibility="{Binding HasNotReadConversation, Converter={StaticResource VisibilityConverter}, ConverterParameter=Collapsed}" Height="35" Width="35" VerticalAlignment="Top" >
+                                    </Image>
+                                        <Image Source="../../../Assets/Icons/unread.png" Visibility="{Binding HasNotReadConversation, Converter={StaticResource VisibilityConverter}, ConverterParameter=Visible}" Height="35" Width="35" VerticalAlignment="Top" >
+                                    </Image>
+                                    <StackPanel >
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding  Path=DerbyName}"/>
+                                            <TextBlock Text=", "></TextBlock>
+                                            <TextBlock  Text="{Binding Path=Firstname}"></TextBlock>
+                                            <TextBlock  Text="{Binding Path=Lastname}"></TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+
+</phone:PhoneApplicationPage>

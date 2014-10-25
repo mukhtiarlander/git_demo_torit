@@ -1,0 +1,208 @@
+﻿@model RDN.Portable.Classes.Account.Classes.MemberDisplay
+@{
+    ViewBag.Title = "Edit " + Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + " Roller Derby Team";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var ClassTypes = from RDN.Library.Classes.Federation.Enums.MADEClassRankEnum d in Enum.GetValues(typeof(RDN.Library.Classes.Federation.Enums.MADEClassRankEnum))
+                     select new { ID = (int)d, Name = d.ToString() };
+    var OwnerTypes = from RDN.Library.Classes.Federation.Enums.FederationOwnerEnum d in Enum.GetValues(typeof(RDN.Library.Classes.Federation.Enums.FederationOwnerEnum))
+                     select new { ID = (int)d, Name = d.ToString() };
+    var MemberTypes = from RDN.Library.Classes.Federation.Enums.MemberTypeFederationEnum d in Enum.GetValues(typeof(RDN.Library.Classes.Federation.Enums.MemberTypeFederationEnum))
+                      select new { ID = (int)d, Name = d.ToString() };
+}
+<div class="fixedContainer">
+    <div class="fixedCenterContainter2">
+        <div class="vmChanges">
+            <a target="_blank" href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.DerbyName))">View Changes</a>
+        </div>
+        @using (Html.BeginForm("EditMember", "Federation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        { 
+            <div class="vmPicture">
+                @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                { 
+                    <img alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                }
+                else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                { 
+                    <img src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                }
+                <input type="file" name="file" id="file" class="fileUpload" />
+            </div>
+            <div class="vmMemberDescription">
+
+
+
+                <div class="vmContactLine">
+                    <div class="usual">
+                        <ul class="idTabs">
+                            <li><a href="#Personal">Personal</a></li>
+                            <li><a href="#Federation">Federation</a></li>
+                            <li><a href="#League">League</a></li>
+                        </ul>
+                        <div id="Personal" class="usualInner">
+                            <table class="editMemberTable">
+                                <tr>
+                                    <td class="b">Derby Name:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.DerbyName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Player Number:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.PlayerNumber)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">First Name:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.Firstname)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Last Name:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.LastName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Phone Number:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.PhoneNumber)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Email:
+                                    </td>
+                                    <td>@Html.TextBoxFor(x => x.Email)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Date Started Skating:
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Date Stopped Skating:
+                                    </td>
+                                    <td>
+                                        @if (Model.StoppedSkating.HasValue)
+                                        { 
+                                            @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker", @Value = Model.StoppedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker" })
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div id="Federation" class="usualInner">
+                            <table class="editMemberTable">
+                                @foreach (var fed in Model.FederationsApartOf)
+                                { 
+                                    <tr>
+                                        <td>
+                                            <b>@fed.FederationName</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Class:</td>
+                                        <td>@Html.DropDownList("CLASSRANK[" + fed.FederationId + "]", new SelectList(ClassTypes, "ID", "Name", ClassTypes.Where(x => x.Name == fed.MADEClassRank).FirstOrDefault().ID))
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Ownership:</td>
+                                        <td>@Html.DropDownList("FEDOwner[" + fed.FederationId + "]", new SelectList(OwnerTypes, "ID", "Name", OwnerTypes.Where(x => x.Name == fed.OwnerType).FirstOrDefault().ID))
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Type: </td>
+                                        <td>@Html.DropDownList("MEMBERTYPE[" + fed.FederationId + "]", new SelectList(MemberTypes, "ID", "Name", MemberTypes.Where(x => x.Name == fed.MemberType).FirstOrDefault().ID))
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Membership Date:</td>
+                                        <td>@Html.TextBox("MembershipDate-" + fed.FederationId, fed.MembershipDate.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker" })
+                                            <script type="text/javascript">
+                                                $('#MembershipDate-@fed.FederationId').datepicker({
+                                                    required: false
+                                                });
+                                            </script>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="b">Internal Membership Id:</td>
+                                        <td>@Html.TextBox("MembershipId" + fed.FederationId, fed.MembershipId)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                        <div id="League" class="usualInner">
+                            @foreach (var league in Model.Leagues)
+                            { 
+                                <div class="vmContactLine">
+                                    <span class="vmTeamName">
+                                        @if (league.LeagueId != new Guid()) { 
+                                        <a href="@Url.Content("~/Federation/League/" + league.LeagueId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name))">@league.Name</a>
+                                        }
+                                    </span>Move the Member To: @Html.DropDownList("NEWLEAGUE[" + league.LeagueId + "]", new SelectList(Model.LeaguesToChooseFrom, "LeagueId", "Name", league.LeagueId))
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+            
+            <div class="updateMemberButton">
+                @if (ViewBag.Saved)
+                { 
+                    <span class="addedSuccessfully">Updated Successfully!</span>
+                }
+                <input type="submit" class="primary" value="Update Member" />
+            </div>
+            @Html.HiddenFor(x => x.MemberId)
+        }
+        <div class="clear">
+        </div>
+        <br />
+        <br />
+        @using (Html.BeginForm("RemoveMember", "Federation"))
+        { 
+            
+            <div class="removeMemberButton">
+                @if (ViewBag.Removed)
+                { 
+                    <span class="addedSuccessfully">Removed Successfully!</span>
+                }
+                <input type="submit" class="remove" onclick="return confirm('Really Remove Member?');"
+                    value="Remove Member From Federation" />
+            </div>
+            @Html.HiddenFor(x => x.MemberId)
+        }
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/wmd.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/showdown.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $('#StartedSkating').datepicker({
+        required: false
+    });
+    $('#StoppedSkating').datepicker({
+        required: false
+    });
+</script>

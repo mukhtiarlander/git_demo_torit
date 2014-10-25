@@ -1,0 +1,364 @@
+﻿<Application 
+    x:Class="RDN.WP.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"    >
+
+    <!--Application Resources-->
+    <Application.Resources>
+        <local:LocalizedStrings xmlns:local="clr-namespace:RDN.WP" x:Key="LocalizedStrings"/>
+        <Style x:Key="MyLeagueTitle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,15,5,5"></Setter>
+            <Setter Property="FontSize" Value="35"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            
+        </Style>
+
+        <Style x:Key="Note" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <Style x:Key="RowTitle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,0,5,0"></Setter>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+        </Style>
+
+
+        <Style x:Key="RightColumnText" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,0,5,0"></Setter>
+        </Style>
+
+        <Style x:Name="VoteQuestionText" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Name="QuestionText" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Name="SmallTextBox" TargetType="TextBox">
+            <Setter Property="Width" Value="100"></Setter>
+
+        </Style>
+        <Style x:Name="MediumTextBox" TargetType="TextBox">
+            <Setter Property="Width" Value="200"></Setter>
+        </Style>
+        <Style x:Name="LargeTextBox" TargetType="TextBox">
+            <Setter Property="Width" Value="200"></Setter>
+        </Style>
+
+        <Style x:Key="LeagueEditTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="TextAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+
+        <Style x:Key="MessageMemberNames" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+        <Style x:Key="MessageViewText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="MessageViewFromName" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="MessageLastText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+
+        </Style>
+        <Style x:Key="MessageLastDateTime" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+            <Setter Property="FontWeight" Value="Light"></Setter>
+        </Style>
+        <Style x:Key="RosterTemplateContainer" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,10"></Setter>
+
+        </Style>
+        <Style x:Key="RosterText" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,5,0"></Setter>
+        </Style>
+        <Style x:Key="RosterTextValue" TargetType="TextBlock" BasedOn="{StaticResource RosterText}">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+
+        </Style>
+
+        <Style x:Key="LeftColumnText" TargetType="TextBlock">
+            <Setter Property="Padding" Value="0,0,10,0"></Setter>
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <Style x:Key="ForumTopicListName" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="ForumTopicText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+
+
+        <Style x:Key="ForumLastPostTime" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="ForumLastCounts" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+
+
+        <!--<Style x:Key="BackgroundColor" >
+            <Setter Property="BackgroundColor" Value="#5e3a63"></Setter>
+        </Style>-->
+        <Style x:Key="MainPageButton" TargetType="Button">
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Margin" Value="0"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+        </Style>
+
+        <Style x:Key="MainImageBtn" TargetType="Image">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+        <Style x:Key="TextBlockListItem" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="35"></Setter>
+        </Style>
+        <Style x:Key="TextBoxMainBtn" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="#872f95"/>
+        </Style>
+
+        <Style x:Key="ImageMainBtn" TargetType="Image">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="70"/>
+        </Style>
+        <Style x:Key="PhoneTitle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="80"></Setter>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#fff"/>
+
+        </Style>
+        <Style x:Key="PhoneTitlePurple"   TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="80"></Setter>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#872f95"/>
+
+        </Style>
+        <Style x:Key="MainBtn"   TargetType="Button">
+            <Setter Property="Height" Value="140" />
+            <Setter Property="Width" Value="150" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#872f95"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"             CornerRadius="5"      BorderBrush="#872f95" BorderThickness="4"        Background="#fff">
+                            <ContentPresenter x:Name="ButtonContentPresenter"              VerticalAlignment="Center"                HorizontalAlignment="Center">
+                                <ContentPresenter.Resources>
+
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BuyNowButton"   TargetType="Button">
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#872f95"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"             CornerRadius="5"      BorderBrush="#872f95" BorderThickness="4"        Background="#fff">
+                            <ContentPresenter x:Name="ButtonContentPresenter"              VerticalAlignment="Center"                HorizontalAlignment="Center">
+                                <ContentPresenter.Resources>
+
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SkatersSkaterName" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#872f95"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="SkatersSkaterName2" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="SkatersSkaterNumber" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="SkatersRowStyle" TargetType="Grid">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+        <Style x:Key="SkatersRowStyle2" TargetType="Grid">
+            <Setter Property="Background" Value="Black"/>
+        </Style>
+        <Style x:Key="ProfileDescription" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+        </Style>
+        <Style x:Key="ProfileDetail" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+        </Style>
+        <Style x:Key="ProfileName" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="EventsLocation" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="EventName" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="40"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="EventDetails" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+        </Style>
+        <Style x:Key="EventDateDetails" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="EventLinkHeader" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="EventLinkDetails" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="ShopItemName" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="Foreground" Value="#872f95"/>
+            <Setter Property="Padding" Value="2"/>
+
+        </Style>
+        <Style x:Key="ShopItemDescription" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="Padding" Value="2"/>
+
+        </Style>
+        <Style x:Key="ShopItemItemName" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="ShopItemItemDescription" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="#fff"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+        <Style x:Key="ShopItemItemIdentity" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+        <Style x:Key="ShopItemItemHeader" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="2, 15, 0,0"/>
+        </Style>
+
+        <Style x:Key="GameTeamName" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="GameTeamScore" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="5"/>
+
+        </Style>
+        <Style x:Key="GameHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <!--Required object that handles lifetime events for the application-->
+        <shell:PhoneApplicationService 
+            Launching="Application_Launching" Closing="Application_Closing" 
+            Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+    </Application.ApplicationLifetimeObjects>
+
+</Application>

@@ -1,0 +1,99 @@
+﻿@model List<RDN.Library.Classes.League.ItemInfoDA>
+@{
+    ViewBag.Title = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsInventoryOrBetterOfLeague(memId);
+    
+}
+@helper Truncate(string input, int length = 30)
+{
+    if (input != null)
+    {
+        if (input.Length <= length)
+        {
+    @input
+        }
+        else
+        {
+    @input.Substring(0, length)<text>...</text>
+        }
+    }
+    else
+    {
+    <text><i>Null</i></text>
+    }
+}
+
+<div class="expandableContainer">
+    <div class="expandableCenterContainter">
+        <div class="fixTitle">
+            Inventory Items For The League
+        </div>
+        <div class="expandableCenterContainterRight">
+            @if (isSec)
+            {                
+                <div class="navIcons">
+                    <a title="New Item" href="@Url.Content("~/league/inventory/add")">
+                        <img src="@Url.Content("~/Content/images/icons/inventory.png")" />Add
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="titleDescription">
+            Here we help you manage the inventory items including laptops, whiteboards, projectors, screens etc...
+
+        </div>
+        <div class="divider"></div>
+        <div>
+            <table class="listTable tableExtras" id="itemList">
+                <thead>
+                    <tr>
+                        @if (isSec)
+                        {   
+                            <th></th>
+                        }
+                        <th>Item Name</th>
+                        <th>Item Serial No</th>
+                        <th>Unite Price</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var b in Model)
+                    {                 
+                        <tr class="@(b.ItemId % 2 == 0 ? "tr1" : "tr0")">
+                            @if (isSec)
+                            {  <td>
+
+                                    <a href="@Url.Content("~/league/inventory/Edit/" + b.ItemId + "/" + b.ItemsForLeague.ToString().Replace("-", ""))" >Edit </a><span>/ 
+                                    </span><a href="@Url.Content("~/league/inventory/Details/" + b.ItemId + "/" + b.ItemsForLeague.ToString().Replace("-", ""))" >View </a>
+
+                                </td>
+                            }
+                            <td>
+                                @Truncate(b.ItemName, 18)
+                            </td>
+                            <td>
+                                @b.ItemSerialNo
+                            </td>
+                            <td>
+                                @Truncate(b.UnitePice, 10)
+                            </td>
+                            <td>
+                                @Truncate(b.Quantity, 20)
+                            </td>
+                            <td>
+                                @b.Location.ToString()
+                            </td>
+                        </tr>     
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

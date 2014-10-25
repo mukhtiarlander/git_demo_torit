@@ -1,0 +1,142 @@
+﻿@model RDN.Library.Classes.Payment.Paywall.Paywall
+@{
+    ViewBag.Title = "Edit Paywall";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="fixedContainer">
+    <div class="fixedlinksContainter">
+        <div class="backLink">
+            < <a href="@Url.Content("~/paywall/all/")">Paywalls</a>  < <a href="@Url.Content("~/paywall/edit/" + Model.PaywallId)">View</a>
+        </div>
+        <div class="rightBackLink"><a href="http://wiki.rdnation.com/Paywalls" target="_blank">Help</a>    </div>
+    </div>
+    <div class="fixedCenterContainter">
+        <div class="fixTitle">
+            Edit Paywall
+        </div>
+      
+         <div class="titleDescription">
+    Here you can edit a paywall for locking parts of RDNation down to your customers only.
+       
+            </div>
+            <div class="divider"></div>
+        <div>
+            @using (Html.BeginForm("EditPaywall", "Paywall", FormMethod.Post, new { @id = "createNewItem" }))
+            { 
+                <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b alRight">Description of Wall:
+                        </td>
+                        <td class="subject">
+                            @Html.TextBoxFor(x => x.DescriptionOfPaywall)
+                            - <span class="i">This description will be shown to customers before they pay.</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Start Date:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.StartDateDisplay)
+                            - <span class="i">optional: Start Date of when the paywall gets put into effect.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">End Date:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.EndDateDisplay)
+                            - <span class="i">optional: End Date of when the paywall is turned off and the item is free.</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="b alRight">Daily Price:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.TextBox("Price", Model.DailyPrice.ToString("N2"))
+                            - <span class="i">If paywall is bought for just 1 day. Used for discounted day passes.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Full Price:
+                        </td>
+                        <td class="mediumInput">
+                            @Html.TextBox("FullPrice", Model.TimespanPrice.ToString("N2"))
+                            - <span class="i">Price of paywall if a "start date" and "end date" are completed.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b alRight">Is Enabled?:
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x.IsEnabled) - <span>Enable the paywall. Disabled paywalls will force free content.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/paywall/all/")">Cancel Paywall</a>
+                        </td>
+                        <td>
+                            <input type="submit" class="primary" value="Update Paywall" />
+
+                        </td>
+                    </tr>
+                </table>
+                @Html.HiddenFor(x => x.PaywallId)
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var d = new Date();
+    var curr_date = d.getDate();
+
+    var curr_month = d.getMonth() + 1; //Months are zero based
+    if (curr_month < 10) {
+        curr_month = "0" + curr_month;
+    }
+    var curr_year = d.getFullYear();
+
+    var startDate = d;
+    var endDate = d;
+
+    $("#Price").numeric({ negative: false });
+    $("#FullPrice").numeric({ negative: false });
+    //$('#EndDate').val(curr_month + "/" + curr_date + "/" + curr_year);
+    //$('#StartDate').val(curr_month + "/" + curr_date + "/" + curr_year);
+    $('#EndDateDisplay').datepicker({
+        onSelect: function (value, date) {
+            endDate = new Date(value);
+            if (endDate < startDate) {
+                $('#StartDateDisplay').val($('#EndDateDisplay').val());
+                startDate = endDate;
+            }
+        }
+    });
+    $('#StartDateDisplay').datepicker({
+        onSelect: function (value, date) {
+            startDate = new Date(value);
+            if (endDate < startDate) {
+                $('#EndDateDisplay').val($('#StartDateDisplay').val());
+                endDate = startDate;
+            }
+        }
+    });
+
+
+    $("#createNewItem").validate({
+        rules: {
+            DescriptionOfPaywall: "required",
+            FullPrice: "required",
+            StartDate: { lessThanEqual: "#EndDateDisplay" },
+            EndDate: { greaterThanEqual: "#StartDateDisplay" },
+            DailyPrice: {
+                required: true
+            }
+        }
+    });
+
+
+</script>

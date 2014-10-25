@@ -1,0 +1,1059 @@
+﻿@model dynamic
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl00_Head1">
+    <title>Free Roller Derby Scoreboard by Roller Derby Nation</title>
+    <link href="@Url.Content("~/Content/Scoreboard.css?v=" + RDN.Portable.Config.ServerConfig.CSS_VERSION)" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://gettopup.com/releases/latest/top_up-min.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <script type="text/javascript">
+        TopUp.addPresets({
+            "#screenshots_table a": {
+                title: "Gallery {alt} ({current} of {total})",
+                group: "examples",
+                readAltText: 1,
+                shaded: 1
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="contentOutTop">
+        <div class="headerOut">
+            <span class="titleOut"><a href="/">RDNation</a></span> <span class="descriptionOut">- The Future of Roller Derby</span> <a href="mailto:info@rdnation.com">info@rdnation.com</a>
+            <a href="http://wiki.rdnation.com">Documentation</a>
+            <a href="http://zebras.rdnation.com/yaf_topics34_Roller-Derby-Scoreboard-Discussion.aspx">Ask For Help/Discussions</a>
+        </div>
+        <div class="divTopAdsOut">
+            <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-6494646249414123";
+    /* PostSecretLeaderBoard */
+    google_ad_slot = "1867020116";
+    google_ad_width = 728;
+    google_ad_height = 90;
+    //-->
+            </script>
+            @*<script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>*@
+        </div>
+        <div class="contentMiddle">
+            <div class="cML">
+                <div class="contentMiddleTitle">
+                    Roller Derby Nation
+                </div>
+                <div class="contentMDescription">
+                    Derby Scoreboard V@(RDN.Utilities.Config.ScoreboardConfig.SCOREBOARD_VERSION_NUMBER)
+                    - Thor's Hammer
+                </div>
+                <div class="contentMDescription2">
+                    RDNation's team is proud to present our brand new Roller Derby Scoreboard. Try it
+                    out, it's <span class="b">FREE</span>. We are trying our best to create the best
+                    Scoreboard for the entire Roller Derby Community.
+                </div>
+                <br />
+                <div>
+                    Have a question? <a style="color: #FFFFFF;" href="mailto:info@rdnation.com">info@rdnation.com</a>
+                </div>
+            </div>
+            <div class="cMR">
+                <img src="@Url.Content("~/Content/Rollerball_pink_s500.png")" width="300px"
+                    alt="rdnation logo" />
+            </div>
+        </div>
+        <div class="cMC">
+            <div style="float: left; text-align: center;">
+                @using (Html.BeginForm("Download", "Scoreboard", FormMethod.Post, new { @float = "left" }))
+                { 
+                    <span style="float: left; margin-left: 20px; margin-top: 13px; margin-right: 10px;">Enter your email (optional):</span>                
+                    <input type="text" name="Email" style="float: left; margin-top: 7px; margin-right: 10px;" />                
+                    <input type="submit" value="Download scoreboard" style="float: right; color: white; background: #1b7e1e; background: -moz-linear-gradient(top, #24a828 0%, #1b7e1e 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #24a828), color-stop(100%, #1b7e1e)); background: -webkit-linear-gradient(top, #24a828 0%, #1b7e1e 100%); background: -o-linear-gradient(top, #24a828 0%, #1b7e1e 100%); background: -ms-linear-gradient(top, #24a828 0%, #1b7e1e 100%); background: linear-gradient(top, #24a828 0%, #1b7e1e 100%);" />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+    <div class="contentOutBottom">
+        <div class="middleTierTitle">
+            The Good Stuff
+        </div>
+        <div class="landingBox">
+            <h3>Overview</h3>
+            <p>
+                Your entire game, your scores, your penalties, your skaters, will be accounted for
+                and displayed properly. We tried to create the easiest to use roller derby scoreboard
+                there is. We hope that with time, and your feedback, it will be the GOTO scoreboard
+                for all Roller Derby Games world wide.
+            </p>
+        </div>
+        <div class="landingBox">
+            <center>
+                <a href="@Url.Content("~/Content/Scoreboard/Screenshots/main-scoreboard.png")"
+                    class="top_up">
+                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/main-scoreboard.png")"
+                        style="width: 250px; margin-top: 20px;" alt="main scoreboard control" />
+                </a>
+            </center>
+        </div>
+        <div class="landingBox">
+            <h3>Public Release</h3>
+            <p>
+                We have put our derby blood, sweat and tears into building this scoreboard. It was
+                a long journey, just like going from Meat to a Real Derby skater. We now think Thor's
+                Hammer is ready to be pushed, shoved, elbowed and placed in a head lock down on
+                the skating floor. But be gentle, and provide us feedback on all of our illegal
+                contacts. We hope you will love Thor's Hammer just as much as we loved making it
+                for the Derby Family. <span class="b">Fully Bout Ready.</span>
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Main Control Panel</h3>
+            <p>
+                We have tried to design the scoreboard with you as a user in mind. Like every other
+                scoreboard, ours is controlled from a main panel. It controls the entire game on
+                one screen. Times, Scores, Jams, Periods and even Jammer positions.
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>The Team Manager</h3>
+            <p>
+                We wanted to track EVERYTHING in the game of Roller Derby. So we gave you a Team
+                Manager that can track player positions during the jams. The operator has the ability
+                to define what skaters are playing what positions, including skaters in the box
+                during the jam.
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>The Game Clock</h3>
+            <p>
+                Thor's Hammer has a state of the art way to display games. We can show the game
+                clock, jam clock, line up clock and even advertisements you save within the scoreboard.
+                Thor's Hammer will have its Derby Paint on and be crowd ready to show your fans
+                what a real game looks like on the big screen!
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Logo Manager</h3>
+            <p>
+                Did you know there are well over 1200 teams in Roller Derby? Well not all of them
+                have logos. We wanted to try our best to create a logo manager every team can use.
+                You can save your logo within the scoreboard or pick from a list of already populated
+                logos. Once selected, your logo will fly high on the scoreboard clock during the
+                game in all its glory.
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Advertising Manager</h3>
+            <p>
+                Every Roller Derby team needs money with sponsorships. We wanted to make sure you
+                got your fair share in the first release. So we included an Advertisements manager
+                that will hopefully make you the most money possible. Either save within the application
+                or allow it to pull from our servers on advertisements. You will be pleased with
+                what you see.
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Policy Controller</h3>
+            <p>
+                WFTDA, MADE, Renegade? What type of rule set do you play? We implemented all the
+                rule sets we knew and put them into our policy controller. It will make sure that
+                once the settings are set, they stay and they help whom ever uses the scoreboard
+                will not get caught off guard by the rules nuances.
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Save Your Games</h3>
+            <p>
+                We built in the save and load game features. Therefore you can set up your games
+                and at home, save them, and then load it once you set up for the bout. We can't
+                currently save a running game, but we are getting there soon!
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Live Games Online!</h3>
+            <p>
+                We will be releasing it later in August 2012, but we have built in a way for you
+                and your fans to watch your game stats online! Live! What Scoreboard can say they
+                do that?
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Please Provide Feedback!</h3>
+            <p>
+                We LOVE feedback. We are a team of avid developers. We want to make your every wish
+                our command. So we included a way to send feedback inside the scoreboard, but your
+                more than allowed to send us feedback at: <a href="mailto:info@rdnation.com">info@rdnation.com</a>
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Customizable Templates!</h3>
+            <p>
+                You have team colors and we have the scoreboard. We want your fans to get the best
+                overall experience possible. So we will take the time to create a custom theme for
+                your team within our scoreboard. You choose the colors and we create it just for
+                you! If your really interested in an entirely new layout for the scoreboard, we
+                can make that happen too! Just contact us to get started. Remember, we do this for
+                the love of Derby!
+                <div>
+                    <a href="mailto:info@rdnation.com">info@rdnation.com</a>
+                </div>
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Per Jam Scoring</h3>
+            <p>
+                The feature most requested was per jam scoring. Thats right, we now keep track of
+                points accrued for each jam! As long as the jammer refs can relay the points after
+                each pass, the operator will make the points visible for all to see!
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Slide Show Galore!</h3>
+            <p>
+                Any Image, Any at all can be displayed. We make it easy as 1, 2, 3. Add your favorite
+                advertisers, flags or any other picture you want to show off and you will have total
+                control over it being displayed up on the screens. Rotate the images, turn some
+                on or off, and even include a the intermission clock on the screen! We thought of
+                it all.
+            </p>
+        </div>
+        <div class="landingBox">
+            <h3>Collect and Export all Bout Stats!</h3>
+            <p>
+                You can collect all the stats from a single bout. We built the WFTDA and MADE stat 
+                workbook export tool so that each game can be exported to comply with both the WFTDA
+                 and MADE rule sets and their specific standards of a bout.
+            </p>
+        </div>
+        <div>
+            <div class="clear">
+            </div>
+            <div class="middleTierTitle">
+                Video Tutorials
+            </div>
+            <div class="landingBoxVideo center">
+                <h3>Introduction to the Scoreboard</h3>
+                <p>
+                    <iframe width="420" height="315" src="//www.youtube.com/embed/ctizRmwG0Cs" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+            <div class="landingBoxVideo center">
+                <h3>Team Manager Introduction for the Teams/Referees and NSOs</h3>
+                <p>
+                  <iframe width="420" height="315" src="//www.youtube.com/embed/iB7ZCie1V9M" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+            <div class="landingBoxVideo center">
+                <h3>Stats Collection for NSOs and Export them to The WFTDA / MADE workbooks</h3>
+                <p>
+                    <iframe width="420" height="315" src="//www.youtube.com/embed/xUMig3CcVqc" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+            <div class="landingBoxVideo center">
+                <h3>Video Overlay Controls and how to Modify them for the Scoreboard</h3>
+                <p>
+                   <iframe width="420" height="315" src="//www.youtube.com/embed/EUFv8JJQM2I" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+            <div class="landingBoxVideo center">
+                <h3>Uploading the Finished Games and Showing the Stats LIVE on RDNation</h3>
+                <p>
+                   <iframe width="420" height="315" src="//www.youtube.com/embed/RfT5Ge0bdJw" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+           
+              <div class="landingBoxVideo center">
+                <h3>Tournament Walkthrough and Controls for RDNation</h3>
+                <p>
+                  <iframe width="420" height="315" src="//www.youtube.com/embed/0sp6Zj1HvQw" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+              <div class="landingBoxVideo center">
+                <h3>Adding Paywalls to Your Tournament and Game for Live Streaming</h3>
+                <p>
+                    <iframe width="420" height="315" src="//www.youtube.com/embed/ZGLawD9vxuM" frameborder="0" allowfullscreen></iframe>
+                </p>
+            </div>
+        </div>
+        <div>
+            <div class="clear">
+            </div>
+            <div class="middleTierTitle">
+                Screen Shots
+            </div>
+            <div class="screenShots">
+                <table style="border-collapse: collapse;" id="screenshots_table">
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/main-scoreboard.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/main-scoreboard.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="Scoreboard has been opened for the first time" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/rollerderby-scoreboard.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/rollerderby-scoreboard.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="Scoreboard of Roller Derby Nation" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="The game clock that can be shown on a projector" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/team-manager.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/team-manager.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="team manager for the roller derby scoreboard" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/introslide.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/introslide.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="Introduction slide for roller derby scoreboard" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/introslide2.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/introslide2.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="intruduction slide for each skater for roller derby scoreboard" />
+                            </a>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-logos.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-logos.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="logo manager of roller derby scoreboard" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-slideshow.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-slideshow.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="slideshow manager of roller derby scoreboard" />
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-advertisements.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-advertisements.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="advertisements manager for roller derby scoreboard" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-stats-collection.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-stats-collection.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="stats collection of roller derby scoreboard" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-assists.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-assists.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="Lead jammer selected" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-video-overlay.png")"
+                                class="top_up">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/scoreboard-video-overlay.png")"
+                                    style="width: 120px; height: 120px; margin-top: 20px;" alt="video overlay for video feeds with the scoreboard." />
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clear">
+            </div>
+            <div class="middleTierTitle">
+                A Scoreboard In Review
+            </div>
+            <div>
+                <table class="scoreboardReview">
+                    <thead>
+                        <tr>
+                            <th>Core Features
+                            </th>
+                            <th>
+                                <a href="http://rdnation.com/roller-derby-scoreboard">Thor's Hammer by RDNation</a>
+                            </th>
+                            <th>
+                                <a href="http://sourceforge.net/projects/derbyscoreboard/">Carolina Roller Derby Scoreboard</a>
+                            </th>
+                            <th>
+                                <a href="http://poang.gg/">Poäng</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Frictionless Feedback
+                                </div>
+                                <span class="sbDesc">People can give feedback with only a name & email (or anonymously).
+                                    No sign-up required.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Available in your language
+                                </div>
+                                <span class="sbDesc">Thor's Hammer is available in 2 languages currently. Fantastico!
+                                    We are looking to add more, so if you want your language, please let us know.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Can Save and Load
+                                </div>
+                                <span class="sbDesc">Saves and Loads games for later.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Live Games Displayed Online
+                                </div>
+                                <span class="sbDesc">Is capable of displaying game stats live online? Yes, we display
+                                    all published games online! <a href="http://rdnation.com/roller-derby-game/152fa630ecd14a61926b31b7da62e8ef/Hot-August-Night/Vinyard-Vixens/Beltway-Betties"
+                                        target="_blank">Hot August Night</a> was shown online while it was happening!</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Automatic Updates
+                                </div>
+                                <span class="sbDesc">Does the scoreboard update automatically when new features are
+                                    added by the developer? </span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Multiple Scoreboard Themes
+                                </div>
+                                <span class="sbDesc">Our Scoreboard currently has two themes. Our own and then the popular
+                                    CRG theme. We have received expressed permission to use CRGs theme from Mr. T.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Customizable Templates.
+                                </div>
+                                <span class="sbDesc">You choose the colors of the scoreboard or even the layout, and
+                                    we make it happen. Yes, thats right, we will totally create a theme in the scoreboard
+                                    just for your team with your letters/logos/colors. Contact us <a href="mailto:info@rdnation.com">info@rdnation.com</a> to get started.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    A Slide Show Manager
+                                </div>
+                                <span class="sbDesc">You decide what pictures, advertisements, special promotions, and
+                                    we display it. In rotation with 10 second intervals, with or without a intermission
+                                    and period clock. You can display Flags if need be. Its all up to you with our slideshow
+                                    manager. <a href="http://blog.rdnation.com/post/23217173734/thors-hammer-v1-5-4-roller-derby-scoreboard">We even blogged about it.</a>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Tracked using a Local Server
+                                </div>
+                                <span class="sbDesc">The scores and operations can be controlled <a href="http://blog.rdnation.com/post/29797206608/roller-derby-scoreboard-release-1-7-3-stats-management"
+                                    target="_blank">from a seperate device.</a> Can track Penalties, Assists, Blocks,
+                                    Lineups and Points Scored by every single player. </span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Per Jam Scoring
+                                </div>
+                                <span class="sbDesc">Shows the per jam scores. Each lap when signaled by a ref, will
+                                    show the per jam score.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Knowledge Base
+                                </div>
+                                <span class="sbDesc">Do they have documentation and help articles? Ours is at <a
+                                    href="http://wiki.rdnation.com/Welcome_to_The_Wiki_For_Thors_Hammer" target="_blank">our wiki for RDNation</a></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Member Manager
+                                </div>
+                                <span class="sbDesc">Can manage all the skaters of the game through the scoreboard.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Referee and NSO Manager
+                                </div>
+                                <span class="sbDesc">Can record all Referees and NSOs of each game.  Records each official along with their position of the game.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Control The Game from a Mobile Device
+                                </div>
+                                <span class="sbDesc">Control all the basics of the game including Start/Stopping Jams, Official/Team Timeouts and Add/Subtract Team Scores</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Export the Stats Workbooks
+                                </div>
+                                <span class="sbDesc">You can export both the WFTDA and MADE stats workbooks.  Both fully filled out to include all the stats from a bout.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Team Feedback
+                                </div>
+                                <span class="sbDesc">Takes In Feedback from their users. Use the Feedback widget in
+                                    Thor's or just email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Activity Developed On
+                                </div>
+                                <span class="sbDesc">Scoreboard is actively being worked on with updates.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Allows Adverts
+                                </div>
+                                <span class="sbDesc">Will Display adverts during the game.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Manipulate the Settings
+                                </div>
+                                <span class="sbDesc">Can change the settings of the scoreboard along with times.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Video Green Screen
+                                </div>
+                                <span class="sbDesc">Can publish a page with a Video Green Screen on it with the scores
+                                    as an overlay. This allows for those teams filming their bouts to actually have
+                                    the live scores published on the video. </span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    The WFTDA Green Screen
+                                </div>
+                                <span class="sbDesc">Can publish a page with The WFTDA Video Green Screen on it with the scores
+                                    as an overlay. This allows for those teams filming their bouts to actually have
+                                    the live scores published on the video. </span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Displays Line Ups
+                                </div>
+                                <span class="sbDesc">Shows the line ups during the introductions. We even <a href="http://blog.rdnation.com/post/22807391348/thors-hammer-v1-5-3-roller-derby-scoreboard">wrote a blog post about it!</a></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Works on All Operating Systems
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td>Windows Only - Its Coming
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Has Edit Mode
+                                </div>
+                                <span class="sbDesc">Can edit the game incase of mistakes</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Loads Logos
+                                </div>
+                                <span class="sbDesc">Shows logos of the teams playing.</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Keyboard Shortcuts
+                                </div>
+                                <span class="sbDesc">Has keyboard shortcuts that can be mapped to scoreboard functions</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Capable of Showing the American Flag or Any Other Flag!
+                                </div>
+                                <span class="sbDesc">Shows the American flag during the game or the introductions</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    Basic Scoreboard Functions
+                                </div>
+                                <span class="sbDesc">Displaying the scores, easily add and remove points, timers that
+                                    keep track of game play, etc...</span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <br />
+                <br />
+                <table class="scoreboardReview">
+                    <thead>
+                        <tr>
+                            <th>Rule Sets
+                            </th>
+                            <th>
+                                <a href="http://rdnation.com/Scoreboard">Thor's Hammer by RDNation</a>
+                            </th>
+                            <th>
+                                <a href="http://sourceforge.net/projects/derbyscoreboard/">Carolina Roller Derby Scoreboard</a>
+                            </th>
+                            <th>
+                                <a href="http://poang.gg/">Poäng</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://wftda.com/">WFTDA</a>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://www.skatemade.org/">MADE</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://www2.teamusa.org/USA-Roller-Sports.aspx/">USARS</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://www.skatemade.org/">OSDA</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://www.juniorrollerderby.org/">JRDA</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://www.mensderbycoalition.com/">MRDA</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://www.rollerderbycoalitionofleagues.com/">RDCL</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="b">
+                                    <a href="http://ukrda.org.uk/">UKRDA</a>
+                                </div>
+                                <span class="sbDesc"></span>
+                            </td>
+                            <td class="center">
+                                <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <br />
+            </div>
+            <div class="clear">
+            </div>
+            <div class="middleTierTitle">
+                Stay Up To Date
+            </div>
+            <div class="landingBoxHalf">
+                <div style="float: left; padding: 10px;">
+                    <img width="80px" src="@Url.Content("~/Content/Scoreboard/blog.jpg")" />
+                </div>
+                <div style="width: 200px; float: left; vertical-align: top;">
+                    <span class="b" style="vertical-align: top; font-size: 1.4em;">RDNation Blog</span><br />
+                    <br />
+                    Read The <a href="http://blog.rdnation.com/">RDNation Blog</a>
+                </div>
+            </div>
+            <div class="landingBoxHalf">
+                <div style="float: left; padding: 10px;">
+                    <img width="80px" src="@Url.Content("~/Content/facebook.png")" />
+                </div>
+                <div style="width: 200px; float: left; vertical-align: top;">
+                    <span class="b" style="vertical-align: top; font-size: 1.4em;">Facebook Friends</span><br />
+                    <br />
+                    <div class="fb-like-box" data-href="http://www.facebook.com/pages/RDNation/379801185380841"
+                        data-width="292" data-show-faces="false" data-stream="false" data-header="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        <div style="font-size: 1.3em; text-align: center;">
+            <center>
+                <img width="200px" src="@Url.Content("~/Content/Rollerball_pink_s500.png")" /></center>
+            Made in the United States and Sweden by RDNation.com
+        </div>
+        <br />
+        <br />
+        <div class="clear">
+        </div>
+        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">            stLight.options({ publisher: '44150a77-2fa9-4b5f-86c0-0248e4a27d5e' });</script>
+    </div>
+    <div class="divTopAdsOut ">
+        <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-6494646249414123";
+    /* PostSecretLeaderBoard */
+    google_ad_slot = "1867020116";
+    google_ad_width = 728;
+    google_ad_height = 90;
+
+    //-->
+
+        </script>
+        @*<script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+
+        </script>*@
+    </div>
+    <div class="footer">
+        <div class="middleTierTitle b">
+            Roller Derby Associations
+        </div>
+        <ul class="footerLinks">
+            <li><a target="_blank" href="http://www.cwrda.ca/">CWRDA</a></li>
+            <li><a target="_blank" href="http://www.juniorrollerderby.org/">JRDA</a></li>
+            <li><a target="_blank" href="http://www.skatemade.org/">MADE</a></li>
+            <li><a target="_blank" href="http://www2.teamusa.org/USA-Roller-Sports.aspx/">USARS</a></li>
+            <li><a target="_blank" href="http://www.mensderbycoalition.com/">MRDA</a></li>
+            <li><a target="_blank" href="http://www.oldschoolderbyassociation.com/">OSDA</a></li>
+            <li><a target="_blank" href="http://www.rollerderbycoalitionofleagues.com/">RDCL</a></li>
+            <li><a target="_blank" href="http://www.ukrda.org.uk/">UKRDA</a></li>
+            <li><a target="_blank" href="http://www.wftda.com/">WFTDA</a></li>
+            <li><a target="_blank" href="http://wftda.com/leagues/apprentice">WFTDA_AL</a></li>
+        </ul>
+    </div>
+    <div id="fb-root">
+    </div>
+    <div id="fb-root">
+    </div>
+    <script>        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29843570-1']);
+        _gaq.push(['_setDomainName', 'rdnation.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</body>
+</html>
