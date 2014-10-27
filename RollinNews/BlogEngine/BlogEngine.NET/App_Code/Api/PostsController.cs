@@ -185,7 +185,7 @@ public class PostsController : ApiController
                                                 .PostToFanPage(item.Title, baseUrl + item.RelativeLink, initialImage, item.Title, item.Title, item.DateCreated);
 
                                 FacebookFactory.Initialize(token).GetPageAuthorization(ConfigurationManager.AppSettings["FacebookPageName2"].ToString(), ConfigurationManager.AppSettings["FacebookPageId2"].ToString())
-                                .PostToFanPage(item.Title, baseUrl + item.RelativeLink, baseUrl + item.MainImageUrl, item.Title, item.Title, item.DateCreated);
+                                .PostToFanPage(item.Title, baseUrl + item.RelativeLink, initialImage, item.Title, item.Title, item.DateCreated);
                             }
                             else
                             {
@@ -194,7 +194,7 @@ public class PostsController : ApiController
                                             .PostToFanPage(item.Title, baseUrl + item.RelativeLink, initialImage, item.Title, item.Title, string.Empty);
 
                                 FacebookFactory.Initialize(token).GetPageAuthorization(ConfigurationManager.AppSettings["FacebookPageName2"].ToString(), ConfigurationManager.AppSettings["FacebookPageId2"].ToString())
-                                    .PostToFanPage(item.Title, baseUrl + item.RelativeLink, baseUrl + item.MainImageUrl, item.Title, item.Title, string.Empty);
+                                    .PostToFanPage(item.Title, baseUrl + item.RelativeLink, initialImage, item.Title, item.Title, string.Empty);
 
                             }
                         }
