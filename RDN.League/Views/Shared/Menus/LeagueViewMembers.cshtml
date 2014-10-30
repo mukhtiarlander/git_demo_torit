@@ -6,6 +6,7 @@
 }
 <ul class="membersPagerUl">
     <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/all") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/all")">Roster</a></li>
+    
     @if (isSec)
     { 
         <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/dates") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/dates")">Dates</a></li>
@@ -45,7 +46,7 @@
     
     <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/map") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/map")">Map</a></li>
 
-
+    <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/removed") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/removed")">Removed</a></li>
 
 </ul>
     

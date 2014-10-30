@@ -916,13 +916,16 @@ namespace RDN.Library.Cache
             }
             return null;
         }
-        public static List<MemberDisplay> GetLeagueMembers(Guid memId, Guid leagueId, int recordsToSkip, int numberOfRecordsToPull)
+        public static List<MemberDisplay> GetLeagueMembers(Guid memId, Guid leagueId, int recordsToSkip, int numberOfRecordsToPull, bool hasLeftLeague = false)
         {
             try
             {
                 var cached = GetCache(memId, true);
                 if (cached.CurrentLeague != null && cached.CurrentLeague.LeagueId == leagueId)
-                    return cached.CurrentLeague.LeagueMembers.OrderBy(x => x.DerbyName).Skip(recordsToSkip).Take(numberOfRecordsToPull).ToList();
+                    if (!hasLeftLeague)
+                        return cached.CurrentLeague.LeagueMembers.OrderBy(x => x.DerbyName).Skip(recordsToSkip).Take(numberOfRecordsToPull).ToList();
+                    else
+                        return RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(leagueId, hasLeftLeague);
 
             }
             catch (Exception exception)

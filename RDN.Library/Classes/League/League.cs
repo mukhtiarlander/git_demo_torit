@@ -410,13 +410,13 @@ namespace RDN.Library.Classes.League
             return false;
         }
 
-        public static List<MemberDisplay> GetLeagueMembersDisplay(Guid leagueId)
+        public static List<MemberDisplay> GetLeagueMembersDisplay(Guid leagueId, bool hasLeftLeague=false)
         {
             List<MemberDisplay> membersTemp = new List<MemberDisplay>();
             try
             {
                 var dc = new ManagementContext();
-                var members = dc.LeagueMembers.Where(x => x.League.LeagueId == leagueId && x.HasLeftLeague == false).OrderBy(x => x.Member.DerbyName).ToList();
+                var members = dc.LeagueMembers.Where(x => x.League.LeagueId == leagueId && x.HasLeftLeague == hasLeftLeague).OrderBy(x => x.Member.DerbyName).ToList();
 
                 membersTemp.AddRange(MemberDisplayFactory.IterateMembersForDisplay(members));
             }
@@ -639,7 +639,7 @@ namespace RDN.Library.Classes.League
         /// </summary>
         /// <param name="leagueId"></param>
         /// <returns></returns>
-        public static RDN.Portable.Classes.League.Classes.League GetLeague(Guid leagueId)
+        public static RDN.Portable.Classes.League.Classes.League GetLeague(Guid leagueId, bool isRemovedFromLeague = false)
         {
             try
             {
@@ -649,7 +649,7 @@ namespace RDN.Library.Classes.League
                 if (league == null)
                     return null;
 
-                return DisplayLeague(league);
+                return DisplayLeague(league, isRemovedFromLeague);
             }
             catch (Exception exception)
             {
@@ -675,7 +675,7 @@ namespace RDN.Library.Classes.League
             }
             return null;
         }
-        public static RDN.Portable.Classes.League.Classes.League DisplayLeague(DataModels.League.League league, bool isPublic = false)
+        public static RDN.Portable.Classes.League.Classes.League DisplayLeague(DataModels.League.League league, bool isPublic = false, bool isRemovedFromLeague= false)
         {
             try
             {
@@ -767,9 +767,9 @@ namespace RDN.Library.Classes.League
 
                 List<LeagueMember> members = new List<LeagueMember>();
                 if (isPublic)
-                    members = league.Members.Where(x => x.HasLeftLeague == false && x.Member.IsProfileRemovedFromPublic == false).ToList();
+                    members = league.Members.Where(x => x.HasLeftLeague == isRemovedFromLeague && x.Member.IsProfileRemovedFromPublic == false).ToList();
                 else
-                    members = league.Members.Where(x => x.HasLeftLeague == false).ToList();
+                    members = league.Members.Where(x => x.HasLeftLeague == isRemovedFromLeague).ToList();
 
                 leagueTemp.LeagueMembers.AddRange(MemberDisplayFactory.IterateMembersForDisplay(members).OrderBy(x => x.DerbyName));
 

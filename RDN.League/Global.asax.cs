@@ -528,6 +528,11 @@ new { controller = "League", action = "GroupSettings" } // Parameter defaults
       "league/members/view/all/{refresh}", // URL with parameters
       new { controller = "League", action = "ViewMembers", refresh = UrlParameter.Optional } // Parameter defaults
   );
+            routes.MapRoute(
+"LeagueMembersRemoved", // Route name
+"league/members/view/removed", // URL with parameters
+new { controller = "League", action = "ViewMembersRemoved"} // Parameter defaults
+);
         
             routes.MapRoute(
 "LeagueMembersPermissions", // Route name

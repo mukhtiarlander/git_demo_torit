@@ -971,6 +971,32 @@ namespace RDN.League.Controllers
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww.ToString()));
         }
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true)]
+        public ActionResult ViewMembersRemoved()
+        {
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var league = MemberCache.GetLeagueOfMember(memId);
+
+                ViewBag.LeagueName = league.Name;
+                ViewBag.JoinCode = league.JoinCode.ToString().Replace("-", "");
+                ViewBag.LeagueId = league.LeagueId.ToString().Replace("-", "");
+
+                var model = new SimpleModPager<MemberDisplay>();
+                model.CurrentPage = 1;
+                model.NumberOfRecords = RDN.Library.Classes.League.LeagueFactory.GetNumberOfMembersInLeague(league.LeagueId);
+                model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / PAGE_SIZE);
+
+                var output = FillMembersModel(model, league.LeagueId, memId, true);
+                return View(output);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww.ToString()));
+        }
 
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true)]
         public ActionResult ViewMembersMap()
@@ -1749,7 +1775,7 @@ namespace RDN.League.Controllers
         /// <param name="model"></param>
         /// <param name="federationId"></param>
         /// <returns></returns>
-        private GenericSingleModel<SimpleModPager<MemberDisplay>> FillMembersModel(SimpleModPager<MemberDisplay> model, Guid leagueId, Guid memId)
+        private GenericSingleModel<SimpleModPager<MemberDisplay>> FillMembersModel(SimpleModPager<MemberDisplay> model, Guid leagueId, Guid memId, bool hasLeftLeague = false)
         {
             for (var i = 1; i <= model.NumberOfPages; i++)
                 model.Pages.Add(new SelectListItem
@@ -1759,7 +1785,7 @@ namespace RDN.League.Controllers
                     Selected = i == model.CurrentPage
                 });
             var output = new GenericSingleModel<SimpleModPager<MemberDisplay>> { Model = model };
-            output.Model.Items = MemberCache.GetLeagueMembers(memId, leagueId, (model.CurrentPage - 1) * PAGE_SIZE, PAGE_SIZE);
+            output.Model.Items = MemberCache.GetLeagueMembers(memId, leagueId, (model.CurrentPage - 1) * PAGE_SIZE, PAGE_SIZE, hasLeftLeague);
             return output;
         }
 
