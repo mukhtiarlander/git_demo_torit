@@ -1122,7 +1122,7 @@ namespace RDN.Library.Classes.Calendar
                             try
                             {
                                 ev.PreviousEventId = dc.CalendarEvents.Where(x => x.Calendar.CalendarId == calendarId && x.IsRemovedFromCalendar == false && x.StartDate < e.StartDate && x.CalendarItemId != eventId).OrderByDescending(x => x.StartDate).Select(x => x.CalendarItemId).FirstOrDefault();
-                                if (oneDateManyEvents.Count > indexOfCurrentEvent)
+                                if (oneDateManyEvents.Count > indexOfCurrentEvent && oneDateManyEvents.Count > 1)
                                     ev.NextEventId = oneDateManyEvents[indexOfCurrentEvent + 1];
                             }
                             catch (Exception exception)

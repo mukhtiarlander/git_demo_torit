@@ -275,7 +275,7 @@ namespace RDN.Library.Classes.Mobile
                 {
                     requestStream.Write(notificationMessage, 0, notificationMessage.Length);
                 }
-
+               
                 // Send the notification and get the response.
                 HttpWebResponse response = (HttpWebResponse)sendNotificationRequest.GetResponse();
                 string notificationStatus = response.Headers["X-NotificationStatus"];

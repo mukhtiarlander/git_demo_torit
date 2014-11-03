@@ -5,9 +5,7 @@
 @{
     ViewBag.Title = @Model.Name + " Roller Derby Tournament";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
-    var PensAbbre = from Scoreboard.Library.Static.Enums.PenaltiesEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesEnum))
-                    select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Abbre = Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(d);
-}
+  }
 <script src="@Url.Content("~/Scripts/game.js")" type="text/javascript"></script>
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
@@ -592,12 +590,12 @@
                     }
                 </tbody>
             </table>
-            <ul class="penList">
-                @foreach (var pen in PensAbbre)
+            @*<ul class="penList">
+                @foreach (var pen in Model.PensAbbre)
                 {
                     <li><span class="b">@pen.Abbre</span><span>: @pen.Name</span></li>
                 }
-            </ul>
+            </ul>*@
         </div>
         <div id="chatTab" class="tab">
             <div class="gameJamsCon">

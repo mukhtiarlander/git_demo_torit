@@ -43,6 +43,7 @@ using RDN.Library.DataModels.RN.Posts;
 using RDN.Library.DataModels.EmailServer.Subscriptions;
 using RDN.Library.DataModels.Social;
 using RDN.Library.DataModels.Controls.Forum;
+using System.Data.Entity.Infrastructure;
 
 namespace RDN.Library.DataModels.Context
 {
@@ -307,7 +308,14 @@ namespace RDN.Library.DataModels.Context
         public ManagementContext()
             : base("DB")
         {
+
         }
+
+    //    static ManagementContext()
+    //{
+    //    Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
+    //}
+
 
         // Automatically add the times the entity got created/modified
         public override int SaveChanges()
@@ -372,6 +380,7 @@ namespace RDN.Library.DataModels.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //modelBuilder.Conventions.Remove(new IncludeMetadataConvention());
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<GameMemberAssist>()

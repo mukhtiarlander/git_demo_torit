@@ -35,12 +35,13 @@ namespace RDN.Library.Classes.Game
 {
     public class Tournament : TournamentBase
     {
-        
+        public dynamic PensAbbre { get; set; }
+
         public string StartDateDisplay { get; set; }
         public string EndDateDisplay { get; set; }
         public bool IsPublished { get; set; }
         public bool AreBracketsPublished { get; set; }
-        
+
         public Guid PrivateKey { get; set; }
         public string PassCodeForGames { get; set; }
         public string EmbedVideoString { get; set; }

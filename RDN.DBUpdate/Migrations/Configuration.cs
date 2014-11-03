@@ -8,8 +8,8 @@ namespace RDN.DBUpdate.Migrations
     using RN.Library.DataModels.Context;
     using System.Data.Entity.ModelConfiguration.Conventions;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<RNManagementContext>
-       //internal sealed class Configuration : DbMigrationsConfiguration<ManagementContext>
+    //internal sealed class Configuration : DbMigrationsConfiguration<RNManagementContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ManagementContext>
     {
         public Configuration()
         {

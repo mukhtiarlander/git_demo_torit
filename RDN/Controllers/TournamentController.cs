@@ -161,6 +161,8 @@ namespace RDN.Controllers
                 else
                     tourny.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
                 ViewData["merchantId"] = tourny.SelectedShop;
+                tourny.PensAbbre = (from Scoreboard.Library.Static.Enums.PenaltiesEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesEnum))
+                                    select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Abbre = Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(d) });
 
 
                 return View(tourny);

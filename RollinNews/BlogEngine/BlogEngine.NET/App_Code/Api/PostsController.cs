@@ -200,7 +200,7 @@ public class PostsController : ApiController
                         }
                         catch (Exception exception)
                         {
-                            ErrorDatabaseManager.AddException(exception, GetType());
+                            ErrorDatabaseManager.AddException(exception, GetType(), additionalInformation:initialImage);
                         }
                         return true;
                     });
