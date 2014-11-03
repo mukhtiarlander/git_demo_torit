@@ -13,6 +13,8 @@ using RDN.Portable.Config;
 using RDN.Library.Cache.Singletons;
 using System.Configuration;
 using StackExchange.Profiling.EntityFramework6;
+using System.Web.Optimization;
+using System.Data.Entity;
 
 namespace RDN
 {
@@ -370,6 +372,7 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
 
         protected void Application_Start()
         {
+            //Database.SetInitializer<ManagementContext>(null);
 
             MiniProfilerEF6.Initialize();
             ErrorInitializer.Initialize();
@@ -380,6 +383,12 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
             
             //SiteCache.StartSite(HttpContext.Current.Cache);
             SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
+
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            log4net.Config.XmlConfigurator.Configure();
+
+            
         }
         void Application_Error(object sender, EventArgs e)
         {

@@ -14,6 +14,8 @@ using RDN.Portable.Config;
 using RDN.Library.Cache.Singletons;
 using System.Configuration;
 using StackExchange.Profiling.EntityFramework6;
+using RDN.Shops;
+using System.Web.Optimization;
 
 namespace RDN.Store
 {
@@ -34,6 +36,10 @@ namespace RDN.Store
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
+
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            log4net.Config.XmlConfigurator.Configure();
 
             SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
         }

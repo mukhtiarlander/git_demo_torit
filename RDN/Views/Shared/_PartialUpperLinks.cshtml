@@ -1,32 +1,58 @@
-﻿<ul class="dropdown">
+﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Content("~/")">
+                <img alt="Brand" height="25" src="@Url.Content("~/Content/Rollerball_pink_s100.png")">
+            </a>
+        </div>
 
-    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+     
+            <ul class="nav navbar-nav">
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
-        <li>
-            <a href="https://league.rdnation.com">MY LEAGUE</a>
-        </li> 
-    }
-    <li><a href="@Url.Content("~/roller-derby-federations")">Federations</a></li>
-    <li><a href="@Url.Content("~/roller-derby-leagues")">Leagues</a></li>
-    <li><a href="@Url.Content("~/roller-derby-skaters")">Skaters</a></li>
-    <li><a href="@Url.Content("~/roller-derby-games")">Games</a>
-        <ul class="sub_menu">
-            <li><a href="@Url.Content("~/roller-derby-tournaments")">Tournaments</a></li>
-            <li><a href="@Url.Content("~/bout-challenge/view/all")">Bout Challenges</a></li>
-        </ul>
-    </li>
-    
-    <li><a href="@Url.Content("~/roller-derby-events")">Events</a></li>
-    <li><a href="@Url.Content("~/pricing")">Pricing</a></li>
-    <li><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION">Shops</a></li>
-    <li><a href="http://rdnation.com/roller-derby-scoreboard">Scoreboard</a></li>
-    
-    <li><a href="http://zebras.rdnation.com">Officials</a>
-           <ul class="sub_menu">
-            <li><a href="@Url.Content("~/officiating-requests/view/all")">Requests</a></li>
-        </ul>
-    </li>
-    @*<span><a href="@Url.Content("~/hiring")">Hiring</a></span>*@
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]">My League</a></li>
+}
+                <li>
+                    <a href="@Url.Content("~/roller-derby-federations")">Federations</a>
+                </li>   
+                <li>
+                    <a href="@Url.Content("~/roller-derby-leagues")">Leagues</a>
+                </li>   
+                <li>
+                    <a href="@Url.Content("~/roller-derby-skaters")">Skaters</a>
+                </li>   
+         
+                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="@Url.Content("~/roller-derby-games")">View</a></li>
+                        <li><a href="@Url.Content("~/roller-derby-tournaments")">Tournaments</a></li>
+                        <li><a href="@Url.Content("~/bout-challenge/view/all")">Bout Challenges</a></li>
+                    </ul>
+                </li>
+                <li><a href="@Url.Content("~/roller-derby-events")">Events</a></li>
+                <li><a href="@Url.Content("~/pricing")">Pricing</a></li>
+                <li><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION">Shops</a></li>
+                <li><a href="http://rdnation.com/roller-derby-scoreboard">Scoreboard</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Officials <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="http://zebras.rdnation.com">View</a></li>
+                        <li><a href="@Url.Content("~/officiating-requests/view/all")">Requests</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 
 
-</ul>

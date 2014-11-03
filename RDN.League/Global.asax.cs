@@ -16,6 +16,7 @@ using RDN.Library.Cache.Singletons;
 using System.Configuration;
 using RDN.Library.Classes.Payment.Enums;
 using StackExchange.Profiling.EntityFramework6;
+using System.Web.Optimization;
 
 namespace RDN.League
 {
@@ -1260,6 +1261,10 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
 
                 SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
                 SiteSingleton.Instance.IsPayPalLive = (PaymentMode)Enum.Parse(typeof(PaymentMode), ConfigurationManager.AppSettings["IsPayPalLive"].ToString());
+
+                BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+                log4net.Config.XmlConfigurator.Configure();
             }
             catch (Exception exception)
             {
