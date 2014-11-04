@@ -1,7 +1,7 @@
 ﻿@using RDN.Models.Helpers
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    @using StackExchange.Profiling;
+@using StackExchange.Profiling;
 <head runat="server">
     <title>
         @if (ViewBag.Title == null)
@@ -44,58 +44,22 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
 </head>
 <body>
-    <div class="container">
-        @Html.Partial("_PartialUpperLinks")
-    </div>
-    
 
-    
-    <div id="fb-root">
-    </div>
-    <script>        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
-            fjs.parentNode.insertBefore(js, fjs);
-        } (document, 'script', 'facebook-jssdk'));</script>
+    @Html.Partial("_PartialUpperLinks")
 
-
-    
-
-    <div class="mainContent">
-        <div class="header">
-        </div>
-        <div class="hTitle">
-            @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]</div>
+    <br /><br />
+    <div class="container  body-content">
+        <h2>
+            @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]
+        </h2>
         <div class="hDescription">
-           @System.Configuration.ConfigurationManager.AppSettings["WebsiteSlogan"]</div>
-     
-        <div class="hLogo">
-            <a href="@Url.Content("~/")">
-                <img class="hLogoImg" src="@Url.Content("~/Content/Rollerball_pink_s100.png")" /></a></div>
-        @*<div>Guaranteed to make your fans and team happier.</div>*@
-        <div class="hFBLike">
-            <div class="fb-like-box" data-href="http://www.facebook.com/rdnation" data-width="292"
-                data-colorscheme="dark" data-show-faces="false" data-stream="false" data-header="false">
-            </div>
+            @System.Configuration.ConfigurationManager.AppSettings["WebsiteSlogan"]
         </div>
-        
-        @Html.Partial("_PartialLoginLinks")
-       
+
+
+
+
         @Html.Partial("_PartialCurrentGames")
-        @*<div class="topAd">
-            <script type="text/javascript"><!--
-                google_ad_client = "ca-pub-1376896373478670";
-                /* RDNationTop */
-                google_ad_slot = "0714080766";
-                google_ad_width = 728;
-                google_ad_height = 90;
-//-->
-            </script>
-            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
-            </script>
-        </div>*@
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
         <div class="middleCont">
             @RenderBody()
@@ -103,45 +67,57 @@
         <div>
             @RenderSection("sidebar")
         </div>
-    </div>
-    <div class="footer">
-        @Html.Partial("_PartialFooter")
-    </div>
-    <script type="text/JavaScript">
-        AddSiteMapNode(location.href, true);
+
+        <div class="footer">
+            @Html.Partial("_PartialFooter")
+        </div>
+        <script type="text/JavaScript">
+            AddSiteMapNode(location.href, true);
 
 
-        ko.applyBindings(currentGamesViewModel, document.getElementById("currentGamesBar"));
+            ko.applyBindings(currentGamesViewModel, document.getElementById("currentGamesBar"));
 
-        currentGamesViewModel.initialize();
+            currentGamesViewModel.initialize();
 
-        (function () {
-            var a = document.createElement('a');
-            a.setAttribute('id', 'uservoice-feedback-tab');
-            a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
-            a.setAttribute('target', '_blank');
-            a.style.cssText = [
-      'position: fixed',
-      'top: 45%',
-      'width: 25px',
-      'height: 90px',
-      'margin: -45px 0 0',
-      'right: 0',
-      'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
-      'border: outset 1px #39B4D7',
-      'border-right: none'
-    ].join(';');
-            document.body.appendChild(a);
-        })();
+            (function () {
+                var a = document.createElement('a');
+                a.setAttribute('id', 'uservoice-feedback-tab');
+                a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
+                a.setAttribute('target', '_blank');
+                a.style.cssText = [
+          'position: fixed',
+          'top: 45%',
+          'width: 25px',
+          'height: 90px',
+          'margin: -45px 0 0',
+          'right: 0',
+          'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
+          'border: outset 1px #39B4D7',
+          'border-right: none'
+                ].join(';');
+                document.body.appendChild(a);
+            })();
 
-    </script>
-    <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=RDNation Feedback"
-        target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
+        </script>
+        <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=RDNation Feedback"
+           target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
         margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png);
         background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px;
         border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000;
         border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;">
-    </a>
-    
+        </a>
+        <div id="fb-root">
+        </div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+
+
+    </div>
 </body>
 </html>

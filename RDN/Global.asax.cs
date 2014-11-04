@@ -417,7 +417,10 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
         }
         protected void Application_EndRequest()
         {
-            MiniProfiler.Stop();
+            if (Request.IsLocal)
+            {
+                MiniProfiler.Stop();
+            }
         }
     }
 }

@@ -70,10 +70,10 @@ namespace RDN.Library.Classes.Error
         private static Dictionary<string, string> GetCookieData(ref HttpContext context)
         {
             var output = new Dictionary<string, string>();
-            
+
             try
             {
-                if (context.Request == null || context.Request.Cookies.Count == 0) return null;    
+                if (context.Request == null || context.Request.Cookies.Count == 0) return null;
                 var cookieKeys = context.Request.Cookies.Keys;
                 for (var i = 0; i < cookieKeys.Count; i++)
                 {
@@ -85,7 +85,8 @@ namespace RDN.Library.Classes.Error
                         cookieKey = cookieKeys[i];
                         // Filter out some chrome cookies like  __qca=P0-1725770340-1330513871437; __unam=7639673-135bf56349f-17eadb1b-27; and also the glimpse information
                         if (cookieKey.StartsWith("__") || cookieKey.ToLower().Contains("glimpse")) continue;
-                        cookieValue = context.Session[cookieKey].ToString();
+                        if (context.Session != null && context.Session[cookieKey] != null)
+                            cookieValue = context.Session[cookieKey].ToString();
                     }
                     catch (Exception)
                     {
@@ -99,9 +100,9 @@ namespace RDN.Library.Classes.Error
                         output.Add(cookieKey, cookieValue);
                 }
             }
-            catch 
+            catch
             {
-                
+
             }
             return output;
         }
@@ -133,7 +134,7 @@ namespace RDN.Library.Classes.Error
                 if (context.Request.UrlReferrer != null)
                     output.Add("URL_REFFERER", context.Request.UrlReferrer.ToString() ?? string.Empty);
             }
-            catch 
+            catch
             { }
             return output;
         }

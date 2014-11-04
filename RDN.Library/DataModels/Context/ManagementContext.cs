@@ -308,7 +308,7 @@ namespace RDN.Library.DataModels.Context
         public ManagementContext()
             : base("DB")
         {
-            Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
+            //Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
         }
 
     //    static ManagementContext()

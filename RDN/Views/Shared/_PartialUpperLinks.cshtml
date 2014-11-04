@@ -1,5 +1,5 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
+﻿<div class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -15,23 +15,23 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-     
+
             <ul class="nav navbar-nav">
-@if (HttpContext.Current.User.Identity.IsAuthenticated)
-    {
-                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]">My League</a></li>
-}
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    <li><a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]">My League</a></li>
+                }
                 <li>
                     <a href="@Url.Content("~/roller-derby-federations")">Federations</a>
-                </li>   
+                </li>
                 <li>
                     <a href="@Url.Content("~/roller-derby-leagues")">Leagues</a>
-                </li>   
+                </li>
                 <li>
                     <a href="@Url.Content("~/roller-derby-skaters")">Skaters</a>
-                </li>   
-         
-                 <li class="dropdown">
+                </li>
+
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="@Url.Content("~/roller-derby-games")">View</a></li>
@@ -50,9 +50,36 @@
                         <li><a href="@Url.Content("~/officiating-requests/view/all")">Requests</a></li>
                     </ul>
                 </li>
+                <li>
+
+                    <div class="fb-like" data-href="https://www.facebook.com/rdnation" data-layout="button_count" data-share="false" data-action="like" data-show-faces="false" data-kid-directed-site="true"></div>
+                </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
+
+            <ul class="nav navbar-nav navbar-right">
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a href="@Url.Action("Logout", "Account")" id="logout">Logout</a>
+
+                    </li>
+                }
+                @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a href="@Url.Content("~/SignUp")">Sign Up</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Content("~/login")">
+                            Login
+                        </a>
+                    </li>
+                }
+
+
+
+
+            </ul>
+        </div>
     </div><!-- /.container-fluid -->
-</nav>
-
-
+</div>
