@@ -139,6 +139,9 @@ namespace RDN.Controllers
         {
             HomeModel model = new HomeModel();
             model.LeagueCount = SiteCache.GetNumberOfLeaguesSignedUpToRDNation();
+            model.RandomLeagues = SiteCache.GetAllPublicLeagues().OrderBy(x => new Guid()).Take(4).ToList();
+            model.MemberCount = SiteCache.GetNumberOfMembersSignedUpToRDNation();
+            model.RandomSkaters = SiteCache.GetAllPublicMembers().OrderBy(x => new Guid()).Take(4).ToList();
             model.Tumblr = Tumblr.GetBlog();
             model.Tournaments = SiteCache.GetCurrentTournaments();
 

@@ -512,9 +512,6 @@
     <Content Include="Views\Shared\_PartialUpperLinks.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_PartialLoginLinks.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -608,6 +605,7 @@
     <Content Include="Views\Games\ViewRequest.cshtml" />
     <Content Include="Views\Games\AllBoutList.cshtml" />
     <Content Include="Views\Games\ViewBoutEvent.cshtml" />
+    <Content Include="Views\Shared\_LayoutFront.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

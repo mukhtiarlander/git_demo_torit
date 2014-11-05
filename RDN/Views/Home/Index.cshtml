@@ -1,73 +1,16 @@
 ﻿@model RDN.Models.Home.HomeModel
 @{
     ViewBag.Title = null;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
 }
 
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="@Url.Content("~/Content/ImageSlides/images/6.jpg")" alt="Made For Derby, Built By Derby - PhilosoFear" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/10.jpg")" alt="Roster Management - Hanson Images" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/1.jpg")" alt="Official Management - Hanson Images" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/7.jpg")" alt="Calendar and Attendance Tracking - Hanson Images" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/5.jpg")" alt="Track Your Player Medical Records - Hanson Images" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/8.jpg")" alt="Groups, Teams and Committee Management - Roller Derby On Film" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/2.jpg")" alt="Live Games Online, RDNation Scoreboard - PhilosoFear" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/9.jpg")" alt="Forums For Communicating - Roller Derby On Film" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-        <div class="item">
-            <img src="@Url.Content("~/Content/ImageSlides/images/3.jpg")" alt="Online Shops For Derby Merchandise - Roller Derby On Film" />
-            <div class="carousel-caption">
-            </div>
-        </div>
-    </div>
-
-</div>
 
 <br />
-
 @if (Model.Tournaments.Count > 0)
 {
-    <div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
         <div class="alignCenter frontPageTitleBold">Live Tournament Happening Now</div>
         <div class="frontPageScores">
             @foreach (var game in Model.Tournaments)
@@ -112,22 +55,34 @@
             }
             <div class="clear"></div>
         </div>
-    </div>
-    <br />
-}
-@if (DateTime.UtcNow < new DateTime(2013, 4, 21))
-{
-    <div class="alignCenter">
-    </div>
-    <br />
-    <br />
 
-}
-<br />
-<div class="alignCenter">
-    <span class="frontPageTitleBold ">@Model.LeagueCount Leagues Are Managing Themselves With RDNation.</span><br />
+    </div>
+</div>
     <br />
-    <span class="frontPageTitleBold ">Today Is Your Leagues Turn.</span>
+}
+
+<br />
+<div class="row text-center">    
+    <div class="col-sm-10 col-sm-offset-1">
+            <h3 class="bold">Join over @Model.LeagueCount leagues from around the world</h3>
+            <div>Manage every part of your league</div>
+        <br />
+        @foreach (var league in Model.RandomLeagues)
+        {
+            <img src="@league.LogoUrl" alt="@league.LeagueName" class="col-xs-6 col-lg-3 img-rounded">
+        }
+    </div>    
+</div>
+<div class="row text-center">
+    <div class="col-sm-10 col-sm-offset-1">
+        <h3 class="bold">Join over @Model.MemberCount people from around the world</h3>
+        <div>Keep track of all your members</div>
+        <br />
+        @foreach (var league in Model.RandomSkaters)
+        {
+            <img src="@league.photoUrl" alt="@league.DerbyName" class="col-xs-6 col-lg-3 img-rounded">
+        }
+    </div>
 </div>
 <br />
 <div class="alignCenter">
