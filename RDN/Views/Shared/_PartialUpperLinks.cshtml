@@ -21,37 +21,29 @@
                 {
                     <li><a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]">My League</a></li>
                 }
-                <li>
-                    <a href="@Url.Content("~/roller-derby-federations")">Federations</a>
-                </li>
-                <li>
-                    <a href="@Url.Content("~/roller-derby-leagues")">Leagues</a>
-                </li>
-                <li>
-                    <a href="@Url.Content("~/roller-derby-skaters")">Skaters</a>
-                </li>
 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">The Nation<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="@Url.Content("~/roller-derby-federations")">Federations</a></li>
+                        <li><a href="@Url.Content("~/roller-derby-leagues")">Leagues</a></li>
+                        <li><a href="@Url.Content("~/roller-derby-skaters")">Skaters</a></li>
+                        <li><a href="@Url.Content("~/officiating-requests/view/all")">Officials</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="@Url.Content("~/roller-derby-games")">View</a></li>
+                        <li><a href="http://rdnation.com/roller-derby-scoreboard">Scoreboard</a></li>
                         <li><a href="@Url.Content("~/roller-derby-tournaments")">Tournaments</a></li>
                         <li><a href="@Url.Content("~/bout-challenge/view/all")">Bout Challenges</a></li>
                     </ul>
                 </li>
                 <li><a href="@Url.Content("~/roller-derby-events")">Events</a></li>
                 <li><a href="@Url.Content("~/pricing")">Pricing</a></li>
-                <li><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION">Shops</a></li>
-                <li><a href="http://rdnation.com/roller-derby-scoreboard">Scoreboard</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Officials <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="http://zebras.rdnation.com">View</a></li>
-                        <li><a href="@Url.Content("~/officiating-requests/view/all")">Requests</a></li>
-                    </ul>
-                </li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["ShopUrl"]">Gear</a></li>
                 <li>
-
                     <div class="fb-like" data-href="https://www.facebook.com/rdnation" data-layout="button_count" data-share="false" data-action="like" data-show-faces="false" data-kid-directed-site="true"></div>
                 </li>
             </ul>

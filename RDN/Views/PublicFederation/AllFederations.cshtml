@@ -2,27 +2,30 @@
 @model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Federation.FederationDisplay>>
 @{
     ViewBag.Title = "All Roller Derby Federations";
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
-        <div class="fixTitle">
+        <h2 class="page-header text-center">
             @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Federations World Wide
-        </div>
+        </h2>
         <div class="divider"></div>
         <div class="pager">
             @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllFederations", "PublicFederation"))
         </div>
-        <div>
-            <table class="listTable" id="leagues">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover" id="leagues">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Federation
+                        <th>
+                            Federation
                         </th>
-                        <th>Leagues
+                        <th class="text-center">
+                            Leagues
                         </th>
-                        <th>Members
+                        <th class="text-center">
+                            Members
                         </th>
                         <th>Website</th>
                     </tr>
@@ -32,24 +35,26 @@
                     {
                         if (Model.Model.Items[i].FederationName != null)
                         {
-                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                @if (Model.Model.Items[i].Logo != null)
-                                {
-                                    <img height="40px" alt="@Model.Model.Items[i].Logo.Alt" src="@Model.Model.Items[i].Logo.ImageUrl" />
-                                }
-                            </td>
-                            <td>
-                                <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-federation/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].FederationName.Replace(" ", "-")) + "/" + Model.Model.Items[i].FederationId.ToString().Replace("-", ""))">
-                                    @Model.Model.Items[i].FederationName
-                                </a></span>
-                            </td>
-                            <td>@Model.Model.Items[i].LeaguesCount
-                            </td>
-                            <td>@Model.Model.Items[i].MembersCount
-                            </td>
-                            <td>@Model.Model.Items[i].Website</td>
-                        </tr>              
+                            <tr>
+                                <td>
+                                    @if (Model.Model.Items[i].Logo != null)
+                                    {
+                                        <img height="40px" alt="@Model.Model.Items[i].Logo.Alt" src="@Model.Model.Items[i].Logo.ImageUrl" />
+                                    }
+                                </td>
+                                <td>
+                                        <a href="@Url.Content("~/roller-derby-federation/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].FederationName.Replace(" ", "-")) + "/" + Model.Model.Items[i].FederationId.ToString().Replace("-", ""))">
+                                            @Model.Model.Items[i].FederationName
+                                        </a>
+                                </td>
+                                <td class="text-center">
+                                    @Model.Model.Items[i].LeaguesCount
+                                </td>
+                                <td class="text-center">
+                                    @Model.Model.Items[i].MembersCount
+                                </td>
+                                <td>@Model.Model.Items[i].Website</td>
+                            </tr>
                         }
                     }
                 </tbody>

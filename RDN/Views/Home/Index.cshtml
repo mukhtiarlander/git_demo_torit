@@ -4,74 +4,16 @@
     Layout = "~/Views/Shared/_LayoutFront.cshtml";
 }
 
-
-<br />
-@if (Model.Tournaments.Count > 0)
-{
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="alignCenter frontPageTitleBold">Live Tournament Happening Now</div>
-        <div class="frontPageScores">
-            @foreach (var game in Model.Tournaments)
-            {
-                <div class="gsPTournyContainer">
-                    <div class="gsPTitle">
-                        @if (game.Photos.FirstOrDefault() != null)
-                        {
-                            <img src="@game.Photos.FirstOrDefault().ImageThumbUrl" class="floatLeft tournyLogo" alt="@game.Photos.FirstOrDefault().Alt" />
-                        }
-                        <a href="@Url.Content("~/roller-derby-tournament/" + game.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Name))">
-                            @game.Name
-                        </a>
-                    </div>
-                    <div class="gsPContent">
-                        <div class="gsPDate">
-                            @game.StartDate.ToShortDateString()
-                        </div>
-                        @if (!String.IsNullOrEmpty(game.EmbedVideoString))
-                        {
-                            <div class="gsPDivider">
-                                <img src="../../Content/images/greenCheck.png" />
-                                Is Live
-
-                            </div>
-                            <br />
-                        }
-
-                        <div class="gsPDivider">
-                            @foreach (var g in game.Games.OrderByDescending(x => x.GameDate).Take(3))
-                            {
-                                <div>
-                                    <a href="@Url.Content("~/roller-derby-game/" + g.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team2Name))">
-                                        @g.GameName
-                                    </a>
-                                </div>
-                            }
-                        </div>
-
-                    </div>
-                </div>
-            }
-            <div class="clear"></div>
-        </div>
-
-    </div>
-</div>
-    <br />
-}
-
-<br />
-<div class="row text-center">    
+<div class="row text-center">
     <div class="col-sm-10 col-sm-offset-1">
-            <h3 class="bold">Join over @Model.LeagueCount leagues from around the world</h3>
-            <div>Manage every part of your league</div>
+        <h3 class="bold">Join over @Model.LeagueCount leagues from around the world</h3>
+        <div>Manage every part of your league</div>
         <br />
         @foreach (var league in Model.RandomLeagues)
         {
             <img src="@league.LogoUrl" alt="@league.LeagueName" class="col-xs-6 col-lg-3 img-rounded">
         }
-    </div>    
+    </div>
 </div>
 <div class="row text-center">
     <div class="col-sm-10 col-sm-offset-1">
@@ -85,269 +27,82 @@
     </div>
 </div>
 <br />
-<div class="alignCenter">
-    <span class="packageGetStarted"><a href="http://rdnation.com/signup">Get started today with managing your league better!</a></span><br />
-    <br />
-</div>
-<div class="alignCenter">
-    <span class="packageGetStartedTry"><a href="http://blog.rdnation.com/post/41220319441/want-a-demo" target="_blank">Want a Demo?</a></span><br />
-    <br />
-</div>
-<div class="alignCenter">
-    <span class="packageGetStartedTry"><a href="http://blog.rdnation.com/post/44872732246/free-rdnation-subscription-for-6-months" target="_blank">League less than a year old?</a></span><br />
-    <br />
-</div>
-
-<br />
-<div class="frontPageItem">
-    <a name="1RDN"></a><span class="frontPageNumber">1</span> <span class="frontPageTitle">
-        Made by Derby, Built
-        for Derby.
-    </span>
-    <div class="frontDescription">
-        The developers behind RDNation.com are very heavily involved in derby. We feel that
-        Derby has a lot more potential for growth and we aim to take it to the top. Our
-        goal is simple, to put Roller Derby in its rightful light where it belongs. Skaters
-        will experience the ease of networking their past, present and future bouts, statistics,
-        players and blogs worldwide. After all, the sport and community are equal attributes
-        in the world of derby.
-    </div>
-</div>
-<div class="frontPageItem">
-    <a name="5RDN">
-        <span class="frontPageNumber">2</span> <span class="frontPageTitle">Attendance Tracking.</span>
-        <div class="frontDescription">
-            We know what its like to track league attendance.  Google Documents, Excel spreadsheets and nifty little formulas.  The attendance tracking software is based
-            on the popular points based system most leagues use.  We have streamlined attendance tracking so that each league can track their attendance, run reports and see who is bout eligable.
-        </div>
-</div>
-<div class="frontPageItem">
-    <a name="4RDN">
-        <span class="frontPageNumber">3</span> <span class="frontPageTitle">League Calendar.</span>
-        <div class="frontDescription">
-            Each league gets a calendar.  The calendar is used to schedule events, set RSVP availability, track attendance and show the locations of those such events.
-
-        </div>
-</div>
-<div class="frontPageItem">
-
-    <span class="frontPageNumber">4</span> <span class="frontPageTitle">Dues Management.</span>
-    <div class="frontDescription">
-        Leagues can manage their dues collections with RDNation. Your league can track each payment of each member month by month.  You can waive payments, manage payments and remove those payments.  You can view in/out going payments, view how much is still required and sent notifications to those requiring payment. Your members can even pay through RDNation!
-    </div>
-</div>
-<div class="frontPageItem">
-
-    <span class="frontPageNumber">5</span> <span class="frontPageTitle">Document Repository.</span>
-    <div class="frontDescription">
-        Each league gets their own document repository.  This is the place to store all your important league documents that every member has access to.  We give you a full 5GBs of space to start storing any document you want.  Each document can also be commented on with the comments being saved directly in RDNation.
-    </div>
-</div>
-<div class="frontPageItem">
-    <a name="2RDN"></a><span class="frontPageNumber">6</span> <span class="frontPageTitle">Roster Management.</span>
-    <div class="frontDescription">
-        Manage your leagues roster.  View contact information, pictures, stats.  Its all here including public player profiles as well as league profiles.
-    </div>
-</div>
-<div class="frontPageItem">
-
-    <span class="frontPageNumber">7</span> <span class="frontPageTitle">Messaging.</span>
-    <div class="frontDescription">
-        Internal RDNation messaging allows you to send messages to anyone in your league as well as anyone within RDNation.  Have a roller derby player you love?  Contact them personally through RDNation and say hi!
-    </div>
-</div>
-<div class="frontPageItem">
-
-    <span class="frontPageNumber">8</span> <span class="frontPageTitle">Text Messaging.</span>
-    <div class="frontDescription">
-        Text Message your entire league directly through RDNation.  Instant text messages with just one button to one person or every person in your league.
-    </div>
-</div>
-<div class="frontPageItem">
-
-    <a name="3RDN">
-        <span class="frontPageNumber">9</span> <span class="frontPageTitle">Contacts Management.</span>
-        <div class="frontDescription">
-            We let you manage all your external non league affiliated contacts.  Have a sponsor, official, parent of a skater, volunteer or any other person you need to keep in touch with?  Well you can do that within RDNation.
-        </div>
-</div>
-<div class="frontPageItem">
-    <a name="8RDN">
-        <span class="frontPageNumber">10</span> <span class="frontPageTitle">Forums.</span>
-        <div class="frontDescription">
-            Each league has their own personal forums.  They can communicate within the league about anything pretaining to roller derby in general.
-        </div>
-</div>
-<div class="frontPageItem">
-    <a name="6RDN">
-        <span class="frontPageNumber">11</span> <span class="frontPageTitle">Groups, Teams and Committees.</span>
-        <div class="frontDescription">
-            Feel free to seperate your members out in groups within RDNation.  Have a few committees, teams and steering committees?  They can communicate with each other at RDNation.  Having their own forums for each group greatly enhances their ability to communicate effectively.
-        </div>
-</div>
-<div class="frontPageItem">
-    <span class="frontPageNumber">12</span> <span class="frontPageTitle">League Store.</span>
-    <div class="frontDescription">
-        We are currently in Beta, but each league will be able to sell all their merchandise online with their own store.  They define the prices, post pictures and start selling their very own merchandise! This is also available to each member as well.
-    </div>
-</div>
-<div class="frontPageItem">
-    <a name="7RDN">
-        <span class="frontPageNumber">13</span> <span class="frontPageTitle">Games Online - Scoreboard For Roller Derby.</span>
-        <div class="frontDescription">
-            Used by more roller derby teams than any other scoreboard world wide. <a href="http://rdnation.com/roller-derby-scoreboard">Thor's Hammer</a> has been built by derby enthusiasts as the wave of the future
-            to improve roller derby for fans and skaters. This intuitive score board is easy
-            to use, install and update with customizable displays for any rule set or league
-            size. Fans will enjoy the personalized look and feel of their favorite team as each
-            league’s site will offer a custom skin. It can track stats including Assist, Blocks, Penalties, Jams and any other information pretaining to the game.
-            We also allow you to display your game LIVE online at RDNation.com just by using the scoreboard.
-        </div>
-</div>
-<div class="frontPageItem">
-    <span class="frontPageNumber">14</span> <span class="frontPageTitle">Member Site.</span>
-    <div class="frontDescription">
-        Each member of RDNation has their own personal page, with their game stats, pictures and information about them.
-    </div>
-</div>
-
-<div class="frontPageItem">
-    <img src="@Url.Content("~/Content/penaltyTimer.jpg")" class="frontImgRight" />
-    <span class="frontPageNumber">15</span> <span class="frontPageTitle">
-        Roller Derby Penalty
-        Timer
-    </span>
-    <div class="frontDescription">
-        Androids best <a href="https://play.google.com/store/apps/details?id=com.rdnation.pbtimerpaid">Roller Derby Penalty Timer</a>. Highest Rated and most used Penalty Timer on
-        the Android market place. So feel free to have your Android phone account for penalties
-        faster and easier than any other app on the market.<br />
-        <img src="@Url.Content("~/Content/android_qr.png")" style="height: 150px; width:150px;" />
-    </div>
-</div>
-<div class="frontPageItem">
-    <span class="frontPageNumber">16</span> <span class="frontPageTitle">Referee, NSO and Skater Forums</span>
-    <div class="frontDescription">
-        We love them. Our very own <a target="_blank" href="http://rdnation.com/roller-derby-skater/Veggie-Delight/0525b20627d849d2a881c9a42b42d53a">Veggie Delight</a> is one and has been for many years. So we created a place
-        for them to talk, strategize and get to know each other. Welcome to your very <a href="http://zebras.rdnation.com/">own Zebra Forums</a>.
-    </div>
-</div>
-<div class="frontPageItem">
-    <span class="frontPageNumber">17</span> <span class="frontPageTitle">Polls For Voting</span>
-    <div class="frontDescription">
-        Create Your very own polls so you can ask your league a question.  Unlimited amount of polls just for your league to ask questions.  We rate them, show percentages and even allow members to comment on their answers.
-    </div>
-</div>
-<div class="frontPageItem">
-    <span class="frontPageNumber">18</span> <span class="frontPageTitle">Jobs Board</span>
-    <div class="frontDescription">
-        Got a job you need done within the league?  We offer a league job board, where jobs can be posted to.  Someone then applies gets the job done and the league goes home happy.
-    </div>
-</div>
-<div class="frontPageItem">
-    <span class="frontPageNumber">19</span> <span class="frontPageTitle">Track Your Sponsors</span>
-    <div class="frontDescription">
-        Too many sponsors, too many discounts and too many folks asking what the promo codes are.  Well we have a place to keep track of all your sponsors too as well as promo codes.
-    </div>
-</div>
-<br />
-<div class="alignCenter">
-    <span class="packageGetStarted"><a href="http://rdnation.com/signup">Get started today with managing your league better!</a></span><br />
-    <br />
-</div>
-<div class="alignCenter">
-    <span class="packageGetStartedTry"><a href="http://blog.rdnation.com/post/41220319441/want-a-demo" target="_blank">Want a Demo?</a></span><br />
-    <br />
-</div>
-@section sidebar{
-
-    <div class="sidebar">
-        <h2 class="newsTitle"><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION ">Shops at RDNation</a></h2>
-        @foreach (var item in Model.Store.StoreItems)
-        {
-            <div class="storeItem">
-                <div class="storeItemInner">
-                    <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
-                        <div class="storeItemPhoto center">
-                            @if (item.Photos.FirstOrDefault() != null)
-                            {
-                                <img src="@item.Photos.FirstOrDefault().ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault().Alt" />
-                            }
-                        </div>
-                    </a>
-
-                    <div class="storeItemTitle">
-                        <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
-                    </div>
-                    <div class="storeItemN">
-                        <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
-                    </div>
-                    <div class="storeItemPrice">
-                        @if (item.Currency == "USD")
-                        {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
-                    </div>
-
-
-                    <div class="clear">
-                    </div>
-                </div>
-            </div>
-        }
+<div class="row text-center">
+    <div class="col-sm-10 col-sm-offset-1">
+        <h3 class="bold">Get started today</h3>
+        <div>Keep track of all your members</div>
         <br />
-        <div class="clear center"><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/sell")">Sell Gear At RDNation</a></div>
-    </div>
-    <div class="sidebar">
-        <h2 class="newsTitle">RDNation News</h2>
-        <div class="tumblr">
-            @if (Model.Tumblr.Posts.Post != null && Model.Tumblr.Posts.Post.Count > 0)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        <div class="tumblrPost">
-                            @if (Model.Tumblr.Posts.Post[i].Type == "regular")
-                            {
-                                <span>- <a class="blogLink" href="@Url.Content(Model.Tumblr.Posts.Post[i].UrlSlug)">@(Model.Tumblr.Posts.Post[i].Title.Length > 20 ? Model.Tumblr.Posts.Post[i].Title.Remove(20) + "..." : Model.Tumblr.Posts.Post[i].Title)</a></span>
-                            }
-                            <div class="tumblrBody">
-                                @if (Model.Tumblr.Posts.Post[i].Type == "regular")
-                                {
-                                    @Html.Raw(Model.Tumblr.Posts.Post[i].Body.Remove(200))
-                                }
-                                else
-                                {
-                                    <a class="blogLink" href="@Url.Content(Model.Tumblr.Posts.Post[i].UrlSlug)">
-                                        <img width="170px" src="@Model.Tumblr.Posts.Post[i].photoUrl250" />
-                                    </a>
-                                }
-                            </div>
-                        </div>
-                    }
-                    catch { }
-                }
-            }
-        </div>
-    </div>
-}
-<div class="clear"></div>
-<script type="text/ecmascript">
-        var sliderOptions =
-    {
-        sliderId: "slider",
-        startSlide: 0,
-        effect: "series1",
-        effectRandom: false,
-        pauseTime: 3500,
-        transitionTime: 500,
-        slices: 12,
-        boxes: 8,
-        hoverPause: 1,
-        autoAdvance: true,
-        captionOpacity: 0.8,
-        captionEffect: "fade",
-        thumbnailsWrapperId: "thumbs",
-        m: false,
-        license: "b6t80"
-    };
+        <a href="@Url.Content("~/signup")" class="btn btn-success ">Sign Me Up</a>
 
-        var imageSlider = new mcImgSlider(sliderOptions);
-</script>
+    </div>
+</div>
+<br />
+<div class="row text-center">
+    <div class="col-sm-10 col-sm-offset-1">
+        <h3 class="bold">Check out these awesome features</h3>
+        <div class="row">
+            <div class="col-xs-4 text-center">
+                <div class="row">
+                    <i class="fa fa-calendar fa-4x"></i>
+                </div>
+                <h3>Attendance Tracking & Calendar</h3>
+                Each league gets a calendar.  The calendar is used to schedule events, set RSVP availability, track attendance and show the locations of those such events. The attendance tracking software is based on the popular points based system most leagues use.
+            </div>
+            <div class="col-xs-4 text-center">
+                <div class="row">
+                    <i class="fa fa-money fa-4x"></i>
+                </div>
+                <h3>Dues Management</h3>
+                Leagues can manage their dues collections with RDNation. Your league can track each payment of each member month by month.  You can waive payments, manage payments and remove those payments.  You can view in/out going payments, view how much is still required and sent notifications to those requiring payment. Your members can even pay through RDNation!
+            </div>
+            <div class="col-xs-4 text-center">
+                <div class="row">
+                    <i class="fa fa-file-word-o fa-4x"></i>
+                </div>
+                <h3>Document Repository</h3>
+                Each league gets their own document repository.  This is the place to store all your important league documents that every member has access to.  We give you a full 5GBs of space to start storing any document you want.  Each document can also be commented on with the comments being saved directly in RDNation.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 text-center">
+                <div class="row">
+                    <i class="fa fa-group fa-4x"></i>
+                </div>
+                <h3>Groups, Teams and Committees</h3>
+                Feel free to seperate your members out in groups within RDNation.  Have a few committees, teams and steering committees?  They can communicate with each other at RDNation.  Having their own forums for each group greatly enhances their ability to communicate effectively.
+            </div>
+
+            <div class="col-xs-4 text-center">
+                <div class="row">
+                    <i class="fa fa-wechat fa-4x"></i>
+                </div>
+                <h3>Forums</h3>
+                Each league has their own personal forums.  They can communicate within the league about anything pretaining to roller derby in general.
+            </div>
+            <div class="col-xs-4 text-center">
+                <div class="row">
+                    <i class="fa fa-child fa-4x"></i>
+                </div>
+                <h3>Roster Management</h3>
+                Manage your leagues roster.  View contact information, pictures, stats.  Its all here including public player profiles as well as league profiles.
+            </div>
+
+        </div>
+        <div class="row">
+            <h2>View the <a href="@Url.Content("~/pricing")">full list of features</a> and <a href="@Url.Content("~/pricing")">easy pricing</a>.</h2>
+        </div>
+
+    </div>
+</div>
+<br />
+<div class="row text-center">
+    <div class="col-sm-10 col-sm-offset-1">
+        <h3 class="bold">Get started today</h3>
+        <div>Keep track of all your members</div>
+        <br />
+        <a href="@Url.Content("~/signup")" class="btn btn-success ">Sign Me Up</a>
+
+    </div>
+</div>
+<br />
+<div class="clearfix"></div>

@@ -302,6 +302,13 @@
     <Content Include="Content\FullCalendar\fullcalendar.print.css" />
     <Content Include="Content\ImageSlides\images\1.jpg" />
     <Content Include="Content\ImageSlides\images\10.jpg" />
+    <Content Include="Content\ImageSlides\images\11.jpg" />
+    <Content Include="Content\ImageSlides\images\12.jpg" />
+    <Content Include="Content\ImageSlides\images\13.jpg" />
+    <Content Include="Content\ImageSlides\images\14.jpg" />
+    <Content Include="Content\ImageSlides\images\15.jpg" />
+    <Content Include="Content\ImageSlides\images\17.jpg" />
+    <Content Include="Content\ImageSlides\images\18.jpg" />
     <Content Include="Content\ImageSlides\images\2.JPG" />
     <Content Include="Content\ImageSlides\images\3.jpg" />
     <Content Include="Content\ImageSlides\images\4.jpg" />
@@ -312,15 +319,22 @@
     <Content Include="Content\ImageSlides\images\9.jpg" />
     <Content Include="Content\ImageSlides\bullet.png" />
     <Content Include="Content\ImageSlides\loading.gif" />
+    <Content Include="Content\images\back_disabled.png" />
+    <Content Include="Content\images\back_enabled.png" />
+    <Content Include="Content\images\back_enabled_hover.png" />
     <Content Include="Content\images\boy.png" />
     <Content Include="Content\Derby_Ink_MainHP.png" />
     <Content Include="Content\facebook.png" />
     <Content Include="Content\fbIcon.JPG" />
     <Content Include="Content\images\calendarBtn.gif" />
     <Content Include="Content\images\close.gif" />
+    <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\female.png" />
     <Content Include="Content\frontpage\zebra-of-rollerderby.png" />
     <Content Include="Content\googlePlus.JPG" />
+    <Content Include="Content\images\forward_disabled.png" />
+    <Content Include="Content\images\forward_enabled.png" />
+    <Content Include="Content\images\forward_enabled_hover.png" />
     <Content Include="Content\images\greenCheck.png" />
     <Content Include="Content\images\icons\contact.png" />
     <Content Include="Content\images\icons\google.png" />
@@ -330,7 +344,13 @@
     <Content Include="Content\images\marker3.png" />
     <Content Include="Content\images\rollerball\500x500.png" />
     <Content Include="Content\images\rollerball\70x70.png" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_asc_disabled.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\sort_desc_disabled.png" />
     <Content Include="Content\indicator.gif" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\loading_lg.gif" />
     <Content Include="Content\modernizr-2.6.2.js" />
     <Content Include="Content\osm.css" />
@@ -419,6 +439,13 @@
     <Content Include="Scripts\Bootstrap\bootstrap-notify.js" />
     <Content Include="Scripts\img\cloud-popup-relative.png" />
     <Content Include="Scripts\jquery-1.11.1.min.js" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.11.1.js" />
+    <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\knockout-3.2.0.js" />
     <Content Include="Scripts\knockout.mapping-2.4.1.js" />
     <Content Include="Scripts\menucool.js" />
@@ -436,7 +463,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\OpenLayers.js" />
+    <Content Include="Scripts\OSM.js" />
     <Content Include="Scripts\playerframework.min.js" />
     <Content Include="Scripts\top_up-min.js" />
     <Content Include="Web.config">
@@ -589,6 +618,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Content\images\Sorting icons.psd" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
@@ -606,6 +636,7 @@
     <Content Include="Views\Games\AllBoutList.cshtml" />
     <Content Include="Views\Games\ViewBoutEvent.cshtml" />
     <Content Include="Views\Shared\_LayoutFront.cshtml" />
+    <Content Include="Scripts\jquery-2.1.1.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

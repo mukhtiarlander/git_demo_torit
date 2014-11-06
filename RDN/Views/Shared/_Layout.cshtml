@@ -15,24 +15,10 @@
         }
     </title>
 
-    <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-29843570-1']);
-        _gaq.push(['_setDomainName', 'rdnation.com']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
-
     @System.Web.Optimization.Styles.Render("~/Content/css")
     @System.Web.Optimization.Scripts.Render("~/bundles/modernizr")
     @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+    @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
     <link rel="apple-touch-icon" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
     <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
@@ -47,77 +33,81 @@
 
     @Html.Partial("_PartialUpperLinks")
 
-    <br /><br />
-    <div class="container  body-content">
-        <h2>
-            @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]
-        </h2>
-        <div class="hDescription">
-            @System.Configuration.ConfigurationManager.AppSettings["WebsiteSlogan"]
-        </div>
+    <br />
+    <div class="container-fluid  body-content">
 
 
+    
 
 
-        @Html.Partial("_PartialCurrentGames")
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
-        <div class="middleCont">
-            @RenderBody()
-        </div>
-        <div>
-            @RenderSection("sidebar")
-        </div>
-
-        <div class="footer">
-            @Html.Partial("_PartialFooter")
-        </div>
-        <script type="text/JavaScript">
-            AddSiteMapNode(location.href, true);
+        @RenderBody()
 
 
-            ko.applyBindings(currentGamesViewModel, document.getElementById("currentGamesBar"));
+    </div>
+    <div class="container-fluid footer">
+        @Html.Partial("_PartialFooter")
+        <br /><br /><br /><br /><br />
+    </div>
+    <script type="text/JavaScript">
+        AddSiteMapNode(location.href, true);
 
-            currentGamesViewModel.initialize();
 
-            (function () {
-                var a = document.createElement('a');
-                a.setAttribute('id', 'uservoice-feedback-tab');
-                a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
-                a.setAttribute('target', '_blank');
-                a.style.cssText = [
-          'position: fixed',
-          'top: 45%',
-          'width: 25px',
-          'height: 90px',
-          'margin: -45px 0 0',
-          'right: 0',
-          'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
-          'border: outset 1px #39B4D7',
-          'border-right: none'
-                ].join(';');
-                document.body.appendChild(a);
-            })();
+        //ko.applyBindings(currentGamesViewModel, document.getElementById("currentGamesBar"));
 
-        </script>
-        <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=RDNation Feedback"
-           target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
+        //currentGamesViewModel.initialize();
+
+        (function () {
+            var a = document.createElement('a');
+            a.setAttribute('id', 'uservoice-feedback-tab');
+            a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
+            a.setAttribute('target', '_blank');
+            a.style.cssText = [
+      'position: fixed',
+      'top: 45%',
+      'width: 25px',
+      'height: 90px',
+      'margin: -45px 0 0',
+      'right: 0',
+      'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
+      'border: outset 1px #39B4D7',
+      'border-right: none'
+            ].join(';');
+            document.body.appendChild(a);
+        })();
+
+    </script>
+    <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=RDNation Feedback"
+       target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
         margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png);
         background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px;
         border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000;
         border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;">
-        </a>
-        <div id="fb-root">
-        </div>
-        <script>
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-
-
+    </a>
+    <div id="fb-root">
     </div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29843570-1']);
+        _gaq.push(['_setDomainName', 'rdnation.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+
+
 </body>
 </html>

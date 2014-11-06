@@ -139,13 +139,12 @@ namespace RDN.Controllers
         {
             HomeModel model = new HomeModel();
             model.LeagueCount = SiteCache.GetNumberOfLeaguesSignedUpToRDNation();
-            model.RandomLeagues = SiteCache.GetAllPublicLeagues().OrderBy(x => new Guid()).Take(4).ToList();
+            model.RandomLeagues = SiteCache.GetAllPublicLeagues().Where(x => !String.IsNullOrEmpty(x.LogoUrl)).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
             model.MemberCount = SiteCache.GetNumberOfMembersSignedUpToRDNation();
-            model.RandomSkaters = SiteCache.GetAllPublicMembers().OrderBy(x => new Guid()).Take(4).ToList();
-            model.Tumblr = Tumblr.GetBlog();
-            model.Tournaments = SiteCache.GetCurrentTournaments();
+            model.RandomSkaters = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                .Where(x => !x.photoUrl.Contains("roller-girl"))
+                .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
 
-            model.Store = SiteCache.GetRandomPublishedStoreItems(3);
             return View(model);
         }
 
