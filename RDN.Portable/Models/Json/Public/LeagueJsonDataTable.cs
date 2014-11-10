@@ -45,6 +45,8 @@ namespace RDN.Portable.Models.Json.Public
         [DataMember]
         public string Instagram { get; set; }
         [DataMember]
-        public string RuleSetsPlayed { get; set; } 
+        public string RuleSetsPlayed { get; set; }
+        [DataMember]
+        public string PublicEventCount{ get; set; } 
     }
 }

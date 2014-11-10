@@ -46,6 +46,7 @@ using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Team;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Colors;
+using System.Configuration;
 
 namespace RDN.Library.Classes.League
 {
@@ -410,7 +411,7 @@ namespace RDN.Library.Classes.League
             return false;
         }
 
-        public static List<MemberDisplay> GetLeagueMembersDisplay(Guid leagueId, bool hasLeftLeague=false)
+        public static List<MemberDisplay> GetLeagueMembersDisplay(Guid leagueId, bool hasLeftLeague = false)
         {
             List<MemberDisplay> membersTemp = new List<MemberDisplay>();
             try
@@ -675,7 +676,7 @@ namespace RDN.Library.Classes.League
             }
             return null;
         }
-        public static RDN.Portable.Classes.League.Classes.League DisplayLeague(DataModels.League.League league, bool isPublic = false, bool isRemovedFromLeague= false)
+        public static RDN.Portable.Classes.League.Classes.League DisplayLeague(DataModels.League.League league, bool isPublic = false, bool isRemovedFromLeague = false)
         {
             try
             {
@@ -1177,8 +1178,7 @@ namespace RDN.Library.Classes.League
             {
                 // Create a league object to be returned
                 //TODO: Remove logo path
-                var leagueObj = new RDN.Portable.Classes.League.Classes.League
-                { LeagueId = league.League.LeagueId, Name = league.League.Name }; //, LogoPath = league.LogoPath
+                var leagueObj = new RDN.Portable.Classes.League.Classes.League { LeagueId = league.League.LeagueId, Name = league.League.Name }; //, LogoPath = league.LogoPath
                 leagueObj.InternalFederationIdForLeague = league.InternalLeagueIdForFederation;
                 // If contact information is found, add it
                 if (league.League.ContactCard != null)
@@ -1249,7 +1249,7 @@ namespace RDN.Library.Classes.League
                     {
                         var leagueObj = new LeagueJsonDataTable { LeagueName = league.Name }; //, LogoPath = league.LogoPath
 
-                        leagueObj.LeagueUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
+                        leagueObj.LeagueUrl = ConfigurationManager.AppSettings["AllLeaguesUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
                         leagueObj.LeagueId = league.LeagueId.ToString().Replace("-", "");
                         leagueObj.Membercount = league.Members.Count;
                         leagueObj.DateFounded = league.Founded.GetValueOrDefault();
@@ -1258,6 +1258,7 @@ namespace RDN.Library.Classes.League
                         leagueObj.Instagram = league.Instagram;
                         leagueObj.Facebook = league.Facebook;
                         leagueObj.RuleSetsPlayed = ((RuleSetsUsedEnum)league.RuleSetsPlayedEnum).ToString();
+                        
 
                         // If contact information is found, add it
                         if (league.ContactCard != null)
@@ -1320,8 +1321,7 @@ namespace RDN.Library.Classes.League
             {
                 // Create a league object to be returned
                 //TODO: Remove logo path
-                var leagueObj = new RDN.Portable.Classes.League.Classes.League 
-                { LeagueId = league.LeagueId, Name = league.Name }; //, LogoPath = league.LogoPath
+                var leagueObj = new RDN.Portable.Classes.League.Classes.League { LeagueId = league.LeagueId, Name = league.Name }; //, LogoPath = league.LogoPath
 
                 // If contact information is found, add it
                 if (league.ContactCard != null)

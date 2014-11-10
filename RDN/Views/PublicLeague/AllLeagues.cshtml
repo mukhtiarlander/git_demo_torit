@@ -2,7 +2,7 @@
 @model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Models.Json.Public.LeagueJsonDataTable>>
 @{
     ViewBag.Title = "All Roller Derby Leagues";
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
@@ -10,57 +10,77 @@
             @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide
         </div>
         <div class="divider"></div>
-      
-        <div id="mapdiv" style="height: 250px; width: 100%;"></div>
-        <script src="@Url.Content("~/scripts/OpenLayers.js")"   ></script>
-        <style >
-            .olControlAttribution { bottom:0px;}
+
+        <div id="mapdiv" style="height: 350px; width: 100%;"></div>
+        <script src="@Url.Content("~/scripts/OpenLayers.js")"></script>
+        <style>
+            .olControlAttribution { bottom: 0px; }
         </style>
-        <div class="pager">
-            @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllLeagues", "PublicLeague"))
-        </div>
+
         <div>
-            <table class="listTable" id="leagues">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>League
-                        </th>
-                        <th>State
-                        </th>
-                        <th>Country
-                        </th>
-                    </tr>
-                </thead>
+            <table class="table-striped table table-hover" id="leagues">
+
                 <tbody>
                     @for (int i = 0; i < Model.Model.Items.Count; i++)
                     {
                         if (Model.Model.Items[i].LeagueName != null)
                         {
-                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                @if (!String.IsNullOrEmpty( Model.Model.Items[i].LogoUrlThumb ))
-                                {
-                                    <img height="40px" alt="@Model.Model.Items[i].LeagueName" src="@Model.Model.Items[i].LogoUrlThumb" />
-                                }
-                            </td>
-                            <td>
-                                <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].LeagueName) + "/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", ""))">
-                                    @Model.Model.Items[i].LeagueName
-                                </a></span>
-                            </td>
-                            <td>@Model.Model.Items[i].State
-                            </td>
-                            <td>@Model.Model.Items[i].Country
-                            </td>
-                        </tr>              
+                            <tr>
+                                <td>
+                                    <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].LeagueName) + "/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", ""))">
+                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].LogoUrlThumb))
+                                        {
+                                            <img height="160px" class="pull-right" alt="@Model.Model.Items[i].LeagueName" src="@Model.Model.Items[i].LogoUrlThumb" />
+                                        }
+                                        <img height="160px" class="pull-right" alt="@Model.Model.Items[i].LeagueName" src="@Url.Content("~/content/images/boy.png")" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <h3>
+                                            <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].LeagueName) + "/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", ""))">
+                                                @Model.Model.Items[i].LeagueName
+                                            </a>
+                                            <small>
+                                                founded @Model.Model.Items[i].DateFounded.Year
+                                            </small>
+                                        </h3>
+
+                                    </div>
+                                    <div class="row">
+                                        @Model.Model.Items[i].State
+
+                                        @Model.Model.Items[i].Country
+                                    </div>
+                                    <div class="row">
+                                        @Model.Model.Items[i].Membercount members
+                                    </div>
+                                    <div class="row">
+                                        plays by @Model.Model.Items[i].RuleSetsPlayed
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].Facebook))
+                                        {
+                                            <a href="@Model.Model.Items[i].Facebook" class="pull-left  "><i class="fa fa-facebook fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].Instagram))
+                                        {
+                                            <a href="@Model.Model.Items[i].Instagram" class="pull-left col-xs-offset-1 "><i class="fa fa-instagram fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].Twitter))
+                                        {
+                                            <a href="@Model.Model.Items[i].Twitter" class="pull-left   col-xs-offset-1"><i class="fa fa-twitter-square fa-2x"></i></a>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>
             </table>
-            <div class="pager">
-                @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllLeagues", "PublicLeague"))
-            </div>
+
         </div>
     </div>
 </div>
@@ -72,8 +92,11 @@
     var PROJECTIONFROM = "EPSG:4326";
     var PROJECTIONTO = "EPSG:900913";
     $(document).ready(function () {
-        
 
+        $(window).resize(function () {
+            var w = $("#mapDiv").width();
+            $("#mapDiv").css("height", w * 3 / 4);
+        });
         $.getJSON("publicleague/GetLeagesformap", function (data) {
             var leages = data;
             for (var i = 0; i < leages.leageData.length; i++) {
@@ -96,7 +119,8 @@
             "sAjaxSource": "publicleague/AllLeagueSearching",
             "iDeferLoading": true,
             "oLanguage": {
-                "sProcessing": "Searching..."
+                "sProcessing": "Searching...",
+                "sSearch": ""
             },
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 if (aData[5] === "true") {
@@ -105,12 +129,13 @@
                     else
                         $('td:eq(0)', nRow).html(aData[2]);
                     $('td:eq(1)', nRow).html('<a href="' + aData[1] + '">' + aData[0] + '</a>');
-                    $('td:eq(2)', nRow).html(aData[3]);
-                    $('td:eq(3)', nRow).html(aData[4]);
+
                 }
                 return nRow;
             }
         });
+        
+        $('#leagues_filter input').addClass('form-control').addClass("col-xs-12").attr("placeholder", "Search");
     });
-    
+
 </script>
