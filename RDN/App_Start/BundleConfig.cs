@@ -45,7 +45,8 @@ namespace RDN
                       //"~/Content/jquery-ui.min.css",
                       "~/Content/font-awesome.css",
                       "~/Content/site.css",
-                      "~/Content/jquery.datatables.min.css"));
+                      "~/Content/jquery.datatables.min.css",
+                      "~/Content/bootstrap-extensions.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

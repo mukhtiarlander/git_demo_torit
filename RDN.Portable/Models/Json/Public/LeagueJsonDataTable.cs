@@ -47,6 +47,9 @@ namespace RDN.Portable.Models.Json.Public
         [DataMember]
         public string RuleSetsPlayed { get; set; }
         [DataMember]
-        public string PublicEventCount{ get; set; } 
+        public string PublicEventCount{ get; set; }
+
+        [DataMember]
+        public string ShopUrl{ get; set; } 
     }
 }

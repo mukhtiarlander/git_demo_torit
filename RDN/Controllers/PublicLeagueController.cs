@@ -71,7 +71,7 @@ namespace RDN.Controllers
             {
                 sEcho = HttpContext.Request.Params["sEcho"],
                 iTotalRecords = names.Count,
-                iTotalDisplayRecords = names.Count,
+                iTotalDisplayRecords = 400,
                 aaData = ( // if you change this, make sure you change the true on the searging side as well.
                     from n in names
                     select new[]
@@ -81,7 +81,14 @@ namespace RDN.Controllers
                         n.LogoUrlThumb,
                         n.State,
                         n.Country,
-                        "true"
+                        "true",
+                        n.DateFounded.Year.ToString(), 
+                        n.Facebook,
+                         n.Instagram,
+                          n.Membercount.ToString(),
+                          n.RuleSetsPlayed,
+                           n.Twitter,
+                           n.WebSite
                     }).ToArray()
             }, JsonRequestBehavior.AllowGet);
         }
@@ -103,7 +110,7 @@ namespace RDN.Controllers
                 });
             var output = new GenericSingleModel<SimpleModPager<LeagueJsonDataTable>> { Model = model };
 
-            output.Model.Items = SiteCache.GetAllPublicLeagues(DEFAULT_PAGE_SIZE, (model.CurrentPage - 1) );
+            output.Model.Items = SiteCache.GetAllPublicLeagues(DEFAULT_PAGE_SIZE, (model.CurrentPage - 1));
             if (output.Model.Items == null)
                 output.Model.Items = new List<LeagueJsonDataTable>();
             return output;

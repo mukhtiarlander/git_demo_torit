@@ -14,12 +14,19 @@
         <div id="mapdiv" style="height: 350px; width: 100%;"></div>
         <script src="@Url.Content("~/scripts/OpenLayers.js")"></script>
         <style>
-            .olControlAttribution { bottom: 0px; }
+            .olControlAttribution {
+                bottom: 0px;
+            }
         </style>
 
         <div>
             <table class="table-striped table table-hover" id="leagues">
-
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
                     @for (int i = 0; i < Model.Model.Items.Count; i++)
                     {
@@ -42,7 +49,7 @@
                                                 @Model.Model.Items[i].LeagueName
                                             </a>
                                             <small>
-                                                founded @Model.Model.Items[i].DateFounded.Year
+                                              - founded @Model.Model.Items[i].DateFounded.Year
                                             </small>
                                         </h3>
 
@@ -71,6 +78,10 @@
                                         @if (!String.IsNullOrEmpty(Model.Model.Items[i].Twitter))
                                         {
                                             <a href="@Model.Model.Items[i].Twitter" class="pull-left   col-xs-offset-1"><i class="fa fa-twitter-square fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].ShopUrl))
+                                        {
+                                            <a href="@Model.Model.Items[i].ShopUrl" class="pull-left   col-xs-offset-1"><i class="fa fa-shopping-cart fa-2x"></i></a>
                                         }
 
                                     </div>
@@ -118,23 +129,36 @@
             "bServerSide": true,
             "sAjaxSource": "publicleague/AllLeagueSearching",
             "iDeferLoading": true,
+            "bScrollInfinite": true,
             "oLanguage": {
                 "sProcessing": "Searching...",
                 "sSearch": ""
             },
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                console.log(aData);
                 if (aData[5] === "true") {
                     if (aData[2] != null)
-                        $('td:eq(0)', nRow).html("<img height='40px' alt='profile picture' src='" + aData[2] + "'/>");
+                        $('td:eq(0)', nRow).html("<img height='160px' class='pull-right' alt='" + aData[0] + "' src='" + aData[2] + "'/>");
                     else
-                        $('td:eq(0)', nRow).html(aData[2]);
-                    $('td:eq(1)', nRow).html('<a href="' + aData[1] + '">' + aData[0] + '</a>');
+                        $('td:eq(0)', nRow).html("");
+
+                    var html = '<div class="row"><h3><a href="' + aData[1] + '">' + aData[0] + '</a><small> - founded ' + aData[6] + '</small></h3></div><div class="row">';
+                    html += aData[3] + ' ' + aData[4] + '</div><div class="row">' + aData[9] + ' members</div><div class="row">plays by ' + aData[10] + '</div><br /><div class="row">';
+                    if (aData[7] != null)
+                        html += '<a href="' + aData[7] + '" class="pull-left  "><i class="fa fa-facebook fa-2x"></i></a>';
+                    if (aData[8] != null)
+                        html += '<a href="' + aData[8] + '" class="pull-left  col-xs-offset-1"><i class="fa fa-instagram fa-2x"></i></a>';
+                    if (aData[11] != null)
+                        html += '<a href="' + aData[11] + '" class="pull-left  col-xs-offset-1"><i class="fa fa-twitter-square fa-2x"></i></a>';
+                    html += '</div>';
+
+                    $('td:eq(1)', nRow).html(html);
 
                 }
                 return nRow;
             }
         });
-        
+
         $('#leagues_filter input').addClass('form-control').addClass("col-xs-12").attr("placeholder", "Search");
     });
 
