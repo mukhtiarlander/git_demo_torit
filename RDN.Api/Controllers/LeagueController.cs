@@ -299,34 +299,45 @@ namespace RDN.Api.Controllers
             return Json(mems, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetAllLeagues(int? p, int? c)
+        public JsonResult GetAllLeagues(int? p, int? c, string s)
         {
             List<LeagueJsonDataTable> names = new List<LeagueJsonDataTable>();
 
-            if (p.HasValue && c.HasValue)
+            if (!String.IsNullOrEmpty(s))
             {
-                names = SiteCache.GetAllPublicLeagues(p.Value, c.Value);
+                names = LeagueFactory.SearchPublicLeagues(s, c.GetValueOrDefault(), p.GetValueOrDefault());
             }
             else
             {
-                names = SiteCache.GetAllPublicLeagues();
+                names = LeagueFactory.SearchPublicLeagues("", c.GetValueOrDefault(), p.GetValueOrDefault());
             }
 
+            return Json(new { leagues = names }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetLeagesformap()
+        {
+            List<LeagueJsonDataTable> leages = new List<LeagueJsonDataTable>();
+            leages = SiteCache.GetAllPublicLeagues();
             return Json(new
             {
-                leagues = ( // if you change this, make sure you change the true on the searging side as well.
-                           from n in names
-                           select new[]
-                    {
-                        n.LeagueName,
-                        n.LeagueUrl,
-                        n.LeagueId,
-                        n.LogoUrl,
-                        n.State,
-                        n.Country
-                    }).ToArray()
+                leageData = (from l in leages
+                             select new[]
+                        {
+                        Convert.ToString(l.lon),
+                        Convert.ToString(l.lat),
+                        l.LeagueName,
+                        l.City,
+                        l.State,
+                        l.Country,
+                        l.LogoUrlThumb,
+                        Convert.ToString(l.Membercount),
+                        l.LeagueUrl
+                        }).ToArray()
             }, JsonRequestBehavior.AllowGet);
         }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -365,7 +376,7 @@ namespace RDN.Api.Controllers
         public JsonpResult GetAllLeaguesJsonP(int p, int c, string s, string sw)
         {
             List<LeagueJsonDataTable> names = new List<LeagueJsonDataTable>();
-            LeaguesJson leagues = new LeaguesJson();    
+            LeaguesJson leagues = new LeaguesJson();
             try
             {
                 if (!String.IsNullOrEmpty(s))

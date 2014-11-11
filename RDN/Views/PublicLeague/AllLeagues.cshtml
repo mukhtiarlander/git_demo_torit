@@ -6,19 +6,25 @@
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide
-        </div>
+        
         <div class="divider"></div>
 
         <div id="mapdiv" style="height: 350px; width: 100%;"></div>
-        <script src="@Url.Content("~/scripts/OpenLayers.js")"></script>
         <style>
-            .olControlAttribution {
-                bottom: 0px;
-            }
+            .olControlAttribution { bottom: 0px; }
         </style>
-
+        <br />
+        <div class=" text-center">
+            <h2> @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide</h2>
+        </div>
+        <div class="col-sm-offset-3 col-sm-6 col-xs-12">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchBox" data-bind="val: SearchText" onkeyup="LeagueViewModel.SearchLeagues(this)" placeholder="Search">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
         <div>
             <table class="table-striped table table-hover" id="leagues">
                 <thead>
@@ -27,68 +33,47 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Model.Items.Count; i++)
-                    {
-                        if (Model.Model.Items[i].LeagueName != null)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].LeagueName) + "/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", ""))">
-                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].LogoUrlThumb))
-                                        {
-                                            <img height="160px" class="pull-right" alt="@Model.Model.Items[i].LeagueName" src="@Model.Model.Items[i].LogoUrlThumb" />
-                                        }
-                                        <img height="160px" class="pull-right" alt="@Model.Model.Items[i].LeagueName" src="@Url.Content("~/content/images/boy.png")" />
+                <tbody data-bind="foreach: Leagues">
+                    <tr>
+                        <td class="padding-5">
+                            <a data-bind="if: LogoUrlThumb, attr:{href: LeagueUrl}">
+                                <img height="160px" class="pull-right" data-bind="attr:{alt: LeagueName, src: LogoUrlThumb}" />
+
+                            </a>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <h3>
+                                    <a data-bind="text:LeagueName, attr:{href: LeagueUrl}">
                                     </a>
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        <h3>
-                                            <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].LeagueName) + "/" + Model.Model.Items[i].LeagueId.ToString().Replace("-", ""))">
-                                                @Model.Model.Items[i].LeagueName
-                                            </a>
-                                            <small>
-                                              - founded @Model.Model.Items[i].DateFounded.Year
-                                            </small>
-                                        </h3>
+                                    <small>
+                                        - founded <span data-bind="text: DateFoundedYear"></span>
+                                    </small>
+                                </h3>
 
-                                    </div>
-                                    <div class="row">
-                                        @Model.Model.Items[i].State
+                            </div>
+                            <div class="row">
+                                <span data-bind="text: State"></span>
+                                <span data-bind="text: Country"></span>
+                            </div>
+                            <div class="row">
+                                <span data-bind="text: Membercount"></span> members
+                            </div>
+                            <div class="row">
+                                plays by <span data-bind="text: RuleSetsPlayed"></span>
+                            </div>
+                            <br />
+                            <div class="row">
 
-                                        @Model.Model.Items[i].Country
-                                    </div>
-                                    <div class="row">
-                                        @Model.Model.Items[i].Membercount members
-                                    </div>
-                                    <div class="row">
-                                        plays by @Model.Model.Items[i].RuleSetsPlayed
-                                    </div>
-                                    <br />
-                                    <div class="row">
-                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].Facebook))
-                                        {
-                                            <a href="@Model.Model.Items[i].Facebook" class="pull-left  "><i class="fa fa-facebook fa-2x"></i></a>
-                                        }
-                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].Instagram))
-                                        {
-                                            <a href="@Model.Model.Items[i].Instagram" class="pull-left col-xs-offset-1 "><i class="fa fa-instagram fa-2x"></i></a>
-                                        }
-                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].Twitter))
-                                        {
-                                            <a href="@Model.Model.Items[i].Twitter" class="pull-left   col-xs-offset-1"><i class="fa fa-twitter-square fa-2x"></i></a>
-                                        }
-                                        @if (!String.IsNullOrEmpty(Model.Model.Items[i].ShopUrl))
-                                        {
-                                            <a href="@Model.Model.Items[i].ShopUrl" class="pull-left   col-xs-offset-1"><i class="fa fa-shopping-cart fa-2x"></i></a>
-                                        }
+                                <a data-bind="if: Facebook, attr:{href: Facebook}" class="pull-left  "><i class="fa fa-facebook fa-2x"></i></a>
+                                <a data-bind="if: Instagram, attr:{href: Instagram}" class="pull-left col-xs-offset-1 "><i class="fa fa-instagram fa-2x"></i></a>
+                                <a data-bind="if: Twitter, attr:{href: Twitter}" class="pull-left   col-xs-offset-1"><i class="fa fa-twitter-square fa-2x"></i></a>
+                                <a data-bind="if: ShopUrl, attr:{href: ShopUrl}" class="pull-left   col-xs-offset-1"><i class="fa fa-shopping-cart fa-2x"></i></a>
 
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
+                            </div>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
 
@@ -97,18 +82,22 @@
 </div>
 
 <script type="text/javascript">
+
     map = new OpenLayers.Map("mapdiv");
     map.addLayer(new OpenLayers.Layer.OSM());
 
     var PROJECTIONFROM = "EPSG:4326";
     var PROJECTIONTO = "EPSG:900913";
+
     $(document).ready(function () {
+        ko.applyBindings(LeagueViewModel);
+        LeagueViewModel.LoadLeagueList();
 
         $(window).resize(function () {
             var w = $("#mapDiv").width();
             $("#mapDiv").css("height", w * 3 / 4);
         });
-        $.getJSON("publicleague/GetLeagesformap", function (data) {
+        $.getJSON(apiUrl + "league/GetLeagesformap", function (data) {
             var leages = data;
             for (var i = 0; i < leages.leageData.length; i++) {
                 var lon = leages.leageData[i][0];
@@ -117,49 +106,7 @@
             }
         });
 
-        $('#leagues').dataTable({
-            "aaSorting": [[0, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "bProcessing": true,
-            "bServerSide": true,
-            "sAjaxSource": "publicleague/AllLeagueSearching",
-            "iDeferLoading": true,
-            "bScrollInfinite": true,
-            "oLanguage": {
-                "sProcessing": "Searching...",
-                "sSearch": ""
-            },
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                console.log(aData);
-                if (aData[5] === "true") {
-                    if (aData[2] != null)
-                        $('td:eq(0)', nRow).html("<img height='160px' class='pull-right' alt='" + aData[0] + "' src='" + aData[2] + "'/>");
-                    else
-                        $('td:eq(0)', nRow).html("");
 
-                    var html = '<div class="row"><h3><a href="' + aData[1] + '">' + aData[0] + '</a><small> - founded ' + aData[6] + '</small></h3></div><div class="row">';
-                    html += aData[3] + ' ' + aData[4] + '</div><div class="row">' + aData[9] + ' members</div><div class="row">plays by ' + aData[10] + '</div><br /><div class="row">';
-                    if (aData[7] != null)
-                        html += '<a href="' + aData[7] + '" class="pull-left  "><i class="fa fa-facebook fa-2x"></i></a>';
-                    if (aData[8] != null)
-                        html += '<a href="' + aData[8] + '" class="pull-left  col-xs-offset-1"><i class="fa fa-instagram fa-2x"></i></a>';
-                    if (aData[11] != null)
-                        html += '<a href="' + aData[11] + '" class="pull-left  col-xs-offset-1"><i class="fa fa-twitter-square fa-2x"></i></a>';
-                    html += '</div>';
-
-                    $('td:eq(1)', nRow).html(html);
-
-                }
-                return nRow;
-            }
-        });
-
-        $('#leagues_filter input').addClass('form-control').addClass("col-xs-12").attr("placeholder", "Search");
     });
 
 </script>

@@ -33,39 +33,18 @@ namespace RDN.Controllers
             return View(output);
         }
 
-        public JsonResult GetLeagesformap()
-        {
-            List<LeagueJsonDataTable> leages = new List<LeagueJsonDataTable>();
-            leages = SiteCache.GetAllPublicLeagues();
-            return Json(new
-            {
-                leageData = (from l in leages
-                             select new[]
-                        {
-                        Convert.ToString(l.lon),
-                        Convert.ToString(l.lat),
-                        l.LeagueName,
-                        l.City,
-                        l.State,
-                        l.Country,
-                        l.LogoUrlThumb,
-                        Convert.ToString(l.Membercount),
-                        l.LeagueUrl
-                        }).ToArray()
-            }, JsonRequestBehavior.AllowGet);
-        }
-
+        
         public JsonResult AllLeagueSearching()
         {
             List<LeagueJsonDataTable> names = new List<LeagueJsonDataTable>();
             if (!String.IsNullOrEmpty(HttpContext.Request.Params["sSearch"]))
             {
                 string search = HttpContext.Request.Params["sSearch"];
-                names = LeagueFactory.SearchPublicLeagues(search, 100);
+                names = LeagueFactory.SearchPublicLeagues(search, 100, 0);
             }
             else
             {
-                names = LeagueFactory.SearchPublicLeagues("", 100);
+                names = LeagueFactory.SearchPublicLeagues("", 100, 0);
             }
             return Json(new
             {

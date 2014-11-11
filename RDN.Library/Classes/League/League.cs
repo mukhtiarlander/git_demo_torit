@@ -1215,14 +1215,14 @@ namespace RDN.Library.Classes.League
             return leagues;
         }
 
-        public static List<LeagueJsonDataTable> SearchPublicLeagues(string qu, int count)
+        public static List<LeagueJsonDataTable> SearchPublicLeagues(string qu, int count, int page)
         {
             List<LeagueJsonDataTable> membersTemp = new List<LeagueJsonDataTable>();
             try
             {
                 qu = qu.ToLower();
                 var mems = SiteCache.GetAllPublicLeagues();
-                return mems.Where(x => x.LeagueName.ToLower().Contains(qu)).AsParallel().OrderBy(x => x.LeagueName).Take(count).ToList();
+                return mems.Where(x => x.LeagueName.ToLower().Contains(qu)).AsParallel().OrderBy(x => x.LeagueName).Skip(page * count).Take(count).ToList();
             }
             catch (Exception exception)
             {
@@ -1258,7 +1258,7 @@ namespace RDN.Library.Classes.League
                         leagueObj.Instagram = league.Instagram;
                         leagueObj.Facebook = league.Facebook;
                         leagueObj.RuleSetsPlayed = ((RuleSetsUsedEnum)league.RuleSetsPlayedEnum).ToString();
-                        
+
 
                         // If contact information is found, add it
                         if (league.ContactCard != null)

@@ -1,4 +1,9 @@
-﻿var urlForLiveCurrentGames = "https://api.rdnation.com/livegame/currentgames?callback=?";
+﻿var apiUrl = "http://localhost:16106/";
+
+//apiUrl = "https://api.rdnation.com/";
+
+
+var urlForLiveCurrentGames = "https://api.rdnation.com/livegame/currentgames?callback=?";
 //var urlForLiveCurrentGames = "http://localhost:19237/livegame/currentgames?callback=?";
 
 function Chat(chatTemp, memberName, id, created) {

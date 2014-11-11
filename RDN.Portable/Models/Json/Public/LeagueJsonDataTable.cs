@@ -36,6 +36,8 @@ namespace RDN.Portable.Models.Json.Public
         public Int32 Membercount { get; set; }
         [DataMember]
         public DateTime DateFounded { get; set; }
+        public int DateFoundedYear { get { return DateFounded.Year; } }
+
         [DataMember]
         public string WebSite { get; set; }
         [DataMember]
@@ -47,9 +49,9 @@ namespace RDN.Portable.Models.Json.Public
         [DataMember]
         public string RuleSetsPlayed { get; set; }
         [DataMember]
-        public string PublicEventCount{ get; set; }
+        public string PublicEventCount { get; set; }
 
         [DataMember]
-        public string ShopUrl{ get; set; } 
+        public string ShopUrl { get; set; }
     }
 }
