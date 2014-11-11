@@ -188,6 +188,18 @@ namespace RDN.Portable.Classes.Account.Classes
         [ProtoMember(138)]
         [DataMember]
         public string Bio { get; set; }
+
+        public string BioShort
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(Bio) && Bio.Length > 20)
+                    return Bio.Remove(20);
+                return Bio;
+            }
+        }
+
+
         [ProtoMember(139)]
         [DataMember]
         public string BioHtml { get; set; }

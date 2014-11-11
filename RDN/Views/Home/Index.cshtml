@@ -3,7 +3,7 @@
     ViewBag.Title = null;
     Layout = "~/Views/Shared/_LayoutFront.cshtml";
 }
-
+<br />
 <div class="row text-center">
     <div class="col-sm-10 col-sm-offset-1">
         <h3 class="bold">Join over @Model.LeagueCount leagues from around the world</h3>
@@ -14,7 +14,7 @@
             <img src="@league.LogoUrl" alt="@league.LeagueName" class="col-xs-6  col-lg-3 img-rounded">
         }
     </div>
-</div>
+</div><br />
 <div class="row text-center">
     <div class="col-sm-10 col-sm-offset-1">
         <h3 class="bold">Join over @Model.MemberCount people from around the world</h3>
@@ -100,7 +100,7 @@
         <h3 class="bold">Get started today</h3>
         <div>Keep track of all your members</div>
         <br />
-        <a href="@Url.Content("~/signup")" class="btn btn-success btn-lg">Sign Me Up</a>
+        <a href="@Url.Content("~/signup")" class="btn btn-success btn-lg">Sign Up</a>
 
     </div>
 </div>

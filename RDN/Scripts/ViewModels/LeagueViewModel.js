@@ -6,13 +6,15 @@
     this.page = ko.observable();
     this.IsFinishedScrolling = ko.observable(false);
     this.SearchText = ko.observable();
+    this.ListCountPull = ko.observable();
 
-    this.LoadLeagueList = function () {
+    this.LoadLeagueList = function (count) {
+        thisViewModel.ListCountPull(count);
         thisViewModel.page(0);
-        getItems(50, false);
+        getItems(thisViewModel.ListCountPull(), false);
         $(window).scroll(function () {
             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 400) {
-                getItems(50, false);
+                getItems(thisViewModel.ListCountPull(), false);
             }
         });
     }
@@ -22,7 +24,7 @@
         thisViewModel.IsFinishedScrolling(false);
         thisViewModel.pendingRequest(false);
         thisViewModel.page(0);
-        getItems(50, true);
+        getItems(thisViewModel.ListCountPull(), true);
     }
 
     function getItems(cnt, isSearch) {

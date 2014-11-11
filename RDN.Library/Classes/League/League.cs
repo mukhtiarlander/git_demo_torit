@@ -1249,7 +1249,7 @@ namespace RDN.Library.Classes.League
                     {
                         var leagueObj = new LeagueJsonDataTable { LeagueName = league.Name }; //, LogoPath = league.LogoPath
 
-                        leagueObj.LeagueUrl = ConfigurationManager.AppSettings["AllLeaguesUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
+                        leagueObj.LeagueUrl = ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
                         leagueObj.LeagueId = league.LeagueId.ToString().Replace("-", "");
                         leagueObj.Membercount = league.Members.Count;
                         leagueObj.DateFounded = league.Founded.GetValueOrDefault();

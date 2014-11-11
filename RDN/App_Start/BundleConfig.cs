@@ -10,7 +10,7 @@ namespace RDN
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        //"~/content/jquery-ui.min.js",
+                //"~/content/jquery-ui.min.js",
                         "~/Scripts/Knockout-{version}.js",
                         "~/Scripts/Knockout.mapping-{version}.js",
                         "~/Scripts/jquery.idtabs.min.js",
@@ -19,7 +19,9 @@ namespace RDN
                         "~/Scripts/jquery.dataTables.min.js",
                         "~/Scripts/jquery.validate.min.js",
                         "~/Scripts/jquery.validate.unobtrusive.min.js",
-                        "~/Scripts/menucool.js"
+                        "~/Scripts/menucool.js",
+                        "~/Scripts/FullCalendar/fullcalendar.min.js",
+                        "~/Scripts/FullCalendar/gcal.js"
 
                         ));
 
@@ -44,11 +46,12 @@ namespace RDN
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      //"~/Content/jquery-ui.min.css",
+                //"~/Content/jquery-ui.min.css",
                       "~/Content/font-awesome.css",
                       "~/Content/site.css",
                       "~/Content/jquery.datatables.min.css",
-                      "~/Content/bootstrap-extensions.css"));
+                      "~/Content/bootstrap-extensions.css",
+                      "~/Content/FullCalendar/fullcalendar.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
