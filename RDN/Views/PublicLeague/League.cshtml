@@ -71,15 +71,7 @@
 
                     <div class="col-sm-4 col-md-3">
                         <div class="thumbnail">
-                            <div class="caption">
-                                <h4>
-                                    <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
-                                        @Model.LeagueMembers[i].PlayerNumber - @Model.LeagueMembers[i].DerbyName
-                                    </a>
-                                </h4>
-                           
-
-                            </div>
+                         
                             <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
                                 @if (Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
                                 {
@@ -94,13 +86,18 @@
                                     <img style="max-height:200px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
                                 }
                             </a>
+                            <div class="caption">
+                                <h4>
+                                    <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
+                                        @Model.LeagueMembers[i].PlayerNumber - @Model.LeagueMembers[i].DerbyName
+                                    </a>
+                                </h4>
+
+
+                            </div>
                             
                         </div>
-                        <div class="caption">
-                         
-                            <p>@Model.LeagueMembers[i].BioShort</p>
-
-                        </div>
+                        
                     </div>
 
                 }
@@ -122,55 +119,48 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false
-        });
-
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
+        var rendered = false;
 
-        var calendar = $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            eventBackgroundColor: "#872f95",
-            eventBorderColor: "#c5c5c5",
-            selectable: true,
-            events: function (start, end, callback) {
-                start = start.getTime() / 1000;
-                end = end.getTime() / 1000;
-                $.getJSON("/utilities/LoadCalendarView", { lid: '@Model.LeagueId.ToString().Replace("-", "")', startDt: start, endDt: end }, function (result) {
-                    var events = [];
-                    $.each(result.events, function (i, field) {
-                        events.push({
-                            title: $(field).attr('title'),
-                            start: $(field).attr('start'),
-                            id: $(field).attr('id'),
-                            end: $(field).attr('end'),
-                            url: $(field).attr('url'),
-                            allDay: $(field).attr('allDay'),
-                            backgroundColor: $(field).attr('backColor')
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            if (!rendered) {
+                var calendar = $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    eventBackgroundColor: "#872f95",
+                    eventBorderColor: "#c5c5c5",
+                    selectable: true,
+                    events: function (start, end, callback) {
+                        start = start.getTime() / 1000;
+                        end = end.getTime() / 1000;
+                        $.getJSON("/utilities/LoadCalendarView", { lid: '@Model.LeagueId.ToString().Replace("-", "")', startDt: start, endDt: end }, function (result) {
+                            var events = [];
+                            $.each(result.events, function (i, field) {
+                                events.push({
+                                    title: $(field).attr('title'),
+                                    start: $(field).attr('start'),
+                                    id: $(field).attr('id'),
+                                    end: $(field).attr('end'),
+                                    url: $(field).attr('url'),
+                                    allDay: $(field).attr('allDay'),
+                                    backgroundColor: $(field).attr('backColor')
+                                });
+                            });
+                            callback(events);
+
                         });
-                    });
-                    callback(events);
-
+                    }
                 });
+                $('#calendar').fullCalendar('render');
+                rendered = true;
             }
         });
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            $('#calendar').fullCalendar('render');
-     
-        });
-        $('#myTabs a:first').tab('show');
+
     });
 </script>

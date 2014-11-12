@@ -39,6 +39,7 @@ namespace RDN.Library.Classes.Account.Classes
                     memTemp.IsProfileRemovedFromPublicView = mem.Member.IsProfileRemovedFromPublic;
                     memTemp.DerbyName = mem.Member.DerbyName;
                     memTemp.StartedSkating = mem.Member.YearStartedSkating;
+                    memTemp.Bio = mem.Member.Bio;
                     memTemp.DOB = mem.Member.DateOfBirth.GetValueOrDefault();
                     if (mem.Member.ContactCard.Emails.Count > 0)
                         memTemp.Email = mem.Member.ContactCard.Emails.Where(x => x.IsDefault == true).FirstOrDefault().EmailAddress;
