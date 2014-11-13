@@ -874,7 +874,10 @@ namespace RDN.Library.Cache
         {
             try
             {
-                searchString = searchString.ToLower();
+                if (!String.IsNullOrEmpty(searchString))
+                    searchString = searchString.ToLower();
+                else
+                    searchString = "";
                 var cached = GetCache(HttpContext.Current.Cache);
                 if (cached.PublicMembers == null)
                 {

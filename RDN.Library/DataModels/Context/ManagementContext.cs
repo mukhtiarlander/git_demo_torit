@@ -44,6 +44,7 @@ using RDN.Library.DataModels.EmailServer.Subscriptions;
 using RDN.Library.DataModels.Social;
 using RDN.Library.DataModels.Controls.Forum;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace RDN.Library.DataModels.Context
 {
@@ -403,7 +404,7 @@ namespace RDN.Library.DataModels.Context
                    .WithMany()
                    .WillCascadeOnDelete(false);
 
-
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             //modelBuilder.Entity<Group>().HasMany(x => x.Members).WithMany(c => c.Groups)
             //    .Map(y =>

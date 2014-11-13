@@ -15,7 +15,9 @@ namespace RDN.DBUpdate.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
+
         }
-       
+
+ 
     }
 }

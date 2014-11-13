@@ -4,99 +4,48 @@
     ViewBag.Title = "All Roller Derby Skaters World Wide";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Skaters and Referees World Wide
-        </div>
-        <div class="divider"></div>
 
-        <div data-bind="foreach: Members">
+<div class="page-header text-center">
+    <h2>     @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Skaters and Referees World Wide</h2>
+</div>
+<div class="col-sm-offset-3 col-sm-6 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control" id="searchBox" data-bind="val: SearchText" onkeyup="MemberViewModel.SearchMembers(this)" placeholder="Search">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+        </span>
+    </div><!-- /input-group -->
+    
+</div>
 
-            <div class="col-sm-4 col-md-3">
-                <div class="thumbnail">
+<div class="clearfix"></div>
+<br />
+<div data-bind="foreach: Members">
 
+    <div class="col-sm-4 col-md-3">
+        <div class="thumbnail">
+
+            <a data-bind=" attr: {href: DerbyNameUrl}">
+
+                <img style="max-height:200px" alt="" data-bind="attr:{ src: ThumbUrl}" />
+
+            </a>
+            <div class="caption">
+                <h4>
                     <a data-bind=" attr: {href: DerbyNameUrl}">
-
-                        <img style="max-height:200px" alt="" data-bind="attr:{ src: ThumbUrl}" />
-
+                        <span data-bind="text: DerbyName "></span> - <span data-bind="text: DerbyNumber"></span>
                     </a>
-                    <div class="caption">
-                        <h4>
-                            <a data-bind=" attr: {href: DerbyNameUrl}">
-                                <span data-bind="text: DerbyNumber"></span> - <span data-bind="text: DerbyName "></span>
-                            </a>
-                        </h4>
-                    </div>
-                </div>
+               </h4>
+                <small>
+                    <a data-bind="if: LeagueUrl, attr: {href: LeagueUrl}">
+                        <span data-bind="text: LeagueName"></span>
+                    </a>
+                </small>
             </div>
-
-
-
-
-            <table class="listTable" id="members">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>
-                            Derby Name
-                        </th>
-                        <th>
-                            Derby Number
-                        </th>
-                        <th>
-                            Gender
-                        </th>
-                        <th>
-                            League
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Model.Items.Count; i++)
-                    {
-
-                        if (Model.Model.Items[i] != null && !String.IsNullOrEmpty(Model.Model.Items[i].DerbyName))
-                        {
-                            <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                <td>
-
-                                    <img height="40px" alt="profile picture" src="@Model.Model.Items[i].photoUrl" />
-
-                                </td>
-                                <td>
-                                    <a href="@Model.Model.Items[i].DerbyNameUrl">
-                                        @Model.Model.Items[i].DerbyName
-                                    </a>
-                                </td>
-                                <td>
-                                    @Model.Model.Items[i].DerbyNumber
-                                </td>
-                                <td>
-                                    @if (Model.Model.Items[i].Gender == "Male")
-                                    {
-                                        <img class="gender" src="@Url.Content("~/Content/images/boy.png")" />
-                                    }
-                                    else
-                                    {  <img class="gender" src="@Url.Content("~/Content/images/female.png")" />
-                                    }
-                                </td>
-                                <td>
-
-                                    <a href="@Model.Model.Items[i].LeagueUrl">
-                                        @Model.Model.Items[i].LeagueName
-                                    </a>
-
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         ko.applyBindings(MemberViewModel);

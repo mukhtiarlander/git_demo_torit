@@ -20,6 +20,7 @@
     }
 
     this.SearchMembers = function (input) {
+        thisViewModel.SearchText($(input).val());
         thisViewModel.IsFinishedScrolling(false);
         thisViewModel.pendingRequest(false);
         thisViewModel.page(0);

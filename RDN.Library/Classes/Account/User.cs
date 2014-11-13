@@ -43,6 +43,7 @@ using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Games.Scoreboard;
 using RDN.Portable.Classes.Games.Scoreboard.Game;
+using System.Configuration;
 
 namespace RDN.Library.Classes.Account
 {
@@ -1387,7 +1388,7 @@ namespace RDN.Library.Classes.Account
 
             if (user == null)
                 return null;
-            
+
             var userId = (Guid)user.ProviderUserKey;
             return GetMemberWithUserId(userId);
         }
@@ -1518,17 +1519,17 @@ namespace RDN.Library.Classes.Account
             }
             else if (mem.Gender == (int)GenderEnum.Female)
             {
-                m.photoUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/content/roller-girl.jpg";
+                m.photoUrl = ConfigurationManager.AppSettings["PublicSite"] + "content/roller-girl.jpg";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Female.ToString();
             }
             else if (mem.Gender == (int)GenderEnum.Male)
             {
-                m.photoUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/content/roller-person.gif";
+                m.photoUrl = ConfigurationManager.AppSettings["PublicSite"] + "/content/roller-person.gif";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Male.ToString();
             }
-            m.DerbyNameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "");
+            m.DerbyNameUrl = ConfigurationManager.AppSettings["MemberPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "");
             m.DerbyName = mem.DerbyName;
             m.DerbyNumber = mem.PlayerNumber;
             m.MemberId = mem.MemberId.ToString().Replace("-", "");
@@ -1546,7 +1547,7 @@ namespace RDN.Library.Classes.Account
             var leag = mem.Leagues.Where(x => x.League.LeagueId == mem.CurrentLeagueId).FirstOrDefault();
             if (leag != null)
             {
-                m.LeagueUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
+                m.LeagueUrl = ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
                 m.LeagueName = leag.League.Name;
                 m.LeagueId = leag.League.LeagueId.ToString().Replace("-", "");
                 if (leag.League.Logo != null)
