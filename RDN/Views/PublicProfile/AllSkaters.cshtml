@@ -2,7 +2,7 @@
 @model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Models.Json.SkaterJson>>
 @{
     ViewBag.Title = "All Roller Derby Skaters World Wide";
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
@@ -10,22 +10,45 @@
             @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Skaters and Referees World Wide
         </div>
         <div class="divider"></div>
-        <div class="pager">
-            @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllSkaters", "PublicProfile"))
-        </div>
 
-        <div>
+        <div data-bind="foreach: Members">
+
+            <div class="col-sm-4 col-md-3">
+                <div class="thumbnail">
+
+                    <a data-bind=" attr: {href: DerbyNameUrl}">
+
+                        <img style="max-height:200px" alt="" data-bind="attr:{ src: ThumbUrl}" />
+
+                    </a>
+                    <div class="caption">
+                        <h4>
+                            <a data-bind=" attr: {href: DerbyNameUrl}">
+                                <span data-bind="text: DerbyNumber"></span> - <span data-bind="text: DerbyName "></span>
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+
+
+
             <table class="listTable" id="members">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Derby Name
+                        <th>
+                            Derby Name
                         </th>
-                        <th>Derby Number
+                        <th>
+                            Derby Number
                         </th>
-                        <th>Gender
+                        <th>
+                            Gender
                         </th>
-                        <th>League
+                        <th>
+                            League
                         </th>
                     </tr>
                 </thead>
@@ -34,79 +57,49 @@
                     {
 
                         if (Model.Model.Items[i] != null && !String.IsNullOrEmpty(Model.Model.Items[i].DerbyName))
-                        { 
-                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
+                        {
+                            <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                                <td>
 
-                                <img height="40px" alt="profile picture" src="@Model.Model.Items[i].photoUrl" />
+                                    <img height="40px" alt="profile picture" src="@Model.Model.Items[i].photoUrl" />
 
-                            </td>
-                            <td>
-                                <a href="@Model.Model.Items[i].DerbyNameUrl">
-                                    @Model.Model.Items[i].DerbyName
-                                </a>
-                            </td>
-                            <td>@Model.Model.Items[i].DerbyNumber
-                            </td>
-                            <td>@if (Model.Model.Items[i].Gender == "Male")
-                                { 
-                                <img class="gender" src="@Url.Content("~/Content/images/boy.png")" />
-                                }
-                                else
-                                {  <img class="gender" src="@Url.Content("~/Content/images/female.png")" />
-                                }
-                            </td>
-                            <td>
+                                </td>
+                                <td>
+                                    <a href="@Model.Model.Items[i].DerbyNameUrl">
+                                        @Model.Model.Items[i].DerbyName
+                                    </a>
+                                </td>
+                                <td>
+                                    @Model.Model.Items[i].DerbyNumber
+                                </td>
+                                <td>
+                                    @if (Model.Model.Items[i].Gender == "Male")
+                                    {
+                                        <img class="gender" src="@Url.Content("~/Content/images/boy.png")" />
+                                    }
+                                    else
+                                    {  <img class="gender" src="@Url.Content("~/Content/images/female.png")" />
+                                    }
+                                </td>
+                                <td>
 
-                                <a href="@Model.Model.Items[i].LeagueUrl">
-                                    @Model.Model.Items[i].LeagueName
-                                </a>
+                                    <a href="@Model.Model.Items[i].LeagueUrl">
+                                        @Model.Model.Items[i].LeagueName
+                                    </a>
 
-                            </td>
-                        </tr>     
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>
             </table>
-            <div class="pager">
-                @Html.Raw(Html.Pager(Model.Model.PageSize, Model.Model.CurrentPage, Model.Model.NumberOfRecords, "AllSkaters", "PublicProfile"))
-            </div>
+
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "bProcessing": true,
-            "bServerSide": true,
-            "sAjaxSource": "publicprofile/AllSkatersSearching",
-            "iDeferLoading": true,
-            "oLanguage": {
-                "sProcessing": "Searching..."
-            },
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                if (aData[7] === "true") {
-                    $('td:eq(0)', nRow).html("<img height='40px' alt='profile picture' src='" + aData[6] + "'/>");
-                    $('td:eq(1)', nRow).html('<a href="' + aData[1] + '">' + aData[0] + '</a>');
-                    if (aData[3] === "Male")
-                        $('td:eq(3)', nRow).html('<img class="gender" src="@Url.Content("~/Content/images/boy.png")" />');
-                    else
-                        $('td:eq(3)', nRow).html('<img class="gender" src="@Url.Content("~/Content/images/female.png")" />');
-
-                    if (aData[4] != null)
-                        $('td:eq(4)', nRow).html('<a href="' + aData[5] + '">' + aData[4] + '</a>');
-                    else
-                        $('td:eq(4)', nRow).html('');
-                }
-                return nRow;
-            }
-        });
+        ko.applyBindings(MemberViewModel);
+        MemberViewModel.LoadMemberList('@System.Configuration.ConfigurationManager.AppSettings["ListLoadingCount"]');
     });
 </script>

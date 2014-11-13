@@ -1,312 +1,157 @@
 ﻿@using RDN.Portable.Classes.Account.Classes;
 @model MemberDisplay
 @{
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
-    ViewBag.Title = Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + " Roller Derby League";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.DerbyName + " (" + Model.PlayerNumber + ")";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter2  ">
-        <div class="vmPicture">
-            @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
-            { 
-                <img alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
-            }
-            else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-            { 
-                <img src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-            }
-            else
-            {
-                <img src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
-            }
-        </div>
-        <div class="vmMemberDescription">
-            <div class="vmMemberName">
-                @Model.DerbyName (@Model.PlayerNumber)
+<div>
+    @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
+    }
+    else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+    }
+    else
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+    }
+</div>
+
+<div class="page-header text-center">
+    <h2>
+        @Model.DerbyName
+    </h2>
+    <div class="row ">
+        <h4> @Model.PlayerNumber</h4>
+    </div>
+</div>
+
+
+<ul class="nav nav-tabs" role="tablist" id="myTabs">
+    <li role="presentation" class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+    <li role="presentation"><a href="#membership" role="tab" data-toggle="tab">Memberships</a></li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active well" id="profile">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">Quick Stats</div>
+                    <div class="panel-body">
+                        @if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                        {
+                            <div class="row">
+                                <div class="text-center col-xs-offset-1 col-xs-2">
+                                    <i class="fa fa-female fa-2x"></i>
+                                </div>
+                            </div>
+                            <br />
+                        }
+                        @if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Male)
+                        {
+                            <div class="row">
+                                <div class="text-center col-xs-offset-1 col-xs-2">
+                                    <i class="fa fa-male fa-2x"></i>
+                                </div>
+
+                            </div>
+                            <br />
+                        }
+                        @if (Model.DOB < DateTime.UtcNow.AddYears(-5) && !Model.Settings.Hide_DOB_From_Public)
+                        {
+                            <div class="row">
+                                <div class="col-xs-offset-1 col-xs-2 text-center">
+                                    <i class="fa fa-birthday-cake fa-2x"></i>
+                                </div>
+                                <div class="col-xs-8">
+                                    <b>@Model.DOB.ToLongDateString()</b>
+                                </div>
+                            </div>
+                            <br />
+                        }
+                        @if (Model.HeightFeet > 0)
+                        {
+                            <div class="row">
+                                <div class="text-center col-xs-offset-1 col-xs-2">
+                                    <i class="fa fa-long-arrow-up  fa-2x"></i>
+                                </div>
+                                <div class="col-xs-8">
+                                    <b>@Model.HeightFeet' @Model.HeightInches</b>
+                                </div>
+                            </div>
+                            <br />
+                        }
+                        @if (Model.WeightLbs > 0)
+                        {
+                            <div class="row">
+                                <div class="text-center col-xs-offset-1 col-xs-2">
+                                    <i class="fa fa-cubes fa-2x"></i>
+                                </div>
+                                <div class="col-xs-8">
+                                    <b>@Model.WeightLbs lbs.</b>
+                                </div>
+                            </div><br />
+                        }
+
+                    </div>
+                </div>
             </div>
-            <hr />
-            @if (Model.DOB < DateTime.UtcNow.AddYears(-5) && !Model.Settings.Hide_DOB_From_Public)
-            { 
-                <div class="vmContactLine">
-                    Born: <b>@Model.DOB.ToLongDateString()</b>
+            <div class="col-xs-12 col-sm-6 col-md-8">
+
+                <div class="panel panel-default ">
+                    <div class="panel-heading">Biography</div>
+                    <div class="panel-body">
+                        @Html.Raw(Model.Bio)
+                    </div>
                 </div>
-            }
-            @if (Model.HeightFeet > 0)
-            { 
-                <div class="vmContactLine">
-                    Height: <b>@Model.HeightFeet' @Model.HeightInches</b>
-                </div>
-            }
-            @if (Model.WeightLbs > 0)
-            { 
-                <div class="vmContactLine">
-                    Weight: <b>@Model.WeightLbs lbs.</b>
-                </div>
-            }
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane  well " id="membership">
+        <div class="">
             @foreach (var league in Model.Leagues)
             {
                 if (!String.IsNullOrEmpty(league.Name))
-                { 
-                <div class="vmContactLine">
-                    <span class="vmTeamName">
-                        <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
-                            @league.Name
-                        </a></span>
-                </div>
+                {
+
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            @if (league.Logo != null)
+                            {
+                                <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+
+                                    <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
+
+                                </a>
+                            }
+                            <div class="caption">
+                                <h4>
+                                    <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                        @league.Name
+                                    </a>
+                                </h4>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 }
             }
+            <div class="clearfix"></div>
+           
+        </div>
 
-            <div class="vmContactLine">
-                <ul>
-                    @foreach (var fed in Model.FederationsApartOf)
-                    {
-                        //show if they are an active member of the federation
-                        if (fed.MemberType == RDN.Library.Classes.Federation.Enums.MemberTypeFederationEnum.Active.ToString())
-                        { 
-                        <li class="vmTeamName">
-                            @fed.FederationName - Class: @fed.MADEClassRank
-                        </li>
-                        }
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="clear">
-        </div>
-        <div class="usual">
-            <ul class="idTabs">
-                <li><a href="#Stats">Stats</a></li>
-                <li><a href="#Bio">Biography</a></li>
-            </ul>
-            <div id="Stats" class="usualInner">
-                <br />
-                <br />
-                <table class="vmTable">
-                    <tr>
-                        <td colspan="4" class="vmTableHead">Games Played
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Date
-                        </th>
-                        <th>Name
-                        </th>
-                        <th>Opponent
-                        </th>
-                        <th>Final : Delta
-                        </th>
-                    </tr>
-                    @for (int i = 0; i < Model.GamesToDisplay.Count; i++)
-                    { 
-                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                @Model.GamesToDisplay[i].GameDate.ToString("ddd M/d")
-                            </td>
-                            <td>
-                                <a href="@Url.Content("~/roller-derby-game/" + Model.GamesToDisplay[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].Team2Name))">
-                                    @Model.GamesToDisplay[i].GameName
-                                </a>
-                            </td>
-                            <td>vs.
-                                @if (Model.GamesToDisplay[i].Team2LinkId == new Guid())
-                                {@Model.GamesToDisplay[i].Team2Name}
-                                else
-                                { 
-                                    <a href="@Url.Content("~/federation/league/" + Model.GamesToDisplay[i].Team2LinkId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].Team2Name))">
-                                        @Model.GamesToDisplay[i].Team2Name
-                                    </a>
-                                }
-                            </td>
-                            <td>
-                                @if (Model.GamesToDisplay[i].Team1ScoreTotal > Model.GamesToDisplay[i].Team2ScoreTotal)
-                                { 
-                                    <span class="win floatL">W</span>
-                                }
-                                else
-                                { 
-                                    <span class="loss floatL">L</span>
-                                }
-                                @Model.GamesToDisplay[i].Team1ScoreTotal
-                                -
-                                @Model.GamesToDisplay[i].Team2ScoreTotal
-                                <span class="b">:</span>
-                                @if (Model.GamesToDisplay[i].Team1ScoreTotal > Model.GamesToDisplay[i].Team2ScoreTotal)
-                                { 
-                                    <span class="win">@Model.GamesToDisplay[i].Score1Score2Delta.ToString("N2")</span>
-                                }
-                                else
-                                { 
-                                    <span class="loss">@Model.GamesToDisplay[i].Score1Score2Delta.ToString("N2")</span>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </table>
-                <div class="vmBoxes">
-                    <div class="vmBoxTitle">
-                        Jammer Position For Games
-                    </div>
-                    <table>
-                        <tr class="gr1">
-                            <td>Total Games / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalGamesPlayed / @Model.JammerPosition.TotalGamesPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Total Jams / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalJamsInAllGames / @Model.JammerPosition.TotalJamsPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Jams Per Game
-                            </td>
-                            <td>
-                                @Model.AverageJamsPerGame.ToString("N1")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Avg Pts / Against Per Game
-                            </td>
-                            <td>
-                                @Model.JammerPosition.AveragePointsScoredPerGame.ToString("N1")/ @Model.JammerPosition.AveragePointsScoredAgainstPerGame.ToString("N1")
-                                : @Model.JammerPosition.AveragePointsScoredPerGameDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Pts / Against Per Jam Played
-                            </td>
-                            <td>
-                                @Model.JammerPosition.AveragePointsScoredPerJam.ToString("N1")/ @Model.JammerPosition.AveragePointsScoredAgainstPerJam.ToString("N1")
-                                : @Model.JammerPosition.AveragePointsScoredPerJamDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Total Pts / Against Scored Career
-                            </td>
-                            <td>
-                                @Model.JammerPosition.PointsCareer.ToString("N1") / @Model.JammerPosition.PointsAgainstCareer.ToString("N1")
-                                :
-                                @Model.JammerPosition.PointsCareerDelta.ToString("N2")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="vmBoxes">
-                    <div class="vmBoxTitle">
-                        Pivot Position For Games
-                    </div>
-                    <table>
-                        <tr class="gr1">
-                            <td>Total Games / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalGamesPlayed / @Model.PivotPosition.TotalGamesPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Total Jams / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalJamsInAllGames / @Model.PivotPosition.TotalJamsPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Jams Per Game
-                            </td>
-                            <td>
-                                @Model.AverageJamsPerGame.ToString("N1")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Avg Pts / Against Per Game
-                            </td>
-                            <td>
-                                @Model.PivotPosition.AveragePointsScoredPerGame.ToString("N1")/ @Model.PivotPosition.AveragePointsScoredAgainstPerGame.ToString("N1")
-                                : @Model.PivotPosition.AveragePointsScoredPerGameDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Pts / Against Per Jam Played
-                            </td>
-                            <td>
-                                @Model.PivotPosition.AveragePointsScoredPerJam.ToString("N1") / @Model.PivotPosition.AveragePointsScoredAgainstPerJam.ToString("N1")
-                                : @Model.PivotPosition.AveragePointsScoredPerJamDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Total Pts / Against Scored Career
-                            </td>
-                            <td>
-                                @Model.PivotPosition.PointsCareer / @Model.PivotPosition.PointsAgainstCareer : @Model.PivotPosition.PointsCareerDelta.ToString("N2")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="vmBoxes">
-                    <div class="vmBoxTitle">
-                        Blocker Position For Games
-                    </div>
-                    <table>
-                        <tr class="gr1">
-                            <td>Total Games / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalGamesPlayed / @Model.BlockerPosition.TotalGamesPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Total Jams / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalJamsInAllGames / @Model.BlockerPosition.TotalJamsPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Jams Per Game
-                            </td>
-                            <td>
-                                @Model.AverageJamsPerGame.ToString("N1")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Avg Pts / Against Per Game
-                            </td>
-                            <td>
-                                @Model.BlockerPosition.AveragePointsScoredPerGame.ToString("N1") / @Model.BlockerPosition.AveragePointsScoredAgainstPerGame.ToString("N1")
-                                : @Model.BlockerPosition.AveragePointsScoredPerGameDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Pts / Against Per Jam Played
-                            </td>
-                            <td>
-                                @Model.BlockerPosition.AveragePointsScoredPerJam.ToString("N1") / @Model.BlockerPosition.AveragePointsScoredAgainstPerJam.ToString("N1")
-                                : @Model.BlockerPosition.AveragePointsScoredPerJamDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Total Pts / Against Scored Career
-                            </td>
-                            <td>
-                                @Model.BlockerPosition.PointsCareer / @Model.BlockerPosition.PointsAgainstCareer
-                                : @Model.BlockerPosition.PointsCareerDelta.ToString("N2")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div id="Bio" class="usualInner">
-                <div class="vmTabTitle">
-                    Biography Of @Model.DerbyName
-                </div>
-                <br />
-                @Html.Raw(Model.BioHtml)
-            </div>
-            <div>
-            </div>
-        </div>
     </div>
+</div>
+<br /><br />

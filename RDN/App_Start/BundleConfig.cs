@@ -28,7 +28,8 @@ namespace RDN
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
                         "~/Scripts/main.js",
                         "~/scripts/OpenLayers.js",
-                        "~/Scripts/ViewModels/LeagueViewModel.js"));
+                        "~/Scripts/ViewModels/LeagueViewModel.js",
+                        "~/Scripts/ViewModels/MemberViewModel.js"));
 
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

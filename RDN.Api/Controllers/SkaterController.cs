@@ -20,41 +20,19 @@ namespace RDN.Api.Controllers
         /// <param name="p">page</param>
         /// <param name="c">count</param>
         /// <returns></returns>
-        public JsonResult GetAllSkaters(int? p, int? c)
+        public JsonResult GetAllSkaters(int? p, int? c, string s)
         {
             List<SkaterJson> names = new List<SkaterJson>();
             try
             {
-                if (p.HasValue && c.HasValue)
-                {
-                    names = SiteCache.GetAllPublicMembers(p.Value, c.Value);
-                }
-                else
-                {
-                    names = SiteCache.GetAllPublicMembers();
-                }
+                names = SiteCache.SearchAllPublicMembers(p.GetValueOrDefault(), c.GetValueOrDefault(), s);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
 
-            return Json(new
-            {
-                members = (
-                       from n in names
-                       select new[]
-                    {
-                        n.DerbyName,
-                        n.DerbyNameUrl,
-                        n.DerbyNumber,
-                        n.Gender,
-                        n.LeagueName,
-                        n.LeagueUrl,
-                        n.LeagueId,
-                        n.photoUrl
-                                            }).ToArray()
-            }, JsonRequestBehavior.AllowGet);
+            return Json(new { members = names }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 

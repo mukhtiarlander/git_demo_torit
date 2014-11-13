@@ -1,6 +1,6 @@
-﻿var LeagueViewModel = new function () {
+﻿var MemberViewModel = new function () {
     var thisViewModel = this;
-    this.Leagues = ko.observableArray([]);
+    this.Members = ko.observableArray([]);
     this.maxId = ko.observable();
     this.pendingRequest = ko.observable(false);
     this.page = ko.observable();
@@ -8,7 +8,7 @@
     this.SearchText = ko.observable();
     this.ListCountPull = ko.observable();
 
-    this.LoadLeagueList = function (count) {
+    this.LoadMemberList = function (count) {
         thisViewModel.ListCountPull(count);
         thisViewModel.page(0);
         getItems(thisViewModel.ListCountPull(), false);
@@ -19,7 +19,7 @@
         });
     }
 
-    this.SearchLeagues = function (input) {
+    this.SearchMembers = function (input) {
         thisViewModel.IsFinishedScrolling(false);
         thisViewModel.pendingRequest(false);
         thisViewModel.page(0);
@@ -31,19 +31,19 @@
             thisViewModel.pendingRequest(true);
             $.ajax({
                 type: "POST",
-                url: apiUrl + "League/GetAllLeagues",
+                url: apiUrl + "Skater/GetAllSkaters",
                 data: { p: thisViewModel.page(), c: cnt, s: thisViewModel.SearchText() },
                 dataType: "json",
                 success: function (data) {
-                    if (data.leagues.length > 0) {
+                    if (data.members.length > 0) {
                         if (!isSearch) {
-                            ko.utils.arrayForEach(data.leagues, function (entry) {
-                                thisViewModel.Leagues.push(entry);
+                            ko.utils.arrayForEach(data.members, function (entry) {
+                                thisViewModel.Members.push(entry);
                             });
                         }
                         else {
-                            thisViewModel.Leagues.removeAll();
-                            thisViewModel.Leagues(data.leagues);
+                            thisViewModel.Members.removeAll();
+                            thisViewModel.Members(data.members);
                         }
                         thisViewModel.page(thisViewModel.page() + 1);
                         thisViewModel.pendingRequest(false);
