@@ -1,7 +1,7 @@
 ﻿@model RDN.Portable.Classes.Games.Officiating.RequestsModel
 @{
     ViewBag.Title = "Officials in Roller Derby Leagues";
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @helper Truncate(string input, int length = 30)
 {
@@ -9,90 +9,101 @@
     {
         if (input.Length <= length)
         {
-    @input
+            @input
         }
         else
         {
-    @input.Substring(0, length)<text>...</text>
+            @input.Substring(0, length)<text>...</text>
         }
     }
     else
     {
-    <text><i>Null</i></text>
+        <text><i>Null</i></text>
     }
 }
-
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            All Officiating Requests
+<div id="carousel-example-generic" class="carousel slide " data-ride="carousel" data-interval="6000">
+    <div class="carousel-inner  " role="listbox">
+        <div class="item active">
+            <img src="~/Content/ImageSlides/officials/1.jpg" style="max-height:400px; margin:0px auto;" />
+            <div class="carousel-caption">
+                brought to you by https://www.flickr.com/photos/24oranges/
+            </div>
         </div>
-
-        <div>
-            View officiating requests made from all over the world.  If you're an official, this is the place to check out for more games to officiate.  This should also help alleviate the big need for officials.
-
+        <div class="item">
+            <img src="~/Content/ImageSlides/officials/2.jpg" style="max-height:400px;margin:0px auto;" />
+            <div class="carousel-caption">
+                brought to you by https://www.flickr.com/photos/dan4th/
+            </div>
         </div>
-        <div class="divider"></div>
-        <div>
-            <table class="listTable tableExtras" id="itemList">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Teams Playing</th>
-                        <th>Location</th>
-
-                        <th>Date</th>
-                        <th>First Whistle</th>
-                        <th>Rule Set</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var b in Model.Requests)
-                    {                 
-                        <tr class="@(b.RequestId % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)" >View </a>
-
-                            </td>
-
-                            <td>
-                                @Truncate(b.TeamsPlaying, 23)
-                            </td>
-                            <td>
-                                @Truncate(b.LocationName, 10) -
-
-                                @if (!String.IsNullOrEmpty(b.City))
-                                { 
-                                    @b.City<span>,</span>
-                                }
-                                @if (!String.IsNullOrEmpty(b.State))
-                                { 
-                                    @b.State<span> </span>
-                                }
-
-
-                            </td>
-                            <td>
-                                @b.Date.Value.ToShortDateString()
-                            </td>
-                            <td>
-                                @Truncate(b.FirstWhistle, 10)
-                            </td>
-                            <td>
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
-                            </td>
-
-                        </tr>     
-                    }
-                </tbody>
-            </table>
-            <br /><br />
-
-            <div class="center">
-                <a href="@Model.UrlToRequest">Add New Request</a>
+        <div class="item">
+            <img src="~/Content/ImageSlides/officials/3.jpg" style="max-height:400px;margin:0px auto;" />
+            <div class="carousel-caption">
+                brought to you by https://www.flickr.com/photos/sk8geek/
+            </div>
+        </div><div class="item">
+            <img src="~/Content/ImageSlides/officials/4.jpg" style="max-height:400px;margin:0px auto;" />
+            <div class="carousel-caption">
+                brought to you by https://www.flickr.com/photos/sk8geek/
             </div>
         </div>
     </div>
+</div>
+<div class="page-header text-center">
+    <h2>
+        Officiating Requests
+    </h2>
+</div>
+
+<div class="text-center">
+    <a href="@Model.UrlToRequest" class="btn btn-success">Add New Request</a>
+</div>
+<div class="col-xs-10 col-xs-offset-1">
+    <table class="table" id="itemList">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Teams Playing</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>First Whistle</th>
+                <th>Rule Set</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model.Requests)
+            {
+                <tr class="@(b.RequestId % 2 == 0 ? "tr1" : "tr0")">
+                    <td>
+                        <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)">View </a>
+                    </td>
+                    <td>
+                        @Truncate(b.TeamsPlaying, 23)
+                    </td>
+                    <td>
+                        @Truncate(b.LocationName, 10) -
+
+                        @if (!String.IsNullOrEmpty(b.City))
+                        {
+                            @b.City<span>,</span>
+                        }
+                        @if (!String.IsNullOrEmpty(b.State))
+                        {
+                            @b.State<span> </span>
+                        }
+                    </td>
+                    <td>
+                        @b.Date.Value.ToShortDateString()
+                    </td>
+                    <td>
+                        @Truncate(b.FirstWhistle, 10)
+                    </td>
+                    <td>
+                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br /><br />
+
 </div>
