@@ -1,222 +1,273 @@
 ﻿@{
     ViewBag.Title = "Pricing For Leagues";
-    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div>
-    <div class="center">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/o4mnDLY2ijA" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <div class="pricesTitle">Honest prices, no surprises for league management.</div>
-
-    <div class="pricesDescription">Pay as you go.  No long-term contracts. No per-user/team fees.</div>
-    <div>
-        <table class="subGetTable">
-            <tr>
-                <th class="subHead alignCenter" style="font-size: 1.5em;">Features</th>
-                <th class="subHead alignCenter">Free/Ad Supported</th>
-                <th class="subHead alignCenter">
-                    <div style="margin-bottom: 10px;"><span style="vertical-align: text-top;">$</span><span style="font-size: 1.5em;">131</span>/year</div>
-                    <div>$10.99/month</div>
-                </th>
-                <th class="subHead alignCenter">Descriptions</th>
-            </tr>
-            <tr>
-                <td class="subF">Attendance Tracking</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>RDNations state of the art attendance tracking software uses the popular points based system.  It tracks attendace at all the events within the league calendar.  It uses the popular points based system for tracking leagues attendace within Roller Derby.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">League Calendar</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Each league gets a calendar.  The calendar is used to schedule events, set RSVP availability, track attendance and show the locations of those such events.</td>
-            </tr>
-
-            <tr>
-                <td class="subF">Dues Collection</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Track every dollar received from your members and verify that your league is getting paid by everyone required to pay. Each payment and the entire history can be export via excel.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Track & Export Insurance Numbers</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Track all the insurance numbers of your skaters.  No longer fiddle with excel spreadsheets. We also offer exporting the list of numbers into a easily managed CSV document.
-                </td>
-            </tr>
-             <tr>
-                <td class="subF">Jobs Board</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Ever wanted a jobs board for your league?  RDNation provides each league with their own jobs board.  Anyone can add a job and anyone can also apply.  Free up your management from asking if someone can take a job.  Just post it and wait for your members to apply.
-                </td>
-            </tr>
-              <tr>
-                <td class="subF">Sponsors</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Track your sponsors, their promo codes, and what they gave to the league to be a sponsor.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Groups, Teams and Commitees</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>You can dynamically organize your league into groups of people that can communicate with each other.  We give each group their own messaging, forums and much more.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Skills Completed Dates</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Track when your skaters complete their annual assessments.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Medical Records</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Track the most important information for your skaters. If EMTs need to know about your skater quickly, <a href="http://blog.rdnation.com/post/42033277962/track-medical-records" target="_blank">you can now access such information online</a>.  
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Member Contacts</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Need to get in touch with a members parents, emergency contact or even someones doctor? Store <a href="http://blog.rdnation.com/post/42296998505/introducing-contacts" target="_blank">all the contacts of each member within the league</a>.  
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Document Repository</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Maintain all your league documents online organized within folders.  Give access to the documents only to certain people of particular groups.  Each document can also be commented on with the comments being saved directly in RDNation.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Voting Polls</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Ask questions to your league with polls members can vote on.  Ask anything and get answers from everyone.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Contacts Management</td>
-                <td></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Maintain all your contacts within your league.  Sponsors, businesses, traveling officials, parents of junior skaters etc..  We allow you to take notes and track their information to keep in all in one place.
-                </td>
-            </tr>
-            <tr>
-                <td class="subF">Text Messaging</td>
-                <td class="alignCenter alignMiddle"></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Send a Text Message to anyone or everyone within your league.  Instantly just by the press of a button.</td>
-            </tr>
-            <tr>
-                <td class="subF">Bout Challenges</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Add and View bout challenges posted by other leagues.  Have an open bout date?  Well add a Bout Challenge and receive requests by other leagues to play!</td>
-            </tr>
-            <tr>
-                <td class="subF">League & Roster Management</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Your own League site with all your members, their information, profile pictures and more.</td>
-            </tr>
-            <tr>
-                <td class="subF">League Messaging</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>You can message and chat with anyone in your league.  Send a message to your entire league or just a select few people.</td>
-            </tr>
-            <tr>
-                <td class="subF">League Forums</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Forums are an integral part of any team.  They help communication and keep people in touch with everyone else in the group.</td>
-            </tr>
-            <tr>
-                <td class="subF">Games Online</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>All your games when using <a target="_blank" href="http://rdnation.com/roller-derby-scoreboard">Thor's Hammer</a> are posted online.  Your scoreboard operator attaches the players of the league with the game they played.</td>
-            </tr>
-            <tr>
-                <td class="subF">Member Site</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Each member gets their own site.  With their own profile picture and a public resume for all the fans to see.</td>
-            </tr>
-            <tr>
-                <td class="subF">Member Messaging</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Any member of RDNation can message and chat with any other member of RDNation.  We hope this communication will help keep leagues communicating which will grow the sport.</td>
-            </tr>
-            <tr>
-                <td class="subF">Your Personal or League Store</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Each league can sell their personal items and goods on the public RDNation store.</td>
-            </tr>
-            <tr>
-                <td class="subF">Maintain Your Insurance Numbers</td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td class="alignCenter alignMiddle">
-                    <img src="@Url.Content("~/Content/Scoreboard/Screenshots/Check-24x24.png")" /></td>
-                <td>Track your personal skater insurance numbers.  No longer needing to find it or request it from any source.
-                </td>
-            </tr>
-        </table>
-        <div class="clear"></div>
-    </div>
-    <div class="alignCenter packageDescription"><b>Also included:</b> Unlimited users and teams, SSL data encryption (the same as online banks), and daily backups of your data to prevent permanent data loss.</div>
-    <div class="alignCenter">
-        <span class="packageGetStarted"><a href="http://rdnation.com/signup">Get started today with a @RDN.Library.Classes.Payment.Classes.Invoice.InvoiceSubscription.NUMBER_OF_DAYS_FOR_TRIAL_SUBSCRIPTION-day free trial</a></span>
-        <div class="alignCenter"><span class="packageGetStartedTry"><a href="http://blog.rdnation.com/post/41220319441/want-a-demo" target="_blank">Want a Demo?</a></span></div>
-        <br />
-        <br />
-        No obligation, no credit card required.
-    </div>
-    <br />
-    <br />
+<div class="page-header">
+    <h2 class="text-center">Honest prices, no surprises for league management.</h2>
+    <h3 class="text-center">Pay as you go.  No long-term contracts. No per-user/team fees.</h3>
 </div>
+
+<div class="row">
+    <div>
+        <a href="@Url.Content("~/signup")" class="btn btn-success col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 bold">Sign Me Up</a>
+    </div>
+</div>
+<br />
+<table class="pricingTable table">
+    <tr>
+        <th class="pricingHead text-center" style="font-size: 1.5em;">Features</th>
+        <th class="pricingHead  text-center">Free</th>
+        <th class="pricingHead  text-center">
+            <div >
+                <span style="vertical-align: text-top;">$</span><span style="font-size: 1.5em;">131</span>/year
+            </div>
+            <div>$10.99/month</div>
+        </th>
+        <th class="pricingHead  ">Descriptions</th>
+    </tr>
+    <tr>
+        <td class="bold">Bout Challenges</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Add and View bout challenges posted by other leagues.  Have an open bout date?  Well add a Bout Challenge and receive requests by other leagues to play!</td>
+    </tr>
+    <tr>
+        <td class="bold">League & Roster Management</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Your own League site with all your members, their information, profile pictures and more.</td>
+    </tr>
+    <tr>
+        <td class="bold">League Messaging</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>You can message and chat with anyone in your league.  Send a message to your entire league or just a select few people.</td>
+    </tr>
+    <tr>
+        <td class="bold">League Forums</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Forums are an integral part of any team.  They help communication and keep people in touch with everyone else in the group.</td>
+    </tr>
+    <tr>
+        <td class="bold">Games Online</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>All your games when using <a target="_blank" href="http://rdnation.com/roller-derby-scoreboard">Thor's Hammer</a> are posted online.  Your scoreboard operator attaches the players of the league with the game they played.</td>
+    </tr>
+    <tr>
+        <td class="bold">Member Site</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Each member gets their own site.  With their own profile picture and a public resume for all the fans to see.</td>
+    </tr>
+    <tr>
+        <td class="bold">Member Messaging</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Any member of RDNation can message and chat with any other member of RDNation.  We hope this communication will help keep leagues communicating which will grow the sport.</td>
+    </tr>
+    <tr>
+        <td class="bold">Your Personal or League Store</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Each league can sell their personal items and goods on the public RDNation store.</td>
+    </tr>
+    <tr>
+        <td class="bold">Maintain Your Insurance Numbers</td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Track your personal skater insurance numbers.  No longer needing to find it or request it from any source.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Attendance Tracking</td>
+        <td></td>
+        <td class="text-center">
+
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            RDNations state of the art attendance tracking software uses the popular points based system.  It tracks attendace at all the events within the league calendar.  It uses the popular points based system for tracking leagues attendace within Roller Derby.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">League Calendar</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Each league gets a calendar.  The calendar is used to schedule events, set RSVP availability, track attendance and show the locations of those such events.</td>
+    </tr>
+
+    <tr>
+        <td class="bold">Dues Collection</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Track every dollar received from your members and verify that your league is getting paid by everyone required to pay. Each payment and the entire history can be export via excel.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Track & Export Insurance Numbers</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Track all the insurance numbers of your skaters.  No longer fiddle with excel spreadsheets. We also offer exporting the list of numbers into a easily managed CSV document.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Jobs Board</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Ever wanted a jobs board for your league?  RDNation provides each league with their own jobs board.  Anyone can add a job and anyone can also apply.  Free up your management from asking if someone can take a job.  Just post it and wait for your members to apply.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Sponsors</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Track your sponsors, their promo codes, and what they gave to the league to be a sponsor.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Groups, Teams and Commitees</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            You can dynamically organize your league into groups of people that can communicate with each other.  We give each group their own messaging, forums and much more.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Skills Completed Dates</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Track when your skaters complete their annual assessments.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Medical Records</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Track the most important information for your skaters. If EMTs need to know about your skater quickly, <a href="http://blog.rdnation.com/post/42033277962/track-medical-records" target="_blank">you can now access such information online</a>.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Member Contacts</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Need to get in touch with a members parents, emergency contact or even someones doctor? Store <a href="http://blog.rdnation.com/post/42296998505/introducing-contacts" target="_blank">all the contacts of each member within the league</a>.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Document Repository</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Maintain all your league documents online organized within folders.  Give access to the documents only to certain people of particular groups.  Each document can also be commented on with the comments being saved directly in RDNation.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Voting Polls</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Ask questions to your league with polls members can vote on.  Ask anything and get answers from everyone.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Contacts Management</td>
+        <td></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>
+            Maintain all your contacts within your league.  Sponsors, businesses, traveling officials, parents of junior skaters etc..  We allow you to take notes and track their information to keep in all in one place.
+        </td>
+    </tr>
+    <tr>
+        <td class="bold">Text Messaging</td>
+        <td class="text-center"></td>
+        <td class="text-center">
+            <i class="green  fa fa-check fa-2x"></i>
+        </td>
+        <td>Send a Text Message to anyone or everyone within your league.  Instantly just by the press of a button.</td>
+    </tr>
+    
+</table>
+<div class="clearfix"></div>
+<div class="alignCenter packageDescription"><b>Also included:</b> Unlimited users and teams, SSL data encryption (the same as online banks), and daily backups of your data to prevent permanent data loss.</div>
+<br />
+<div class="row">
+    <div>
+        <a href="@Url.Content("~/signup")" class="btn btn-success col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 bold">Sign Me Up</a>
+    </div>
+</div>
+<br />
+<div class="bold text-center">
+
+    No obligation, no credit card required.
+</div>
+<br />

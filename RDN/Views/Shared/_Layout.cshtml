@@ -20,6 +20,8 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
+    <script src="https://apis.google.com/js/platform.js" async=async defer=defer></script>
+    <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
     <link rel="apple-touch-icon" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
     <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
     <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
@@ -34,10 +36,10 @@
     @Html.Partial("_PartialUpperLinks")
 
     <br />
-    <div class="container-fluid  body-content">
+    <div class="container-fluid   body-content">
 
 
-    
+
 
 
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
@@ -105,6 +107,13 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
+
+
+        window.twttr = (function (d, s, id) { var t, js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) { return } js = d.createElement(s); js.id = id; js.src = "https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); return window.twttr || (t = { _e: [], ready: function (f) { t._e.push(f) } }) }(document, "script", "twitter-wjs"));
+
+
+        
+
     </script>
 
 

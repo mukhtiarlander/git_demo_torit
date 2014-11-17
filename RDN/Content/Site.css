@@ -1,56 +1,36 @@
-﻿.fb-like { padding:8px; }
+﻿
+.fb-like { padding: 8px; }
 
-body {
-background-color:#d6b6db;
-font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
-font-size: 14px;
-line-height: 1.43;
-color: #565a5c;
-background-color: #f5f5f5;
--webkit-font-smoothing: antialiased;
-}
+body { background-color: #fff; font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.43; color: #565a5c; -webkit-font-smoothing: antialiased; }
 
+.bold { font-weight: bold; }
 
+.ontopCarousel { position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 5; padding-top: 20px; }
 
-.bold {
-font-weight:bold;
-
-}
-
-.ontopCarousel {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right:0;
-    z-index: 5;
- padding-top:20px;  
-}
-
-.white {
-color:#fff;
-}
+.white { color: #fff; }
 
 @media (min-width: 168px) {
-.text-jumbo{font-size:20px;font-weight:900;}
+    .text-jumbo { font-size: 20px; font-weight: 900; }
 }
 
 @media (min-width: 368px) {
-.text-jumbo{font-size:30px;font-weight:900}
+    .text-jumbo { font-size: 30px; font-weight: 900; }
 }
 
 @media (min-width: 768px) {
-.text-jumbo{font-size:50px;font-weight:900}
+    .text-jumbo { font-size: 50px; font-weight: 900; }
 }
+
 @media (min-width: 992px) {
-.text-jumbo{font-size:60px;font-weight:900}
+    .text-jumbo { font-size: 60px; font-weight: 900; }
 }
+
 @media (min-width: 1200px) {
-.text-jumbo{font-size:60px;font-weight:900}
+    .text-jumbo { font-size: 60px; font-weight: 900; }
 }
 
 
-.footer {background-color:#000; }
+.footer { background-color: #000; }
 
 
 /* Pager */
@@ -61,17 +41,66 @@ color:#fff;
     .pager a { border: 1px solid #c0c0c0; padding: 3px 5px; text-align: center; text-decoration: none; }
 
 
-.padding-5 { padding:5px; }
+.padding-5 { padding: 5px; }
 
 
-.imgCenter {
-display: block;
-    margin-left: auto;
-    margin-right: auto;
+.bg-black { background-color: #000; }
+.bg-white{ background-color: #fff; }
+.backgroundColor { background-color: #872f95; }
+
+.officialPictures { max-height: 400px; margin: 0px auto; }
+
+.cursor { cursor:pointer; }
+.olPopup { z-index: 10000; }
+.popuptable { background-color: #fff; width: 350px; height: 100px; font-family: Arial; }
+.popuptd { width: 250px; vertical-align: top; }
+.popupleagename { font-weight: bold; font-size: 14px; padding-left: 5px; padding-top: 5px; }
+.popupleagemem { font-weight: bold; font-size: 12px; padding-left: 5px; }
+.popupbold { font-weight: bold; font-size: 14px; padding-left: 5px; padding-bottom: 5px; }
+.olControlAttribution { display: none; }
+.popupaddress { font-size: 12px; padding-left: 5px; margin-top: -10px; }
+div.olControlZoom a { display: block; margin: 1px; padding: 0; color: white; font-size: 18px; font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif; font-weight: bold; text-decoration: none; text-align: center; height: 22px; width: 22px; line-height: 19px; background: #130085; background: rgba(0, 60, 136, 0.5); filter: alpha(opacity=80); }
+a.olControlZoomIn { border-radius: 4px 4px 0 0; }
+.olPopupCloseBox { background: url("images/close.gif") no-repeat; cursor: pointer; }
+.olControlAttribution { bottom: 0px; }
+
+.imgMaxSize { max-height: 500px; }
+.imgCenter { display: block; margin-left: auto; margin-right: auto; }
+
+.timer { font-family: "League Gothic", Arial; -webkit-font-smoothing: antialiased !important; }
+.countdown { padding: 1em; background-color:rgba(0, 0, 0, 0.7); }
+    .countdown .labels { text-align: center; margin-bottom: 0.5em; }
+        .countdown .labels span { display: inline-block; width: 50px; font-family: 'Avenir Next'; color: #efefef; font-size: 0.8125em; background: none; padding: 0; margin: 5px 0; text-align: center; }
+
+@media (min-width: 168px) {
+.countdown { margin: 0px auto; position:absolute;width:100%;}    
+.tick { font-size: 2em; }
 }
 
-
-
-.backgroundColor {
-background-color:#872f95;
+@media (min-width: 368px) {
+    
+    .tick { font-size: 3em; }
 }
+
+@media (min-width: 768px) {
+    .countdown {  position: absolute; right: 20px; width: 400px; }
+    .tick { font-size: 4em; }
+}
+
+.ul-inlineList { list-style:none; }
+    .ul-inlineList li { display:inline-block; }
+
+.chatMessage { border-bottom: 1px solid #c0c0c0; padding: 3px; }
+.chatMessageProfile {   }
+.chatMessageContent { }
+
+.thumbnail-sm { height:50px;  }
+
+.centerIt { margin:0px auto; position:relative; }
+
+.whiteSpace { white-space:nowrap; }
+
+.pricingTable { border: 1px solid #872f95; box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); }
+.pricingHead { font-size: 1.5em; background-color: #872f95; color: #FFFFFF; padding: 10px; vertical-align: middle; text-shadow: 0 2px #000000; }
+
+.green { color:green; }

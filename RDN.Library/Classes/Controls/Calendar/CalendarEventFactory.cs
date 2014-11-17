@@ -31,6 +31,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.ContactCard;
 using RDN.Library.Classes.Controls.Calendar;
 using RDN.Library.Classes.Mobile;
+using System.Configuration;
 namespace RDN.Library.Classes.Calendar
 {
     public class CalendarEventFactory
@@ -892,6 +893,9 @@ namespace RDN.Library.Classes.Calendar
                     {
                         ev.OrganizersId = owner.League.LeagueId;
                         ev.OrganizersName = owner.League.Name;
+
+                        if (owner.League.Logo != null)
+                            ev.LogoUrl = owner.League.Logo.ImageUrl;
                         break;
                     }
                 }
@@ -1701,8 +1705,10 @@ namespace RDN.Library.Classes.Calendar
                                  Chat = xx.Text,
                                  Id = xx.ConversationId,
                                  MemberName = xx.Owner == null ? "Anonymous" : xx.Owner.DerbyName,
+                                 MemberProfilePicUrl = xx.Owner.Photos.OrderByDescending(x=>x.Created).FirstOrDefault() == null? "": xx.Owner.Photos.OrderByDescending(x=>x.Created).FirstOrDefault().ImageUrlThumb, 
                                  Created = xx.Created,
-                                 OwnerId = eventId
+                                 OwnerId = eventId,
+                                 
                              }).OrderByDescending(x => x.Id).Take(60).AsParallel().ToList();
                 foreach (var con in convo)
                 {
@@ -1806,7 +1812,7 @@ namespace RDN.Library.Classes.Calendar
                         calEvent.OrganizersName = owner.League.Name;
                         if (owner.League.Logo != null)
                             calEvent.ImageUrl = owner.League.Logo.ImageUrlThumb;
-                        calEvent.OrganizerUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
+                        calEvent.OrganizerUrl = ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
                         break;
                     }
                 }
@@ -1856,7 +1862,7 @@ namespace RDN.Library.Classes.Calendar
                 if (ev.ReocurringEvent != null)
                     calEvent.CalendarReoccurringId = ev.ReocurringEvent.CalendarItemId;
                 calEvent.Name = ev.Name;
-                calEvent.NameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(ev.Name) + "/" + ev.CalendarItemId.ToString().Replace("-", "");
+                calEvent.NameUrl = ConfigurationManager.AppSettings["EventPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(ev.Name) + "/" + ev.CalendarItemId.ToString().Replace("-", "");
                 calEvent.TicketUrl = ev.TicketUrl;
                 calEvent.CalendarItemId = ev.CalendarItemId;
 

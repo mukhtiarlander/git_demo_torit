@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-        <div id="mapdiv" style="height: 350px; width: 100%;"></div>
+        <div id="mapdiv" class="page-header" style="height: 350px; width: 100%;"></div>
         <style>
             .olControlAttribution { bottom: 0px; }
         </style>
-        <br />
+        
         <div class=" text-center">
             <h2> @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide</h2>
         </div>
@@ -76,7 +76,7 @@
         </div>
 
 <script type="text/javascript">
-
+    
     map = new OpenLayers.Map("mapdiv");
     map.addLayer(new OpenLayers.Layer.OSM());
 

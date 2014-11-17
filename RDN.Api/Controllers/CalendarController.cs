@@ -22,6 +22,7 @@ using ScheduleWidget.Enums;
 using RDN.Library.Classes.Colors;
 using RDN.Portable.Classes.Colors;
 using RDN.Portable.Classes.Account.Classes;
+using System.Configuration;
 
 namespace RDN.Api.Controllers
 {
@@ -140,7 +141,12 @@ namespace RDN.Api.Controllers
                     j.Description = e.Notes;
                     j.EventUrl = e.Link;
                     j.TicketUrl = e.TicketUrl;
-                    j.RDNUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
+                    if (e.Location.Contact.Addresses.Count > 0)
+                    {
+                        j.Latitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Latitude;
+                        j.Longitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Longitude;
+                    }
+                    j.RDNUrl = ConfigurationManager.AppSettings["EventPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
                     if (e.Location != null)
                         j.Location = e.Location.LocationName;
                     evs.Events.Add(j);
@@ -155,6 +161,7 @@ namespace RDN.Api.Controllers
             }
             return Json(evs, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult SearchEventsAllByLL(string p, string c, string lat, string lon)
         {
             var now = DateTime.UtcNow;
@@ -189,7 +196,7 @@ namespace RDN.Api.Controllers
                     j.Latitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Latitude;
                     j.Longitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Longitude;
                     j.Miles = Conversion.ConvertMetersToMiles(geo.GetDistanceTo(new GeoCoordinate(j.Latitude, j.Longitude)));
-                    j.RDNUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
+                    j.RDNUrl = ConfigurationManager.AppSettings["EventPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
                     if (e.Location != null)
                         j.Location = e.Location.LocationName;
                     evs.Events.Add(j);
@@ -230,61 +237,6 @@ namespace RDN.Api.Controllers
             }
             return Json(new CalendarEventPortable(), JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult EditEvent(string type, string calId, string eventId)
-        //{
-        //    NewCalendarEvent cal = new NewCalendarEvent();
-        //    try
-        //    {
-        //        var calEvent = CalendarEvent.GetEvent(new Guid(eventId), new Guid(calId));
-        //        if (calEvent == null)
-        //            return Redirect(Url.Content("~/calendar/" + type + "/" + calId));
-
-        //        cal = new NewCalendarEvent(calEvent);
-        //        cal.CalendarId = new Guid(calId);
-        //        cal.CalendarType = type;
-        //        cal.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-        //        var colors = ColorDisplay.GetLeagueColors(cal.LeagueId);
-        //        cal.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
-
-        //        var locs = RDN.Library.Classes.Calendar.Calendar.GetLocationsOfCalendar(new Guid(calId));
-        //        var eventTypes = RDN.Library.Classes.Calendar.Calendar.GetEventTypesOfCalendar(new Guid(calId));
-        //        var AllowSelfCheckin = Calendar.GetCalendar(new Guid(calId), (CalendarOwnerEntityEnum)Enum.Parse(typeof(CalendarOwnerEntityEnum), type));
-
-        //        if (cal.Location != null)
-        //            cal.Locations = new SelectList(locs, "LocationId", "LocationName", (object)cal.Location.LocationId);
-        //        else
-        //            cal.Locations = new SelectList(locs, "LocationId", "LocationName");
-
-        //        if (cal.EventType != null)
-        //            cal.EventTypes = new SelectList(eventTypes, "CalendarEventTypeId", "EventTypeName", (object)cal.EventType.CalendarEventTypeId);
-        //        else
-        //            cal.EventTypes = new SelectList(eventTypes, "CalendarEventTypeId", "EventTypeName");
-
-        //        cal.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
-
-        //        var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
-        //                                where d.ToString() != "None"
-        //                                select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = FrequencyTypeEnum.Weekly == d });
-
-        //        if (String.IsNullOrEmpty(cal.RepeatsFrequencySelectedId))
-        //            cal.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)2));
-        //        else
-        //            cal.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)cal.RepeatsFrequencySelectedId));
-
-        //        cal.EndsOccurences = "0";
-        //        List<string> repeatCount = new List<string>();
-        //        for (int i = 1; i < 50; i++)
-        //        {
-        //            repeatCount.Add(i.ToString());
-        //        }
-
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        ErrorDatabaseManager.AddException(exception, exception.GetType());
-        //    }
-        //    return View(cal);
-        //}
         public ActionResult EditReoccurringEvent()
         {
 
@@ -324,67 +276,6 @@ namespace RDN.Api.Controllers
             }
             return Json(new CalendarEventPortable(), JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult EditReoccurringEvent(string type, string calId, string reoccuringEventId)
-        //{
-        //    NewCalendarEvent cal = new NewCalendarEvent();
-        //    try
-        //    {
-        //        var calEvent = CalendarEvent.GetEventReocurring(new Guid(reoccuringEventId), new Guid(calId));
-        //        if (calEvent == null)
-        //            return Redirect(Url.Content("~/calendar/" + type + "/" + calId));
-
-        //        cal = new NewCalendarEvent(calEvent);
-        //        cal.CalendarId = new Guid(calId);
-        //        cal.CalendarType = type;
-        //        cal.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-        //        var colors = ColorDisplay.GetLeagueColors(cal.LeagueId);
-        //        cal.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
-
-        //        var locs = RDN.Library.Classes.Calendar.Calendar.GetLocationsOfCalendar(new Guid(calId));
-        //        var eventTypes = RDN.Library.Classes.Calendar.Calendar.GetEventTypesOfCalendar(new Guid(calId));
-        //        var AllowSelfCheckin = Calendar.GetCalendar(new Guid(calId), (CalendarOwnerEntityEnum)Enum.Parse(typeof(CalendarOwnerEntityEnum), type));
-
-        //        if (cal.Location != null)
-        //            cal.Locations = new SelectList(locs, "LocationId", "LocationName", (object)cal.Location.LocationId);
-        //        else
-        //            cal.Locations = new SelectList(locs, "LocationId", "LocationName");
-
-        //        if (cal.EventType != null)
-        //            cal.EventTypes = new SelectList(eventTypes, "CalendarEventTypeId", "EventTypeName", (object)cal.EventType.CalendarEventTypeId);
-        //        else
-        //            cal.EventTypes = new SelectList(eventTypes, "CalendarEventTypeId", "EventTypeName");
-
-        //        cal.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
-
-        //        var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
-        //                                where d.ToString() != "None"
-        //                                select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = FrequencyTypeEnum.Weekly == d });
-        //        if (String.IsNullOrEmpty(cal.RepeatsFrequencySelectedId))
-        //            cal.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)2));
-        //        else
-        //            cal.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)cal.RepeatsFrequencySelectedId));
-
-        //        var montlhyInterval = (from ScheduleWidget.Enums.MonthlyIntervalEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.MonthlyIntervalEnum))
-        //                               select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = MonthlyIntervalEnum.First == d });
-        //        if (String.IsNullOrEmpty(cal.MonthlyIntervalId))
-        //            cal.MonthlyInterval = new SelectList(montlhyInterval, "Value", "Text", ((object)1));
-        //        else
-        //            cal.MonthlyInterval = new SelectList(montlhyInterval, "Value", "Text", ((object)cal.MonthlyIntervalId));
-
-        //        cal.EndsOccurences = "0";
-        //        List<string> repeatCount = new List<string>();
-        //        for (int i = 1; i < 50; i++)
-        //        {
-        //            repeatCount.Add(i.ToString());
-        //        }
-
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        ErrorDatabaseManager.AddException(exception, exception.GetType());
-        //    }
-        //    return View(cal);
-        //}
 
         public ActionResult CalendarEditEventType()
         {
@@ -814,82 +705,6 @@ namespace RDN.Api.Controllers
             return Json(cal, JsonRequestBehavior.AllowGet);
         }
         #endregion
-        ///// <summary>
-        ///// opends a new event window
-        ///// </summary>
-        ///// <param name="type"></param>
-        ///// <param name="id"></param>
-        ///// <param name="check"></param>
-        ///// <returns></returns>
-        //public ActionResult NewEvent(string type, string id, string check)
-        //{
-        //    Models.Calendar.NewCalendarEvent post = new Models.Calendar.NewCalendarEvent();
-        //    try
-        //    {
-        //        bool didLocationGetAdded = false;
-        //        post.CalendarId = new Guid(id);
-        //        post.CalendarType = type;
-        //        var locs = RDN.Library.Classes.Calendar.Calendar.GetLocationsOfCalendar(new Guid(id));
-        //        var eventTypes = RDN.Library.Classes.Calendar.Calendar.GetEventTypesOfCalendar(new Guid(id));
-        //        var AllowSelfCheckin = Calendar.GetCalendar(new Guid(id), (CalendarOwnerEntityEnum)Enum.Parse(typeof(CalendarOwnerEntityEnum), type));
-
-        //        if (!String.IsNullOrEmpty(check))
-        //        {
-        //            //if the check is true, it means this page came from "Create Event and Add Another"
-        //            if (check == "true")
-        //            {
-        //                SiteMessage message = new SiteMessage();
-        //                message.MessageType = SiteMessageType.Success;
-        //                message.Message = "Event Was Created.  You can now add another.";
-        //                this.AddMessage(message);
-        //            }
-        //            else // check is actually a location id.
-        //                didLocationGetAdded = true;
-        //        }
-
-        //        post.EventTypes = new SelectList(eventTypes, "CalendarEventTypeId", "EventTypeName");
-
-        //        if (didLocationGetAdded)
-        //        {
-        //            //an id will exist if they just created a new location.
-        //            var location = Location.GetLocation(new Guid(check));
-        //            locs.Add(location);
-        //            post.Locations = new SelectList(locs, "LocationId", "LocationName", (object)location.LocationId);
-        //        }
-        //        else
-        //        {
-        //            post.Locations = new SelectList(locs, "LocationId", "LocationName");
-        //        }
-        //        post.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
-        //        post.StartDate = DateTime.Now;
-        //        post.EndDate = DateTime.Now;
-        //        var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
-        //                                where d.ToString() != "None"
-        //                                select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = FrequencyTypeEnum.Weekly == d });
-        //        post.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)2));
-        //        var montlhyInterval = (from ScheduleWidget.Enums.MonthlyIntervalEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.MonthlyIntervalEnum))
-        //                               where d.ToString() != "None"
-        //                               select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = MonthlyIntervalEnum.First == d });
-        //        post.MonthlyInterval = new SelectList(montlhyInterval, "Value", "Text", ((object)1));
-
-        //        post.EndsOccurences = "0";
-        //        List<string> repeatCount = new List<string>();
-        //        for (int i = 1; i < 50; i++)
-        //        {
-        //            repeatCount.Add(i.ToString());
-        //        }
-
-        //        post.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-        //        var colors = ColorDisplay.GetLeagueColors(post.LeagueId);
-        //        post.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        ErrorDatabaseManager.AddException(exception, exception.GetType());
-        //    }
-        //    return View(post);
-        //}
-
 
 
     }

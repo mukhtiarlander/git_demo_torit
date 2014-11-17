@@ -11,5 +11,14 @@ namespace RDN.Portable.Classes.Games.Tournament
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Guid Id { get; set; }
+
+        public long GetTotalSecondsToEvent
+        {
+            get
+            {
+                var ts = StartDate - DateTime.UtcNow;
+                return (long)ts.TotalSeconds;
+            }
+        }
     }
 }

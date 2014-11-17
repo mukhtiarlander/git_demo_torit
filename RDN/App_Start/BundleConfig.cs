@@ -21,15 +21,20 @@ namespace RDN
                         "~/Scripts/jquery.validate.unobtrusive.min.js",
                         "~/Scripts/menucool.js",
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
-                        "~/Scripts/FullCalendar/gcal.js"
-
+                        "~/Scripts/FullCalendar/gcal.js",
+                        "~/Scripts/Utilities/Countdown.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
-                        "~/Scripts/main.js",
-                        "~/scripts/OpenLayers.js",
+                "~/scripts/OpenLayers.js",
+                "~/Scripts/main.js",
                         "~/Scripts/ViewModels/LeagueViewModel.js",
-                        "~/Scripts/ViewModels/MemberViewModel.js"));
+                        "~/Scripts/ViewModels/MemberViewModel.js",
+                        "~/Scripts/ViewModels/CalendarViewModel.js",
+                        "~/Scripts/ViewModels/EventViewModel.js",
+                        "~/Scripts/Models/ChatModel.js",
+                        "~/Scripts/game.js",
+                        "~/Scripts/ViewModels/TournamentViewModel.js"));
 
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

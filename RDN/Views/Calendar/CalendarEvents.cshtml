@@ -1,116 +1,65 @@
 ﻿@model RDN.Library.Classes.Calendar.Models.EventsOutModel
 @{
-    ViewBag.Title = "Roller Derby Events for " + Model.StartDate.ToShortDateString() + "-" + Model.EndDate.ToShortDateString();
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    ViewBag.Title = "Roller Derby Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="expandableContainer">
-    <div class="fixedCenterContainter">
-        <div class="evTitle">
-            Public Roller Derby Events for @Model.StartDate.ToShortDateString() <span>-</span> @Model.EndDate.ToShortDateString()
-        </div>
-        <div class="clear">
-        </div>
-        <br />
-        <div>
-            <div class="calPager">
-                <ul class="calPagerUl">
-                    @for (int i = -3; i < 4; i++)
-                    {
-                        
-                        <li class="calPagerLi"><a class="@(i == 0 ? "calPagerSel" : "")" href="@Url.Content("~/roller-derby-events/" + @Model.StartDate.AddMonths(i).Year + "/" + @Model.StartDate.AddMonths(i).Month)">
-                            @Model.StartDate.AddMonths(i).Month/@Model.StartDate.AddMonths(i).Year.ToString().Remove(0, 2)
-                        </a></li>
-                    }
-                </ul>
+<div id="mapdiv" class="page-header" style="height: 350px; width: 100%;"></div>
+<style>
+    .olControlAttribution { bottom: 0px; }
+</style>
+
+<div class="page-header text-center">
+
+    <h2>
+        Roller Derby Events
+    </h2>
+    <a class="btn btn-success" href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]">Add Event</a>
+</div>
+
+<div data-bind="foreach: Events">
+    <div class="col-sm-4 col-md-3">
+        <div class="thumbnail">
+            <a data-bind=" attr: {href: LogoUrl}">
+                <img style="max-height:200px" alt="" data-bind="attr:{ src: LogoUrl}" />
+            </a>
+            <div class="caption">
+                <h4 class=" text-center">
+                    <a data-bind=" attr: {href: NameUrl}">
+                        <span data-bind="text: Name "></span>
+                    </a>
+                </h4>
+                <div class="row text-center">
+                    <small>
+                        <span class="" data-bind="text: DateTimeHuman"></span>
+                    </small>
+                </div>
+                <div class="row text-center" data-bind="if:Address">
+                    <small>
+                        <span class="" data-bind="text: Address "></span>
+                    </small>
+                </div>
+                <div data-bind="if: TicketUrl" class=" row text-center">
+                    <a data-bind="attr:{href:TicketUrl}" target="_blank" class="btn btn-primary btn-sm ">Find Tickets</a>
+                </div>
             </div>
-            <table class="gridTable" id="evens">
-                <thead>
-                    <tr>
-
-                        <th>Name</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Location</th>
-                        <th>Presented By</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var even in Model.Events)
-                    { 
-                        <tr>
-                            <td><a href="@Url.Content("~/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(even.Name) + "/" + even.CalendarItemId.ToString().Replace("-", ""))">@even.Name</a></td>
-                            <td>@even.StartDate.ToShortDateString()</td>
-                            <td>@even.EndDate.ToShortDateString()</td>
-                            <td>@if (even.Location != null)
-                                {
-
-                                    if (even.Location.Contact != null && even.Location.Contact.Addresses.FirstOrDefault() != null)
-                                    {
-                                        if (!String.IsNullOrEmpty(even.Location.Contact.Addresses.FirstOrDefault().CityRaw))
-                                        { 
-                                <span>@even.Location.Contact.Addresses.FirstOrDefault().CityRaw,</span>
-                                        }
-                                        if (!String.IsNullOrEmpty(even.Location.Contact.Addresses.FirstOrDefault().StateRaw))
-                                        { 
-                                <span>@even.Location.Contact.Addresses.FirstOrDefault().StateRaw,</span>
-                                        }
-                                        if (!String.IsNullOrEmpty(even.Location.Contact.Addresses.FirstOrDefault().Country))
-                                        { 
-                                @even.Location.Contact.Addresses.FirstOrDefault().Country
-                                        }
-                                        if (!String.IsNullOrEmpty(even.Location.Contact.Addresses.FirstOrDefault().CityRaw))
-                                        { 
-                                <div class="evMap"><a href="http://www.bing.com/maps/default.aspx?q=@even.Location.Contact.Addresses.FirstOrDefault().Address1+@even.Location.Contact.Addresses.FirstOrDefault().Address2,+@even.Location.Contact.Addresses.FirstOrDefault().CityRaw,+@even.Location.Contact.Addresses.FirstOrDefault().StateRaw+@even.Location.Contact.Addresses.FirstOrDefault().Zip+@even.Location.Contact.Addresses.FirstOrDefault().Country" target="_blank">View Map</a></div>    
-                                        }
-                                    }
-
-
-                                }
-
-                            </td>
-                            <td><a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(even.OrganizersName) + "/" + even.OrganizersId.ToString().Replace("-", ""))">@even.OrganizersName</a></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
         </div>
-        <br />
-        <div class="center">Want your events posted here? <a href="http://league.rdnation.com/league/setup">Sign your league up to RDNation.com.</a></div>
-
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#evens').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "bProcessing": true,
-            "bServerSide": true,
-            "sAjaxSource": "@RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION/calendar/CalendarEventsSearching",
-            "iDeferLoading": true,
-            "oLanguage": {
-                "sProcessing": "Searching..."
-            },
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                if (aData[8] === "true") {
-                    $('td:eq(0)', nRow).html('<a href="' + aData[1] + '">' + aData[0] + '</a>');
-                    $('td:eq(1)', nRow).html(aData[2]);
-                    $('td:eq(2)', nRow).html(aData[3]);
-                    if (aData[4] != null)
-                        $('td:eq(3)', nRow).html(aData[4] + '<div class="evMap">' + '<a target="_blank" href="' + aData[5] + '">View Map</a></div>');
-                    else
-                        $('td:eq(3)', nRow).html('');
-                    $('td:eq(4)', nRow).html('<a href="' + aData[6] + '">' + aData[7] + '</a>');
 
-                }
-                return nRow;
-            }
+<script type="text/javascript">
+    map = new OpenLayers.Map("mapdiv");
+    map.addLayer(new OpenLayers.Layer.OSM());
+
+    var PROJECTIONFROM = "EPSG:4326";
+    var PROJECTIONTO = "EPSG:900913";
+
+    $(document).ready(function () {
+        ko.applyBindings(CalendarViewModel);
+        CalendarViewModel.LoadEventsList('@System.Configuration.ConfigurationManager.AppSettings["ListLoadingCount"]');
+
+        $(window).resize(function () {
+            var w = $("#mapDiv").width();
+            $("#mapDiv").css("height", w * 3 / 4);
         });
     });
-
 </script>

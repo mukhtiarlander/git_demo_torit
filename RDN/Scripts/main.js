@@ -2,6 +2,7 @@
 
 //apiUrl = "https://api.rdnation.com/";
 
+OpenLayers.ImgPath = "/content/images/";
 
 var urlForLiveCurrentGames = "https://api.rdnation.com/livegame/currentgames?callback=?";
 //var urlForLiveCurrentGames = "http://localhost:19237/livegame/currentgames?callback=?";
@@ -196,43 +197,6 @@ var currentGamesViewModel = new function () {
     }
 }
 
-var eventViewModel = new function () {
-    var thisViewModel = this;
-    //Data
-    this.eventId = ko.observable("");
-    this.chats = ko.observableArray([]);
-
-    this.getConversationTimer = $.timer(function () {
-        getConversationFirst(thisViewModel.eventId);
-    });
-
-    //initialize
-    this.initialize = function (eventIdd, callback) {
-        thisViewModel.eventId = eventIdd;
-        thisViewModel.getConversationTimer.set({ time: 30000, autostart: true });
-        getConversationFirst(eventIdd);
-    };
-
-    //posts the conversation to the server.
-    this.postConversation = function (idd, conType) {
-        var chat = $("#chat").val();
-        if (chat.length > 2) {
-            $.getJSON("/utilities/PostConversation", { id: thisViewModel.eventId, chat: chat, convoType: "Event" });
-            thisViewModel.chats.unshift(new Chat(chat, "Anonymous", 0, ""));
-            $("#chat").val("");
-        }
-        $("#chat").focus();
-    }
-
-    function getConversationFirst(eventIdd) {
-        $.getJSON("/utilities/GetConversation/" + eventIdd + "?convoType=Event", function (result) {
-            thisViewModel.chats.removeAll();
-            $(result.convo.reverse()).each(function (index) {
-                thisViewModel.chats.push(new Chat(this.Chat, this.MemberName, this.Id, this.Time));
-            });
-        });
-    }
-}
 
 
 function createmarkerforleage(lon, lat, data, index) {
@@ -276,3 +240,5 @@ function createmarkerforleage(lon, lat, data, index) {
 
     }
 }
+
+

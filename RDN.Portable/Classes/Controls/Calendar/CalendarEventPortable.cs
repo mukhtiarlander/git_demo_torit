@@ -180,11 +180,11 @@ namespace RDN.Portable.Classes.Controls.Calendar
 
         [ProtoMember(52)]
         [DataMember]
-        public Guid MemberId{ get; set; }
+        public Guid MemberId { get; set; }
 
         [ProtoMember(53)]
         [DataMember]
-        public Guid UserId{ get; set; }
+        public Guid UserId { get; set; }
 
         [ProtoMember(54)]
         [DataMember]
@@ -219,13 +219,13 @@ namespace RDN.Portable.Classes.Controls.Calendar
         public int OccurrencesTillEnd { get; set; }
         [ProtoMember(64)]
         [DataMember]
-        public bool IsSuccessful{ get; set; }
+        public bool IsSuccessful { get; set; }
         [ProtoMember(65)]
         [DataMember]
-        public bool CanCurrentUserCheckIn{ get; set; }
+        public bool CanCurrentUserCheckIn { get; set; }
         [ProtoMember(66)]
         [DataMember]
-        public bool IsAttendanceManagerOrBetter{ get; set; }
+        public bool IsAttendanceManagerOrBetter { get; set; }
 
         [ProtoMember(67)]
         [DataMember]
@@ -233,6 +233,19 @@ namespace RDN.Portable.Classes.Controls.Calendar
         [ProtoMember(68)]
         [DataMember]
         public bool HasCurrentMemberSetAvailability { get; set; }
+
+        [ProtoMember(69)]
+        [DataMember]
+        public string LogoUrl { get; set; }
+
+        public long GetTotalSecondsToEvent
+        {
+            get
+            {
+                var ts = StartDate - DateTime.UtcNow;
+                return (long)ts.TotalSeconds;
+            }
+        }
 
         public CalendarEventPortable()
         {

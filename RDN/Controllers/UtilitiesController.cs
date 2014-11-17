@@ -111,7 +111,7 @@ namespace RDN.Controllers
 
                 if (conTemp.Count() > 0)
                 {
-                    con = conTemp.OrderByDescending(x => x.Created).Take(30).OrderBy(x => x.Created).ToList();
+                    con = conTemp.OrderByDescending(x => x.Created).Take(30).OrderByDescending(x => x.Created).ToList();
                     return Json(new { convo = con }, JsonRequestBehavior.AllowGet);
                 }
                 else

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RDN.Portable.Util.DateTimes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,18 @@ namespace RDN.Library.Classes.Communications
         public string MemberName { get; set; }
         public string Chat { get; set; }
         public DateTime Created { get; set; }
+
+        public string CreatedDisplay
+        {
+            get
+            {
+                return DateTimeExt.RelativeDateTime(Created);
+            }
+        }
         public string Time { get; set; }
+
+        public string MemberProfilePicUrl { get; set; }
+
         public List<Conversation> Conversations { get; set; }
 
         static Conversation instance = new Conversation();

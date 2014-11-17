@@ -34,6 +34,8 @@ namespace RDN.Library.Classes.League
         public Guid LeagueId { get; set; }
         public string LeagueName { get; set; }
 
+        public string LeagueLogoUrl { get; set; }
+
         public BoutList()
         {
 
@@ -158,6 +160,8 @@ namespace RDN.Library.Classes.League
             bl.IsStreamLive = BoutLists.IsStreamLive;
             bl.LeagueId = BoutLists.League.LeagueId;
             bl.LeagueName = BoutLists.League.Name;
+            if (BoutLists.League.Logo != null)
+                bl.LeagueLogoUrl = BoutLists.League.Logo.ImageUrlThumb;
             bl.Location = BoutLists.Location;
             bl.RuleSetId = BoutLists.RuleSetId;
             bl.RuleSetName =RDN.Portable.Util.Enums.EnumExt.ToFreindlyName((RuleSetsUsedEnum)BoutLists.RuleSetId);

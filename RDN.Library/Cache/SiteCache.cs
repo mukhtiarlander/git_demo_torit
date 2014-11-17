@@ -559,11 +559,13 @@ namespace RDN.Library.Cache
             try
             {
                 var cached = GetCache(HttpContext.Current.Cache);
+                if (String.IsNullOrEmpty(s))
+                    s = "";
                 s = s.ToLower();
                 EventsOutModel mod = new EventsOutModel();
                 mod.StartDate = start;
                 mod.EndDate = start.AddMonths(4);
-                if (cached.CalendarEventsModel.StartDate < mod.StartDate && cached.CalendarEventsModel.EndDate > mod.EndDate)
+                if (cached.CalendarEventsModel.StartDate < mod.StartDate && cached.CalendarEventsModel.EndDate > mod.EndDate.AddDays(-10))
                     return cached.CalendarEventsModel.Events.Where(x => x.StartDate > mod.StartDate && x.EndDate < mod.EndDate).Where(x => x.Name != null).Where(x => x.Name.ToLower().Contains(s) || x.OrganizersName.Contains(s)).OrderBy(x => x.StartDate).Skip(page * take).Take(take).ToList();
                 else
                 {
