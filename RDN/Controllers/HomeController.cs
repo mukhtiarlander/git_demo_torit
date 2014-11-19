@@ -367,10 +367,10 @@ namespace RDN.Controllers
                 List<NewUserEnum> result = new List<NewUserEnum>();
                 //p=f&returnSite=store&ReturnUrl
                 if (model.IsConnectedToRollerDerby)
-                    result = Library.Classes.Account.User.CreateMember(model.Email, model.ConfirmEmail, model.Password, model.Firstname, model.DerbyName, model.Gender, model.PositionType, Request.UserHostAddress);
+                    result = Library.Classes.Account.User.CreateMember(model.Email, model.Email, model.Password, model.Firstname, model.DerbyName, model.Gender, model.PositionType, Request.UserHostAddress);
                 else
                 {
-                    result = Library.Classes.Account.User.CreateUserNotConnectedToDerby(model.Email, model.ConfirmEmail, model.Password);
+                    result = Library.Classes.Account.User.CreateUserNotConnectedToDerby(model.Email, model.Email, model.Password);
                 }
                 if (result.Count > 0)
                 {

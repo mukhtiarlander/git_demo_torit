@@ -1,10 +1,9 @@
 ﻿@model RDN.Portable.Classes.Federation.FederationDisplay
 @{
     ViewBag.Title = Model.FederationName;
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
+
         <div class="tvTitle">
             @Model.FederationName
             <br />
@@ -113,8 +112,7 @@
 
             </div>
         </div>
-    </div>
-</div>
+    
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({

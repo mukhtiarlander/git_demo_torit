@@ -565,9 +565,7 @@ namespace RDN.Library.Classes.Account
                     newUserConfirm.Add(NewUserEnum.Email_EmailNotRightIncorrect);
 
 
-                if (!String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(repeatEmail) && email.Trim().ToLower() != repeatEmail.Trim().ToLower())
-                    newUserConfirm.Add(NewUserEnum.Email_EmailRepeatIncorrect);
-
+                
 
 
                 if (member.UserId != new Guid())
