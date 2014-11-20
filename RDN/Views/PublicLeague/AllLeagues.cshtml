@@ -5,78 +5,78 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-        <div id="mapdiv" class="page-header" style="height: 350px; width: 100%;"></div>
-        <style>
-            .olControlAttribution { bottom: 0px; }
-        </style>
-        
-        <div class=" text-center">
-            <h2> @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide</h2>
-        </div>
-        <div class="col-sm-offset-3 col-sm-6 col-xs-12">
-            <div class="input-group">
-                <input type="text" class="form-control" id="searchBox" data-bind="val: SearchText" onkeyup="LeagueViewModel.SearchLeagues(this)" placeholder="Search">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-                </span>
-            </div><!-- /input-group -->
-        </div>
-        <div>
-            <table class="table-striped table table-hover" id="leagues">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: Leagues">
-                    <tr>
-                        <td class="padding-5">
-                            <a data-bind="if: LogoUrlThumb, attr:{href: LeagueUrl}">
-                                <img height="160px" class="pull-right" data-bind="attr:{alt: LeagueName, src: LogoUrlThumb}" />
+<div id="mapdiv" class="page-header" style="height: 350px; width: 100%;"></div>
+<style>
+    .olControlAttribution { bottom: 0px; }
+</style>
 
+<div class=" text-center">
+    <h2> @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide</h2>
+</div>
+<div class="col-sm-offset-3 col-sm-6 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control" id="searchBox" data-bind="val: SearchText" onkeyup="LeagueViewModel.SearchLeagues(this)" placeholder="Search">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+        </span>
+    </div><!-- /input-group -->
+</div>
+<div>
+    <table class="table-striped table table-hover" id="leagues">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: Leagues">
+            <tr>
+                <td class="padding-5">
+                    <a data-bind="if: LogoUrlThumb, attr:{href: LeagueUrl}">
+                        <img height="160px" class="pull-right padding-5" data-bind="attr:{alt: LeagueName, src: LogoUrlThumb}" />
+
+                    </a>
+                </td>
+                <td>
+                    <div class="row">
+                        <h3>
+                            <a data-bind="text:LeagueName, attr:{href: LeagueUrl}">
                             </a>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <h3>
-                                    <a data-bind="text:LeagueName, attr:{href: LeagueUrl}">
-                                    </a>
-                                    <small>
-                                        - founded <span data-bind="text: DateFoundedYear"></span>
-                                    </small>
-                                </h3>
+                            <small>
+                                - founded <span data-bind="text: DateFoundedYear"></span>
+                            </small>
+                        </h3>
 
-                            </div>
-                            <div class="row">
-                                <span data-bind="text: State"></span>
-                                <span data-bind="text: Country"></span>
-                            </div>
-                            <div class="row">
-                                <span data-bind="text: Membercount"></span> members
-                            </div>
-                            <div class="row">
-                                plays by <span data-bind="text: RuleSetsPlayed"></span>
-                            </div>
-                            <br />
-                            <div class="row">
+                    </div>
+                    <div class="row">
+                        <span data-bind="text: State"></span>
+                        <span data-bind="text: Country"></span>
+                    </div>
+                    <div class="row">
+                        <span data-bind="text: Membercount"></span> members
+                    </div>
+                    <div class="row" data-bind="if:RuleSetsPlayed != 0">
+                        plays by <span data-bind="text: RuleSetsPlayed"></span>
+                    </div>
+                    <br />
+                    <div class="row">
 
-                                <a data-bind="if: Facebook, attr:{href: Facebook}" class="pull-left  " target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
-                                <a data-bind="if: Instagram, attr:{href: Instagram}" class="pull-left col-xs-offset-1 " target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
-                                <a data-bind="if: Twitter, attr:{href: Twitter}" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
-                                <a data-bind="if: ShopUrl, attr:{href: ShopUrl}" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-shopping-cart fa-2x"></i></a>
+                        <a data-bind="if: Facebook, attr:{href: Facebook}" class="pull-left  " target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+                        <a data-bind="if: Instagram, attr:{href: Instagram}" class="pull-left col-xs-offset-1 " target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+                        <a data-bind="if: Twitter, attr:{href: Twitter}" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+                        <a data-bind="if: ShopUrl, attr:{href: ShopUrl}" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-shopping-cart fa-2x"></i></a>
 
-                            </div>
-                        </td>
-                    </tr>
+                    </div>
+                </td>
+            </tr>
 
-                </tbody>
-            </table>
+        </tbody>
+    </table>
 
-        </div>
+</div>
 
 <script type="text/javascript">
-    
+
     map = new OpenLayers.Map("mapdiv");
     map.addLayer(new OpenLayers.Layer.OSM());
 
