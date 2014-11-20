@@ -6,7 +6,8 @@
 }
 <div class="expandableContainer">
     <div>
-        < <a href="@Url.Content("~/forum/posts/" + Model.ForumType.ToString() + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.GroupId)">Back To @Model.ForumName
+        < <a href="@Url.Content("~/forum/posts/" + Model.ForumType.ToString() + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.GroupId)">
+            Back To @Model.ForumName
         </a>
     </div>
     <br />
@@ -112,14 +113,12 @@
 
 
                         <div class=" messageLikeAgree">
-                            <span >
-                                <a class="spanLink" onclick="MsgLike('@message.MessageId','@message.Member.MemberId','@message.ForumId','@message.TopicId')" >
-                                    <label class="LA" id="L-@message.MessageId">@message.MessageLike</label></a>
-                            </span>
-                            <span >
-                                <a class="spanLink" onclick="MsgIAgree('@message.MessageId','@message.Member.MemberId','@message.ForumId','@message.TopicId')" >
-                                    <label class="LA" id="A-@message.MessageId">@message.MessageIAgree</label></a>
-                            </span>
+                            <a class="spanLink padding-10" onclick="MsgLike(this, '@message.MessageId','@message.ForumId','@message.TopicId')">
+                                @message.MessageLikeCount Likes
+                            </a>
+                            <a class="spanLink padding-10"  onclick="MsgIAgree(this, '@message.MessageId','@message.ForumId','@message.TopicId')">
+                                @message.MessageAgreeCount Agree
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -158,7 +157,8 @@
         </div>
         <br />
         <div>
-            < <a href="@Url.Content("~/forum/posts/" + Model.ForumType.ToString() + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.GroupId)">Back To @Model.ForumName
+            < <a href="@Url.Content("~/forum/posts/" + Model.ForumType.ToString() + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.GroupId)">
+                Back To @Model.ForumName
             </a>
         </div>
         <div class="divider"></div>
