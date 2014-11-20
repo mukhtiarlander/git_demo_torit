@@ -4,135 +4,156 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-        <div class="tvTitle">
-            @Model.FederationName
-            <br />
-            <div class="tvDesc">
-                @if (!String.IsNullOrEmpty(Model.Website))
-                { 
-                <span>Website: <a href="@Model.Website">@Model.Website</a></span>
-                }
-            </div>
-        </div>
-        <hr />
-        <div class="gpHContent">
-            <div id="usual1" class="gameTabs">
-                <ul class="mainTabs usual">
-                    <li><a class="selected" href="#memberstab">Members</a></li>
-                    <li><a href="#leagues">Leagues</a></li>
-                </ul>
-            </div>
-            <div id="memberstab">
-                @if (Model.Members != null && Model.Members.Count > 0)
+<div class="page-header text-center">
+    <h2>    @Model.FederationName</h2>
+
+
+    <div class="row text-center">
+        @if (!String.IsNullOrEmpty(Model.Website))
+        {
+            <a href="@Model.Website" class="" target="_blank">@Model.Website</a>
+        }
+    </div>
+    <div class="row text-center">
+        <span class="">
+            @Model.Members.Count members,
+        </span>
+        <span>
+            @Model.Members.Count leagues
+        </span>
+        
+    </div>
+</div>
+
+<div>
+
+    <ul class="nav nav-tabs" role="tablist" id="myTabs">
+        <li role="presentation" class="active"><a href="#membersTab" role="tab" data-toggle="tab">Members</a></li>
+        <li role="presentation"><a href="#leagues" role="tab" data-toggle="tab">Leagues</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active well " id="memberstab">
+
+
+
+
+            @if (Model.Members != null && Model.Members.Count > 0)
+            {
+                for (int i = 0; i < Model.Members.Count; i++)
                 {
-                    <table class="listTable" id="members">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Derby Name
-                                </th>
-                                <th>Derby Number
-                                </th>
-                                <th>Gender
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.Members.Count; i++)
-                            {
-                                <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                    <td>
-                                        @if (Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
-                                        { 
-                                            <img height="40px" alt="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
-                                        }
-                                        else if (Model.Members[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-                                        { 
-                                            <img height="40px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-                                        }
-                                        else
-                                        {
-                                            <img height="40px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
-                                        }
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
-                                            @Model.Members[i].DerbyName
-                                        </a>
-                                    </td>
-                                    <td>@Model.Members[i].PlayerNumber
-                                    </td>
-                                    <td>@Model.Members[i].Gender
-                                    </td>
-                                </tr>     
-                            }
-                        </tbody>
-                    </table>
+
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+
+                            <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
+                                @if (Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
+                                {
+                                    <img style="max-height:200px" alt="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
+                                }
+                                else if (Model.Members[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                {
+                                    <img style="max-height:200px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                                }
+                                else
+                                {
+                                    <img style="max-height:200px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                                }
+                            </a>
+                            <div class="caption">
+                                <h4>
+                                    <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
+                                        @Model.Members[i].PlayerNumber - @Model.Members[i].DerbyName
+                                    </a>
+                                </h4>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
                 }
+            }
+            <div class="clearfix"></div>
+        </div>
 
-            </div>
-            <div id="leagues">
-
-                <table class="listTable" id="leagueTable">
+            <div role="tabpanel" class="tab-pane  well " id="leagues">
+                <table class="table-striped table table-hover" id="leagueTable">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>League Name
+                            <th>
+                                League Name
                             </th>
-                            <th>State
-                            </th>
-                            <th>Country
-                            </th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         @for (int i = 0; i < Model.Leagues.Count; i++)
                         {
-                            <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                <td>
+                            <tr>
+                                <td class="padding-5">
                                     @if (Model.Leagues[i].Logo != null)
                                     {
-                                        <img height="40px" alt="@Model.Leagues[i].Logo.Alt" src="@Model.Leagues[i].Logo.ImageUrl" />
+                                        <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
+                                            <img height="160px" class="pull-right" src="@Model.Leagues[i].Logo.ImageUrl" />
+
+                                        </a>
                                     }
                                 </td>
                                 <td>
-                                    <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
-                                        @Model.Leagues[i].Name
-                                    </a></span>
+                                    <div class="row">
+                                        <h3>
+                                            <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
+                                                @Model.Leagues[i].Name
+                                            </a>
+                                            <small>
+                                                - founded <span>@Model.Leagues[i].Founded.Year</span>
+                                            </small>
+                                        </h3>
+
+                                    </div>
+                                    <div class="row">
+                                        <span>@Model.Leagues[i].State</span>
+                                        <span>@Model.Leagues[i].Country</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>@Model.Leagues[i].LeagueMembers.Count</span> members
+                                    </div>
+                                    <div class="row">
+                                        plays by <span>@Model.Leagues[i].RuleSetsPlayedEnum</span>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].Facebook))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left  " target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].Instagram))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left col-xs-offset-1 " target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].Twitter))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].ShopUrl))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-shopping-cart fa-2x"></i></a>
+                                        }
+                                    </div>
                                 </td>
-                                <td>@Model.Leagues[i].State
-                                </td>
-                                <td>@Model.Leagues[i].Country
-                                </td>
-                            </tr>              
+                            </tr>
+
+
+
+
                         }
                     </tbody>
                 </table>
 
-
+                <div class="clearfix"></div>
             </div>
-        </div>
-    
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false
-        });
-        $('#leagueTable').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false
-        });
-    });
-    $("#usual1 ul").idTabs();
-</script>
+    </div>
+</div>
