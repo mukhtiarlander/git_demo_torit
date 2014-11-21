@@ -444,18 +444,19 @@
         </div>
     </div>
     <br />
-
+    <br />
 
 
    
     <div class="mainContent">
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
         @RenderBody()
-        <div class="clear">
+        <div class="clearfix">
         </div>
     </div>
 
-    <div class="footer">
+
+    <div class="container-fluid footer">
         Questions, Comments or Concerns? Feel Free to Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a><br />
         <br />
 
