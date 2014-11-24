@@ -1,6 +1,6 @@
 ﻿var apiUrl = "http://localhost:16106/";
 
-apiUrl = "https://apitest.rdnation.com/";
+apiUrl = "https://api.rdnation.com/";
 
 OpenLayers.ImgPath = "/content/images/";
 

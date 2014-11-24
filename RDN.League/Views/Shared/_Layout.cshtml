@@ -90,11 +90,11 @@
                     @if (isConnected)
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@member.DerbyName<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="@Url.Content("~/member/" + memId.ToString().Replace("-", ""))" title="View Member">
-                                        <img src="@Url.Content("~/Content/images/icons/user.png")" alt="view" />Profile
+                                        <img src="@Url.Content("~/Content/images/icons/user.png")" alt="view" />@member.DerbyName
                                     </a>
                                 </li>
                                 <li>
@@ -419,7 +419,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@member.UserName<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             @foreach (var league in leagues)
                             {

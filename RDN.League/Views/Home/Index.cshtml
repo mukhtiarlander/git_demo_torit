@@ -79,6 +79,210 @@ else
                 }
             </div>
         </div>
+
+        @if (Model.Polls != null && Model.Polls.Polls.Count > 0)
+        {
+            <div class="panel panel-default ">
+                <div class="panel-heading">    Votes Needed</div>
+                <div class="panel-body">
+                    <table class="listTable" id="members">
+                        <thead>
+                            <tr>
+                                <th>View</th>
+                                <th>Vote</th>
+                                <th>Question</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Polls.Polls.Count; i++)
+                            {
+                                if (Model.Polls.Polls[i].Version == 1)
+                                {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Vote</a>
+                                </td>
+                                <td>
+                                    @Model.Polls.Polls[i].Question
+                                </td>
+                            </tr>
+                                }
+                                else
+                                {
+                            <tr>
+                                <td>
+                                    @if (Model.Polls.Polls[i].IsOpenToLeague)
+                                            {
+                                            <a href="@Url.Content("~/poll/viewv2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Results</a>
+                                            }
+                                </td>
+                                <td>
+                                    <a href="@Url.Content("~/poll/votev2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Vote</a>
+                                </td>
+                                <td>
+                                    @Model.Polls.Polls[i].Title
+                                </td>
+
+                            </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (Model.Forum.Count > 0)
+        {
+            <div class="panel panel-default ">
+                <div class="panel-heading">Unread Forum Topics <span class="titleDesc">@Model.Forum.Count Unread Topics</span></div>
+                <div class="panel-body">
+                    <table class="forumTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Topic
+                                </th>
+                                <th>
+                                    Posts
+                                </th>
+                                <th>
+                                    Views
+                                </th>
+                                <th>
+                                    Last Post
+                                </th>
+                            </tr>
+                        </thead>
+                        @foreach (var topic in Model.Forum.OrderBy(x => x.LastModified))
+                        {
+                            <tr class="homeUpcomingRow">
+                                <td>
+                                    <img height="20px" alt="Mark As Read" class="cursor" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')" src="@Url.Content("~/Content/images/icons/unread.png")" />
+                                </td>
+                                <td>
+                                    <a class="b" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
+                                </td>
+                                <td>
+                                    @topic.Replies
+                                </td>
+                                <td>
+                                    @topic.ViewCount
+                                </td>
+                                <td>
+                                    <a target="_blank" href="@Url.Content("~/Member/" + topic.LastPostByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.LastPostByMember.DerbyName))">
+                                        @topic.LastPostByMember.DerbyName
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @Html.Hidden("ForumId", Model.ForumId)
+                </div>
+            </div>
+        }
+        @if (Model.Calendar != null)
+        {
+            <div class="panel panel-default ">
+                <div class="panel-heading"> Upcoming Schedule <span class="titleDesc">@Model.Calendar.DaysToNextEvent Days Till Next Event</span></div>
+                <div class="panel-body">
+                    <table class="forumTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>RSVP</th>
+                                <th>
+                                    Event
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    Location
+                                </th>
+                            </tr>
+                        </thead>
+                        @foreach (var calEvent in Model.Calendar.Events.OrderBy(x => x.StartDate))
+                        {
+                            var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
+                            <tr class="homeUpcomingRow" id="@calEvent.CalendarItemId-calendarEventRow">
+                                <td>
+
+                                    <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
+
+                                </td>
+                                <td>
+                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
+                                    {
+                                        <img src="@Url.Content("~/Content/images/icons/birthday.png")" height="25px" />
+                                    }
+                                    else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
+                                    {
+                                        <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
+                                    }
+                                    else
+                                    {
+                                        if (avail == null)
+                                        {
+                                            <div class="spanIcons">
+                                                <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
+                                                    <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")" />
+                                                </span>
+                                            </div>
+                                        }
+                                        else if (avail != null)
+                                        {
+                                            <div class="spanIcons">
+                                                <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
+                                                    <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + avail.Availability + ".png")" />
+                                                </span>
+                                            </div>
+                                        }
+                                    }
+                                </td>
+                                <td class="noTwoLine">
+                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                    {
+                                        <a href="@Url.Content("~/calendar/event/" + Model.Calendar.OwnerEntity.ToString().Replace("-", "") + "/" + Model.Calendar.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
+                                    }
+                                    else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
+                                    {
+                                        <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                    }
+                                    else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
+                                    {
+                                        <a href="@Url.Content("~/calendar/started-skating/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                    }
+                                </td>
+                                <td class="noTwoLine">
+
+                                    <span>@calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()</span>
+
+                                </td>
+                                <td class="noTwoLine">
+                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                    {
+                                        <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && calEvent.Location != null)
+                                    {
+                                        @calEvent.Location.LocationName
+                                    }
+                                </td>
+
+                            </tr>
+
+                        }
+                    </table>
+
+                </div>
+            </div>
+        }
     </div>
 
     <div class="col-sm-3">
@@ -93,9 +297,9 @@ else
                         {
                             if (((Tumblr)ViewData["tumblr"]).Posts.Post[i] != null && ((Tumblr)ViewData["tumblr"]).Posts.Post[i].Type == "regular")
                             {
-                                <div class="panelBoxNewsPost">
-                                    - <a class="blogLink" target="_blank" href="@Url.Content(((Tumblr)ViewData["tumblr"]).Posts.Post[i].UrlSlug)">@(((Tumblr)ViewData["tumblr"]).Posts.Post[i].Title)</a>
-                                </div>
+                <div class="panelBoxNewsPost">
+                    - <a class="blogLink" target="_blank" href="@Url.Content(((Tumblr)ViewData["tumblr"]).Posts.Post[i].UrlSlug)">@(((Tumblr)ViewData["tumblr"]).Posts.Post[i].Title)</a>
+                </div>
                             }
                         }
                         catch { }
@@ -103,243 +307,26 @@ else
                 }
             </div>
         </div>
-    </div>
-    if (Model.League.Logo != null)
-    {
 
-        <div class="col-sm-3">
-            <div class="panel panel-default ">
 
-                <div class="panel-body">
-                    <img alt="@Model.League.Logo.Alt" src="@Model.League.Logo.ImageUrl" />
-                </div>
+        @if (Model.League.Logo != null)
+        {
+        <div class="panel panel-default ">
+
+            <div class="panel-body">
+                <img alt="@Model.League.Logo.Alt" src="@Model.League.Logo.ImageUrl" />
             </div>
         </div>
-    }
+        }
+    </div>
 
 
-    if (Model.Polls != null && Model.Polls.Polls.Count > 0)
-    {
-
-                <div class="col-sm-7 col-xs-offset-1">
-                    <div class="panel panel-default ">
-                        <div class="panel-heading">    Votes Needed</div>
-                        <div class="panel-body">
-                            <table class="listTable" id="members">
-                                <thead>
-                                    <tr>
-                                        <th>View</th>
-                                        <th>Vote</th>
-                                        <th>Question</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < Model.Polls.Polls.Count; i++)
-                                    {
-                                        if (Model.Polls.Polls[i].Version == 1)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Vote</a>
-                                                </td>
-                                                <td>
-                                                    @Model.Polls.Polls[i].Question
-                                            </td>
-                                        </tr>
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @if (Model.Polls.Polls[i].IsOpenToLeague)
-                                                    {
-                                                        <a href="@Url.Content("~/poll/viewv2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Results</a>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    <a href="@Url.Content("~/poll/votev2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Vote</a>
-                                                </td>
-                                                <td>
-                                                    @Model.Polls.Polls[i].Title
-                                            </td>
-
-                                        </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            
-            }
-          
-            if (Model.Forum.Count > 0)
-            {
-                <div class="col-sm-7 col-xs-offset-1">
-                    <div class="panel panel-default ">
-                        <div class="panel-heading">Unread Forum Topics <span class="titleDesc">@Model.Forum.Count Unread Topics</span></div>
-                        <div class="panel-body">
-                            <table class="forumTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>
-                                            Topic
-                                        </th>
-                                        <th>
-                                            Posts
-                                        </th>
-                                        <th>
-                                            Views
-                                        </th>
-                                        <th>
-                                            Last Post
-                                        </th>
-                                    </tr>
-                                </thead>
-                                @foreach (var topic in Model.Forum.OrderBy(x => x.LastModified))
-                                {
-                                    <tr class="homeUpcomingRow">
-                                        <td>
-                                            <img height="20px" alt="Mark As Read" class="cursor" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')" src="@Url.Content("~/Content/images/icons/unread.png")" />
-                                        </td>
-                                        <td>
-                                            <a class="b" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
-                                        </td>
-                                        <td>
-                                            @topic.Replies
-                                        </td>
-                                        <td>
-                                            @topic.ViewCount
-                                        </td>
-                                        <td>
-                                            <a target="_blank" href="@Url.Content("~/Member/" + topic.LastPostByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.LastPostByMember.DerbyName))">
-                                                @topic.LastPostByMember.DerbyName
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-                            @Html.Hidden("ForumId", Model.ForumId)
-                        </div>
-                    </div>
-                </div>
-
-
-  
-            }
-              if (Model.Calendar != null)
-              {
-                <div class="col-sm-7 col-xs-offset-1">
-                    <div class="panel panel-default ">
-                        <div class="panel-heading"> Upcoming Schedule <span class="titleDesc">@Model.Calendar.DaysToNextEvent Days Till Next Event</span></div>
-                        <div class="panel-body">
-                            <table class="forumTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>RSVP</th>
-                                        <th>
-                                            Event
-                                        </th>
-                                        <th>
-                                            Date
-                                        </th>
-                                        <th>
-                                            Time
-                                        </th>
-                                        <th>
-                                            Location
-                                        </th>
-                                    </tr>
-                                </thead>
-                                @foreach (var calEvent in Model.Calendar.Events.OrderBy(x => x.StartDate))
-                                {
-                                    var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
-                                    <tr class="homeUpcomingRow" id="@calEvent.CalendarItemId-calendarEventRow">
-                                        <td>
-
-                                            <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
-
-                                        </td>
-                                        <td>
-                                            @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
-                                            {
-                                                <img src="@Url.Content("~/Content/images/icons/birthday.png")" height="25px" />
-                                            }
-                                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
-                                            {
-                                                <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
-                                            }
-                                            else
-                                            {
-                                                if (avail == null)
-                                                {
-                                                    <div class="spanIcons">
-                                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
-                                                            <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")" />
-                                                        </span>
-                                                    </div>
-                                                }
-                                                else if (avail != null)
-                                                {
-                                                    <div class="spanIcons">
-                                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
-                                                            <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + avail.Availability + ".png")" />
-                                                        </span>
-                                                    </div>
-                                                }
-                                            }
-                                        </td>
-                                        <td class="noTwoLine">
-                                            @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
-                                            {
-                                                <a href="@Url.Content("~/calendar/event/" + Model.Calendar.OwnerEntity.ToString().Replace("-", "") + "/" + Model.Calendar.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
-                                            }
-                                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
-                                            {
-                                                <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
-                                            }
-                                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
-                                            {
-                                                <a href="@Url.Content("~/calendar/started-skating/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
-                                            }
-                                        </td>
-                                        <td class="noTwoLine">
-
-                                            <span>@calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()</span>
-
-                                        </td>
-                                        <td class="noTwoLine">
-                                            @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
-                                            {
-                                                <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && calEvent.Location != null)
-                                            {
-                                                @calEvent.Location.LocationName
-                                            }
-                                    </td>
-
-                                </tr>
-
-                                }
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            }
-
-     
+    
     <div id="availablePopUp" style="display: none;">
         <table class="checkInTable">
             <tr>
-                <td class="b alignRight">Available Type:
+                <td class="b alignRight">
+                    Available Type:
                 </td>
                 <td>
                     @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...")
@@ -349,7 +336,8 @@ else
                 <td></td>
             </tr>
             <tr>
-                <td class="b alignRight">Notes:
+                <td class="b alignRight">
+                    Notes:
                 </td>
                 <td>
                     <input type="text" id="availableNotes" style="width: 95%;" />
