@@ -445,14 +445,15 @@
     </div>
     <br />
     <br />
+    <br />
 
 
-   
-    <div class="mainContent">
+    <div class="col-xs-10">
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
-        @RenderBody()
-        <div class="clearfix">
-        </div>
+    </div>
+
+    @RenderBody()
+    <div class="clearfix">
     </div>
 
 

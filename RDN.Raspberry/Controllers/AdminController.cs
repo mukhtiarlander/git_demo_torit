@@ -147,6 +147,9 @@ namespace RDN.Raspberry.Controllers
                         case MassEmailEnum.AllLeagueOwners:
                             result = Library.Classes.Admin.Admin.Admin.SendMassEmailsToOwnersOfLeagues(model.Subject, model.HtmlBody, model.TestEmail);
                             break;
+                        case MassEmailEnum.Role:
+                            result = Library.Classes.Admin.Admin.Admin.SendMassEmailsToRole(model.Subject, model.HtmlBody, model.TestEmail, model.Role);
+                            break;
                     }
                 }
                 else

@@ -95,7 +95,7 @@
                 Mass Email Type
             </td>
             <td>
-                @Html.DropDownList("Model.MassEmailType", new SelectList(massEmailTypes, "Name", "Name"))
+                @Html.DropDownList("Model.MassEmailType", new SelectList(massEmailTypes, "Name", "Name")) <b>Role Name:</b> @Html.TextBoxFor(x => x.Model.Role)
                 <br />
                 All Leagues - sends emails to all the leagues.
                 <br />

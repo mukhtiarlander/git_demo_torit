@@ -94,7 +94,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateSuccessMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages\"><span class=\"mNotify\">Success: </span>");
+            output.Append("<div class=\"messages success\"><span class=\"mNotify\">Success: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
@@ -103,7 +103,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateInfoMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages\"><span class=\"mNotify\">Notification: </span>");
+            output.Append("<div class=\"messages info\"><span class=\"mNotify\">Notification: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
@@ -112,7 +112,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateErrorMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages\"><span class=\"mNotify\">Error: </span>");
+            output.Append("<div class=\"messages danger\"><span class=\"mNotify\">Error: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
@@ -121,7 +121,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateWarningMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-                        output.Append("<div class=\"messages\"><span class=\"mNotify\">Warning: </span>");
+            output.Append("<div class=\"messages warning\"><span class=\"mNotify\">Warning: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();

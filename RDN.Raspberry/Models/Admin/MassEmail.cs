@@ -18,7 +18,8 @@ namespace RDN.Raspberry.Models.Admin
         AllRegisteredEmails = 7,
         AllLeaguesThatDontExistWithinRDNation = 8,
         AllLeagueOwners = 9,
-        AllEmailsToSendMontlyUpdatesTo = 10
+        AllEmailsToSendMontlyUpdatesTo = 10,
+        Role = 11
     }
 
     public class MassEmail
@@ -27,6 +28,8 @@ namespace RDN.Raspberry.Models.Admin
         public string TestEmail { get; set; }
         public string Subject { get; set; }
         public string HtmlBody { get; set; }
+
+        public string Role { get; set; }
 
         public MassEmailEnum MassEmailType { get; set; }
     }

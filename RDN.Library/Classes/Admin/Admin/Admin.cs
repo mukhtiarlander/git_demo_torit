@@ -559,6 +559,29 @@ namespace RDN.Library.Classes.Admin.Admin
             return true;
 
         }
+        public static bool SendMassEmailsToRole(string subject, string body, string testEmail, string roleName)
+        {
+
+            var dc = new ManagementContext();
+            var UnSubscribedEmails = dc.NonSubscribersList.Select(x => x.EmailToRemoveFromList).ToList();
+
+            var users = Roles.GetUsersInRole(roleName);
+            
+            foreach (var email in users)
+            {
+                if (!UnSubscribedEmails.Contains(email))
+                {
+                    if (Utilities.EmailValidator.Validate(email))
+                    {
+                        var emailData = new Dictionary<string, string> { { "body", body } };
+
+                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                    }
+                }
+            }
+            return true;
+
+        }
         public static bool SendMassEmailsToRegisteredLeagues(bool isMassSendVerified, string subject, string body, string testEmail)
         {
             if (isMassSendVerified)
