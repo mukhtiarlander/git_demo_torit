@@ -9,12 +9,13 @@ using RDN.Library.Classes.Error;
 using System.Configuration;
 using System.Net;
 using TweetSharp;
+using RDN.Library.Classes.Site.Enums;
 
 namespace RDN.Library.Cache.Singletons
 {
     public class SiteSingleton
     {
-
+        public SiteType SiteType { get;set; }
         public bool IsProduction { get; set; }
         public PaymentMode IsPayPalLive { get; set; }
         static SiteSingleton instance = new SiteSingleton();

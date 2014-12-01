@@ -1,54 +1,55 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
-    ViewBag.Title = "About - " + RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "About";
 }
-<h2>
-    What is Roller Derby Nation?</h2>
+<div class="page-header">
+    <h2>
+        What is Roller Derby Nation?
+    </h2>
+</div>
 <p>
-    Roller Derby Nation is a growing network of individual communities, each dedicated
+  @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"] is a growing network of individual communities, each dedicated
     to serving roller derby fans and their skaters in a specific region of the world.
     We build a community around the teams, skaters and fans to better to connect them
     all within the very tight nit community.
 </p>
-<br />
+
 <p>
     From teams looking to book their next bouts, to fans finding their favorite skater,
     to organizing statistics for the entire roller derby community, we bring both expert
     skaters and fans alike to build and prosper the entire sport of roller derby.
 </p>
-<br />
+
 <h2>
     How does it work?</h2>
 <p>
-    RDNation and its software is free and open to everyone – you can use any piece of
+    @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"] and its software is free and open to everyone – you can use any piece of
     software we offer for free. We empower our communities and fans to help curate and
     offer advice to anyone that needs it. We provided the tools to help roller derby
     get to the next level where we believe it belongs. We built software to both make
     roller derby teams easier to manage, courdinate and cooperate with each other.
 </p>
-<br />
 <p>
     Our hope is to remove the paper process from roller derby entirely. Everything is
     easy to access and always available 24/7. So that teams no longer have to file paperwork
     or save documents to a single computer. We maintain all your stats, your games and
     any other document that you might think shouldn't be saved on a single computer.
 </p>
-<br />
 <h2>
-    What's special about Roller Derby Nation?
+    What's special about @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]?
 </h2>
 <p>
-    Whats special about Roller Derby Nation? You wouldn't find this type of in depth
+    Whats special about @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]? You wouldn't find this type of in depth
     roller derby action anywhere else, would you? You wouldn't be able to manage your
     stats for you team online so all can see, would you? We are a place for both fans
     and teams. For fans to view their favorite teams, skaters and even participate and
     engage with their teams.
-</p><br />
+</p>
 <h2>
-    Where did Roller Derby Nation come from?</h2>
+    Where did @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"] come from?</h2>
 <p>
     In 2012, Scott Pio and Patrick Fomin created the site and brought together a few
-    roller derby teams to start participating in what they liked to call the experimental
+     teams to start participating in what they liked to call the experimental
     months. The site was a success, so they went on the road to secure an investor to
     help them devote their lives to what RDNation has become. They are now off the road
     as of April, 2012 and back at developing the best Roller Derby website there is.

@@ -17,6 +17,7 @@ namespace RDN.Portable.Classes.Controls.Message.Enums
         calevent = 6,
         league = 7,
         jobboard = 8,
-        officiating = 9
+        officiating = 9,
+        person = 10
     }
 }

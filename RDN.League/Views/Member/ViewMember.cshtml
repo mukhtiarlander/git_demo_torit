@@ -6,491 +6,369 @@
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter2">
-        <div class="vmPicture">
-            @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
-            { 
-                <img alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
-            }
-            else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-            { 
-                <img src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-            }
-            else
-            {
-                <img src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
-            }
+
+<div class="text-center">
+    @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
+    }
+    else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+    }
+    else
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+    }
+</div>
+<div class="page-header text-center">
+    <h2>
+        @Model.DerbyName
+    </h2>
+    <div class="row ">
+        @Model.PlayerNumber
+    </div>
+    <div class="row ">
+        @Model.Firstname @Model.LastName
+    </div>
+    <div class="row text-center">
+        @if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
+        {
+            <a href="mailto:@Model.Email" class="" target="_blank">@Model.Email</a>
+        }
+    </div>
+    <div class="row text-center">
+        @if (isAdminOfLeague || !Model.Settings.Hide_Phone_Number_From_League || Model.MemberId == memId)
+        {
+            <a href="tel:@Model.PhoneNumber" class="" target="_blank"><i class="fa fa-mobile-phone fa-3x"></i></a>
+        }
+        @if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
+        {
+            <a href="mailto:@Model.Email" class="" target="_blank"><i class="fa fa-at fa-3x"></i></a>
+        }
+
+        <a href="@Url.Content("~/messages/new/person/" + Model.MemberId.ToString().Replace("-",""))" class="" target="_blank"><i class="fa fa-envelope fa-3x"></i></a>
+
+
+    </div>
+</div>
+<div class="col-sm-10 col-sm-offset-1 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist" id="myTabs">
+        @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
+        <li role="presentation" class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+        @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+        {
+            <li role="presentation"><a href="#Skating" role="tab" data-toggle="tab">Skating</a></li>
+        }
+        <li role="presentation"><a href="#Contacts" role="tab" data-toggle="tab">Contacts</a></li>
+        <li role="presentation"><a href="#membership" role="tab" data-toggle="tab">Memberships</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active well" id="profile">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">Quick Stats</div>
+                        <div class="panel-body">
+                            @if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                            {
+                                <div class="row">
+                                    <div class="text-center col-xs-offset-1 col-xs-2">
+                                        <i class="fa fa-female fa-2x"></i>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                            @if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Male)
+                            {
+                                <div class="row">
+                                    <div class="text-center col-xs-offset-1 col-xs-2">
+                                        <i class="fa fa-male fa-2x"></i>
+                                    </div>
+
+                                </div>
+                                <br />
+                            }
+                            @if (Model.DOB < DateTime.UtcNow.AddYears(-5) && !Model.Settings.Hide_DOB_From_Public)
+                            {
+                                <div class="row">
+                                    <div class="col-xs-offset-1 col-xs-2 text-center">
+                                        <i class="fa fa-birthday-cake fa-2x"></i>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <b>@Model.DOB.ToLongDateString()</b>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                            @if (Model.HeightFeet > 0)
+                            {
+                                <div class="row">
+                                    <div class="text-center col-xs-offset-1 col-xs-2">
+                                        <i class="fa fa-long-arrow-up  fa-2x"></i>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <b>@Model.HeightFeet' @Model.HeightInches</b>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                            @if (Model.WeightLbs > 0)
+                            {
+                                <div class="row">
+                                    <div class="text-center col-xs-offset-1 col-xs-2">
+                                        <i class="fa fa-cubes fa-2x"></i>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <b>@Model.WeightLbs lbs.</b>
+                                    </div>
+                                </div><br />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-8">
+
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">Biography</div>
+                        <div class="panel-body">
+                            @Html.Raw(Model.Bio)
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
         </div>
-        <div class="vmMemberDescription">
-            <div class="vmMemberName">
-                @Model.DerbyName (@Model.PlayerNumber) <span class="vmFullName">- @Model.Firstname @Model.LastName</span>
-            </div>
-            <div class="divider"></div>
-            @if (Model.DOB < DateTime.UtcNow.AddYears(-5))
-            { 
-                <div class="vmContactLine">
-                    Born: <b>@Model.DOB.ToLongDateString()</b>, @RDN.Utilities.Dates.DateTimeExt.Age(Model.DOB) Years
-                </div>
-            }
+        @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+        {
 
-            <div class="vmContactLine">
-                Gender: <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Gender)</b>
-            </div>
+            <div role="tabpanel" class="tab-pane well" id="Skating">
+                <h3>
+                    Insurance Numbers
+                </h3>
 
-            @if (Model.HeightFeet > 0)
-            { 
-                <div class="vmContactLine">
-                    Height: <b>@Model.HeightFeet' @Model.HeightInches</b>
-                </div>
-            }
-            @if (Model.WeightLbs > 0)
-            { 
-                <div class="vmContactLine">
-                    Weight: <b>@Model.WeightLbs lbs.</b>
-                </div>
-            }
-            @foreach (var league in Model.Leagues)
-            { 
-                <div class="vmContactLine">
-                    <span class="vmTeamName">
-                        <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", ""))">
-                            @league.Name
-                        </a>
-                        @if (league.HasLeftLeague)
-                        { 
-                            <span>- retired - @league.DepartureDate.GetValueOrDefault().ToShortDateString()</span>
-                        }
+                @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId) || memId == Model.MemberId)
+                {
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>
 
-                    </span>
-                </div>
-
-            }
-            <div class="vmContactLine">
-                <ul>
-                    @foreach (var fed in Model.FederationsApartOf)
-                    {
-                        //show if they are an active member of the federation
-                        if (fed.MemberType == RDN.Library.Classes.Federation.Enums.MemberTypeFederationEnum.Active.ToString())
-                        { 
-                        <li class="vmTeamName">
-                            @fed.FederationName - Class: @fed.MADEClassRank
-                        </li>
-                        }
-                    }
-                </ul>
-            </div>
-            <div class="vmContactLine">
-                <span class="vmPhone">Contact</span><span class="vbr">|</span><span class="vmPhone">
-                    @if (isAdminOfLeague || !Model.Settings.Hide_Phone_Number_From_League || Model.MemberId == memId)
-                    { 
-                        @Model.PhoneNumber
-                    }
-                </span><span
-                    class="vbr">|</span><span class="vmEmail">@if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
-                                                              {@Model.Email}</span>
-            </div>
-        </div>
-        <div class="clear">
-        </div>
-        <div class="usual">
-            <ul class="idTabs">
-                <li><a href="#Stats">Stats</a></li>
-                <li><a href="#Bio">Biography</a></li>
-                <li><a href="#Skating">Skating</a></li>
-                <li><a href="#Contacts">Contacts</a></li>
-            </ul>
-            <div id="Stats" class="usualInner">
-                <br />
-                <br />
-                <table class="vmTable">
+                            </th>
+                            <th>Number</th>
+                            <th>Expires</th>
+                        </tr>
+                    </thead>
                     <tr>
-                        <td colspan="4" class="vmTableHead">Games Played
+                        <td class="text-right">
+                            <b>WFTDA</b>
+                        </td>
+                        <td>
+                            @Model.InsuranceNumWftda
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumWftdaExpires.HasValue)
+                                {
+                                @Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
+                                }
                         </td>
                     </tr>
                     <tr>
-                        <th>Date
-                        </th>
-                        <th>Name
-                        </th>
-                        <th>Opponent
-                        </th>
-                        <th>Final : Delta
-                        </th>
-                    </tr>
-
-                    @if (Model.GamesToDisplay != null)
-                    {
-
-                        for (int i = 0; i < Model.GamesToDisplay.Count; i++)
-                        { 
-                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                @Model.GamesToDisplay[i].GameDate.ToString("ddd M/d")
-                            </td>
-                            <td>
-                                <a href="@Url.Content(RDN.Portable.Config.ServerConfig.GAME_URL_FOR_RDNATION + "/" + Model.GamesToDisplay[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GamesToDisplay[i].Team2Name))">
-                                    @Model.GamesToDisplay[i].GameName
-                                </a>
-                            </td>
-                            <td>vs.
-                                @if (Model.GamesToDisplay[i].Team2LinkId == new Guid())
+                        <td class="text-right">
+                            <b>USARS</b>
+                        </td>
+                        <td>
+                            @Model.InsuranceNumUsars
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumUsarsExpires.HasValue)
                                 {
-                                    @Model.GamesToDisplay[i].Team2Name
+                                @Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
                                 }
-                                else
-                                { 
-                                    <a href="@Url.Content("~/federation/league/" + Model.GamesToDisplay[i].Team2LinkId.ToString().Replace("-", "") + "/" + Model.GamesToDisplay[i].Team2Name)">
-                                        @Model.GamesToDisplay[i].Team2Name
-                                    </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            <b> CRDI</b>
+                        </td>
+                        <td>
+                            @Model.InsuranceNumCRDI
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumCRDIExpires.HasValue)
+                                {
+                                @Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
                                 }
-                            </td>
-                            <td>
-                                @if (Model.GamesToDisplay[i].Team1ScoreTotal > Model.GamesToDisplay[i].Team2ScoreTotal)
-                                { 
-                                    <span class="win floatL">W</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            <b>Other</b>
+                        </td>
+                        <td>
+                            @Model.InsuranceNumOther
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumOtherExpires.HasValue)
+                                {
+                                @Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
                                 }
-                                else
-                                { 
-                                    <span class="loss floatL">L</span>
-                                }
-                                @Model.GamesToDisplay[i].Team1ScoreTotal
-                                -
-                                @Model.GamesToDisplay[i].Team2ScoreTotal
-                                <span class="b">:</span>
-                                @if (Model.GamesToDisplay[i].Team1ScoreTotal > Model.GamesToDisplay[i].Team2ScoreTotal)
-                                { 
-                                    <span class="win">@Model.GamesToDisplay[i].Score1Score2Delta.ToString("N2")</span>
-                                }
-                                else
-                                { 
-                                    <span class="loss">@Model.GamesToDisplay[i].Score1Score2Delta.ToString("N2")</span>
-                                }
-                            </td>
-                        </tr>
-                        }
-
-                    }
+                        </td>
+                    </tr>
                 </table>
-                <div class="vmBoxes">
-                    <div class="vmBoxTitle">
-                        Jammer Position For Games
-                    </div>
-                    <table>
-                        <tr class="gr1">
-                            <td>Total Games / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalGamesPlayed / @Model.JammerPosition.TotalGamesPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Total Jams / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalJamsInAllGames / @Model.JammerPosition.TotalJamsPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Jams Per Game
-                            </td>
-                            <td>
-                                @Model.AverageJamsPerGame.ToString("N1")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Avg Pts / Against Per Game
-                            </td>
-                            <td>
-                                @Model.JammerPosition.AveragePointsScoredPerGame.ToString("N1")/ @Model.JammerPosition.AveragePointsScoredAgainstPerGame.ToString("N1")
-                                : @Model.JammerPosition.AveragePointsScoredPerGameDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Pts / Against Per Jam Played
-                            </td>
-                            <td>
-                                @Model.JammerPosition.AveragePointsScoredPerJam.ToString("N1")/ @Model.JammerPosition.AveragePointsScoredAgainstPerJam.ToString("N1")
-                                : @Model.JammerPosition.AveragePointsScoredPerJamDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Total Pts / Against Scored Career
-                            </td>
-                            <td>
-                                @Model.JammerPosition.PointsCareer.ToString("N1") / @Model.JammerPosition.PointsAgainstCareer.ToString("N1")
-                                :
-                                @Model.JammerPosition.PointsCareerDelta.ToString("N2")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="vmBoxes">
-                    <div class="vmBoxTitle">
-                        Pivot Position For Games
-                    </div>
-                    <table>
-                        <tr class="gr1">
-                            <td>Total Games / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalGamesPlayed / @Model.PivotPosition.TotalGamesPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Total Jams / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalJamsInAllGames / @Model.PivotPosition.TotalJamsPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Jams Per Game
-                            </td>
-                            <td>
-                                @Model.AverageJamsPerGame.ToString("N1")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Avg Pts / Against Per Game
-                            </td>
-                            <td>
-                                @Model.PivotPosition.AveragePointsScoredPerGame.ToString("N1")/ @Model.PivotPosition.AveragePointsScoredAgainstPerGame.ToString("N1")
-                                : @Model.PivotPosition.AveragePointsScoredPerGameDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Pts / Against Per Jam Played
-                            </td>
-                            <td>
-                                @Model.PivotPosition.AveragePointsScoredPerJam.ToString("N1") / @Model.PivotPosition.AveragePointsScoredAgainstPerJam.ToString("N1")
-                                : @Model.PivotPosition.AveragePointsScoredPerJamDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Total Pts / Against Scored Career
-                            </td>
-                            <td>
-                                @Model.PivotPosition.PointsCareer / @Model.PivotPosition.PointsAgainstCareer : @Model.PivotPosition.PointsCareerDelta.ToString("N2")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="vmBoxes">
-                    <div class="vmBoxTitle">
-                        Blocker Position For Games
-                    </div>
-                    <table>
-                        <tr class="gr1">
-                            <td>Total Games / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalGamesPlayed / @Model.BlockerPosition.TotalGamesPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Total Jams / Played Career
-                            </td>
-                            <td>
-                                @Model.TotalJamsInAllGames / @Model.BlockerPosition.TotalJamsPlayed
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Jams Per Game
-                            </td>
-                            <td>
-                                @Model.AverageJamsPerGame.ToString("N1")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Avg Pts / Against Per Game
-                            </td>
-                            <td>
-                                @Model.BlockerPosition.AveragePointsScoredPerGame.ToString("N1") / @Model.BlockerPosition.AveragePointsScoredAgainstPerGame.ToString("N1")
-                                : @Model.BlockerPosition.AveragePointsScoredPerGameDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr1">
-                            <td>Avg Pts / Against Per Jam Played
-                            </td>
-                            <td>
-                                @Model.BlockerPosition.AveragePointsScoredPerJam.ToString("N1") / @Model.BlockerPosition.AveragePointsScoredAgainstPerJam.ToString("N1")
-                                : @Model.BlockerPosition.AveragePointsScoredPerJamDelta.ToString("N2")
-                            </td>
-                        </tr>
-                        <tr class="gr0">
-                            <td>Total Pts / Against Scored Career
-                            </td>
-                            <td>
-                                @Model.BlockerPosition.PointsCareer / @Model.BlockerPosition.PointsAgainstCareer
-                                : @Model.BlockerPosition.PointsCareerDelta.ToString("N2")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div id="Bio" class="usualInner">
-                <div class="vmTabTitle">
-                    Biography Of @Model.DerbyName
-                </div>
-                <br />
-                @Html.Raw(Model.BioHtml)
-            </div>
-            <div id="Skating" class="usualInner">
-                <div class="vmTabTitle">
-                    Insurance Numbers
-                </div>
-                <br />
-                @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId) || memId == Model.MemberId)
-                {
-                    <table class="editSkatingTable" style="width: 50%;">
-                        <tr>
-                            <td class="b">WFTDA/Expires:
-                            </td>
-                            <td>@Model.InsuranceNumWftda
-                            </td>
-                            <td>
-                                @if (Model.InsuranceNumWftdaExpires.HasValue)
-                                { 
-                                    @Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">USARS/Expires:
-                            </td>
-                            <td>@Model.InsuranceNumUsars
-                            </td>
-                            <td>
-                                @if (Model.InsuranceNumUsarsExpires.HasValue)
-                                { 
-                                    @Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">CRDI/Expires:
-                            </td>
-                            <td>@Model.InsuranceNumCRDI
-                            </td>
-                            <td>
-                                @if (Model.InsuranceNumCRDIExpires.HasValue)
-                                { 
-                                    @Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Other/Expires:
-                            </td>
-                            <td>@Model.InsuranceNumOther
-                            </td>
-                            <td>
-                                @if (Model.InsuranceNumOtherExpires.HasValue)
-                                { 
-                                    @Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                }
-                            </td>
-                        </tr>
-                    </table>
                 }
                 else
                 {
-                    <div class="subPleaseSubscribeMessage">Subscribe to RDNation to store/view Insurance Numbers of each skater in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></div>
-                }
+                <h4>Subscribe to view Insurance Numbers of each member in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></h4>
+            }
             </div>
-            <div id="Contacts" class="usualInner">
-                <div class="vmTabTitle">
-                    Contacts of Members
-                </div>
-                <div>Only Managers of the league can see this information.</div>
-                <br />
-                @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
+        }
+        <div role="tabpanel" class="tab-pane well" id="Contacts">
+
+            @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
+            {
+                if (Model.MemberContacts.Count == 0)
                 {
-                    if (Model.MemberContacts.Count == 0)
-                    { 
                     <div>Member has no personal contacts</div>
                     <br />
-                    }   
-                    <a href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))">Add Contacts To Member</a>
-                    <br />
-                    <br />
-                    <div class="contactsContainer">
+                }
+                <h4 class="text-center"><a class="btn btn-primary" href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))">Add Contacts To Member</a></h4>
+                <div class="row">
 
-                        @foreach (var contact in Model.MemberContacts)
-                        { 
-                            <div class="contactBox" id="@contact.ContactId-div">
-                                <table>
-                                    <tr>
-                                        <td class="b">Name:</td>
-                                        <td>
-                                            @contact.Firstname @contact.Lastname
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="b">Type:</td>
-                                        <td>
-                                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="b">Email:</td>
-                                        <td>
-                                            @contact.Email
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="b">Phone Number:</td>
-                                        <td>
-                                            @contact.PhoneNumber
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="b">Address:<br />
-                                            @if (contact.Address != null)
-                                            { 
-                                                <a href="http://www.bing.com/maps/default.aspx?q=@contact.Address.Address1+@contact.Address.Address2,+@contact.Address.CityRaw,+@contact.Address.StateRaw+@contact.Address.Zip+@contact.Address.Country" target="_blank">View Map</a>
-                                            }</td>
-                                        <td>
-                                            @if (contact.Address != null)
-                                            { 
-                                                @contact.Address.Address1<br />
-                                                if (!String.IsNullOrEmpty(contact.Address.Address2))
-                                                { 
+
+                    @foreach (var contact in Model.MemberContacts)
+                    {
+
+                        <div class="col-sm-4 col-xs-12 pull-left well" id="@contact.ContactId-div">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td class="b">Name:</td>
+                                    <td>
+                                        @contact.Firstname @contact.Lastname
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Type:</td>
+                                    <td>
+                                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Email:</td>
+                                    <td>
+                                        @if (!String.IsNullOrEmpty(contact.Email)) { 
+                                        <a href="mailto:@contact.Email" class="" target="_blank">@contact.Email <i class="fa fa-at fa-1x"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">Phone Number:</td>
+                                    <td>
+@if (!String.IsNullOrEmpty(contact.PhoneNumber)) {
+                                        <a href="tel:@contact.PhoneNumber" class="" target="_blank">@contact.PhoneNumber <i class="fa fa-mobile-phone fa-1x"></i></a>
+}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b">
+                                        Address:<br />
+                                        @if (contact.Address != null)
+                                        {
+                                            <a href="http://www.bing.com/maps/default.aspx?q=@contact.Address.Address1+@contact.Address.Address2,+@contact.Address.CityRaw,+@contact.Address.StateRaw+@contact.Address.Zip+@contact.Address.Country" target="_blank">View Map</a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (contact.Address != null)
+                                        {
+                                            @contact.Address.Address1<br />
+                                            if (!String.IsNullOrEmpty(contact.Address.Address2))
+                                            {
                                                 @contact.Address.Address2<br />
-                                                }
-                                                if (!String.IsNullOrEmpty(contact.Address.CityRaw))
-                                                { 
-                                                @contact.Address.CityRaw<br />}
-                                                if (!String.IsNullOrEmpty(contact.Address.StateRaw))
-                                                { 
-                                                @contact.Address.StateRaw<br />
-                                                }
-                                                if (!String.IsNullOrEmpty(contact.Address.Zip))
-                                                { 
-                                                @contact.Address.Zip<br />
-                                                }
-                                                if (!String.IsNullOrEmpty(contact.Address.Country))
-                                                { 
-                                                @contact.Address.Country
-                                                }
                                             }
-                                        </td>
-                                    </tr>
+                                            if (!String.IsNullOrEmpty(contact.Address.CityRaw))
+                                            {
+                                                @contact.Address.CityRaw<br />}
+                                            if (!String.IsNullOrEmpty(contact.Address.StateRaw))
+                                            {
+                                                @contact.Address.StateRaw<br />
+                                            }
+                                            if (!String.IsNullOrEmpty(contact.Address.Zip))
+                                            {
+                                                @contact.Address.Zip<br />
+                                            }
+                                            if (!String.IsNullOrEmpty(contact.Address.Country))
+                                            {
+                                                @contact.Address.Country
+                                            }
+                                        }
+                                    </td>
+                                </tr>
 
-                                </table>
-                            </div>
-                        }
-                    </div>
-                    
-                    
-                }
-                else
-                {
-                    <div class="subPleaseSubscribeMessage">Subscribe to RDNation to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
-                }
-            </div>
+                            </table>
+                        </div>
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="subPleaseSubscribeMessage">Subscribe to RDNation to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
+            }
+
+            <small>Only Managers of the league can see this information.</small>
         </div>
+
+
+        <div role="tabpanel" class="tab-pane  well " id="membership">
+            <div class="">
+                @foreach (var league in Model.Leagues)
+                {
+                    if (!String.IsNullOrEmpty(league.Name))
+                    {
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="thumbnail">
+                        @if (league.Logo != null)
+                                {
+                                <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+
+                                    <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
+
+                                </a>
+                                }
+                        <div class="caption">
+                            <h4>
+                                <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                    @league.Name
+                                </a>
+
+                            </h4>
+                            <p>
+                                @if (league.HasLeftLeague)
+                                        {
+                                        <b> retired </b> @league.DepartureDate.GetValueOrDefault().ToShortDateString()
+                                        }
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                    }
+                }
+                <div class="clearfix"></div>
+
+            </div>
+
+        </div>
+
 
     </div>
 </div>

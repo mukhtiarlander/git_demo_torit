@@ -184,6 +184,13 @@ namespace RDN.League.Controllers
                     model.Recipients.Add(mem);
                     model.Title = "Jobs: ";
                 }
+                else if (model.OwnerType == GroupOwnerTypeEnum.person)
+                {
+                    var mem = MemberCache.GetMemberDisplay(model.OwnerId);
+                    model.Recipients = new List<MemberDisplayBasic>();
+                    model.Recipients.Add(mem);
+                    
+                }
                 else if (model.OwnerType == GroupOwnerTypeEnum.officiating)
                 {
                     var mem = MemberCache.GetMemberDisplay(model.OwnerId);

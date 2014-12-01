@@ -1,10 +1,14 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Contact";
 }
-
-<h2>
-    General Questions and Inquiries</h2><br /><br />
+<div class="page-header">
+    <h2>
+        General Questions and Inquiries
+    </h2>
+</div>
 <div>
     We'd love to hear from you! Please send all your general questions and inquiries
-    to <a href="mailto:info@rdnation.com">info@rdnation.com</a></div>
+    to <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["WebsiteMainEmail"]">@System.Configuration.ConfigurationManager.AppSettings["WebsiteMainEmail"]</a></div>
+
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />

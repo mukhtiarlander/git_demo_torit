@@ -16,25 +16,25 @@
 @if (Model.League == null)
 {
 
-    <div class="col-sm-7 col-xs-offset-1">
+    <div class="col-sm-7 col-sm-offset-1">
         <div class="panel panel-default ">
             <div class="panel-heading">Welcome to RDNation.com!</div>
             <div class="panel-body">
                 <div>
-                    We at RDNation are trying to create something every fan around the world as well as roller derby skater would love.
-                    From software, our plan is simple.  To make a smarter way to Roller Derby.
+                    We at @System.Configuration.ConfigurationManager.AppSettings["WebsiteShortName"] are trying to create something every fan around the world as well as roller derby skater would love.
+                    From software, our plan is simple.  To make a smarter way to @System.Configuration.ConfigurationManager.AppSettings["SportName"].
                     This is our idea and this is the execution of that idea.
                 </div>
+                <br />
                 <div>
-                    We are pure software people. So if you have an idea for roller
-                    derby that you would love to see implemented for the better of either your self
+                    We are pure software people. So if you have an idea for @System.Configuration.ConfigurationManager.AppSettings["SportName"] that you would love to see implemented for the better of either your self
                     or the sport, please without a second thought, let us know. We are here for the
                     betterment of the entire community.
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xs-3 ">
+    <div class="col-sm-3 ">
         <div class="panel panel-default ">
             <div class="panel-heading">RDNation News</div>
             <div class="panel-body">
@@ -186,7 +186,7 @@ else
             <div class="panel panel-default ">
                 <div class="panel-heading"> Upcoming Schedule <span class="titleDesc">@Model.Calendar.DaysToNextEvent Days Till Next Event</span></div>
                 <div class="panel-body">
-                    <table class="forumTable">
+                    <table class="table table-striped table-hover table-condensed">
                         <thead>
                             <tr>
                                 <th></th>
