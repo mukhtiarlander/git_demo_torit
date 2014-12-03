@@ -3,184 +3,192 @@
     ViewBag.Title = "Edit Store Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-    <div class="backLink">
-        < <a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Store</a>
-    </div>
-        </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Edit Store Item
-        </div>
-       
-         <div class="titleDescription">
-   Here you can add items to your store. It can be anything derby related, but try
-            to keep it inline with what Roller Derby people will want to see.
-       
-            </div>
-            <div class="divider"></div>
-        <div>
-            @using (Html.BeginForm("StoreEditItem", "Store", FormMethod.Post, new { @id = "createNewItem" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b alRight">Name:
-                        </td>
-                        <td class="subject">
-                            @Html.TextBoxFor(x => x.Name)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Your ID:
-                        </td>
-                        <td class="mediumInput">
-                            @Html.TextBoxFor(x => x.ArticleNumber) - Fill Out incase you have a specific ID
-                            for this item.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Description Of Item:
-                        </td>
-                        <td class="subject">
-                            @Html.TextBoxFor(x => x.Description)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Weight:
-                        </td>
-                        <td class="mediumInput">
-                            @Html.TextBoxFor(x => x.Weight) lbs
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Price:
-                        </td>
-                        <td class="mediumInput">
-                            @Html.TextBox("Price", Model.Price.ToString("N2")) @Model.Currency
-                        </td>
-                    </tr>
-                      <tr>
-                        <td class="b alRight">Can Pick Up Locally:
-                        </td>
-                        <td >
-                            @Html.CheckBoxFor(x=>x.CanPickUpLocally) <span class="i">Can they come to a store to pick up?</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Shipping Costs:
-                        </td>
-                        <td class="mediumInput">
-                            @Html.TextBox("Shipping", Model.Shipping.ToString("N2"))
-                        </td>
-                    </tr>
-                         <tr>
-                        <td class="b alRight">Shipping Costs For Each Additional:
-                        </td>
-                        <td class="mediumInput">
-                            @Html.TextBox("ShippingAdditional", Model.ShippingAdditional.ToString("N2")) 
-                            <span class="i">For each item of this type bought, this shipping fee will be charged.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Quantity In Stock:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.QuantityInStock)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Can This Item Ever Run Out?:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.CanRunOutOfStock) - Items in stock count down if checked.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Type Of Item:
-                        </td>
-                        <td class="mediumInput">
-                            @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)" }) - <span class="i">To Add Type, Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a></span>
-                        </td>
-                    </tr>
-                    <tr class="@(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt ? "" : "displayNone")" id="shirtSize">
-                        <td class="b alRight">Sizes Sold In:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.HasExtraSmall)X-Small
-                            @Html.CheckBoxFor(x => x.HasSmall)Small
-                            @Html.CheckBoxFor(x => x.HasMedium)Medium
-                            @Html.CheckBoxFor(x => x.HasLarge)Large
-                            @Html.CheckBoxFor(x => x.HasExtraLarge)X-Large
-                            @Html.CheckBoxFor(x => x.HasXXLarge)XX-Large
-                        </td>
-                    </tr>
-                    <tr class="@(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal ? "" : "displayNone")" id="colors">
-                        <td class="b alignTop  alRight">Add Colors to Item:
-                        </td>
-                        <td>
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Shop</a></li>
+        <li class="active">@Model.Name</li>
+    </ol>
+        <h2>
+            Edit @Model.Name
+        </h2>
 
-                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()" })  <span class="spanLink" onclick="AddSelectedColor()">Add Selected</span>
-                            <div><b>OR</b></div>
-                            <div>
-                                <input id="colorName" placeholder="Name Of New Color" />
-                                <div id="colorSelector" class="colorPickerC">
-                                    <div class="colorPickerIn" style="background-color: #0000ff;"></div>
+
+    <div>
+        @using (Html.BeginForm("StoreEditItem", "Store", FormMethod.Post, new { @id = "createNewItem" }))
+        {
+            <table class="addForumPostTbl">
+                <tr>
+                    <td class="b alRight">
+                        Name:
+                    </td>
+                    <td class="subject">
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Your ID:
+                    </td>
+                    <td class="mediumInput">
+                        @Html.TextBoxFor(x => x.ArticleNumber, new { @class = "form-control" }) - Fill Out incase you have a specific ID
+                        for this item.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Description Of Item:
+                    </td>
+                    <td class="subject">
+                        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Weight:
+                    </td>
+                    <td class="mediumInput">
+                        @Html.TextBoxFor(x => x.Weight, new { @class = "form-control" }) lbs
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Price:
+                    </td>
+                    <td class="mediumInput">
+                        @Html.TextBox("Price", Model.Price.ToString("N2"), new { @class = "form-control" }) @Model.Currency
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Can Pick Up Locally:
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(x => x.CanPickUpLocally, new { @class = "form-control" }) <span class="i">Can they come to a store to pick up?</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Shipping Costs:
+                    </td>
+                    <td class="mediumInput">
+                        @Html.TextBox("Shipping", Model.Shipping.ToString("N2"), new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Shipping Costs For Each Additional:
+                    </td>
+                    <td class="mediumInput">
+                        @Html.TextBox("ShippingAdditional", Model.ShippingAdditional.ToString("N2"), new { @class = "form-control" })
+                        <span class="i">For each item of this type bought, this shipping fee will be charged.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Quantity In Stock:
+                    </td>
+                    <td class="smallInput">
+                        @Html.TextBoxFor(x => x.QuantityInStock, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Can This Item Ever Run Out?:
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(x => x.CanRunOutOfStock, new { @class = "form-control" }) - Items in stock count down if checked.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b alRight">
+                        Type Of Item:
+                    </td>
+                    <td class="mediumInput">
+                        @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)", @class = "form-control" }) - <span class="i">To Add Type, Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a></span>
+                    </td>
+                </tr>
+                <tr class="@(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt ? "" : "displayNone")" id="shirtSize">
+                    <td class="b alRight">
+                        Sizes Sold In:
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(x => x.HasExtraSmall)X-Small
+                        @Html.CheckBoxFor(x => x.HasSmall)Small
+                        @Html.CheckBoxFor(x => x.HasMedium)Medium
+                        @Html.CheckBoxFor(x => x.HasLarge)Large
+                        @Html.CheckBoxFor(x => x.HasExtraLarge)X-Large
+                        @Html.CheckBoxFor(x => x.HasXXLarge)XX-Large
+                    </td>
+                </tr>
+                <tr class="@(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal ? "" : "displayNone")" id="colors">
+                    <td class="b alignTop  alRight">
+                        Add Colors to Item:
+                    </td>
+                    <td>
+
+                        @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()", @class = "form-control" })  <span class="spanLink" onclick="AddSelectedColor()">Add Selected</span>
+                        <div><b>OR</b></div>
+                        <div>
+                            <input id="colorName" placeholder="Name Of New Color" />
+                            <div id="colorSelector" class="colorPickerC">
+                                <div class="colorPickerIn" style="background-color: #0000ff;"></div>
+                            </div>
+                            <span class="spanLink" onclick="CreateNewColor()">Create New Color</span>
+                            <div id="colorSelected" class="displayNone"></div>
+                        </div>
+
+                        <div id="colorsToAdd">
+                            @foreach (var color in Model.Colors)
+                            {
+                                <div class='selectedColorCon'>
+                                    <div class='selectedColor' style='background-color:@color.HexColor;'>@color.NameOfColor</div>
+                                    <span class='spanLink' onclick="RemoveSelectedColor(this, '@color.HexColor')">Remove</span>
                                 </div>
-                                <span class="spanLink" onclick="CreateNewColor()">Create New Color</span>
-                                <div id="colorSelected" class="displayNone"></div>
-                            </div>
+                            }
+                        </div>
+                        @Html.HiddenFor(x => x.ColorsSelected)
+                    </td>
+                </tr>
 
-                            <div id="colorsToAdd">
-                                @foreach (var color in Model.Colors)
-                                { 
-                                    <div class='selectedColorCon'>
-                                        <div class='selectedColor' style='background-color:@color.HexColor;'>@color.NameOfColor</div>
-                                        <span class='spanLink' onclick="RemoveSelectedColor(this, '@color.HexColor')">Remove</span></div>
-                                }
-                            </div>
-                            @Html.HiddenFor(x => x.ColorsSelected)
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="b alRight paddingTopRow">
+                        Publish Item?:
+                    </td>
+                    <td class="paddingTopRow">
+                        @Html.CheckBoxFor(x => x.IsPublished, new { @class = "form-control" }) - This will <span class="b">PUBLISH</span>
+                        the item for the public store.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b">
+                        Public Description of the Item:
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="largeTextArea">
 
-                    <tr>
-                        <td class="b alRight paddingTopRow">Publish Item?:
-                        </td>
-                        <td class="paddingTopRow">
-                            @Html.CheckBoxFor(x => x.IsPublished) - This will <span class="b">PUBLISH</span>
-                            the item for the public store.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Public Description of the Item:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="largeTextArea">
-                           
-                                @Html.TextArea("HtmlNote", Model.HtmlNote, new
+                        @Html.TextArea("HtmlNote", Model.HtmlNote, new
                            {
                                id = "wmd-input",
-                               style="width:720px;"
+                               style = "width:720px;"
                            })
-                        
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Cancel Item</a>
-                        </td>
-                        <td>
-                            <input type="submit" class="primary" value="Update Item" />
-                        </td>
-                    </tr>
-                </table>
-                @Html.HiddenFor(x => x.PrivateManagerId)
-                @Html.HiddenFor(x => x.MerchantId)
-                @Html.HiddenFor(x => x.InternalId)
-                @Html.HiddenFor(x => x.StoreItemId)
-            }
-        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Cancel Item</a>
+                    </td>
+                    <td>
+                        <input type="submit" class="primary" value="Update Item" />
+                    </td>
+                </tr>
+            </table>
+            @Html.HiddenFor(x => x.PrivateManagerId)
+            @Html.HiddenFor(x => x.MerchantId)
+            @Html.HiddenFor(x => x.InternalId)
+            @Html.HiddenFor(x => x.StoreItemId)
+        }
     </div>
 
     <div class="panelBox">
@@ -189,52 +197,52 @@
         </div>
         <div class="divider"></div>
         @using (Html.BeginForm("UploadItemPictures", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        { 
+        {
             <div>
                 Upload up to four images for each item. The first picture uploaded will be the default
                 picture everyone sees.
             </div>
             <br />
-          
+
             foreach (var image in Model.Photos)
             {
-            <div class="center">
-                <img src="@image.ImageUrl" alt="@image.Alt" id="image-@image.PhotoId" style="max-width:150px; max-height:150px;"/>
-                <br />
-                <span class="spanLink" id="button-@image.PhotoId" onclick="DeleteStorePhoto('@image.PhotoId', '@Model.StoreItemId', '@Model.PrivateManagerId')">Delete</span>
-            </div>
+                <div class="center">
+                    <img src="@image.ImageUrl" alt="@image.Alt" id="image-@image.PhotoId" style="max-width:150px; max-height:150px;" />
+                    <br />
+                    <span class="spanLink" id="button-@image.PhotoId" onclick="DeleteStorePhoto('@image.PhotoId', '@Model.StoreItemId', '@Model.PrivateManagerId')">Delete</span>
+                </div>
             }
             if (Model.Photos.Count < 1)
-            { 
-            <div class="center">
-                <span class="b">Upload Default Picture</span>
-                <input type="file" name="file" id="file" class="fileUpload" onchange="ValidatePhoto(this)" />
-            </div>
+            {
+                <div class="center">
+                    <span class="b">Upload Default Picture</span>
+                    <input type="file" name="file" id="file" class="fileUpload" onchange="ValidatePhoto(this)" />
+                </div>
             }
             if (Model.Photos.Count < 2)
-            { 
-            <div class="center">
-                <span class="b">Second</span>
-                <input type="file" name="file1" id="file1" class="fileUpload" onchange="ValidatePhoto(this)" />
-            </div>
+            {
+                <div class="center">
+                    <span class="b">Second</span>
+                    <input type="file" name="file1" id="file1" class="fileUpload" onchange="ValidatePhoto(this)" />
+                </div>
             }
             if (Model.Photos.Count < 3)
-            { 
-            <div class="center">
-                <span class="b">Third</span>
-                <input type="file" name="file2" id="file2" class="fileUpload" onchange="ValidatePhoto(this)" />
-            </div>
+            {
+                <div class="center">
+                    <span class="b">Third</span>
+                    <input type="file" name="file2" id="file2" class="fileUpload" onchange="ValidatePhoto(this)" />
+                </div>
             }
             if (Model.Photos.Count < 4)
-            { 
-            <div class="center">
-                <span class="b">Fourth</span>
-                <input type="file" name="file3" id="file3" class="fileUpload" onchange="ValidatePhoto(this)" />
-            </div>
+            {
+                <div class="center">
+                    <span class="b">Fourth</span>
+                    <input type="file" name="file3" id="file3" class="fileUpload" onchange="ValidatePhoto(this)" />
+                </div>
             }
             <div class="clear">
             </div>
-            
+
             <div class="updateMemberButton">
                 <input type="submit" class="primary" value="Upload Pictures" />
             </div>
@@ -244,7 +252,7 @@
             @Html.HiddenFor(x => x.StoreItemId)
         }
     </div>
-</div>
+
 <script type="text/javascript">
     $("#Price").numeric({ negative: false });
     $("#Shipping").numeric({ negative: false });

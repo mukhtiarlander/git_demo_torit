@@ -7,115 +7,117 @@
 }
 @if (Model.MerchantId == new Guid())
 {
-    <div class="fixedContainer">
-        <div class="fixedCenterContainter">
-            <div class="fixTitle">
+    <div class="container">
+        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+            <h2>
                 Store Setup
-            </div>
-            <div  class="divider"></div>
-            <div>
-                Here you can start selling things on RDNation.com! Think of it as your own personal
-                store! You can sell anything you want that hopefully has something to do with Roller
-                Derby, but if it doesn't your welcome to sell that too! Go ahead, set up your store,
-                add a few pieces of merchandise, make it public and start selling!
-            </div>
-
-            @using (Html.BeginForm("CreateStore", "Store"))
-            { 
-                <div class="center">
-                    <input type="submit" class="primary" value="Create Store" />
-                </div>
-                @Html.HiddenFor(x => x.InternalReference);
-                @Html.HiddenFor(x => x.MerchantId);
-                @Html.HiddenFor(x => x.PrivateManagerId);
-            }
-
+            </h2>
         </div>
 
-    </div>
+        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+            Here you can start selling things on RDNation.com! Think of it as your own personal
+            store! You can sell anything you want that hopefully has something to do with Roller
+            Derby, but if it doesn't your welcome to sell that too! Go ahead, set up your store,
+            add a few pieces of merchandise, make it public and start selling!
 
+            <div>
+                @using (Html.BeginForm("CreateStore", "Store"))
+                {
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Create Store" />
+                    </div>
+                    @Html.HiddenFor(x => x.InternalReference);
+                    @Html.HiddenFor(x => x.MerchantId);
+                    @Html.HiddenFor(x => x.PrivateManagerId);
+                }
+            </div>
+            <br /><br /><br />
+        </div>
+    </div>
 }
 else
-{ 
-    
-    <div class="expandableContainer">
+{
 
-        <div class="expandableCenterContainter">
-            
-            <div class="fixTitle">
-                @if (Model.IsPublished)
-                {
-                    <a  target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a>
-                    <span>- is Published</span>
-                }
-                else
-                {
-                    @Model.ShopName
-                }
+    <div class="container">
 
-            </div>
-            <div class="expandableCenterContainterRight">
-                @if (RDN.Library.Cache.MemberCache.IsManagerOrBetterOfStore(RDN.Library.Classes.Account.User.GetMemberId(), Model.MerchantId))
-                { 
-                    <a  href="@Url.Content("~/store/orders/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">Orders</a>
-                    <span>|</span>
-                    <a  href="@Url.Content("~/store/new/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/plus.png")" height="20px" />
-                        Add Item</a>
-                    <span>|</span>
-                    <a  href="@Url.Content("~/store/settings/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">Settings</a>
-                }
-            </div>
-            <div  class="divider"></div>
-            
-            @foreach (var item in Model.StoreItems)
+
+        <h2>
+            @if (Model.IsPublished)
             {
-                <div class="storeItem">
-                    <div class="storeItemPhoto center">
-                        @if (item.Photos.FirstOrDefault() != null)
-                        { 
-                            <img class="storeItemPhoto" src="@item.Photos.FirstOrDefault().ImageUrl" alt="@item.Photos.FirstOrDefault().Alt" />
-                        }
-                    </div>
-                    <div class="storeItemInfo">
-                        <div class="storeItemTitle">
-                            <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a> - <span class="storeItemTitleType">@item.ItemType</span>
-                        </div>
-                        <div class="storeItemPrice">
-                            @item.Price.ToString("N2") @Model.Currency
-                        </div>
-                        <div class="storeItemDesc">@item.Description</div>
-                        @if (item.QuantityInStock > 0)
-                        { 
-                            <div class="storeLeftInStock">
-                                @item.QuantityInStock <span class="storeGray">items left in stock</span>
-                            </div>
-                        }
-                        @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
-                        {
-                            <div>
-                                <b>Sizes:</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
-                            </div>
-                        }
-                        <div>
-                            @if (item.IsPublished)
-                            {
-                                <span>Published</span>
-                            }
-                            else
-                            {
-                                <span class="b">Not Published</span> <span>Go to Edit Item To Publish Item</span>
-                            }
-                        </div>
-                    </div>
-                    <div class="storeEditItem">
-                        <a  href="@Url.Content("~/store/item/edit/" + @item.StoreItemId + "/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">Edit Item</a>
-                    </div>
-                    <div class="clear">
-                    </div>
-                </div>
-                
+                <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a>
+                <small>- published</small>
+            }
+            else
+            {
+                @Model.ShopName
+            }
+
+        </h2>
+        <div class="pull-right">
+            @if (RDN.Library.Cache.MemberCache.IsManagerOrBetterOfStore(RDN.Library.Classes.Account.User.GetMemberId(), Model.MerchantId))
+            {
+                <a class="btn btn-primary" href="@Url.Content("~/store/orders/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">Orders</a>
+
+                <a class="btn btn-primary" href="@Url.Content("~/store/new/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">
+                    Add Item
+                </a>
+
+                <a class="btn btn-primary" href="@Url.Content("~/store/settings/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">Settings</a>
             }
         </div>
+
+        <table class="table">
+            <tbody>
+                @foreach (var item in Model.StoreItems)
+                {
+                    <tr>
+                        <td class="">
+                            @if (item.Photos.FirstOrDefault() != null)
+                            {
+                                <img class="imgRowMax img-responsive img-rounded" src="@item.Photos.FirstOrDefault().ImageUrl" alt="@item.Photos.FirstOrDefault().Alt" />
+                            }
+                        </td>
+                        <td>
+
+                            <h3><a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a> <small>@item.ItemType</small></h3>
+                            <p>
+                                <span class="storeItemPrice">
+                                    <b>
+                                        @item.Price.ToString("N2") @Model.Currency
+                                    </b>
+                                </span>
+                                @if (item.QuantityInStock > 0)
+                                {
+                                     <span class="storeLeftInStock">
+                                        @item.QuantityInStock <span class="storeGray">left</span>
+                                    </span>
+                                }
+                                
+                                
+                                @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+                                {
+                                    <div>
+                                        <b>Sizes:</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
+                                    </div>
+                                }
+                                <div>
+                                    @if (!item.IsPublished)
+                                    {
+                                        <span class="b warning">Not Published</span>
+                                    }
+                                </div>
+                                <div>@item.Description</div>
+                            </p>
+                            <p>
+                                <a class="btn btn-primary" href="@Url.Content("~/store/item/edit/" + item.StoreItemId + "/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Edit Item</a>
+                            </p>
+
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
     </div>
+
 }
