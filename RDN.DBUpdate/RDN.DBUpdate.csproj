@@ -73,6 +73,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201412052141017_tasksRN.cs" />
+    <Compile Include="Migrations\201412052141017_tasksRN.Designer.cs">
+      <DependentUpon>201412052141017_tasksRN.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +88,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common.AutomatedTasks\Common.AutomatedTasks.Library\Common.AutomatedTasks.Library.csproj">
+      <Project>{d65cd09d-de6c-43e3-a218-b9394a7afbd8}</Project>
+      <Name>Common.AutomatedTasks.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RDN.Library\RDN.Library.csproj">
       <Project>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</Project>
       <Name>RDN.Library</Name>
@@ -114,6 +122,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201412052141017_tasksRN.resx">
+      <DependentUpon>201412052141017_tasksRN.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
