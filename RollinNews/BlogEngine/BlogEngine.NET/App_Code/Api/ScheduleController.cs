@@ -27,6 +27,8 @@ using System.Web.Security;
 using System.Linq;
 using Common.AutomatedTasks.Library;
 using Common.AutomatedTasks.Library.Classes.Frequency;
+using RDN.Library.Classes.RN.Communication;
+using RDN.Library.Classes.AutomatedTask.Enums;
 
 public class ScheduleController : ApiController
 {
@@ -41,13 +43,9 @@ public class ScheduleController : ApiController
     {
         try
         {
+            var userIds = UserTaskFactory.Initialize((long)UserTaskFactoryType.AuthorPostingEmail, TaskFrequency.Daily).PullUsers();
 
-            var userIds = UserTaskFactory.Initialize(0, TaskFrequency.Daily).PullUsers();
-
-            foreach (var userId in userIds)
-            {
-
-            }
+            Authors.SendAutomatedPostingEmailToAuthors(userIds);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
