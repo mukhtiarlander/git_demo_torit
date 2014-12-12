@@ -1,7 +1,7 @@
 ﻿@using RDN.Raspberry.Models.Helpers
 @using RDN.Utilities.Error
 @model RDN.Raspberry.Models.OutModel.GenericSingleModel<RDN.Raspberry.Models.Utilities.SimplePager<RDN.Library.Classes.Error.Classes.Error>>
-@{    
+@{
     Layout = "~/Views/Shared/_Layout.cshtml"; ;
 }
 <h2>Errors</h2>
@@ -17,8 +17,8 @@ of @Model.Model.NumberOfRecords
 <br />
 @using (Html.BeginForm("Errors", "Admin"))
 {
-    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
-    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
+    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
     <span>Page: </span>@Html.DropDownList("CurrentPage", Model.Model.Pages)
     <input type="submit" value="Show" />
 }
@@ -27,186 +27,227 @@ of @Model.Model.NumberOfRecords
     @foreach (var item in Model.Model.Items)
     {
         <tr>
-            <td colspan="2">
+            <td>
                 @using (Html.BeginForm("Errors", "Admin"))
                 {
                     <text>
-                    <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()"/>
-                    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
-                    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
-                    <input type="hidden" name="ItemToDelete" value="@item.ErrorId.ToString()"/>
-                    <input type="submit" value="Delete" />
+                        <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()" />
+                        <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
+                        <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
+                        <input type="hidden" name="ItemToDelete" value="@item.ErrorId.ToString()" />
+                        <input type="submit" value="Delete" />
+                    </text>
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("Errors", "Admin"))
+                {
+                    <text>
+                        <input type="hidden" name="CurrentPage" value="@Model.Model.CurrentPage.ToString()" />
+                        <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
+                        <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
+                        <input type="hidden" name="ItemSimilarToDelete" value="@item.ErrorId.ToString()" />
+                        <input type="submit" value="Delete Similar" />
                     </text>
                 }
             </td>
         </tr>
         <tr>
-            <td style="font-weight: bold;">Error date:
+            <td style="font-weight: bold;">
+                Error date:
             </td>
-            <td>@item.Created.ToString("MM.dd.yyyy HH:MM:ss")
-            </td>
-        </tr>
-                if (item.ErrorSeverity.HasValue)
-                { 
-     
-        <tr>
-            <td style="font-weight: bold;">Severity:
-            </td>
-            <td>@(item.ErrorSeverity.HasValue ? item.ErrorSeverity.Value.ToString() : string.Empty)
-            </td>
-        </tr>    
-                }
-       
-        <tr>
-            <td style="font-weight: bold;">AssemblyName:
-            </td>
-            <td>@item.AssemblyName
-            </td>
-            <td style="font-weight: bold;">AssemblyVersion:
-            </td>
-            <td>@item.AssemblyVersion
+            <td>
+                @item.Created.ToString("MM.dd.yyyy HH:MM:ss")
+        </td>
+    </tr>
+        if (item.ErrorSeverity.HasValue)
+        {
+
+            <tr>
+                <td style="font-weight: bold;">
+                    Severity:
+                </td>
+                <td>
+                    @(item.ErrorSeverity.HasValue ? item.ErrorSeverity.Value.ToString() : string.Empty)
             </td>
         </tr>
-      
-                if (item.ErrorGroup.HasValue)
-                { 
+        }
+
         <tr>
-            <td style="font-weight: bold;">Group:
+            <td style="font-weight: bold;">
+                AssemblyName:
             </td>
-            <td>@(item.ErrorGroup.HasValue ? item.ErrorGroup.Value.ToString() : string.Empty)
-            </td>
-        </tr>    
-       
-                }
-        <tr>
-            <td style="font-weight: bold;">ErrorNameSpace:
-            </td>
-            <td>@item.ErrorNameSpace
-            </td>
-            <td style="font-weight: bold;">NameSpace:
-            </td>
-            <td>@item.NameSpace
-            </td>
-            <td style="font-weight: bold;">Error MethodName:
-            </td>
-            <td>@item.MethodName
+            <td>
+                @item.AssemblyName
+        </td>
+        <td style="font-weight: bold;">
+            AssemblyVersion:
+        </td>
+        <td>
+            @item.AssemblyVersion
+    </td>
+</tr>
+
+        if (item.ErrorGroup.HasValue)
+        {
+            <tr>
+                <td style="font-weight: bold;">
+                    Group:
+                </td>
+                <td>
+                    @(item.ErrorGroup.HasValue ? item.ErrorGroup.Value.ToString() : string.Empty)
             </td>
         </tr>
-      
+
+        }
+        <tr>
+            <td style="font-weight: bold;">
+                ErrorNameSpace:
+            </td>
+            <td>
+                @item.ErrorNameSpace
+        </td>
+        <td style="font-weight: bold;">
+            NameSpace:
+        </td>
+        <td>
+            @item.NameSpace
+    </td>
+    <td style="font-weight: bold;">
+        Error MethodName:
+    </td>
+    <td>
+        @item.MethodName
+</td>
+</tr>
+
         <tr>
             <td colspan="6">
                 @if (item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.Parameter).Count() > 0)
-                {                           
+                {
                     <table style="border-style: solid; border-width: 1px; float: left; margin-right: 10px;">
                         <thead>
-                            <th colspan="2">Parameter
-                            </th>
+                        <th colspan="2">
+                            Parameter
+                        </th>
                         </thead>
                         <tbody>
                             @foreach (var data in item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.Parameter))
-                            {                        
+                            {
                                 <tr>
-                                    <td style="padding-right: 10px;">@data.Key
-                                    </td>
-                                    <td>@data.Value
-                                    </td>
-                                </tr>
+                                    <td style="padding-right: 10px;">
+                                        @data.Key
+                                </td>
+                                <td>
+                                    @data.Value
+                            </td>
+                        </tr>
                             }
                         </tbody>
-                    </table>                
+                    </table>
                 }
                 @if (item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.Session).Count() > 0)
                 {
                     <table style="border-style: solid; border-width: 1px; float: left; margin-right: 10px;">
                         <thead>
-                            <th colspan="2">Session
-                            </th>
+                        <th colspan="2">
+                            Session
+                        </th>
                         </thead>
                         <tbody>
                             @foreach (var data in item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.Session))
-                            {                        
+                            {
                                 <tr>
-                                    <td style="padding-right: 10px;">@data.Key
-                                    </td>
-                                    <td>@data.Value
-                                    </td>
-                                </tr>
+                                    <td style="padding-right: 10px;">
+                                        @data.Key
+                                </td>
+                                <td>
+                                    @data.Value
+                            </td>
+                        </tr>
                             }
                         </tbody>
                     </table>
                 }
                 @if (item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.Cookie).Count() > 0)
-                {           
+                {
                     <table style="border-style: solid; border-width: 1px; float: left; margin-right: 10px;">
                         <thead>
-                            <th colspan="2">Cookie
-                            </th>
+                        <th colspan="2">
+                            Cookie
+                        </th>
                         </thead>
                         <tbody>
                             @foreach (var data in item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.Cookie))
-                            {                        
+                            {
                                 <tr>
-                                    <td style="padding-right: 10px;">@data.Key
-                                    </td>
-                                    <td>@data.Value
-                                    </td>
-                                </tr>
+                                    <td style="padding-right: 10px;">
+                                        @data.Key
+                                </td>
+                                <td>
+                                    @data.Value
+                            </td>
+                        </tr>
                             }
                         </tbody>
                     </table>
                 }
                 @if (item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.UserData).Count() > 0)
-                {   
+                {
                     <table style="border-style: solid; border-width: 1px; float: left; margin-right: 10px;">
                         <thead>
-                            <th colspan="2">UserData
-                            </th>
+                        <th colspan="2">
+                            UserData
+                        </th>
                         </thead>
                         <tbody>
                             @foreach (var data in item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.UserData))
-                            {                        
+                            {
                                 <tr>
-                                    <td style="padding-right: 10px;">@data.Key
-                                    </td>
-                                    <td>
-                                        @if (data.Key == "User identity")
-                                        {
-                                            <a href="@RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION/utilities/sus?email=@data.Value" target="_blank">@data.Value</a>
-                                        }
-                                        else
-                                        { 
-                                            <span>@data.Value</span>
-                                        }
-                                    </td>
-                                </tr>
+                                    <td style="padding-right: 10px;">
+                                        @data.Key
+                                </td>
+                                <td>
+                                    @if (data.Key == "User identity")
+                                    {
+                                        <a href="@RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION/utilities/sus?email=@data.Value" target="_blank">@data.Value</a>
+                                    }
+                                    else
+                                    {
+                                        <span>@data.Value</span>
+                                    }
+                                </td>
+                            </tr>
                             }
                         </tbody>
-                    </table>                
+                    </table>
                 }
                 @if (item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.ServerVariable).Count() > 0)
-                {           
+                {
                     <table style="border-style: solid; border-width: 1px; float: left; margin-right: 10px;">
                         <thead>
-                            <th colspan="2">Server variables
-                            </th>
+                        <th colspan="2">
+                            Server variables
+                        </th>
                         </thead>
                         <tbody>
                             @foreach (var data in item.Data.Where(x => x.DataType == ErrorDataDetail.ErrorDataType.ServerVariable))
-                            {                        
+                            {
                                 <tr>
-                                    <td style="padding-right: 10px;">@data.Key
-                                    </td>
-                                    <td>
-                                        @if (data.Key == "URL_REFFERER" || data.Key == "URL")
-                                        {
-                                            <a href="@data.Value" target="_blank">@data.Value</a>
-                                        }
-                                        else
-                                        {
-                                            <span>@data.Value</span>
-                                        }
-                                    </td>
-                                </tr>
+                                    <td style="padding-right: 10px;">
+                                        @data.Key
+                                </td>
+                                <td>
+                                    @if (data.Key == "URL_REFFERER" || data.Key == "URL")
+                                    {
+                                        <a href="@data.Value" target="_blank">@data.Value</a>
+                                    }
+                                    else
+                                    {
+                                        <span>@data.Value</span>
+                                    }
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -214,7 +255,8 @@ of @Model.Model.NumberOfRecords
             </td>
         </tr>
         <tr>
-            <td colspan="2" style="height: 5px;">&nbsp;
+            <td colspan="2" style="height: 5px;">
+                &nbsp;
             </td>
         </tr>
         <tr>
@@ -232,23 +274,24 @@ of @Model.Model.NumberOfRecords
             </td>
         </tr>
         <tr>
-            <td style="font-weight: bold;">Additional Information:
+            <td style="font-weight: bold;">
+                Additional Information:
             </td>
             <td colspan="5">
                 @if (item.AdditionalInformation != null && item.AdditionalInformation.Contains("message"))
                 {
                     foreach (string split in item.AdditionalInformation.Split('|').Reverse())
                     {
-                    <div>@split</div>
+                        <div>@split</div>
                     }
                 }
                 else
-                { 
+                {
                     @item.AdditionalInformation
                 }
             </td>
         </tr>
-       
+
         <tr>
             <td colspan="6">
                 <hr />
@@ -266,10 +309,10 @@ of @Model.Model.NumberOfRecords
 @using (Html.BeginForm("Errors", "Admin"))
 {
     <text>
-    <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
-    <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
-    Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
-    <input type="submit" value="Show" />
+        <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
+        <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
+        Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
+        <input type="submit" value="Show" />
     </text>
 }
 <br />
@@ -279,8 +322,8 @@ of @Model.Model.NumberOfRecords
 @using (Html.BeginForm("Errors", "Admin"))
 {
     <text>
-    <input type="hidden" name="DeleteAll" value="true" />
-    <input type="submit" value="Delete all" onclick="return confirm('Are you sure that you want to delete all error messages? (This can not be undone)');" />
+        <input type="hidden" name="DeleteAll" value="true" />
+        <input type="submit" value="Delete all" onclick="return confirm('Are you sure that you want to delete all error messages? (This can not be undone)');" />
     </text>
 }
 <br />

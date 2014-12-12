@@ -14,8 +14,9 @@ namespace RDN.Raspberry.Models.Utilities
         public int NumberOfPages { get; set; }
         public int NumberOfRecords { get; set; }
         public int ItemToDelete { get; set; }
+        public int ItemSimilarToDelete { get; set; }
         public int ItemToArchive { get; set; }
-                public bool DeleteAll { get; set; }
+        public bool DeleteAll { get; set; }
 
         public SimplePager()
         {

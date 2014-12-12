@@ -382,6 +382,12 @@ namespace RDN.Raspberry.Controllers
                 model.NumberOfRecords--;
                 model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / 20);
             }
+            else if (model.ItemSimilarToDelete > 0)
+            {
+                Library.Classes.Error.ErrorDatabaseManager.DeleteSimilarErrorObjects(model.ItemSimilarToDelete);
+                model.NumberOfRecords--;
+                model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / 20);
+            }
 
             var output = FillErrorModel(model);
             return View(output);

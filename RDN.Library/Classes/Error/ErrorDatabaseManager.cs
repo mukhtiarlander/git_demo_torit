@@ -222,8 +222,7 @@ namespace RDN.Library.Classes.Error
                 {
                     var recordData = new Data
                                          {
-                                             DataType =
-                                                 (ErrorDataDetail.ErrorDataType)data.DataType,
+                                             DataType = (ErrorDataDetail.ErrorDataType)data.DataType,
                                              Key = data.Name,
                                              Value = data.Data
                                          };
@@ -253,6 +252,18 @@ namespace RDN.Library.Classes.Error
             var obj = dc.ErrorExceptions.FirstOrDefault(x => x.ExceptionId.Equals(id));
             if (obj == null) return false;
             dc.ErrorExceptions.Remove(obj);
+            var result = dc.SaveChanges();
+            return result > 0;
+
+        }
+        public static bool DeleteSimilarErrorObjects(int id)
+        {
+            var dc = new ErrorContext();
+            var obj = dc.ErrorExceptions.FirstOrDefault(x => x.ExceptionId.Equals(id));
+            if (obj == null) return false;
+            var objs = dc.ErrorExceptions.Where(x => x.AdditionalInformation == obj.AdditionalInformation && obj.MethodName == x.MethodName && obj.ErrorNameSpace == x.ErrorNameSpace);
+
+            dc.ErrorExceptions.RemoveRange(objs);
             var result = dc.SaveChanges();
             return result > 0;
 
