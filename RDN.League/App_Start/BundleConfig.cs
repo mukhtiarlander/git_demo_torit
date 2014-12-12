@@ -14,7 +14,7 @@ namespace RDN.League
                         "~/Scripts/Knockout-{version}.js",
                         "~/Scripts/Knockout.mapping-{version}.js",
                         "~/Scripts/jquery/jquery.fileupload.js",
-                        "~/Scripts/jquery/jquery.numeric.js",
+                        "~/Scripts/jquery.numeric.js",
                         "~/Scripts/jquery.validate.min.js",
                         "~/Scripts/jquery.validate.unobtrusive.min.js",
                         "~/Scripts/knockout.validation.js",
@@ -28,8 +28,8 @@ namespace RDN.League
                         "~/Scripts/jquery.dataTables.naturalSort.js",
                         "~/Scripts/colorPicker/colorpicker.js",
                         "~/Scripts/jquery.MultiFile.js",
-                        "~/Scripts/jquery/jquery.ajaxfileupload.js",
-                        "~/Scripts/tinymce/tiny_mce.js"
+                        "~/Scripts/jquery/jquery.ajaxfileupload.js"
+                        
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
