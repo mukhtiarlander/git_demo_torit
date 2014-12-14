@@ -29,12 +29,51 @@ using Common.AutomatedTasks.Library;
 using Common.AutomatedTasks.Library.Classes.Frequency;
 using RDN.Library.Classes.RN.Communication;
 using RDN.Library.Classes.AutomatedTask.Enums;
+using Common.AutomatedTasks.Library.Classes.Users;
 
 public class ScheduleController : ApiController
 {
 
     public ScheduleController()
     {
+    }
+
+
+    public IEnumerable<UserTask> Get(int take = 10, int page = 0)
+    {
+        try
+        {
+            return UserTaskFactory.PullActiveTasks(page, take);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception exception)
+        {
+            ErrorDatabaseManager.AddException(exception, GetType());
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        }
+    }
+
+    public HttpResponseMessage Post([FromBody]UserTask task)
+    {
+        try
+        {
+            var user = Membership.GetUser(task.UserName);
+            UserTaskFactory.Initialize(task.TaskType, TaskFrequency.Daily).AddUserTask((Guid)user.ProviderUserKey);
+
+            return Request.CreateResponse(HttpStatusCode.Created);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception exception)
+        {
+            ErrorDatabaseManager.AddException(exception, GetType());
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
     }
 
 

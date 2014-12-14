@@ -104,6 +104,7 @@ public class BundleConfig
             .Include("~/scripts/moment.js")
             .Include("~/admin/controllers/funds.js")
             .Include("~/admin/controllers/social.js")
+            .Include("~/admin/controllers/userschedule.js")
             .Include("~/admin/controllers/packages.js")
             .Include("~/admin/controllers/common.js")
             .Include("~/admin/services.js")

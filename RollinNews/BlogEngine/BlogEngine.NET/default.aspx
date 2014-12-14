@@ -4,6 +4,7 @@
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
     <ul id="webticker" >	
         <% int t = 1;
+           if (Tweets != null) { 
            foreach (var item in Tweets)
            {
                if (item != null)
@@ -15,7 +16,7 @@
          <%
                    t += 1;
                }
-           } %>
+           } }%>
 	
 </ul>
     <%---  
