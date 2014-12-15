@@ -25,7 +25,7 @@ namespace RDN.Portable.Config
         public static readonly string DEFAULT_INFO_EMAIL = "info@rdnation.com";
         public static readonly string DEFAULT_EMAIL_MESSAGES = "messages@rdnation.com";
         public static readonly string TEXT_MESSAGE_EMAIL = "rdnationsms@gmail.com";
-        public static readonly int CSS_VERSION = 24;
+        public static readonly int CSS_VERSION = 25;
         public static readonly int JS_VERSION = CSS_VERSION;
         public static readonly string ADMIN_PHONE_NUMBER = "3862904108";
         public static readonly Guid DEFAULT_RDN_FORUM_ID = new Guid("8059734d-511c-4511-8770-ee595c10bef5");

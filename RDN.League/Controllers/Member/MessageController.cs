@@ -69,6 +69,7 @@ namespace RDN.League.Controllers
         //
         // GET: /Message/
         [ValidateInput(false)]
+        [HttpPost]
         [Authorize]
         public ActionResult PostMessage(string groupId, string ownerUserId, string mess)
         {

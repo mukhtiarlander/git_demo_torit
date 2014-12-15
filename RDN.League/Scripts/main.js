@@ -1066,8 +1066,23 @@ function PostInternalMessage() {
     var to = $("#OwnerUserId").val();
     var grp = $("#GroupMessageId").val();
     if (message.length > 0) {
-        $.getJSON("/message/PostMessage", { groupId: grp, ownerUserId: to, mess: message });
         $("#inputNewMessage").val("");
+        var paramValue = JSON.stringify({ groupId: grp, ownerUserId: to, mess: message });
+        $.ajax({
+            url: '/message/PostMessage', //This will call the function in controller
+            type: 'POST',
+            dataType: 'json',
+            data: paramValue,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.result) {
+
+                } else {
+                    $("#inputNewMessage").val(message);
+                    alert("Something happened.  Try again later.");
+                }
+            }
+        });
     }
     $("#inputNewMessage").focus();
     message = message.replace(/\n\r?/g, '<br />');
