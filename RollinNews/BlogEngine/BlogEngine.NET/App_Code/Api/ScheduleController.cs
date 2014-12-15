@@ -43,7 +43,12 @@ public class ScheduleController : ApiController
     {
         try
         {
-            return UserTaskFactory.PullActiveTasks(page, take);
+            var tasks = UserTaskFactory.PullActiveTasks(page, take);
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                tasks[i].UserName = Membership.GetUser(tasks[i].UserId).UserName;
+            }
+            return tasks;
         }
         catch (UnauthorizedAccessException)
         {
@@ -55,13 +60,44 @@ public class ScheduleController : ApiController
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
     }
+    [HttpPut]
+    public HttpResponseMessage ProcessChecked([FromBody]List<UserTask> items)
+    {
+        try
+        {
+            var action = Request.GetRouteData().Values["id"].ToString();
+            foreach (var item in items)
+            {
+                if (item.IsChecked)
+                {
+                    if (action.ToLower() == "delete")
+                    {
+                        UserTaskFactory.DeleteActiveTask(item.TaskId);
+                    }
+
+
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception exception)
+        {
+            ErrorDatabaseManager.AddException(exception, GetType());
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
 
     public HttpResponseMessage Post([FromBody]UserTask task)
     {
         try
         {
             var user = Membership.GetUser(task.UserName);
-            UserTaskFactory.Initialize(task.TaskType, TaskFrequency.Daily).AddUserTask((Guid)user.ProviderUserKey);
+            UserTaskFactory.Initialize(task.TaskType, (TaskFrequency)task.TaskFrequency).AddUserTask((Guid)user.ProviderUserKey, DateTime.Parse(task.DateCreated));
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }
@@ -87,6 +123,24 @@ public class ScheduleController : ApiController
             Authors.SendAutomatedPostingEmailToAuthors(userIds);
 
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception exception)
+        {
+            ErrorDatabaseManager.AddException(exception, GetType());
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+    [HttpGet]
+    public HttpResponseMessage GetRights(string id)
+    {
+        try
+        {
+            var result = UserTaskFactory.LoadTypes();
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
         catch (UnauthorizedAccessException)
         {

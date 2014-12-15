@@ -8,20 +8,24 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                            <h4 class="modal-title">{{editItem.RoleName ? editItem.RoleName : lbl.addNewRole}}</h4>
+                            <h4 class="modal-title">Add New Schedule</h4>
                         </div>
                         <div class="modal-body modal-roles">
                             <div class="form-group" data-ng-if="newItem">
-                                <label class="control-label" for="txtRoleName">{{lbl.name}}</label>
-                                <input type="text" id="txtRoleName" name="txtRoleName" class="form-control" data-ng-model="editItem.RoleName" />
+                                <label class="control-label" for="txtRoleName">Date In UTC</label>
+                                <input type="text" id="DateCreated" name="DateCreated" class="form-control" data-ng-model="schedule.DateCreated" />
                             </div>
-                            <div data-ng-repeat="item in rights | orderBy:Title">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"><span>{{item.Title}}</span></div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-6" data-ng-repeat="p in item.Permissions"><label><input type="checkbox" data-ng-model="p.IsChecked" /> {{p.Title}}</label></div>
-                                    </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="selAuthors">Author</label>
+                                <div class="col-sm-8">
+                                    <select id="Select1" class="form-control" data-ng-options="o.OptionName for o in lookups.AuthorList" data-ng-model="selectedAuthor">
+                                    </select>
                                 </div>
+                            </div>
+                            <div data-ng-repeat="item in rights">
+                                <label>
+                                    <input type="radio" name="TaskFrequency" data-ng-model="TaskFrequency" value="{{item.Id}}" />
+                                    {{item.TaskName}}</label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -32,10 +36,9 @@
                 </div>
             </div>
             <div class="page-header clearfix">
-                <h2 class="page-title pull-left">
-                    {{lbl.roles}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+                <h2 class="page-title pull-left">Schedule <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
                 </h2>
-                <button data-ng-click="loadRightsForm()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>{{lbl.addNewRole}}</button>
+                <button data-ng-click="loadRightsForm()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>Add New Schedule</button>
             </div>
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
@@ -48,16 +51,26 @@
             <table class="table table-bordered table-striped table-hover table-responsive">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /> </th>
-                        <th class="table-item-title table-item-w85">{{lbl.title}} <a data-ng-click="sort_by('RoleName',$event)"><i class="fa fa-sort"></i></a></th>
-                        <th>{{lbl.systemRole}}</th>
+                        <th>
+                            <input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" />
+                        </th>
+                        <th class="table-item-title table-item-w85">User Name </th>
+                        <th>Last Run</th>
+                        <th>Next Run</th>
+                        <th>Type </th>
+                        <th>Frequency</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                        <td> <input type="checkbox" id="{{item.UserName}}" data-ng-model="item.IsChecked" /> </td>
-                        <td class="table-item-title"> <a title="{{item.RoleName}}" href="" ng-click="loadRightsForm(item.RoleName)">{{item.RoleName}}</a> </td>
-                        <td><input type="checkbox" data-ng-model="item.IsSystemRole" data-ng-disabled="true"></td>
+                        <td>
+                            <input type="checkbox" id="{{item.TaskId}}" data-ng-model="item.IsChecked" />
+                        </td>
+                        <td class="table-item-title"><span>{{item.UserName}}</span> </td>
+                        <td class="table-item-title"><span>{{item.LastRunDisplay}}</span> </td>
+                        <td class="table-item-title"><span>{{item.NextRunDisplay}}</span> </td>
+                        <td class="table-item-title"><span>{{item.TaskType}}</span> </td>
+                        <td class="table-item-title"><span>{{item.FrequencyDisplay}}</span> </td>
                     </tr>
                 </tbody>
             </table>

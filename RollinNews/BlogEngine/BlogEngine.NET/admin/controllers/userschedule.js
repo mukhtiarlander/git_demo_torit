@@ -3,10 +3,25 @@
     $scope.rights = [];
     $scope.editItem = {};
     $scope.newItem = false;
+    $scope.lookups = [];
+    $scope.schedule = UserTask;
+    $scope.selectedAuthor = "";
+    $scope.TaskFrequency = "";
+    $scope.rights = [];
 
     $scope.load = function () {
         spinOn();
-        dataService.getItems('/api/schedule', { take: 0, skip: 0 })
+        dataService.getItems('/api/lookups')
+  .success(function (data) {
+      angular.copy(data, $scope.lookups);
+      $scope.loadTags();
+
+  })
+  .error(function () {
+      toastr.error("Error loading lookups");
+  });
+
+        dataService.getItems('/api/schedule', { take: 40, skip: 0 })
             .success(function (data) {
                 angular.copy(data, $scope.items);
                 gridInit($scope, $filter);
@@ -16,6 +31,8 @@
                 toastr.error($rootScope.lbl.errorLoadingRoles);
                 spinOff();
             });
+
+
     }
 
     $scope.loadRightsForm = function (id) {
@@ -24,12 +41,9 @@
             $scope.editItem = {};
             $scope.newItem = true;
         }
-        else {
-            $scope.newItem = false;
-            $scope.loadCurrentRole(id);
-        }
+
         spinOn();
-        dataService.getItems('/api/roles/getrights/' + id)
+        dataService.getItems('/api/schedule/getrights/' + id)
         .success(function (data) {
             angular.copy(data, $scope.rights);
             $("#modal-edit").modal();
@@ -56,21 +70,24 @@
     }
 
     $scope.save = function () {
-        if ($scope.newItem) {
+        if (!$scope.selectedAuthor) {
+            return false;
+        }
+
+        if ($scope.schedule) {
             if (!$('#form').valid()) {
                 return false;
             }
-            $scope.saveRole();
-            $scope.saveRights();
-        }
-        else {
-            $scope.saveRights();
+            $scope.schedule.TaskFrequency = $("#form input[type='radio']:checked").val();
+            $scope.schedule.UserName = $scope.selectedAuthor.OptionValue;
+            $scope.saveSchedule();
         }
     }
 
-    $scope.saveRole = function () {
+    $scope.saveSchedule = function () {
         spinOn();
-        dataService.addItem("/api/roles", $scope.editItem)
+
+        dataService.addItem("/api/schedule", $scope.schedule)
         .success(function (data) {
             toastr.success($rootScope.lbl.roleAdded);
             $scope.load();
@@ -78,7 +95,7 @@
             $("#modal-edit").modal('hide');
         })
         .error(function () {
-            toastr.error($rootScope.lbl.failedAddingNewRole);
+            toastr.error("Failed Adding Schedule.");
             spinOff();
             $("#modal-edit").modal('hide');
         });
@@ -102,7 +119,7 @@
 
     $scope.processChecked = function (action) {
         spinOn();
-        dataService.processChecked("/api/roles/processchecked/" + action, $scope.items)
+        dataService.processChecked("/api/schedule/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
@@ -115,18 +132,6 @@
         });
     }
 
-    $scope.delete = function (id) {
-        spinOn();
-        dataService.deleteById("/api/roles", id)
-        .success(function (data) {
-            toastr.success($rootScope.lbl.rolesItem + id + $rootScope.lbl.rolesItemDeleted);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.couldNotDeleteItem + id);
-            spinOff();
-        });
-    }
 
     $scope.load();
 
@@ -138,3 +143,8 @@
         });
     });
 }]);
+
+var UserTask = {
+    "UserName": "Admin",
+    "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
+}

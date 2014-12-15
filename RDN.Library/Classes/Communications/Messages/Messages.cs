@@ -510,6 +510,7 @@ namespace RDN.Library.Classes.Messages
 
                         if (con.SendEmailForMessage && inbox.ToUser.AspNetUserId != new Guid())
                         {
+
                             var emailData = new Dictionary<string, string>
                                         {
                                             { "derbyname", inbox.ToUser.DerbyName }, 
