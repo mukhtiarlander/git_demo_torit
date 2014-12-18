@@ -8,7 +8,7 @@ namespace RDN.Utilities.Strings
 {
     public static class StringExt
     {
-      public  static  Regex NumberRegex= new Regex(@"\d+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static Regex NumberRegex = new Regex(@"\d+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         public static bool IsNumber(string numberString)
         {
             return NumberRegex.IsMatch(numberString);
@@ -56,7 +56,7 @@ namespace RDN.Utilities.Strings
                 return text.Replace(System.Environment.NewLine, "<br/>");
             return text;
         }
-      
+
         /// <summary>
         /// gets the inititals of a name.
         /// </summary>
@@ -75,10 +75,17 @@ namespace RDN.Utilities.Strings
         {
             if (!String.IsNullOrEmpty(text))
             {
-                text = text.Replace("%", "").Replace(">", "").Replace("<", "").Replace("\"", "").Replace("$", "").Replace(")", "").Replace("(", "").Replace("=", "").Replace("&", "").Replace("*", "").Replace("`", "").Replace("!", "").Replace(".", " ").Replace(":", " ").Replace("?", "").Replace("'", "").Replace("/", " ").Replace(@"\", " ").Replace(",", " ").Replace("+"," ").Trim().Replace("#", "").Replace(" ", "-").Replace("´", "").Replace("--", "-");
+                text = ToUrlFriendly(text);
                 if (text.Length > 100)
                     text = text.Remove(100);
                 return text;
+            } return string.Empty;
+        }
+        public static string ToUrlFriendly(this string text)
+        {
+            if (!String.IsNullOrEmpty(text))
+            {
+                return text.Replace("%", "").Replace(">", "").Replace("<", "").Replace("\"", "").Replace("$", "").Replace(")", "").Replace("(", "").Replace("=", "").Replace("&", "").Replace("*", "").Replace("`", "").Replace("!", "").Replace(".", " ").Replace(":", " ").Replace("?", "").Replace("'", "").Replace("/", " ").Replace(@"\", " ").Replace(",", " ").Replace("+", " ").Trim().Replace("#", "").Replace("´", "").Replace(" ", "-").Replace("--", "-");
             } return string.Empty;
         }
         public static string ToAXDFriendly(this string text)

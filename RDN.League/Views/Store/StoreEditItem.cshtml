@@ -156,10 +156,12 @@
                 </div>
     <div class="form-group alert alert-info">
 
-        @Html.CheckBoxFor(x => x.IsPublished, new { @placeholder = "" }) <label for="IsPublished" class="control-label">Publish Item</label> <small>
-            This will <span class="b">PUBLISH</span>
-            the item for the public store.
-        </small>
+        @Html.CheckBoxFor(x => x.IsPublished, new { @placeholder = "" }) <label for="IsPublished" class="control-label">
+    Publish Item - <small>
+        This will <span class="b">PUBLISH</span>
+        the item for the public store.
+    </small>
+</label>
     </div>
                 <a class="btn btn-default" href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Cancel Item</a>
                 <input type="submit" class="btn btn-success" value="Update Item" />

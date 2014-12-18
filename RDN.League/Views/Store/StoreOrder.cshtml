@@ -6,42 +6,53 @@
     ViewBag.Title = "Your Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            <a href="@Url.Content("~/store/home/" + Model.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">Store</a> > <a href="@Url.Content("~/store/orders/" + Model.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">Orders</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            View Store Order
-        </div>
 
-        <div class="titleDescription">
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="@Url.Content("~/store/home/" + Model.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">Shop</a></li>
+    <li><a href="@Url.Content("~/store/orders/" + Model.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">Orders</a></li>
+    <li class="active">Order</li>
+</ol>
+<div class="col-md-10  col-xs-12">
+    <h2>
+        View Order <small>
             Here you can view and modify the order for the store.
-      
-        </div>
-        <div class="divider"></div>
-        <div>
+
+        </small>
+    </h2>
+</div>
+
+
+<div class="col-md-8 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
             @using (Html.BeginForm("StoreOrder", "Store", FormMethod.Post, new { @id = "storeOrder" }))
-            { 
-                <table class="addForumPostTbl">
+            {
+                
+                <table class="table">
                     <tr>
-                        <td class="b vLT2D">Created:
+
+                        <td class="b text-right">
+                        
+                            
+                                Created:
                         </td>
                         <td class="largeInput">
                             @Model.Created.ToString("yyyy/M/d")
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Invoice Id:
+                        <td class="b  text-right">
+                            Invoice Id:
                         </td>
                         <td class="largeInput">
                             @Model.InvoiceId.ToString().Replace("-", "")
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Invoice Status:
+                        <td class="b  text-right">
+                            Invoice Status:
                         </td>
                         <td id="invoiceStatus">
                             @EnumExt.ToFreindlyName(Model.InvoiceStatus)
@@ -49,11 +60,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Change Status:
+                        <td class="b  text-right">
+                            Change Status:
                         </td>
                         <td>
                             @if (Model.InvoiceStatus != RDN.Portable.Classes.Payment.Enums.InvoiceStatus.Archived_Item_Completed)
-                            { 
+                            {
                                 <div>
                                     <span class="primaryLink" onclick="moveInvoiceToNextStatus(this,'@Model.InvoiceId', '@ViewData["invoiceStatus"]')">@ViewData["invoiceStatus"]</span> - <span class="i">Changing the status notifies the buyer about their purchase</span><br />
                                     <br />
@@ -63,11 +75,12 @@
                     </tr>
 
                     <tr>
-                        <td class="b vLT2D">Payment Through:
+                        <td class="b  text-right">
+                            Payment Through:
                         </td>
                         <td class="largeInput">
                             @if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Paypal)
-                            { 
+                            {
                                 <span><a href="http://paypal.com/" target="_blank">Paypal</a></span>
                             }
                             else if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Stripe)
@@ -77,7 +90,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Total Payment:
+                        <td class="b  text-right">
+                            Total Payment:
                         </td>
                         <td class="smallInput">
                             @Model.TotalIncludingTax @Model.Currency
@@ -85,44 +99,47 @@
                     </tr>
 
                     <tr>
-                        <td class="b vLT2D">Shipping Costs:
+                        <td class="b  text-right">
+                            Shipping Costs:
                         </td>
                         <td>
                             @Model.ShippingCost @Model.Currency
                         </td>
                     </tr>
                     @*       <tr>
-                        <td class="b vLT2D">RDN Fee:
-                        </td>
-                        <td>
-                            @Model.RDNDeductedFee @Model.Currency
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Total Paid to Seller:
-                        </td>
-                        <td>
-                            @((Model.TotalIncludingTax + Model.ShippingCost - Model.RDNDeductedFee).ToString("N2")) @Model.Currency
-                        </td>
-                    </tr>*@
+                            <td class="b  text-right">RDN Fee:
+                            </td>
+                            <td>
+                                @Model.RDNDeductedFee @Model.Currency
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">Total Paid to Seller:
+                            </td>
+                            <td>
+                                @((Model.TotalIncludingTax + Model.ShippingCost - Model.RDNDeductedFee).ToString("N2")) @Model.Currency
+                            </td>
+                        </tr>*@
 
 
 
                     <tr>
-                        <td class="b vLT2D">Buyers Email:
+                        <td class="b  text-right">
+                            Buyers Email:
                         </td>
                         <td>
                             @Model.InvoiceShipping.Email
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Shipping Address:
+                        <td class="b  text-right">
+                            Shipping Address:
                         </td>
                         <td>
                             @Model.InvoiceShipping.FirstName @Model.InvoiceShipping.LastName<br />
                             @Model.InvoiceShipping.Street<br />
                             @if (!String.IsNullOrEmpty(Model.InvoiceShipping.Street2))
-                            { 
+                            {
                                 <span>@Model.InvoiceShipping.Street2</span><br />
                             }
                             @Model.InvoiceShipping.State @Model.InvoiceShipping.Zip<br />
@@ -130,14 +147,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Buyer Notes:
+                        <td class="b  text-right">
+                            Buyer Notes:
                         </td>
                         <td>
                             @Model.Note
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLT2D">Items Bought:
+                        <td class="b  text-right">
+                            Items Bought:
                         </td>
                         <td>
                             <table id="orders" class="listTable">
@@ -156,7 +175,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.InvoiceItems)
-                                    { 
+                                    {
                                         <tr>
                                             <td><a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
                                             <td>@item.Quantity</td>
@@ -165,7 +184,7 @@
                                             <td>@item.SizeOfItemName</td>
                                             <td>
                                                 @if (item.ColorHex != null && item.ColorHex.Length > 0)
-                                                { 
+                                                {
                                                     <div class='selectedColorCon center'>
                                                         <div class='selectedColor' style='background-color:@item.ColorHex;'>@item.ColorName</div>
                                                     </div>
@@ -183,17 +202,18 @@
                     </tr>
 
                     <tr>
-                        <td class="b vLTD">Your Notes:
+                        <td class="b  text-right">
+                            Your Notes:
                         </td>
                         <td>
-                            @Html.TextAreaFor(x => x.AdminNote)
+                            @Html.TextAreaFor(x => x.AdminNote, new {  @class="form-control"})
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
 
-                            <input type="submit" class="primary" value="Update Order" />
+                            <input type="submit" class="btn btn-primary" value="Update Order" />
                         </td>
                     </tr>
                 </table>
@@ -202,8 +222,6 @@
                 @Html.HiddenFor(x => x.InvoiceId)
             }
         </div>
-        <br />
-        <br />
         <ul>
             <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order, order is sitting in users Cart.</li>
             <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Payment)</b> - order was sent to paypal or stripe, awaiting purchase.</li>

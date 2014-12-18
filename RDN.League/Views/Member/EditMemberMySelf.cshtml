@@ -9,237 +9,285 @@
     var OwnerTypes = from RDN.Library.Classes.Federation.Enums.FederationOwnerEnum d in Enum.GetValues(typeof(RDN.Library.Classes.Federation.Enums.FederationOwnerEnum))
                      select new { ID = (int)d, Name = d.ToString() };
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter2  ">
-        <div class="vmChanges">
-            <a target="_blank" href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + Model.DerbyName)">View Changes</a>
-        </div>
-        @using (Html.BeginForm("EditMemberMySelf", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        { 
-            <div class="vmPicture">
-                @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
-                { 
-                    <img alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
-                }
-                else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-                { 
-                    <img src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-                }
-                else
-                {
-                    <img src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
-                }
-                <input type="file" name="file" id="file" class="fileUpload" accept="image/*" />
-            </div>
-            <div class="vmMemberDescription">
-                <div class="vmContactLine">
-                    <div class="usual">
-                        <ul class="idTabs">
-                            <li><a href="#Personal">Personal
-                            </a></li>
-                            <li><a href="#Skating">Skating
-                            </a></li>
-                            <li><a href="#League">League
-                            </a></li>
-                            <li><a href="#Federation">Federation</a></li>
-                            <li><a href="#Public">Public</a></li>
-                            <li><a href="#Address">Address</a></li>
-                        </ul>
-                        <div id="Personal" class="usualInner">
-                            <table class="editMemberTable">
-                                <tr>
-                                    <td class="b alRight">Derby Name:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.DerbyName)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Derby Number:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.PlayerNumber)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">First Name:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.Firstname)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Last Name:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.LastName)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Gender:
-                                    </td>
-                                    <td>
-                                        @Html.DropDownListFor(x => x.Gender, (SelectList)ViewData["genderSelectList"])
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Height:
-                                    </td>
-                                    <td>
-                                        <div class="oneLine">
-                                            @Html.TextBoxFor(x => x.HeightFeet, new { @class = "small" })' @Html.TextBoxFor(x => x.HeightInches, new { @class = "small" })
-                                            inches
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Weight (Lbs):
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.WeightLbs, new { @class = "small" }) lbs.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Date Of Birth:
-                                    </td>
-                                    <td>
-                                        @Html.TextBox("DOB", Model.DOB != new DateTime() ? Model.DOB.ToString("MM/dd/yyyy") : "", new { @class = "jquery_datepicker" }) <span class="i"><a href="@Url.Content("~/member/settings#Privacy")">Privacy Settings</a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Phone Number:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.PhoneNumber) <span class="i">Configure <a href="@Url.Content("~/member/settings#Mobile")">SMS Mobile Alerts</a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Email Address:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.Email)
-                                                                                <span class="i">updates contact email only, not the email you sign in with.</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Day Job:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.DayJob) <span class="i">For use by the league in case they need your expertise.</span>
-                                    </td>
-                                </tr>
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + Model.DerbyNameLink)">@Model.DerbyName</a></li>
+    <li class="active">Edit</li>
+    </ol>
 
-                            </table>
-                        </div>
-                        <div id="Skating" class="usualInner">
-                            <table class="editSkatingTable">
-                                <tr>
-                                    <tr>
-                                        <td class="b alRight">Date Started Skating:
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="b alRight">Date Stopped Skating:
-                                        </td>
-                                        <td>
-                                            @if (Model.StoppedSkating.HasValue)
-                                            { 
-                                                @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker", @Value = Model.StoppedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker" })
-                                            }
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <td class="b alRight">Insurance Number WFTDA/Expires:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.InsuranceNumWftda)
-                                    </td>
-                                    <td>
-                                        @if (Model.InsuranceNumWftdaExpires.HasValue)
-                                        { 
-                                            @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                        }
-                                        else
-                                        { 
-                                            @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker" })
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Insurance Number USARS/Expires:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.InsuranceNumUsars)
-                                    </td>
-                                    <td>@if (Model.InsuranceNumUsarsExpires.HasValue)
-                                        { 
-                                        @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                        }
-                                        else
-                                        { 
-                                        @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker" })
-                                        } </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Insurance Number CRDI/Expires:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.InsuranceNumCRDI)
-                                    </td>
-                                    <td>@if (Model.InsuranceNumCRDIExpires.HasValue)
-                                        { 
-                                        @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                        }
-                                        else
-                                        { 
-                                        @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker" })
-                                        } </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Insurance Number Other/Expires:
-                                    </td>
-                                    <td>@Html.TextBoxFor(x => x.InsuranceNumOther)
-                                    </td>
-                                    <td>@if (Model.InsuranceNumOtherExpires.HasValue)
-                                        { 
-                                        @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker", @Value = Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                        }
-                                        else
-                                        { 
-                                        @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker" })
-                                        } </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="League" class="usualInner">
-                            @foreach (var league in Model.Leagues)
-                            { 
-                                <div class="vmContactLine">
-                                    <span class="vmTeamName">
-                                        <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", ""))">
-                                            @league.Name
-                                        </a></span>
-                                </div>
-                                <table>
+@using (Html.BeginForm("EditMemberMySelf", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="text-center center">
+        @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
+        {
+            <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
+        }
+        else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+        {
+            <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+        }
+        else
+        {
+            <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+        }
+        <br />
+        <input type="file" name="file" id="file" class="fileUpload center" accept="image/*" />
+        <br />
+    </div>
+    <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <ul class="nav nav-tabs" role="tablist" id="myTabs">
+            @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
+            <li role="presentation" class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+            @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+            {
+                <li role="presentation"><a href="#Skating" role="tab" data-toggle="tab">Skating</a></li>
+            }
+            <li role="presentation"><a href="#League" role="tab" data-toggle="tab">League</a></li>
+            <li role="presentation"><a href="#Federation" role="tab" data-toggle="tab">Federation</a></li>
+            <li role="presentation"><a href="#Public" role="tab" data-toggle="tab">Public</a></li>
+            <li role="presentation"><a href="#Address" role="tab" data-toggle="tab">Address</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active well" id="profile">
+                <table class="table">
+                    <tr>
+                        <td class="b text-right">
+                            Derby Name:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.DerbyName, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right text-nowrap">
+                            Derby Number:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.PlayerNumber, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            First Name:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Firstname, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Last Name:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Gender:
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(x => x.Gender, (SelectList)ViewData["genderSelectList"], new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Height:
+                        </td>
+                        <td class="form-inline">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.HeightFeet, new { @class = "small form-control" })
+                                <div class="input-group-addon">'</div>
+                                @Html.TextBoxFor(x => x.HeightInches, new { @class = "small form-control" })
+                                <div class="input-group-addon">inches</div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Weight (Lbs):
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.WeightLbs, new { @class = "small form-control" })
+                                <div class="input-group-addon">lbs.</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Date Of Birth:
+                        </td>
+                        <td>
+                            @Html.TextBox("DOB", Model.DOB != new DateTime() ? Model.DOB.ToString("MM/dd/yyyy") : "", new { @class = "jquery_datepicker form-control" }) <small class="i"><a href="@Url.Content("~/member/settings#Privacy")">Privacy Settings</a></small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Phone Number:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" }) <small class="i">Configure <a href="@Url.Content("~/member/settings#Mobile")">SMS Mobile Alerts</a></small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Email:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                            <small class="i">updates contact email only, not the email you sign in with.</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Day Job:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.DayJob, new { @class = "form-control" }) <small class="i">For use by the league in case they need your expertise.</small>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane well" id="Skating">
+                <table class="table">
+                    <tr>
+                    <tr>
+                        <td class="b text-right">
+                            Date Started Skating:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Date Stopped Skating:
+                        </td>
+                        <td>
+                            @if (Model.StoppedSkating.HasValue)
+                            {
+                                @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StoppedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker form-control" })
+                            }
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Insurance Number WFTDA/Expires:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.InsuranceNumWftda, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumWftdaExpires.HasValue)
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker form-control" })
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Insurance Number USARS/Expires:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.InsuranceNumUsars, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumUsarsExpires.HasValue)
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker form-control" })
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Insurance Number CRDI/Expires:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.InsuranceNumCRDI, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumCRDIExpires.HasValue)
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker form-control" })
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Insurance Number Other/Expires:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.InsuranceNumOther, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @if (Model.InsuranceNumOtherExpires.HasValue)
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker form-control" })
+                            }
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane well" id="League">
+                @foreach (var league in Model.Leagues)
+                {
+                    <div class="col-lg-6 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h4 class="text-center">
+                                    <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                        @league.Name
+                                    </a>
+                                </h4>
+                                <table class="table">
                                     @if (league.HasLeftLeague)
-                                    { 
+                                    {
                                         <tr>
-                                            <td class="b">Set Departure Date:</td>
+                                            <td class="b text-right">Set Departure Date:</td>
                                             <td>
                                                 @if (league.DepartureDate.HasValue)
-                                                { 
-                                                    @Html.TextBox(league.LeagueId + "-LEAGUEDepartureDate", league.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = league.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker" })
+                                                {
+                                                    @Html.TextBox(league.LeagueId + "-LEAGUEDepartureDate", league.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = league.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
                                                 }
                                                 else
-                                                { 
-                                                    @Html.TextBox(league.LeagueId + "-LEAGUEDepartureDate", "", new { @id = league.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker" })
+                                                {
+                                                    @Html.TextBox(league.LeagueId + "-LEAGUEDepartureDate", "", new { @id = league.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
                                                 }
                                             </td>
                                         </tr>
                                     }
                                     else
-                                    { 
+                                    {
                                         <tr>
-                                            <td class="b">Leave The League:</td>
-                                            <td>
-                                                <span class="spanLink" onclick="Member.RemoveSelfFromLeague(this, '@Model.MemberId','@league.LeagueId')">Leave The League</span>
+                                            <td colspan="2" class="text-center">
+                                                <span class="btn btn-danger" onclick="Member.RemoveSelfFromLeague(this, '@Model.MemberId','@league.LeagueId')">Leave The League</span>
                                             </td>
                                         </tr>
                                     }
@@ -250,123 +298,145 @@
                                     });
 
                                 </script>
-                                <div class="divider"></div>
-                            }
-                        </div>
-                        <div id="Federation" class="usualInner">
-                            <ul>
-                                @foreach (var fed in Model.FederationsApartOf)
-                                { 
-                                    <li class="vmTeamName">
-                                        @fed.FederationName - Class: @fed.MADEClassRank
-                                        @*- Ownership: @Html.DropDownList("FEDOwner[" + fed.FederationId + "]", new SelectList(OwnerTypes, "ID", "Name", OwnerTypes.Where(x => x.Name == fed.OwnerType).FirstOrDefault().ID))*@
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                        <div id="Public" class="usualInner">
-                            <table class="editPublicTable">
-                                <tr>
-                                    <td class="b">Hide Public Profile:
-                                    </td>
-                                    <td class="alignLeft">@Html.CheckBoxFor(x => x.IsProfileRemovedFromPublicView) <span class="i">Removes profile from the public.</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alignTop">Public Bio:
-                                    </td>
-                                    <td>
-
-                                        @Html.TextAreaFor(x => x.Bio, new { id = "wmd-input" })
-
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="Address" class="usualInner">
-                            <table class="editMemberTable">
-                                <tr>
-                                    <td class="b alRight">Address:
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(x => x.Address)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Address2:
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(x => x.Address2)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">City:
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(x => x.City)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">State:
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(x => x.State)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Zip Code:
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(x => x.ZipCode)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="b alRight">Country:
-                                    </td>
-                                    <td>
-
-                                        @Html.DropDownListFor(x => x.Country, @Model.Countries, "Select Country...")
-                                        <span style="color: red;">@Html.ValidationMessageFor(m => m.Country)</span>
-                                    </td>
-                                </tr>
-                            </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                <div class="clearfix"></div>
             </div>
-            <div class="clear">
+            <div role="tabpanel" class="tab-pane well" id="Federation">
+                @foreach (var fed in Model.FederationsApartOf)
+                {
+                    <div class="col-lg-6 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h4>@fed.FederationName</h4>
+                                <div>
+                                    Class: @fed.MADEClassRank
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="clearfix"></div>
             </div>
-            @Html.HiddenFor(x => x.MemberId)
-            <div class="updateMemberButton">
-                <input type="submit" class="primary" value="Update Member" />
+            <div role="tabpanel" class="tab-pane well" id="Public">
+                <table class="table">
+                    <tr>
+                        <td class="b text-right">
+                            Hide Public Profile:
+                        </td>
+                        <td class="alignLeft">
+                            <label>  @Html.CheckBoxFor(x => x.IsProfileRemovedFromPublicView) <small class="i">Removes profile from the public.</small></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Public Bio:
+                        </td>
+                        <td>
+
+                            @Html.TextAreaFor(x => x.Bio, new { id = "wmd-input" })
+
+                        </td>
+                    </tr>
+                </table>
             </div>
-            
-        }
-        @if (!Model.IsRetired)
-        {
-            using (Html.BeginForm("RetireSelf", "Member", FormMethod.Post))
-            { 
-            
-            <div class="removeMemberButton">
-                <input type="submit" class="remove" onclick="return confirm('Really Retire Profile?');"
-                    value="Retire Your Profile" />
+            <div role="tabpanel" class="tab-pane well" id="Address">
+                <table class="table">
+                    <tr>
+                        <td class="b text-right">
+                            Address:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Address2:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Address2, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            City:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            State:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Zip Code:
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.ZipCode, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Country:
+                        </td>
+                        <td>
+
+                            @Html.DropDownListFor(x => x.Country, @Model.Countries, "Select Country...", new { @class = "form-control" })
+                            <span style="color: red;">@Html.ValidationMessageFor(m => m.Country)</span>
+                        </td>
+                    </tr>
+                </table>
+
             </div>
-            @Html.HiddenFor(x => x.MemberId)
-            
-            }
-        }
-        else
-        {
-            using (Html.BeginForm("UnRetireSelf", "Member", FormMethod.Post))
-            { 
-            <div class="removeMemberButton">
-                <input type="submit" class="remove" value="UnRetire Your Profile" />
-            </div>
-            @Html.HiddenFor(x => x.MemberId)            
-            }
-        }
+        </div>
+
     </div>
+    @Html.HiddenFor(x => x.MemberId)
+    <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="text-center">
+            <input type="submit" class="btn btn-success" value="Save Information" />
+        </div>
+    </div>
+}
+
+<div class="col-sm-10 col-sm-offset-1 col-xs-12">
+    @if (!Model.IsRetired)
+    {
+        using (Html.BeginForm("RetireSelf", "Member", FormMethod.Post))
+        {
+
+            <div class="pull-right">
+                <input type="submit" class="btn btn-danger" onclick="return confirm('Really Retire Profile?');"
+                       value="Retire Your Profile" />
+            </div>
+            @Html.HiddenFor(x => x.MemberId)
+
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("UnRetireSelf", "Member", FormMethod.Post))
+        {
+            <div class="pull-right">
+                <input type="submit" class="btn btn-warning" value="UnRetire Your Profile" />
+            </div>
+            @Html.HiddenFor(x => x.MemberId)
+        }
+    }
 </div>
+<div class="clearfix"></div>
+<br />
+<br /><br />
 <script type="text/javascript">
     $('#DOB').datepicker({ required: false });
     $('#StartedSkating').datepicker({

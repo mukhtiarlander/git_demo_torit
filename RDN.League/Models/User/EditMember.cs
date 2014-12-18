@@ -30,6 +30,14 @@ namespace RDN.League.Models.User
         public Guid MemberId { get; set; }
         public Guid UserId { get; set; }
         public string DerbyName { get; set; }
+        public string DerbyNameLink
+        {
+            get
+            {
+                return RDN.Utilities.Strings.StringExt.ToUrlFriendly(DerbyName);
+
+            }
+        }
         public string PlayerNumber { get; set; }
         public string Firstname { get; set; }
         public string LastName { get; set; }

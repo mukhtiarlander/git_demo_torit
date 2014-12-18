@@ -3,44 +3,46 @@
     ViewBag.Title = "Store Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Store</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Modify Store Settings
-        </div>
-      
-         <div class="titleDescription">
-     Here you can modify the store settings.
-       
-            </div>
-            <div class="divider"></div>
-        <div>
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Shop</a></li>
+    <li class="active">Settings</li>
+</ol>
+<div class="col-md-10  col-xs-12">
+    <h2>
+        Modify Settings<small>
+            Here you can modify the store settings.
+        </small>
+    </h2>
+</div>
+
+<div class="col-md-8 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
             @using (Html.BeginForm("StoreSettings", "Store", FormMethod.Post, new { @id = "storeSettings" }))
-            { 
-                <table class="addForumPostTbl">
+            {
+                <table class="table">
                     <tr>
-                        <td class="b vLTD">Name Of Store:
+                        <td class="b  text-right">
+                            Name Of Store:
                         </td>
                         <td class="largeInput">
-                            @Html.TextBoxFor(x => x.ShopName)
+                            @Html.TextBoxFor(x => x.ShopName, new {@class="form-control" })
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLTD">Description of Shop:
+                        <td class="b  text-right">
+                            Description:
                         </td>
                         <td class="extraLargeInput">
-                            @Html.TextBoxFor(x => x.Description) <span class="i">Few words to describe the store. ex: Handmade Derby Gear, Zipping Roller Derby Leagues Store </span>
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control" }) <small>Few words to describe the store. ex: Handmade Derby Gear, Zipping Roller Derby Leagues Store </small>
                         </td>
                     </tr>
                     @if (Model.Location == null)
-                    { 
+                    {
                         <tr>
-                            <td class="b vLTD">Location of Shop:
+                            <td class="b  text-right">
+                                Location:
                             </td>
                             <td class="vRTD">
                                 <a href="@Url.Content("~/location/new/shop/shop/" + Model.PrivateManagerId.ToString().Replace("-", ""))">Add Location</a>
@@ -48,9 +50,10 @@
                         </tr>
                     }
                     else
-                    { 
+                    {
                         <tr>
-                            <td class="b vLTD">Location of Shop:
+                            <td class="b  text-right">
+                                Location of Shop:
                             </td>
                             <td class="vRTD">
                                 @Model.Location.LocationName
@@ -58,26 +61,26 @@
                                 {
                                     <br />
                                     if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
-                                    { 
-                                    @Model.Location.Contact.Addresses.FirstOrDefault().Address1<br />
+                                    {
+                                        @Model.Location.Contact.Addresses.FirstOrDefault().Address1<br />
                                         if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Address2))
-                                        { 
-                                    @Model.Location.Contact.Addresses.FirstOrDefault().Address2<br />
+                                        {
+                                            @Model.Location.Contact.Addresses.FirstOrDefault().Address2<br />
                                         }
                                         if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
-                                        { 
-                                    @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>}
+                                        {
+                                            @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>}
                                         if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
-                                        { 
-                                    @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw 
+                                        {
+                                            @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw
                                         }
                                         if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Zip))
-                                        { 
-                                    @Model.Location.Contact.Addresses.FirstOrDefault().Zip
+                                        {
+                                            @Model.Location.Contact.Addresses.FirstOrDefault().Zip
                                         }
                                         if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Country))
-                                        { 
-                                    <br />@Model.Location.Contact.Addresses.FirstOrDefault().Country
+                                        {
+                                            <br />@Model.Location.Contact.Addresses.FirstOrDefault().Country
                                         }
                                     }
                                 }
@@ -85,88 +88,103 @@
                         </tr>
                     }
                     <tr>
-                        <td class="b vLTD">Notifications Email:
+                        <td class="b  text-right">
+                            Notifications Email:
                         </td>
                         <td class="largeInput">
-                            @Html.TextBoxFor(x => x.OrderPayedNotificationEmail) <span class="i">Used for any store notifications.</span>
+                            @Html.TextBoxFor(x => x.OrderPayedNotificationEmail, new { @class = "form-control" }) <small >Used for any store notifications.</small>
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLTD">Currency for Shop:
+                        <td class="b  text-right">
+                            Currency:
                         </td>
                         <td class="smallInput">
-                            @Html.DropDownListFor(x => x.Currency, Model.CurrencyList) 
+                            @Html.DropDownListFor(x => x.Currency, Model.CurrencyList, new { @class = "form-control" })
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLTD">Tax Rate Added to Item:
+                        <td class="b  text-right">
+                            Tax Rate Added to Item:
                         </td>
                         <td class="smallInput">
-                            @Html.TextBoxFor(x => x.TaxRate) <span class="i">Taxes in percentage required for order.
-                                exp .06</span>
+                            @Html.TextBoxFor(x => x.TaxRate, new { @class = "form-control" }) <small>
+    Taxes in percentage required for order.
+    exp .06
+</small>
                         </td>
                     </tr>
                     @if (!Model.AcceptPaymentsViaStripe)
-                    { 
+                    {
                         <tr>
-                            <td class="b vLTD">Accept Credit Card Payments:
+                            <td class="b  text-right">
+                                Accept Credit Card Payments:
                             </td>
                             <td>
                                 <a href="@ViewBag.StripeUrl">
-                                    <img width="150px" src="@Url.Content("~/Content/images/stripe.png")" /></a>
-                                <span class="i">Our Payment Processor, They will collect the money as well as pay you.</span>
+                                    <img width="150px" src="@Url.Content("~/Content/images/stripe.png")" />
+                                </a>
+                                <small>Our Payment Processor, They will collect the money as well as pay you.</small>
                             </td>
                         </tr>
                     }
                     else
-                    { 
+                    {
                         <tr>
-                            <td class="b vLTD"><a href="https://stripe.com/" target="_blank">Stripe</a> Connected:
+                            <td class="b  text-right">
+                                <a href="https://stripe.com/" target="_blank">Stripe</a> Connected:
                             </td>
                             <td>
                                 <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                                <span class="i">Your <a href="https://stripe.com/" target="_blank">Stripe</a> Account is Connected.</span>
+                                <small>Your <a href="https://stripe.com/" target="_blank">Stripe</a> Account is Connected.</small>
                             </td>
                         </tr>
                     }
                     <tr>
-                        <td class="b vLTD">Accept <span class="paypalText">Paypal</span> Payments:
+                        <td class="b  text-right">
+                            Accept <span class="paypalText">Paypal</span> Payments:
                         </td>
                         <td>
                             @Html.CheckBoxFor(x => x.AcceptPaymentsViaPaypal)
-                            <span class="i">Collect Payments Via Paypal</span>
+                            <small>Collect Payments Via Paypal</small>
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLTD">Your <span class="paypalText">Paypal</span> Email Address:
+                        <td class="b  text-right">
+                            Your <span class="paypalText">Paypal</span> Email Address:
                         </td>
                         <td class="largeInput">
-                            @Html.TextBoxFor(x => x.PayPalEmailAddressForPayments)
-                            <span class="i">Email Address To Send Payments To</span>
+                            @Html.TextBoxFor(x => x.PayPalEmailAddressForPayments, new { @class = "form-control" })
+                            <small>Email Address To Send Payments To</small>
                         </td>
                     </tr>
 
                     <tr>
-                        <td class="b vLTD">Publish Store?:
+                        <td class="b  text-right">
+                            Publish Store?:
                         </td>
-                        <td>
+                        <td class="form-group alert alert-info">
                             @if (Model.AcceptPaymentsViaStripe || (Model.AcceptPaymentsViaPaypal && !String.IsNullOrEmpty(Model.PayPalEmailAddressForPayments)))
-                            { 
-                                @Html.CheckBoxFor(x => x.IsPublished) <span>- <span class="b">PUBLISH</span> the store online at the RDNation.com
-                            store.</span>
+                            {
+                                <label>
+                                    @Html.CheckBoxFor(x => x.IsPublished) 
+                                    - <span class="b">PUBLISH</span> the store online.
+                                    store.
+                            </label>
                             }
                             else
-                            { 
+                            {
                                 <span class="b">Store cannot be published until <span class="paypalText">Paypal</span> Or Stripe Have been Setup.</span>
                             }
                         </td>
                     </tr>
                     <tr>
-                        <td class="b vLTD">Shop Message:
+                        <td class="b  text-right">
+                            Message:
                         </td>
                         <td>
-                            @Html.TextAreaFor(x => x.WelcomeMessage, new { @class = "textAreaSmall" })<br />
-                            <span class="i">Shown to users who visit your shop</span>
+                            @Html.TextAreaFor(x => x.WelcomeMessage, new { @class = "form-control", @rows="5" })<br />
+                            <small>Shown to users who visit your shop</small>
                         </td>
                     </tr>
 
@@ -174,10 +192,10 @@
                         <td></td>
                         <td>
                             @if (ViewBag.IsSuccessful)
-                            { 
+                            {
                                 <span class="addedSuccessfully">Updated Successfully!</span>
                             }
-                            <input type="submit" class="primary" value="Update Settings" />
+                            <input type="submit" class="btn btn-primary" value="Update Settings" />
                         </td>
                     </tr>
                 </table>
