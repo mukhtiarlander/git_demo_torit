@@ -23,19 +23,18 @@
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active well" id="Calendar">
-            <div class="fixTitle">
+            <h3 >
                 Calendar Settings
-            </div>
-            <div class="divider"></div>
+            </h3>
+            
 
-
-            <table class="medQuestions">
+            <table class="table">
 
                 <tr>
-                    <td class="b alRight">Default Calendar View:</td>
+                    <td class="b text-right">Default Calendar View:</td>
                     <td>
-                        @Html.DropDownListFor(x => x.CalendarViewDefault, (SelectList)ViewBag.CalendarView, new { @class = "form-control" }) <span class="displayNone b" id="CalendarViewDefaultSuccess">Success</span>
-                        <span class="i">This is the default view you receive when viewing the calendar</span>
+                        @Html.DropDownListFor(x => x.CalendarViewDefault, (SelectList)ViewBag.CalendarView, new { @class = "form-control" }) 
+                        <small class="i">This is the default view you receive when viewing the calendar</small>
                     </td>
                 </tr>
 

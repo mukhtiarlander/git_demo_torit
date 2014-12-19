@@ -407,15 +407,17 @@ function ColorSelectorChanged() {
 
 function changeMemberSettingCalView(changeTo) {
     $.getJSON("/member/ChangeMemberSettingCalView", { newId: changeTo }, function (result) {
-        if (result.isSuccess === true) {
-            $("#CalendarViewDefaultSuccess").toggleClass("displayNone", false);
-        } else {
-            $("#CalendarViewDefaultSuccess").toggleClass("displayNone", true);
+        if (result.isSuccess) {
+            $('.bottom-right').notify({
+                message: { text: 'Saved! ' },
+                fadeOut: { enabled: true, delay: 3000 }
+            }).show();
+
         }
     }).error(function () {
-        $("#CalendarViewDefaultSuccess").toggleClass("displayNone", true);
+        
     });
-    $("#CalendarViewDefaultSuccess").toggleClass("displayNone", false);
+    
 }
 
 function deleteChatMessage(element, group, mem) {
