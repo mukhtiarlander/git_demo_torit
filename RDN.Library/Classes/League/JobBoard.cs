@@ -129,6 +129,26 @@ namespace RDN.Library.Classes.League
             }
             return jobList;
         }
+        public static List<JobBoard> GetJobListOld(Guid leagueId)
+        {
+            List<JobBoard> jobList = new List<JobBoard>();
+            try
+            {
+                var dc = new ManagementContext();
+                var JobList = dc.JobBoards.Where(x => x.League.LeagueId == leagueId && x.IsDeleted == false && x.JobEnds <= DateTime.UtcNow).ToList();
+
+                foreach (var b in JobList)
+                {
+                    jobList.Add(DisplayJobList(b));
+                }
+                return jobList;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return jobList;
+        }
         private static JobBoard DisplayJobList(DataModels.League.JobBoard jobLists)
         {
             JobBoard bl = new JobBoard();
