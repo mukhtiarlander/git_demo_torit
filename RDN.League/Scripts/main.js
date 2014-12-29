@@ -166,6 +166,7 @@ function VerifySMSCarrier(button) {
         if (result.isSuccess === true) {
             $("#verifyButton").toggleClass("displayNone", true);
             $("#codeHtml").toggleClass("displayNone", false);
+
         } else {
         }
         $("#loading").toggleClass("displayNone", true);
@@ -181,7 +182,10 @@ function EnterCarrierCode(button) {
     $("#loading2").toggleClass("displayNone", false);
     $.getJSON("/member/verifysmscode", { number: num, code: code }, function (result) {
         if (result.isSuccess === true) {
-            $("#CarrierCodeSuccess").toggleClass("displayNone", false);
+            $('.bottom-right').notify({
+                message: { text: 'Verification number is saved! ' },
+                fadeOut: { enabled: true, delay: 4000 }
+            }).show();
         } else {
         }
         $("#loading2").toggleClass("displayNone", true);
@@ -200,8 +204,8 @@ function SetLeagueOwnership(button, memId, ownerType) {
 
 function joinCode() {
     /// /league/members/view/all/refresh
-     var currentUrl = $(location).attr('href');
-     var url = window.location.origin + "/league/members/view/all/refresh";
+    var currentUrl = $(location).attr('href');
+    var url = window.location.origin + "/league/members/view/all/refresh";
     // alert(url);
     //  location.replace("http://localhost:1094/league/members/view/all/refresh");
     $(location).attr('href', url);
@@ -415,9 +419,9 @@ function changeMemberSettingCalView(changeTo) {
 
         }
     }).error(function () {
-        
+
     });
-    
+
 }
 
 function deleteChatMessage(element, group, mem) {
@@ -475,8 +479,8 @@ function AddContactToMember() {
     });
     var cont = $("#Contacts");
     var currentCont = cont.html();
-    var newContact = "<div class='contactBox'>";
-    newContact += "<table>";
+    var newContact = "<div class='contactBox col-sm-6 col-md-4'><div class='well'>";
+    newContact += "<table class='table'>";
     newContact += "<tr><td class='b'>Name:</td><td>";
     newContact += firstName.val() + " " + lastName.val();
     newContact += "</td></tr><tr><td class='b'>Type:</td><td>";
@@ -494,8 +498,8 @@ function AddContactToMember() {
     newContact += $("#Country option:selected").text(); + "<br/>";
     newContact += "</td></tr>";
     newContact += "</table>";
-    newContact += "</div>";
-    cont.html(newContact + currentCont);
+    newContact += "</div></div>";
+    cont.html(currentCont + newContact);
     firstName.val("");
     lastName.val("");
     email.val("");
@@ -2795,13 +2799,11 @@ var MsgLike = function (messageId, memberId, forumId, topicId) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             //  alert(data.MessageId + ":" + data.MessageLike);
-            if (data.MessageLike2 == -1)
-            {
+            if (data.MessageLike2 == -1) {
                 alert("You already liked this.");
             }
-            else
-            {
-                $('#' + "L-" + data.MessageId).text(data.MessageLike2 +" "+ "Likes");
+            else {
+                $('#' + "L-" + data.MessageId).text(data.MessageLike2 + " " + "Likes");
             }
         }
     });
@@ -2820,13 +2822,11 @@ var MsgIAgree = function (messageId, memberId, forumId, topicId) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             //  alert(data.MessageId + ":" + data.MessageLike);
-            if (data.MessageIAgree2 == -1)
-            {
+            if (data.MessageIAgree2 == -1) {
                 alert("You already Agreed this.");
             }
-            else
-            {
-                $('#' + "A-" + data.MessageId).text(data.MessageIAgree2 +" "+ "in Agreement");
+            else {
+                $('#' + "A-" + data.MessageId).text(data.MessageIAgree2 + " " + "in Agreement");
             }
         }
     });

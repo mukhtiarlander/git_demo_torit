@@ -30,19 +30,19 @@ namespace RDN.League.Models.League
         public string Name { get; set; }
 
         [Required(ErrorMessage = "**")]
-        [Display(Name = "Email For League: ")]
+        [Display(Name = "Email: ")]
         [EmailValidation(ErrorMessage = "Not a valid Email Address")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "**")]
-        [Display(Name = "Phone Number For League: ")]
+        [Display(Name = "Phone Number: ")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "**")]
         [Display(Name = "Country: ")]
         public string Country { get; set; }
 
-        [Display(Name = "State: (Alabama or Mississippi) if applicable")]
+        [Display(Name = "State:")]
         public string State { get; set; }
 
         [Required(ErrorMessage = "**")]

@@ -4,138 +4,147 @@
     ViewBag.Title = "Setup League";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="membersPager">
-        <ul class="membersPagerUl">
-            <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/setup") ? "membersPagerSel" : "")" href="@Url.Content("~/league/setup")">Setup League</a></li>
-            <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/join") ? "membersPagerSel" : "")" href="@Url.Content("~/league/join")">Join League</a></li>
+
+@section SecondNav{
+
+    <div class="container ">
+        <ul class="nav nav-pills nav-secondary">
+            <li role="presentation" class="active"><a href="@Url.Content("~/league/setup")">Setup</a></li>
+            <li role="presentation"><a href="@Url.Content("~/league/join")">Join</a></li>
         </ul>
     </div>
-    <br /><br />
-    <div class="fixedCenterContainter">
 
-        <div class="fixTitle">
-            League Setup
+}
+
+<h3>
+    League Setup
+</h3>
+
+<div class="titleDescription">
+    Here we will set up the league you are in charge of. Once filled out, we will be
+    in contact with you to verify all the information is correct. Once verified, we
+    will give you access to start adding teams/skaters within your league. Also allowing
+    you to add past games and other statistical information.
+</div>
+<br />
+<div class="col-md-8 col-md-offset-2">
+    @if (Model.Created)
+    {
+        <div class="alert alert-info" role="alert">
+            Your League has been Created! <b>Your league will be approved shortly.</b>
         </div>
-     
-         <div class="titleDescription">
-     Here we will set up the league you are in charge of. Once filled out, we will be
-            in contact with you to verify all the information is correct. Once verified, we
-            will give you access to start adding teams/skaters within your league. Also allowing
-            you to add past games and other statistical information.
-            </div>
-            <div class="divider"></div>
-        @if (Model.Created)
+    }
+    else if (Model.Updated)
+    {
+        <div class="alert alert-info" role="alert">
+            Your League has been Updated!  You now have access to manage your league.
+        </div>
+    }
+    else if (Model == null || !Model.Created)
+    {
+        using (Html.BeginForm())
         {
-            <div class="confirmationMessages">
-                Your League has been Created! We will be in contact with you shortly by phone or email.
-            </div>
-        }
-        else if (Model.Updated)
-        {
-            <div class="confirmationMessages">
-                Your League has been Updated!  You now have access to manage your league.
-            </div>
-        }
-        else if (Model == null || !Model.Created)
-        {
-            using (Html.BeginForm())
-            {            
-            <table class="suTable">
+            <table class="table">
                 <tr>
-                    <td class="suLTD">
-                        <img class="displayNone floatLeft" id="loadingLeagueName" src="@Url.Content("~/Content/loading_lg.gif")"  />
+                    <td class="text-right">
+                        <img class="displayNone floatLeft" id="loadingLeagueName" src="@Url.Content("~/Content/loading_lg.gif")" />
                         @Html.LabelFor(m => m.Name)
                     </td>
                     <td class="suRTD">
-                        @Html.TextBoxFor(m => m.Name, new { onchange = "SearchLeagueNames(this);" })
+                        @Html.TextBoxFor(m => m.Name, new { onchange = "SearchLeagueNames(this);", @class = "form-control" })
+                        <div id="signUpFindLeagueNameHeader">
+
+                        </div>
+                        <div id="signUpFindLeagueName">
+
+                        </div>
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.Name)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.Name)
                     </td>
                 </tr>
-                <tr class="derbyLeagueRows">
-                    <td></td>
-                    <td colspan="2" id="signUpFindLeagueNameHeader" class="b"></td>
-                </tr>
-                <tr class="derbyLeagueRows">
-                    <td class="suLTD"></td>
-                    <td class="suRTD" id="signUpFindLeagueName"></td>
-                </tr>
+               
                 <tr>
-                    <td class="suLTD">
+                    <td class="text-right">
                         @Html.LabelFor(m => m.Email)
                     </td>
                     <td class="suRTD">
-                        @Html.TextBoxFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.Email)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.Email)
                     </td>
                 </tr>
                 <tr>
-                    <td class="suLTD">
+                    <td class="text-right">
                         @Html.LabelFor(m => m.PhoneNumber)
                     </td>
                     <td class="suRTD">
-                        @Html.TextBoxFor(m => m.PhoneNumber)
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.PhoneNumber)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.PhoneNumber)
                     </td>
                 </tr>
                 <tr>
-                    <td class="suLTD">
+                    <td class="text-right">
                         @Html.LabelFor(m => m.City)
                     </td>
                     <td class="suRTD">
-                        @Html.TextBoxFor(m => m.City)
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.City)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.City)
                     </td>
                 </tr>
                 <tr>
-                    <td class="suLTD">
+                    <td class="text-right">
                         @Html.LabelFor(m => m.State)
                     </td>
                     <td class="suRTD">
-                        @Html.TextBoxFor(m => m.State)
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.State)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.State)
                     </td>
                 </tr>
                 <tr>
-                    <td class="suLTD">
+                    <td class="text-right">
                         @Html.LabelFor(m => m.Country)
                     </td>
                     <td class="suRTD">
-                        @Html.DropDownList("Country", Model.Countries)
+                        @Html.DropDownList("Country", Model.Countries, new { @class = "form-control" })
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.Country)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.Country)
                     </td>
                 </tr>
                 <tr>
-                    <td class="suLTD">
+                    <td class="text-right">
                         @Html.LabelFor(m => m.TimeZone)
                     </td>
                     <td class="suRTD">
-                        @Html.DropDownList("TimeZone", Model.TimeZones)
+                        @Html.DropDownList("TimeZone", Model.TimeZones, new { @class = "form-control" })
                     </td>
-                    <td class="suValid">@Html.ValidationMessageFor(m => m.TimeZone)
+                    <td class="suValid">
+                        @Html.ValidationMessageFor(m => m.TimeZone)
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">We will contact you shortly by phone. We must verfiy you are the owner of the league.
-                        @Html.HiddenFor(x => x.LeagueId);
+                    <td colspan="2" class="text-center">
+                        <small>We will contact you shortly by phone. We must verfiy you are the owner of the league.</small>
+                        @Html.HiddenFor(x => x.LeagueId)
                     </td>
                 </tr>
                 <tr>
                     <td class="suLTD"></td>
                     <td class="suRTD">
-                        <input class="primary" type="submit" value="Submit League" />
+                        <input class="btn btn-primary" type="submit" value="Submit League" />
                     </td>
                 </tr>
             </table>
-            
-            }
-        }
 
-    </div>
+        }
+    }
 </div>
+

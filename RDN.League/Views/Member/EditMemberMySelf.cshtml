@@ -10,7 +10,7 @@
                      select new { ID = (int)d, Name = d.ToString() };
 }
 <ol class="breadcrumb">
-    <li><a href="#">Home</a></li>
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + Model.DerbyNameLink)">@Model.DerbyName</a></li>
     <li class="active">Edit</li>
     </ol>

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="#">Home</a></li>
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Shop</a></li>
     <li class="active">New Item</li>
 </ol>

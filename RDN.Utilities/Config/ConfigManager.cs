@@ -5,9 +5,9 @@ using System.Text;
 
 namespace RDN.Utilities.Config
 {
-    public class ConfigManager 
+    public class ConfigManager
     {
-        public string Get(string key)
+        private static string Get(string key)
         {
             return GetConfigString(key);
         }
@@ -18,11 +18,17 @@ namespace RDN.Utilities.Config
             return System.Configuration.ConfigurationManager.AppSettings[cleanedKey];
         }
 
-        public string ProductionCalllistTableName
+        public static string WebsiteShortName
         {
-            get { return Get("ProductionCallListTable"); }
+            get { return Get("WebsiteShortName"); }
         }
-
-      
+        public static string PrivacyUrl
+        {
+            get { return Get("PrivacyUrl"); }
+        }
+        public static string InternalSite
+        {
+            get { return Get("InternalSite"); }
+        }
     }
 }

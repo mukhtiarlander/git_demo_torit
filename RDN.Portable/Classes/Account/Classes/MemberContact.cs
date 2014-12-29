@@ -48,6 +48,17 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public Address Address { get; set; }
 
+        [ProtoMember(11)]
+        [DataMember]
+        public Address AddressDefault
+        {
+            get
+            {
+                return Addresses.LastOrDefault();
+            }
+        }
+
+
         public MemberContact()
         {
             Addresses = new List<Address>();

@@ -68,33 +68,13 @@ namespace RDN.League.Models.Helpers
             // End cheat \\
 
 
-            // This code is to be used when the layout gets updated to support multiple bars with the same type
-            //var output = new StringBuilder();
-            //foreach (var message in messages)
-            //{
-            //    switch (message.MessageType)
-            //    {
-            //        case SiteMessageType.Success:
-            //            output.Append(GenerateSuccessMessage(message));
-            //            break;
-            //        case SiteMessageType.Warning:
-            //            output.Append(GenerateWarningMessage(message));
-            //            break;
-            //        case SiteMessageType.Error:
-            //            output.Append(GenerateErrorMessage(message));
-            //            break;
-            //        case SiteMessageType.Info:
-            //            output.Append(GenerateInfoMessage(message));
-            //            break;
-            //    }
-            //}
-            //return output.ToString();
+            
         }
 
         private static string GenerateSuccessMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages bg-success\"><span class=\"mNotify\">Success: </span>");
+            output.Append("<div class=\"alert alert-success\"><span class=\"b\">Success: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
@@ -103,7 +83,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateInfoMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages bg-info\"><span class=\"mNotify\">Notification: </span>");
+            output.Append("<div class=\"alert alert-info\"><span class=\"b\">Notification: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
@@ -112,7 +92,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateErrorMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages bg-danger\"><span class=\"mNotify\">Error: </span>");
+            output.Append("<div class=\"alert alert-danger\"><span class=\"b\">Error: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
@@ -121,7 +101,7 @@ namespace RDN.League.Models.Helpers
         private static string GenerateWarningMessage(SiteMessage message)
         {
             var output = new StringBuilder();
-            output.Append("<div class=\"messages bg-warning\"><span class=\"mNotify\">Warning: </span>");
+            output.Append("<div class=\"alert alert-warning\"><span class=\"b\">Warning: </span>");
             output.Append(message.Message + " " + (string.IsNullOrEmpty(message.Link) ? string.Empty : string.Format("<a href=\"{0}\">{1}</a>", message.Link, message.LinkText)));
             output.Append("</div>");
             return output.ToString();
