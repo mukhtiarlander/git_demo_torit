@@ -1613,6 +1613,7 @@ var calendarId;
 var eventId;
 var addEventPopup = false;
 function checkIntoEvent(idOfPopUp, calId, evenId, name) {
+
     calendarId = calId;
     eventId = evenId;
     if (addEventPopup === false) {
@@ -1642,25 +1643,37 @@ function checkInMemberToEvent() {
     var noted = $("#notes").val();
     var selectedItem = $("#checkInSelection option:selected").val();
     if (selectedItem === "") {
-        alert("Please Select Check In Type");
+        $('.bottom-right').notify({
+            message: { text: 'Please Select Check In Type. ' },
+            fadeOut: { enabled: true, delay: 4000 },
+            type: "warning"
+        }).show();
         return;
     }
     var isTardy = $("#IsTardy").is(':checked');
 
-    $("#" + eventId).toggleClass("spanLink", false);
-    $("#" + eventId).text("Checked In");
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
-            $("#" + eventId).toggleClass("spanLink", false);
-            $("#" + eventId).text("Checked In");
+            $("#" + eventId).toggleClass("fa-check-o", false);
+            $("#" + eventId).toggleClass("fa-check-square", true);
+            $('.bottom-right').notify({
+                message: { text: 'Checked In! ' },
+                fadeOut: { enabled: true, delay: 4000 }
+            }).show();
         } else {
-            alert("Something Happened, Try again later.");
+            $('.bottom-right').notify({
+                message: { text: 'Something Happened, Try again later. ' },
+                fadeOut: { enabled: true, delay: 4000 },
+                type: "danger"
+            }).show();
         }
     }).error(function () {
-        $("#" + eventId).toggleClass("spanLink", false);
-        $("#" + eventId).text("Checked In");
-        alert("Something Happened, Try again later.");
+        $('.bottom-right').notify({
+            message: { text: 'Something Happened, Try again later. ' },
+            fadeOut: { enabled: true, delay: 4000 },
+            type: "danger"
+        }).show();
     });
 }
 
@@ -1668,21 +1681,35 @@ function setAvailabilityMemberToEvent() {
     var noted = $("#availableNotes").val();
     var selectedItem = $("#availableSelection option:selected");
     if (selectedItem.val() === "") {
-        alert("Please Select an Available Type");
+        $('.bottom-right').notify({
+            message: { text: 'Please Select an Available Type. ' },
+            fadeOut: { enabled: true, delay: 4000 },
+            type: "warning"
+        }).show();
         return;
     }
-
-    $("#" + eventId + "-availIcon").attr("src", "/Content/images/icons/" + selectedItem.text().replace(/ /g, "_") + ".png");
     CloseAddedRow();
     $.getJSON("/Calendar/SetAvailabilityForEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem.val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#" + eventId + "-availIcon").attr("src", "/Content/images/icons/" + selectedItem.text().replace(/ /g, "_") + ".png");
+            $("#" + eventId + "-setAvail").html("<i class='fa fa-calendar fa-3x cursor'></i>");
+            $('.bottom-right').notify({
+                message: { text: 'RSVPed! ' },
+                fadeOut: { enabled: true, delay: 4000 }
+            }).show();
         } else {
-            alert("Something Happened, Try again later.");
+            $('.bottom-right').notify({
+                message: { text: 'Something Happened, Try again later. ' },
+                fadeOut: { enabled: true, delay: 4000 },
+                type: "danger"
+            }).show();
         }
     }).error(function () {
-        $("#" + eventId + "-availIcon").attr("src", "/Content/images/icons/" + selectedItem.text().replace(/ /g, "_") + ".png");
-        alert("Something Happened, Try again later.");
+        $("#" + eventId + "-setAvail").html("<i class='fa fa-calendar-o fa-3x cursor'></i>");
+        $('.bottom-right').notify({
+            message: { text: 'Something Happened, Try again later. ' },
+            fadeOut: { enabled: true, delay: 4000 },
+            type: "danger"
+        }).show();
     });
 }
 
