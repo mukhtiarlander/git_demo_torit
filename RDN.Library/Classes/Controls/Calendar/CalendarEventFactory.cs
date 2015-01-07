@@ -93,7 +93,7 @@ namespace RDN.Library.Classes.Calendar
 
                     if (endsWhen == EndsWhenReoccuringEnum.Never)
                     {
-                        ev.EndReocurring = DateTime.UtcNow.AddYears(2);
+                        ev.EndReocurring = DateTime.UtcNow.AddYears(1);
                     }
                     else if (endsWhen == EndsWhenReoccuringEnum.On)
                     {
@@ -390,8 +390,11 @@ namespace RDN.Library.Classes.Calendar
                 {
                     e.Calendar = e.Calendar;
                     e.IsRemovedFromCalendar = true;
-                    foreach (var ev in e.ReoccuringEvents)
-                    { ev.IsRemovedFromCalendar = true; }
+                    var evs = e.ReoccuringEvents.Where(x => x.Attendees.Count == 0 && x.IsRemovedFromCalendar == false);
+                    foreach (var ev in evs)
+                    {
+                        ev.IsRemovedFromCalendar = true;
+                    }
                     int c = dc.SaveChanges();
                     return c > 0;
                 }
@@ -697,6 +700,29 @@ namespace RDN.Library.Classes.Calendar
                 foreach (var ev in e)
                 {
                     evs.Add(DisplayEvent(ev, currentMemberId, isAttendanceManagerOrBetter));
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return evs;
+        }
+        public static List<CalendarEvent> GetDeletedEvents()
+        {
+            List<CalendarEvent> evs = new List<CalendarEvent>();
+            try
+            {
+                var dc = new ManagementContext();
+                var e = (from xx in dc.CalendarEvents.Include("Calendar.LeagueOwners").Include("Calendar.LeagueOwners.League").Include("Calendar.LeagueOwners.League.Logo").Include("Location").Include("Location.Contact").Include("Location.Contact.Addresses").Include("Location.Contact.Communications")
+                         
+                         where xx.IsRemovedFromCalendar == true
+                         where xx.Attendees.Count >0
+                         select xx);
+
+                foreach (var ev in e)
+                {
+                    evs.Add(DisplayEvent(ev, new Guid(), true));
                 }
             }
             catch (Exception exception)

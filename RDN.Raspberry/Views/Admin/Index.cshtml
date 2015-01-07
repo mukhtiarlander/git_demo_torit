@@ -1,15 +1,15 @@
 ﻿@using RDN.Raspberry.Models.Helpers
-@{    
+@{
     Layout = "~/Views/Shared/_Layout.cshtml"; ;
 }
 <h2>Main menu</h2>
 @Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
 @if (User.IsInRole("admin"))
-{ 
+{
     <a href="@Url.Action("Errors")">Errors</a><br />
     <a href="@Url.Action("Feedback")">Feedback</a><br />
     <hr />
-    
+
     <a href="@Url.Action("AdminEmailMessages", "Admin")">Admin Email Messages</a><br />
     <a href="@Url.Action("TestEmailLayout", "Admin")">Test email layouts</a><br />
     <a href="@Url.Action("SendMassScoreboardEmails", "Admin")">Send mass scoreboard emails</a><br />
@@ -59,6 +59,11 @@
     <a href="@Url.Action("ViewRDNationInvoice", "Payment")">View RDNation Invoice</a><br />
     <a href="@Url.Action("ViewRDNationSales", "Payment")">View Sales</a><br />
     <a href="@Url.Action("PayDuesPayment", "Payment")">Handle Paypal Invalid Payments.</a><br />
+
+    <hr />
+    <span>Calendar</span>
+    <br />
+    <a href="@Url.Action("ViewDeletedEvents", "Calendar")">ViewDeletedEvents.</a><br />
 }
 
 @if (User.IsInRole("admin") || User.IsInRole("moderator"))
