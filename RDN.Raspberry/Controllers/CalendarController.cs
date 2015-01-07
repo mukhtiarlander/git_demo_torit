@@ -10,9 +10,9 @@ namespace RDN.Raspberry.Controllers
     public class CalendarController : Controller
     {
         [Authorize]
-        public ActionResult ViewDeletedEvents()
+        public ActionResult ViewDeletedEvents(string id)
         {
-           var ev = CalendarEventFactory.GetDeletedEvents();
+            var ev = CalendarEventFactory.UnDeleteAttendanceEvents(new Guid(id));
 
 
             return View(ev);

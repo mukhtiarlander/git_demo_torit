@@ -715,15 +715,44 @@ namespace RDN.Library.Classes.Calendar
             {
                 var dc = new ManagementContext();
                 var e = (from xx in dc.CalendarEvents.Include("Calendar.LeagueOwners").Include("Calendar.LeagueOwners.League").Include("Calendar.LeagueOwners.League.Logo").Include("Location").Include("Location.Contact").Include("Location.Contact.Addresses").Include("Location.Contact.Communications")
-                         
+
                          where xx.IsRemovedFromCalendar == true
-                         where xx.Attendees.Count >0
+                         where xx.Attendees.Count > 0
                          select xx);
 
                 foreach (var ev in e)
                 {
                     evs.Add(DisplayEvent(ev, new Guid(), true));
                 }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return evs;
+        }
+        public static List<CalendarEvent> UnDeleteAttendanceEvents(Guid calId)
+        {
+            List<CalendarEvent> evs = new List<CalendarEvent>();
+            try
+            {
+                var dc = new ManagementContext();
+                var e = (from xx in dc.CalendarEvents
+
+                         where xx.IsRemovedFromCalendar == true
+                         where xx.Attendees.Count > 0
+                         where xx.Calendar.CalendarId == calId
+                         select xx);
+
+
+
+                foreach (var item in e)
+                {
+                    item.Calendar = item.Calendar;
+                    item.IsRemovedFromCalendar = false;
+                }
+
+                int c = dc.SaveChanges();
             }
             catch (Exception exception)
             {
