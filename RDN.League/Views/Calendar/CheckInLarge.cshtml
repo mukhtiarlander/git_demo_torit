@@ -14,11 +14,11 @@
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
-        <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+        <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month) ">Calendar</a></li>
     }
     else
     {
-        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month)">Calendar</a></li>
     }
     <li><a href="@Url.Content("~/calendar/event/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">@Model.Name</a></li>
     <li class="active">Check In</li>
@@ -60,9 +60,6 @@
     <div class="panel panel-default">
         <div class="panel-body">
 
-            <div class="titleDescription">
-                Check members into the event.
-            </div>
 
             <table class="table">
 
@@ -120,10 +117,10 @@
                             </label>
                             <br />
                             <div class="col-xs-3">
-                                <input value="0" type="text" name="additionalPoints" class="form-control " id="additionalPoints" />
+                                <input value="0" type="text" name="additionalPoints" class="form-control input-sm" id="additionalPoints" />
                             </div>
                             <small>
-                                Additional Pts. Add or subtract points. exp: -1 or 10
+                                Additional Pts. Add or subtract points. exp: -1 or 10<br />
                                 <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
                             </small>
 
@@ -184,7 +181,7 @@
                             <td id="@Model.Attendees[i].MemberId-Note-cell">
                                 @if (!Model.Attendees[i].IsCheckedIn)
                                 {
-                                    <input type="text" id="@Model.Attendees[i].MemberId-Note" />
+                                    <input type="text" id="@Model.Attendees[i].MemberId-Note" class="form-control" />
                                 }
                                 else
                                 {
@@ -204,11 +201,11 @@
                                 {
                                     if (!Model.Attendees[i].IsCheckedIn)
                                     {
-                                        <input type="button" class="primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.Attendees[i].MemberId    ', '@Model.Attendees[i].MemberName.Replace("'", "")    ')" />
+                                        <input type="button" class="btn btn-primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.Attendees[i].MemberId    ', '@Model.Attendees[i].MemberName.Replace("'", "")    ')" />
                                     }
                                     else
                                     {
-                                        <span class="spanLink" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.Attendees[i].MemberId', '@Model.Attendees[i].MemberName.Replace("'", "")')">Remove</span>
+                                        <button type="button" class="btn btn-warning" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.Attendees[i].MemberId', '@Model.Attendees[i].MemberName.Replace("'", "")')">Remove</button>
                                     }
                                 }
                             </td>
@@ -273,7 +270,7 @@
                             <td id="@Model.MembersToCheckIn[i].MemberId-Note-cell">
                                 @if (!Model.MembersToCheckIn[i].IsCheckedIn)
                                 {
-                                    <input type="text" id="@Model.MembersToCheckIn[i].MemberId-Note" />
+                                    <input type="text" id="@Model.MembersToCheckIn[i].MemberId-Note" class="form-control" />
                                 }
                                 else
                                 {
@@ -293,11 +290,11 @@
                                 {
                                     if (!Model.MembersToCheckIn[i].IsCheckedIn)
                                     {
-                                        <input type="button" class="primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.MembersToCheckIn[i].MemberId    ', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")    ')" />
+                                        <input type="button" class="btn btn-primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.MembersToCheckIn[i].MemberId    ', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")    ')" />
                                     }
                                     else
                                     {
-                                        <span class="spanLink" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.MembersToCheckIn[i].MemberId', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")')">Remove Check In</span>
+                                        <button type="button" class="btn btn-primary" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.MembersToCheckIn[i].MemberId', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")')">Remove Check In</button>
                                     }
                                 }
                             </td>
@@ -322,12 +319,13 @@
             "bInfo": false,
             "bAutoWidth": false,
             "aaSorting": [[2, 'asc']],
-
+            "oLanguage": { "sSearch": "" },
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1 + ".");
                 return nRow;
             },
         });
+        $("#checkInMembers_filter input").addClass("form-control input-sm").attr("placeholder", "Search");
         $("#additionalPoints").numeric();
     });
 </script>

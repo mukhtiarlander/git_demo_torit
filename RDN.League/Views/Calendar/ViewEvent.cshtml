@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
-    bool isEventsCourd= MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
+    bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
     bool isAttManager = MemberCache.IsAttendanceManager(memId);
     var checkedIn = Model.Attendees.Where(x => x.PointType != CalendarEventPointTypeEnum.None).ToList();
     var available = Model.Attendees.Where(x => x.Availability != AvailibilityEnum.None).ToList();
@@ -17,394 +17,432 @@
     var AvailableType = from AvailibilityEnum d in Enum.GetValues(typeof(AvailibilityEnum))
                         where d.ToString() != "None"
                         select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
-    
-}
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
-            {
-                <span>< <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-            else
-            { 
-                <span>< <a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-            @if (isSec || isAttManager)
-            { 
-                <span>< <a href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Check In Large</a></span>
-                <span>< <a href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Check In Small</a></span>
-            }
-        </div>
-        <div class="rightBackLink">
-            @if (Model.PreviousEventId != new Guid())
-            { 
-                <span>< <a href="@Url.Content("~/calendar/event/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.PreviousEventId.ToString().Replace("-", ""))">Previous Event</a></span>
-            }
-            @if (Model.NextEventId != new Guid())
-            { 
-                <span><a href="@Url.Content("~/calendar/event/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.NextEventId.ToString().Replace("-", ""))">Next Event</a> ></span>
-            }
 
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            View @Model.Name
-            @if (Model.IsPublicEvent)
-            { 
-                <span class="titleDesc">- Is Public</span>
-            }
-        </div>
-        <div class="tvChanges">
-            <div class="navIcons">
-                <a title="Google Event" href="@Model.GoogleCalendarUrl" target="_blank">
-                    <img src="@Url.Content("~/Content/images/icons/google.png")"  />Calendar
-                </a>
-            </div>
-            @if (!Model.IsReoccurring)
-            {  
-                <div class="inputIcons">
-                    @using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm" }))
-                    {
-               
-                        <input title="Save Event" type="image" src="@Url.Content("~/Content/images/icons/save.png")" />
-                        <span>Save
-                @Html.HiddenFor(x => x.CalendarItemId)
-                            @Html.HiddenFor(x => x.Name)
-                        </span>
-                    }
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+    {
+        <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month) ">Calendar</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month)">Calendar</a></li>
+    }
+    <li class="active">@Model.Name</li>
+</ol>
+
+
+<div class="col-md-offset-1  col-md-10  col-xs-12">
+    <h2 class="text-center">
+        @Model.Name
+        @if (Model.IsPublicEvent)
+        {
+            <small> Public</small>
+        }
+    </h2>
+    <div>
+        @if (Model.PreviousEventId != new Guid())
+        {
+            <a class="pull-left cursor" href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.PreviousEventId.ToString().Replace("-", ""))"><i class="fa fa-backward fa-3x" title="Last Event"></i></a>
+        }
+        @if (Model.NextEventId != new Guid())
+        {
+            <a class="pull-right cursor" href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.NextEventId.ToString().Replace("-", ""))"><i class="fa fa-forward fa-3x" title="Next Event"></i></a>
+        }
+        <div class="text-center center">
+
+            @if (isSec || isAttManager)
+            {
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Check In <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Large</a></li>
+                        <li><a href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Small</a></li>
+                    </ul>
                 </div>
             }
+        </div>
+        <div class="text-center center">
+            <div class="btn-group" role="group">
 
-            <div class="inputIcons">
+                <a class="btn btn-default" title="Google Event" href="@Model.GoogleCalendarUrl" target="_blank"><i class="fa fa-google"></i> Calendar</a>
+
+                @if (!Model.IsReoccurring)
+                {
+                    using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm" }))
+                    {
+                        <input title="Save Event" type="submit" class="btn btn-default" value="Save Event" />
+                        @Html.HiddenFor(x => x.CalendarItemId)
+                        @Html.HiddenFor(x => x.Name)
+
+                    }
+                }
+
+
                 @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport" }))
                 {
-                    <input title="Export Roster" type="image" src="@Url.Content("~/Content/images/icons/docs/excel.png")" />
-                    <span>Export
-                   @Html.HiddenFor(x => x.CalendarId)
-                        @Html.HiddenFor(x => x.CalendarItemId)
-                        @Html.HiddenFor(x => x.CalendarReoccurringId)
-                    </span>
+                    <input title="Export Roster" type="submit" class="btn btn-default" value="Export Roster" />
+                    @Html.HiddenFor(x => x.CalendarId)
+                    @Html.HiddenFor(x => x.CalendarItemId)
+                    @Html.HiddenFor(x => x.CalendarReoccurringId)
+
                 }
+
+                @if (isSec || isEventsCourd)
+                {
+                    if (Model.IsReoccurring)
+                    {
+                        <a class="btn btn-default" title="Edit Reoccuring Event" href="@Url.Content("~/calendar/event/edit/reoccurring/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarReoccurringId.ToString().Replace("-", ""))">
+                            Reoccur
+                        </a>
+                        <a class="btn btn-default" title="Edit Single Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                            Single
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-default" title="Edit Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                            Edit
+                        </a>
+                    }
+                    <a class="btn btn-default" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" title="Delete Event" href="@Url.Content("~/calendar/event/delete/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                        Delete
+                    </a>
+                }
+
             </div>
-            @if (isSec || isEventsCourd)
-            {
-
-                if (Model.IsReoccurring)
-                { 
-                <div class="navIcons">
-                    <a title="Edit Reoccuring Event" href="@Url.Content("~/calendar/event/edit/reoccurring/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarReoccurringId.ToString().Replace("-", ""))">
-                        <img  src="@Url.Content("~/Content/images/icons/edit.png")"  />Reoccur
-                    </a>
-                </div>  
-                <div class="navIcons">
-                    <a title="Edit Single Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
-                        <img  src="@Url.Content("~/Content/images/icons/edit.png")"  />Single
-                    </a>
-                </div>  
-                }
-                else
-                {                 
-                <div class="navIcons">
-                    <a title="Edit Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
-                        <img  src="@Url.Content("~/Content/images/icons/edit.png")"  />Edit
-                    </a>
-                </div>    
-                }                
-                <div class="navIcons">
-                    <a onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" title="Delete Event" href="@Url.Content("~/calendar/event/delete/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
-                        <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />Delete
-                    </a>
-                </div>
-            }
-
-
         </div>
-        <div class="clearLeft"></div>
-        <div class="viewEventNotes">
-            @Html.Raw(Model.NotesHtml)
-        </div>
-        <div class="divider"></div>
+    </div>
+</div>
 
-        <div>
-            <table class="viewEventTable">
+<div class="col-md-offset-1 col-md-10 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="tvChanges">
 
-                <tr class="trBorderB">
-                    <td class="veLC">Date and Time:
-                    </td>
-                    <td>
-                        @Model.StartDate.ToLongDateString()
-                        <div>@Model.StartDate.ToShortTimeString() - @Model.EndDate.ToShortTimeString()</div>
-                    </td>
-                </tr>
-                <tr class="trBorderB">
-                    <td class="veLC">Location:
-                    </td>
-                    <td>
-                        @if (Model.Location != null)
-                        { 
-                            @Model.Location.LocationName
-                        }
-                    </td>
-                </tr>
-                <tr class="trBorderB">
-                    <td class="veLC">Address:
-                        <br />
-                        @if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
-                        { 
-                            <a href="http://www.bing.com/maps/default.aspx?q=@Model.Location.Contact.Addresses.FirstOrDefault().Address1+@Model.Location.Contact.Addresses.FirstOrDefault().Address2,+@Model.Location.Contact.Addresses.FirstOrDefault().CityRaw,+@Model.Location.Contact.Addresses.FirstOrDefault().StateRaw+@Model.Location.Contact.Addresses.FirstOrDefault().Zip+@Model.Location.Contact.Addresses.FirstOrDefault().Country" target="_blank">View Map</a>
-                        }
-                    </td>
-                    <td>
-                        @if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
-                        { 
-                            @Model.Location.Contact.Addresses.FirstOrDefault().Address1<br />
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Address2))
-                            { 
-                            @Model.Location.Contact.Addresses.FirstOrDefault().Address2<br />
-                            }
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
-                            { 
-                            @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>}
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
-                            { 
-                            @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw 
-                            }
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Zip))
-                            { 
-                            @Model.Location.Contact.Addresses.FirstOrDefault().Zip
-                            }
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Country))
-                            { 
-                            <br />@Model.Location.Contact.Addresses.FirstOrDefault().Country
-                            }
-                        }
-                    </td>
-                </tr>
-                @if (!String.IsNullOrEmpty(Model.TicketUrl))
-                {
+
+            </div>
+            <div class="clearLeft"></div>
+            <div class="viewEventNotes">
+                @Html.Raw(Model.NotesHtml)
+            </div>
+            <div class="divider"></div>
+
+            <div>
+                <table class="table">
+
                     <tr class="trBorderB">
-                        <td class="veLC">Ticket Url:
+                        <td class="text-right b">
+                            Date and Time:
                         </td>
                         <td>
-                            <a href="@Model.TicketUrl" target="_blank">@Model.TicketUrl</a>
+                            @Model.StartDate.ToLongDateString()
+                            <div>@Model.StartDate.ToShortTimeString() - @Model.EndDate.ToShortTimeString()</div>
                         </td>
                     </tr>
-                }
-                <tr class="trBorderB">
-                    <td class="veLC">WebSite:
-                    </td>
-                    <td>
-                        <a href="@Model.Link" target="_blank">@Model.Link</a>
-                    </td>
-                </tr>
-                @if (Model.IsPublicEvent)
-                {
                     <tr class="trBorderB">
-                        <td class="veLC">On RDNation:
+                        <td class="text-right b">
+                            Location:
                         </td>
                         <td>
-                            <a href="@Model.RDNationLink" target="_blank">@Model.RDNationLink</a>
-                        </td>
-                    </tr>   
-                }
-                <tr class="trBorderB">
-                    <td class="veLC">Points For Event:
-                    </td>
-                    <td>
-                        <div>
-                            <span>@Model.EventType.PointsForPresent</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present)</span>
-                        </div>
-                        <div>
-                            <span>@Model.EventType.PointsForPartial</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Partial)</span>
-                        </div>
-                        <div>
-                            <span>@Model.EventType.PointsForNotPresent</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Not_Present)</span>
-                        </div>
-                        <div>
-                            <span>@Model.EventType.PointsForExcused</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Excused)</span>
-                        </div>
-                        <div>
-                            <span>@Model.EventType.PointsForTardy</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Tardy)</span>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr class="trBorderB" id="@Model.CalendarItemId-mainrow">
-                    <td class="veLC">Set Availability:
-                    </td>
-                    <td>
-                        @if (currentMemAvailability == null)
-                        { 
-                            <div class="spanIcons">
-                                <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
-                                    <img id="@Model.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")"  />
-                                </span>
-                            </div>
-                        }
-                        else
-                        { 
-                            <div class="spanIcons">
-                                <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
-                                    <img id="@Model.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + currentMemAvailability.Availability + ".png")"  />
-                                </span>
-                            </div>
-                        }
-                    </td>
-                </tr>
-
-                <tr class="trBorderB">
-                    <td class="veLC">Availability (@available.Count):
-                    </td>
-                    <td>
-                        <table id="available">
-                            @if (available.Count > 0)
-                            { 
-                                <thead class="vmTableHead">
-                                    <tr>
-                                        <th></th>
-                                        <th>Number
-                                        </th>
-                                        <th>Name
-                                        </th>
-                                        <th>Available</th>
-                                    </tr>
-                                </thead>
+                            @if (Model.Location != null)
+                            {
+                                @Model.Location.LocationName
                             }
-                            <tbody>
-                                @for (int i = 0; i < available.Count; i++)
+                        </td>
+                    </tr>
+                    <tr class="trBorderB">
+                        <td class="text-right b">
+                            Address:
+                            <br />
+                            @if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
+                            {
+                                <a href="http://www.bing.com/maps/default.aspx?q=@Model.Location.Contact.Addresses.FirstOrDefault().Address1+@Model.Location.Contact.Addresses.FirstOrDefault().Address2,+@Model.Location.Contact.Addresses.FirstOrDefault().CityRaw,+@Model.Location.Contact.Addresses.FirstOrDefault().StateRaw+@Model.Location.Contact.Addresses.FirstOrDefault().Zip+@Model.Location.Contact.Addresses.FirstOrDefault().Country" target="_blank">View Map</a>
+                            }
+                        </td>
+                        <td>
+                            @if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
+                            {
+                                @Model.Location.Contact.Addresses.FirstOrDefault().Address1<br />
+                                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Address2))
                                 {
-                                    <tr  class="@(String.IsNullOrEmpty(available[i].Note) ? "trBorderB" : String.Empty)">
-                                        <td class="b">@(i + 1).
-                                        </td>
-                                        <td>@available[i].MemberNumber
-                                        </td>
-                                        <td>
-                                            <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + available[i].MemberName)">
-                                                @available[i].MemberName</a>
-                                        </td>
-                                        <td>
-                                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(available[i].Availability)
-                                        </td>
-                                    </tr> 
-                                    if (!String.IsNullOrEmpty(available[i].AvailableNotes))
-                                    { 
-                                    <tr class="trBorderB">
-                                        <td></td>
-                                        <td class="i veNote" colspan="3">@available[i].AvailableNotes
-                                        </td>
-                                    </tr>         
+                                    @Model.Location.Contact.Addresses.FirstOrDefault().Address2<br />
+                                }
+                                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
+                                {
+                                    @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>}
+                                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
+                                {
+                                    @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw
+                                }
+                                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Zip))
+                                {
+                                    @Model.Location.Contact.Addresses.FirstOrDefault().Zip
+                                }
+                                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Country))
+                                {
+                                    <br />@Model.Location.Contact.Addresses.FirstOrDefault().Country
+                                }
+                            }
+                        </td>
+                    </tr>
+                    @if (!String.IsNullOrEmpty(Model.TicketUrl))
+                    {
+                        <tr class="trBorderB">
+                            <td class="text-right b">
+                                Ticket Url:
+                            </td>
+                            <td>
+                                <a href="@Model.TicketUrl" target="_blank">@Model.TicketUrl</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr class="trBorderB">
+                        <td class="text-right b">
+                            WebSite:
+                        </td>
+                        <td>
+                            <a href="@Model.Link" target="_blank">@Model.Link</a>
+                        </td>
+                    </tr>
+                    @if (Model.IsPublicEvent)
+                    {
+                        <tr class="trBorderB">
+                            <td class="text-right b">
+                                On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                            </td>
+                            <td>
+                                <a href="@Model.RDNationLink" target="_blank">@Model.RDNationLink</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr class="trBorderB">
+                        <td class="text-right b">
+                            Points For Event:
+                        </td>
+                        <td>
+                            <div>
+                                <span>@Model.EventType.PointsForPresent</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present)</span>
+                            </div>
+                            <div>
+                                <span>@Model.EventType.PointsForPartial</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Partial)</span>
+                            </div>
+                            <div>
+                                <span>@Model.EventType.PointsForNotPresent</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Not_Present)</span>
+                            </div>
+                            <div>
+                                <span>@Model.EventType.PointsForExcused</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Excused)</span>
+                            </div>
+                            <div>
+                                <span>@Model.EventType.PointsForTardy</span> - <span>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Tardy)</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="trBorderB" id="@Model.CalendarItemId-mainrow">
+                        <td class="text-right b">
+                            Set Availability:
+                        </td>
+                        <td>
+                            @if (currentMemAvailability == null)
+                            {
+                                <div class="spanIcons">
+                                    <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
+                                        <img id="@Model.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")" />
+                                    </span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="spanIcons">
+                                    <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
+                                        <img id="@Model.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + currentMemAvailability.Availability + ".png")" />
+                                    </span>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr class="trBorderB">
+                        <td class="text-right b">
+                            Availability (@available.Count):
+                        </td>
+                        <td>
+                            <table id="available">
+                                @if (available.Count > 0)
+                                {
+                                    <thead class="vmTableHead">
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Number
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>Available</th>
+                                        </tr>
+                                    </thead>
+                                }
+                                <tbody>
+                                    @for (int i = 0; i < available.Count; i++)
+                                    {
+                                        <tr class="@(String.IsNullOrEmpty(available[i].Note) ? "trBorderB" : String.Empty)">
+                                            <td class="b">
+                                                @(i + 1).
+                                            </td>
+                                            <td>
+                                                @available[i].MemberNumber
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + available[i].MemberName)">
+                                                    @available[i].MemberName
+                                                </a>
+                                            </td>
+                                            <td>
+                                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(available[i].Availability)
+                                            </td>
+                                        </tr>
+                                        if (!String.IsNullOrEmpty(available[i].AvailableNotes))
+                                        {
+                                            <tr class="trBorderB">
+                                                <td></td>
+                                                <td class="i veNote" colspan="3">
+                                                    @available[i].AvailableNotes
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                @if (Model.GroupsForEvent.Count > 0)
-                { 
-                    <tr class="trBorderB">
-                        <td class="veLC">Groups:
-                        </td>
-                        <td>
-                            @foreach (var g in Model.GroupsForEvent)
-                            { 
-                                <span>@g.GroupName; </span>
-                            }
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
-                }
-                <tr class="trBorderB">
-                    <td class="veLC">Members Checked In (@checkedIn.Count):
-                    </td>
-                    <td>
-                        <table id="members">
-                            @if (checkedIn.Count > 0)
-                            { 
-                                <thead class="vmTableHead">
-                                    <tr>
-                                        <th></th>
-                                        <th>Number
-                                        </th>
-                                        <th>Name
-                                        </th>
-                                        <th>Point Type
-                                        </th>
-                                        <th>Points
-                                        </th>
-                                    </tr>
-                                </thead>
-                            }
-                            <tbody>
-                                @for (int i = 0; i < checkedIn.Count; i++)
+                    @if (Model.GroupsForEvent.Count > 0)
+                    {
+                        <tr class="trBorderB">
+                            <td class="text-right b">
+                                Groups:
+                            </td>
+                            <td>
+                                @foreach (var g in Model.GroupsForEvent)
                                 {
-                                    <tr  class="@(String.IsNullOrEmpty(checkedIn[i].Note) ? "trBorderB" : String.Empty)">
-                                        <td class="b">@(i + 1).
-                                        </td>
-                                        <td>@checkedIn[i].MemberNumber
-                                        </td>
-                                        <td>
-                                            <a target="_blank" href="@Url.Content("~/member/" + checkedIn[i].MemberId.ToString().Replace("-", "") + "/" + checkedIn[i].MemberName)">
-                                                @checkedIn[i].MemberName</a>
-                                        </td>
-                                        <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].PointType)
-                                            @if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                            { <span>- @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].SecondaryPointType)
-                                            </span> }
-                                        </td>
-                                        <td>
-                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Present)
-                                            { 
-                                                @Model.EventType.PointsForPresent
-                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                { <span>+ @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
-                                                </span> }
-                                            }
-                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Partial)
-                                            { 
-                                                @Model.EventType.PointsForPartial
-                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                { <span>+ @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
-                                                </span> }
-                                            }
-                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
-                                            { 
-                                                @Model.EventType.PointsForNotPresent
-                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                { <span>+ @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
-                                                </span> }
-                                            }
-                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Excused)
-                                            { 
-                                                @Model.EventType.PointsForExcused
-                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                { <span>+ @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
-                                                </span> }
-                                            }
-                                        </td>
-                                    </tr> 
-                                            if (!String.IsNullOrEmpty(checkedIn[i].Note))
-                                            { 
-                                    <tr class="trBorderB">
-                                        <td></td>
-                                        <td></td>
-                                        <td class="i veNote" colspan="3">@checkedIn[i].Note
-                                        </td>
-                                    </tr>         
-                                            }
+                                    <span>@g.GroupName; </span>
                                 }
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+                            </td>
+                        </tr>
+                    }
+                    <tr class="trBorderB">
+                        <td class="text-right b">
+                            Members Checked In (@checkedIn.Count):
+                        </td>
+                        <td>
+                            <table id="members">
+                                @if (checkedIn.Count > 0)
+                                {
+                                    <thead class="vmTableHead">
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Number
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Point Type
+                                            </th>
+                                            <th>
+                                                Points
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                }
+                                <tbody>
+                                    @for (int i = 0; i < checkedIn.Count; i++)
+                                    {
+                                        <tr class="@(String.IsNullOrEmpty(checkedIn[i].Note) ? "trBorderB" : String.Empty)">
+                                            <td class="b">
+                                                @(i + 1).
+                                            </td>
+                                            <td>
+                                                @checkedIn[i].MemberNumber
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href="@Url.Content("~/member/" + checkedIn[i].MemberId.ToString().Replace("-", "") + "/" + checkedIn[i].MemberName)">
+                                                    @checkedIn[i].MemberName
+                                                </a>
+                                            </td>
+                                            <td>
+                                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].PointType)
+                                                @if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                { <span>
+                                                    - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].SecondaryPointType)
+                                                </span> }
+                                            </td>
+                                            <td>
+                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Present)
+                                                {
+                                                    @Model.EventType.PointsForPresent
+                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                    { <span>
+                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
+                                                    </span> }
+                                                }
+                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Partial)
+                                                {
+                                                    @Model.EventType.PointsForPartial
+                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                    { <span>
+                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
+                                                    </span> }
+                                                }
+                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
+                                                {
+                                                    @Model.EventType.PointsForNotPresent
+                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                    { <span>
+                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
+                                                    </span> }
+                                                }
+                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Excused)
+                                                {
+                                                    @Model.EventType.PointsForExcused
+                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                    { <span>
+                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
+                                                    </span> }
+                                                }
+                                            </td>
+                                        </tr>
+                                        if (!String.IsNullOrEmpty(checkedIn[i].Note))
+                                        {
+                                            <tr class="trBorderB">
+                                                <td></td>
+                                                <td></td>
+                                                <td class="i veNote" colspan="3">
+                                                    @checkedIn[i].Note
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 <div id="availablePopUp" style="display: none;">
-    <table class="checkInTable">
+    <table class="table">
         <tr>
-            <td class="b alignRight">Available Type:
+            <td class="text-right b">
+                Available Type:
             </td>
             <td colspan="2">
                 @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...")
@@ -412,7 +450,8 @@
             </td>
         </tr>
         <tr>
-            <td class="b alignRight">Notes:
+            <td class="text-right b">
+                Notes:
             </td>
             <td colspan="2">
                 <input type="text" id="availableNotes" style="width: 95%;" />
@@ -420,7 +459,7 @@
         </tr>
 
         <tr>
-            <td class="alignRight">
+            <td class="text-right b">
                 <input type="button" id="availableButtonPopUp" value="Set Availability" class="primary" onclick="javascript: setAvailabilityMemberToEvent()" />
             </td>
             <td>

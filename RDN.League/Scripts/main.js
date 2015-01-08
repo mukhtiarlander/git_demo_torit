@@ -2027,12 +2027,20 @@ var Calendar = new function () {
         $.getJSON("/Calendar/CheckMemberIntoEvent", { calendarId: calId, eventId: evnId, memberId: selectedItem, pointType: pontType, note: noteCheckIn.val(), isTardy: isTardy, addPoints: additionalPoints }, function (result) {
             if (result.isSuccess === true) {
                 $("#warning").text("");
+                $('.bottom-right').notify({
+                    message: { text: 'Checked In! ' },
+                    fadeOut: { enabled: true, delay: 4000 }
+                }).show();
             } else {
             }
         }).error(function () {
             $.getJSON("/Calendar/CheckMemberIntoEvent", { calendarId: calId, eventId: evnId, memberId: selectedItem, pointType: pontType, note: noteCheckIn.val(), isTardy: isTardy, addPoints: additionalPoints }, function (result) {
                 if (result.isSuccess === true) {
                     $("#warning").text("");
+                    $('.bottom-right').notify({
+                        message: { text: 'Checked In! ' },
+                        fadeOut: { enabled: true, delay: 4000 }
+                    }).show();
                 } else {
                 }
             });
@@ -2041,7 +2049,7 @@ var Calendar = new function () {
         if (isTardy)
             pontType += " - Tardy";
         var rowCount = $('#checkInMembers tr').length + 1;
-        $("#checkInMembers tbody").prepend('<tr class="trBorderB" id="' + selectedItem + '-row"><td></td><td></td><td>' + selectedMember + '</td><td>' + pontType + '</td><td>' + (+points + +additionalPoints) + '</td><td><span  class="spanLink" onclick="javascript:Calendar.checkInRemoveSmall(this,\'' + selectedItem + '\', \'' + selectedMember + '\')">Remove</span></td></tr>');
+        $("#checkInMembers tbody").prepend('<tr class="trBorderB" id="' + selectedItem + '-row"><td></td><td></td><td>' + selectedMember + '</td><td>' + pontType + '</td><td>' + (+points + +additionalPoints) + '</td><td><button  class="btn btn-warning" onclick="javascript:Calendar.checkInRemoveSmall(this,\'' + selectedItem + '\', \'' + selectedMember + '\')">Remove</button></td></tr>');
         $("#SelectedMemberId option[value='" + selectedItem + "']").remove();
         dropDown.val("");
         noteCheckIn.val("");
@@ -2085,16 +2093,24 @@ var Calendar = new function () {
 
         $.getJSON("/Calendar/CheckMemberIntoEvent", { calendarId: calId, eventId: evnId, memberId: memId, pointType: pontType, note: note.val(), isTardy: isTardy, addPoints: additionalPoints }, function (result) {
             if (result.isSuccess === true) {
+                $('.bottom-right').notify({
+                    message: { text: 'Checked In! ' },
+                    fadeOut: { enabled: true, delay: 4000 }
+                }).show();
             } else {
             }
         }).error(function () {
             $.getJSON("/Calendar/CheckMemberIntoEvent", { calendarId: calId, eventId: evnId, memberId: memId, pointType: pontType, note: note.val(), isTardy: isTardy, addPoints: additionalPoints }, function (result) {
                 if (result.isSuccess === true) {
+                    $('.bottom-right').notify({
+                        message: { text: 'Checked In! ' },
+                        fadeOut: { enabled: true, delay: 4000 }
+                    }).show();
                 } else {
                 }
             });
         });
-        $(button).parent().html("<span  class='spanLink' onclick='javascript:Calendar.checkInRemoveLarge(this,\"" + memId + "\", \"" + derbyName + "\")'>Remove</span>");
+        $(button).parent().html("<button type='button' class='btn btn-warning' onclick='javascript:Calendar.checkInRemoveLarge(this,\"" + memId + "\", \"" + derbyName + "\")'>Remove</button>");
 
         if (isTardy)
             pontType += " - Tardy";
@@ -2129,9 +2145,9 @@ var Calendar = new function () {
             });
         });
 
-        $(button).parent().html('<input type="button" class="primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,\'' + memId + '\', \'' + derbyName + '\')" />');
+        $(button).parent().html('<input type="button" class="btn btn-primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,\'' + memId + '\', \'' + derbyName + '\')" />');
         tardyCell.html('<input type="checkbox" id="' + memId + '-tardy" points="' + tardyPoints + '"  title="Is Tardy" /><span>Tardy?</span>');
-        noteCell.html('<input type="text" id="' + memId + '-Note" />');
+        noteCell.html('<input type="text" id="' + memId + '-Note" class="form-control" />');
         pointCell.text("");
         pointTypeCell.text("None");
     }
@@ -2197,11 +2213,11 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="recipientsNames">' + val.name + '</span> ';
+                text += '<span class="recipientsNames b">' + val.name + ',</span> ';
                 ids += val.idd + ",";
             });
         } else {
-            text += '<span class="recipientsNames">Entire League</span> ';
+            text += '<span class="recipientsNames b">Entire League</span> ';
         }
 
         if (document.getElementById('ToMemberNamesSelected') !== null)
