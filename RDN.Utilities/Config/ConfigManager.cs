@@ -30,5 +30,10 @@ namespace RDN.Utilities.Config
         {
             get { return Get("InternalSite"); }
         }
+
+        public static string NameOfMembers
+        {
+            get { return Get("NameOfMembers"); }
+        }
     }
 }

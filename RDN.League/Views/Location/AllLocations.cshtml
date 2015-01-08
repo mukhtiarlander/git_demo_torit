@@ -5,15 +5,44 @@
     ViewBag.Title = "All Locations";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            All League Locations
-        </div>
-        <div class="divider"></div>
-        <div>
 
-            <table class="eventTypeTable">
+@section SecondNav{
+
+    <nav class="navbar navbar-default navbar-lower" style="margin-bottom:0px;" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondNavBar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+            <div class="collapse navbar-collapse collapse-buttons" id="secondNavBar">
+                <div class="navbar-form navbar-left" role="search">
+                    <a title="New Location" href="#" class="btn btn-default btn-sm"> New Location</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+        <li class="active">Locations</li>
+</ol>
+
+<div class="col-md-offset-1  col-md-10  col-xs-12">
+    <h2 class="text-center">
+        Locations
+    </h2>
+</div>
+<div class="col-md-offset-1 col-md-10 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <table class="table table-hover table-striped ">
                 <thead>
                     <tr>
                         <th class="tht">Location Name</th>
@@ -22,9 +51,9 @@
                     </tr>
                 </thead>
                 @foreach (var loc in Model)
-                { 
+                {
                     <tr>
-                        <td >
+                        <td>
                             @loc.LocationName
                         </td>
                         <td>
@@ -33,31 +62,32 @@
                                 var a = loc.Contact.Addresses.FirstOrDefault();
                                 @a.Address1<br />
                                 if (!String.IsNullOrEmpty(a.Address2))
-                                { 
-                                @a.Address2<br />
+                                {
+                                    @a.Address2<br />
                                 }
                                 if (!String.IsNullOrEmpty(a.CityRaw))
-                                { 
-                                @a.CityRaw<span>,</span>}
+                                {
+                                    @a.CityRaw<span>,</span>}
                                 if (!String.IsNullOrEmpty(a.StateRaw))
-                                { 
-                                @a.StateRaw 
+                                {
+                                    @a.StateRaw
                                 }
                                 if (!String.IsNullOrEmpty(a.Zip))
-                                { 
-                                @a.Zip
+                                {
+                                    @a.Zip
                                 }
                                 if (!String.IsNullOrEmpty(a.Country))
-                                { 
-                                <br />@a.Country
+                                {
+                                    <br />@a.Country
                                 }
                             }
 
                         </td>
                         <td>
-                            <span class="spanLink" onclick="Locations.RemoveLocation(this,'@loc.LocationId')" >Delete</span></td>
+                            <span class="btn btn-danger" onclick="Locations.RemoveLocation(this,'@loc.LocationId')">Delete</span>
+                        </td>
                     </tr>
-                 
+
                 }
             </table>
 

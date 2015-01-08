@@ -7,152 +7,187 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
-            {
-                <span>< <a href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-            else
-            { 
-                <span>< <a href="@Url.Content("~/calendar/view/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Modify Calendar Settings
-        </div>
 
-        <div class="titleDescription">
-            Here you can modify the calendar settings for your organization.
-     
-        </div>
-        <div class="divider"></div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+    {
+        <li><a href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.Content("~/calendar/view/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+    }
+    <li class="active">Settings</li>
+</ol>
+@if (ViewBag.IsSuccessful)
+{
 
-        <div>
-            @using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b vLTD">TimeZone of Calendar:</td>
-                        <td>@Html.DropDownListFor(x => x.TimeZoneId, new SelectList(Model.TimeZones, "ZoneId", "LocationGMT"), "Select TimeZone...")</td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Allow Self Check Ins:
-                        </td>
-                        <td>
-                           <label> @Html.CheckBoxFor(x => x.AllowSelfCheckIn) <span class="i">Allows user to check their
-                                self into the event.</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Not Present Required For Check In:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.NotPresentCheckIn) <span class="i">If Enabled, you will NOT need to count the skater as "Not Present" to effect their attendance percentage. <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Disable Birthdays:
-                        </td>
-                        <td>
-                          <label>  @Html.CheckBoxFor(x => x.DisableBirthdays) <span class="i">Removes Birthdays from Calendar</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Disable Skater Start Dates:
-                        </td>
-                        <td>
-                           <label> @Html.CheckBoxFor(x => x.DisableSkatingStartDates) <span class="i">Removes Skater Start Dates From Calendar</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Locations:
-                        </td>
-                        <td>
-                            <a href="@Url.Content("~/location/all")" >Edit Locations</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Event Types:
-                        </td>
-                        <td>
-                            <a href="@Url.Content("~/calendar/event-type/new/" + Model.OwnerEntity.ToString() + "/" + Model.CalendarId.ToString().Replace("-", ""))" >Add New Event Type</a> <span class="i">Used for describing what type of event it is,
-                                    as well as point structures for that event.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <table class="eventTypeTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th class="tht" colspan="5">Points
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="tht">Name Of Event
-                                        </th>
-                                        <th class="tht">Color
-                                        </th>
-                                        <th class="tht">Present
-                                        </th>
-                                        <th class="tht">Partial
-                                        </th>
-                                        <th class="tht">Not Present
-                                        </th>
-                                        <th class="tht">Excused
-                                        </th>
-                                        <th class="tht">Tardy
-                                        </th>
-                                        <th class="tht"></th>
-                                    </tr>
-                                </thead>
-                                @foreach (var type in Model.EventTypes)
-                                { 
-                                    <tr>
-                                        <td>@type.EventTypeName
-                                        </td>
-                                        <td>
-                                            @if (!String.IsNullOrEmpty(type.ColorTempSelected)) { 
-                                                <div class='selectedColor' style='background-color:@type.ColorTempSelected;'>@type.ColorName</div>
-                                            }
-                                        </td>
-                                        <td>@type.PointsForPresent
-                                        </td>
-                                        <td>@type.PointsForPartial
-                                        </td>
-                                        <td>@type.PointsForNotPresent
-                                        </td>
-                                        <td>@type.PointsForExcused
-                                        </td>
-                                        <td>@type.PointsForTardy
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Content("~/calendar/event-type/edit/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + type.CalendarEventTypeId)" >Edit</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            @if (ViewBag.IsSuccessful)
-                            { 
-                                <span class="addedSuccessfully">Updated Successfully!</span>
-                            }
-                            <input type="submit" class="primary" value="Update Settings" />
-                        </td>
-                    </tr>
-                </table>
-                @Html.HiddenFor(x => x.CalendarId)
-                @Html.HiddenFor(x => x.EntityName)
-                @Html.HiddenFor(x => x.OwnerEntity)
-            }
+    <div class="alert alert-success" role="alert">Updated Successfully!</div>
+
+}
+<div class="col-md-offset-1  col-md-10  col-xs-12">
+    <h2 class="text-center">
+        Calendar Settings
+    </h2>
+
+</div>
+<div class="col-md-offset-1 col-md-10 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+           
+            <div class="text-center">
+                Modify the calendar settings for your organization.
+
+            </div>
+            
+            <div>
+                @using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
+                {
+                    <table class="table">
+                        <tr>
+                            <td class="b text-right">TimeZone of Calendar:</td>
+                            <td>@Html.DropDownListFor(x => x.TimeZoneId, new SelectList(Model.TimeZones, "ZoneId", "LocationGMT"), "Select TimeZone...", new { @class="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">
+                                Allow Self Check Ins:
+                            </td>
+                            <td>
+                                <label>
+                                    @Html.CheckBoxFor(x => x.AllowSelfCheckIn) <small class="i">
+                                        Allows user to check their
+                                        self into the event.
+                                    </small>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">
+                                Not Present Required For Check In:
+                            </td>
+                            <td>
+                                <label>@Html.CheckBoxFor(x => x.NotPresentCheckIn) <small class="i">If Enabled, you will NOT need to count the @RDN.Utilities.Config.ConfigManager.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a></small></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">
+                                Disable Birthdays:
+                            </td>
+                            <td>
+                                <label>  @Html.CheckBoxFor(x => x.DisableBirthdays) <small class="i">Removes Birthdays from Calendar</small></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">
+                                Disable @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date:
+                            </td>
+                            <td>
+                                <label> @Html.CheckBoxFor(x => x.DisableSkatingStartDates) <small class="i">Removes @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date From Calendar</small></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">
+                                Locations:
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/location/all")">Edit Locations</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="b  text-right">
+                                Event Types:
+                            </td>
+                            <td>
+                                <a href="@Url.Content("~/calendar/event-type/new/" + Model.OwnerEntity.ToString() + "/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Event Type</a> <small class="i">
+                                    Used for describing what type of event it is,
+                                    as well as point structures for that event.
+                                </small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="b text-right">Points:</th>
+                                            <th class="" colspan="5">
+                                               
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right">
+                                                Name Of Event
+                                            </th>
+                                            <th class="tht">
+                                                Color
+                                            </th>
+                                            <th class="tht">
+                                                Present
+                                            </th>
+                                            <th class="tht">
+                                                Partial
+                                            </th>
+                                            <th class="tht">
+                                                Not Present
+                                            </th>
+                                            <th class="tht">
+                                                Excused
+                                            </th>
+                                            <th class="tht">
+                                                Tardy
+                                            </th>
+                                            <th class="tht"></th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var type in Model.EventTypes)
+                                    {
+                                        <tr>
+                                            <td class="text-right">
+                                                @type.EventTypeName
+                                            </td>
+                                            <td>
+                                                @if (!String.IsNullOrEmpty(type.ColorTempSelected))
+                                                {
+                                                    <div class='selectedColor' style='background-color:@type.ColorTempSelected;'>@type.ColorName</div>
+                                                }
+                                            </td>
+                                            <td class="text-center">
+                                                @type.PointsForPresent
+                                            </td>
+                                            <td class="text-center">
+                                                @type.PointsForPartial
+                                            </td>
+                                            <td class="text-center">
+                                                @type.PointsForNotPresent
+                                            </td>
+                                            <td class="text-center">
+                                                @type.PointsForExcused
+                                            </td>
+                                            <td class="text-center">
+                                                @type.PointsForTardy
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Content("~/calendar/event-type/edit/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + type.CalendarEventTypeId)">Edit</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            
+                            <td colspan="2" class="text-center">
+                                
+                                <input type="submit" class="btn btn-primary" value="Update Settings" />
+                            </td>
+                        </tr>
+                    </table>
+                    @Html.HiddenFor(x => x.CalendarId)
+                    @Html.HiddenFor(x => x.EntityName)
+                    @Html.HiddenFor(x => x.OwnerEntity)
+                }
+            </div>
         </div>
     </div>
 </div>

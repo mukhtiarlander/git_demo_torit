@@ -20,6 +20,122 @@
 
 }
 
+@section SecondNav{
+
+    <nav class="navbar navbar-default navbar-lower" style="margin-bottom:0px;" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eventNavBar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+            </div>
+            <div class="collapse navbar-collapse collapse-buttons" id="eventNavBar">
+                <div class="navbar-form navbar-left" role="search">
+                    @if (isSec || isAttManager)
+                    {
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-check-square-o"></i> Check In <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Large Screen</a></li>
+                                <li><a href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Small Screen</a></li>
+                            </ul>
+                        </div>
+                    }
+
+                    @if (isSec || isEventsCourd)
+                    {
+                        if (Model.IsReoccurring)
+                        {
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-pencil-square-o"></i> Edit <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a title="Edit Reoccuring Event" href="@Url.Content("~/calendar/event/edit/reoccurring/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarReoccurringId.ToString().Replace("-", ""))">
+                                            <i class="fa fa-pencil-square-o"></i> Recurring Event
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a title="Edit Single Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                                            <i class="fa fa-pencil-square-o"></i> This Event
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" title="Delete Event" href="@Url.Content("~/calendar/event/delete/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                                            <i class="fa fa-times"></i> Delete Event
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-pencil-square-o"></i> Edit <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a title="Edit Single Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                                            <i class="fa fa-pencil-square-o"></i>        This Event
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" title="Delete Event" href="@Url.Content("~/calendar/event/delete/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
+                                            <i class="fa fa-times"></i>  Delete Event
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                    }
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-floppy-o"></i> Save <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a title="Google Event" href="@Model.GoogleCalendarUrl" target="_blank"><i class="fa fa-google"></i> Google Calendar</a>
+                            </li>
+                            <li>
+                                @if (Model.IsReoccurring)
+                                {
+                                    using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm", @style = "display: inline-block;" }))
+                                    {
+                                        <button title="Save Event" class="btn btn-default" style="border:none; width:100%;" type="submit"><i class="fa fa-floppy-o"></i> Calendar</button>
+                                        @Html.HiddenFor(x => x.CalendarItemId)
+                                        @Html.HiddenFor(x => x.Name)
+
+                                    }
+                                }
+                            </li>
+                        </ul>
+                    </div>
+
+                    @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport", @style = "display: inline-block;" }))
+                    {
+                        <button title="Export Roster" type="submit" class="btn btn-default btn-sm" value="Export Roster"><i class="fa fa-file-excel-o"></i> Export Roster</button>
+                        @Html.HiddenFor(x => x.CalendarId)
+                        @Html.HiddenFor(x => x.CalendarItemId)
+                        @Html.HiddenFor(x => x.CalendarReoccurringId)
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+}
+
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
@@ -45,92 +161,25 @@
     <div>
         @if (Model.PreviousEventId != new Guid())
         {
-            <a class="pull-left cursor" href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.PreviousEventId.ToString().Replace("-", ""))"><i class="fa fa-backward fa-3x" title="Last Event"></i></a>
+            <a class="pull-left cursor" href="@Url.Content("~/calendar/event/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.PreviousEventId.ToString().Replace("-", ""))"><i class="fa fa-backward fa-3x" title="Last Event"></i></a>
         }
         @if (Model.NextEventId != new Guid())
         {
-            <a class="pull-right cursor" href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.NextEventId.ToString().Replace("-", ""))"><i class="fa fa-forward fa-3x" title="Next Event"></i></a>
+            <a class="pull-right cursor" href="@Url.Content("~/calendar/event/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.NextEventId.ToString().Replace("-", ""))"><i class="fa fa-forward fa-3x" title="Next Event"></i></a>
         }
-        <div class="text-center center">
-
-            @if (isSec || isAttManager)
-            {
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        Check In <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Large</a></li>
-                        <li><a href="@Url.Content("~/calendar/event/checkin-s/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Small</a></li>
-                    </ul>
-                </div>
-            }
-        </div>
-        <div class="text-center center">
-            <div class="btn-group" role="group">
-
-                <a class="btn btn-default" title="Google Event" href="@Model.GoogleCalendarUrl" target="_blank"><i class="fa fa-google"></i> Calendar</a>
-
-                @if (!Model.IsReoccurring)
-                {
-                    using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm" }))
-                    {
-                        <input title="Save Event" type="submit" class="btn btn-default" value="Save Event" />
-                        @Html.HiddenFor(x => x.CalendarItemId)
-                        @Html.HiddenFor(x => x.Name)
-
-                    }
-                }
 
 
-                @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport" }))
-                {
-                    <input title="Export Roster" type="submit" class="btn btn-default" value="Export Roster" />
-                    @Html.HiddenFor(x => x.CalendarId)
-                    @Html.HiddenFor(x => x.CalendarItemId)
-                    @Html.HiddenFor(x => x.CalendarReoccurringId)
-
-                }
-
-                @if (isSec || isEventsCourd)
-                {
-                    if (Model.IsReoccurring)
-                    {
-                        <a class="btn btn-default" title="Edit Reoccuring Event" href="@Url.Content("~/calendar/event/edit/reoccurring/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarReoccurringId.ToString().Replace("-", ""))">
-                            Reoccur
-                        </a>
-                        <a class="btn btn-default" title="Edit Single Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
-                            Single
-                        </a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-default" title="Edit Event" href="@Url.Content("~/calendar/event/edit/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
-                            Edit
-                        </a>
-                    }
-                    <a class="btn btn-default" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" title="Delete Event" href="@Url.Content("~/calendar/event/delete/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">
-                        Delete
-                    </a>
-                }
-
-            </div>
-        </div>
     </div>
 </div>
 
 <div class="col-md-offset-1 col-md-10 col-xs-12">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="tvChanges">
 
-
-            </div>
-            <div class="clearLeft"></div>
             <div class="viewEventNotes">
                 @Html.Raw(Model.NotesHtml)
             </div>
-            <div class="divider"></div>
+
 
             <div>
                 <table class="table">
@@ -248,21 +297,23 @@
                             Set Availability:
                         </td>
                         <td>
+                            
+
+
                             @if (currentMemAvailability == null)
                             {
-                                <div class="spanIcons">
-                                    <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
-                                        <img id="@Model.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")" />
-                                    </span>
-                                </div>
+                                <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
+                                    <i class="fa fa-calendar-o fa-3x cursor"></i>
+                                </span>
+                              
                             }
                             else
                             {
-                                <div class="spanIcons">
-                                    <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
-                                        <img id="@Model.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + currentMemAvailability.Availability + ".png")" />
-                                    </span>
-                                </div>
+                              
+    <span id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')">
+        <i class="fa fa-calendar fa-3x cursor"></i>
+    </span>
+
                             }
                         </td>
                     </tr>
@@ -272,7 +323,7 @@
                             Availability (@available.Count):
                         </td>
                         <td>
-                            <table id="available">
+                            <table id="available" class="table table-condensed table-hover table-responsive table-striped">
                                 @if (available.Count > 0)
                                 {
                                     <thead class="vmTableHead">
@@ -291,7 +342,7 @@
                                 <tbody>
                                     @for (int i = 0; i < available.Count; i++)
                                     {
-                                        <tr class="@(String.IsNullOrEmpty(available[i].Note) ? "trBorderB" : String.Empty)">
+                                        <tr >
                                             <td class="b">
                                                 @(i + 1).
                                             </td>
@@ -299,7 +350,7 @@
                                                 @available[i].MemberNumber
                                             </td>
                                             <td>
-                                                <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + available[i].MemberName)">
+                                                <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( available[i].MemberName))">
                                                     @available[i].MemberName
                                                 </a>
                                             </td>
@@ -340,7 +391,7 @@
                             Members Checked In (@checkedIn.Count):
                         </td>
                         <td>
-                            <table id="members">
+                            <table id="members" class="table table-condensed table-hover table-responsive table-striped">
                                 @if (checkedIn.Count > 0)
                                 {
                                     <thead class="vmTableHead">
@@ -439,31 +490,32 @@
     </div>
 </div>
 <div id="availablePopUp" style="display: none;">
-    <table class="table">
+    <table class="table well">
         <tr>
-            <td class="text-right b">
+            <td class="b text-right">
                 Available Type:
             </td>
             <td colspan="2">
-                @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...")
+                @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...", new { @class = "form-control" })
 
             </td>
         </tr>
         <tr>
-            <td class="text-right b">
+            <td class="b text-right">
                 Notes:
             </td>
             <td colspan="2">
-                <input type="text" id="availableNotes" style="width: 95%;" />
+                <input type="text" id="availableNotes" style="width: 95%;" class="form-control" />
             </td>
         </tr>
 
         <tr>
-            <td class="text-right b">
-                <input type="button" id="availableButtonPopUp" value="Set Availability" class="primary" onclick="javascript: setAvailabilityMemberToEvent()" />
-            </td>
+
             <td>
-                <span class="spanLink" onclick="javascript:CloseAddedRow()">Cancel</span>
+                <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
+            </td>
+            <td class="alignRight">
+                <button type="button" id="availableButtonPopUp" value="Set Availability" class="btn btn-primary" onclick="javascript: setAvailabilityMemberToEvent()">Set Availability</button>
             </td>
             <td></td>
         </tr>

@@ -96,7 +96,7 @@ else
                         @if (isSec || isAttendance)
                         {
                             <th class="text-center">
-                                Check In Members
+                                Check In
                             </th>
                         }
                         else
@@ -190,10 +190,16 @@ else
                         <td class="text-center ">
                             @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && (isSec || isAttendance))
                             {
-                                <a class="btn btn-primary" href="@Url.Content("~/calendar/event/checkin-l/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Large</a>
-                                
-                                <a class="btn btn-primary" href="@Url.Content("~/calendar/event/checkin-s/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Small</a>
 
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-check-square-o"></i> Check In <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="@Url.Content("~/calendar/event/checkin-l/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Large Screen</a></li>
+                                        <li><a  href="@Url.Content("~/calendar/event/checkin-s/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Small Screen</a></li>
+                                    </ul>
+                                </div>
                             }
                         </td>
                     </tr>

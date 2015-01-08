@@ -65,7 +65,7 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -76,7 +76,7 @@
                 </a>
             </div>
 
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="nav navbar-nav ">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@System.Configuration.ConfigurationManager.AppSettings["WebsiteShortName"]<span class="caret"></span></a>
@@ -163,24 +163,24 @@
                                                 <li>
                                                     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View && isPaid)
                                                     {
-                                                    <a href="@Url.Content("~/calendar/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
-                                                        <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
-                                                    </a>
+                                                        <a href="@Url.Content("~/calendar/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
+                                                            <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
+                                                        </a>
                                                     }
                                                     else if (isPaid)
                                                     {
-                                                    <a href="@Url.Content("~/calendar/view/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
-                                                        <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
-                                                    </a>
+                                                        <a href="@Url.Content("~/calendar/view/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
+                                                            <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
+                                                        </a>
                                                     }
                                                     else
                                                     {
-                                                    <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Calendar">
-                                                        <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
-                                                    </a>
+                                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Calendar">
+                                                            <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
+                                                        </a>
                                                     }
                                                 </li>
-                                                
+
                                                 @if (MemberCache.IsDuesManagementLockedDown(memId) && !isTreas && isPaid)
                                                 {
                                                     <li class="navIcon">
@@ -294,8 +294,8 @@
                                                         </a>
                                                     </li>
                                                 }
-                                                
-                                                
+
+
                                                 @if (isPaid)
                                                 {
                                                     <li class="navIcon">
@@ -312,7 +312,7 @@
                                                         </a>
                                                     </li>
                                                 }
-                                             
+
                                             </ul>
 
                                             <ul class="col-sm-4 list-unstyled">
@@ -320,21 +320,21 @@
 
                                                 @if (isSec)
                                                 {
-                                                                                        <li>
-                                                                                            <a href="@Url.Content("~/league/edit/" + leagueId)" title="Edit League">
-                                                                                                <img src="@Url.Content("~/Content/images/icons/edit_league.png")" class="img-responsive pull-left" alt="Edit League" />Edit
-                                                                                            </a>
-                                                                                        </li>
+                                                    <li>
+                                                        <a href="@Url.Content("~/league/edit/" + leagueId)" title="Edit League">
+                                                            <img src="@Url.Content("~/Content/images/icons/edit_league.png")" class="img-responsive pull-left" alt="Edit League" />Edit
+                                                        </a>
+                                                    </li>
                                                 }
                                                 @if (isShopMan)
                                                 {
-                                                                                        <li class="navIcon">
-                                                                                            <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlLeague(memId))" title="League Shop">
-                                                                                                <img src="@Url.Content("~/Content/images/icons/Shop.png")" class="img-responsive pull-left" alt="Shop" />Shop
-                                                                                            </a>
-                                                                                        </li>
+                                                    <li class="navIcon">
+                                                        <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlLeague(memId))" title="League Shop">
+                                                            <img src="@Url.Content("~/Content/images/icons/Shop.png")" class="img-responsive pull-left" alt="Shop" />Shop
+                                                        </a>
+                                                    </li>
                                                 }
-                                                
+
                                                 <li class="navIcon">
                                                     <a href="@Url.Content("~/billing/league/" + leagueId)" title="Subscription">
                                                         <img src="@Url.Content("~/Content/images/icons/subscribe.png")" class="img-responsive pull-left" alt="Subscription" />Subscribe
@@ -349,11 +349,11 @@
 
 
 
-                             
-                            
 
 
-                               
+
+
+
                             </ul>
                         </li>
                     }
