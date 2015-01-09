@@ -2,6 +2,7 @@
     $.ajaxSetup({ cache: false });
 });
 
+
 var leagueHost = "https://league.rdnation.com/";
 var rdnationHost = "https://rdnation.com/";
 var simpleId = 0;
