@@ -390,7 +390,8 @@ namespace RDN.Library.Classes.Calendar
                 {
                     e.Calendar = e.Calendar;
                     e.IsRemovedFromCalendar = true;
-                    foreach (var ev in e.ReoccuringEvents)
+                    var evs = e.ReoccuringEvents.Where(x => x.Attendees.Count == 0 && x.IsRemovedFromCalendar == false);
+                    foreach (var ev in evs)
                     { ev.IsRemovedFromCalendar = true; }
                     int c = dc.SaveChanges();
                     return c > 0;
