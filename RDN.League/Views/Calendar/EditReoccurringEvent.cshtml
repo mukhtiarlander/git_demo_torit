@@ -11,29 +11,47 @@
     bool isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
-            {
-                <span>< <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-            else
-            { 
-                <span>< <a href="@Url.Content("~/calendar/view/" + CalendarOwnerEntityEnum.league.ToString() + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Update Reoccurring Event
-        </div>
-        @if (isSec || isEventsCourd)
-        {
-            <div class="tvChanges">
-                <a onclick="return confirm('Remove Events? Will Remove Events and All Points Associated')" href="@Url.Content("~/calendar/event/delete/reoccur/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">Delete Reoccurring Events</a>
+@section SecondNav{
+    <nav class="navbar navbar-default navbar-lower" style="margin-bottom:0px;" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondNavBar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
-        }
+            <div class="collapse navbar-collapse collapse-buttons" id="secondNavBar">
+                <div class="navbar-form navbar-left" role="search">
+                    @if (isSec || isEventsCourd)
+                    {
+    
+    <a class="btn btn-default btn-sm" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" href="@Url.Content("~/calendar/event/delete/reoccur/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))"><i class="fa fa-remove"></i>Delete Reoccurring Events</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+    {
+        <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") ) ">Calendar</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") )">Calendar</a></li>
+    }
+    
+    <li class="active">Update @Model.Name</li>
+</ol>
+
+
+<div class="fixedContainer">
+    <div class="fixedCenterContainter">
        
            <div class="titleDescription">
              Update your Reoccurring events. Any reoccuring event with attendees attached to it, will not be removed.  They are used in history for attendance tracking.  Only those events that reoccur without attendance will be updated.

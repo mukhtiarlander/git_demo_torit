@@ -66,10 +66,7 @@ namespace RDN.Library.Classes.Calendar
                             calEvent.backColor = ColorTranslator.ToHtml(c);
                         }
                         calEvent.title = ev.Name;
-                        //removes length less than 14 chars 
-                        //because the title is too long for the calendar display.
-                        if (ev.Name.Length > 14)
-                            calEvent.title = calEvent.title.Remove(14);
+                        
                         calEvent.id = ev.CalendarItemId;
                         if (ev.ReocurringEvent != null)
                             calEvent.ReocurringId = ev.ReocurringEvent.CalendarItemId;

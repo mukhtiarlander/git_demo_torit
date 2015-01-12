@@ -83,7 +83,7 @@
                                     <a class="btn btn-info" href="@Url.Content("~/location/new/" + Model.CalendarType + "/calendar/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Location</a>
                                 </span>
 
-                            </div><!-- /input-group -->
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +98,7 @@
                                     <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
                                 </span>
 
-                            </div><!-- /input-group -->
+                            </div>
 
                             <span id="addNewEventTypeText" class="displayNone">
                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present):
@@ -337,12 +337,7 @@
                     </div>
                 </div>
 
-                <div id="eventRepeatsPopUp" class="popUpEvent">
-                    <div class="popUpHeader">
-
-                    </div>
-
-                </div>
+                
 
             }
         </div>

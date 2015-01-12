@@ -1967,8 +1967,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.title = "BDay " + member.DerbyName;
                 //removes length less than 14 chars 
                 //because the title is too long for the calendar display.
-                if (calEvent.title.Length > 14)
-                    calEvent.title = calEvent.title.Remove(14);
+                
                 calEvent.id = member.MemberId;
                 calEvent.url = VirtualPathUtility.ToAbsolute("~/calendar/birthday/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName));
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.DOB.Month, member.DOB.Day);
@@ -2020,8 +2019,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.title = "SS:" + member.DerbyName;
                 //removes length less than 14 chars 
                 //because the title is too long for the calendar display.
-                if (calEvent.title.Length > 14)
-                    calEvent.title = calEvent.title.Remove(14);
+                
                 calEvent.id = member.MemberId;
                 calEvent.url = VirtualPathUtility.ToAbsolute("~/calendar/started-skating/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName));
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.StartedSkating.Value.Month, member.StartedSkating.Value.Day);

@@ -28,7 +28,9 @@ namespace RDN.League
                         "~/Scripts/jquery.dataTables.naturalSort.js",
                         "~/Scripts/colorPicker/colorpicker.js",
                         "~/Scripts/jquery.MultiFile.js",
-                        "~/Scripts/jquery/jquery.ajaxfileupload.js"
+                        "~/Scripts/jquery/jquery.ajaxfileupload.js",
+                        "~/Scripts/FullCalendar/fullcalendar.min.js",
+                        "~/Scripts/FullCalendar/gcal.js"
                         
                         ));
 
@@ -57,8 +59,10 @@ namespace RDN.League
                       "~/Content/font-awesome.css",
                       "~/Content/main.css",
                       "~/Content/jquery-ui-1.10.4.custom.css",
-                      "~/Content/FullCalendar/fullcalendar.css",
-                      "~/Content/FullCalendar/fullcalendar.print.css"));
+                      "~/Content/FullCalendar/fullcalendar.css"
+                      //,
+                      //"~/Content/FullCalendar/fullcalendar.print.css"
+                      ));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

@@ -9,35 +9,35 @@
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     
 }
-<div class="fixedContainer"> 
-      <div class="fixedlinksContainter">
-        <div class="backLink">
-            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
-            {
-                <span>< <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-            else
-            { 
-                <span>< <a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
 
-        </div>
-        <div class="rightBackLink">
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            @Model.Name Started Skating Today
-        </div>
-        <div class="tvChanges">
-        </div>
-        <br /><br />
-        <div class="viewEventNotes">
-             @Model.Name started skating on @Model.StartDate.ToShortDateString()
-        </div>
-        <div class="divider"></div>
-       
-        <div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+    {
+        <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+    }
+    <li class="active">Started Skating</li>
+</ol>
+
+<div class="col-md-offset-1  col-md-10  col-xs-12">
+    <h2 class="text-center">
+        @Model.Name Started Skating Today
+    </h2>
+
+</div>
+
+<div class="col-md-offset-1 col-md-10 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3 class="text-center">
+                @Model.Name started skating on @Model.StartDate.ToShortDateString()
+            </h3>
+
         </div>
     </div>
 </div>
+
