@@ -861,7 +861,7 @@ namespace RDN.Library.Classes.Calendar
 
                 newCal.IsCalendarInUTC = calDb.IsCalendarInUTC;
 
-                var types = dc.CalendarEventTypes.Where(x => x.CalendarOwner.CalendarId == id);
+                var types = dc.CalendarEventTypes.Include("DefaultColor").Where(x => x.CalendarOwner.CalendarId == id);
                 foreach (var type in types)
                 {
                     CalendarEventType t = new CalendarEventType();

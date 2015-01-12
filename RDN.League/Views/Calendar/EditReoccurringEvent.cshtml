@@ -26,8 +26,8 @@
                 <div class="navbar-form navbar-left" role="search">
                     @if (isSec || isEventsCourd)
                     {
-    
-    <a class="btn btn-default btn-sm" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" href="@Url.Content("~/calendar/event/delete/reoccur/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))"><i class="fa fa-remove"></i>Delete Reoccurring Events</a>
+
+                        <a class="btn btn-default btn-sm" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" href="@Url.Content("~/calendar/event/delete/reoccur/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))"><i class="fa fa-remove"></i> Delete Reoccurring Events</a>
                     }
                 </div>
             </div>
@@ -45,158 +45,201 @@
     {
         <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") )">Calendar</a></li>
     }
-    
-    <li class="active">Update @Model.Name</li>
+
+    <li class="active">Update</li>
 </ol>
+<div class="col-md-offset-1  col-md-10  col-xs-12">
+    <h2 class="text-center">
+        Update Reoccurring Event
+    </h2>
 
+</div>
+<div class="col-md-offset-1 col-md-10 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="well well-sm">
+                Update your Reoccurring events. Any reoccuring event with attendees attached to it, will not be removed.  They are used in history for attendance tracking.  Only those events that reoccur without attendance will be updated.
 
-<div class="fixedContainer">
-    <div class="fixedCenterContainter">
-       
-           <div class="titleDescription">
-             Update your Reoccurring events. Any reoccuring event with attendees attached to it, will not be removed.  They are used in history for attendance tracking.  Only those events that reoccur without attendance will be updated.
-        
-        </div>
-        <div class="divider"></div>
-       
-        <div>
+            </div>
             @using (Html.BeginForm("EditReoccurringEvent", "Calendar", FormMethod.Post, new { @id = "createNewEventForm" }))
-            { 
-                <table class="addForumPostTbl">
+            {
+                <table class="table">
                     <tr>
-                        <td class="b alRight">Name:
+                        <td class="b text-right">
+                            Name:
                         </td>
                         <td class="subject">
-                            @Html.TextBoxFor(x => x.Name)
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                         </td>
                     </tr>
-                      <tr>
-                        <td class="b  alRight alignTop">Groups:
+                    <tr>
+                        <td class="b  text-right alignTop">
+                            Groups:<br />
+                            <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Creating_An_Event">Group only events</a>
                         </td>
                         <td>
-                            <img src="@Url.Content("~/Content/images/icons/down.png")" onclick="Calendar.ExpandGroupMemberList()" class="spanLink" style="float:left;"  width="25px" />
                             <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" style="float: left;">
                                 @if (Model.GroupsForEvent.Count == 0)
-                                { 
-                                    <span class="recipientsNames">Entire League</span>
+                                {
+                                    <span class="recipientsNames b">Entire League</span>
                                 }
                                 else
                                 {
                                     foreach (var group in Model.GroupsForEvent)
-                                    { 
-                                    <span class="recipientsNames">@group.GroupName</span>
+                                    {
+                                        <span class="recipientsNames b">@group.GroupName</span>
                                     }
                                 }
                             </div>
-                            <span class="i"><a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Creating_An_Event">Group only events</a></span>
-                            <div class="clear"></div>
+
+                            <button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-default pull-right" type="button">
+                                <i class="fa fa-users "></i> Change Group <span class="caret"></span>
+                            </button>
+
+
+                            <div class="clearfix"></div>
                             <div class="displayNone groupMemberLists" id="groupMemberLists">
-                                <ul id="groupList" class="noList"></ul>
+                                <ul id="groupList" class="list-unstyled"></ul>
                                 <div class="clear"></div>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Location:
+                        </td>
+                        <td>
 
+
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.SelectedLocationId, Model.Locations, "Choose Location...", new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <a class="btn btn-info" href="@Url.Content("~/location/new/" + Model.CalendarType + "/calendar/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Location</a>
+                                </span>
+
+                            </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="b alRight">Location:
+                        <td class="b text-right">
+                            Event Type:
                         </td>
                         <td>
-                            @Html.DropDownListFor(x => x.SelectedLocationId, Model.Locations, "Choose Location...")
-                            <a href="@Url.Content("~/location/new/" + Model.CalendarType + "/calendar/" + Model.CalendarId.ToString().Replace("-", ""))" >Add New Location</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Event Type:
-                        </td>
-                        <td>
-                            @Html.DropDownListFor(x => x.SelectedEventTypeId, Model.EventTypes, "Choose Event Type...", new { @onchange = "EventTypeChanged(this)" })
-                            <a id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)" >Add New Event Type</a> <span id="addNewEventTypeText" class="displayNone">
+
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.SelectedEventTypeId, Model.EventTypes, "Choose Event Type...", new { @onchange = "EventTypeChanged(this)", @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
+                                </span>
+                            </div>
+
+                            <span id="addNewEventTypeText" class="displayNone">
                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present):
-                                    <span class="b" id="presentType"></span>,
-                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Partial):
-                                    <span class="b" id="partialType"></span>,
-                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Excused):
-                                    <span class="b" id="excusedType"></span>,
-                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Not_Present):
-                                    <span class="b" id="notPresentType"></span>,
-                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Tardy):
-                                    <span class="b" id="tardyType"></span></span>
-                        </td>
-                    </tr>
-                          <tr>
-                        <td class="b  alRight">Event Type Color:
-                        </td>
-                        <td class="largeInput">
-                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()" }) @if(isSec){<span class="i">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                                <span class="b" id="presentType"></span>,
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Partial):
+                                <span class="b" id="partialType"></span>,
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Excused):
+                                <span class="b" id="excusedType"></span>,
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Not_Present):
+                                <span class="b" id="notPresentType"></span>,
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Tardy):
+                                <span class="b" id="tardyType"></span>
+                            </span>
                         </td>
                     </tr>
                     <tr>
-                        <td class="b alRight">Start Date & Time:
+                        <td class="b  text-right">
+                            Event Type Color:
                         </td>
                         <td class="largeInput">
-                            @Html.TextBoxFor(x => x.StartDateDisplay)
+                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()", @class = "form-control" }) @if (isSec)
+                            {<small class="i">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></small>}
                         </td>
                     </tr>
                     <tr>
-                        <td class="b alRight">End Date & Time:
+                        <td class="b text-right text-nowrap">
+                            Start Date & Time:
                         </td>
                         <td class="largeInput">
-                            @Html.TextBoxFor(x => x.EndDateDisplay)
+                            @Html.TextBoxFor(x => x.StartDateDisplay, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            End Date & Time:
+                        </td>
+                        <td class="largeInput">
+                            @Html.TextBoxFor(x => x.EndDateDisplay, new { @class = "form-control" })
                         </td>
                     </tr>
                     <tr id="repeatEventRow">
-                        <td class="b alRight">Repeat:
+                        <td class="b text-right">
+                            Repeat:
                         </td>
                         <td>
-                            @Html.CheckBoxFor(x => x.IsReoccurring, new { @onchange = "IsReoccuringEvent(this)", @class = "alignLeft" })
-                            <span class="b" id="summaryEvent"></span>
+                            <label>
+                                @Html.CheckBoxFor(x => x.IsReoccurring, new { @onchange = "IsReoccuringEvent(this)", @class = "alignLeft", @data_toggle = "modal", @data_target = "#myModal" })
+                                <span class="b" id="summaryEvent"></span>
+                            </label>
                         </td>
                     </tr>
                     <tr id="publicEventRow">
-                        <td class="b alRight">Is Public Event:
+                        <td class="b text-right">
+                            Is Public Event:
                         </td>
                         <td>
-                            @Html.CheckBoxFor(x => x.IsPublicEvent, new { @class = "alignLeft", @onchange = "PublicEventChangeCalendar(this)" })
-                            <span class="i">Shows event on the public RDNation.com calendar. <span class="b">For
-                                Bouts, Fundraisers etc...</span> Can't Repeat</span>
+                            <label>
+                                @Html.CheckBoxFor(x => x.IsPublicEvent, new { @class = "alignLeft", @onchange = "PublicEventChangeCalendar(this)" })
+                                <small class="i">
+                                    Shows event on the public RDNation.com calendar. <span class="b">
+                                        For
+                                        Bouts, Fundraisers etc...
+                                    </span> Can't Repeat
+                                </small>
+                            </label>
                         </td>
                     </tr>
                     <tr>
-                        <td class="b alRight">Link:
+                        <td class="b text-right">
+                            Link:
                         </td>
                         <td class="subject">
-                            @Html.TextBoxFor(x => x.Link)
+                            @Html.TextBoxFor(x => x.Link, new { @class = "form-control" })
                         </td>
                     </tr>
                     <tr>
-                        <td class="b alRight">Allow Self Check In:
+                        <td class="b text-right">
+                            Allow Self Check In:
                         </td>
                         <td>
-                            @Html.CheckBoxFor(x => x.AllowSelfCheckIn, new { @class = "alignLeft" })<span class="i">People
-                                can check themselves in to events.</span>
+                            <label>
+                                @Html.CheckBoxFor(x => x.AllowSelfCheckIn, new { @class = "alignLeft" })<small class="i">
+                                    People
+                                    can check themselves in to events.
+                                </small>
+                            </label>
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td class="text-right">
                             @Html.LabelFor(x => x.Notes)
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-
+                        <td>
                             @Html.TextArea("Notes", Model.Notes, new
                            {
                                id = "wmd-input"
                            })
 
+
                         </td>
                     </tr>
+
                     <tr>
                         <td>
-                            <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Cancel Edit Event</a>
+                            <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))" class="btn btn-default">Cancel Edit Event</a>
                         </td>
                         <td>
-                            <input type="submit" class="primary" value="Update Event" name="updateEvent" />
+                            <input type="submit" class="btn btn-primary" value="Update Event" name="updateEvent" />
                         </td>
                     </tr>
                 </table>
@@ -204,93 +247,143 @@
                 @Html.HiddenFor(x => x.CalendarType)
                 @Html.HiddenFor(x => x.CalendarItemId)
                 @Html.HiddenFor(x => x.ToGroupIds)
-           
-                <div id="eventRepeatsPopUp" class="popUpEvent">
-                    <div class="popUpHeader">
-                        Repeat
-                    </div>
-                    <table>
-                        <tr>
-                            <td colspan="2" class="b">Repeats:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                @Html.DropDownListFor(x => x.RepeatsFrequencySelectedId, Model.RepeatsFrequencyDropDown, new { @onchange = "RepeatsFrequencyEventChange(this)" })
-                            </td>
-                        </tr>
 
-                        <tr id="repeatsOnRow">
-                            <td colspan="2" class="b">Repeat On:
-                            </td>
-                        </tr>
-                        <tr id="repeatsOnRowSel">
-                            <td colspan="2">
-                                <div class="displayNone checkboxError" id="selectDate">Please Select a Day</div>
-                                @Html.CheckBoxFor(x => x.IsSunday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })S
-                                @Html.CheckBoxFor(x => x.IsMonday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })M
-                                @Html.CheckBoxFor(x => x.IsTuesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })T
-                                @Html.CheckBoxFor(x => x.IsWednesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })W
-                                @Html.CheckBoxFor(x => x.IsThursday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })T
-                                @Html.CheckBoxFor(x => x.IsFriday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })F
-                                @Html.CheckBoxFor(x => x.IsSaturday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })S
-                            </td>
-                        </tr>
-                        <tr id="repeatsOnRowSelMonthly">
-                            <td colspan="2">
-                                <div class="displayNone checkboxError" id="selectWeekOfMonth">Please Select Week</div>
-                                The @Html.DropDownListFor(x => x.MonthlyIntervalId, Model.MonthlyInterval, new { @onchange = "RepeatsFrequencyEventChange(this)" }) Week of the Month
-                           
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="b">Ends:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.Never.ToString(), new { @checked = "checked", @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
-                                @EndsWhenReoccuringEnum.Never.ToString()<br />
-                                @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.On.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
-                                @EndsWhenReoccuringEnum.On.ToString()
-                                @Html.TextBox("EndsDate", Model.EndDateReoccurringDisplay, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="b">
-                                <span id="summaryPopUp"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="button" id="checkInButtonPopUp" value="Done" class="primary" onclick="javascript: CloseReOccuringEventWindow(true)" />
-                            </td>
-                            <td>
-                                <span class="spanLink" onclick="javascript:CloseReOccuringEventWindow(false)">Cancel</span>
-                            </td>
-                        </tr>
-                    </table>
+
+
+
+
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Repeat</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table>
+                                    <tr>
+                                        <td colspan="2" class="b">
+                                            Repeats:
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            @Html.DropDownListFor(x => x.RepeatsFrequencySelectedId, Model.RepeatsFrequencyDropDown, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control" })
+                                        </td>
+                                    </tr>
+                                    <tr id="repeatsOnRow">
+                                        <td colspan="2" class="b">
+                                            On:
+                                        </td>
+                                    </tr>
+                                    <tr id="repeatsOnRowSel">
+                                        <td colspan="2">
+                                            <div class="displayNone checkboxError" id="selectDate">Please Select a Day</div>
+                                            <label>
+                                                @Html.CheckBoxFor(x => x.IsSunday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })S
+                                            </label>
+                                            <label>
+                                                @Html.CheckBoxFor(x => x.IsMonday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })M
+                                            </label>
+                                            <label>
+                                                @Html.CheckBoxFor(x => x.IsTuesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })T
+                                            </label>
+                                            <label>@Html.CheckBoxFor(x => x.IsWednesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })W</label>
+                                            <label>@Html.CheckBoxFor(x => x.IsThursday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })T</label>
+                                            <label>@Html.CheckBoxFor(x => x.IsFriday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })F</label>
+                                            <label>@Html.CheckBoxFor(x => x.IsSaturday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })S</label>
+
+                                        </td>
+                                    </tr>
+                                    <tr id="repeatsOnRowSelMonthly" class="displayNone">
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <span class="displayNone checkboxError" id="selectWeekOfMonth">Please Select Week</span>
+                                                    The
+                                                </span>
+                                                @Html.DropDownListFor(x => x.MonthlyIntervalId, Model.MonthlyInterval, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control input-sm" })
+                                                <span class="input-group-addon">Week of the Month</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" class="b">
+                                            Ends:
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <label>
+                                                @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.Never.ToString(), new { @checked = "checked", @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
+                                                @EndsWhenReoccuringEnum.Never.ToString()
+                                            </label>
+                                            <br />
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <label>
+                                                        @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.After.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
+                                                        @EndsWhenReoccuringEnum.After.ToString()
+                                                    </label>
+                                                </span>
+                                                @Html.TextBoxFor(x => x.EndsOccurences, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
+                                                <span class="input-group-addon">ocurrences</span>
+                                            </div><br />
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <label>
+                                                        @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.On.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
+                                                        @EndsWhenReoccuringEnum.On.ToString()
+                                                    </label>
+                                                </span>
+                                                @Html.TextBox("EndsDate", Model.EndDateReoccurringDisplay, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr></tr>
+                                </table><br />
+                                <div class="modal-footer">
+                                    <div class="alert alert-info text-left b">
+                                        <span id="summaryPopUp"></span>
+                                    </div>
+                                    <input type="button" id="checkInButtonPopUp" value="Done" class="btn btn-primary" data-dismiss="modal" onclick="javascript: CloseReOccuringEventWindow(true)" />
+                                    <span class="btn btn-default" onclick="javascript:CloseReOccuringEventWindow(false)" data-dismiss="modal">Cancel</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-   
+
+
             }
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    
-    $(document).ready(function () {
-        IsReoccuringEvent($("#IsReoccurring"));
-        LoadDropDownBackgroundColors();
-        Calendar.InitializeNewEvent();
-    });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            IsReoccuringEvent($("#IsReoccurring"));
+            LoadDropDownBackgroundColors();
+            Calendar.InitializeNewEvent();
+            ToggleReoccuringEventPopup($("#IsReoccurring"));
+        });
     var d = new Date();
     var curr_date = d.getDate();
 
     var startDate = new Date('@Model.StartDateDisplay');
     var endDate = new Date('@Model.EndDateDisplay');
 
-    $('#EndsDate').datepicker();
+    $('#EndsDate').datepicker().css({ "z-index": 1050 });
     $('#StartDateDisplay').datetimepicker({
         ampm: true,
         onSelect: function (dateText, inst) {

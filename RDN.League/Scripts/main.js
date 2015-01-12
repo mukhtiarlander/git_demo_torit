@@ -1292,19 +1292,30 @@ function RepeatsFrequencyEventChange(dropDown) {
     ChangeSummaryOfRepeatedEvent(true);
 }
 
+function ToggleReoccuringEventPopup(checkBox) {
+    var isChecked = $(checkBox).is(':checked');
+
+    if (isChecked) {
+        $('#myModal').modal('show');
+    }
+    else {
+        $('#myModal').modal('hide');
+    }
+
+}
+
 function IsReoccuringEvent(checkBox) {
     var isChecked = $(checkBox).is(':checked');
+
     if (isChecked) {
-        $("#eventRepeatsPopUp").fadeIn("fast");
         $("#createtrackSubmit").toggleClass("displayNone", true);
         ChangeSummaryOfRepeatedEvent(true);
     }
     else {
-        $("#eventRepeatsPopUp").fadeOut("fast");
         $("#createtrackSubmit").toggleClass("displayNone", false);
         ChangeSummaryOfRepeatedEvent(false);
     }
-    $("#eventRepeatsPopUp").center();
+
 }
 function CloseReOccuringEventWindow(isDone) {
     //we pressed the cancel button.
