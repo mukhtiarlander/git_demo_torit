@@ -29,7 +29,7 @@ namespace RDN.Raspberry.Controllers
             AutomatedTask task = new AutomatedTask();
             try
             {
-                //task.massRollinNewsPaymentsProcessed = AutomatedTask.ProcessRollinNewsMassPayments();
+                task.massRollinNewsPaymentsProcessed = AutomatedTask.ProcessRollinNewsMassPayments();
             }
             catch (Exception exception)
             {

@@ -11,6 +11,7 @@ using RDN.Library.Classes.Error;
 using RDN.Utilities.Error;
 using RDN.Library.Cache.Singletons;
 using System.Configuration;
+using RDN.Library.Classes.Payment.Enums;
 
 
 
@@ -67,6 +68,7 @@ namespace RDN.Raspberry
             RegisterRoutes(RouteTable.Routes);
 
             SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
+            SiteSingleton.Instance.IsPayPalLive = (PaymentMode)Enum.Parse(typeof(PaymentMode), ConfigurationManager.AppSettings["IsPayPalLive"].ToString());
         }
     }
 }

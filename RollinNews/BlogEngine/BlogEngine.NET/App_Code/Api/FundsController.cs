@@ -11,6 +11,7 @@ using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Config;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -62,7 +63,7 @@ public class FundsController : ApiController
                     PaymentGateway pg = new PaymentGateway();
 
                     var f = pg.StartInvoiceWizard()
-                        .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", PaymentProvider.Paypal, PaymentMode.Test, ChargeTypeEnum.RollinNewsWriterPrePayout)
+                        .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", PaymentProvider.Paypal, (PaymentMode)Enum.Parse(typeof(PaymentMode), ConfigurationManager.AppSettings["IsPayPalLive"].ToString()), ChargeTypeEnum.RollinNewsWriterPrePayout)
                         .SetInvoiceId(Guid.NewGuid())
                         .AddWriterPayout(new RDN.Library.Classes.Payment.Classes.Invoice.InvoiceWriterPayout
                         {

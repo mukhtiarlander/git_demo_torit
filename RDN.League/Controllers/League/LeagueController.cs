@@ -39,6 +39,7 @@ using RDN.Portable.Classes.Federation.Enums;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.League.Classes;
 using RDN.Portable.Classes.League.Enums;
+using RDN.Library.Classes.League;
 
 
 
@@ -948,14 +949,20 @@ namespace RDN.League.Controllers
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
 
+                if (refresh.Length > 1)
+                {
+                    LeagueFactory.RefreshLeagueJoinCode(league.LeagueId);
+                    MemberCache.Clear(memId);
+                    league = MemberCache.GetLeagueOfMember(memId);
+
+                }
+
+                
+
                 ViewBag.LeagueName = league.Name;
                 ViewBag.JoinCode = league.JoinCode.ToString().Replace("-", "");
                 ViewBag.LeagueId = league.LeagueId.ToString().Replace("-", "");
-                if (refresh.Length > 1)
-                {
-                    ViewBag.JoinCode = Guid.NewGuid().ToString().Replace("-", "");
-                    MemberCache.Clear(memId);
-                }
+
 
                 var model = new SimpleModPager<MemberDisplay>();
                 model.CurrentPage = 1;

@@ -410,7 +410,7 @@ namespace RDN.Library.Classes.League
             return false;
         }
 
-        public static List<MemberDisplay> GetLeagueMembersDisplay(Guid leagueId, bool hasLeftLeague=false)
+        public static List<MemberDisplay> GetLeagueMembersDisplay(Guid leagueId, bool hasLeftLeague = false)
         {
             List<MemberDisplay> membersTemp = new List<MemberDisplay>();
             try
@@ -675,7 +675,7 @@ namespace RDN.Library.Classes.League
             }
             return null;
         }
-        public static RDN.Portable.Classes.League.Classes.League DisplayLeague(DataModels.League.League league, bool isPublic = false, bool isRemovedFromLeague= false)
+        public static RDN.Portable.Classes.League.Classes.League DisplayLeague(DataModels.League.League league, bool isPublic = false, bool isRemovedFromLeague = false)
         {
             try
             {
@@ -1177,8 +1177,7 @@ namespace RDN.Library.Classes.League
             {
                 // Create a league object to be returned
                 //TODO: Remove logo path
-                var leagueObj = new RDN.Portable.Classes.League.Classes.League
-                { LeagueId = league.League.LeagueId, Name = league.League.Name }; //, LogoPath = league.LogoPath
+                var leagueObj = new RDN.Portable.Classes.League.Classes.League { LeagueId = league.League.LeagueId, Name = league.League.Name }; //, LogoPath = league.LogoPath
                 leagueObj.InternalFederationIdForLeague = league.InternalLeagueIdForFederation;
                 // If contact information is found, add it
                 if (league.League.ContactCard != null)
@@ -1320,8 +1319,7 @@ namespace RDN.Library.Classes.League
             {
                 // Create a league object to be returned
                 //TODO: Remove logo path
-                var leagueObj = new RDN.Portable.Classes.League.Classes.League 
-                { LeagueId = league.LeagueId, Name = league.Name }; //, LogoPath = league.LogoPath
+                var leagueObj = new RDN.Portable.Classes.League.Classes.League { LeagueId = league.LeagueId, Name = league.Name }; //, LogoPath = league.LogoPath
 
                 // If contact information is found, add it
                 if (league.ContactCard != null)
@@ -2643,6 +2641,16 @@ namespace RDN.Library.Classes.League
             }
             int c = dc.SaveChanges();
             return c;
+        }
+
+        public static bool RefreshLeagueJoinCode(Guid leagueId)
+        {
+            var dc = new ManagementContext();
+            var leagues = dc.Leagues.Where(x => x.LeagueId == leagueId).FirstOrDefault();
+
+            leagues.LeagueJoinCode = Guid.NewGuid();
+            int c = dc.SaveChanges();
+            return c>0;
         }
     }
 }
