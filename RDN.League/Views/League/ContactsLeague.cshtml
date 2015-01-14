@@ -4,108 +4,119 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(RDN.Library.Classes.Account.User.GetMemberId());
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Contacts For @Model.Name
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isAdminOfLeague)
-            { 
-                <a href="@Url.Content("~/contact/add/league")">
-                    <img src="@Url.Content("~/Content/plus.png")" height="20px" />
-                    Add Contact</a>
-            }
-        </div>
-       
-                  <div class="titleDescription">
-  Contacts are a way to keep in touch with anyone of interest.  Volunteers, Sponsors, Officials and any other person you might need to contact.
-       
+
+
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-group"></i> Contacts For @Model.Name</h3>
             </div>
-            <div class="divider"></div>
-        <div>
-            <table class="listTable tableExtras" id="members">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Type</th>
-                        <th>First Name
-                        </th>
-                        <th>Last Name
-                        </th>
-                        <th>Company</th>
-                        <th>Phone #
-                        </th>
-                        <th>Email
-                        </th>
-                        <th>Address
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Contacts.Count; i++)
-                    {
-                    
-                        <tr>
-                            <td>
-                                @if (isAdminOfLeague)
-                                { 
-                                    <a href="@Url.Content("~/contact/edit/" + Model.Contacts[i].ContactType + "/" + Model.Contacts[i].ContactId.ToString().Replace("-", ""))">Manage </a>
-                                }
-                            </td>
-                            <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Contacts[i].ContactTypeForOrg)</td>
-                            <td>@Model.Contacts[i].FirstName
-                            </td>
-                            <td>@Model.Contacts[i].LastName
-                            </td>
-                            <td>@Model.Contacts[i].CompanyName
-                            </td>
-                            <td>@Model.Contacts[i].PhoneNumber
-                            </td>
-                            <td>
-                                @if (!String.IsNullOrEmpty(@Model.Contacts[i].Email))
-                                { 
-                                    <a href="mailto:@Model.Contacts[i].Email">@Model.Contacts[i].Email</a>
-                                }
-                            </td>
-
-                            <td>
-                                @if (Model.Contacts[i].ContactCard.Addresses.FirstOrDefault() != null)
-                                { 
-                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address1<span>,</span>
-                                    if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address2))
-                                    { 
-                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address2<span>,</span>
-                                    }
-                                    if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().CityRaw))
-                                    { 
-                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().CityRaw<span>,</span>}
-                                    if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().StateRaw))
-                                    { 
-                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().StateRaw<span>,</span>
-                                    }
-                                    if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Zip))
-                                    { 
-                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Zip<span>,</span>
-                                    }
-                                    if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Country))
-                                    { 
-                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Country
-                                    }
-                             
-                                    <span>(<a href="http://www.bing.com/maps/default.aspx?q=@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address1+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address2,+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().CityRaw,+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().StateRaw+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Zip+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Country" target="_blank">View Map</a>)</span>
-                                 
-                                }
-                            </td>
-                        </tr>     
-                    
-                    }
-                </tbody>
-            </table>
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isAdminOfLeague)
+                {
+                    <a class="btn btn-success pull-right" href="@Url.Content("~/contact/add/league")">
+                        <i class="fa fa-plus-circle"></i> Add Contact
+                    </a>
+                }
+            </div>
         </div>
+        <div class="text-muted"> Contacts are a way to keep in touch with anyone of interest.  Volunteers, Sponsors, Officials and any other person you might need to contact.</div>
+    </div>
+    <div class="panel-body no-padding-top">
+        <table class="table table-striped table-hover table-condensed" id="members">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Type</th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>Company</th>
+                    <th>
+                        Phone #
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Address
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Contacts.Count; i++)
+                {
+
+                    <tr>
+                        <td>
+                            @if (isAdminOfLeague)
+                            {
+                                <a class="btn btn-xs btn-info" href="@Url.Content("~/contact/edit/" + Model.Contacts[i].ContactType + "/" + Model.Contacts[i].ContactId.ToString().Replace("-", ""))"
+                                    data-toggle="tooltip" data-placement="top" title="Manage Contact">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            }
+                        </td>
+                        <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Contacts[i].ContactTypeForOrg)</td>
+                        <td>
+                            @Model.Contacts[i].FirstName
+                        </td>
+                        <td>
+                            @Model.Contacts[i].LastName
+                        </td>
+                        <td>
+                            @Model.Contacts[i].CompanyName
+                        </td>
+                        <td>
+                            @Model.Contacts[i].PhoneNumber
+                        </td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(@Model.Contacts[i].Email))
+                            {
+                                <a href="mailto:@Model.Contacts[i].Email">@Model.Contacts[i].Email</a>
+                            }
+                        </td>
+
+                        <td>
+                            @if (Model.Contacts[i].ContactCard.Addresses.FirstOrDefault() != null)
+                            {
+                                @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address1<span>,</span>
+                                if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address2))
+                                {
+                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address2<span>,</span>
+                                }
+                                if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().CityRaw))
+                                {
+                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().CityRaw<span>,</span>}
+                                if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().StateRaw))
+                                {
+                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().StateRaw<span>,</span>
+                                }
+                                if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Zip))
+                                {
+                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Zip<span>,</span>
+                                }
+                                if (!String.IsNullOrEmpty(Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Country))
+                                {
+                                    @Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Country
+                                }
+
+                                <span>(<a href="http://www.bing.com/maps/default.aspx?q=@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address1+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Address2,+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().CityRaw,+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().StateRaw+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Zip+@Model.Contacts[i].ContactCard.Addresses.FirstOrDefault().Country" target="_blank">View Map</a>)</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({
@@ -118,4 +129,5 @@
             "bAutoWidth": false
         });
     });
+    $('[data-toggle="tooltip"]').tooltip()
 </script>
