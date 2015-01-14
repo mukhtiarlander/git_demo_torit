@@ -7,40 +7,36 @@
     ViewBag.Title = "View Calendar Event " + Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
-    
-}
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
-            {
-                <span>< <a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
-            else
-            { 
-                <span>< <a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></span>
-            }
 
-        </div>
-        <div class="rightBackLink">
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Today is @Model.Name's Birthday
-        </div>
-        <div class="tvChanges">
-        </div>
-        <br /><br />
-        <div class="viewEventNotes">
-            @Model.StartDate.ToShortDateString() is @Model.Name's Birthday
-        </div>
-        <div class="divider"></div>
-       
-        <div>
+}
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
+    {
+        <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
+    }
+    <li class="active">Birthday</li>
+</ol>
+
+<div class="col-md-offset-1  col-md-10  col-xs-12">
+    <h2 class="text-center">
+        Today is @Model.Name's Birthday
+    </h2>
+
+</div>
+
+<div class="col-md-offset-1 col-md-10 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3 class="text-center">
+                @Model.StartDate.ToShortDateString() is @Model.Name's Birthday
+            </h3>
+
         </div>
     </div>
 </div>
-<script type="text/javascript">
-  
-</script>
+

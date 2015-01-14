@@ -66,10 +66,7 @@ namespace RDN.Library.Classes.Calendar
                             calEvent.backColor = ColorTranslator.ToHtml(c);
                         }
                         calEvent.title = ev.Name;
-                        //removes length less than 14 chars 
-                        //because the title is too long for the calendar display.
-                        if (ev.Name.Length > 14)
-                            calEvent.title = calEvent.title.Remove(14);
+                        
                         calEvent.id = ev.CalendarItemId;
                         if (ev.ReocurringEvent != null)
                             calEvent.ReocurringId = ev.ReocurringEvent.CalendarItemId;
@@ -864,7 +861,7 @@ namespace RDN.Library.Classes.Calendar
 
                 newCal.IsCalendarInUTC = calDb.IsCalendarInUTC;
 
-                var types = dc.CalendarEventTypes.Where(x => x.CalendarOwner.CalendarId == id);
+                var types = dc.CalendarEventTypes.Include("DefaultColor").Where(x => x.CalendarOwner.CalendarId == id);
                 foreach (var type in types)
                 {
                     CalendarEventType t = new CalendarEventType();

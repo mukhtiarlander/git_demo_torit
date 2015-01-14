@@ -58,7 +58,7 @@
                     }
 
                     <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Reporting_On_Events" class="btn btn-default btn-sm"
-                       target="_blank"><i class="fa fa-question"></i>Reporting Explained</a>
+                       target="_blank"><i class="fa fa-question"></i> Reporting Explained</a>
 
                 </div>
             </div>
@@ -74,344 +74,344 @@
 
 <div class="col-xs-12">
     <div class="panel panel-default">
-        < class="panel-body">
+        <div class="panel-body">
 
 
-        <div>
-            Here we allow you to run reports on all your calendar events. By choosing the amount
-            of days to look backwards, the reports will show you who has the most points by
-            showing up to the events along with averages.
-            <b>When Exporting - </b>RDNation uses formulas to populate the summary page and each members page.  The formulas will only be calculated when you have <b>Enabled Editing</b> of the excel document. So please make sure to enable editing once the document is opened.
-        </div>
-        @using (Html.BeginForm("CalendarReport", "Calendar"))
-        {
+            <div>
+                Here we allow you to run reports on all your calendar events. By choosing the amount
+                of days to look backwards, the reports will show you who has the most points by
+                showing up to the events along with averages.
+                <b>When Exporting - </b>RDNation uses formulas to populate the summary page and each members page.  The formulas will only be calculated when you have <b>Enabled Editing</b> of the excel document. So please make sure to enable editing once the document is opened.
+            </div>
+            @using (Html.BeginForm("CalendarReport", "Calendar"))
+            {
 
-            <table class="table">
-                <tr>
-                    <td class="b text-right">
-                        Groups:
-                        <br />
-                        <span class="i"><a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Groups_For_Reports_vs_Entire_League" target="_blank">Group Only Reports</a></span>
-                    </td>
-                    <td colspan="2">
+                <table class="table">
+                    <tr>
+                        <td class="b text-right">
+                            Groups:
+                            <br />
+                            <span class="i"><a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Groups_For_Reports_vs_Entire_League" target="_blank">Group Only Reports</a></span>
+                        </td>
+                        <td colspan="2">
 
-                        <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" style="float: left;" class="b">
-                            <span class="recipientsNames ">Entire League</span>
-                        </div>
-                        <button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-default pull-right" type="button">
-                            <i class="fa fa-users "></i> Change Group <span class="caret"></span>
-                        </button>
+                            <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" style="float: left;" class="b">
+                                <span class="recipientsNames ">Entire League</span>
+                            </div>
+                            <button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-default pull-right" type="button">
+                                <i class="fa fa-users "></i> Change Group <span class="caret"></span>
+                            </button>
 
-                    </td>
+                        </td>
 
-                </tr>
-                <tr>
-                    <td class="b alRight alignTop"></td>
-                    <td style="max-width: 100px;">
+                    </tr>
+                    <tr>
+                        <td class="b alRight alignTop"></td>
+                        <td style="max-width: 100px;">
 
-                        <div class="clear"></div>
-                        <div class="displayNone groupMemberLists" id="groupMemberLists">
-                            <ul id="groupList" class="list-unstyled"></ul>
                             <div class="clear"></div>
+                            <div class="displayNone groupMemberLists" id="groupMemberLists">
+                                <ul id="groupList" class="list-unstyled"></ul>
+                                <div class="clear"></div>
+                            </div>
+
+                            @Html.HiddenFor(x => x.ToGroupIds)
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr id="pullGroupEvents" class="displayNone">
+                        <td class="b text-right">Report Group Events Only: </td>
+                        <td colspan="2"><label> @Html.CheckBoxFor(x => x.PullGroupEventsOnly) <span class="i">when checked, reports only on events attached to group.</span> </label></td>
+
+
+                    </tr>
+                    <tr>
+                        <td class="b text-right">Report Back On: </td>
+                        <td colspan="2" class="form-inline">
+                            <div class="input-group">
+
+                                @Html.TextBoxFor(x => x.DaysBackwards, new { @class = "form-control" })
+                                <div class="input-group-addon"> Days</div>
+                            </div>
+
+                            <input type="submit" class="btn btn-primary" name="byDays" id="byDays" value="Run" />
+                            <input type="submit" class="btn btn-primary" name="byDaysExport" id="byDaysExport" value="Export" />
+                        </td>
+
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Start & End Date:
+                        </td>
+                        <td class="mediumInput form-inline" colspan="2">
+                            @Html.TextBoxFor(x => x.StartDateSelectedDisplay, new { @class = "form-control" })
+
+                            <b> - </b>
+                            @Html.TextBoxFor(x => x.EndDateSelectedDisplay, new { @class = "form-control" })
+
+                            <input type="submit" class="btn btn-primary" name="byDate" id="byDate" value="Run" />
+                            <input type="submit" class="btn btn-primary" name="byDateExport" id="byDateExport" value="Export" />
+                        </td>
+                    </tr>
+
+                </table>
+
+                @Html.HiddenFor(x => x.CalendarId);
+                @Html.HiddenFor(x => x.EntityName);
+            }
+            <div class="clear">
+            </div>
+            @if (Model.IsSubmitted)
+            {
+
+                <ul class="nav nav-tabs" role="tablist" id="myTabs">
+                    @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
+                    <li role="presentation" class="active"><a href="#Members" role="tab" data-toggle="tab">Members</a></li>
+
+                    <li role="presentation"><a href="#EventsByMember" role="tab" data-toggle="tab">Events By Member</a></li>
+                    <li role="presentation"><a href="#EventTypes" role="tab" data-toggle="tab">Event Types</a></li>
+                    @foreach (var eventType in Model.EventTypesReport)
+                    {
+                        <li role="presentation"><a href="#@eventType.CalendarEventTypeId" role="tab" data-toggle="tab">@eventType.EventTypeName</a></li>
+                    }
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active well" id="Members">
+
+                        <div class="">
+                            Total Points: <b>@Model.TotalPointsAllowed</b> - Total Events: <b>@Model.Events.Count</b>
+                            - Total Days Reporting: <b>@Model.DaysBackwards</b>
                         </div>
-
-                        @Html.HiddenFor(x => x.ToGroupIds)
-                    </td>
-                    <td></td>
-                </tr>
-                <tr id="pullGroupEvents" class="displayNone">
-                    <td class="b text-right">Report Group Events Only: </td>
-                    <td colspan="2"><label> @Html.CheckBoxFor(x => x.PullGroupEventsOnly) <span class="i">when checked, reports only on events attached to group.</span> </label></td>
-
-
-                </tr>
-                <tr>
-                    <td class="b text-right">Report Back On: </td>
-                    <td colspan="2" class="form-inline">
-                        <div class="input-group">
-
-                            @Html.TextBoxFor(x => x.DaysBackwards, new { @class = "form-control" })
-                            <div class="input-group-addon"> Days</div>
-                        </div>
-
-                        <input type="submit" class="btn btn-primary" name="byDays" id="byDays" value="Run" />
-                        <input type="submit" class="btn btn-primary" name="byDaysExport" id="byDaysExport" value="Export" />
-                    </td>
-
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b text-right">
-                        Start & End Date:
-                    </td>
-                    <td class="mediumInput form-inline" colspan="2">
-                        @Html.TextBoxFor(x => x.StartDateSelectedDisplay, new { @class = "form-control" })
-
-                        <b> - </b>
-                        @Html.TextBoxFor(x => x.EndDateSelectedDisplay, new { @class = "form-control" })
-
-                        <input type="submit" class="btn btn-primary" name="byDate" id="byDate" value="Run Report" />
-                        <input type="submit" class="btn btn-primary" name="byDateExport" id="byDateExport" value="Export" />
-                    </td>
-                </tr>
-
-            </table>
-
-            @Html.HiddenFor(x => x.CalendarId);
-            @Html.HiddenFor(x => x.EntityName);
-        }
-        <div class="clear">
-        </div>
-        @if (Model.IsSubmitted)
-        {
-
-            <ul class="nav nav-tabs" role="tablist" id="myTabs">
-                @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
-                <li role="presentation" class="active"><a href="#Members" role="tab" data-toggle="tab">Members</a></li>
-
-                <li role="presentation"><a href="#EventsByMember" role="tab" data-toggle="tab">Events By Member</a></li>
-                <li role="presentation"><a href="#EventTypes" role="tab" data-toggle="tab">Event Types</a></li>
-                @foreach (var eventType in Model.EventTypesReport)
-                {
-                    <li role="presentation"><a href="#@eventType.CalendarEventTypeId" role="tab" data-toggle="tab">@eventType.EventTypeName</a></li>
-                }
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active well" id="Members">
-
-                    <div class="">
-                        Total Points: <b>@Model.TotalPointsAllowed</b> - Total Events: <b>@Model.Events.Count</b>
-                        - Total Days Reporting: <b>@Model.DaysBackwards</b>
-                    </div>
-                    <br />
-                    <table class="table table-condensed table-hover table-responsive table-striped" id="members">
-                        <thead>
-                            <tr>
-                                <th colspan="3"></th>
-                                <th class="alignCenter" colspan="6">
-                                    Total Points
-                                </th>
-                                <th></th>
-                                <th colspan="2" class="alignCenter">
-                                    % Attended
-                                </th>
-                                @*    <th>
-                                        Average Pts
-                                    </th>*@
-                            </tr>
-                            <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Event Types
-                                </th>
-                                <th class="alignCenter">
-                                    Amt
-                                </th>
-                                <th class="alignCenter">
-                                    Attended
-                                </th>
-                                <th class="alignCenter">
-                                    Absent
-                                </th>
-                                <th class="alignCenter">
-                                    Excused
-                                </th>
-                                <th class="alignCenter">
-                                    Tardy
-                                </th>
-                                <th class="alignCenter">
-                                    Earned Pts
-                                </th>
-                                <th class="alignCenter">
-                                    Possible Pts
-                                </th>
-                                <th class="alignCenter">
-                                    All
-                                </th>
-                                <th class="alignCenter">
-                                    Counted
-                                </th>
-                                <th class="alignCenter">
-                                    All Pts Earned
-                                </th>
-                                @*    <th>
-                                        Average Pts
-                                    </th>*@
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.Attendees.Count; i++)
-                            {
-                                <tr class="reportingRow">
-                                    <td>
-                                        @Model.Attendees[i].MemberNumber
-                                    </td>
-                                    <td>
-                                        <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">@Model.Attendees[i].MemberName</a><br />
-                                        @Model.Attendees[i].FullName
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <span class="noTwoLine">@type.EventTypeName</span><br />
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Count()<br />
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalTimesAttendedEventType<br />
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalTimesBeenAbsent<br />
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalTimesBeenExcused<br />
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalTimesBeenTardy<br />
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalPointsAccruedForType<br />
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Sum(x => x.EventType.PointsForPresent)
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalAllPointsPossiblePercentage.ToString("N0")
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (Model.Attendees[i].MemberName == "Velocirapture")
-                                        { }
-                                        @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                        {
-                                            <div>
-                                                @type.TotalCountedPointsPossiblePercentage.ToString("N0")
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        <div>
-                                            @Model.Attendees[i].TotalPoints
-                                        </div>
-                                        <div>
-                                            <span title="Total Hours">@(RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(Model.Attendees[i].TotalHoursAttendedEventType)) hrs</span>
-                                        </div>
-                                    </td>
-                                    @*    <td>@Model.Attendees[i].PointsAverage.ToString("N2")
-                                        </td>*@
+                        <br />
+                        <table class="table table-condensed table-hover table-responsive table-striped" id="members">
+                            <thead>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th class="alignCenter" colspan="6">
+                                        Total Points
+                                    </th>
+                                    <th></th>
+                                    <th colspan="2" class="alignCenter">
+                                        % Attended
+                                    </th>
+                                    @*    <th>
+                                            Average Pts
+                                        </th>*@
                                 </tr>
-                            }
-                        </tbody>
-                        <tfoot>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Event Types
+                                    </th>
+                                    <th class="alignCenter">
+                                        Amt
+                                    </th>
+                                    <th class="alignCenter">
+                                        Attended
+                                    </th>
+                                    <th class="alignCenter">
+                                        Absent
+                                    </th>
+                                    <th class="alignCenter">
+                                        Excused
+                                    </th>
+                                    <th class="alignCenter">
+                                        Tardy
+                                    </th>
+                                    <th class="alignCenter">
+                                        Earned Pts
+                                    </th>
+                                    <th class="alignCenter">
+                                        Possible Pts
+                                    </th>
+                                    <th class="alignCenter">
+                                        All
+                                    </th>
+                                    <th class="alignCenter">
+                                        Counted
+                                    </th>
+                                    <th class="alignCenter">
+                                        All Pts Earned
+                                    </th>
+                                    @*    <th>
+                                            Average Pts
+                                        </th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Attendees.Count; i++)
+                                {
+                                    <tr class="reportingRow">
+                                        <td>
+                                            @Model.Attendees[i].MemberNumber
+                                        </td>
+                                        <td>
+                                            <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">@Model.Attendees[i].MemberName</a><br />
+                                            @Model.Attendees[i].FullName
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <span class="noTwoLine">@type.EventTypeName</span><br />
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Count()<br />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalTimesAttendedEventType<br />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalTimesBeenAbsent<br />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalTimesBeenExcused<br />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalTimesBeenTardy<br />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalPointsAccruedForType<br />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Sum(x => x.EventType.PointsForPresent)
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalAllPointsPossiblePercentage.ToString("N0")
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (Model.Attendees[i].MemberName == "Velocirapture")
+                                            { }
+                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                <div>
+                                                    @type.TotalCountedPointsPossiblePercentage.ToString("N0")
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div>
+                                                @Model.Attendees[i].TotalPoints
+                                            </div>
+                                            <div>
+                                                <span title="Total Hours">@(RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(Model.Attendees[i].TotalHoursAttendedEventType)) hrs</span>
+                                            </div>
+                                        </td>
+                                        @*    <td>@Model.Attendees[i].PointsAverage.ToString("N2")
+                                            </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
 
-                            <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Event Types
-                                </th>
-                                <th class="alignCenter">
-                                    Amt
-                                </th>
-                                <th class="alignCenter">
-                                    Attended
-                                </th>
-                                <th class="alignCenter">
-                                    Absent
-                                </th>
-                                <th class="alignCenter">
-                                    Excused
-                                </th>
-                                <th class="alignCenter">
-                                    Tardy
-                                </th>
-                                <th class="alignCenter">
-                                    Earned Pts
-                                </th>
-                                <th class="alignCenter">
-                                    Possible Pts
-                                </th>
-                                <th class="alignCenter">
-                                    All
-                                </th>
-                                <th class="alignCenter">
-                                    Counted
-                                </th>
-                                <th class="alignCenter">
-                                    All Pts Earned
-                                </th>
-                                @*    <th>
-                                        Average Pts
-                                    </th>*@
-                            </tr>
-                            <tr>
-                                <th colspan="3"></th>
-                                <th class="alignCenter" colspan="6">
-                                    Total
-                                </th>
-                                <th></th>
-                                <th colspan="2" class="alignCenter">
-                                    % Attended
-                                </th>
-                                <th></th>
-                                @*    <th>
-                                        Average Pts
-                                    </th>*@
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Event Types
+                                    </th>
+                                    <th class="alignCenter">
+                                        Amt
+                                    </th>
+                                    <th class="alignCenter">
+                                        Attended
+                                    </th>
+                                    <th class="alignCenter">
+                                        Absent
+                                    </th>
+                                    <th class="alignCenter">
+                                        Excused
+                                    </th>
+                                    <th class="alignCenter">
+                                        Tardy
+                                    </th>
+                                    <th class="alignCenter">
+                                        Earned Pts
+                                    </th>
+                                    <th class="alignCenter">
+                                        Possible Pts
+                                    </th>
+                                    <th class="alignCenter">
+                                        All
+                                    </th>
+                                    <th class="alignCenter">
+                                        Counted
+                                    </th>
+                                    <th class="alignCenter">
+                                        All Pts Earned
+                                    </th>
+                                    @*    <th>
+                                            Average Pts
+                                        </th>*@
+                                </tr>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th class="alignCenter" colspan="6">
+                                        Total
+                                    </th>
+                                    <th></th>
+                                    <th colspan="2" class="alignCenter">
+                                        % Attended
+                                    </th>
+                                    <th></th>
+                                    @*    <th>
+                                            Average Pts
+                                        </th>*@
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
                     <div role="tabpanel" class="tab-pane  well" id="EventsByMember">
 
                         <br />
@@ -442,7 +442,7 @@
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Attendees.Count; i++)
-                            {
+                                {
                                     <tr class="reportingRow">
                                         <td>
                                             @Model.Attendees[i].MemberNumber
@@ -489,7 +489,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach (var eventInfo in Model.Attendees[i].EventsAttended)
-                                                {
+                                                    {
                                                         <tr>
                                                             <td>
                                                                 @eventInfo.Name
@@ -502,9 +502,9 @@
                                                             </td>
                                                             <td>
                                                                 @if (eventInfo.Attendees.Where(x => x.MemberId == Model.Attendees[i].MemberId).FirstOrDefault() != null)
-                                                            {
+                                                                {
                                                                     @eventInfo.Attendees.Where(x => x.MemberId == Model.Attendees[i].MemberId).FirstOrDefault().Note
-                                                            }
+                                                                }
 
                                                             </td>
                                                             <td class="center">
@@ -512,21 +512,21 @@
                                                             </td>
                                                             <td class="center">
                                                                 @if (eventInfo.Attendees.Where(x => x.MemberId == Model.Attendees[i].MemberId).FirstOrDefault() != null)
-                                                            {
+                                                                {
                                                                     @eventInfo.Attendees.Where(x => x.MemberId == Model.Attendees[i].MemberId).FirstOrDefault().PointsForEvent
-                                                            }
+                                                                }
                                                             </td>
                                                         </tr>
-                                                }
+                                                    }
                                                 </tbody>
                                             </table>
                                         </td>
                                     </tr>
-                            }
+                                }
                             </tbody>
                         </table>
                     </div>
-                
+
                     <div role="tabpanel" class="tab-pane  well" id="EventTypes">
                         <table class="table" id="eventsTbl">
                             <thead>
@@ -547,7 +547,7 @@
                             </thead>
                             <tbody>
                                 @foreach (var ev in Model.EventTypesReport)
-                            {
+                                {
                                     <tr>
                                         <td>
                                             @ev.EventTypeName
@@ -563,21 +563,19 @@
                                             @( Convert.ToDecimal(ev.TotalMembersAttendedEventType / ev.TotalTimesEventTypeOccured).ToString("N2"))
                                         </td>
                                     </tr>
-                            }
+                                }
                             </tbody>
                         </table>
                     </div>
-                @for (int i = 0; i < Model.EventTypesReport.Count; i++)
-                {
-                    <div role="tabpanel" class="tab-pane well" id="@Model.EventTypesReport[i].CalendarEventTypeId">
-                        
-                            
+                    @for (int i = 0; i < Model.EventTypesReport.Count; i++)
+                    {
+                        <div role="tabpanel" class="tab-pane well" id="@Model.EventTypesReport[i].CalendarEventTypeId">
+
+
                             <div>
-                                Total Events: <b>@Model.Events.Where(x => x.EventType.CalendarEventTypeId == Model.EventTypesReport[i].CalendarEventTypeId).Count()</b>
-                            </div>
+                                <b>Total Events:</b> @Model.Events.Where(x => x.EventType.CalendarEventTypeId == Model.EventTypesReport[i].CalendarEventTypeId).Count()
                             <br />
-                            <div>
-                                Point Breakdown:<br />
+                                <b>Point Breakdown: </b>
                                 <b>@Model.EventTypesReport[i].PointsForPresent</b> Present, <b>@Model.EventTypesReport[i].PointsForPartial</b>
                                 Partial, <b>@Model.EventTypesReport[i].PointsForNotPresent</b> Not Present, <b>@Model.EventTypesReport[i].PointsForExcused</b>
                                 Excused, <b>@Model.EventTypesReport[i].PointsForTardy</b> Tardy
@@ -605,7 +603,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var eventInfo in Model.Events.Where(x => x.EventType.CalendarEventTypeId == Model.EventTypesReport[i].CalendarEventTypeId))
-                                {
+                                    {
                                         <tr>
                                             <td>
                                                 @eventInfo.Name
@@ -635,7 +633,7 @@
                                                         </tr>
                                                     </thead>
                                                     @foreach (var attendee in eventInfo.Attendees)
-                                                {
+                                                    {
                                                         <tr>
                                                             <td>
                                                                 <a target="_blank" href="@Url.Content("~/Member/" + attendee.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(attendee.MemberName))">
@@ -646,7 +644,7 @@
                                                             <td>
                                                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(attendee.PointType)
                                                                 @if (attendee.SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                            {
+                                                                {
                                                                     <span>
                                                                         - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(attendee.SecondaryPointType)
                                                                     </span> }
@@ -655,22 +653,23 @@
                                                                 @attendee.PointsForEvent
                                                             </td>
                                                         </tr>
-                                                }
+                                                    }
                                                 </table>
                                             </td>
                                         </tr>
-                                }
+                                    }
                                 </tbody>
                             </table>
                         </div>
-                        }
-                    </div>
-        }
-    </div>
+                    }
+                </div>
+            }
+        </div>
 
-</div>
     </div>
+</div>
 <script type="text/javascript">
+
     var d = new Date();
     var curr_date = d.getDate();
 
@@ -709,6 +708,7 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "aoColumns": [null, null, null, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }]
         });
         $('#eventsTbl').dataTable({
@@ -716,15 +716,22 @@
             "bLengthChange": false,
             "bFilter": true,
             "bSort": true,
-            "bInfo": false
+            "bInfo": false,
+            "oLanguage": { "sSearch": "" }
         });
         $('#eventsByMembersTbl').dataTable({
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": true,
             "bSort": true,
-            "bInfo": false
+            "bInfo": false,
+            "oLanguage": { "sSearch": "" }
         });
+
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+        $('#eventsTbl_filter input').addClass('form-control').attr("placeholder", "Search");
+        $('#eventsByMembersTbl_filter input').addClass('form-control').attr("placeholder", "Search");
+
         @for (int i = 0; i < Model.Attendees.Count; i++)
          {
                               <text>
@@ -735,6 +742,8 @@
             "bSort": true,
             "bInfo": false
         });
+
+
         </text>
          }
         @for (int i = 0; i < Model.EventTypesReport.Count; i++)
@@ -745,8 +754,10 @@
             "bLengthChange": false,
             "bFilter": true,
             "bSort": true,
-            "bInfo": false
+            "bInfo": false,
+            "oLanguage": { "sSearch": "" }
         });
+        $('#@Model.EventTypesReport[i].CalendarEventTypeId-tbl_filter input').addClass('form-control').attr("placeholder", "Search");
         </text>
             foreach (var eventInfo in Model.Events.Where(x => x.EventType.CalendarEventTypeId == Model.EventTypesReport[i].CalendarEventTypeId))
             {
@@ -763,4 +774,5 @@
             }
         }
     });
+
 </script>

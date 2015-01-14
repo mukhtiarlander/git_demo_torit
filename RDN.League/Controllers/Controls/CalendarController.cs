@@ -263,6 +263,11 @@ namespace RDN.League.Controllers
                     repeatCount.Add(i.ToString());
                 }
 
+                var montlhyInterval = (from ScheduleWidget.Enums.MonthlyIntervalEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.MonthlyIntervalEnum))
+                                       where d.ToString() != "None"
+                                       select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = MonthlyIntervalEnum.First == d });
+                cal.MonthlyInterval = new SelectList(montlhyInterval, "Value", "Text", ((object)1));
+
             }
             catch (Exception exception)
             {

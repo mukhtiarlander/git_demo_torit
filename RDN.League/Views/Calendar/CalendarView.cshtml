@@ -17,15 +17,15 @@
             <div class="fixTitle">
                 Calendar Setup
             </div>
-           <div class="divider"></div>
-       
+            <div class="divider"></div>
+
             <div>
                 It looks like your calendar has not yet been created. Go ahead and create one so
                 you can start scheduling events and tracking attendance! This calendar will be open
                 to all your members!
             </div>
             @using (Html.BeginForm("CreateCalendar", "Calendar"))
-            { 
+            {
                 <div>
                     <input type="submit" class="primary" value="Create Calendar" />
                 </div>
@@ -35,9 +35,56 @@
     </div>
 }
 else
-{ 
-    <script src="@Url.Content("~/Scripts/FullCalendar/fullcalendar.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/FullCalendar/gcal.js")" type="text/javascript"></script>
+{
+
+    @section SecondNav{
+        <nav class="navbar navbar-default navbar-lower" style="margin-bottom:0px;" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondNavBar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                </div>
+                <div class="collapse navbar-collapse collapse-buttons" id="secondNavBar">
+                    <div class="navbar-form navbar-left" role="search">
+
+                        @if (isSec || isAttendance || isEventsCourd)
+                        {
+                            <a class="btn btn-default btn-sm" title="New Event" href="@Url.Content("~/calendar/new/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                                <i class="fa fa-plus "></i> New
+                            </a>
+                        }
+                        <a class="btn btn-default btn-sm" title="Calendar" href="@Url.Content("~/calendar/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <i class="fa fa-calendar "></i> List
+                        </a>
+                        @if (isSec || isAttendance || isEventsCourd)
+                        {
+
+                            <a class="btn btn-default btn-sm" title="Import Calendar" href="@Url.Content("~/calendar/import/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                                <span class="glyphicon glyphicon-import " aria-hidden="true"></span>  Import
+                            </a>
+                            <a class="btn btn-default btn-sm" title="Calendar Settings" href="@Url.Content("~/calendar/settings/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                                <i class="fa fa-cogs "></i> Settings
+                            </a>
+
+                        }
+                        <a class="btn btn-default btn-sm" title="Run Report" href="@Url.Content("~/calendar/reports/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                            <span class="glyphicon glyphicon-list-alt " aria-hidden="true"></span> Report
+                        </a>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    }<br />
+
     <script type='text/javascript'>
         $(document).ready(function () {
             var date = new Date();
@@ -58,71 +105,31 @@ else
                     start = start.getTime() / 1000;
                     end = end.getTime() / 1000;
                     $.getJSON("/calendar/LoadCalendarView", { type: '@Model.OwnerEntity', id: '@Model.CalendarId.ToString().Replace("-", "")', startDt: start, endDt: end }, function (result) {
-                    var events = [];
-                    $.each(result.events, function (i, field) {
-                        events.push({
-                            title: $(field).attr('title'),
-                            start: $(field).attr('start'),
-                            id: $(field).attr('id'),
-                            end: $(field).attr('end'),
-                            url: $(field).attr('url'),
-                            allDay: $(field).attr('allDay'),
-                            backgroundColor: $(field).attr('backColor')
+                        var events = [];
+                        $.each(result.events, function (i, field) {
+                            events.push({
+                                title: $(field).attr('title'),
+                                start: $(field).attr('start'),
+                                id: $(field).attr('id'),
+                                end: $(field).attr('end'),
+                                url: $(field).attr('url'),
+                                allDay: $(field).attr('allDay'),
+                                backgroundColor: $(field).attr('backColor')
+                            });
                         });
+                        callback(events);
                     });
-                    callback(events);
-                });
-            }
+                }
+            });
         });
-    });
-        
+
     </script>
     <style type='text/css'>
-        #calendar { width: 900px; margin: 0 auto; }
+        #calendar { margin: 0 auto; }
     </style>
-    <div class="expandableContainer">
-        <div class="expandableCenterContainter">
-            <div class="fixTitle">
-                Schedule
-            </div>
-            <div class="expandableCenterContainterRight">
-               @if (isSec || isAttendance||isEventsCourd)
-                { 
-                    <div class="navIcons">
-                        <a title="Import Calendar" href="@Url.Content("~/calendar/import/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/upload.png")"  />Import
-                        </a>
-                    </div> 
-                    <div class="navIcons">
-                        <a title="Calendar Settings" href="@Url.Content("~/calendar/settings/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
-                        </a>
-                    </div>
-                }
-                <div class="navIcons">
-                    <a title="Run Report" href="@Url.Content("~/calendar/reports/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
-                    </a>
-                </div>
-                @if (isSec || isAttendance || isEventsCourd)
-                {                   
-                    <div class="navIcons">
-                        <a title="New Event" href="@Url.Content("~/calendar/new/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/calendar-add.png")"  />New
-                        </a>
-                    </div>
-                }
-                                <div class="navIcons">
-                    <a title="Calendar List" href="@Url.Content("~/calendar/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/images/icons/calendar.png")"  />List
-                    </a>
-                </div>
-                 </div>
-          
-        <div class="divider"></div>
-       
-            <div id="calendar">
-            </div>
+    <div class="col-xs-12 ">
+        <div id="calendar">
         </div>
+        <br /><br />
     </div>
 }

@@ -27,17 +27,17 @@
     <h2 class="text-center">
         New Event
     </h2>
-    <div>
-        Here you create events to start tracking attendance for your league. It also allows
-        you to keep track of events them selves to better manage your leagues by telling
-        them when and where each event is.
-
-    </div>
+ 
 </div>
 <div class="col-md-offset-1 col-md-10 col-xs-12">
     <div class="panel panel-default">
         <div class="panel-body">
+            <div class="well well-sm">
+                Here you create events to start tracking attendance for your league. It also allows
+                you to keep track of events them selves to better manage your leagues by telling
+                them when and where each event is.
 
+            </div>
             @using (Html.BeginForm("NewEvent", "Calendar", FormMethod.Post, new { @id = "createNewEventForm" }))
             {
                 <table class="table">
@@ -83,7 +83,7 @@
                                     <a class="btn btn-info" href="@Url.Content("~/location/new/" + Model.CalendarType + "/calendar/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Location</a>
                                 </span>
 
-                            </div><!-- /input-group -->
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +98,7 @@
                                     <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
                                 </span>
 
-                            </div><!-- /input-group -->
+                            </div>
 
                             <span id="addNewEventTypeText" class="displayNone">
                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present):
@@ -321,14 +321,14 @@
 
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="2" class="b">
-                                            <span id="summaryPopUp"></span>
-                                        </td>
-                                    </tr>
-                                    <tr></tr>
-                                </table>
+                              
+                              
+                                  </table>
+                                <br />
                                 <div class="modal-footer">
+                                    <div class="alert alert-info text-left b">
+                                        <span id="summaryPopUp"></span>
+                                    </div>
                                     <input type="button" id="checkInButtonPopUp" value="Done" class="btn btn-primary" data-dismiss="modal"  onclick="javascript: CloseReOccuringEventWindow(true)" />
                                     <span class="btn btn-default" onclick="javascript:CloseReOccuringEventWindow(false)" data-dismiss="modal">Cancel</span>
                                 </div>
@@ -337,12 +337,7 @@
                     </div>
                 </div>
 
-                <div id="eventRepeatsPopUp" class="popUpEvent">
-                    <div class="popUpHeader">
-
-                    </div>
-
-                </div>
+                
 
             }
         </div>
@@ -397,7 +392,7 @@
         stepMinute: 10,
         timeFormat: 'hh:mm tt'
     });
-    $('#EndsDate').datepicker();
+    $('#EndsDate').datepicker().css({ "z-index": 1050 });
     function StartDateOnBlur() {
         if (endDate < startDate) {
             $('#EndDate').val($('#StartDate').val());
