@@ -8,7 +8,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile>2014-10-21T00:13:40.5761000-04:00</TimeStampOfAssociatedLegacyPublishXmlFile>
-    <_PublishTargetUrl>C:\Personal\Publish\Raspberry</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Personal\Publish\Raspberry</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/antlr.runtime.dll">
@@ -78,7 +78,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:19:33</publishTime>
     </File>
     <File Include="bin/log4net.dll">
-      <publishTime>10/21/2014 21:32:58</publishTime>
+      <publishTime>10/21/2014 00:19:14</publishTime>
     </File>
     <File Include="bin/log4net.xml">
       <publishTime>06/10/2012 21:40:46</publishTime>
@@ -120,13 +120,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 21:33:02</publishTime>
     </File>
     <File Include="bin/PayPalAdaptivePaymentsSDK.dll">
-      <publishTime>10/21/2014 00:18:50</publishTime>
+      <publishTime>10/21/2014 21:32:08</publishTime>
     </File>
     <File Include="bin/PayPalCoreSDK.dll">
-      <publishTime>10/21/2014 00:18:45</publishTime>
+      <publishTime>10/24/2014 22:11:43</publishTime>
     </File>
     <File Include="bin/PayPalMerchantSDK.dll">
-      <publishTime>10/21/2014 00:18:37</publishTime>
+      <publishTime>10/24/2014 22:14:33</publishTime>
     </File>
     <File Include="bin/PayPal_AdaptivePayments_SDK.dll">
       <publishTime>11/07/2013 15:52:48</publishTime>
@@ -147,10 +147,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 21:33:20</publishTime>
     </File>
     <File Include="bin/RDN.Library.dll">
-      <publishTime>10/22/2014 23:12:44</publishTime>
+      <publishTime>01/14/2015 23:23:50</publishTime>
     </File>
     <File Include="bin/RDN.Library.pdb">
-      <publishTime>10/22/2014 23:12:44</publishTime>
+      <publishTime>01/14/2015 23:23:50</publishTime>
     </File>
     <File Include="bin/RDN.Mobile.dll">
       <publishTime>09/23/2013 19:33:14</publishTime>
@@ -159,22 +159,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/23/2013 19:33:14</publishTime>
     </File>
     <File Include="bin/RDN.Portable.dll">
-      <publishTime>10/22/2014 23:08:36</publishTime>
+      <publishTime>01/13/2015 22:26:28</publishTime>
     </File>
     <File Include="bin/RDN.Portable.pdb">
-      <publishTime>10/22/2014 23:08:36</publishTime>
+      <publishTime>01/13/2015 22:26:28</publishTime>
     </File>
     <File Include="bin/RDN.Raspberry.dll">
-      <publishTime>10/22/2014 23:12:47</publishTime>
+      <publishTime>01/14/2015 23:23:51</publishTime>
     </File>
     <File Include="bin/RDN.Raspberry.pdb">
-      <publishTime>10/22/2014 23:12:47</publishTime>
+      <publishTime>01/14/2015 23:23:51</publishTime>
     </File>
     <File Include="bin/RDN.Utilities.dll">
-      <publishTime>10/22/2014 23:08:36</publishTime>
+      <publishTime>01/13/2015 22:26:28</publishTime>
     </File>
     <File Include="bin/RDN.Utilities.pdb">
-      <publishTime>10/22/2014 23:08:36</publishTime>
+      <publishTime>01/13/2015 22:26:28</publishTime>
     </File>
     <File Include="bin/RN.Library.dll">
       <publishTime>02/05/2014 23:01:57</publishTime>
@@ -189,16 +189,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:18:42</publishTime>
     </File>
     <File Include="bin/Scoreboard.Library.dll">
-      <publishTime>10/22/2014 23:08:38</publishTime>
+      <publishTime>01/13/2015 22:26:29</publishTime>
     </File>
     <File Include="bin/Scoreboard.Library.pdb">
-      <publishTime>10/22/2014 23:08:38</publishTime>
+      <publishTime>01/13/2015 22:26:29</publishTime>
     </File>
     <File Include="bin/StandardTournaments.dll">
-      <publishTime>10/22/2014 23:12:41</publishTime>
+      <publishTime>01/14/2015 23:23:47</publishTime>
     </File>
     <File Include="bin/StandardTournaments.pdb">
-      <publishTime>10/22/2014 23:12:41</publishTime>
+      <publishTime>01/14/2015 23:23:47</publishTime>
     </File>
     <File Include="bin/Stripe.net.dll">
       <publishTime>10/21/2014 00:18:42</publishTime>
@@ -333,10 +333,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:40</publishTime>
     </File>
     <File Include="Controllers/AdminController.cs">
-      <publishTime>10/21/2014 00:13:40</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Controllers/BaseController.cs">
       <publishTime>10/21/2014 00:13:40</publishTime>
+    </File>
+    <File Include="Controllers/CalendarController.cs">
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Controllers/FederationController.cs">
       <publishTime>10/21/2014 00:13:40</publishTime>
@@ -360,7 +363,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:40</publishTime>
     </File>
     <File Include="Controllers/TasksController.cs">
-      <publishTime>10/21/2014 00:38:01</publishTime>
+      <publishTime>01/13/2015 22:00:56</publishTime>
     </File>
     <File Include="Controllers/TeamController.cs">
       <publishTime>10/21/2014 00:13:40</publishTime>
@@ -378,7 +381,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:38</publishTime>
     </File>
     <File Include="Global.asax.cs">
-      <publishTime>10/21/2014 00:13:40</publishTime>
+      <publishTime>01/14/2015 23:22:30</publishTime>
     </File>
     <File Include="Models/Account/LogOn.cs">
       <publishTime>10/21/2014 00:13:37</publishTime>
@@ -393,7 +396,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:36</publishTime>
     </File>
     <File Include="Models/Admin/MassEmail.cs">
-      <publishTime>10/21/2014 00:13:37</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Models/Admin/TestEmailLayout.cs">
       <publishTime>10/21/2014 00:13:37</publishTime>
@@ -426,7 +429,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:37</publishTime>
     </File>
     <File Include="Models/Utilities/SimplePager.cs">
-      <publishTime>10/21/2014 00:13:37</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Models/Utilities/SiteMessage.cs">
       <publishTime>10/21/2014 00:13:37</publishTime>
@@ -435,19 +438,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:37</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>10/22/2014 19:39:13</publishTime>
+      <publishTime>10/24/2014 22:12:50</publishTime>
     </File>
     <File Include="Properties/AssemblyInfo.cs">
       <publishTime>10/21/2014 00:13:38</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/Profile1.pubxml">
-      <publishTime>10/22/2014 23:12:38</publishTime>
+      <publishTime>10/30/2014 20:32:10</publishTime>
     </File>
     <File Include="RDN.Raspberry.csproj">
-      <publishTime>10/22/2014 19:39:13</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="RDN.Raspberry.csproj.user">
-      <publishTime>10/21/2014 23:50:45</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Result.aspx">
       <publishTime>10/21/2014 00:13:38</publishTime>
@@ -561,7 +564,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:40</publishTime>
     </File>
     <File Include="Views/Admin/Errors.cshtml">
-      <publishTime>10/21/2014 00:13:40</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Views/Admin/ErrorsOld.cshtml">
       <publishTime>10/21/2014 00:13:40</publishTime>
@@ -570,16 +573,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2014 00:13:40</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>10/22/2014 19:39:13</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Views/Admin/LeagueContacts.cshtml">
       <publishTime>10/21/2014 00:13:40</publishTime>
     </File>
     <File Include="Views/Admin/SendMassScoreboardEmails.cshtml">
-      <publishTime>10/21/2014 00:13:40</publishTime>
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Views/Admin/TestEmailLayout.cshtml">
       <publishTime>10/21/2014 00:13:40</publishTime>
+    </File>
+    <File Include="Views/Calendar/ViewDeletedEvents.cshtml">
+      <publishTime>01/13/2015 21:59:45</publishTime>
     </File>
     <File Include="Views/Federation/AttachLeagueToFederation.cshtml">
       <publishTime>10/21/2014 00:13:39</publishTime>
@@ -671,8 +677,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Web.config">
       <publishTime>10/21/2014 21:31:51</publishTime>
     </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>01/13/2015 21:59:45</publishTime>
+    </File>
     <File Include="Web.config">
-      <publishTime>10/22/2014 23:08:52</publishTime>
+      <publishTime>01/14/2015 23:17:47</publishTime>
     </File>
     <File Include="Web.Debug.config">
       <publishTime>10/21/2014 00:13:40</publishTime>

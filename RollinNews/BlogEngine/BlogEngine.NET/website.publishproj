@@ -44,6 +44,10 @@ Copyright (C) Microsoft Corporation. All rights reserved.
     </AssemblyAttributes>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common.AutomatedTasks\Common.AutomatedTasks.Library\Common.AutomatedTasks.Library.csproj">
+      <Project>{D65CD09D-DE6C-43E3-A218-B9394A7AFBD8}</Project>
+      <Name>Common.AutomatedTasks.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\RDN.Library\RDN.Library.csproj">
       <Project>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</Project>
       <Name>RDN.Library</Name>
