@@ -21,16 +21,16 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
-                            <h3 style="margin-top:5px !important"><i class="fa fa-money"></i> Edit Job</h3>
+                            <h3 style="margin-top:5px !important"><i class="fa fa-suitcase"></i> Edit Job</h3>
                         </div>
                         <div class="col-xs-12 col-sm-6 text-right">
-                            <a onclick="return confirm('Filled the Job?')" title="Fill Job" href="@Url.Content("~/league/job/fill/" + Model.JobId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                            <a class="btn btn-warning" onclick="return confirm('Filled the Job?')" title="Fill Job" href="@Url.Content("~/league/job/fill/" + Model.JobId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
                                 <i class="fa fa-folder"></i> Fill Job
                             </a>
-                            <a onclick="return confirm('Close the Job?')" title="Close Job" href="@Url.Content("~/league/job/close/" + Model.JobId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                            <a class="btn btn-info" onclick="return confirm('Close the Job?')" title="Close Job" href="@Url.Content("~/league/job/close/" + Model.JobId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
                                 <i class="fa fa-times-circle"></i> Close
                             </a>
-                            <a onclick="return confirm('Really Delete?')" title="Delete Job" href="@Url.Content("~/league/job/delete/" + Model.JobId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                            <a class="btn btn-danger" onclick="return confirm('Really Delete?')" title="Delete Job" href="@Url.Content("~/league/job/delete/" + Model.JobId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
                                 <i class="fa fa-trash"></i> Delete
                             </a>
                         </div>
