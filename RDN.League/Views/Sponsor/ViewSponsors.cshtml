@@ -27,73 +27,74 @@
     }
 }
 
-<div class="fixedContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Sponsors For The League
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isSec)
-            {                
-                <div class="navIcons">
-                    <a title="New Sponsor" href="@Url.Content("~/league/sponsor/add")">
-                        <img src="@Url.Content("~/Content/images/icons/AddSponsor.png")" />Add
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Sponsors For The League</li>
+</ol>
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-money"></i> Sponsors For The League</h3>
+            </div>
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isSec)
+                {
+                    <a class="btn btn-success pull-right" href="@Url.Content("~/league/sponsor/add")">
+                        <i class="fa fa-plus-circle"></i> Add
                     </a>
-                </div>
-            }
+                }
+            </div>
         </div>
-        <div class="titleDescription">
-            Add and view sponsors for your league.
+        <div class="text-muted">Add and view sponsors for your league.</div>
+    </div>
+    <div class="panel-body no-padding padding-top-10">
+        <table class="table table-striped table-hover table-condensed no-margin-bottom" id="jobBoard">
+            <thead>
+                <tr>
+                    <th>Sponsor Name</th>
+                    <th>Ends On</th>
+                    <th>Promo Code</th>
+                    <th>Website</th>
+                    <th>Times Used</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr class="@(b.SponsorId % 2 == 0 ? "tr1" : "tr0")">
+                      
 
-        </div>
-        <div class="divider"></div>
-        <div>
-            <table class="listTable listMedTable" id="jobBoard">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Sponsor Name</th>
-                        <th>Ends On</th>
-                        <th>Promo Code</th>
-                        <th>Website</th>
-                        <th>Times Used</th>
+                        <td>
+                            @Truncate(b.SponsorName, 18)
+                        </td>
+                        <td>
+                            @b.EndDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @Truncate(b.PromoCode, 10)
+                        </td>
+                        <td>
+                            @Truncate(b.Website, 20)
+                        </td>
+                        <td>
+                            @b.UsedCount
+                        </td>
+                        <td class="text-right">
+                            @if (memId == b.SponsorAddByMember || isSec)
+                            {
+                                <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/Sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a> <a class="btn btn-info btn-xs" href="@Url.Content("~/league/sponsor/edit/" + b.SponsorId + "/" + b.SponsorForLeague.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>  
+                            }
+                            else
+                            {
+                                <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/Sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+                            }
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var b in Model)
-                    {                 
-                        <tr class="@(b.SponsorId % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                @if (memId == b.SponsorAddByMember || isSec)
-                                { 
-                                    <a href="@Url.Content("~/league/sponsor/edit/" + b.SponsorId + "/" + b.SponsorForLeague.ToString().Replace("-", ""))" >Edit </a> <span> / </span> <a href="@Url.Content("~/league/Sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))" >View </a>
-                                }
-                                else
-                                {
-                                    <a href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))" >View </a>
-                                }
-                            </td>
-
-                            <td>
-                                @Truncate(b.SponsorName,18)
-                            </td>
-                            <td>
-                                @b.EndDate.ToShortDateString()
-                            </td>
-                            <td>
-                                @Truncate(b.PromoCode,10)
-                            </td>
-                            <td>
-                                @Truncate(b.Website,20)
-                            </td>
-                            <td>
-                                @b.UsedCount
-                            </td>                            
-                       </tr>     
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

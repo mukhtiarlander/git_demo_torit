@@ -4,100 +4,80 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
-    
+
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/sponsors")">Sponsors</a></li>
+    <li class="active">Add new Sponsor</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-        </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("AddSponsor", "Sponsor", FormMethod.Post, new { @id = "NewSponsorAdd" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Add New Sponsor</h3>
+                    <div class="text-muted"> Add a new sponsor for the league.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Sponsor Name</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.SponsorName, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Website Address</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Website, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Begin on</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.BeginDate, new { @type = "text", @class = "form-control jquery_datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Ends On</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.EndDate, new { @type = "text", @class = "form-control jquery_datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Sponsored</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Sponsored, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Promo Code</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.PromoCode, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Description</label>
+                        <div>
+                            @Html.TextArea("Description", string.Empty, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="NewSponsorAdd"><i class="fa fa-save"></i> Add Sponsor</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/sponsors")">Cancel</a>
+                </div>
+            </div>
+        }
     </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Add New Sponsor 
-        </div>
-
-        <div class="titleDescription">
-            Add a new sponsor for the league.
-     
-        </div>
-        <div class="divider"></div>
-
-        <div>
-            @using (Html.BeginForm("AddSponsor", "Sponsor", FormMethod.Post, new { @id = "NewSponsorAdd" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b alRight">Sponsor Name:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.SponsorName)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Website Address:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Website)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Starts On:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(models => models.BeginDate, new { @class = "jquery_datepicker" })
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Ends On:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(models => models.EndDate, new { @class = "jquery_datepicker" })
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Sponsored:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Sponsored)
-                        </td>
-                    </tr>
-                      <tr>
-                        <td class="b alRight">Promo Code:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.PromoCode)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight alignTop">Description:
-                        </td>
-                        <td class="largeInput">  @Html.TextArea("Description", string.Empty, new
-                           {
-                               id = "wmd-input",
-                               style = "width:350px"
-                           })</td>
-                    </tr>
-                   
-                    <tr>
-                        <td class="b alRight"></td>
-                        <td class="largeInput">
-                            <input type="submit" class="primary" value="Add Sponsor" name="NewSponsorAdd" />
-
-                        </td>
-                    </tr>
-
-                </table>
-                  
-            }
-        </div>
-    </div>
-     @if (!subPaid)
-    { 
+</div>
+    @if (!subPaid)
+    {
         <div class="fixedAd">
-            <script type="text/javascript"><!--
+            <script type="text/javascript">
+<!--
     google_ad_client = "ca-pub-1376896373478670";
     /* RDNation SideAd */
     google_ad_slot = "9959849457";
@@ -109,7 +89,6 @@
             </script>
         </div>
     }
-</div>
 
 <script type="text/javascript">
     $("#NewSponsorAdd").validate({
