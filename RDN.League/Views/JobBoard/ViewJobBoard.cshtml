@@ -26,90 +26,96 @@
     <text><i>Null</i></text>
     }
 }
-<div class="fixedContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Jobs For The League
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isSec)
-            {                
-                <div class="navIcons">
-                    <a title="Add Jobs" href="@Url.Content("~/league/job/add")">
-                        <img src="@Url.Content("~/Content/images/icons/Job.png")"  />Add
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Jobs For The League</li>
+</ol>
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-suitcase"></i> Jobs For The League</h3>
+            </div>
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isSec)
+                {
+                    <a class="btn btn-success pull-right" href="@Url.Content("~/league/job/add")">
+                        <i class="fa fa-plus-circle"></i> Add
                     </a>
-                </div>
-            }
+                }
+            </div>
         </div>
-        <div class="titleDescription">
-            Here you can setup jobs for your league and have members review and apply.
+        <div class="text-muted">Here you can setup jobs for your league and have members review and apply.</div>
+    </div>
+    <div class="panel-body no-padding padding-top-10">
+        <table class="table table-striped table-hover table-condensed" id="jobBoard">
+            <thead>
+                <tr>
 
-        </div>
-        <div class="divider"></div>
-        <div>
-            <table class="listTable listMedTable" id="jobBoard">
-                <thead>
-                    <tr>
+                    <th></th>
+                    <th>
+                        Job Title
+                    </th>
+                    <th>
+                        Completes On
+                    </th>
+                    <th>
+                        Hrs a Week
+                    </th>
+                    <th>Job Desc</th>
+                    <th>
+                        Reports To
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
 
-                        <th></th>
-                        <th>Job Title
-                        </th>
-                        <th>Completes On
-                        </th>
-                        <th>Hrs a Week
-                        </th>
-                        <th>Job Desc</th>
-                        <th>Reports To
-                        </th>
+                @foreach (var b in Model)
+                {
+                    <tr class="@(b.JobId % 2 == 0 ? "tr1" : "tr0")">
+                        <td>
+                            @if (memId == b.JobCreator || isSec)
+                            {
+                                <a href="@Url.Content("~/league/Job/edit/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))">Edit </a> <span> / </span> <a href="@Url.Content("~/view/job/detail/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))">View </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Content("~/view/job/detail/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))">View </a>
+                            }
+                        </td>
+
+                        <td>
+                            @b.JobTitle
+                        </td>
+
+                        <td>
+                            @if (b.JobEnds > new DateTime())
+                            {
+                                @b.JobEnds.ToShortDateString() <br />
+
+                                if (b.DaysRemaining == 0)
+                                { <text>(Today)</text>  }
+                                else if (b.DaysRemaining == 1)
+                                {<text>(Tomorrow)</text>}
+                                else if (b.DaysRemaining > 1)
+                                {  <text> (@b.DaysRemaining Days left) </text> }
+
+
+                            }
+                        </td>
+                        <td>
+                            @b.HoursPerWeek
+                        </td>
+                        <td>
+                            @Truncate(b.JobDesc)
+                        </td>
+                        <td>
+                            @b.ReportsTo
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var b in Model)
-                    {                 
-                        <tr class="@(b.JobId % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                @if (memId == b.JobCreator || isSec)
-                                { 
-                                    <a href="@Url.Content("~/league/Job/edit/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))" >Edit </a> <span> / </span> <a href="@Url.Content("~/view/job/detail/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>
-                                }
-                                else
-                                {
-                                    <a href="@Url.Content("~/view/job/detail/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))" >View </a>
-                                }
-                            </td>
-
-                            <td>
-                                @b.JobTitle
-                            </td>
-
-                            <td>@if (b.JobEnds > new DateTime())
-                                {
-                                @b.JobEnds.ToShortDateString() <br />   
-                                
-                                    if (b.DaysRemaining == 0)
-                                    { <text>(Today)</text>  }
-                                    else if (b.DaysRemaining == 1)
-                                    {<text>(Tomorrow)</text>}
-                                    else if (b.DaysRemaining > 1)
-                                    {  <text> (@b.DaysRemaining Days left) </text> }
-
-
-                                }
-                            </td>
-                            <td>
-                                @b.HoursPerWeek
-                            </td>
-                            <td>
-                                @Truncate(b.JobDesc)
-                            </td>
-                            <td>
-                                @b.ReportsTo
-                            </td>
-                        </tr>     
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
