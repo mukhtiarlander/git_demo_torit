@@ -5,129 +5,134 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-sm-12 margin-top-20">
-    <a href="@Url.Content("~/" + Model.ContactType + "/contacts")" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Contacts</a>
-</div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/" + Model.ContactType + "/contacts")">Contact</a></li>
+    <li class="active">Edit & View Contact</li>
+</ol>
 
-<div class="col-sm-12 margin-top-10">
-    @using (Html.BeginForm("EditContact", "Contact", FormMethod.Post, new { @id = "createNewContact", onsubmit = "return UpdateClick()" }))
-    {
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Edit & View Contact</h3>
-                <div class="text-muted"> Here you can edit a contact. So that you may help manage anyone you have a relationship with.</div>
-            </div>
-            <div class="panel-body no-padding-top">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-lg-4">
-                                <label class="form-label margin-top-10">First Name</label>
-                                <div>
-                                    @Html.TextBoxFor(x => x.FirstName, new { @type = "text", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-lg-4">
-                                <label class="form-label margin-top-10">Last Name <small class="text-muted"><i>Optional</i></small></label>
-                                <div>
-                                    @Html.TextBoxFor(x => x.LastName, new { @type = "text", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-lg-4">
-                                <label class="form-label margin-top-10">Company Name <small class="text-muted"><i>Optional</i></small></label>
-                                <div>
-                                    @Html.TextBoxFor(x => x.CompanyName, new { @type = "text", @class = "form-control" })
-                                </div>
+
+@using (Html.BeginForm("EditContact", "Contact", FormMethod.Post, new { @id = "createNewContact", onsubmit = "return UpdateClick()" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Edit & View Contact</h3>
+            <div class="text-muted"> Here you can edit a contact. So that you may help manage anyone you have a relationship with.</div>
+        </div>
+        <div class="panel-body no-padding-top">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-lg-4">
+                            <label class="form-label margin-top-10">First Name</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.FirstName, new { @type = "text", @class = "form-control" })
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Contact Type</label>
-                        <div>
-                           @Html.DropDownListFor(x => x.ContactTypeSelected, Model.ContactTypeForOrg.ToSelectList(), "Choose Type...", new { @class = "form-control" })
-                            @*<span class="i">Want another? Email <a href="mailto:info@rdnation.com">info@rdnation.com</a></span>*@
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Email <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Email, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Phone Number <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.PhoneNumber, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Address Line 1 <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Address1, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Address Line 2 <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Address2, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">City <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.CityRaw, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">State <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.StateRaw, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Zip Code <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Zip, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Country <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.DropDownListFor(x => x.CountryId, (SelectList)ViewBag.Countries, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <label class="form-label margin-top-10">Link <small class="text-muted"><i>Optional</i></small></label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Link, new { @type = "text", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Notes <small class="text-muted"><i>Optional</i></small></label>
-                        <div class="row">
-                            <div id="wmd-editor" class="col-sm-12 col-md-6">
-                                <div id="wmd-button-bar">
-                                </div>
-                                @Html.TextArea("Notes", string.Empty, new { id = "wmd-input", @class = "form-control" })
+                        <div class="col-xs-12 col-sm-6 col-lg-4">
+                            <label class="form-label margin-top-10">Last Name <small class="text-muted"><i>Optional</i></small></label>
+                            <div>
+                                @Html.TextBoxFor(x => x.LastName, new { @type = "text", @class = "form-control" })
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label class="form-label">Prrview</label>
-                                <div id="wmd-preview">
-                                </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <label class="form-label margin-top-10">Company Name <small class="text-muted"><i>Optional</i></small></label>
+                            <div>
+                                @Html.TextBoxFor(x => x.CompanyName, new { @type = "text", @class = "form-control" })
                             </div>
                         </div>
                     </div>
                 </div>
-                @Html.HiddenFor(x => x.ContactType)
-                @Html.HiddenFor(x => x.ContactId)
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Contact Type</label>
+                    <div>
+                        <div class="input-group">
+                            @Html.DropDownListFor(x => x.ContactTypeSelected, Model.ContactTypeForOrg.ToSelectList(), "Choose Type...", new { @class = "form-control" })
+                            <div class="input-group-btn">
+                                <a href="mailto:info@rdnation.com" class="btn btn-default"><i class="fa fa-envelope"></i> Request another</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Email <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.Email, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Phone Number <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.PhoneNumber, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Address Line 1 <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.Address1, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Address Line 2 <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.Address2, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">City <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.CityRaw, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">State <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.StateRaw, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Zip Code <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.Zip, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Country <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.DropDownListFor(x => x.CountryId, (SelectList)ViewBag.Countries, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10">Link <small class="text-muted"><i>Optional</i></small></label>
+                    <div>
+                        @Html.TextBoxFor(x => x.Link, new { @type = "text", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <label class="form-label margin-top-10">Notes <small class="text-muted"><i>Optional</i></small></label>
+                    <div class="row">
+                        <div id="wmd-editor" class="col-sm-12 col-md-6">
+                            <div id="wmd-button-bar">
+                            </div>
+                            @Html.TextArea("Notes", string.Empty, new { id = "wmd-input", @class = "form-control" })
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <label class="form-label">Prrview</label>
+                            <div id="wmd-preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="panel-footer">
-                <button id="btnUpdateContact" type="submit"  class="btn btn-default btn-success" name="createContact"><i class="fa fa-save"></i> Update Contact</button>
-                <a class="btn btn-default pull-right" href="@Url.Content("~/" + Model.ContactType + "/contacts")">Cancel</a>
-            </div>
+            @Html.HiddenFor(x => x.ContactType)
+            @Html.HiddenFor(x => x.ContactId)
         </div>
-    }
-</div>
+        <div class="panel-footer">
+            <button id="btnUpdateContact" type="submit"  class="btn btn-default btn-success" name="createContact"><i class="fa fa-save"></i> Update Contact</button>
+            <a class="btn btn-default pull-right" href="@Url.Content("~/" + Model.ContactType + "/contacts")">Cancel</a>
+        </div>
+    </div>
+}
 
 <script src="@Url.Content("~/Scripts/wmd.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/showdown.js")" type="text/javascript"></script>
@@ -143,4 +148,5 @@
         $("#btnUpdateContact").attr('disabled', true);
         $("#btnUpdateContact").html("<i class='fa fa-refresh fa-spin'></i> Update Contact");
     }
+   
 </script>
