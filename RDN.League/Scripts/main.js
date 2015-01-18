@@ -1832,7 +1832,7 @@ var Polls = new function () {
         row.append(questionAndAnswersColumn);
 
         $('#addQuestionRow').before(row);
-        closePopUp('createPollPopup');
+        $("#createPollPopup1").modal('hide');
         simpleId += 1;
     }
 
@@ -1865,25 +1865,25 @@ function SendEmailPollNotification(leId, pollId) {
     });
     to.remove();
 }
-function AddAnotherAnswerToPoll(span) {
+function AddAnotherAnswerToPoll() {
     simpleIdTwo += 1;
-    var row = $(document.createElement('tr'));
-    var answerColumn = $(document.createElement('td'));
-    answerColumn.addClass("b");
-    answerColumn.html("Answer:");
-    row.append(answerColumn);
 
-    var questionAndAnswersColumn = $(document.createElement('td'));
-    questionAndAnswersColumn.addClass("extraLargeInput");
-    var sp = $(span);
+    var div = $(document.createElement('div'));
+    div.addClass('col-xs-12');
+
+    var lbl = $(document.createElement('label'));
+    lbl.addClass('form-label');
+    lbl.addClass('margin-top-10');
+    lbl.html("Answer");
+
+    var innerdiv = $(document.createElement('div'));
     var input = $(document.createElement('input'));
-    input.attr("id", "answer" + simpleIdTwo + "Input");
     input.attr("type", "text");
-    questionAndAnswersColumn.append(input).append(sp.clone());
-    row.append(questionAndAnswersColumn);
+    input.addClass('form-control');
+    input.attr("id", "answer" + simpleIdTwo + "Input");
 
-    $('#addAnswerToAnswersList').before(row);
-    sp.remove();
+    div.append(lbl).append(input);
+    $("#addAnswerToAnswersList").append(div);
     input.focus();
 }
 function RemoveAnswerInPoll(span, answerId) {
@@ -1962,9 +1962,10 @@ function changeEmailNotification(cb, groupLeague, id) {
 }
 
 function AddPollAnswerCreate() {
-    $("#createPollPopup").fadeIn("fast");
-    $("#createPollPopup").center();
-    $("#questionInput").focus();
+    //$("#createPollPopup").fadeIn("fast");
+    //$("#createPollPopup").center();
+    //$("#questionInput").focus();
+    $("#createPollPopup1").modal('show');
 }
 
 
