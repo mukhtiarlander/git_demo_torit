@@ -5,94 +5,97 @@
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
 }
 
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Polls For @Model.LeagueName</li>
+</ol>
 
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Polls For @Model.LeagueName
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-lg fa-bullhorn"></i> Polls For @Model.LeagueName</h3>
+            </div>
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (Model.IsPollManager)
+                {
+                    <a class="btn btn-sm btn-success" href="@Url.Content("~/poll/add/" + Model.LeagueId.ToString().Replace("-", ""))" title="Create Poll">
+                        <i class="fa fa-plus-circle"></i> Create
+                    </a>
+                }
+            </div>
         </div>
-        <div class="expandableCenterContainterRight">
-            @if (Model.IsPollManager)
-            { 
-               
-                <div class="navIcons">
-                    <a href="@Url.Content("~/poll/add/" + Model.LeagueId.ToString().Replace("-", ""))" title="Create Poll">
-                        <img src="@Url.Content("~/Content/plus.png")" alt="Create Poll"/>Create</a>
-                </div>
-            }
-        </div>
-        <div class="titleDescription">
-            Polls are a way of asking questions to the league and getting quick responses of the mood of your league.
-        </div>
-        <div class="divider"></div>
-
-
-        <div>
-            <table class="listTable tableExtras" id="members">
-                <thead>
-                    <tr>
-                        <th>View</th>
-
-                        <th>Vote</th>
-                        <th>Question</th>
-                        <th>Votes/Total
-                        </th>
-                        <th>Public
-                        </th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Polls.Count; i++)
+        <div class="text-muted">Polls are a way of asking questions to the league and getting quick responses of the mood of your league.</div>
+    </div>
+    <div class="panel-body no-padding padding-top-10">
+        <table class="table table-striped table-hover table-condensed no-margin-bottom" id="jobBoard">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>
+                        Votes/Total
+                    </th>
+                    <th>
+                        Public
+                    </th>
+                    <th>Created</th>
+                    <th class="text-center">Vote</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Polls.Count; i++)
+                {
+                    if (Model.Polls[i].Version == 2 && (Model.Polls[i].IsCurrentMemberAllowedToVote || Model.IsPollManager))
                     {
-                        if (Model.Polls[i].Version == 2 && (Model.Polls[i].IsCurrentMemberAllowedToVote || Model.IsPollManager))
-                        { 
                         <tr>
+                           
                             <td>
-
-                                @if (Model.IsPollManager)
-                                { 
-                                    <a href="@Url.Content("~/poll/edit/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">Edit</a>
-                                    <span>/</span>
-                                    <a href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">View</a>
-                                }
-                                else if (Model.Polls[i].IsOpenToLeague)
-                                { 
-                                    <a href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">View</a>
-                                }
+                                @Model.Polls[i].Question
                             </td>
                             <td>
+                                @Model.Polls[i].Voted / @Model.Polls[i].NonVotes
+                            </td>
+                            <td>
+                                @Model.Polls[i].IsPublic
+                            </td>
+                            <td>
+                                @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(Model.Polls[i].Created)
+                            </td>
+                            <td class="text-center">
                                 @if (!Model.Polls[i].IsClosed && Model.Polls[i].IsCurrentMemberAllowedToVote)
-                                { 
-                                    <a href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">Vote</a>
+                                {
+                                    <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-thumbs-o-up"></i></a>
                                 }
                                 else if (Model.Polls[i].IsCurrentMemberAllowedToVote)
-                                { 
+                                {
                                     <span>Closed</span>
                                 }
                                 else
-                                { 
+                                {
                                     <span>Not Allowed</span>
                                 }
-
                             </td>
-                            <td>@Model.Polls[i].Question
+                            <td>
+                                @if (Model.IsPollManager)
+                                {
+                                    <a class="btn btn-xs btn-info" href="@Url.Content("~/poll/edit/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-pencil"></i> Edit</a>
+                                    <a class="btn btn-xs btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
+                                }
+                                else if (Model.Polls[i].IsOpenToLeague)
+                                {
+                                    <a class="btn btn-xs btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
+                                }
                             </td>
-                            <td>@Model.Polls[i].Voted / @Model.Polls[i].NonVotes
-                            </td>
-                            <td>@Model.Polls[i].IsPublic
-                            </td>
-                             <td>@RDN.Utilities.Dates.DateTimeExt.RelativeDateTime( Model.Polls[i].Created)
-                            </td>
-                        </tr>    
-                        }
-                        
+                            x
+                        </tr>
                     }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({

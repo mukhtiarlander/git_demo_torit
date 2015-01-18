@@ -3,69 +3,66 @@
     ViewBag.Title = "View Inventory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/league/inventory/all")">All Item</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Item Details
-        </div>
-        <div class="titleDescription">
-            Details of the Item
-     
-        </div>
-        <div class="divider"></div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/inventory/all")">Inventory</a></li>
+    <li class="active">Details of Item</li>
+</ol>
 
-        <div>
-            <table class="addForumPostTbl">
 
-                <tr>
-                    <td class="b alRight">Item Serial No:
-                    </td>
-                    <td class="vRTD">
-                        @Model.ItemSerialNo
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Item Name:
-                    </td>
-                    <td class="vRTD">
-                        @Model.ItemName
-                    </td>
-                </tr>
-                    <tr>
-                    <td class="b alRight">Unite Price:
-                    </td>
-                    <td class="vRTD">
-                        @Model.UnitePice
-                    </td>
-                </tr>
-             
-                <tr>
-                    <td class="b alRight">Quantity:
-                    </td>
-                    <td class="vRTD">
-                        @Model.Quantity
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Location:
-                    </td>
-                    <td class="vRTD">
-                        @Model.Location
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Notes:</td>
-                    <td class="Details" style="width: 400px; max-width: 400px;">
-                        @Html.Raw(Model.Notes)
-                    </td>
-                </tr>
-            </table>
-        </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+       
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.ItemName</h3>
+                        </div>
+                    </div>
+                    <div class="text-muted"> Details of the Item.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Item Serial No</label>
+                        <div>
+                            <b> @Model.ItemSerialNo</b>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Item Name</label>
+                        <div>
+                            <b>  @Model.ItemName</b>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Unit Price</label>
+                        <div>
+                            <b>@Model.UnitePice</b>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Quantity</label>
+                        <div>
+                            <b>   @Model.Quantity</b>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Location</label>
+                        <div>
+                            <b>@Model.Location</b>
+                        </div>
+                    </div>
+                   
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Notes</label>
+                        <div>
+                            <b> @Html.Raw(Model.Notes)</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
+
+

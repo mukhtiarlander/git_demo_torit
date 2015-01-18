@@ -3,94 +3,105 @@
     ViewBag.Title = "All Games";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Games For @ViewBag.Name
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Games for @ViewBag.Name</li>
+</ol>
+
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-lg fa-gamepad"></i> Games For @ViewBag.Name</h3>
+            </div>
+            <div class="col-xs-12 col-sm-6 text-right">
+
+            </div>
         </div>
-          <div class="titleDescription">
-            Here you can view the games for @ViewBag.Name.</div>
-        <div>
-               <div class="divider"></div>
-       
-            <table class="listTable  tableExtras" id="games">
-                <thead>
-                    <tr>
-                        <th>
-                            Game Name
-                        </th>
-                        <th>
-                            Date
-                        </th>
-                        <th>
-                            Team 1
-                        </th>
-                        
-                        <th>
-                            Final Team 1
-                        </th>
-                        <th>
-                            Team 2
-                        </th>
-                        <th>
-                            Final Team 2
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Model.Items.Count; i++)
-                    {
-                    
-                        <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                            <td>
-                                <a href="@Url.Content("~/game/" + Model.Model.Items[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].GameName))">
-                                    @Model.Model.Items[i].GameName
-                                </a>
-                            </td>
-                            <td>
-                                @Model.Model.Items[i].GameDate.ToString("MM/dd/yyyy")
-                            </td>
-                            <td>
-                                @if (Model.Model.Items[i].Team1LinkId == new Guid())
-                                {@Model.Model.Items[i].Team1Name}
-                                else
-                                { 
-                                    <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].Team1LinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].Team1Name))">
-                                        @Model.Model.Items[i].Team1Name
-                                    </a>
-                                }
-                            </td>
-                           
-                            <td>@Model.Model.Items[i].Team1ScoreTotal
-                            </td>
-                             <td>
-                                @if (Model.Model.Items[i].Team2LinkId == new Guid())
-                                {@Model.Model.Items[i].Team2Name}
-                                else
-                                { 
-                                    <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].Team2LinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].Team2Name))">
-                                        @Model.Model.Items[i].Team2Name
-                                    </a>
-                                }
-                            </td>
-                            <td>@Model.Model.Items[i].Team2ScoreTotal
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="uglyPager">
-            @using (Html.BeginForm("ViewMembers", "Federation"))
-            {
-                <text>
-                <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()"/>
-                <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()"/>
+        <div class="text-muted">Here you can view the games for @ViewBag.Name.</div>
+    </div>
+    <div class="panel-body no-padding padding-top-10">
+        <table class="table table-striped table-hover table-condensed no-margin-bottom" id="jobBoard">
+            <thead>
+                <tr>
+                    <th>
+                        Game Name
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Team 1
+                    </th>
+
+                    <th>
+                        Final Team 1
+                    </th>
+                    <th>
+                        Team 2
+                    </th>
+                    <th>
+                        Final Team 2
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Model.Items.Count; i++)
+                {
+
+                <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
+                    <td>
+                        <a href="@Url.Content("~/game/" + Model.Model.Items[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].GameName))">
+                            @Model.Model.Items[i].GameName
+                        </a>
+                    </td>
+                    <td>
+                        @Model.Model.Items[i].GameDate.ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @if (Model.Model.Items[i].Team1LinkId == new Guid())
+                            {@Model.Model.Items[i].Team1Name}
+                            else
+                            {
+                            <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].Team1LinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].Team1Name))">
+                                @Model.Model.Items[i].Team1Name
+                            </a>
+                            }
+                    </td>
+
+                    <td>
+                        @Model.Model.Items[i].Team1ScoreTotal
+                    </td>
+                    <td>
+                        @if (Model.Model.Items[i].Team2LinkId == new Guid())
+                        {@Model.Model.Items[i].Team2Name}
+                        else
+                        {
+                        <a href="@Url.Content("~/federation/league/" + Model.Model.Items[i].Team2LinkId.ToString().Replace("-", "") + "/" +RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( Model.Model.Items[i].Team2Name))">
+                            @Model.Model.Items[i].Team2Name
+                        </a>
+                        }
+                    </td>
+                    <td>
+                        @Model.Model.Items[i].Team2ScoreTotal
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-heading">
+        @using (Html.BeginForm("ViewMembers", "Federation"))
+        {
+            <text>
+                <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
+                <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
                 Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
                 <input type="submit" value="Show" />
-                </text>
-            }
-        </div>
+            </text>
+        }
     </div>
 </div>
 <script type="text/javascript">
@@ -106,6 +117,4 @@
 
         });
     });
-
-
 </script>

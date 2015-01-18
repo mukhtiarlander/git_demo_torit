@@ -22,25 +22,25 @@
                     <div class="text-muted"> Add a new job here for league.</div>
                 </div>
                 <div class="panel-body no-padding-top">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12 col-sm-6">
                         <label class="form-label margin-top-10">Job Title</label>
                         <div>
                             @Html.TextBoxFor(x => x.JobTitle, new { @type = "text", @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-xs-12 col-sm-6">
                         <label class="form-label margin-top-10">Report To</label>
                         <div>
                             @Html.TextBoxFor(x => x.ReportsTo, new { @type = "text", @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 col-sm-6">
                         <label class="form-label margin-top-10">Hours Per Week </label>
                         <div>
                             @Html.TextBoxFor(x => x.HoursPerWeek, new { @type = "text", @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 col-sm-6">
                         <label class="form-label margin-top-10">Date Completed </label>
                         <div>
                             @Html.TextBoxFor(x => x.JobEnds, new { @type = "text", @class = "form-control jquery_datepicker" })

@@ -6,114 +6,80 @@
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
     
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/inventory/all")">Inventory</a></li>
+    <li class="active">Edit Item</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/league/inventory/all")">Cancel Edit</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Edit Item 
-        </div>
-         <div class="tvChanges"> 
-            <div class="navIcons">
-                <a onclick="return confirm('Really Delete?')" title="Delete Item" href="@Url.Content("~/league/inventory/delete/" + Model.ItemId + "/" +          Model.ItemsForLeague.ToString().Replace("-", ""))">
-                    <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />Delete
-                </a>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("EditItem", "Inventory", FormMethod.Post, new { @id = "EditItem" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.ItemName</h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-right">
+                            <a class="btn btn-danger btn-sm" onclick="return confirm('Really Delete?')" title="Delete Sponsor" href="@Url.Content("~/league/inventory/delete/" + Model.ItemId + "/" + Model.ItemsForLeague.ToString().Replace("-", ""))">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-muted"> Edit item in the leagues inventory.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Item Serial No</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.ItemSerialNo, new { @type = "text", @class = "form-control", })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Item Name</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.ItemName, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Begin on</label>
+                        <div>
+                            @Html.TextBoxFor(models => models.UnitePice, new { @type = "text", @class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Ends On</label>
+                        <div>
+                            @Html.TextBoxFor(models => models.Location, new { @type = "text", @class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Sponsored</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Quantity, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Notes</label>
+                        <div>
+                            @Html.TextArea("Description", new { id = "wmd-input", @Value = Model.Notes != null ? Model.Notes.ToString() : "", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="EditSponsor"><i class="fa fa-save"></i> Save</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/inventory/all")">Cancel</a>
+                </div>
             </div>
-        </div>
-        <div class="titleDescription">
-           Edit item in the leagues inventory.
-        </div>
-        <div class="divider"></div>
-
-        <div>
-            @using (Html.BeginForm("EditItem", "Inventory", FormMethod.Post, new { @id = "EditItem" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b alRight">Item Serial No:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.ItemSerialNo)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Item Name:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.ItemName)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Unite Price:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.UnitePice)
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Location:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Location)
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Quantity:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Quantity)
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="b alRight alignTop">Notes:
-                        </td>
-                        <td class="largeInput">  @Html.TextArea("Notes", new
-                                            {
-                                                id = "wmd-input",
-                                                @Value = Model.Notes != null ? Model.Notes.ToString() : "",
-                                                style = "width:350px"
-                                            })</td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="b alRight"></td>
-                        <td class="largeInput">
-                            <input type="submit" class="primary" value="Save" name="EditItem" />
-
-                        </td>
-                    </tr>
-
-                </table>
-                @Html.HiddenFor(models => models.ItemId)
+              @Html.HiddenFor(models => models.ItemId)
                 @Html.HiddenFor(models => models.ItemsForLeague)
                 @Html.HiddenFor(models => models.ItemAddByMember)
-                  
-            }
-        </div>
+        }
     </div>
-     @if (!subPaid)
-     { 
-        <div class="fixedAd">
-            <script type="text/javascript"><!--
-    google_ad_client = "ca-pub-1376896373478670";
-    /* RDNation SideAd */
-    google_ad_slot = "9959849457";
-    google_ad_width = 120;
-    google_ad_height = 600;
-    //-->
-            </script>
-            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
-            </script>
-        </div>
-     }
 </div>
+
 
 <script type="text/javascript">
     $("#EditItem").validate({

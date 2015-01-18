@@ -3,195 +3,180 @@
     ViewBag.Title = "Create New Poll";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/poll/" + @Model.LeagueId)">Polls</a></li>
+    <li class="active">Create a New Poll</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="panelBoxLeft">
-        <div class="panelBoxTitle">
-            League Members
-        </div>
-        <div class="divider"></div>
-        <div>
-           <label> <input type="checkbox" onchange="javascript:toggleCheckedForRecipients(this)" id="checkAll" /><b>Check
-                All</b></label>
-        </div>
-        <div id="checkboxes">
 
-            @foreach (var mem in Model.Voters)
-            { 
-                <div>
-                   <label> @Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "ChangeDictionaryItem(this, '" + mem.MemberId + "','" + RDN.Utilities.Strings.StringExt.ToJavascriptFriendly(mem.DerbyName) + "')" })<span id="@mem.MemberId.ToString()-name">@mem.DerbyName</span></label>
+<div class="row">
+    <div class="col-sm-12 col-md-8 col-md-offset-2">
+        @using (Html.BeginForm("CreatePollAdd", "Vote", FormMethod.Post, new { @id = "PollsAdd" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-bullhorn"></i> Create a New Poll</h3>
+                    <div class="text-muted"> Create a new Poll for the league.</div>
                 </div>
-            }
-
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Create a New Poll
-        <br />
-            <br />
-
-        </div>
-
-        <div class="divider"></div>
-
-        <div>
-            @using (Html.BeginForm("CreatePollAdd", "Vote", FormMethod.Post, new { @id = "PollsAdd" }))
-            { 
-                <table class="addPollQuestionTable">
-                    <tr>
-                        <td class="b alRight">Title:
-                        </td>
-                        <td class="extraLargeInput">
-                            @Html.TextBoxFor(x => x.Title) - <span class="i">Title of Poll.</span>
-                        </td>
-                    </tr>
-                      <tr>
-                        <td class="b alRight">Description:
-                        </td>
-                        <td class="extraLargeInput"><span class="i">- Explain what the vote is on or about.</span>
-                               
-                        @Html.TextArea("Description", string.Empty, new
+                <div class="panel-body no-padding-top">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <label class="form-label margin-top-10 col-xs-6">
+                                League Members
+                            </label>
+                            <label class="margin-top-10 col-xs-6 text-right">
+                                <input type="checkbox" onchange="javascript:toggleCheckedForRecipients(this)" id="checkAll" /><b>
+                                    Check All
+                                </b>
+                            </label>
+                        </div>
+                        <div>
+                            <div id="checkboxes" class="row panel panel-default no-margin" style="height:150px;overflow:auto">
+                                @foreach (var mem in Model.Voters)
+                                {
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label>@Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "ChangeDictionaryItem(this, '" + mem.MemberId + "','" + RDN.Utilities.Strings.StringExt.ToJavascriptFriendly(mem.DerbyName) + "')" })&nbsp;&nbsp;<span id="@mem.MemberId.ToString()-name">@mem.DerbyName</span></label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Title</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Title, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
+                        <div>
+                            @Html.TextArea("Description", string.Empty, new
                            {
                                id = "wmd-input",
-                               style = "width:350px"
+                               @class = "form-control"
                            })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 margin-top-10">
+                        <div>
+                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div>
+                            <label>@Html.CheckBoxFor(x => x.IsPollAnonymous) Is Anonymous </label> <span class="text-muted"><i>Votes are hidden. Only results are shown and who hasn't voted.</i></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div>
+                            <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to league.</i></span>
+                        </div>
+                    </div>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-
-                    @*<tr>
-                        <td class="b">Is Poll Public:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.IsPublic) - <span class="i">Public Polls can be voted on by the world.</span>
-                        </td>
-                    </tr>*@
-                     <tr>
-                        <td class="b alRight">Open Results:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.IsOpenToLeague) - <span class="i">Results can be seen by league.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Is Anonymous:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.IsPollAnonymous) - <span class="i">Votes are hidden. Only results are shown and who hasn't voted.</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="b alRight">Broadcast Poll:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.BroadcastPoll) - <span class="i">Poll will be broadcasted to league</span>
-                        </td>
-                    </tr>
-
-                    <tr id="addQuestionRow">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Add Question:
-                        </td>
-                        <td>
-                            <span class="spanLink" onclick="AddPollAnswerCreate()"><img width="20px" src="@Url.Content("~/Content/plus.png")" alt="Add Answer"/>Add Question</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="@Url.Content("~/poll/" + Model.LeagueId)">Cancel Poll</a>
-                        </td>
-                        <td>
-                            <input type="submit" class="primary" value="Create Poll" />
-                        </td>
-                    </tr>
-                </table>
-                @Html.HiddenFor(x => x.LeagueId)
-                @Html.HiddenFor(x => x.ToMemberIds)
-            }
-        </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button class="btn btn-sm btn-warning" type="button" onclick="AddPollAnswerCreate()"><i class="fa fa-question-circle"></i> Add Questions</button>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="NewSponsorAdd"><i class="fa fa-save"></i> Create Poll</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/poll/" + Model.LeagueId)">Cancel</a>
+                </div>
+            </div>
+            @Html.HiddenFor(x => x.LeagueId)
+            @Html.HiddenFor(x => x.ToMemberIds)
+        }
     </div>
 </div>
-<div id="createPollPopup" class="createPollPopUp">
-    <div class="popUpHeader">
-        Add a Question
+<div id="createPollPopup1" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="panel panel-default no-margin no-border">
+                <div class="panel-heading">
+                    <h4 class="no-margin"><i class="fa fa-question-circle"></i>  Add a Question</h4>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Question</label>
+                            <div>
+                                <input type="text" class="form-control input-lg" id="questionInput" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default margin-top-10 no-margin-bottom">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="no-margin"><i class="fa fa-check"></i> Answers</h4>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button class="btn btn-info btn-xs" onclick="AddAnotherAnswerToPoll()"><i class="fa fa-plus-circle"></i> Add Answer</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="addAnswerToAnswersList" class="panel-body no-padding">
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I obstain from voting</i></span></label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer1Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I would like to NOT use that sponsor</i></span></label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer2Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I would like to NOT use that sponsor</i></span></label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer2Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I would like to use that sponsor</i></span></label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer3Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer</label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer4Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer</label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer5Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer</label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer6Input" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Multiple Options</label>
+                            <div>
+                                <label> <input type="checkbox" id="multipleOptionsInput" /> <span class="i">Want users to select multiple options?</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="button" value="Add Question" class="btn btn-success" onclick="Polls.AddQuestionToPoll()" />
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" />
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="divider"></div>
-    <table>
-        <tr>
-            <td class="b alRight">Question:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="questionInput" /></td>
-        </tr>
-        <tr>
-            <td class="b alRight">Answer:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="answer1Input" />
-                <span>- I obstain from voting</span>
-
-
-            </td>
-        </tr>
-        <tr>
-            <td class="b alRight">Answer:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="answer2Input" />
-                <span>- I would like to NOT use that sponsor</span></td>
-        </tr>
-        <tr>
-            <td class="b alRight">Answer:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="answer3Input" />
-                <span>- I would like to use that sponsor</span></td>
-        </tr>
-        <tr>
-            <td class="b alRight">Answer:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="answer4Input" />
-              
-            </td>
-        </tr>
-        <tr>
-            <td class="b alRight">Answer:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="answer5Input" />
-              
-            </td>
-        </tr>
-        <tr>
-            <td class="b alRight">Answer:</td>
-            <td class="extraLargeInput">
-                <input type="text" id="answer6Input" /><span class="addAnswerPoll" title="Create Poll" onclick="AddAnotherAnswerToPoll(this, '6')">
-                <img src="@Url.Content("~/Content/plus.png")" alt="Add Answer"/></span>
-              
-            </td>
-        </tr>
-        <tr id="addAnswerToAnswersList">
-            <td></td>
-            <td>
-            </td>
-        </tr>
-        <tr><td class="b alRight">Multiple Options:</td><td>
-           <label> <input type="checkbox" id="multipleOptionsInput" /> <span class="i">Want users to select multiple options?</span></label>
-                                                       </td></tr>
-        <tr>
-            <td><span class="spanLink" onclick="closePopUp('createPollPopup')">Cancel</span></td>
-            <td>
-                <input type="button" value="Add Question" class="primary" onclick="Polls.AddQuestionToPoll()" /></td>
-        </tr>
-    </table>
-    <div></div>
 </div>
 
 <script type="text/javascript">
@@ -204,7 +189,7 @@
     $(document).ready(function () {
         $("#checkAll").attr("checked", "checked");
         toggleCheckedForRecipients($("#checkAll"));
-   
+
         tinymce.init({
             mode: "textareas",
             elements: "elm2",

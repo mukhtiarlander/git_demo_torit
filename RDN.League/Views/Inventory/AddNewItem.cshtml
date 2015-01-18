@@ -6,104 +6,84 @@
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
     
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/inventory/all")">Inventory</a></li>
+    <li class="active">Add new Item</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-        </div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("AddNewItem", "Inventory", FormMethod.Post, new { @id = "NewItemAdd" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> Add New Item</h3>
+                    <div class="text-muted"> Add a new item to the inventory.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Item Serial No</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.ItemSerialNo, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Item Name</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.ItemName, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Unit Price</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.UnitePice, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Location</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Location, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label margin-top-10">Quantity</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Quantity, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Notes</label>
+                        <div>
+                            @Html.TextArea("Notes", string.Empty, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="NewItemAdd"><i class="fa fa-save"></i> Add Item</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/inventory/all")">Cancel</a>
+                </div>
+            </div>
+        }
     </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Add New Item 
-        </div>
-
-        <div class="titleDescription">
-            Add a new item to the inventory.
-        </div>
-        <div class="divider"></div>
-
-        <div>
-            @using (Html.BeginForm("AddNewItem", "Inventory", FormMethod.Post, new { @id = "NewItemAdd" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b alRight">Item Serial No:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.ItemSerialNo)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Item Name:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.ItemName)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Unite Price:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.UnitePice)
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Location:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Location)
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Quantity:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Quantity)
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="b alRight alignTop">Notes:
-                        </td>
-                        <td class="largeInput">@Html.TextArea("Notes", string.Empty, new
-                           {
-                               id = "wmd-input",
-                               style = "width:350px"
-                           })</td>
-                    </tr>
-
-                    <tr>
-                        <td class="b alRight"></td>
-                        <td class="largeInput">
-                            <input type="submit" class="primary" value="Add Item" name="NewItemAdd" />
-
-                        </td>
-                    </tr>
-
-                </table>
-                  
-            }
-        </div>
-    </div>
-    @if (!subPaid)
-    { 
-        <div class="fixedAd">
-            <script type="text/javascript"><!--
+</div>
+@if (!subPaid)
+{
+    <div class="fixedAd">
+        <script type="text/javascript">
+<!--
     google_ad_client = "ca-pub-1376896373478670";
     /* RDNation SideAd */
     google_ad_slot = "9959849457";
     google_ad_width = 120;
     google_ad_height = 600;
     //-->
-            </script>
-            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
-            </script>
-        </div>
-    }
-</div>
-
+        </script>
+        <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+}
 <script type="text/javascript">
     $("#NewItemAdd").validate({
         rules: {
