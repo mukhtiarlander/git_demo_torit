@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-        
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
@@ -27,51 +27,52 @@
                 <div class="text-muted"> Details of the Sponsor.</div>
             </div>
             <div class="panel-body no-padding-top">
-                <div class="col-xs-12 col-sm-6">
-
-                        
-
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Sponsor Name</label>
-                    <div>
-                        <b> @Model.SponsorName</b>
-                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b> @Model.SponsorName</b></label>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Website</label>
-                    <div>
-                        <b>  @Model.Website</b>
-                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b>  @Model.Website</b></label>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Begin on</label>
-                    <div>
-                        <b>@Model.BeginDate.ToShortDateString()</b> 
-                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-6">
+                     <div class="col-xs-12 col-sm-6">
+                         <label class="form-label margin-top-10"><b>@Model.BeginDate.ToShortDateString()</b></label>
+                     </div>
+                
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Ends On</label>
-                    <div>
-                        <b>   @Model.EndDate.ToShortDateString()</b>
-                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-6">
+                     <div class="col-xs-12 col-sm-6">
+                         <label class="form-label margin-top-10"><b>   @Model.EndDate.ToShortDateString()</b></label>
+
+                     </div>
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Code Used Count</label>
-                    <div>
-                        <b>@Model.UsedCount</b>
-                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-6">
+                     <div class="col-xs-12 col-sm-6">
+                         <label class="form-label margin-top-10"><b>@Model.UsedCount</b></label>
+                     </div>
+               
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Promo Code</label>
-                    <div>
-                        <b>@Model.PromoCode</b>
-                    </div>
                 </div>
-                <div class="col-xs-12">
+                     <div class="col-xs-12 col-sm-6">
+                         <label class="form-label margin-top-10"><b>@Model.PromoCode</b></label>
+
+                     </div>
+                <div class="col-xs-12 col-sm-6 text-right">
                     <label class="form-label margin-top-10">Sponsor Details</label>
-                    <div>
-                        <b> @Html.Raw(Model.Description)</b>
-                    </div>
                 </div>
+                     <div class="col-xs-12 col-sm-6">
+                         <label class="form-label margin-top-10"><b> @Html.Raw(Model.Description)</b></label>
+                     </div>
             </div>
         </div>
     </div>
