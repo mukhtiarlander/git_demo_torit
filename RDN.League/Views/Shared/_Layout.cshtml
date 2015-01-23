@@ -261,7 +261,7 @@
                                                         <a href="@Url.Content("~/league/jobboard/")" title="Jobs">
                                                             <img src="@Url.Content("~/Content/images/icons/job.png")" class="img-responsive pull-left" alt="Jobs" />Jobs
                                                             @if (MemberCache.GetJobsCount(memId) > 0)
-                                                            {<span class="messageSpan">@MemberCache.GetJobsCount(memId)</span>}
+                                                            {<span class="badge" >@MemberCache.GetJobsCount(memId)</span>}
                                                         </a>
                                                     </li>
                                                 }

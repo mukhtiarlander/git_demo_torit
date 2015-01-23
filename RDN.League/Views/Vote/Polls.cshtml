@@ -65,7 +65,7 @@
                             <td class="text-center">
                                 @if (!Model.Polls[i].IsClosed && Model.Polls[i].IsCurrentMemberAllowedToVote)
                                 {
-                                    <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-thumbs-o-up"></i></a>
+                                    <a class="btn btn-primary btn-sm" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-lg fa-thumbs-o-up"></i></a>
                                 }
                                 else if (Model.Polls[i].IsCurrentMemberAllowedToVote)
                                 {
@@ -73,10 +73,10 @@
                                 }
                                 else
                                 {
-                                    <span>Not Allowed</span>
+                                    <a class="btn btn-danger btn-sm disabled"  title="Not Allowed"><i class="fa fa-lg fa-times-circle"></i></a>
                                 }
                             </td>
-                            <td>
+                            <td style="vertical-align:middle">
                                 @if (Model.IsPollManager)
                                 {
                                     <a class="btn btn-xs btn-info" href="@Url.Content("~/poll/edit/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-pencil"></i> Edit</a>
@@ -87,7 +87,7 @@
                                     <a class="btn btn-xs btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
                                 }
                             </td>
-                            x
+                            
                         </tr>
                     }
                 }

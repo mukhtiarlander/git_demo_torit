@@ -12,56 +12,62 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-       
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.ItemName</h3>
-                        </div>
-                    </div>
-                    <div class="text-muted"> Details of the Item.</div>
-                </div>
-                <div class="panel-body no-padding-top">
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Item Serial No</label>
-                        <div>
-                            <b> @Model.ItemSerialNo</b>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Item Name</label>
-                        <div>
-                            <b>  @Model.ItemName</b>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Unit Price</label>
-                        <div>
-                            <b>@Model.UnitePice</b>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Quantity</label>
-                        <div>
-                            <b>   @Model.Quantity</b>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Location</label>
-                        <div>
-                            <b>@Model.Location</b>
-                        </div>
-                    </div>
-                   
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
                     <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Notes</label>
-                        <div>
-                            <b> @Html.Raw(Model.Notes)</b>
-                        </div>
+                        <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.ItemName</h3>
                     </div>
                 </div>
+                <div class="text-muted"> Details of the Item.</div>
             </div>
+            <div class="panel-body no-padding-top">
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Item Serial No</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b> @Model.ItemSerialNo</b></label>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Item Name</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b>  @Model.ItemName</b></label>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Unit Price</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"> <b>@Model.UnitePice</b></label>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Quantity</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10">  <b>   @Model.Quantity</b></label>
+                </div>
+                
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Location</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b>@Model.Location</b></label>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Notes</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"> <b> @Html.Raw(Model.Notes)</b></label>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 
