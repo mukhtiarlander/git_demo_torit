@@ -73,7 +73,9 @@
                             <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to league.</i></span>
                         </div>
                     </div>
+                    <div id="addQuestionRow" class="col-xs-12 margin-top-10">
 
+                    </div>
                 </div>
                 <div class="panel-footer text-center">
                     <button class="btn btn-sm btn-warning" type="button" onclick="AddPollAnswerCreate()"><i class="fa fa-question-circle"></i> Add Questions</button>
@@ -131,17 +133,11 @@
                             <div class="col-xs-12">
                                 <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I would like to NOT use that sponsor</i></span></label>
                                 <div>
-                                    <input type="text" class="form-control" id="answer2Input" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I would like to use that sponsor</i></span></label>
-                                <div>
                                     <input type="text" class="form-control" id="answer3Input" />
                                 </div>
                             </div>
                             <div class="col-xs-12">
-                                <label class="form-label margin-top-10">Answer</label>
+                                <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I would like to use that sponsor</i></span></label>
                                 <div>
                                     <input type="text" class="form-control" id="answer4Input" />
                                 </div>
@@ -150,6 +146,12 @@
                                 <label class="form-label margin-top-10">Answer</label>
                                 <div>
                                     <input type="text" class="form-control" id="answer5Input" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label margin-top-10">Answer</label>
+                                <div>
+                                    <input type="text" class="form-control" id="answer6Input" />
                                 </div>
                             </div>
                             <div class="col-xs-12">
