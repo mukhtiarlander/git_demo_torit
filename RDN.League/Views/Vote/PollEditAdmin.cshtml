@@ -4,263 +4,261 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0;
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/poll/" + @Model.LeagueId)">Polls</a></li>
+    <li class="active">Edit Poll</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            <div class="navIcons">
-                <a title="Polls" href="@Url.Content("~/poll/" + @Model.LeagueId)">
-                    <img src="@Url.Content("~/Content/images/icons/poll.png")"  />Polls
-                </a>
-            </div>
-        </div>
-        <div class="rightBackLink">
-            <div class="navIcons">
-                <a title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId + "/" + Model.VotingId)">
-                    <img src="@Url.Content("~/Content/images/icons/vote.png")"  />Vote
-                </a>
-            </div>
-            <div class="inputIcons">
-                @using (Html.BeginForm("DeletePoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm" }))
-                {
-                    <input title="Delete Poll" type="image" onclick="return confirm('Really Delete Poll?')" src="@Url.Content("~/Content/images/icons/delete.png")" />
-                    <span>Delete
-                @Html.HiddenFor(x => x.VotingId)
-                        @Html.HiddenFor(x => x.LeagueId)
-                    </span>
-                }
-            </div>
-            @if (!Model.IsClosed)
-            { 
-                <div class="inputIcons">
-                    @using (Html.BeginForm("ClosePoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm" }))
-                    {
-                        <input title="Close Poll" type="image" onclick="return confirm('Really Close Poll?')" src="@Url.Content("~/Content/images/icons/close.png")" />
-                        <span>Close
-                @Html.HiddenFor(x => x.VotingId)
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h3 style="margin-top:5px !important"><i class="fa fa-bullhorn"></i> @Model.Title</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 text-right">
+                        <a class="btn btn-primary btn-sm" title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId + "/" + Model.VotingId)">
+                            <i class="fa fa-thumbs-o-up"></i> Vote
+                        </a>
+                        @using (Html.BeginForm("DeletePoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm", @class = "inline-block" }))
+                         {
+                            <button class="btn btn-danger btn-sm" title="Delete Poll" onclick="return confirm('Really Delete Poll?')"><i class='fa fa-trash'></i> Delete</button>
+                            @Html.HiddenFor(x => x.VotingId)
                             @Html.HiddenFor(x => x.LeagueId)
-                        </span>
-                    }
-                </div>
-            }
-            else
-            {             
-                <div class="inputIcons">
-                    @using (Html.BeginForm("OpenPoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm" }))
-                    {
-                        <input title="Open Poll" type="image" onclick="return confirm('Really Open Poll?')" src="@Url.Content("~/Content/images/icons/open.png")" />
-                        <span>Open
-                @Html.HiddenFor(x => x.VotingId)
-                            @Html.HiddenFor(x => x.LeagueId)
-                        </span>
-                    }
-                </div>
-            }
-
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        @using (Html.BeginForm("UpdatePollV2", "Vote", FormMethod.Post, new { @id = "createNewEventForm" }))
-        { 
-            <table>
-                <tr>
-                    <td class="fixTitlePoll">Title: </td>
-                    <td></td>
-
-                </tr>
-                <tr>
-
-                    <td class="superLargeInput">@Html.TextBoxFor(x => x.Title)</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="divider"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td ><label><span class="b">Open Results:</span> @Html.CheckBoxFor(x=>x.IsOpenToLeague) <span class="i">Show league members the results</span></label></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><span class="b">Description:</span> </td>
-                </tr>
-                <tr>
-                    
-                    <td> 
-
-                         @Html.TextArea("Description", new
-                                           {
-                                               id = "wmd-input",
-                                               @Value = Model.Description != null ? Model.Description.ToString() : "",
-                                               style = "width:450px"
-                                           }) 
-
-                    </td>
-                     <td>
-                        <input class="primary" style="float: left;" type="submit" value="Update Poll" /></td>
-                </tr>
-              <tr><td></td></tr>
-                <tr><td></td></tr>
-            </table>
-        
-           
-            <div>
-            </div>
-            @Html.HiddenFor(x => x.LeagueId)
-            @Html.HiddenFor(x => x.VotingId)
-        }
-        <div class="clear"></div>
-        <br /><div>
-            <table class="addForumPostTbl">
-                <tr>
-                    <td class="b " colspan="3">@if (Model.IsPollAnonymous)
-                                               {<span>Anonymous Questions & Answers:</span> }
-                                               else
-                                               {  <span>Questions & Answers:</span> }
-                    </td>
-                </tr>
-            </table>
-            <div id="pollQuestions">
-                @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
-                {
-                    <table id="questionTable-@question.QuestionId">
-                        <tr>
-                            <td colspan="2" class="pollViewAdminQuestion" id="updateQuestionTd-@question.QuestionId">@question.Question @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple) { <span class="i n"> - multiple choice</span> } </td>
-                             
-                            <td class="extraLargeInput noTwoLine"><span class="spanLink" onclick="EditQuestionInPoll(this, '@question.Question', '@question.QuestionId')">Edit</span>
-                                <img class="cursor sortableHandle" src="/Content/images/icons/move-arrow.png" title="Sort Question/Drag and Drop" /></td>
-                        </tr>
-                        @foreach (var answer in question.Answers.OrderBy(x => x.AnswerId))
-                        {               
-                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
-                                <td>
-                                    @question.Votes.Where(x => x.AnswerId == answer.AnswerId).Count() <span class="smallFont">vote(s)</span> @question.GetPercentage(answer.AnswerId)%</td>
-                                <td  id="updateAnswerTd-@answer.AnswerId"><b>@answer.Answer</b>
-                                </td>
-                                <td class="extraLargeInput noTwoLine">
-                                    @if (!answer.WasRemoved)
-                                    { 
-                                        <span class="spanLink" onclick="EditAnswerInPoll(this, '@answer.Answer', '@answer.AnswerId')">Edit</span> <span class="spanLink" onclick="RemoveAnswerInPoll(this, '@answer.AnswerId')">Remove</span>
-                                    }
-                                    else
-                                    { 
-                                        <span>Answer Was Removed From Poll</span>
-                                    }
-                                </td>
-                            </tr>
-                                    if (!Model.IsPollAnonymous)
-                                    {
-                                        foreach (var vote in question.Votes.Where(x => x.AnswerId == answer.AnswerId).OrderBy(x => x.DerbyName))
-                                        { 
-                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
-                                <td></td>
-                                <td>
-                                    <a href="@Url.Content("~/Member/" + vote.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(vote.DerbyName))">@vote.DerbyName</a>
-                                    - @vote.OtherText</td>
-                                <td></td>
-                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        foreach (var vote in question.Votes.Where(x => x.AnswerId == answer.AnswerId).OrderBy(x => x.DerbyName))
-                                        { 
-                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
-                                <td></td>
-                                <td>
-                                    @vote.OtherText</td>
-                                <td></td>
-                            </tr>
-                                        }
-                                    }
-                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
-                                <td colspan="3">
-                                    <div style="width: @question.GetBarLength(answer.AnswerId, 720)px" class="VoteControlPollBar">
-                                        &nbsp;
-                                    </div>
-                                </td>
-
-                            </tr>
-                                    { i += 1; }
                         }
-                        <tr id="newAnswerForQuestionTd-@question.QuestionId">
-                            <td>Add Answer:</td>
-                            <td class="extraLargeInput">
-                                <input  id="newAnswerForQuestionInput-@question.QuestionId" />
-                                <span class="spanLink" onclick="AddNewAnswerToQuestionPoll(this, '@question.QuestionId')">Add Answer</span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                                <div class="divider"></div>
-                            </td>
-                        </tr>
-                    </table>
-                }
+                        @if (!Model.IsClosed)
+                        {
+                            using (Html.BeginForm("ClosePoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm", @class = "inline-block" }))
+                            {
+                                <button class="btn btn-warning btn-sm" title="Close Poll" onclick="return confirm('Really Close Poll?')"><i class='fa fa-times'></i> Close</button>
+                                                        @Html.HiddenFor(x => x.VotingId)
+                                                        @Html.HiddenFor(x => x.LeagueId)
+                            }
+                        }
+                         else
+                        {
+                            using (Html.BeginForm("OpenPoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm", @class = "inline-block" }))
+                            {
+                                <button class="btn btn-warning btn-sm" title="Open Poll" onclick="return confirm('Really Open Poll?')"><i class='fa fa-folder'></i> Open</button>
+                                @Html.HiddenFor(x => x.VotingId)
+                                @Html.HiddenFor(x => x.LeagueId)
+                            }
+                        }
+                    </div>
+                </div>
 
+                <div class="text-muted"> Edit the poll details.</div>
             </div>
-            <table>
-                <tr>
-                    <td class="b">Didn't Vote:
-                    </td>
-                    <td></td>
-                    <td id="emailPollLink">
-                        <input class="primary" type="button" value="ReSend Email Notifications" onclick="SendEmailPollNotification('@Model.LeagueId    ','@Model.VotingId    ')" /></td>
-                </tr>
-                @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
-                { 
-                    <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
-                        <td></td>
+                @using (Html.BeginForm("UpdatePollV2", "Vote", FormMethod.Post, new { @id = "createNewEventForm" }))
+                {
+                    <div class="panel-body no-padding-top">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Title</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.Title, new { @type = "text", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
+                            <div>
+                                @Html.TextArea("Description",  new
+                                {
+                                    id = "wmd-input",
+                                    @Value = Model.Description != null ? Model.Description.ToString() : "",
+                                    @class = "form-control"
+                                })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 margin-top-10">
+                            <div>
+                                <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                           
+                                @if (Model.IsPollAnonymous)
+                                { <label class="form-label margin-top-10">Anonymous Questions & Answers</label> }
+                                else
+                                {   <label class="form-label margin-top-10">Questions & Answers</label> }
+                            
+                            <div id="pollQuestions">
+                                @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
+                                {
 
-                        <td>
-                            <a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
-                        </td>
-                        <td></td>
-                    </tr>
+                                    <div id="updateQuestionTd-@question.QuestionId" class="panel panel-default">
+                                        <div class="panel-heading no-padding padding-5">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-10 padding-top-5">
+                                                    <span style="font-size:16px;">
+                                                        <i class="fa fa-question-circle"></i> @question.Question
+                                                    </span>
+                                                    @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                                                    {<small class='text-muted'> - multiple choice</small> }
+                                                </div>
+                                                <div class="col-xs-12 col-sm-2 text-right">
+                                                    <button class="btn btn-sm btn-default" onclick="EditQuestionInPoll(this, '@question.Question', '@question.QuestionId')"><i class="fa fa-pencil"></i></button>
+                                                    <span class="btn btn-sm btn-default sortableHandle" title="Sort Question/Drag and Drop"><i class="fa fa-arrows"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body no-padding-top no-padding-bottom">
+                                            <div id="newAnswerForQuestionTd-@question.QuestionId">
+                                                @foreach (var answer in question.Answers.OrderBy(x => x.AnswerId))
+                                                {
+                                                    <div class="row padding-bottom-10" style="border-bottom:1px solid #eee">
+                                                        <div class="col-xs-12 col-sm-3 col-md-2 margin-top-10" >
+                                                            <label class="label label-primary padding-top-5 padding-bottom-5" >
+                                                                @question.Votes.Where(x => x.AnswerId == answer.AnswerId).Count() vote(s) @question.GetPercentage(answer.AnswerId)%
+                                                            </label>
+                                                        </div>
+                                                        <div id="labelAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10">
+                                                            <b>@answer.Answer</b>
+                                                        </div>
+                                                        <div id="updateAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10" style="display:none">
+                                                            <input type='text' class='form-control input-sm' id='textAnswerId-@answer.AnswerId' value='@answer.Answer' />
+                                                        </div>
+                                                        <div id="btnUpdateAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10 padding-top-5" style="display:none">
+                                                            <button class="btn btn-success btn-xs" type="button" onclick="UpdateEditAnswerInPoll('@answer.AnswerId')">Update</button>
+                                                            <button class="btn btn-default btn-xs" type="button" onclick="CancelEditAnswerInPoll('@answer.AnswerId')">Cancel</button>
+                                                        </div>
+                                                        <div id="btnEditAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10" >
+                                                            @if (!answer.WasRemoved)
+                                                            {
+                                                                <button class="btn btn-xs btn-success" type="button" onclick="EditAnswerInPoll('@answer.Answer', '@answer.AnswerId')">Edit</button>
+                                                                <button class="btn btn-xs btn-danger" type="button" onclick="RemoveAnswerInPoll('@answer.AnswerId')">Remove</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>Answer Was Removed From Poll</span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    if (!Model.IsPollAnonymous)
+                                                    {
+                                                        foreach (var vote in question.Votes.Where(x => x.AnswerId == answer.AnswerId).OrderBy(x => x.DerbyName))
+                                                        {
+                                                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                                                <td></td>
+                                                                <td>
+                                                                    <a href="@Url.Content("~/Member/" + vote.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(vote.DerbyName))">@vote.DerbyName</a>
+                                                                    - @vote.OtherText
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (var vote in question.Votes.Where(x => x.AnswerId == answer.AnswerId).OrderBy(x => x.DerbyName))
+                                                        {
+                                                            <tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                                                <td></td>
+                                                                <td>
+                                                                    @vote.OtherText
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    @*<tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                                        <td colspan="3">
+                                                            <div style="width: @question.GetBarLength(answer.AnswerId, 720)px" style="background-color:silver">
+                                                                &nbsp;
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>*@
+                                                    { i += 1; }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div  class="panel-footer" style="background-color:#fbfbfb"> 
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-2 text-right padding-top-5">Add Answer</div>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input class="form-control input-sm" type="text" id="newAnswerForQuestionInput-@question.QuestionId" />
+                                                </div>
+                                                <div class="col-xs-12 col-sm-2">
+                                                    <button class="btn btn-sm btn-default" type="button" onclick="AddNewAnswerToQuestionPoll('@question.QuestionId')"><i class="fa fa-plus-circle"></i> Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <label class="form-label col-xs-6">
+                                    Didn't Vote
+                                </label>
+                                <div class="col-xs-6 text-right">
+                                    <button class="btn btn-warning btn-xs" type="button" onclick="SendEmailPollNotification('@Model.LeagueId','@Model.VotingId')"><i class="fa fa-envelope"></i> Re-Send Email Notifications</button>
+                                </div>
+                            </div><div>
+                                <div id="checkboxes" class="row panel panel-default no-margin" style="height:150px;overflow:auto">
+                                     @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
+                                    {
+                                        <div class="col-xs-12 col-sm-4">
+                                            <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="panel-footer">
+                            <button type="submit" class="btn btn-default btn-success" ><i class="fa fa-save"></i> Update Poll</button>
+                            <a class="btn btn-default pull-right" href="@Url.Content("~/poll/" + Model.LeagueId)">Cancel</a>
+                        </div>
+                        @Html.HiddenFor(x => x.LeagueId)
+                        @Html.HiddenFor(x => x.VotingId)
                 }
-            </table>
-            @Html.HiddenFor(x => x.LeagueId)
-            @Html.HiddenFor(x => x.VotingId)
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function(){
-        Polls.Initialize('@Model.VotingId');
 
-    });
-    $("#PollsAdd").validate({
-        rules: {
-            AnswerType: "required"
-        }
-    });
-    $("#pollQuestions").sortable({
-        handle:'.sortableHandle',
-        helper:jquerySortableHelper, 
-        update: function(event, ui) {
-            var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
-            
-            Polls.SaveResortedPoll(idsInOrder);
-        } }).disableSelection();
-    $(function () {
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "advanced",
-            skin: "o2k7",
-            skin_variant: "silver",
-            plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 
-            // Theme options
-            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
-            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
-            theme_advanced_buttons3: "",
-            theme_advanced_buttons4: "",
-            theme_advanced_toolbar_location: "top",
-            theme_advanced_toolbar_align: "left",
-            theme_advanced_statusbar_location: "bottom",
-            theme_advanced_resizing: true,
+       
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Polls.Initialize('@Model.VotingId');
+
         });
-    });
-</script>
+        $("#PollsAdd").validate({
+            rules: {
+                AnswerType: "required"
+            }
+        });
+        $("#pollQuestions").sortable({
+            handle: '.sortableHandle',
+            helper: jquerySortableHelper,
+            update: function (event, ui) {
+                var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
+
+                Polls.SaveResortedPoll(idsInOrder);
+            }
+        }).disableSelection();
+        $(function () {
+            tinymce.init({
+                mode: "textareas",
+                elements: "elm2",
+                theme: "advanced",
+                skin: "o2k7",
+                skin_variant: "silver",
+                plugins: "safari,style,layer,table,advhr,advimage,advlink,inlinepopups,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+                // Theme options
+                theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
+                theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
+                theme_advanced_buttons3: "",
+                theme_advanced_buttons4: "",
+                theme_advanced_toolbar_location: "top",
+                theme_advanced_toolbar_align: "left",
+                theme_advanced_statusbar_location: "bottom",
+                theme_advanced_resizing: true,
+            });
+        });
+    </script>
