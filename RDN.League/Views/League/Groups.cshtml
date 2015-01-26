@@ -6,157 +6,156 @@
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Groups For @Model.Name
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isAdminOfLeague)
-            { 
-                
-                <div class="navIcons">
-                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
-                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
-                    </a>
-                </div>
-                <span>
-                    <a  href="@Url.Content("~/league/groups/add/")">
-                        <img src="@Url.Content("~/Content/plus.png")" height="20px" />
-                        Add Group</a>
-                </span>
-                <div class="navIcons">
-                    <span class="cursor " onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
-                        <img src="@Url.Content("~/Content/images/icons/docs/excel.png")" />Export</span>
-                </div>
-            }
-            @if (isPaid)
-            {
-                <div class="navIcons">
-                    <a href="@Url.Content("~/league/members/view/report")">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
-                    </a>
-                </div>
-            }
-            else
-            { 
-                <div class="navIcons">
-                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
-                    </a>
-                </div>
-            }
-        </div>
 
-        <div class="titleDescription">
-            Here you can view the Groups of your League. Groups are used to organize people into particular teams, commitees, the BoD and any other reason for them.  The <a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">wiki/help will tell</a> you whats possible with them.
-       
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Members</li>
+</ol>
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-group"></i> Groups For @Model.Name</h3>
+            </div>
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isAdminOfLeague)
+                {
+                    <a class="btn btn-info btn-sm" title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <i class="fa fa-plus-circle"></i> Add Member
+                    </a>
+                    <a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/add/")">
+                        <i class="fa fa-plus-circle"></i> Add Group
+                    </a>
+                    <a class="btn btn-default btn-sm" onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
+                        <i class="fa fa-download"></i> Export
+                    </a>
+                }
+                @if (isPaid)
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/league/members/view/report")">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+            </div>
         </div>
-        <div class="divider"></div>
-
-        <div class="membersPager">
-            @Html.Partial("Menus/LeagueViewMembers")
-        </div>
-        <br />
-        <br />
-        <div>
-            <table class="listTable" id="members">
-                <thead>
-                    <tr>
-                        <th class="g"></th>
-                        <th colspan="2" class="g">Group Name</th>
-                        <th colspan="2" class="g">Members</th>
-                        <th colspan="1" class="g">Type</th>
-                        <th colspan="1" class="g">Email</th>
-                        <th colspan="1" class="g">Public</th>
-                        <th class="g"></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th>Member Type</th>
-                        <th>Derby Name
-                        </th>
-                        <th>Derby Number
-                        </th>
-                        <th>First Name
-                        </th>
-                        <th>Last Name
-                        </th>
-                        <th>Phone Number
-                        </th>
-                        <th>Email
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Groups.Count; i++)
-                    {
-                        <tr class="g">
-                            <td>@if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
-                                { 
-                                <a href="@Url.Content("~/league/groups/settings/" + Model.Groups[i].Id)">Edit </a>    
-                                }
-                            </td>
-                            <td colspan="2">@Model.Groups[i].GroupName</td>
-                            <td colspan="2">@Model.Groups[i].GroupMembers.Count</td>
-                            <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>
-                            <td>@Model.Groups[i].EmailAddress</td>
-                            <td>@if (Model.Groups[i].IsPublicToWorld)
-                                { 
+        <div class="text-muted"> Here you can view the Groups of your League. Groups are used to organize people into particular teams, commitees, the BoD and any other reason for them.  The <a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">wiki/help will tell</a> you whats possible with them.</div>
+    </div>
+    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+        @Html.Partial("Menus/LeagueViewMembers")
+    </div>
+    <div class="panel-body no-padding">
+        <table class="table table-hover table-condensedas" id="members">
+            <thead>
+                <tr>
+                    <th>Group Name</th>
+                    <th>
+                       Members
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th class="text-center">
+                       Public
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Groups.Count; i++)
+                {
+                    <tr style="background-color: #f1f1f1">
+                        <td>@Model.Groups[i].GroupName</td>
+                        <td>@Model.Groups[i].GroupMembers.Count</td>
+                        <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>
+                        <td>@Model.Groups[i].EmailAddress</td>
+                        <td class="text-center">
+                            @if (Model.Groups[i].IsPublicToWorld)
+                            {
                                 <img src="@Url.Content("~/content/images/greencheck.png")" alt="Is Public" />
-                                }
-                            </td>
-                            <td>
-                                @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
-                                { 
-                                    <span class="spanLink" onclick="RemoveGroupFromLeague('@Model.Groups[i].Id')">Remove Group</span>
-                                }
-                            </td>
-                        </tr>
-                                for (int j = 0; j < Model.Groups[i].GroupMembers.Count; j++)
-                                { 
-                        
-                        <tr>
-                            <td>
-                                @if (isAdminOfLeague)
-                                { 
-                                    <a href="@Url.Content("~/League/Member/Edit/" + Model.Groups[i].GroupMembers[j].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Groups[i].GroupMembers[j].DerbyName))">Edit </a>
-                                }
-                            </td>
-                            <td>
-                                @Model.Groups[i].GroupMembers[j].MemberAccessLevelEnum.ToString()
-                            </td>
-                            <td>
-                                <a href="@Url.Content("~/Member/" + Model.Groups[i].GroupMembers[j].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Groups[i].GroupMembers[j].DerbyName))">
-                                    @Model.Groups[i].GroupMembers[j].DerbyName
-                                </a>
-                            </td>
-                            <td>@Model.Groups[i].GroupMembers[j].PlayerNumber
-                            </td>
-                            <td>@Model.Groups[i].GroupMembers[j].Firstname
-                            </td>
-                            <td>@Model.Groups[i].GroupMembers[j].LastName
-                            </td>
-                            <td>@Model.Groups[i].GroupMembers[j].PhoneNumber
-                            </td>
-                            <td>@Model.Groups[i].GroupMembers[j].Email
-                            </td>
-                        </tr>    
-                                }
-                    }
+                            }
+                        </td>
+                        <td class="text-right">
+                            @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
+                            {
+                                <a class="btn btn-success btn-xs" href="@Url.Content("~/league/groups/settings/" + Model.Groups[i].Id)">Edit </a>
+                            }
 
-                </tbody>
-            </table>
-        </div>
+                            @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
+                            {
+                                <button class="btn btn-danger btn-xs" type="button" onclick="RemoveGroupFromLeague('@Model.Groups[i].Id')">Remove Group</button>
+                            }
+                        </td>
+                    </tr>
+                    if (@Model.Groups[i].GroupMembers.Count > 0)
+                    { 
+                         <tr style="background-color:white">
+                        <td colspan="6" style="padding:10px;">
+                            <div class="panel panel-default no-margin">
+                                <table class="table table-condensedas">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">Name</th>
+                                            <th class="text-left">Type</th>
+                                            <th class="text-left">Derby Name</th>
+                                            <th class="text-left">Number</th>
+                                            <th class="text-left">Phone Number</th>
+                                            <th class="text-left">Email</th>
+                                        </tr>
+                                    </thead>
+                                    @for (int j = 0; j < Model.Groups[i].GroupMembers.Count; j++)
+                                    {
+                                        <tr>
+                                            <td class="text-left">
+                                                @Model.Groups[i].GroupMembers[j].Firstname @Model.Groups[i].GroupMembers[j].LastName
+                                            </td>
+                                            <td class="text-left">
+                                                @Model.Groups[i].GroupMembers[j].MemberAccessLevelEnum.ToString()
+                                            </td>
+                                            <td class="text-left">
+                                                <a href="@Url.Content("~/Member/" + Model.Groups[i].GroupMembers[j].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Groups[i].GroupMembers[j].DerbyName))">
+                                                    @Model.Groups[i].GroupMembers[j].DerbyName
+                                                </a>
+                                            </td>
+                                            <td class="text-left">
+                                                @Model.Groups[i].GroupMembers[j].PlayerNumber
+                                            </td>
+                                            <td class="text-left">
+                                                @Model.Groups[i].GroupMembers[j].PhoneNumber
+                                            </td>
+                                            <td class="text-left">
+                                                @Model.Groups[i].GroupMembers[j].Email
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
         @using (Html.BeginForm("ExportGroupsOfLeague", "League", FormMethod.Post, new { @id = "MembersReport" }))
         {
 
         }
     </div>
 </div>
+
+
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#membersTypeButtons").find("a[tag='groups']").addClass('active');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,
@@ -164,7 +163,9 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "bAutoWidth": false
         });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
     });
 </script>
