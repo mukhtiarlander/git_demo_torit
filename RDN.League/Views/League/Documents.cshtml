@@ -117,10 +117,17 @@
             <div class="panel-footer">
                 @using (Html.BeginForm("UploadLeagueDocuments", "Document", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
-                    <input type="file" class="btn btn-default" name="files" id="documentUpload" />
-                    <div id="fileUpload-list" class="uploadList"></div>
-                    @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...")
-                    <input id="submitDocs" type="submit" value="Upload Documents" />
+                    <div class="margin-bottom-10">
+                        <input type="file" class="btn btn-default" name="files" id="documentUpload" style="width:100%" />
+                    </div>
+                    <div class="margin-bottom-10">
+                        <div id="fileUpload-list" class="uploadList"></div>
+                    </div>
+                    <div class="margin-bottom-10">
+                            @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...")
+                    </div>
+                    <button class="btn btn-success btn-sm" id="submitDocs" type="submit"><i class="fa fa-upload"></i> Upload Documents</button>
+                       
                     @Html.HiddenFor(x => x.OwnerId)
                 }
             </div>
