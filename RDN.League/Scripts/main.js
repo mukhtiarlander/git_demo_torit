@@ -1791,47 +1791,56 @@ var Polls = new function () {
         var isMultipleAnswers = $("#multipleOptionsInput").is(":checked");
         var questions = $("#HiddenQuestions");
         var answers = $("#HiddenAnswers");
-        var row = $(document.createElement('tr'));
-        var questionColumn = $(document.createElement('td'));
-        questionColumn.addClass("b");
-        questionColumn.addClass("b alRight");
-        questionColumn.html("Question:");
-        row.append(questionColumn);
 
-        var questionAndAnswersColumn = $(document.createElement('td'));
+        var panel = $(document.createElement('div'));
+        panel.addClass('panel panel-default');
+
+        var panelHeader = $(document.createElement('div'));
+        panelHeader.addClass('panel-heading no-padding padding-5');
+        if (isMultipleAnswers === true)
+            panelHeader.append("Question - <small class='text-muted'>Multiple Selections</small>")
+        else
+            panelHeader.append("Question ")
+        panelHeader.append("<button class='btn btn-xs btn-default pull-right' onclick='DeleteQuestionForPoll(this)'><i class='fa fa-times '></i></button>");
+        panel.append(panelHeader);
+
+        var questionAndAnswersPanel = $(document.createElement('div'));
+        questionAndAnswersPanel.addClass('panel-body no-padding padding-top-10 padding-bottom-10');
 
         var question = $(document.createElement('div'));
-        question.addClass("answerSpacer").addClass("b");
-        var questionHtml = "<input type='textbox' value='" + $("#questionInput").val() + "' name='question" + simpleId + "'/>";
+        question.addClass("b col-xs-12 margin-bottom-10");
+        var questionHtml = "<input type='textbox' class='form-control' value='" + $("#questionInput").val() + "' name='question" + simpleId + "'/>";
         if (isMultipleAnswers === true)
-            questionHtml += "<input type='hidden' value='Multiple' name='questiontype" + simpleId + "' /> <span class='b'> Multiple Selections</span>";
+            questionHtml += "<input  type='hidden' value='Multiple' name='questiontype" + simpleId + "' />";
         else
             questionHtml += "<input type='hidden' value='Single' name='questiontype" + simpleId + "' />";
-        questionHtml += " <span class='floatRight spanLink' onclick='DeleteQuestionForPoll(this)'><img style='width:20px' src='" + leagueHost + "content/minus.png'/></span>";
         question.html(questionHtml);
-        questionAndAnswersColumn.append(question);
+        questionAndAnswersPanel.append(question);
 
         for (var i = 1; i < 100; i++) {
             var answerItem = $("#answer" + i + "Input");
             if (answerItem.val() !== null && answerItem.val() !== undefined && answerItem.val().length > 0) {
                 var answer = $(document.createElement('div'));
-                answer.addClass("answerSpacer");
-                var inputType = "";
+                answer.addClass("col-sm-12 col-md-6 margin-bottom-5");
+                var inputType = "<table style='width:100%'><tr><td>";
                 if (isMultipleAnswers === true)
-                    inputType = " <input type='checkbox' disabled />";
+                    inputType += " <input type='checkbox' disabled /></td>";
                 else
-                    inputType = " <input type='radio' disabled />";
-                answer.html(inputType + "<input type='textbox' value='" + answerItem.val() + "' name='answer-" + i + "-" + simpleId + "'/>");
-                questionAndAnswersColumn.append(answer);
+                    inputType += " <input type='radio' disabled /></td>";
+
+                answer.html(inputType + "<td><input class='form-control input-sm' type='textbox' value='" + answerItem.val() + "' name='answer-" + i + "-" + simpleId + "'/></td></tr></table>");
+                questionAndAnswersPanel.append(answer);
                 answerItem.val("");
             }
             else { break; }
         }
         $("#questionInput").val("");
+        
 
-        row.append(questionAndAnswersColumn);
 
-        $('#addQuestionRow').before(row);
+        panel.append(questionAndAnswersPanel);
+
+        $('#addQuestionRow').append(panel);
         $("#createPollPopup1").modal('hide');
         simpleId += 1;
     }
@@ -1886,59 +1895,82 @@ function AddAnotherAnswerToPoll() {
     $("#addAnswerToAnswersList").append(div);
     input.focus();
 }
-function RemoveAnswerInPoll(span, answerId) {
+function RemoveAnswerInPoll(answerId) {
     if (confirm("Really Remove Answer?")) {
         $.getJSON("/vote/RemoveAnswerFromPoll", { answerId: answerId }, function (result) {
             if (result.isSuccess === true) {
-
-                $(span).parent().html("<span >Answer Was Removed From Poll</span>");
+                $("#btnEditAnswerTd-" + answerId).html("<span >Removed</span>");
             }
             else {
             }
         });
     }
 }
-function EditAnswerInPoll(span, answerText, answerId) {
-    $(span).parent().html("<input type='text'  id='updateAnswerId-" + answerId + "' value='" + answerText + "' /><span class='spanLink' onclick='UpdateEditAnswerInPoll(this,\"" + answerId + "\")' >Update</span> <span class='spanLink' onclick='CancelEditAnswerInPoll(this)' >Cancel</span>");
-    $("#updateAnswerId-" + answerId).focus();
+function EditAnswerInPoll(answerText, answerId) {
+    $("#labelAnswerTd-" + answerId).hide();
+    $("#btnEditAnswerTd-" + answerId).hide();
+    $("#updateAnswerTd-" + answerId).show();
+    $("#btnUpdateAnswerTd-" + answerId).show();
+    $("#textAnswerId-" + answerId).focus();
+    $("#textAnswerId-" + answerId).select();
 }
-function CancelEditAnswerInPoll(span) {
-    $(span).parent().html("");
+function CancelEditAnswerInPoll(answerId) {
+    $("#labelAnswerTd-" + answerId).show();
+    $("#btnEditAnswerTd-" + answerId).show();
+    $("#updateAnswerTd-" + answerId).hide();
+    $("#btnUpdateAnswerTd-" + answerId).hide();
 }
-function UpdateEditAnswerInPoll(span, answerId) {
-    $.getJSON("/vote/UpdateAnswerToPoll", { answerId: answerId, text: $('#updateAnswerId-' + answerId).val() }, function (result) {
+function UpdateEditAnswerInPoll(answerId) {
+    $.getJSON("/vote/UpdateAnswerToPoll", { answerId: answerId, text: $('#textAnswerId-' + answerId).val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#updateAnswerTd-" + answerId).html("<b>" + $('#updateAnswerId-' + answerId).val() + "</b>");
-            $(span).parent().html("");
+            $("#labelAnswerTd-" + answerId).show();
+            $("#btnEditAnswerTd-" + answerId).show();
+            $("#updateAnswerTd-" + answerId).hide();
+            $("#btnUpdateAnswerTd-" + answerId).hide();
+            $("#labelAnswerTd-" + answerId).html("<b>" + $('#textAnswerId-' + answerId).val() + "</b>");
         }
         else {
         }
     });
 }
-function EditQuestionInPoll(span, questionText, questionId) {
-    $(span).parent().html("<input type='text'  id='updateQuestionId-" + questionId + "' value='" + questionText + "' /><span class='spanLink' onclick='UpdateEditQuestionInPoll(this,\"" + questionId + "\")' >Update</span> <span class='spanLink' onclick='CancelEditQuestionInPoll(this)' >Cancel</span>");
-    $("#updateQuestionId-" + questionId).focus();
+function EditQuestionInPoll(questionText, questionId) {
+    $("#editQuestionId-" + questionId).hide();
+    $("#lblDivQuestionId-" + questionId).hide();
+    $("#updateQuestionId-" + questionId).show();
+    $("#updateBtnQuestionId-" + questionId).show();
+    $("#textQuestionId-" + questionId).focus();
+    $("#textQuestionId-" + questionId).select();
 }
-function CancelEditQuestionInPoll(span) {
-    $(span).parent().html("");
+function CancelEditQuestionInPoll(questionId) {
+    $("#editQuestionId-" + questionId).show();
+    $("#lblDivQuestionId-" + questionId).show();
+    $("#updateQuestionId-" + questionId).hide();
+    $("#updateBtnQuestionId-" + questionId).hide();
 }
-function UpdateEditQuestionInPoll(span, questionId) {
-    $.getJSON("/vote/UpdateQuestionToPoll", { questionId: questionId, text: $('#updateQuestionId-' + questionId).val() }, function (result) {
+function UpdateEditQuestionInPoll(questionId) {
+    $.getJSON("/vote/UpdateQuestionToPoll", { questionId: questionId, text: $('#textQuestionId-' + questionId).val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#updateQuestionTd-" + questionId).html($('#updateQuestionId-' + questionId).val());
-            $(span).parent().html("");
+            $("#lblQuestionId-" + questionId).html('<i class="fa fa-question-circle"></i> ' + $('#textQuestionId-' + questionId).val());
+            $("#editQuestionId-" + questionId).show();
+            $("#lblDivQuestionId-" + questionId).show();
+            $("#updateQuestionId-" + questionId).hide();
+            $("#updateBtnQuestionId-" + questionId).hide();
         }
         else {
         }
     });
 }
 
-function AddNewAnswerToQuestionPoll(span, questionId) {
+function ShowVotes(questionId)
+{
+    $("#votes-" + questionId).slideDown("fast");
+}
+
+function AddNewAnswerToQuestionPoll(questionId) {
     $.getJSON("/vote/AddAnswerToQuestionToPoll", { questionId: questionId, text: $('#newAnswerForQuestionInput-' + questionId).val() }, function (result) {
         if (result.isSuccess === true) {
-            var row = '<tr><td>0 <span class="smallFont">vote(s)</span> 0%</td><td><b>' + $('#newAnswerForQuestionInput-' + questionId).val() + '</b></td>';
-            row += '<td></td></tr>';
-            $("#newAnswerForQuestionTd-" + questionId).before(row);
+            var row = ' <div class="row padding-bottom-10" style="border-bottom:1px solid #eee"><div class="col-xs-12 col-sm-3 col-md-2 margin-top-10" ><label class="label label-primary padding-top-5 padding-bottom-5" >0 vote(s) 0%</label></div><div class="col-xs-12 col-sm-6 col-md-8 margin-top-10"><b>' + $('#newAnswerForQuestionInput-' + questionId).val() + '</b></div></div>';
+            $("#newAnswerForQuestionTd-" + questionId).append(row);
             $('#newAnswerForQuestionInput-' + questionId).val("");
         }
         else {
@@ -1970,7 +2002,7 @@ function AddPollAnswerCreate() {
 
 
 function DeleteQuestionForPoll(span) {
-    $(span).parent().parent().parent().remove();
+    $(span).parent().parent().remove();
 }
 
 var Calendar = new function () {

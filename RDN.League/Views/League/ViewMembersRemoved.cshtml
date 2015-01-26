@@ -7,144 +7,117 @@
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-          Removed Members For @ViewBag.LeagueName
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isAdminOfLeague)
-            { 
-               
-                <div class="navIcons">
-                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
-                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
-                    </a>
-                </div>
-                <div class="navIcons">
-                    <span class="cursor " onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
-                        <img src="@Url.Content("~/Content/images/icons/docs/excel.png")" />Export</span>
-                </div>
-                
-            }
 
-            @if (isPaid)
-            {
-                <div class="navIcons">
-                    <a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/report") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/report")">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
-                    </a>
-                </div>
-            }
-            else
-            { 
-                <div class="navIcons">
-                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
-                    </a>
-                </div>
-            }
-        </div>
-       
-            <div class="divider"></div>
-      
-
-
-        <div class="membersPager">
-            @Html.Partial("Menus/LeagueViewMembers")
-        </div>
-        <br />
-          @if (Model.Model.Items.Count < 10)
-        { 
-            <div class="titleDescription">
-                <br />
-                These are the members that have been removed from your league.  For records management, you are still able to see their information.
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Removed Members</li>
+</ol>
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-group"></i> Removed Members For @ViewBag.LeagueName</h3>
             </div>
-        }
-        <div>
-            <table class="listTable tableExtras" id="members">
-                <thead>
-                    <tr>
-                        <th></th>
-                        
-                        <th>Derby Name
-                        </th>
-                        <th>#
-                        </th>
-                        <th>First Name
-                        </th>
-                        <th>Last Name
-                        </th>
-                        <th>Phone Number
-                        </th>
-                        <th>Email
-                        </th>
-                        <th class="center">M/F
-                        </th>
-                        
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Model.Items.Count; i++)
-                    {
-                    
-                        <tr>
-                            <th>
-                                @i
-                            </th>
-                        
-                            <td>
-                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
-                                    @Model.Model.Items[i].DerbyName
-                                </a>
-                            </td>
-                            <td>@Model.Model.Items[i].PlayerNumber
-                            </td>
-                            <td>@Model.Model.Items[i].Firstname
-                            </td>
-                            <td>@Model.Model.Items[i].LastName
-                            </td>
-                            <td>
-                                  @if (isAdminOfLeague || !Model.Model.Items[i].Settings.Hide_Phone_Number_From_League || Model.Model.Items[i].MemberId == memId)
-                            { 
-                                @Model.Model.Items[i].PhoneNumber
-                                  }
-                            </td>
-                            <td>
-                                       @if (isAdminOfLeague || !Model.Model.Items[i].Settings.Hide_Email_From_League || Model.Model.Items[i].MemberId == memId)
-                            { 
-                                           @Model.Model.Items[i].Email
-                                       }
-                            </td>
-                            <td class="center">@if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-                                               { 
-                                <img height="20px" src="@Url.Content("~/Content/images/female.png")" />
-                                               }
-                                               else if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Male)
-                                               { 
-                                <img height="15px" src="@Url.Content("~/Content/images/boy.png")" />
-                                               }
-
-                            </td>
-                            
-
-                        </tr>     
-                    
-                    }
-                </tbody>
-            </table>
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isAdminOfLeague)
+                {
+                    <a class="btn btn-info btn-sm" title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <i class="fa fa-plus-circle"></i> Add
+                    </a>
+                    <button type="button" class="btn btn-default btn-sm" onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
+                        <i class="fa fa-download"></i> Export
+                    </button>
+                }
+                @if (isPaid)
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/league/members/view/report")">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+            </div>
         </div>
-        
-
-        @using (Html.BeginForm("ExportMembersRoster", "League", FormMethod.Post, new { @id = "MembersReport" }))
-        {
-
-        }
+        <div class="text-muted">These are the members that have been removed from your league.  For records management, you are still able to see their information.</div>
     </div>
+    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+        @Html.Partial("Menus/LeagueViewMembers")
+    </div>
+    <div class="panel-body" style="overflow-x:auto">
+        <table class="table table-striped table-hover table-condensedas" id="members">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Derby Name
+                    </th>
+                    <th>
+                        #
+                    </th>
+                    
+                    <th>
+                        Phone Number
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Model.Items.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                            {
+                                <i class="fa fa-female fa-lg" style="color:silver"></i>
+                            }
+                            else if (Model.Model.Items[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Male)
+                            {
+                                <i class="fa fa-male fa-lg" style="color:silver"></i>
+                            }<span>&nbsp;&nbsp;</span>
+                            @Model.Model.Items[i].Firstname @Model.Model.Items[i].LastName
+                        </td>
+                        <td>
+                            <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                                @Model.Model.Items[i].DerbyName
+                            </a>
+                        </td>
+                        <td>
+                            @Model.Model.Items[i].PlayerNumber
+                        </td>
+                        <td>
+                            @if (isAdminOfLeague || !Model.Model.Items[i].Settings.Hide_Phone_Number_From_League || Model.Model.Items[i].MemberId == memId)
+                            {
+                                @Model.Model.Items[i].PhoneNumber
+                            }
+                        </td>
+                        <td>
+                            @if (isAdminOfLeague || !Model.Model.Items[i].Settings.Hide_Email_From_League || Model.Model.Items[i].MemberId == memId)
+                            {
+                                @Model.Model.Items[i].Email
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @using (Html.BeginForm("ExportMembersRoster", "League", FormMethod.Post, new { @id = "MembersReport" }))
+    {
+
+    }
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#membersTypeButtons").find("a[tag='removed']").addClass('active');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,
@@ -152,7 +125,9 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "bAutoWidth": false
         });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
     });
 </script>

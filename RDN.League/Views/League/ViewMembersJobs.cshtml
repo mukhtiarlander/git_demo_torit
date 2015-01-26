@@ -1,130 +1,133 @@
 ﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Account.Classes.MemberDisplay>>
 @{
-    ViewBag.Title = "Dates for Members in " + ViewBag.LeagueName;
+    ViewBag.Title = "Member Jobs for " + ViewBag.LeagueName;
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Members For @ViewBag.LeagueName
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isAdminOfLeague)
-            { 
-                <div class="navIcons">
-                        <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
-                            <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
-                        </a>
-                    </div>
-            }
-             <div class="navIcons">
-                <a href="@Url.Content("~/league/ViewMembersJobsExportExcel")" title="Export Excel">
-                    <img src="@Url.Content("~/Content/images/icons/docs/excel.png")"  />Export
-                </a>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Member Jobs</li>
+</ol>
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-group"></i> Members For @ViewBag.LeagueName</h3>
             </div>
-               @if (isPaid)
-            {
-                <div class="navIcons">
-                    <a  href="@Url.Content("~/league/members/view/report")">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isAdminOfLeague)
+                {
+                    <a class="btn btn-info btn-sm" title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <i class="fa fa-plus-circle"></i> Add
                     </a>
-                </div>
-            }
-            else
-            { 
-                <div class="navIcons">
-                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/league/ViewMembersDatesExportExcel")" title="Export Excel">
+                        <i class="fa fa-file-excel-o"></i> Export
                     </a>
-                </div>
-            }
-        </div>
-         <div class="titleDescription">
-     Here you can view the Member Jobs for your league
-       
+                }
+                @if (isPaid)
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/league/members/view/report")">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
             </div>
-            <div class="divider"></div>
-     
-        <div class="membersPager">
-            @Html.Partial("Menus/LeagueViewMembers")
-
         </div>
-      <br />
-        <br />
-        <div>
-            <table class="listTable" id="members">
-                <thead>
-                    <tr>
-                        <th></th>
-                        @if (isAdminOfLeague)
-                        {
-                            <th></th>
-                        }
-                        <th>First Name
-                        </th>
-                        <th>Last Name
-                        </th>
-                        <th>Derby Name
-                        </th>
-                        <th>#
-                        </th>
-                        <th>Jobs
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Model.Items.Count; i++)
+        <div class="text-muted"> Here you can view the Member Jobs for your league.</div>
+    </div>
+    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+        @Html.Partial("Menus/LeagueViewMembers")
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover table-condensedas" id="members">
+            <thead>
+                <tr>
+                    @if (isAdminOfLeague)
                     {
-                    
-                        <tr>
-                            <th>
-                                @i
-                            </th>
-                            @if (isAdminOfLeague)
-                            {
-                                <td>
-
-                                    <a href="@Url.Content("~/League/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">Edit </a>
-
-                                </td>
-                            }
-                            <td>@Model.Model.Items[i].Firstname
-                            </td>
-                            <td>@Model.Model.Items[i].LastName
-                            </td>
-                            <td>
-                                <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
-                                    @Model.Model.Items[i].DerbyName
-                                </a>
-                            </td>
-                            <td>@Model.Model.Items[i].PlayerNumber
-                            </td>
-                            <td>@Model.Model.Items[i].DayJob
-                            </td>
-                        </tr>     
-                    
+                        <th></th>
                     }
-                </tbody>
-            </table>
-        </div>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Derby Name
+                    </th>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Jobs
+                    </th>
+                    @if (isAdminOfLeague)
+                    {
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Model.Items.Count; i++)
+                {
 
+                    <tr>
+                        <th>
+                            @i
+                        </th>
+                      
+                        <td>
+                            @Model.Model.Items[i].Firstname
+                    </td>
+                    <td>
+                        @Model.Model.Items[i].LastName
+                </td>
+                <td>
+                    <a href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
+                        @Model.Model.Items[i].DerbyName
+                    </a>
+                    </td>
+                    <td>
+                        @Model.Model.Items[i].PlayerNumber
+                    </td>
+                    <td>
+                         @Model.Model.Items[i].DayJob
+                    </td>
+                    @if (isAdminOfLeague)
+                    {
+                        <td>
+                            <a class="btn btn-success btn-xs" href="@Url.Content("~/League/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))"><i class="fa fa-pencil"></i></a>
+                        </td>
+                    }
+                </tr>
+                }
+            </tbody>
+
+        </table>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#membersTypeButtons").find("a[tag='dayjobs']").addClass('active');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,
             "bLengthChange": false,
-            "bFilter": false,
+            "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "bAutoWidth": false
         });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
     });
 
 </script>

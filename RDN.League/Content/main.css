@@ -105,15 +105,26 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .margin-top-10{margin-top:10px;}
 .margin-top-20{margin-top:20px;}
 .margin-top-30{margin-top:30px;}
+.margin-bottom-5{margin-bottom:5px;}
+.margin-bottom-10{margin-bottom:10px;}
 .no-padding{padding:0px;}
 .no-padding-top{padding-top:0px;}
+.no-padding-bottom{padding-bottom:0px;}
+.padding-5 {padding:5px}
+.padding-10 {padding:10px}
+.padding-15 {padding:15px}
 .padding-top-5{padding-top:5px;}
+.padding-bottom-5{padding-bottom:5px;}
 .padding-top-10{padding-top:10px;}
+.padding-bottom-10{padding-bottom:10px;}
 .no-margin-bottom{margin-bottom:0px;}
+.no-margin-right{margin-right:0px;}
+.no-margin-left{margin-left:0px;}
 .no-margin{margin:0px;}
 .form-label{font-weight:normal}
 .no-border {border:0px}
 #addAnswerToAnswersList{ height:380px;overflow-y:auto}
+.inline-block{display:inline-block}
 
 body 
 { 
@@ -563,3 +574,73 @@ div.FixedHeader_Cloned table {
 	margin: 0 !important
 }
 
+
+
+/* Folder Tree */
+
+
+	
+/* CSS Tree menu styles */
+ol.tree
+{
+	padding: 0 0 0 30px;
+	width: 300px;
+}
+	li 
+	{ 
+		position: relative; 
+		margin-left: -15px;
+		list-style: none;
+	}
+	li.file
+	{
+		margin-left: -1px !important;
+	}
+		li.file a
+		{
+			background: url(document.png) 0 0 no-repeat;
+			color: #fff;
+			padding-left: 21px;
+			text-decoration: none;
+			display: block;
+		}
+		li.file a[href *= '.pdf']	{ background: url(images/document.png) 0 0 no-repeat; }
+		li.file a[href *= '.html']	{ background: url(images/document.png) 0 0 no-repeat; }
+		li.file a[href $= '.css']	{ background: url(images/document.png) 0 0 no-repeat; }
+		li.file a[href $= '.js']		{ background: url(images/document.png) 0 0 no-repeat; }
+	li input
+	{
+		position: absolute;
+		left: 0;
+		margin-left: 0;
+		opacity: 0;
+		z-index: 2;
+		cursor: pointer;
+		height: 1em;
+		width: 1em;
+		top: 0;
+	}
+		li input + ol
+		{
+			background: url(images/toggle-small-expand.png) 0 0 no-repeat;
+			margin: -1.55em 0 0 0; /* 15px */
+			height: 1.5em;
+		}
+		li input + ol > li { display: none; margin-left: -14px !important; padding-left: 1px; }
+	li label
+	{
+		background: url(images/folder-horizontal.png) 15px 1px no-repeat;
+		cursor: pointer;
+		display: block;
+		padding-left: 37px;
+	}
+
+	li input:checked + ol
+	{
+		background: url(images/toggle-small.png) 0px 0px no-repeat;
+		margin: -1.55em 0 0 0; /* 20px */
+		padding: 1.563em 0 0 35px;
+		height: auto;
+	}
+		li input:checked + ol > li { display: block; margin: 0 0 0.125em;  /* 2px */}
+		li input:checked + ol > li:last-child { margin: 0 0 0.063em; /* 1px */ }

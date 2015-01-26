@@ -5,102 +5,95 @@
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Report Builder For @Model.LeagueName
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isAdminOfLeague)
-            { 
-               
-                <div class="navIcons">
-                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
-                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
-                    </a>
-                </div>
-                 
-            }
-        </div>
 
-        <div class="titleDescription">
-            Build a Customized Report of the League Information. Want another column?  Just email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL</a>
-        </div>
-        <div class="divider"></div>
-        <div class="center subSectionsTitle">Saved Reports</div>
-        <div class="center">Export a Saved Report</div>
-        @using (Html.BeginForm("ViewMembersReportBuild", "League", FormMethod.Post, new { @id = "SavedReport" }))
-        {
-            <table class="center" style="width: 700px;">
-                <tr>
-                    <td class="alignRight">Select Saved Report:
-                    </td>
-                    <td class="center">
-                        @Html.DropDownListFor(x => x.SelectedReport, Model.SavedReports, "Saved Reports...")
-                    </td>
-                    <td class="alignLeft">
-                        <input type="button" value="Export Report" onclick="document.getElementById('SavedReport').submit();" />
-                    </td>
-                    <td class="alignLeft"><span class="spanLink" onclick="League.DeleteLeagueReport(this)">Remove Selected</span>
-                    </td>
-                </tr>
-            </table>
-            @Html.HiddenFor(x => x.LeagueId)
-        }
-        <div class="divider"></div>
-        <div class="center subSectionsTitle">Customized Reports</div>
-        <div class="center">Create a Report To Export</div>
-        @using (Html.BeginForm("ViewMembersReportBuild", "League", FormMethod.Post, new { @id = "MembersReport" }))
-        {
-            <div class="center">
-                <table style="width: 800px;" class="center">
-                    <tr>
-                        <td class="center b">Available Columns</td>
-                        <td></td>
-                        <td class="center b">Selected Columns</td>
-                        <td class="center b">Export</td>
-                    </tr>
-                    <tr>
-                        <td class="center">
-                            <select id="availableColumns" multiple="multiple" style="height: 250px; width: 250px;">
-                                @foreach (var item in Model.ColumnsAvailable)
-                                { 
-                                    <option id="@item" value="@item">@RDN.Utilities.Enums.EnumExt.ToFreindlyName(item)</option>
-                                }
-                            </select>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Medical Members</li>
+</ol>
 
-                        </td>
-                        <td class="center alignTop">
-                            <div>
-                                <input type="button" value=">>>" onclick="MoveSelectionRight()" />
-                            </div>
-                            <div>
-                                <input type="button" value="<<<" onclick="MoveSelectionLeft()" />
-                            </div>
-                        </td>
-                        <td class="center">
-                            <select id="selectedColumns" name="selectedColumns" multiple="multiple" style="height: 250px; width: 250px;">
-                            </select>
-                        </td>
-                        <td class="alignTop">
-                            <br />
-                            <div class="b">Report Name:</div>
-                            <div class="mediumInput">@Html.TextBoxFor(x => x.SavedReportName)</div>
-                            <div class="b">
-                                <label>Save Report: @Html.CheckBoxFor(x => x.SaveReport)</label></div>
-                            <input type="button" value="Export Report" onclick="LeagueMembersReportBuilder.ExportReport('MembersReport')" />
-                            <div><span id="warning" class="red"></span></div>
+<div class="row">
+    <div class=" col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 
-                        </td>
-                    </tr>
-                </table>
-
+        <div class="panel panel-default margin-top-20">
+            <div class="panel-heading">
+                <h3 style="margin-top:5px !important"><i class="fa fa-files-o"></i> Saved Reports</h3>
+                <div class="text-muted">Export a Saved Report.</div>
             </div>
-            @Html.HiddenFor(x => x.SelectedColumnsHidden)
-            @Html.HiddenFor(x => x.LeagueId)
-        }
+            <div class="panel-body">
+                Select Saved Report:
+                @using (Html.BeginForm("ViewMembersReportBuild", "League", FormMethod.Post, new { @id = "SavedReport" }))
+                {
+                    @Html.DropDownListFor(x => x.SelectedReport, Model.SavedReports, "Saved Reports...")
+                    <input type="button" class="btn btn-success btn-sm" value="Export Report" onclick="document.getElementById('SavedReport').submit();" />
+                    <span class="spanLink" onclick="League.DeleteLeagueReport(this)">Remove Selected</span>
+                    @Html.HiddenFor(x => x.LeagueId)
+                }
+            </div>
+        </div>
     </div>
 </div>
-<script type="text/javascript">
-    
-</script>
+
+
+<div class="row">
+    <div class=" col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+
+
+        <div class="panel panel-default margin-top-20">
+            <div class="panel-heading">
+                <h3 style="margin-top:5px !important"><i class="fa fa-cogs"></i> Customized Reports</h3>
+                <div class="text-muted">Build a Customized Report of the League Information.</div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("ViewMembersReportBuild", "League", FormMethod.Post, new { @id = "MembersReport" }))
+                {
+                    <table style="width: 800px;" class="center">
+                        <tr>
+                            <td class="center b">Available Columns</td>
+                            <td></td>
+                            <td class="center b">Selected Columns</td>
+                            <td class="center b">Export</td>
+                        </tr>
+                        <tr>
+                            <td class="center">
+                                <select id="availableColumns" multiple="multiple" style="height: 250px; width: 250px;">
+                                    @foreach (var item in Model.ColumnsAvailable)
+                                    {
+                                        <option id="@item" value="@item">@RDN.Utilities.Enums.EnumExt.ToFreindlyName(item)</option>
+                                    }
+                                </select>
+
+                            </td>
+                            <td class="center alignTop">
+                                <div>
+                                    <input type="button" value=">>>" onclick="MoveSelectionRight()" />
+                                </div>
+                                <div>
+                                    <input type="button" value="<<<" onclick="MoveSelectionLeft()" />
+                                </div>
+                            </td>
+                            <td class="center">
+                                <select id="selectedColumns" name="selectedColumns" multiple="multiple" style="height: 250px; width: 250px;"></select>
+                            </td>
+                            <td class="alignTop">
+                                <br />
+                                <div class="b">Report Name:</div>
+                                <div class="mediumInput">@Html.TextBoxFor(x => x.SavedReportName)</div>
+                                <div class="b">
+                                    <label>Save Report: @Html.CheckBoxFor(x => x.SaveReport)</label>
+                                </div>
+                                <input type="button" value="Export Report" onclick="LeagueMembersReportBuilder.ExportReport('MembersReport')" />
+                                <div><span id="warning" class="red"></span></div>
+
+                            </td>
+                        </tr>
+                    </table>
+                    @Html.HiddenFor(x => x.SelectedColumnsHidden)
+                    @Html.HiddenFor(x => x.LeagueId)
+                }
+                <div class="alert alert-warning">
+                    Build a Customized Report of the League Information. Want another column?  Just email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,119 +6,100 @@
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Members For @ViewBag.LeagueName
-        </div>
-        <div class="expandableCenterContainterRight">
-            @if (isAdminOfLeague)
-            { 
-                <div class="navIcons">
-                    <a title="Add Members" href="@Url.Content("~/League/Members/Add")">
-                        <img src="@Url.Content("~/Content/images/icons/adduser.png")"  />Add
-                    </a>
-                </div>
-            }
-            <div class="navIcons">
-                <a href="@Url.Content("~/league/ViewMembersJobsExportExcel")" title="Export Excel">
-                    <img src="@Url.Content("~/Content/images/icons/docs/excel.png")"  />Export
-                </a>
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Members Map</li>
+</ol>
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-map-marker"></i> Members For @ViewBag.LeagueName</h3>
             </div>
-            @if (isPaid)
-            {
-                <div class="navIcons">
-                    <a  href="@Url.Content("~/league/members/view/report")">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
+            <div class="col-xs-12 col-sm-6 text-right">
+                @if (isAdminOfLeague)
+                {
+                    <a class="btn btn-info btn-sm" title="Add Members" href="@Url.Content("~/League/Members/Add")">
+                        <i class="fa fa-plus-circle"></i> Add
                     </a>
-                </div>
-            }
-            else
-            {
-
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/league/ViewMembersDatesExportExcel")" title="Export Excel">
+                        <i class="fa fa-file-excel-o"></i> Export
+                    </a>
+                }
+                @if (isPaid)
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/league/members/view/report")">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                        <i class="fa fa-file-text"></i> Report
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="text-muted">Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from RDNation can be considered against the law in some countries.  Members only granted these rights to Managers of the league and not to anyone else.  Please stay within the law.</div>
+    </div>
+    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+        @Html.Partial("Menus/LeagueViewMembers")
+    </div>
+    <div class="panel-body" >
+        <div class="margin-bottom-10" style="overflow-y:auto; height:400px">
            
-                <div class="navIcons">
-                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
-                        <img src="@Url.Content("~/Content/images/icons/report.png")"  />Report
-                    </a>
-                </div>
-            }
-        </div>
-        <hr />
+            <table class="table table-striped table-hover table-condensedas" id="members">
+                @for (int i = 0; i < Model.Count; i++)
+            {
+                    <tr>
+                        <td>
+                            @if (!String.IsNullOrEmpty(Model[i].ThumbUrl))
+                        {
+                                <img class="memimage" alt="@Model[i].DerbyName" src="@Model[i].ThumbUrl" />
+                        }
+                        else if (!String.IsNullOrEmpty(Model[i].photoUrl))
+                        {
+                            <img class="memimage" alt="@Model[i].DerbyName" src="@Model[i].photoUrl" />
+                        }
+                        </td>
+                        <td> @(i + 1)<span>.</span></td>
+                        <td>
+                            @Model[i].DerbyName
+                            @if (!String.IsNullOrEmpty(Model[i].Address1))
+                        {
+                                <br />
+                                @Model[i].Address1 @Model[i].Address2
+                                <br />
+                        }
+                            @Model[i].City @Model[i].State @Model[i].Zip
 
-        <div class="membersPager">
-            @Html.Partial("Menus/LeagueViewMembers")
+                            @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
+                        {
 
-        </div>
-        <br />
-        <br />
-
-        <table class="mapmemtable">
-            <tr>
-                <td class="tdmain">
-                    <div class="memmaindiv">
-                        <table id="members" class="mapmemtable">
-
-                            @for (int i = 0; i < Model.Count; i++)
-                            {
-                                <tr>
-                                    <td class="tdwidth">
-                                        @if (!String.IsNullOrEmpty(Model[i].ThumbUrl))
-                                        { 
-                                            <img class="memimage"  alt="@Model[i].DerbyName" src="@Model[i].ThumbUrl" />
-                                        }
-                                        else if (!String.IsNullOrEmpty(Model[i].photoUrl))
-                                        { 
-                                            <img class="memimage" alt="@Model[i].DerbyName" src="@Model[i].photoUrl" />
-                                        }
-
-                                    </td>
-                                    <td class="alignTop"> @(i + 1)<span>.</span></td>
-                                    <td class="memdetail">
-                                           @Model[i].DerbyName
-                                        @if (!String.IsNullOrEmpty(Model[i].Address1))
-                                        { 
-                                            <br />
-                                            @Model[i].Address1 @Model[i].Address2 
-                                            <br />
-                                        }
-                                        @Model[i].City @Model[i].State @Model[i].Zip
-
-                                        @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
-                                        {
-                                                
-                                            <script type="text/javascript">
+                                <script type="text/javascript">
                                                 $(document).ready(function () {
                                                     var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
                                                     createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
                                                 });
-                                            </script>
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="divider"></div>
-                                    </td>
-                                </tr>
-                            }
-
-
-                        </table>
-                    </div>
-                </td>
-                <td style="width: 70%">
-                    <div id="mapdiv" style="height: 500px; width: 100%;"></div>
-                    <script src="@Url.Content("~/scripts/openlayers.js")"></script>
-                    <style>
-                        .olControlAttribution { bottom: 0px; }
-                    </style>
-                </td>
-            </tr>
-        </table>
-    </div>
-
+                                </script>
+                        }
+                        </td>
+                    </tr>
+            }
+            </table>
+        </div>
+        
+            <div id="mapdiv" style="height: 500px; width: 100%;"></div>
+            <script src="@Url.Content("~/scripts/openlayers.js")"></script>
+            <style>
+                .olControlAttribution {
+                    bottom: 0px;
+                }
+            </style>
+        </div>
 </div>
+
 <script type="text/javascript">
     map = new OpenLayers.Map("mapdiv");
     map.addLayer(new OpenLayers.Layer.OSM());
@@ -129,5 +110,20 @@
     $(document).ready(function () {
         map.zoomTo(map.zoomToExtent(bounds));
     });
+    $(document).ready(function () {
+        $("#membersTypeButtons").find("a[tag='map']").addClass('active');
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "oLanguage": { "sSearch": "" },
+            "bAutoWidth": false
+        });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+    });
+   
 
 </script>

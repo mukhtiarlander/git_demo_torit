@@ -4,49 +4,56 @@
   bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
   bool isMed = RDN.Library.Cache.MemberCache.IsMedicalOrBetterOfLeague(memId);
 }
-<ul class="membersPagerUl">
-    <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/all") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/all")">Roster</a></li>
-    
+
+<div id="membersTypeButtons" class="btn-group" role="group">
+    <a tag="roster" class="btn btn-default" href="@Url.Content("~/league/members/view/all")">Roster</a>
     @if (isSec)
-    { 
-        <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/dates") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/dates")">Dates</a></li>
+    {
+        <a tag="dates" class="btn btn-default" href="@Url.Content("~/league/members/view/dates")">Dates</a>
     }
-    <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/jobs") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a></li>
-
-
+    <a tag="dayjobs" class="btn btn-default" href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a>
     @if (isPaid)
-    { 
-        <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/groups") ? "membersPagerSel" : "")" href="@Url.Content("~/league/groups")">Groups</a></li>
-   
-        <li class="membersPagerLi"><a  class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/insurance") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/insurance")">Insurance Numbers</a></li>
-  
+    {
+        <a tag="groups" class="btn btn-default" href="@Url.Content("~/league/groups")">Groups</a>
+
+            <a tag="insurancenumbers" class="btn btn-default" href="@Url.Content("~/league/members/view/insurance")">Insurance Numbers</a>
+
         if (isMed || isSec)
         {
-        <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/medical") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/medical")">Medical</a></li>
+            <a tag="medical" class="btn btn-default" href="@Url.Content("~/league/members/view/medical")">Medical</a>
         }
     }
     else
-    { 
-        <li class="membersPagerLi"><a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Groups are only available to subscribed leagues">Groups</a></li>
-    
-        <li class="membersPagerLi"><a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Insurance Numbers are only available to subscribed leagues">Insurance Numbers</a></li>
-   
+    {
+        <a tag="groups" class="btn btn-default" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Groups are only available to subscribed leagues">Groups</a>
+
+    <a tag="insurancenumbers" class="btn btn-default" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Insurance Numbers are only available to subscribed leagues">Insurance Numbers</a>
+
         if (isSec || isMed)
         {
-        <li class="membersPagerLi"><a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Medical Information is only available to subscribed leagues">Medical</a></li>
+            <a tag="medical" class="btn btn-default" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Medical Information is only available to subscribed leagues">Medical</a>
         }
     }
     @if (isManager)
-    { 
-        <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/permissions") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/permissions")">Permissions</a></li>
+{
+    <a tag="permissions" class="btn btn-default" href="@Url.Content("~/league/members/view/permissions")">Permissions</a>
+}
+
+
+    <a tag="skatinglevel" class="btn btn-default" href="@Url.Content("~/league/members/view/class")">Skating Level</a>
+
+    <a tag="map" class="btn btn-default" href="@Url.Content("~/league/members/view/map")">Map</a>
+
+    <a tag="removed" class="btn btn-default" href="@Url.Content("~/league/members/view/removed")">Removed</a>
+
+
+    @*<a class="btn btn-default" href="@Url.Content("~/league/members/view/all")">Roster</a>
+
+    @if (isSec)
+    {
+        <a class="btn btn-default" href="@Url.Content("~/league/members/view/dates")">Dates</a>
     }
-    
-    
-    <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/class") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/class")">Skating Level</a></li>
-    
-    <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/map") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/map")">Map</a></li>
+    <a class="btn btn-default" href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a>*@
 
-    <li class="membersPagerLi"><a class="@(HttpContext.Current.Request.Url.AbsoluteUri.Contains("/league/members/view/removed") ? "membersPagerSel" : "")" href="@Url.Content("~/league/members/view/removed")">Removed</a></li>
-
-</ul>
+</div>
     

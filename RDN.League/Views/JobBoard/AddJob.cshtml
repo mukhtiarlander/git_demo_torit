@@ -9,11 +9,11 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/league/jobboard")">Contact</a></li>
+    <li><a href="@Url.Content("~/league/jobboard")">Jobs</a></li>
     <li class="active">Add new Job</li>
 </ol>
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
         @using (Html.BeginForm("AddJob", "JobBoard", FormMethod.Post, new { @id = "addNewJob" }))
         {
             <div class="panel panel-default">
@@ -49,7 +49,7 @@
                     <div class="col-sm-12">
                         <label class="form-label margin-top-10">Job Description </label>
                         <div>
-                            @Html.TextArea("jobdesc", string.Empty, new {@class = "form-control" })
+                            @Html.TextArea("jobdesc", string.Empty, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-sm-12">
