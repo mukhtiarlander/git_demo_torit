@@ -309,7 +309,7 @@ function AddCommentToDocument(id, ownerId) {
     var com = $("#comment");
     $.getJSON("/document/AddCommentToLeagueDocument", { docId: id, docOwnerId: ownerId, comment: com.val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#folderBody tr:first").before("<tr><td>" + com.val() + "</td><td class='center'></td><td class='center'></td><td class='center'><div class='spanIconsDoc floatLeft'><span title='Delete' onclick=\"DeleteCommentFromDocument('" + id + "','" + ownerId + "')\"><img  src='http://" + window.location.hostname + "/Content/images/icons/delete.png' /></span></div></td></tr>");
+            $("#folderBody div:first").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + id + '\',\'' + ownerId + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
         } else {
         }
         com.val("");
@@ -321,12 +321,12 @@ function DeleteCommentFromDocument(span, docOwnerId, commentId) {
     var folder = $("#folderName");
     $.getJSON("/document/DeleteCommentForDocument", { commentId: commentId, docOwnerId: docOwnerId }, function (result) {
         if (result.isSuccess === true) {
-
+            $(span).parent().parent().remove();
         } else {
         }
     }).error(function () {
     });
-    $(span).parent().parent().parent().remove();
+    
 }
 function AddFolderToDocumentRepo(leagueId) {
     var folder = $("#folderName");
@@ -2497,6 +2497,7 @@ var League = new function () {
                 if (box.is(":checked")) {
                     $("#documents tbody tr").removeClass('rowSelected').find(":checkbox").prop('checked', false);
                     thisViewModel.documentId = parseInt(row.attr("id").replace(/[\D]/g, ""), 10);
+                    alert(thisViewModel.documentId);
                     row.addClass('rowSelected').find(":checkbox").prop('checked', true);
                     $("#itemOptions").toggleClass("displayNone", false);
                     $("#img-MoveItem").toggleClass("displayNone", true);
@@ -2559,7 +2560,6 @@ var League = new function () {
         spans.remove();
     }
     this.MoveDocumentToFolder = function (dropDown) {
-        $("#img-" + thisViewModel.documentId).toggleClass("displayNone", true);
         var owner = $("#OwnerId");
         var folder = $("#folderName");
         var selectedFolder = $(dropDown).find("option:selected");
@@ -2570,7 +2570,6 @@ var League = new function () {
             }
         }).error(function () {
         });
-        $("#img-MoveItem").toggleClass("displayNone", false);
     }
     this.DeleteLeagueReport = function (span) {
         var reportId = $("#SelectedReport :selected");

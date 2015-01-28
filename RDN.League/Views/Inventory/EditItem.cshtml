@@ -64,7 +64,7 @@
                     <div class="col-xs-12">
                         <label class="form-label margin-top-10">Notes</label>
                         <div>
-                            @Html.TextArea("Description", new { id = "wmd-input", @Value = Model.Notes != null ? Model.Notes.ToString() : "", @class = "form-control" })
+                            @Html.TextArea("Description", Model.Notes != null ? Model.Notes.ToString() : "", new { id = "wmd-input", @class = "form-control" })
                         </div>
                     </div>
                 </div>

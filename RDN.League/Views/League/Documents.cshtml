@@ -40,7 +40,7 @@
                     {
                         <div class="col-xs-6 text-right">
                             <a class="btn btn-xs btn-warning" title="Document Settings" href="@Url.Content("~/league/documents/settings/" + @Model.OwnerId.ToString().Replace("-", ""))">
-                                <i class="fa fa-cogs"></i> Settings
+                                <i class="fa fa-cogs"></i>
                             </a>
                         </div>
                     }
@@ -146,10 +146,10 @@
                         {
                             <div class="col-xs-6 text-right">
 
-                                <button class="btn btn-xs  btn-primary" title="Rename" onclick="League.RenameDocument(this)">
+                                <button class="btn btn-sm  btn-success" title="Rename" onclick="League.RenameDocument(this)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-xs  btn-danger" title="Delete" onclick="League.DeleteDocument(this)">
+                                <button class="btn btn-sm  btn-danger" title="Delete" onclick="League.DeleteDocument(this)">
                                     <i class="fa fa-trash-o"></i>
                                 </button>
 
@@ -272,7 +272,7 @@
                                 </td>
                                 <td>
                                     <div class="spanIconsDoc">
-                                        <a class="btn btn-xs btn-info"  title="Comments (@doc.CommentCount)" href="@Url.Content("~/league/document/comments/" + @doc.DocumentId.ToString().Replace("-", "") + "/" + @doc.OwnerDocId)">
+                                        <a class="btn btn-xs btn-primary"  title="Comments (@doc.CommentCount)" href="@Url.Content("~/league/document/comments/" + @doc.DocumentId.ToString().Replace("-", "") + "/" + @doc.OwnerDocId)">
                                             <i class="fa fa-comments"></i>
                                             @if (doc.CommentCount > 0)
                                             {<span class="docCount">@doc.CommentCount</span>}
