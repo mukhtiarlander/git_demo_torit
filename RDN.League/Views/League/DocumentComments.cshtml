@@ -5,64 +5,60 @@
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool manager = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/documents/" + Model.OwnerId.ToString().Replace("-", ""))">Documents</a></li>
+    <li class="active">Document Comments</li>
+</ol>
 
-<div class="fixedContainer">
-    <div>
-        < <a href="@Url.Content("~/league/documents/" + Model.OwnerId.ToString().Replace("-", ""))">Back To Documents</a>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-        Comments For <a href="@Url.Content("~/document/download/" + Model.DocumentId.ToString().Replace("-", ""))">@Model.DocumentName</a> - @RDN.Utilities.Strings.StringExt.FormatBytes(Model.SizeOfDocument)
-        </div>
-        <div class="divider"></div>
-        <div>
-
-            <div>
-                Add Comment:
-                <span class="extraLargeInput"><input  id="comment" type="text" /></span>
-                <input type="button" value="Add Comment" onclick="AddCommentToDocument('@Model.DocumentId', '@Model.OwnerDocId')" />
+<div class="row">
+    <div class=" col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 style="margin-top:5px !important"><i class="fa fa-comments"></i> Comments</h3>
+                <div class="text-muted">
+                    <a href="@Url.Content("~/document/download/" + Model.DocumentId.ToString().Replace("-", ""))">@Model.DocumentName</a> - @RDN.Utilities.Strings.StringExt.FormatBytes(Model.SizeOfDocument)
+                </div>
             </div>
-            <br />
-            <table id="folders" class="calendarTable">
-                <thead class="vmTableHead">
-                    <tr>
-                        <th>Comment</th>
-                        <th class="center">By</th>
-                        <td></td>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="folderBody">
+            <div class="panel-body no-padding-bottom">
+                <div class="margin-bottom-5">Add Comment</div>
+                <div class="row ">
+                    <div class="col-xs-12 margin-bottom-10">
+                        <div class="input-group input-group-lg">
+                            <input type="text" id="comment" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="AddCommentToDocument('@Model.DocumentId', '@Model.OwnerDocId')"><i class="fa fa-lg fa-caret-right"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div id="folderBody">
                     @foreach (var folder in Model.Comments)
-                    { 
-                        <tr>
-                            <td>@folder.Comment</td>
-                            <td class="center"><a target="_blank" href="@Url.Content("~/Member/" + folder.Commentor.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(folder.Commentor.DerbyName))">
-                                @folder.Commentor.DerbyName
-                            </a></td>
-                            <td>@folder.CreatedHuman</td>
-                            <td>
+                    {
+                        <div class="panel panel-default margin-top-10">
+                            <div class="panel-heading">
+                                <a target="_blank" href="@Url.Content("~/Member/" + folder.Commentor.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(folder.Commentor.DerbyName))">
+                                    <b>@folder.Commentor.DerbyName</b>
+                                </a>
                                 @if (folder.Commentor.MemberId == memId || manager)
-                                { 
-                                    <div class="spanIconsDoc floatLeft">
-                                        <span title="Delete" onclick="DeleteCommentFromDocument(this,'@Model.OwnerDocId', '@folder.CommentId')">
-                                            <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />
-                                        </span>
-                                    </div>
-                                   
+                                {
+                                    <button type="button" class="btn btn-xs btn-danger pull-right" title="Delete" onclick="DeleteCommentFromDocument(this,'@Model.OwnerDocId', '@folder.CommentId')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
                                 }
-                            </td>
-                            
-                        </tr>
+                                <br />
+                                <i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">@folder.Comment</span> <i class="fa fa-quote-right" style="color:silver"></i><br />
+                                <span class="text-muted small">@folder.CreatedHuman</span>
+                            </div>
+                        </div>
                     }
-                </tbody>
-            </table>
-
-            @Html.HiddenFor(x => x.OwnerId)
-
+                    @Html.HiddenFor(x => x.OwnerId)
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#folders').dataTable({
@@ -72,7 +68,7 @@
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
-            "aoColumns": [null, null,  { "sType": "natural" }, null]
+            "aoColumns": [null, null, { "sType": "natural" }, null]
         });
     });
 

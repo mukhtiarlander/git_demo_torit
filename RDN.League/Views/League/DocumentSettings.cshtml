@@ -3,81 +3,82 @@
     ViewBag.Title = "Document Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", ""))">Documents</a></li>
+    <li class="active">Settings</li>
+</ol>
+<div class="row">
+    <div class=" col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 style="margin-top:5px !important"><i class="fa fa-cogs"></i> Document Settings</h3>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            <div class="navIcons">
-                <a title="Back To Documents" href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/docs.png")"  />Docs</a>
             </div>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Document Settings
-        </div>
-      
-                  <div class="titleDescription">
-   Documents can be restricted by groups.  If you want to hide documents within a group from the general league documents, 
-            you need to add a folder to the group.  Once added, you can move documents to the group folder using the main documents page.
-            <br />
-            You can assign the folders parent folder here, making it the sub folder of another folder.
-            </div>
-            <div class="divider"></div>
-      
-        <div>
-            <div>
-                Add Folder:
-                <input id="folderName" type="text" />
-                <span class="spanLink" onclick="AddFolderToDocumentRepo('@Model.OwnerId')">Add Folder</span>
-            </div>
-            <table id="folders" class="calendarTable">
-                <thead class="vmTableHead">
-                    <tr>
-                        <th>Name</th>
-                        <th class="center">Parent Group/Folder</th>
-                        <th class="center"># of Documents</th>
-                        <th class="center">Size Of Folder</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="folderBody">
-                    @foreach (var folder in Model.Folders)
-                    { 
+            <div class="panel-body">
+                <div class="alert alert-warning">
+                    Documents can be restricted by groups.  If you want to hide documents within a group from the general league documents,
+                    you need to add a folder to the group.  Once added, you can move documents to the group folder using the main documents page. You can assign the folders parent folder here, making it the sub folder of another folder.
+                </div>
+                <div class="margin-bottom-5">Add Folder</div>
+                <div class="row ">
+                    <div class="col-xs-12 margin-bottom-10">
+                        <div class="input-group">
+                            <input type="text" id="folderName" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="AddFolderToDocumentRepo('@Model.OwnerId')"><i class="fa fa-lg fa-plus-circle"></i> Add</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <table id="folders" class="table table-striped table-hover table-condensedas">
+                    <thead class="vmTableHead">
                         <tr>
-                            <td>@folder.FolderName</td>
-                            <td class="center extraLargeInput">@Html.DropDownList("folder-" + folder.FolderId, new SelectList(Model.GroupFolderSettings, "Id", "GroupName", folder.ParentGroupFolderId), "Select Group/Folder...", new { @onchange = "League.ChangeGroupOfFolderSettings(this, '" + folder.FolderId + "')", @class="largeDropDown" })
-                                <img id="img-@folder.FolderId" src="@Url.Content("~/Content/images/greenCheck.png")" class="displayNone"/></td>
-                            <td class="center">@folder.DocumentCount</td>
-                            <td class="center">@folder.FolderSizeHuman</td>
-                            <td class="center">
-                                @if (folder.DocumentCount == 0)
-                                { 
-                                    <span class="spanLink" onclick="DeleteFolderFromDocumentRepo(this,'@Model.OwnerId', '@folder.FolderId')">Delete Folder</span>
-                                }
-                            </td>
+                            <th>Name</th>
+                            <th class="center">Parent Group/Folder</th>
+                            <th class="center"># of Documents</th>
+                            <th class="center">Size Of Folder</th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="folderBody">
+                        @foreach (var folder in Model.Folders)
+                        {
+                            <tr>
+                                <td>@folder.FolderName</td>
+                                <td class="center extraLargeInput">
+                                    @Html.DropDownList("folder-" + folder.FolderId, new SelectList(Model.GroupFolderSettings, "Id", "GroupName", folder.ParentGroupFolderId), "Select Group/Folder...", new { @onchange = "League.ChangeGroupOfFolderSettings(this, '" + folder.FolderId + "')", @class = "largeDropDown" })
+                                    <img id="img-@folder.FolderId" src="@Url.Content("~/Content/images/greenCheck.png")" class="displayNone" />
+                                </td>
+                                <td class="center">@folder.DocumentCount</td>
+                                <td class="center">@folder.FolderSizeHuman</td>
+                                <td class="center">
+                                    @if (folder.DocumentCount == 0)
+                                    {
+                                        <button type="button" class="btn btn-danger btn-xs" onclick="DeleteFolderFromDocumentRepo(this,'@Model.OwnerId', '@folder.FolderId')"><i class="fa fa-trash"></i> Delete Folder</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-            @Html.HiddenFor(x => x.OwnerId)
-
+                @Html.HiddenFor(x => x.OwnerId)
+            </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#folders').dataTable({
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "aoColumns": [null, null, null, { "sType": "natural" }, null]
-        });
-    });
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#folders').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "aoColumns": [null, null, null, { "sType": "natural" }, null]
+                });
+            });
 
 
-</script>
+        </script>
