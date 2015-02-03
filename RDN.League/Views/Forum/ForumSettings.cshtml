@@ -4,75 +4,88 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="fixedContainer">
-    <div>
-        < <a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Back To Forum</a>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            @Model.ForumName @Model.GroupName
-           
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Forum</a></li>
+    <li class="active">Sttings</li>
+</ol>
 
-        </div>
-          <div class="titleDescription">
-Add categories to your forum.  Each category can be created for @Model.ForumName @Model.GroupName.
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-5">@Model.ForumName @Model.GroupName</h3>
+                <span class="text-muted">Add categories to your forum.  Each category can be created for @Model.ForumName @Model.GroupName.</span>
             </div>
-            <div class="divider"></div>
-        <div>
-            <table id="settings">
-
-                <tbody>
-                    <tr>
-                        <td class="b vLT2D" style="width:50px;">Default Broadcasts Posts:</td>
-                        <td class="vRTD">@Html.CheckBoxFor(x => x.BroadCastPostsDefault, new { @onchange = "BroadcastMessageChange(this, '" + Model.ForumId + "', '" + Model.GroupId + "')" }) <span class="i">Posters must unselect by Default to NOT broadcast when sending a message.</span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table id="categories">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Category Name</th>
-
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="b vLT2D">Add Category:</td>
-                        <td>@Html.TextBox("NewCategory")</td>
-
-                        <td>
-                            <input type="button" value="Add Category" onclick="javascript:AddCategoryToForum(this)" /></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="b">Category Name</td>
-
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @foreach (var mem in Model.Categories)
-                    {
-                        <tr>
-                            <td></td>
-                            <td>@Html.TextBox("catName-" + mem.CategoryId, mem.CategoryName)</td>
-                            <td>
-                                <input type="button" value="Update" onclick="javascript:UpdateCategoryToForum(this, '@mem.CategoryId    ')" /></td>
-                            <td>
-                                <input type="button" value="Delete" onclick="javascript:DeleteCategoryToForum(this, '@mem.CategoryId    ')" /></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+            <div class="panel-heading" style="background-color:#fafafa">
+                <label class="form-label">Default Broadcasts Posts</label>
+                <div>
+                    @Html.CheckBoxFor(x => x.BroadCastPostsDefault, new { @onchange = "BroadcastMessageChange(this, '" + Model.ForumId + "', '" + Model.GroupId + "')" }) Posters must unselect by Default to NOT broadcast when sending a message.
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    @Html.TextBox("NewCategory", "", new { @placeholder = "Add New Category", @class = "form-control" })
+                                </td>
+                                <td>&nbsp;
+                                    <button type="button" class="btn btn-primary btn-success" onclick="javascript:AddCategoryToForum(this)"><i class="fa fa-save"></i> Add</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body no-padding">
+                        <table id="categories" class="table table-hover no-margin-bottom">
+                            <thead>
+                                <tr>
+                                    <th>Added Categories</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var mem in Model.Categories)
+                                {
+                                    <tr>
+                                        <td>@Html.TextBox("catName-" + mem.CategoryId, mem.CategoryName, new {@class="form-control input-sm" })</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-success" onclick="javascript:UpdateCategoryToForum(this, '@mem.CategoryId')" ><i class="fa fa-save"></i> Update</button>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="javascript:DeleteCategoryToForum(this, '@mem.CategoryId')"><i class="fa fa-trash"></i> Delete</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             @Html.HiddenFor(x => x.ForumId)
             @Html.HiddenFor(x => x.GroupId)
             @Html.HiddenFor(x => x.GroupName)
-
-
         </div>
     </div>
 </div>
+
+        <div class="fixedContainer">
+            <div class="fixedCenterContainter">
+                <div>
+                    <table id="settings">
+
+                        <tbody>
+                            <tr>
+                                <td class="b vLT2D" style="width:50px;">:</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   
+
+                    
+
+
+                </div>
+            </div>
+        </div>

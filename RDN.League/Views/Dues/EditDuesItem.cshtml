@@ -6,163 +6,166 @@
     var Fee = Model.DuesFees.FirstOrDefault();
     ViewBag.Title = "Edit Dues For " + Fee.PayBy.ToLongDateString();
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
 }
-<div class="fixedContainer">
 
-    <div class="fixedCenterContainter2">
-        <div class="fixTitle">
-            Edit Dues For @Fee.PayBy.ToLongDateString()
-        </div>
-        <div class="tvChanges">
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">Dues</a></li>
+    <li class="active">Edit Dues</li>
+</ol>
 
-            <div class="navIcons">
-                <a title="Dues Management" href="@Url.Content("~/dues/" + Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h3 style="margin-top:5px !important"><i class="fa fa-pencil-square-o"></i> Edit Dues For @Fee.PayBy.ToLongDateString()</h3>
             </div>
-            <div class="navIcons">
-                <a title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/group.png")"  />Classify
+            <div class="col-xs-12 col-sm-6 text-right">
+                <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i> View Item</a>
+                <a class="btn btn-default btn-sm" title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                    <i class="fa fa-folder"></i> Classify
+                </a>
+                <a title="New Group To Classify" class="btn btn-primary btn-sm" href="@Url.Content("~/dues/classification/new/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                    <i class="fa fa-plus-circle"></i> New
                 </a>
             </div>
-            <a href="@Url.Content("~/dues/collection/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">View Item</a>
         </div>
-
-        <div class="titleDescription">
+        <div class="text-muted">
             This page allows you to define who has paid dues and who hasn't. You can send them
             reminders, pay only a fraction of the required payment or just review who paid and
             who didn't. Only a owner or manager can see this page.
-       
-        </div>
-        <div class="divider"></div>
-
-        <div>
-            @using (Html.BeginForm("EditDuesItem", "Dues", FormMethod.Post, new { @id = "editDuesForm" }))
-            { 
-                <table class="viewEventTable">
-                    <tr class="trBorderB">
-                        <td class="veLC">For:
-                        </td>
-                        <td>
-                            @Model.LeagueOwnerName
-                        </td>
-                    </tr>
-                    <tr class="trBorderB">
-                        <td class="veLC ">Date of Payment:
-                        </td>
-                        <td>
-                            @Html.TextBox("PayBy", Fee.PayBy.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker" })
-                        </td>
-                    </tr>
-                    <tr class="trBorderB">
-                        <td class="veLC">Amount:
-                        </td>
-                        <td>
-                            @Html.TextBox("DuesCost", Fee.CostOfDues.ToString("N2"))
-                        </td>
-                    </tr>
-                </table>
-                <div class="updateMemberButton">
-                    @if (ViewBag.Saved)
-                    { 
-                        <span class="addedSuccessfully">Updated Successfully!</span>
-                    }
-                    <input type="submit" class="primary" value="Update Dues Item" />
-                </div>
-                @Html.HiddenFor(x => x.DuesId)
-                @Html.Hidden("DuesItemId", Fee.DuesItemId)
-             
-            }
-
-            @using (Html.BeginForm("DeleteDuesItem", "Dues", FormMethod.Post, new { @id = "deleteDuesForm" }))
-            {                 
-                <div class="removeMemberButton">
-                    <input onclick="return confirm('Remove Dues Item and all Fees Associated?')" type="submit" class="remove" value="Delete Dues Item" />
-                </div>
-                @Html.HiddenFor(x => x.DuesId)
-                @Html.Hidden("DuesItemId", Fee.DuesItemId)
-                @Html.HiddenFor(x => x.OwnerEntity)
-                @Html.HiddenFor(x => x.LeagueOwnerId)
-            }
-
-            <div class="clear">
-            </div>
-            <br />
-            <table id="members" class="tableExtras">
-                <thead class="vmTableHead">
-                    <tr>
-                        <th></th>
-                        <th class="alignCenter">Edit
-                        </th>
-                        <th class="alignCenter">Last
-                        </th>
-                         <th class="alignCenter">Name
-                        </th>
-                        <th class="alignCenter">Total Due
-                        </th>
-                        <th class="alignCenter">Collected
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Members.Count; i++)
-                    {   
-                       
-                        <tr class="trBorderB">
-                            <td class="b">@(i + 1).
-                            </td>
-                            <td class="alignCenter">
-                                <a href="@Url.Content("~/dues/member/edit/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">Edit</a>
-                            </td>
-                           <td>@Model.Members[i].LastName</td>
-                             <td>
-                                <a  href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">@Model.Members[i].DerbyName</a>
-                            </td>
-                            @{
-                     
-                                <td id="@Model.Members[i].MemberId-Due" class="alignCenter alignMiddle">
-                                    @if (Model.Members[i].isWaived || Model.Members[i].isPaidFull)
-                                    { 
-                                        <span>0.00</span>
-                                    }
-                                    else
-                                    { 
-                                        @Html.TextBox("due-" + Model.Members[i].MemberId, Model.Members[i].due.ToString("N2"))
-                                    }
-                                </td>   
-                                <td id="@Model.Members[i].MemberId-Collected" class="alignCenter">
-                                    @if (Model.Members[i].isWaived)
-                                    { 
-                                        <span>Waived</span>
-                                    }
-                                    else
-                                    {
-                                        @Model.Members[i].collected.ToString("N2")
-                                    }
-                                </td>   
-                                <td>@if (Model.Members[i].isWaived)
-                                    {
-                                        <span onclick="Dues.RemoveWaivedFee(this,'@Model.Members[i].MemberId    ')"  class="spanLink">Clear Waived</span>
-                                    }
-                                    else if (Model.Members[i].isPaidFull)
-                                    { }
-                                    else
-                                    { 
-                                    <input id="@Model.Members[i].MemberId-button" type="button" class="primary" value="Update" onclick="javascript:UpdateDuesDueForMem(this,'@Model.Members[i].MemberId    ')" />
-                                    }
-                                </td>
-                                
-                            }
-                        </tr> 
-                    }
-                </tbody>
-            </table>
-            @Html.HiddenFor(x => x.DuesId)
-            @Html.Hidden("DuesItemId", Fee.DuesItemId)
         </div>
     </div>
+    <div class="panel-heading" style="background-color:#fafafa">
+        <div class="row">
+            @using (Html.BeginForm("EditDuesItem", "Dues", FormMethod.Post, new { @id = "editDuesForm" }))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label">For</label>
+                    <div>
+                      <b>@Model.LeagueOwnerName</b>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label"> Date of Payment</label>
+                    <div>
+                        @Html.TextBox("PayBy", Fee.PayBy.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label">Amount</label>
+                    <div>
+                        @Html.TextBox("DuesCost", Fee.CostOfDues.ToString("N2"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label">&nbsp;
+                        @if (ViewBag.Saved)
+                        {
+                            <span class="addedSuccessfully">Updated Successfully!</span>
+                        }
+                    </label>
+                    <div>
+                        <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-save"></i> Update Dues Item</button>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.Hidden("DuesItemId", Fee.DuesItemId)
+            }   
+        </div>
+        <div class="row margin-top-10">
+            <div class="col-xs-12">
+               
+                @using (Html.BeginForm("DeleteDuesItem", "Dues", FormMethod.Post, new { @id = "deleteDuesForm" }))
+                {
+                    <button class="btn btn-danger btn-sm" onclick="return confirm('Remove Dues Item and all Fees Associated?')" type="submit"><i class="fa fa-trash"></i> Delete Dues Item</button>
+                    @Html.HiddenFor(x => x.DuesId)
+                    @Html.Hidden("DuesItemId", Fee.DuesItemId)
+                    @Html.HiddenFor(x => x.OwnerEntity)
+                    @Html.HiddenFor(x => x.LeagueOwnerId)
+                }
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="overflow-x:auto">
+        <table class="table table-striped table-hover table-condensed no-margin-bottom" id="members">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>
+                        Last
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th class="text-center">
+                        Total Due
+                    </th>
+                    <th class="text-right">
+                        Collected
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Members.Count; i++)
+                {
+
+                    <tr>
+                        <td class="vertical-middle">
+                            <a class="btn btn-success btn-xs" href="@Url.Content("~/dues/member/edit/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i></a>
+                        </td>
+                        <td class="vertical-middle">@Model.Members[i].LastName</td>
+                        <td class="vertical-middle">
+                            <a href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">@Model.Members[i].DerbyName</a>
+                        </td>
+                        @{
+
+                            <td id="@Model.Members[i].MemberId-Due" class="text-center">
+                                @if (Model.Members[i].isWaived || Model.Members[i].isPaidFull)
+                                {
+                                    <span>0.00</span>
+                                }
+                                else
+                                {
+                                    @Html.TextBox("due-" + Model.Members[i].MemberId, Model.Members[i].due.ToString("N2"), new { @class = "form-control input-sm", @style="width:100px;margin:0 auto" })
+                                }
+                            </td>
+                            <td id="@Model.Members[i].MemberId-Collected" class="text-right vertical-middle">
+                                @if (Model.Members[i].isWaived)
+                                {
+                                    <span>Waived</span>
+                                }
+                                else
+                                {
+                                    @Model.Members[i].collected.ToString("N2")
+                                }
+                            </td>
+                            <td class="text-center" style="vertical-align:middle">
+                                @if (Model.Members[i].isWaived)
+                                {
+                                    <button class="btn btn-default btn-xs" type="button" onclick="Dues.RemoveWaivedFee(this,'@Model.Members[i].MemberId    ')">Clear Waived</button>
+                                }
+                                else if (Model.Members[i].isPaidFull)
+                                { }
+                                else
+                                {
+                                    <button class="btn btn-info btn-xs" id="@Model.Members[i].MemberId-button" type="button" onclick="javascript:UpdateDuesDueForMem(this,'@Model.Members[i].MemberId    ')" >Update</button>
+                                }
+                            </td>
+
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.HiddenFor(x => x.DuesId)
+        @Html.Hidden("DuesItemId", Fee.DuesItemId)
+    </div>
 </div>
+   
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({
@@ -171,8 +174,10 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
-            "bAutoWidth": false
+            "bAutoWidth": false,
+            "oLanguage": { "sSearch": "" },
         });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
     });
     $('#PayBy').datepicker({});
     $("#DuesCost").numeric({ negative: false });
@@ -184,3 +189,4 @@
         }
     });
 </script>
+

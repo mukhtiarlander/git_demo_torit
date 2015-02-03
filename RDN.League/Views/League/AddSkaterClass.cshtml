@@ -3,48 +3,63 @@
     ViewBag.Title = "Add a Skater Class";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Add Skater Class
-        </div>
-                  <div class="titleDescription">
-     Here you can add a Skater Class to the list of Skater Classes.  This list of skater classes is shown to all the managers of all the leagues signed up.  Sort of like a group think for better League Management.  So before you create a new one, please review the ones already there.  Please <a href="http://wiki.rdnation.com/League_Member_Skater_Classes" target="_blank">read the wiki</a> for more information.
-       
-            </div>
-            <div class="divider"></div>
-       
 
-        @using (Html.BeginForm())
-        {
-            <table class="suTable">
-                <tr>
-                    <td class="b" style="width:140px;">Name of Class:
-                    </td>
-                    <td  style="text-align:left;">
-                        @Html.TextBoxFor(m => m.NameOfClass)
-                    </td>
-                </tr>
-                <tr>
-                                        <td  colspan="2">
-                        <input class="primary" type="submit" value="Create Class" />
-                        <input class="primary" type="submit" value="Create & Add Another" name="addAnother" />
-                    </td>
-                </tr>
-            </table>
-        }
-        <br /><br />
-        <div>List of Classes Already Available</div>
-        <table>
-            <tr><th>Class</th></tr>
-            @foreach (var cl in RDN.Library.Cache.SiteCache.GetLeagueMemberClasses())
-            {
-                <tr>
-                    <td>
-                        @cl.NameOfClass
-                    </td>
-                </tr>
-            }
-        </table>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/members/view/all")">Members</a></li>
+    <li class="active">Add Skater Class</li>
+</ol>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+        <div class="panel panel-default margin-top-20">
+            <div class="panel-heading">
+                <h3 class="margin-top-5"><i class="fa fa-plus-circle"></i> Add Skater Class</h3>
+                <span class="text-muted">
+                    Here you can add a Skater Class to the list of Skater Classes.  This list of skater classes is shown to all the managers of all the leagues signed up.  Sort of like a group think for better League Management.  So before you create a new one, please review the ones already there.  Please <a href="http://wiki.rdnation.com/League_Member_Skater_Classes" target="_blank">read the wiki</a> for more information.
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        @using (Html.BeginForm())
+                        {
+                            <div class="margin-bottom-10">
+                                Name of Class
+                            </div>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(m => m.NameOfClass, new { @class = "form-control" })
+                            </div>
+                            <div>
+                                <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-save"></i> Create Class</button>
+                                <button class="btn btn-success btn-sm" name="addAnother" type="submit"><i class="fa fa-plus"></i> Create & Add Another</button>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="panel panel-default">
+                                <table class="table table-condensed no-margin-bottom">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                List of Classes Already Available
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var cl in RDN.Library.Cache.SiteCache.GetLeagueMemberClasses())
+                                    {
+                                        <tr>
+                                            <td>
+                                                @cl.NameOfClass
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

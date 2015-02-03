@@ -8,27 +8,32 @@
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
     bool isManager = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
+
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Forum</li>
+</ol>
+
+
+
 @if (Model.ForumId == new Guid())
 {
-    <div class="fixedContainer">
-        <div class="fixedCenterContainter">
-            <div class="fixTitle">
-                Forum Setup
-            </div>
-            <div class="clear">
-                It looks like your forum has not yet been created. Go ahead and create one so your
-                members can start talking! This forum will be open to all your members!
-            </div>
-            <div class="divider"></div>
-
+    <div class="alert alert-warning">
+        <h3 class="margin-top-5">Forum Setup</h3>
+        <p>
+            It looks like your forum has not yet been created. Go ahead and create one so your
+            members can start talking! This forum will be open to all your members!
+        </p>
+        <p>
             @using (Html.BeginForm("CreateForum", "Forum"))
-            { 
+            {
                 <div>
-                    <input type="submit" class="primary" value="Create Forum" />
+                    <input class="btn btn-success btn-sm" type="submit" value="Create Forum" />
                 </div>
                 @Html.HiddenFor(x => x.Type);
             }
-        </div>
+        </p>
     </div>
 }
 else
@@ -48,230 +53,224 @@ else
         </script>
     </div>
     }
-  
-    <div class="@(subPaid ? "expandableContainer" : "expandableContainerAd")">
-        <div class="expandableCenterContainter">
-            <div class="usual" id="postsTabs">
-                <ul class="idTabs">
-                    @for (int i = 0; i < Model.GroupTopics.Count; i++)
-                    {
-                        if (subPaid || Model.GroupTopics[i].GroupId == 0)
-                        {
-                        <li><span class="cursor @(Model.GroupTopics[i].GroupId == Model.CurrentGroup.GroupId ? "selected" : "")" onclick="Forum.changeForumGroup(this, '@Model.GroupTopics[i].GroupId', '@Model.ForumId')">
-                            @Model.GroupTopics[i].GroupName (@Model.GroupTopics[i].UnreadTopics)
-                        </span></li>                         
-                        }
-                    }
-                </ul>
-
-
-                <div id="forumContainer" class="usualInner">
-                    <div class="largeInput forumSearch">
-
-                        <input type="text" id="groupSearch" placeholder="Search For Messages" />
-                        <img src="@Url.Content("~/Content/loading_lg.gif")" id="loading" class="displayNone" />
-                    </div>
-                
-                    <div class="forumContainterRight">
-
-
-                        <div class="navIcons @(isManager ? "" : "displayNone")" id="postSettings" >
-                            <a title="Settings" id="postSettingLink" href="@Url.Content("~/forum/settings/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
-                                <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
-                            </a>
-                        </div>
-                        <div class="navSpanIcons">
-                            <span id="archivedBtn" onclick="Forum.getArchivedForumGroup(this, '@Model.CurrentGroup.GroupId')">
-                                <img id="archiveIcon" src="@Url.Content("~/Content/images/icons/archive.png")"  />
-                                Archived
-                            </span>
-                        </div>
-                        <div class="navIcons">
-                            <a title="New Post" id="newPost" href="@Url.Content("~/forum/new/" + @Model.Type + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
-                                <img src="@Url.Content("~/Content/images/icons/unread.png")"  />New
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="dropdown">
-
-                          <select id="forumCategories" onchange="Forum.changeForumCategories(this)">
-                            <option value="0" selected="selected" >Select Category</option>
-                             @foreach (var cat in Model.Categories)
-                            {
-                               <option onclick=""
-                                    Value="@cat.CategoryId">@cat.CategoryName@(cat.UnreadTopics > 0 ? " (" + cat.UnreadTopics + ")" : "")
-
-                               </option>
-                            }
-                        </select>
-
-
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <div class="forumContentWrapper">
-
-                        <table class="forumTable">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Topic
-                                    </th>
-                                    <th>Category
-                                    </th>
-                                    <th>Started By
-                                    </th>
-                                    <th>Posts
-                                    </th>
-                                    <th>Views
-                                    </th>
-                                    <th>Last Post
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="forumbody">
-                                @foreach (var topic in Model.CurrentGroup.Topics)
-                                {
-                                    <tr class="forumTopicRow  @(topic.IsRead ? "forumIsRead" : "")">
-                                        <td>@if (topic.IsLocked)
-                                            { 
-                                            <img height="20px" alt="Topic is Locked" title="Topic is Locked"  src="@Url.Content("~/Content/images/lock.png")" />
-                                            }
-                                            @if (topic.IsPinned)
-                                            { 
-                                                <img height="20px" alt="Topic is Pinned" title="Topic is Pinned"  src="@Url.Content("~/Content/images/pin.png")" />
-                                            }
-                                            @if (!topic.IsRead)
-                                            { 
-                                                <img height="20px" alt="Mark As Read" class="cursor" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"  src="@Url.Content("~/Content/images/icons/unread.png")" />
-                                            }
-
-                                        </td>
-                                        <td>
-                                            <a class="@(topic.IsRead ? "" : "b")" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
-                                        </td>
-                                        <td>
-                                            @if (topic.Category != null)
-                                            { 
-                                                <span class="spanLink" onclick="Forum.changeForumCategoryLink('@topic.GroupId', '@topic.Category.CategoryId')">@topic.Category.CategoryName</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (Model.Type == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
-                                            { 
-                                                <a target="_blank" href="@Url.Content("~/member/" + topic.CreatedByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.CreatedByMember.DerbyName))">
-                                                    @topic.CreatedByMember.DerbyName
-                                                </a>
-                                            }
-                                            else
-                                            { 
-                                                <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.CreatedByMember.DerbyName) + "/" + topic.CreatedByMember.MemberId.ToString().Replace("-", ""))">
-                                                    @topic.CreatedByMember.DerbyName
-                                                </a>                                            
-                                            }
-                                            <br />@topic.CreatedHuman
-                                        </td>
-                                        <td>
-                                            @topic.Replies
-                                        </td>
-                                        <td>
-                                            @topic.ViewCount
-                                        </td>
-                                        <td>
-                                            @if (Model.Type == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
-                                            { 
-                                                <a target="_blank" href="@Url.Content("~/member/" + topic.LastPostByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.LastPostByMember.DerbyName))">
-                                                    @topic.LastPostByMember.DerbyName
-                                                </a>
-                                            }
-                                            else
-                                            { 
-                                                <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.LastPostByMember.DerbyName) + "/" + topic.LastPostByMember.MemberId.ToString().Replace("-", ""))">
-                                                    @topic.CreatedByMember.DerbyName
-                                                </a>                                            
-                                            }
-                                            <br />@topic.LastPostHuman
-                                        </td>
-                                        <td>
-                                            @if (topic.IsManagerOfTopic)
-                                            { 
-                                                <a title="Move Topic" href="@Url.Content("~/forum/post/move/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @topic.TopicId)">Move
-                                                </a>
-                                                if (topic.IsPinned)
-                                                { 
-                                                <span>|</span> <span class="spanLink" onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'false')">UnPin</span>
-                                                }
-                                                else
-                                                { 
-                                                <span>|</span> <span class="spanLink" onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'true')">Pin</span>
-                                                }
-                                                if (topic.IsLocked)
-                                                { 
-                                                <span>|</span> <span class="spanLink" onclick="javascript:LockForumTopic(this, '@topic.TopicId', 'false')">UnLock</span>
-                                                }
-                                                else
-                                                { 
-                                                <span>|</span> <span class="spanLink" onclick="javascript:LockForumTopic(this, '@topic.TopicId', 'true')">Lock</span>
-                                                }
-                                                if (topic.IsArchived)
-                                                { 
-                                                <span>|</span> <span class="spanLink" onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'false')">UnArchive</span>
-                                                }
-                                                else
-                                                { 
-                                                <span>|</span> <span class="spanLink" onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'true')">Archive</span>
-                                                }
-                                                <span>|</span> <span class="spanLink" onclick="javascript:Forum.RemoveForumTopic(this, '@topic.TopicId')">Delete</span>
-                                            }
-
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="clear"></div>
-                    <div id="loadingMoreTopics" class="loadingMoreTopics displayNone">
-                        <img src="@Url.Content("~/Content/loading_lg.gif")" id="loading" />
-                        Loading More Topics
-                    </div>
-                    <div id="noMoreTopics" class="noMoreTopics displayNone">
-                        No More Topics Found
-                    </div>
-
-                    <br />
-                    <br />
-                    <div class="center">This forum and messages can only be seen by members of the group.</div>
-                    <div class="clear"></div>
+    
+    <div class="panel panel-default margin-top-20">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3">
+                    <h3 class="margin-top-5"><i class="fa fa-files-o"></i> Forum</h3>
                 </div>
-
-                <div class="clear"></div>
+                <div class="col-xs-12 col-sm-9 text-right">
+                    <a class="btn btn-default btn-sm" title="Settings" id="postSettingLink" href="@Url.Content("~/forum/settings/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
+                        <i class="fa fa-cogs"></i> Settings
+                    </a>
+                    <a class="btn btn-default btn-sm" id="archivedBtn" onclick="Forum.getArchivedForumGroup(this, '@Model.CurrentGroup.GroupId')">
+                        <i class="fa fa-archive"></i> Archived
+                    </a>
+                    <a class="btn btn-primary btn-sm" title="New Post" id="newPost" href="@Url.Content("~/forum/new/" + @Model.Type + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
+                        <i class="fa fa-plus-circle"></i> New
+                    </a>
+                   
+                </div>
             </div>
+        </div>
+        <div class="panel-heading no-padding-bottom">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="nav nav-tabs" id="GroupTopicsTabs" style="margin-bottom:-1px;">
+                        @for (int i = 0; i < Model.GroupTopics.Count; i++)
+                        {
+                            if (subPaid || Model.GroupTopics[i].GroupId == 0)
+                            {
+                                <li class="margin-left-5 @(Model.GroupTopics[i].GroupId == Model.CurrentGroup.GroupId ? "active" : "")">
+                                    <a href="javascript:void(0)" onclick="Forum.changeForumGroup(this, '@Model.GroupTopics[i].GroupId', '@Model.ForumId')">
+                                        @Model.GroupTopics[i].GroupName <span class="label label-primary">@Model.GroupTopics[i].UnreadTopics</span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-heading" style="background-color:white">
+            <div class="row">
+                <div class="col-xs-12">
+                    <input class="form-control pull-right input-sm" type="text" id="groupSearch" placeholder="Search For Messages" style="width:200px" />
+                  
+                    <select id="forumCategories" onchange="Forum.changeForumCategories(this)" class="pull-right margin-right-10">
+                        <option value="0" selected="selected">Select Category</option>
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <option onclick="" value="@cat.CategoryId">
+                                @cat.CategoryName@(cat.UnreadTopics > 0 ? " (" + cat.UnreadTopics + ")" : "")
+                            </option>
+                        }
+                    </select>
+                    <i class="fa fa-refresh fa-spin fa-lg" id="loading" style="display:none"></i>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover table-condensed no-margin-bottom">
+                <thead>
+                    <tr>
+                        <th>
+                            Topic
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Started By
+                        </th>
+                        <th>
+                            Posts
+                        </th>
+                        <th>
+                            Views
+                        </th>
+                        <th>
+                            Last Post
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="forumbody">
+                    @foreach (var topic in Model.CurrentGroup.Topics)
+                    {
+                        <tr class="@(topic.IsRead ? "" : "forum-read")">
+                            <td>
+                                <a class="@(topic.IsRead ? "" : "b")" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
+                                <br />
+                                @if (topic.IsLocked)
+                                {
+                                    <i class="fa fa-lock text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Locked"></i>
+                                }
+                                @if (topic.IsPinned)
+                                {
+                                    <i class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>
+                                }
+                               
+                            </td>
+                            <td>
+                                @if (topic.Category != null)
+                                {
+                                    <span onclick="Forum.changeForumCategoryLink('@topic.GroupId', '@topic.Category.CategoryId')">@topic.Category.CategoryName</span>
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Type == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
+                                {
+                                    <a target="_blank" href="@Url.Content("~/member/" + topic.CreatedByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.CreatedByMember.DerbyName))">
+                                        @topic.CreatedByMember.DerbyName
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.CreatedByMember.DerbyName) + "/" + topic.CreatedByMember.MemberId.ToString().Replace("-", ""))">
+                                        @topic.CreatedByMember.DerbyName
+                                    </a>
+                                }
+                                <br />
+                                <span class="text-muted">@topic.CreatedHuman</span>
+                            </td>
+                            <td>
+                                @topic.Replies
+                            </td>
+                            <td>
+                                @topic.ViewCount
+                            </td>
+                            <td>
+                                @if (Model.Type == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
+                                {
+                                    <a target="_blank" href="@Url.Content("~/member/" + topic.LastPostByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.LastPostByMember.DerbyName))">
+                                        @topic.LastPostByMember.DerbyName
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.LastPostByMember.DerbyName) + "/" + topic.LastPostByMember.MemberId.ToString().Replace("-", ""))">
+                                        @topic.CreatedByMember.DerbyName
+                                    </a>
+                                }
+                                <br />
+                                <span class="text-muted">@topic.LastPostHuman</span>
+                            </td>
+                            <td class="vertical-middle">
+                                @if (topic.IsManagerOfTopic)
+                                {
 
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    Forum.Initialize('@Model.ForumId', '@Model.Type.ToString()');
-                    var inp = $('#groupSearch')[0];
-                    inp.addEventListener("input", function () {
-                       Forum.searchForumPosts($('#groupSearch'));
-                    }, false);
-                });
-                $(window).scroll(function () {
-                    if ($(window).scrollTop() + $(window).height() > $(document).height() - 700) {
-                        Forum.ScrolledToBottomOfPosts();
+                                    <a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move" href="@Url.Content("~/forum/post/move/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @topic.TopicId)"><i class="fa fa-arrows"></i></a>
+                                    if (!topic.IsRead)
+                                    {
+                                        <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"><i class="fa fa-check-square-o"></i></button>
+                                    }
+                                    if (topic.IsPinned)
+                                    {
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-times-circle"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Pin" onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'true')"><i class="fa fa-check-circle"></i></button>
+                                    }
+                                    if (topic.IsLocked)
+                                    {
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Unlock" onclick="javascript:LockForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-unlock"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Lock" onclick="javascript:LockForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-lock"></i></button>
+                                    }
+                                    if (topic.IsArchived)
+                                    {
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-folder-o"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'true')"><i class="fa fa-archive"></i></button>
+                                    }
+                                    <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="javascript:Forum.RemoveForumTopic(this, '@topic.TopicId')"><i class="fa fa-trash"></i></button>
+                                }
+                            </td>
+                        </tr>
                     }
-                });
-            </script>
-
+                </tbody>
+            </table>
+            <div id="loadingMoreTopics" class="loadingMoreTopics displayNone">
+                <i id="loading" class="fa fa-spin fa-refresh"></i>
+                Loading More Topics
+            </div>
+            <div id="noMoreTopics" class="noMoreTopics displayNone">
+                No More Topics Found
+            </div>
+        </div>
+        <div class="panel-footer">
+            This forum and messages can only be seen by members of the group.
         </div>
         @Html.Hidden("type", Model.Type)
         @Html.Hidden("currentGroupId", Model.CurrentGroup.GroupId)
         @Html.Hidden("ForumId", Model.ForumId.ToString().Replace("-", ""))
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#GroupTopicsTabs a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
 
-    
+            Forum.Initialize('@Model.ForumId', '@Model.Type.ToString()');
+            var inp = $('#groupSearch')[0];
+            inp.addEventListener("input", function () {
+                Forum.searchForumPosts($('#groupSearch'));
+            }, false);
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 700) {
+                Forum.ScrolledToBottomOfPosts();
+            }
+        });
+    </script>
   
 }

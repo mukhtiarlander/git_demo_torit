@@ -94,27 +94,34 @@ function ForumPostToggleWatch(span) {
 
 function EnableForumTopicEdit(span, enable) {
     if (enable === "true") {
-        $("#topicEditTitle").toggleClass("displayNone", false);
-        $(span).toggleClass("displayNone", true);
-        $("#topicTitle").toggleClass("displayNone", true);
+        $("#topicEditTitle").toggleClass("display-none", false);
+        $("#updateEditTitle").toggleClass("display-none", false);
+        $("#cancelEditTitle").toggleClass("display-none", false);
+        $(span).toggleClass("display-none", true);
+        $("#topicTitle").toggleClass("display-none", true);
     } else {
-        $("#editTitle").toggleClass("displayNone", false);
-        $("#topicEditTitle").toggleClass("displayNone", true);
-        $("#topicTitle").toggleClass("displayNone", false);
+        $("#editTitle").toggleClass("display-none", false);
+        $("#topicEditTitle").toggleClass("display-none", true);
+        $("#updateEditTitle").toggleClass("display-none", true);
+        $("#cancelEditTitle").toggleClass("display-none", true);
+        $("#topicTitle").toggleClass("display-none", false);
     }
 }
 
 function ForumTopicEditSub(button) {
     var title = $("#topicTitleEdit");
+    $("#topicTitle").html(title.val());
+    title.attr("placeholder", title.val());
+    $("#editTitle").toggleClass("display-none", false);
+    $("#topicEditTitle").toggleClass("display-none", true);
+    $("#updateEditTitle").toggleClass("display-none", true);
+    $("#cancelEditTitle").toggleClass("display-none", true);
+    $("#topicTitle").toggleClass("display-none", false);
     if (title.val().length > 0) {
         title.toggleClass("error", false);
-        $("#topicTitle").text(title.val()).toggleClass("displayNone", false);
-        title.attr("placeholder", title.val());
-        $("#topicEditTitle").toggleClass("displayNone", true);
-        $("#editTitle").toggleClass("displayNone", false);
-
         $.getJSON("/forum/UpdateTopicName", { fId: $("#ForumId").val(), tId: $("#TopicId").val(), n: title.val() }, function (result) {
             if (result.isSuccess === true) {
+                
             }
         });
         title.val("");
@@ -632,34 +639,28 @@ var Forum = new function () {
             $.each(result, function (i, item) {
                 Forum.DisplayForumRow(result, tableBody, item);
             });
-            $("#loading").toggleClass("displayNone", true);
+            $("#loading").toggleClass("display-none", true);
+            $('[data-toggle="tooltip"]').tooltip();
         });
     }
     this.DisplayForumRow = function (result, tableBody, item) {
         var row = $(document.createElement('tr'));
-        row.addClass("forumTopicRow");
-        if (item.IsRead === true)
-            row.addClass("forumIsRead");
+        if (item.IsRead !== true)
+            row.addClass("forum-read");
 
         var firstColumn = $(document.createElement('td'));
-        if (item.IsLocked === true)
-            firstColumn.append('<img height="20px" alt="Topic is Locked" title="Locked"  src="' + leagueHost + 'Content/images/lock.png" />');
-        if (item.IsPinned === true)
-            firstColumn.append('<img height="20px" alt="Topic is Pinned" title="Pinned"  src="' + leagueHost + 'Content/images/pin.png" />');
-        if (item.IsRead === false)
-            firstColumn.append('<img height="20px" alt="Mark As Read" class="cursor" onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')" title="Mark As Read"  src="' + leagueHost + 'Content/images/icons/unread.png" />');
-
-
-        row.append(firstColumn);
-
-        var secondColumn = $(document.createElement('td'));
         var forumLink = $(document.createElement('a'));
         if (result.IsRead === false)
             forumLink.addClass("b");
         forumLink.attr({ href: leagueHost + "forum/post/view/" + item.ForumId.replace(/-/g, "") + "/" + item.TopicId + "/" + item.TopicTitleForUrl });
         forumLink.html(item.TopicTitle);
-        secondColumn.append(forumLink);
-        row.append(secondColumn);
+        firstColumn.append(forumLink);
+        firstColumn.append('<br/>');
+        if (item.IsLocked === true)
+            firstColumn.append('<i class="fa fa-lock text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Locked"></i>');
+        if (item.IsPinned === true)
+            firstColumn.append(' <i class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
+        row.append(firstColumn);
 
         var catColumn = $(document.createElement('td'));
 
@@ -680,7 +681,7 @@ var Forum = new function () {
         thirdColumn.append(memberLink);
         var ent = $(document.createElement('br'));
         thirdColumn.append(ent);
-        thirdColumn.append(item.CreatedHuman);
+        thirdColumn.append('<span class="text-muted">' + item.CreatedHuman + '</span>');
         row.append(thirdColumn);
 
         var fourthColumn = $(document.createElement('td'));
@@ -702,30 +703,33 @@ var Forum = new function () {
         sixColumn.append(memberByLink);
         var entt = $(document.createElement('br'));
         sixColumn.append(entt);
-        sixColumn.append(item.LastPostHuman);
+        sixColumn.append('<span class="text-muted">' + item.LastPostHuman + '</span>');
         row.append(sixColumn);
 
         var sevenColumn = $(document.createElement('td'));
+        sevenColumn.addClass('vertical-middle');
         if (item.IsManagerOfTopic) {
 
-            sevenColumn.append('<a title="Move Topic" href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '">Move</a>');
+            sevenColumn.append('<a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move"  href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '"><i class="fa fa-arrows"></i></a>');
+            if (item.IsRead === false)
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read"  onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')"> <i class="fa fa-check-square-o"></i></button>');
 
             if (item.IsPinned)
-                sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')">UnPin</span>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-times-circle"></i></button>');
             else
-                sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')">Pin</span>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Pin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-check-circle"></i></button>');
 
             if (item.IsLocked)
-                sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')">Unlock</span>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Unlock" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-unlock"></i></button>');
             else
-                sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')">Lock</span>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Lock" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-lock"></i></button>');
+
             if (item.IsArchived)
-                sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')">UnArchive</span>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-folder-o"></i></button>');
             else
-                sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')">Archive</span>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-archive"></i></button>');
 
-
-            sevenColumn.append('<span> |</span> <span class="spanLink" onclick="javascript:Forum.RemoveForumTopic(this, \'' + item.TopicId + '\')">Delete</span>');
+            sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="javascript:Forum.RemoveForumTopic(this, \'' + item.TopicId + '\')"><i class="fa fa-trash"></i></button>');
         }
         row.append(sevenColumn);
     }
@@ -802,16 +806,17 @@ var Forum = new function () {
         });
     }
     this.changeForumGroup = function (link, gId) {
+
         thisViewModel.isArchived = false;
         thisViewModel.groupId = gId;
         thisViewModel.IsScrollingAllowed = true;
         $("#noMoreTopics").toggleClass("displayNone", true);
         thisViewModel.currentPage = 0;
-        $(link).parent().siblings().each(function () {
-            $(this).children("span").toggleClass("selected", false);
+        $(link).parent().children().each(function () {
+            $(this).toggleClass("active", false);
         });
-        $(link).toggleClass("selected", true);
-        $("#loading").toggleClass("displayNone", false);
+        $(link).toggleClass("active", true);
+        $("#loading").toggleClass("display-none", false);
         $("#currentGroupId").val(gId);
         $("#newPost").attr("href", "/forum/new/" + $("#type").val() + "/" + thisViewModel.forumId + "/" + gId);
         $("#postSettingLink").attr("href", "/forum/settings/" + $("#ForumId").val() + "/" + gId);
@@ -1557,7 +1562,8 @@ function UpdateDuesDueForMem(button, memId) {
         $(button).remove();
     }
 }
-function updateEditMemberDuesCost(span, memberId, duesId, duesItemId) {
+function updateEditMemberDuesCost(btn, memberId, duesId, duesItemId) {
+    $(btn).html('<i class="fa fa-refresh fa-spin"></i> Update');
     memberId = $.trim(memberId);
     var amountButton = $("#amountDue");
     var amount = amountButton.val();
@@ -1565,11 +1571,11 @@ function updateEditMemberDuesCost(span, memberId, duesId, duesItemId) {
         $.getJSON("/Dues/SetDuesAmount", { duesId: duesItemId, duesManagementId: duesId, amountDue: amount, memberId: memberId }, function (result) {
             if (result.isSuccess === true) {
             } else {
-            }
+            }   
         }).error(function () {
 
         });
-        $(span).html('<img  src="' + leagueHost + '/Content/images/greenCheck.png")" />');
+        $(btn).html("<i class='fa fa-check'></i> Updated");
         amountButton.toggleClass("isTextBoxValid", false);
     }
     else

@@ -6,190 +6,186 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
 }
-@if (Model.DuesId == new Guid())
-{
-    <div class="fixedContainer">
-        <div class="fixedCenterContainter">
-            <div class="fixTitle">
-                Dues Setup
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Dues</li>
+</ol>
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        @if (Model.DuesId == new Guid())
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-cog"></i> Dues Setup</h3>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
+                    @using (Html.BeginForm("CreateDuesManagement", "Dues"))
+                    {
+                        <button type="submit" class="btn btn-success btn-sm">Start Tracking Dues</button>
+                        @Html.HiddenFor(x => x.OwnerEntity);
+                        @Html.HiddenFor(x => x.DuesId);
+                        @Html.HiddenFor(x => x.LeagueOwnerId);
+                    }
+                </div>
             </div>
-
-            <div class="divider"></div>
-
-            <div>
+            <span class="text-muted">
                 It looks like dues management has not yet been setup for your league. Go ahead and
                 create one so you can start reminding your league about dues and tracking each collection!
                 This dues management screen will be open to all your members!
-            </div>
-            @using (Html.BeginForm("CreateDuesManagement", "Dues"))
-            { 
-                <div>
-                    <input type="submit" class="primary" value="Start Tracking Dues" />
+            </span>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-money"></i> Dues Collections For @Model.LeagueOwnerName</h3>
                 </div>
-                @Html.HiddenFor(x => x.OwnerEntity);
-                @Html.HiddenFor(x => x.DuesId);
-                @Html.HiddenFor(x => x.LeagueOwnerId);
-            }
-        </div>
-    </div>
-}
-else
-{ 
-    <div class="expandableContainer">
-        <div class="expandableCenterContainter">
-            <div class="fixTitle">
-                Dues Collections For @Model.LeagueOwnerName
-            </div>
-            <div class="expandableCenterContainterRightDues">
-                @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
-                { 
-                   
-                     <div class="navIcons">
-                        <a title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/settings.png")"  />Settings
-                        </a>
-                    </div>
-                    <div class="navIcons">
-                        <a title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/group.png")"  />Classify
-                        </a>
-                    </div>
-                   
-                    <div class="navIcons">
-                        <span class="cursor " onclick="document.getElementById('DuesReport').submit();" title="Export Report">
-                            <img src="@Url.Content("~/Content/images/icons/Download.png")"  />Export</span>
-                    </div>
-                    <div class="navIcons">
-                        <a title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/walletmembers.png")"  />Members
-                        </a>
-                    </div>
-                     <div class="navIcons">
-                        <a title="Generate New Dues Item" onclick="return confirm('Generate New Dues Payment?')" href="@Url.Content("~/dues/new/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                            <img src="@Url.Content("~/Content/images/icons/wallet-add.png")"  />New
-                        </a>
-                    </div>
-                }
-                <div class="navIcons">
-                    <a title="Your Dues Payments" href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + memId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/images/icons/payment.png")"  />Yours
-                    </a>
-                </div>
-            </div>
-          
-            <div class="divider"></div>
-            <div>
-                <table class="calendarTable" id="notPaid">
-                    <thead class="vmTableHead">
-                        <tr>
-                            <th></th>
-
-                            <th>Due Date
-                            </th>
-                            <th>Cost
-                            </th>
-                            <th>Members Paid
-                            </th>
-                            <th>Members Waived
-                            </th>
-                            <th>Total Withstanding (@Model.DuesFees.Sum(x => x.TotalWithstanding).ToString("N2"))
-                            </th>
-                            <th>Total Paid +@Model.DuesFees.Sum(x => x.TotalPaid).ToString("N2")
-                            </th>
-                            <th>Pay</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.DuesFees)
-                        { 
-                            <tr>
-                                <td>
-                                    @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
-                                    { 
-                                        <a href="@Url.Content("~/dues/collection/edit/" + item.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">Edit</a>
-                                    }
-                                </td>
-
-                                <td>
-                                    @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
-                                    { 
-                                        <a href="@Url.Content("~/dues/collection/" + item.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">@item.PayBy.ToLongDateString()</a>
-                                    }
-                                    else
-                                    {
-                                        <span>@item.PayBy.ToLongDateString()</span>
-                                    }
-                                </td>
-                                <td>
-                                    @item.CostOfDues.ToString("N2")
-                                </td>
-                                <td>
-                                    @item.DuesCollected.Where(x => x.IsWaived == false).GroupBy(x => x.MemberPaidId).Count()
-                                </td>
-                                <td>
-                                    @item.DuesCollected.Where(x => x.IsWaived == true).GroupBy(x => x.MemberPaidId).Count()
-                                </td>
-                                <td>
-                                    @item.TotalWithstanding.ToString("N2")
-                                </td>
-                                <td>
-                                    @item.TotalPaid.ToString("N2")
-                                </td>
-                                <td>
-                                    @if (Model.AcceptPaymentsOnline && !item.IsCurrentMemberPaidOrWaivedInFull)
-                                    {
-                                        using (Html.BeginForm("PayDuesOnlinePayPal", "Dues", FormMethod.Post))
-                                        { 
-                                        <span>Pay With</span> <input type="submit" class="primary" value="PayPal" />
-                                        @Html.Hidden("DuesItemId", item.DuesItemId)
-                                        @Html.HiddenFor(x => x.DuesId)
-                                        @Html.HiddenFor(x => x.LeagueOwnerId)
-                                        }
-
-                                    }
-                                    else if (item.IsCurrentMemberPaidOrWaivedInFull)
-                                    { 
-                                        <span>Paid</span>
-                                    }
-                                </td>
-                            </tr>
+                <div class="col-xs-12 col-sm-6 text-right">
+                        @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
+                        {
+                            <a class="btn btn-primary btn-sm" title="Generate New Dues Item" onclick="return confirm('Generate New Dues Payment?')" href="@Url.Content("~/dues/new/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                                <i class="fa fa-plus-circle"></i> New
+                            </a>
                         }
-                    </tbody>
-                    <tfoot class="vmTableHead">
-                        <tr>
-                            <th></th>
+                        <a class="btn btn-info btn-sm" title="Your Dues Payments" href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + memId.ToString().Replace("-", ""))">
+                            <i class="fa fa-user"></i> Yours
+                        </a>
+                    </div>
+            </div>
 
-                            <th>Due Date
-                            </th>
-                            <th>Cost
-                            </th>
-                            <th>Members Paid
-                            </th>
-                            <th>Members Waived
-                            </th>
-                            <th>(@Model.DuesFees.Sum(x => x.TotalWithstanding).ToString("N2"))
-                            </th>
-                            <th>+@Model.DuesFees.Sum(x => x.TotalPaid).ToString("N2")
-                            </th>
-                            <th>Pay</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <br />
-            @if (!Model.AcceptPaymentsOnline)
-            { 
-                <div>
-                    <b>Collect Dues Online:</b> Your league can collect dues through RDNation just by enabling the feature within the dues management settings page.
-                </div>
-            }
-            <br />
-            <div>
-                New dues collection dates automatically get generated prior to the date of the month
-                defined in the settings. So there is no need to generate a new dues payment unless
-                you have a payment not on the same schedule as defined in the settings.
-            </div>
+        }
+
+    </div>
+    @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
+    {
+        <div class="panel-heading text-right" style="background-color:#fafafa">
+            <a class="btn btn-default btn-sm" title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                <i class="fa fa-cog"></i> Settings
+            </a>
+            <a class="btn btn-default btn-sm" title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                <i class="fa fa-folder"></i> Classify
+            </a>
+            <button type="button" class="btn btn-default btn-sm" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
+                <i class="fa fa-download"></i> Export
+            </button>
+            <a class="btn btn-default btn-sm" title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                <i class="fa fa-group"></i> Members
+            </a>
         </div>
+    }
+    <div class="panel-body" style="overflow-x:auto">
+        <table class="table table-striped table-hover table-condensed no-margin-bottom" id="notPaid">
+            <thead class="vmTableHead">
+                <tr>
+
+
+                    <th>
+                        Due Date
+                    </th>
+                    <th class="text-right">
+                        Cost
+                    </th>
+                    <th class="text-center">
+                        Members Paid
+                    </th>
+                    <th class="text-center">
+                        Members Waived
+                    </th>
+                    <th class="text-right">
+                        Total Withstanding (@Model.DuesFees.Sum(x => x.TotalWithstanding).ToString("N2"))
+                    </th>
+                    <th class="text-right">
+                        Total Paid +@Model.DuesFees.Sum(x => x.TotalPaid).ToString("N2")
+                    </th>
+                    <th class="text-center">Pay</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DuesFees)
+                {
+                <tr>
+
+
+                    <td>
+                        @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
+                            {
+                            <a class="btn btn-xs btn-default" href="@Url.Content("~/dues/collection/" + item.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">@item.PayBy.ToLongDateString()</a>
+                            }
+                            else
+                            {
+                            <span>@item.PayBy.ToLongDateString()</span>
+                            }
+                    </td>
+                    <td class="text-right">
+                        @item.CostOfDues.ToString("N2")
+                    </td>
+                    <td class="text-center">
+                        @item.DuesCollected.Where(x => x.IsWaived == false).GroupBy(x => x.MemberPaidId).Count()
+                    </td>
+                    <td class="text-center">
+                        @item.DuesCollected.Where(x => x.IsWaived == true).GroupBy(x => x.MemberPaidId).Count()
+                    </td>
+                    <td class="text-right">
+                        @item.TotalWithstanding.ToString("N2")
+                    </td>
+                    <td class="text-right">
+                        @item.TotalPaid.ToString("N2")
+                    </td>
+                    <td class="text-center">
+                        @if (Model.AcceptPaymentsOnline && !item.IsCurrentMemberPaidOrWaivedInFull)
+                        {
+                            using (Html.BeginForm("PayDuesOnlinePayPal", "Dues", FormMethod.Post))
+                            {
+                                <button class="btn btn-warning btn-xs" type="submit">Pay with Paypal</button>
+                                @Html.Hidden("DuesItemId", item.DuesItemId)
+                                @Html.HiddenFor(x => x.DuesId)
+                                @Html.HiddenFor(x => x.LeagueOwnerId)
+                            }
+
+                        }
+                        else if (item.IsCurrentMemberPaidOrWaivedInFull)
+                        {
+                            <span>Paid</span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
+                        {
+                        <a class="btn btn-xs btn-success" href="@Url.Content("~/dues/collection/edit/" + item.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i></a>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot class="vmTableHead">
+                <tr>
+                    <th>
+                        Due Date
+                    </th>
+                    <th class="text-right">
+                        Cost
+                    </th>
+                    <th class="text-center">
+                        Members Paid
+                    </th>
+                    <th class="text-center">
+                        Members Waived
+                    </th>
+                    <th class="text-right">
+                        @Model.DuesFees.Sum(x => x.TotalWithstanding).ToString("N2")
+                    </th>
+                    <th class="text-right">
+                        +@Model.DuesFees.Sum(x => x.TotalPaid).ToString("N2")
+                    </th>
+                    <th class="text-center">Pay</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
         @using (Html.BeginForm("DuesManagementReport", "Dues", FormMethod.Post, new { @id = "DuesReport" }))
         {
             @Html.HiddenFor(x => x.DuesId)
@@ -197,10 +193,25 @@ else
 
         }
     </div>
+    <div class="panel-footer">
+        @if (!Model.AcceptPaymentsOnline)
+        {
+            <div class="alert alert-warning">
+                <b>Collect Dues Online:</b> Your league can collect dues through RDNation just by enabling the feature within the dues management settings page.
+            </div>
+        }
+        New dues collection dates automatically get generated prior to the date of the month
+        defined in the settings. So there is no need to generate a new dues payment unless
+        you have a payment not on the same schedule as defined in the settings.
+    </div>
+</div>
+
+
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#notPaid').dataTable({
-                "bPaginate": false,
+                "bPaginate": false,     
                 "bLengthChange": false,
                 "bFilter": false,
                 "bInfo": false,
@@ -210,4 +221,4 @@ else
         });
     </script>
 
-}
+

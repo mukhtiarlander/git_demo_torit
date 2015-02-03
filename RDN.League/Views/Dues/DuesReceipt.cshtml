@@ -6,65 +6,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-    <div class="backLink">
-        < <a href="@Url.Content("~/dues/league/" + Model.LeagueId.ToString().Replace("-", ""))">Dues</a>
-    </div>
-        </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Receipt for @Model.MemberPaid
-        </div>
-      
-      <div class="titleDescription">
-             Your league appreciates you paying them in a timely manner!
-        
-        </div>
-        <div class="divider"></div>
-       
-        <div>
-            <table>
-                <tr>
-                    <td class="b vLT2D">Invoice Id:</td>
-                    <td class="vRTD">@Model.InvoiceId.ToString().Replace("-", "")</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Dues Date:</td>
-                    <td class="vRTD">
-                        @if (Model.PaidDuesForMonth.ToShortDateString() != "1/1/0001")
-                        {
-                            @Model.PaidDuesForMonth.ToShortDateString()
-                        }
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Dues Paid:</td>
-                    <td class="vRTD">$@Model.BasePrice.ToString("N2")
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Fees Paid:</td>
-                    <td class="vRTD">$@Model.Fees.ToString("N2")
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Total Paid:</td>
-                    <td class="vRTD">$@Model.PriceAfterFees.ToString("N2")
-                    </td>
-                    <td></td>
-                </tr>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/dues/league/" + Model.LeagueId.ToString().Replace("-", ""))">Dues</a></li>
+    <li class="active">Dues Receipt</li>
+</ol>
 
-                <tr>
-                    <td class="b vLT2D">Receipt Emailed To:</td>
-                    <td class="vRTD">@Model.EmailForReceipt</td>
-                    <td></td>
-                </tr>
-            </table>
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <h3 style="margin-top:5px !important"><i class="fa fa-folder"></i> Receipt for @Model.MemberPaid</h3>
+        <div class="text-muted">
+            Your league appreciates you paying them in a timely manner!
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label class="form-label">Invoice ID</label>
+                <div style="font-weight:bold">
+                    @Model.InvoiceId.ToString().Replace("-", "")
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label class="form-label">Dues Date</label>
+                <div style="font-weight:bold">
+                    @if (Model.PaidDuesForMonth.ToShortDateString() != "1/1/0001")
+                    {
+                        @Model.PaidDuesForMonth.ToShortDateString()
+                    }
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label class="form-label">Dues Paid</label>
+                <div style="font-weight:bold">
+                    $@Model.BasePrice.ToString("N2")
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label class="form-label">Fees Paid</label>
+                <div style="font-weight:bold">
+                    $@Model.Fees.ToString("N2")
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label class="form-label">Total Paid</label>
+                <div style="font-weight:bold">
+                    $@Model.PriceAfterFees.ToString("N2")
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label class="form-label">Receipt Emailed To</label>
+                <div style="font-weight:bold">
+                    @Model.EmailForReceipt
+                </div>
+            </div>
         </div>
     </div>
 </div>

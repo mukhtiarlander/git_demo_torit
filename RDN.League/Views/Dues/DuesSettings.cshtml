@@ -5,110 +5,92 @@
     ViewBag.Title = "Modify Dues Collection Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-            <div class="navIcons">
-                <a title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
-            </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Modify Dues Settings
-        </div>
-      
-         <div class="titleDescription">
-              Here you can modify the dues management settings for your league.
-      
-        </div>
-        <div class="divider"></div>
-       
-        <div>
-            @using (Html.BeginForm("DuesSettings", "Dues", FormMethod.Post))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b vLTD">Day Of Month To Collect:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.DayOfMonthToCollectDefault) (1-28) <span class="i">Sets default
-                                calendar day of month to collect dues.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Days Before to Notify Member:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.DaysBeforeDeadlineToNotifyDefault) (1-28) <span class="i">Amount
-                                of days before deadline to notify dues are due. </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Amount of Money To Collect:
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(x => x.DuesCostDisplay)
-                            (45.00) <span class="i">Payment required for each collection </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Dues Management for Managers Only:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)
-                            <span class="i">Users only shown their payments and withstanding. Not leagues.</span>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="b vLTD">Currency for Dues:
-                        </td>
-                        <td class="smallInput">
-                            @Html.DropDownListFor(x => x.Currency, Model.CurrencyList) <span class="i">To add your currency, email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">info@rdnation.com</a></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Accept <span class="paypalText">Paypal</span> Dues Payments:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.AcceptPaymentsOnline)
-                            <span class="i">Members can pay with their Paypal account</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Leagues <span class="paypalText">Paypal</span> Email Address:
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(x => x.PayPalEmailAddress)
-                            <span class="i">Email Address of the league to collect dues, this needs to be a <b><a href="@RDN.Portable.Config.ServerConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT" target="_blank">VERIFIED</a></b> paypal account.</span>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td class="b vLTD">Text For Email Notification:
-                        </td>
-                        <td>
-                                @Html.TextAreaFor(x => x.DuesEmailDisplayText, new { id = "wmd-input", width="300px"     })
-                         
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            @if (ViewBag.IsSuccessful)
-                            { 
-                                <span class="addedSuccessfully">Updated Successfully!</span>
-                            }
-                            <input type="submit" class="primary" value="Update Settings" />
-                        </td>
-                    </tr>
-                </table>
-                @Html.HiddenFor(x => x.DuesId)
-                @Html.HiddenFor(x => x.LeagueOwnerId)
-                @Html.HiddenFor(x => x.OwnerEntity)
-            }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">Dues</a></li>
+    <li class="active">Settings</li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default margin-top-20">
+            <div class="panel-heading">
+                <h3 style="margin-top:5px !important"><i class="fa fa-cogs"></i> Modify Dues Settings</h3>
+                <span class="text-muted">Here you can modify the dues management settings for your league.</span>
+            </div>
+            <div class="panel-body" style="overflow-x:auto">
+                <div class="row">
+
+                    @using (Html.BeginForm("DuesSettings", "Dues", FormMethod.Post))
+                    {
+                        <div class="col-xs-12 col-sm-2 col-md-4">
+                            <label class="form-label margin-top-10">Day Of Month To Collect</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.DayOfMonthToCollectDefault, new { @class="form-control" })
+                            </div>
+                        </div>
+                       <div class="col-xs-12 col-sm-2 col-md-4">
+                            <label class="form-label margin-top-10">Days Before to Notify Member</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.DaysBeforeDeadlineToNotifyDefault, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 col-md-4">
+                            <label class="form-label margin-top-10">Amount of Money To Collect</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.DuesCostDisplay, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Dues Management for Managers Only</label>
+                            <div>
+                                <label>@Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)  Users only shown their payments and withstanding. Not leagues.</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Currency for Dues</label>
+                            <div>
+                                @Html.DropDownListFor(x => x.Currency, Model.CurrencyList)
+                                To add your currency, email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">info@rdnation.com</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Accept Paypal Dues Payments</label>
+                            <div>
+                                <label>@Html.CheckBoxFor(x => x.AcceptPaymentsOnline) Members can pay with their Paypal account</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Leagues Paypal Email Address</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.PayPalEmailAddress, new { @class = "form-control" })
+                                <div class="text-muted margin-top-5">Email Address of the league to collect dues, this needs to be a <b><a href="@RDN.Portable.Config.ServerConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT" target="_blank">VERIFIED</a></b> paypal account.</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Text For Email Notification</label>
+                            <div>
+                                @Html.TextAreaFor(x => x.DuesEmailDisplayText, new { id = "wmd-input", width = "100%" })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(x => x.DuesId)
+                        @Html.HiddenFor(x => x.LeagueOwnerId)
+                        @Html.HiddenFor(x => x.OwnerEntity)
+                    }
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                @if (ViewBag.IsSuccessful)
+                {
+                    <span class="addedSuccessfully">Updated Successfully!</span>
+                }
+                <button class="btn btn-success btn-sm" type="submit" ><i class="fa fa-save"></i> Update Settings</button>
+            </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $("#DuesCostDisplay").numeric({ negative: false });
     $("#DayOfMonthToCollectDefault").numeric({ negative: false, decimal: false });

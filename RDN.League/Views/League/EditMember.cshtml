@@ -18,7 +18,7 @@
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/league/members/view/all")">Members</a></li>
-    <li class="active">Edit Member</li>
+    <li class="active">Edit @Model.Firstname @Model.LastName's Details</li>
 </ol>
 
 <div class="row">
@@ -283,13 +283,15 @@
                                                             <tr>
                                                                 <td class="b"><i class="fa fa-envelope"></i>&nbsp;</td>
                                                                 <td>
-                                                                    @contact.Email
+                                                                    <a href="mailto:@contact.Email">@contact.Email</a>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="b"><i class="fa fa-phone"></i>&nbsp;</td>
                                                                 <td>
-                                                                    @contact.PhoneNumber
+                                                                    <a href="tel:@contact.PhoneNumber">
+                                                                        @contact.PhoneNumber
+                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -323,7 +325,7 @@
                                                                     @contact.Addresses.FirstOrDefault().Country
                                                                     }
                                                                     <br />
-                                                                    <a class="btn btn-default btn-sm margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                                                                    <a class="btn btn-default btn-xs margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
                                                                     }
                                                                 </td>
                                                             </tr>
@@ -411,7 +413,7 @@
                                                 </div>
                                                 <div>
                                                     @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")
-                                                    <a class="btn btn-success btn-sm" href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)"><i class="fa fa-play-circle"></i> Add Class</a>
+                                                    <a class="btn btn-success btn-sm" href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)"><i class="fa fa-plus-circle"></i> Add Class</a>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12">

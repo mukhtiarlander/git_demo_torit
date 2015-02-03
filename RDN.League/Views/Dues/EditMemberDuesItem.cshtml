@@ -5,110 +5,130 @@
     ViewBag.Title = "Edit Member Paid Dues";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a href="@Url.Content("~/dues/collection/" + Model.DuesItem.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">Dues Item</a> | <a href="@Url.Content("~/dues/" + Model.OwnerEntity + "/" + Model.OwnerId.ToString().Replace("-", ""))">Dues Management </a>
+
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/dues/" + Model.OwnerEntity + "/" + Model.OwnerId.ToString().Replace("-", ""))">Dues</a></li>
+    <li class="active">Modify Payment</li>
+</ol>
+
+@using (Html.BeginForm("EditMemberDuesItem", "Dues", FormMethod.Post))
+{
+    <div class="panel panel-default margin-top-20">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-9">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-pencil-square-o"></i> Modify Payments Made by @Model.Member.DerbyName</h3>
+                </div>
+                <div class="col-xs-12 col-sm-3 text-right">
+                    <a class="btn btn-info btn-sm" href="@Url.Content("~/dues/collection/" + Model.DuesItem.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">
+                        <i class="fa fa-backward"></i> Due Item
+                    </a>
+                </div>
+            </div>
+            <div class="text-muted">
+                You may remove and review payments made by this member.
+            </div>
+    </div>
+    <div class="panel-heading" style="background-color:#fafafa">
+        <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label">For</label>
+                    <div>
+                        <h5><b>@Model.Member.DerbyName</b></h5>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label"> Payment due for</label>
+                    <div>
+                        <h5><b> @Model.DuesItem.PayBy.ToLongDateString()</b></h5>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label">Amount</label>
+                    <div>
+                        @Html.TextBox("amountDue", Model.DuesItem.CostOfDues.ToString("N2"), new { @class="form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label class="form-label">
+                        &nbsp;
+                    </label>
+                    <div>
+                        <button class="btn btn-success btn-sm" type="button" onclick="updateEditMemberDuesCost(this, '@Model.Member.MemberId', '@Model.DuesId', '@Model.DuesItem.DuesItemId')"><i class="fa fa-save"></i> Update</button>
+                    </div>
+                </div>
+                
         </div>
     </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Modify Payments Made by @Model.Member.DerbyName
-        </div>
-      
-          <div class="titleDescription">
-  You may remove and review payments made by this member.
-       
-            </div>
-            <div class="divider"></div>
-        <div>
-            @using (Html.BeginForm("EditMemberDuesItem", "Dues", FormMethod.Post))
-            { 
-                <table class="viewEventTable">
-                    <tr class="trBorderB">
-                        <td class="veLC">For:
-                        </td>
-                        <td>
-                            @Model.Member.DerbyName
-                        </td>
-                    </tr>
-                    <tr class="trBorderB">
-                        <td class="veLC">Payment Due Date:
-                        </td>
-                        <td>
-                            @Model.DuesItem.PayBy.ToLongDateString()
-                        </td>
-                    </tr>
-                    <tr class="trBorderB">
-                        <td class="veLC">Amount:
-                        </td>
-                        <td>
-                            @Html.TextBox("amountDue", Model.DuesItem.CostOfDues.ToString("N2")) <span class="spanLink" onclick="updateEditMemberDuesCost(this, '@Model.Member.MemberId', '@Model.DuesId', '@Model.DuesItem.DuesItemId')">Update</span>
-                        </td>
-                    </tr>
-                    @if (Model.DuesItem.DuesCollected.Sum(x => x.DuesPaid) != Model.DuesItem.CostOfDues && Model.DuesItem.DuesCollected.Where(x => x.IsWaived == true).FirstOrDefault() == null)
-                    { 
-                        <tr class="trBorderB">
-                            <td class="veLC">Send Reminder:
-                            </td>
-                            <td>
-                                <input type="button" class="primary" value="Send Reminder Email" onclick="javascript:SendReminderToPayDues(this,'@Model.Member.MemberId    ')" />
-                            </td>
-                        </tr>
-                    }
-                </table>
-                <br />
-                <table id="members" class="viewDuesTable">
+@if (Model.DuesItem.DuesCollected.Sum(x => x.DuesPaid) != Model.DuesItem.CostOfDues && Model.DuesItem.DuesCollected.Where(x => x.IsWaived == true).FirstOrDefault() != null)
+                {
+                    <div class="panel-heading" style="background-color:#fafafa">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                Send Reminder
+                                <button type="button" class="btn btn-warning btn-xs" onclick="javascript:SendReminderToPayDues(this,'@Model.Member.MemberId    ')"><i class="fa fa-bell"></i> Send Reminder Email</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            <div class="panel-body" style="overflow-x:auto">
+                <table id="members" class="table table-striped table-hover table-condensed no-margin-bottom">
                     <thead class="vmTableHead">
                         <tr>
                             <th></th>
-                            <th class="alignCenter">Paid On
+                            <th class="alignCenter">
+                                Paid On
                             </th>
-                            <th class="alignCenter">Paid
+                            <th class="alignCenter">
+                                Paid
                             </th>
-                            <th class="alignCenter">Notes
+                            <th class="alignCenter">
+                                Notes
                             </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @for (int i = 0; i < Model.DuesItem.DuesCollected.Count; i++)
-                        {   
-                            <tr class="trBorderB" id="@Model.DuesItem.DuesCollected[i].DuesCollectedId-row">
-                                <td class="b alignCenter">@(i + 1).
+                {
+                            <tr id="@Model.DuesItem.DuesCollected[i].DuesCollectedId-row">
+                                <td>
+                                    @(i + 1).
                                 </td>
-                                <td class="alignCenter">
+                                <td>
                                     @Model.DuesItem.DuesCollected[i].PaidDate.ToLongDateString()
                                 </td>
-                                <td class="alignCenter" id="@Model.DuesItem.DuesCollected[i].DuesCollectedId-Collected">
+                                <td id="@Model.DuesItem.DuesCollected[i].DuesCollectedId-Collected">
                                     @if (Model.DuesItem.DuesCollected[i].IsWaived)
-                                    { 
+                            {
                                         <span>Waived</span>
-                                    }
-                                    else
-                                    { 
+                            }
+                            else
+                            {
                                         @Model.DuesItem.DuesCollected[i].DuesPaid.ToString("N2")
-                                    }
+                            }
                                 </td>
                                 <td>
                                     @Model.DuesItem.DuesCollected[i].Note
                                 </td>
-                                <td class="alignCenter">
-                                    <span class="spanLink" onclick="javascript:RemoveDuesPayment('@Model.DuesItem.DuesCollected[i].DuesCollectedId', '@Model.Member.MemberId', '@Model.DuesId', '@Model.DuesItem.DuesItemId')">Remove Payment</span>
+                                <td>
+                                    <button class="btn btn-info btn-xs" type="button" onclick="javascript:RemoveDuesPayment('@Model.DuesItem.DuesCollected[i].DuesCollectedId', '@Model.Member.MemberId', '@Model.DuesId', '@Model.DuesItem.DuesItemId')"><i class="fa fa-trash"></i> Remove Payment</button>
                                 </td>
-                            </tr> 
-                        }
+                            </tr>
+                }
                     </tbody>
                 </table>
-     
                 @Html.HiddenFor(x => x.DuesId)
                 @Html.HiddenFor(x => x.OwnerId)
-                @Html.Hidden("LeagueOwnerId",Model.OwnerId)
+                @Html.Hidden("LeagueOwnerId", Model.OwnerId)
                 @Html.HiddenFor(x => x.DuesItem.DuesItemId)
                 @Html.HiddenFor(x => x.Member.MemberId)
                 @Html.HiddenFor(x => x.OwnerEntity)
                 @Html.Hidden("DuesItemId", Model.DuesItem.DuesItemId)
-            }
+            </div>
         </div>
-    </div>
-</div>
+}
+
+
