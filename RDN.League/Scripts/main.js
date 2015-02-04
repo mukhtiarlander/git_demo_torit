@@ -598,7 +598,21 @@ function PinForumTopic(link, topicId, pin) {
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/PinForumTopic", { forumId: forumId, topicId: topicId, pin: pin }, function (result) {
         if (result.isSuccess === true) {
-            $(link).remove();
+            if (pin == "true") {
+                $(link).html("<i class='fa fa-times-circle'></i>");
+                $(link).attr('onclick', "javascript:PinForumTopic(this,'" + topicId + "', 'false')");
+                $(link).attr('data-original-title', "UnPin");
+                $("#forum-title-" + topicId).append('<i id="pinned-icon-' + topicId + '" class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
+                $("#pinned-icon-" + topicId).tooltip('show');
+            }
+            else
+            {
+                $(link).html("<i class='fa fa-check-circle'></i>");
+                $(link).attr('data-original-title', "Pin");
+                $(link).attr('onclick', "javascript:PinForumTopic(this,'" + topicId + "', 'true')");
+                $("#pinned-icon-" + +topicId).remove();
+                $(".tooltip").fadeOut();
+            }
         }
     });
 }
@@ -632,14 +646,14 @@ var Forum = new function () {
         var group = $("#currentGroupId").val();
         if (qu.length === 1)
             return;
-        $("#loading").toggleClass("displayNone", false);
+        $("#header-loading").show();
         var tableBody = $("#forumbody");
         $.getJSON("/forum/SearchForumPosts", { q: qu, limit: 50, groupId: group, forumId: thisViewModel.forumId, forumType: thisViewModel.forumType }, function (result) {
             tableBody.html("");
             $.each(result, function (i, item) {
                 Forum.DisplayForumRow(result, tableBody, item);
             });
-            $("#loading").toggleClass("display-none", true);
+            $("#header-loading").hide();
             $('[data-toggle="tooltip"]').tooltip();
         });
     }
@@ -649,6 +663,7 @@ var Forum = new function () {
             row.addClass("forum-read");
 
         var firstColumn = $(document.createElement('td'));
+        firstColumn.attr('id', "forum-title-" + item.TopicId);
         var forumLink = $(document.createElement('a'));
         if (result.IsRead === false)
             forumLink.addClass("b");
@@ -659,7 +674,7 @@ var Forum = new function () {
         if (item.IsLocked === true)
             firstColumn.append('<i class="fa fa-lock text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Locked"></i>');
         if (item.IsPinned === true)
-            firstColumn.append(' <i class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
+            firstColumn.append(' <i id="pinned-icon-' + item.TopicId + '" class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
         row.append(firstColumn);
 
         var catColumn = $(document.createElement('td'));
@@ -725,7 +740,7 @@ var Forum = new function () {
                 sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Lock" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-lock"></i></button>');
 
             if (item.IsArchived)
-                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-folder-o"></i></button>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnArchive" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-folder-o"></i></button>');
             else
                 sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-archive"></i></button>');
 
@@ -787,6 +802,7 @@ var Forum = new function () {
         thisViewModel.groupId = gId;
         var tableBody = $("#forumbody");
         var categoriesBody = $("#forumCategories");
+        $("#header-loading").show();
         $.getJSON("/forum/GetForumPosts", { groupId: thisViewModel.groupId, forumId: thisViewModel.forumId, page: thisViewModel.currentPage, isArchived: isArchived, pageCount: "100", forumType: thisViewModel.forumType }, function (result) {
             tableBody.html("");
             categoriesBody.html("");
@@ -802,7 +818,8 @@ var Forum = new function () {
                 $("#postSettings").toggleClass("displayNone", false);
             else
                 $("#postSettings").toggleClass("displayNone", true);
-            $("#loading").toggleClass("displayNone", true);
+            $("#header-loading").hide();
+
         });
     }
     this.changeForumGroup = function (link, gId) {
@@ -827,18 +844,18 @@ var Forum = new function () {
     this.changeForumCategory = function (gId, catId) {
         thisViewModel.groupId = gId;
         thisViewModel.category = catId;
-        $("#loading").toggleClass("displayNone", false);
         $("#currentGroupId").val(gId);
         var tableBody = $("#forumbody");
         thisViewModel.IsScrollingAllowed = true;
         $("#noMoreTopics").toggleClass("displayNone", true);
         thisViewModel.currentPage = 0;
+        $("#header-loading").show();
         $.getJSON("/forum/GetForumPostsCat", { groupId: gId, catId: catId, forumId: thisViewModel.forumId, page: thisViewModel.currentPage, forumType: thisViewModel.forumType }, function (result) {
             tableBody.html("");
             $.each(result, function (i, item) {
                 thisViewModel.DisplayForumRow(result, tableBody, item);
             });
-            $("#loading").toggleClass("displayNone", true);
+            $("#header-loading").hide();
         });
     }
     this.changeForumCategories = function (select) {

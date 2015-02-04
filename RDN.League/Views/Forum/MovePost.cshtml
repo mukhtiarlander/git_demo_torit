@@ -15,38 +15,37 @@
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="margin-top-5">Move Forum Post:</h4>
+                <h5 class="margin-top-5">Move Forum Post:</h5>
                 <h3 class="margin-top-5"><i>"@Model.TopicTitle"</i></h3>
                 <span class="text-muted">Move Forum Topic to another Group or Category</span>
             </div>
+            @using (Html.BeginForm("MovePost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
+            {
             <div class="panel-body">
-                @using (Html.BeginForm("MovePost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
-                {
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="form-label">Select Forum to move to</label>
-                            <div>
-                                @Html.DropDownListFor(x => x.ChosenForum, Model.MoveToForums, new { @onchange = "changeMoveTopicForum(this)", @class = "largeDropDown" })<img class="displayNone" id="loadingCategories" src="@Url.Content("~/Content/loading_lg.gif")" />
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="form-label">Select Category to move to</label>
-                            <div>
-                                @Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, new { @onchange = "changeMoveTopicCategory(this)", @class = "largeDropDown" })
-                            </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label">Select Forum to move to</label>
+                        <div>
+                            @Html.DropDownListFor(x => x.ChosenForum, Model.MoveToForums, new { @onchange = "changeMoveTopicForum(this)", @class = "largeDropDown" })<img class="displayNone" id="loadingCategories" src="@Url.Content("~/Content/loading_lg.gif")" />
                         </div>
                     </div>
-                    <div class="margin-top-20">
-                        <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-save"></i> Save Changes</button>
-                        <a class="btn btn-default btn-sm" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
+                    <div class="col-xs-12 col-sm-6">
+                        <label class="form-label">Select Category to move to</label>
+                        <div>
+                            @Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, new { @onchange = "changeMoveTopicCategory(this)", @class = "largeDropDown" })
+                        </div>
                     </div>
+                </div>
+               
               
-                     @Html.HiddenFor(x => x.ForumId)
-                        @Html.HiddenFor(x => x.ForumType)
-                        @Html.HiddenFor(x => x.TopicId)
-
-                }    
+                    @Html.HiddenFor(x => x.ForumId)
+                    @Html.HiddenFor(x => x.ForumType)
+                    @Html.HiddenFor(x => x.TopicId)
             </div>
+            <div class="panel-footer">
+                <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-save"></i> Save Changes</button>
+            </div>
+            }   
         </div>
     </div>
 </div>

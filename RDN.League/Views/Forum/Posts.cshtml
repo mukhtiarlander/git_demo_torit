@@ -96,6 +96,8 @@ else
         <div class="panel-heading" style="background-color:white">
             <div class="row">
                 <div class="col-xs-12">
+                    <span id="header-loading" class="padding-top-5 pull-left display-none"> <i class="fa fa-refresh fa-spin fa-lg"></i></span>
+
                     <input class="form-control pull-right input-sm" type="text" id="groupSearch" placeholder="Search For Messages" style="width:200px" />
                   
                     <select id="forumCategories" onchange="Forum.changeForumCategories(this)" class="pull-right margin-right-10">
@@ -107,7 +109,6 @@ else
                             </option>
                         }
                     </select>
-                    <i class="fa fa-refresh fa-spin fa-lg" id="loading" style="display:none"></i>
                 </div>
             </div>
         </div>
@@ -140,7 +141,7 @@ else
                     @foreach (var topic in Model.CurrentGroup.Topics)
                     {
                         <tr class="@(topic.IsRead ? "" : "forum-read")">
-                            <td>
+                            <td id="forum-title-@topic.TopicId">
                                 <a class="@(topic.IsRead ? "" : "b")" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
                                 <br />
                                 @if (topic.IsLocked)
@@ -149,7 +150,7 @@ else
                                 }
                                 @if (topic.IsPinned)
                                 {
-                                    <i class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>
+                                    <i id="pinned-icon-@topic.TopicId" class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>
                                 }
                                
                             </td>
@@ -224,7 +225,7 @@ else
                                     }
                                     if (topic.IsArchived)
                                     {
-                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Archive" onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-folder-o"></i></button>
+                                        <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnArchive" onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-folder-o"></i></button>
                                     }
                                     else
                                     {
