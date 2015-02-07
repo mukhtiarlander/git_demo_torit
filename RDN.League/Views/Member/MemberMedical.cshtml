@@ -10,151 +10,168 @@
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Medical</li>
+</ol>
 
-<h3>
-    @Model.DerbyName's Medical Record
-</h3>
-<div class="titleDescription">
-    This information is for the betterment of your leagues information in case of any emergencies. By completing this information, you agree with your leagues management team the right to view it. Privacy information is found below.
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-10 margin-bottom-5"><i class="fa fa-medkit"></i> @Model.DerbyName's Medical Record</h3>
+                <span class="text-muted">This information is for the betterment of your leagues information in case of any emergencies. By completing this information, you agree with your leagues management team the right to view it. Privacy information is found below.</span>
+            </div>
+            @using (Html.BeginForm("MemberMedical", "Member", FormMethod.Post))
+            {
+                <div class="panel-body">
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center">
+                            <h4 class="no-margin">
+                                Have You Had...
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td class="b text-right half-width">Epilepsy:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.Epilepsy)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Diabetes:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.Diabetes)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Heart Problems:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.HeartProblems)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Heart Murmur:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.HeartMurmur)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Asthma/Bronchitis:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.AsthmaBronchitis)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Hernia:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.Hernia)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Concussion:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.Concussion)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center">
+                            <h4 class="no-margin">
+                                Do You Wear...
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td class="b text-right half-width">Glasses:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.WearGlasses)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Contact Lenses:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.ContactLenses)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Hard/Soft Lenses:</td>
+                                    <td>@Html.DropDownListFor(x => x.Medical.HardSoftLensesEnum, (SelectList)ViewBag.ContactLenses, new { @class = "form-control" })</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center">
+                            <h4 class="no-margin">
+                                Have You Sustained...
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td class="b text-right half-width">Fractured Any Bone in last 3 years:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.FractureInThreeYears)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">If Yes, Where:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.FractureText, new { @class = "form-control" })</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Dislocation:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.Dislocation)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">If Yes, Where:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.DislocationText, new { @class = "form-control" })</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="no-margin text-center">
+                                Do you suffer from...
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td class="b text-right half-width">Recurring Pain:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.ReoccurringPain)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">If Yes, Where:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.ReoccurringPainText, new { @class = "form-control" })</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right">Back or Neck Pain:</td>
+                                    <td>@Html.CheckBoxFor(x => x.Medical.BackNeckPain)</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">Ever treated for spinal, back or neck pain:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.SportsInjuriesText, new { @class = "form-control" })</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">Any Conditions Affect Performance:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.DoAnyConditionsAffectPerformanceText, new { @class = "form-control" })</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">Take Any Regular Meds, Name and Dosage:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.RegularMedsText, new { @class = "form-control" })</td>
+                                </tr>
+                                <tr>
+                                    <td class="b text-right alignTop">Additional Information Including Allergies:</td>
+                                    <td>@Html.TextAreaFor(x => x.Medical.AdditionalDetailsText, new { @class = "form-control" })</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="alert alert-info no-margin-bottom">
+                        <small>By completing this information, you agree with your leagues management team the right to view it.</small>
+                        <small>@RDN.Utilities.Config.ConfigManager.WebsiteShortName claims no ownership of this information. We use the best in web security to store and transmit this information over the web.  For more information, please review our <a href="@RDN.Utilities.Config.ConfigManager.PrivacyUrl" target="_blank">privacy policy.</a></small>
+                        <small>@RDN.Utilities.Config.ConfigManager.WebsiteShortName complies with HIPPA.</small>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <button type="submit" class="btn btn-primary" name="saveRecords"><i class="fa fa-save"></i> Save Changes</button>
+                    <button type="submit" class="btn btn-default" name="clearRecord">Clear Records</button>
+                </div>
+                @Html.HiddenFor(x => x.MemberId)
+            }
+        </div>
+    </div>
 </div>
 
-<div  class="col-md-8 col-md-offset-2 col-xs-12 ">
-    @using (Html.BeginForm("MemberMedical", "Member", FormMethod.Post))
-    {
-        <table class="table">
-            <tr>
-                <td class="text-center" colspan="2">
-                    <h4>
-                        Have You Had...
-                    </h4>
-                </td>
-            </tr>
-            <tr>
-                <td class="b text-right">Epilepsy:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.Epilepsy)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Diabetes:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.Diabetes)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Heart Problems:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.HeartProblems)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Heart Murmur:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.HeartMurmur)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Asthma/Bronchitis:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.AsthmaBronchitis)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Hernia:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.Hernia)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Concussion:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.Concussion)</td>
-            </tr>
-            <tr>
-                <td class="text-center" colspan="2">
-                    <h4>
-                        Do You Wear:
-                    </h4>
-                </td>
-
-            </tr>
-            <tr>
-                <td class="b text-right">Glasses:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.WearGlasses)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Contact Lenses:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.ContactLenses)</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Hard/Soft Lenses:</td>
-                <td>@Html.DropDownListFor(x => x.Medical.HardSoftLensesEnum, (SelectList)ViewBag.ContactLenses, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="text-center" colspan="2">
-                    <h4>
-                        Have You Sustained...
-                    </h4>
-                </td>
-            </tr>
-            <tr>
-                <td class="b text-right">Fractured Any Bone in last 3 years:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.FractureInThreeYears)</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">If Yes, Where:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.FractureText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Dislocation:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.Dislocation)</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">If Yes, Where:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.DislocationText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="text-center" colspan="2">
-                    <h4>
-                        Do you suffer from...
-                    </h4>
-                </td>
-
-            </tr>
-            <tr>
-                <td class="b text-right">Recurring Pain:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.ReoccurringPain)</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">If Yes, Where:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.ReoccurringPainText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="b text-right">Back or Neck Pain:</td>
-                <td>@Html.CheckBoxFor(x => x.Medical.BackNeckPain)</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">Ever treated for spinal, back or neck pain:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.SportsInjuriesText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">Any Conditions Affect Performance:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.DoAnyConditionsAffectPerformanceText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">Take Any Regular Meds, Name and Dosage:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.RegularMedsText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td class="b text-right alignTop">Additional Information Including Allergies:</td>
-                <td>@Html.TextAreaFor(x => x.Medical.AdditionalDetailsText, new { @class = "form-control" })</td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="submit" class="btn btn-danger" value="Clear Records" name="clearRecord" />
-                </td>
-                <td>
-                    <input type="submit" class="btn btn-primary" value="Save Changes" name="saveRecords" />
-                </td>
-
-            </tr>
-        </table>
-        @Html.HiddenFor(x => x.MemberId)
-    }
-</div>
-<div class="clearfix"></div>
-<br />
-<small>By completing this information, you agree with your leagues management team the right to view it.</small>
-<small>@RDN.Utilities.Config.ConfigManager.WebsiteShortName claims no ownership of this information. We use the best in web security to store and transmit this information over the web.  For more information, please review our <a href="@RDN.Utilities.Config.ConfigManager.PrivacyUrl" target="_blank">privacy policy.</a></small>
-<small>@RDN.Utilities.Config.ConfigManager.WebsiteShortName complies with HIPPA.</small>
 <br /><br />
 @if (!subPaid)
 {

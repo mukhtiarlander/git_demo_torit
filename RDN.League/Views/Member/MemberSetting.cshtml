@@ -12,236 +12,213 @@
     <li class="active">Settings</li>
 </ol>
 
-<div class="col-sm-10 col-sm-offset-1 col-xs-12">
-    <ul class="nav nav-tabs" role="tablist" id="myTabs">
-        @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
-        <li role="presentation" class="active"><a href="#Calendar" role="tab" data-toggle="tab">Calendar</a></li>
-        <li role="presentation"><a href="#Mobile" role="tab" data-toggle="tab">Mobile</a></li>
-        <li role="presentation"><a href="#Notifications" role="tab" data-toggle="tab">Notifications</a></li>
-        <li role="presentation"><a href="#Privacy" role="tab" data-toggle="tab">Privacy</a></li>
-    </ul>
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active well" id="Calendar">
-            <h3>
-                Calendar Settings
-            </h3>
-
-
-            <table class="table">
-
-                <tr>
-                    <td class="b text-right">Default Calendar View:</td>
-                    <td>
-                        @Html.DropDownListFor(x => x.CalendarViewDefault, (SelectList)ViewBag.CalendarView, new { @class = "form-control" })
-                        <small class="i">This is the default view you receive when viewing the calendar</small>
-                    </td>
-                </tr>
-
-            </table>
-
-        </div>
-        <div role="tabpanel" class="tab-pane well" id="Mobile">
-            <div>
-                <h3>Mobile Alerts</h3>
-                @if (Model.IsCarrierVerified)
-                {
-                    <img src="@Url.Content("~/Content/images/greenCheck.png")" /> <span class="b">Verified</span>
-                }
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-10"><i class="fa fa-cog"></i> Profile Settings</h3>
             </div>
-
-
-            Your team will be able to send you a quick message about something important.
-
-            <br />
-            <table class="table">
-
-                <tr>
-                    <td colspan="2">
-                        <div class="b">Mobile Phone Number:</div>
-                        Enter your country code + area code + phone number using only digits, e.g. "9175551212".
-                        <br />
-                        <small>We will not share your number; for more information, see our <a href="http://rdnation.com/privacy" target="_blank">Privacy Policy</a>. Fees May Apply</small>
-                    </td>
-                </tr>
-                <tr>
-
-                    <td>@Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })</td>
-                    <td class="b alRight"></td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <div id="verifyButton">
-                            <input type="button" value="Verify Number" class="btn btn-primary" onclick="javascript: VerifySMSCarrier(this)" />
-                            <img class="displayNone" src="@Url.Content("~/Content/loading_lg.gif")" id="loading" />
+            <div class="panel-heading no-padding-bottom">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="nav nav-tabs" role="tablist" id="myTabs" style="margin-bottom:-1px;">
+                            @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
+                            <li role="presentation" class="active margin-left-5"><a href="#Calendar" role="tab" data-toggle="tab"><i class="fa fa-calendar-o"></i> Calendar</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Mobile" role="tab" data-toggle="tab"><i class="fa fa-mobile"></i> Mobile</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Notifications" role="tab" data-toggle="tab"><i class="fa fa-envelope-o"></i> Notifications</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Privacy" role="tab" data-toggle="tab"><i class="fa fa-shield"></i> Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body no-padding-bottom">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="Calendar">
+                        <h4 style="border-bottom:1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
+                            <i class="fa fa-calendar"></i> Calendar Settings
+                        </h4>
+                        <div class="form-label margin-bottom-5">
+                            Default Calendar View
                         </div>
+                        <div>
+                            @Html.DropDownListFor(x => x.CalendarViewDefault, (SelectList)ViewBag.CalendarView, new { @class = "form-control margin-bottom-5 half-width" })
+                            <span class="text-muted i">This is the default view you receive when viewing the calendar</span>
+                        </div>
+                    </div>
 
-                    </td>
-                    <td class="b"></td>
-                </tr>
-                <tr id="codeHtml" class="displayNone">
-                    <td colspan="2">
-                        <div class="b">Enter Verification Code:</div>
-                        <small>A Verification Code was sent to your mobile phone.  </small>
-                        <input type="text" id="code" placeholder="Verification Code" class="form-control" />
-                        <br /><input type="button" value="Submit Code" class="btn btn-primary" onclick="javascript: EnterCarrierCode(this)" />
-                        <img class="floatLeft displayNone" src="@Url.Content("~/Content/loading_lg.gif")" id="loading2" />
+                    <div role="tabpanel" class="tab-pane" id="Mobile">
+                        <h4 style="border-bottom:1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
+                            <i class="fa fa-mobile-phone"></i> Mobile Alerts<br />
+                            <span class="text-muted"><small>Your team will be able to send you a quick message about something important.</small></span>
+                        </h4>
+                        <div class="form-label margin-bottom-5">
+                            Enter your country code + area code + phone number using only digits, e.g. "9175551212".
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">@Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control half-width" })</div>
+                            <div class="col-xs-12 col-sm-6 text-right">
+                                @if (Model.IsCarrierVerified)
+                                {
+                                    <span><i class="fa fa-check-circle"></i> Verified</span>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <p>
+                                <small class="text-muted">We will not share your number; for more information, see our <a href="http://rdnation.com/privacy" target="_blank">Privacy Policy</a>. Fees May Apply</small>
+                            </p>
+                            <p>
+                                <input type="button" value="Verify Number" class="btn btn-primary" onclick="javascript: VerifySMSCarrier(this)" />
+                                <img class="displayNone" src="@Url.Content("~/Content/loading_lg.gif")" id="loading" />
+                            </p>
+                        </div>
+                        <div id="codeHtml" class="display-none">
+                            <div class="b">Enter Verification Code:</div>
+                            <small>A Verification Code was sent to your mobile phone.  </small>
+                            <input type="text" id="code" placeholder="Verification Code" class="form-control" />
+                            <br /><input type="button" value="Submit Code" class="btn btn-primary" onclick="javascript: EnterCarrierCode(this)" />
+                            <img class="floatLeft displayNone" src="@Url.Content("~/Content/loading_lg.gif")" id="loading2" />
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="Notifications">
+                        <h4 class="margin-bottom-10 padding-bottom-5">
+                            <i class="fa fa-mobile-phone"></i> Email Notifications - <small><a target="_blank" href="http://wiki.rdnation.com/Member_Settings#Notification_Settings">Help</a></small><br />
+                            <span class="text-muted"><small>Checking this first box will ENABLE an email notification to you outside of the forums section.</small></span>
+                        </h4>
+                        <table class="table">
+                            <tr>
+                                <td class="b text-right">League Email Notifications:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.DoesReceiveLeagueNotifications, new { @onchange = "changeEmailNotification(this, 'league', '" + Model.CurrentLeagueId + "')" })
+                                        <small class="i">Turns On League Email Notifications</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="b text-center"><h4>League Forum</h4></td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">Broadcasted Posts:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.EmailForumBroadcasts, new { @onchange = "changeEmailNotification(this, 'forumBroadcast', '')" })
+                                        <small class="i">Turns On Broadcasted Posts</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">New Post:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.EmailForumNewPost, new { @onchange = "changeEmailNotification(this, 'ForumNewPost', '')" })
+                                        <small class="i">Turns On New Forum Posts</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">Weekly Roundup:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.EmailForumWeeklyRoundup, new { @onchange = "changeEmailNotification(this, 'ForumWeeklyRoundup', '')" })
+                                        <small class="i">Turns On Weekly Forum Reports</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="b text-center"><h4>Forum Groups</h4></td>
+                            </tr>
+                            @foreach (var group in Model.GroupsApartOf)
+                                        {
+                                <tr>
+                                    <td class="b  text-right">@group.GroupName Broadcasts:</td>
+                                    <td>
+                                        <label>
+                                            @Html.CheckBox("group-broadcast-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'groupbroadcast', '" + group.Id + "')" })
+                                            <small class="i">Turns On Broadcasted Posts</small>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b  text-right">@group.GroupName New Post:</td>
+                                    <td>
+                                        <label>
+                                            @Html.CheckBox("group-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'group', '" + group.Id + "')" })
+                                            <small class="i">Turns On New Forum Posts</small>
+                                        </label>
+                                    </td>
+                                </tr>
 
-                    </td>
-                </tr>
-
-
-            </table>
-
-        </div>
-        <div role="tabpanel" class="tab-pane well" id="Notifications">
-            <h3>
-                Email Notifications<small>
-                    - <a target="_blank" href="http://wiki.rdnation.com/Member_Settings#Notification_Settings">Help</a>
-                </small>
-
-            </h3>
-
-            Checking this first box will ENABLE an email notification to you outside of the forums section.
-
-            <table class="table">
-
-                <tr>
-                    <td class="b text-right">League Email Notifications:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.DoesReceiveLeagueNotifications, new { @onchange = "changeEmailNotification(this, 'league', '" + Model.CurrentLeagueId + "')" })
-                            <small class="i">Turns On League Email Notifications</small>
-                        </label>
-                    </td>
-                </tr>
-
-
-
-                <tr>
-                    <td colspan="2" class="b text-center"><h4>League Forum</h4></td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">Broadcasted Posts:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.EmailForumBroadcasts, new { @onchange = "changeEmailNotification(this, 'forumBroadcast', '')" })
-                            <small class="i">Turns On Broadcasted Posts</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">New Post:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.EmailForumNewPost, new { @onchange = "changeEmailNotification(this, 'ForumNewPost', '')" })
-                            <small class="i">Turns On New Forum Posts</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">Weekly Roundup:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.EmailForumWeeklyRoundup, new { @onchange = "changeEmailNotification(this, 'ForumWeeklyRoundup', '')" })
-                            <small class="i">Turns On Weekly Forum Reports</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="b text-center"><h4>Forum Groups</h4></td>
-                </tr>
-                @foreach (var group in Model.GroupsApartOf)
-                {
-                    <tr>
-                        <td class="b  text-right">@group.GroupName Broadcasts:</td>
-                        <td>
-                            <label>
-                                @Html.CheckBox("group-broadcast-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'groupbroadcast', '" + group.Id + "')" })
-                                <small class="i">Turns On Broadcasted Posts</small>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b  text-right">@group.GroupName New Post:</td>
-                        <td>
-                            <label>
-                                @Html.CheckBox("group-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'group', '" + group.Id + "')" })
-                                <small class="i">Turns On New Forum Posts</small>
-                            </label>
-                        </td>
-                    </tr>
-
-                }
-
-
-            </table>
-
-        </div>
-        <div role="tabpanel" class="tab-pane well" id="Privacy">
-            <h3>
-                Privacy Settings
-            </h3>
+                                        }
 
 
-            <table class="table">
-                <tr>
-                    <td class="b  text-right">Do You Derby?:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.DoYouDerby, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Do_You_Derby + "')" })
-                            <small class="i">Opens your profile to the derby world as well as getting more features.</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">Hide Phone Number From League:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.Hide_Phone_Number_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Phone_Number_From_League + "')" })
-                            <small class="i">Only shows phone number to managers</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">Hide Email From League:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.Hide_Email_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Email_From_League + "')" })
-                            <small class="i">Only shows email to managers</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">Hide Date Of Birth From League:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.Hide_DOB_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_League + "')" })
-                            <small class="i">Only shows DOB to managers</small>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b  text-right">Hide Date Of Birth From Public:</td>
-                    <td>
-                        <label>
-                            @Html.CheckBoxFor(x => x.Hide_DOB_From_Public, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_Public + "')" })
-                        </label>
-                    </td>
-                </tr>
+                        </table>
 
-            </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="Privacy">
+                        <h4 class="margin-bottom-10 padding-bottom-5">
+                            <i class="fa fa-shield"></i> Privacy Settings<br />
+                        </h4>
+                        <table class="table">
+                            <tr>
+                                <td class="b  text-right">Do You Derby?:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.DoYouDerby, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Do_You_Derby + "')" })
+                                        <small class="i">Opens your profile to the derby world as as getting more features.</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">Hide Phone Number From League:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.Hide_Phone_Number_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Phone_Number_From_League + "')" })
+                                        <small class="i">Only shows phone number to managers</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">Hide Email From League:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.Hide_Email_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Email_From_League + "')" })
+                                        <small class="i">Only shows email to managers</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">Hide Date Of Birth From League:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.Hide_DOB_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_League + "')" })
+                                        <small class="i">Only shows DOB to managers</small>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="b  text-right">Hide Date Of Birth From Public:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.Hide_DOB_From_Public, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_Public + "')" })
+                                    </label>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                @Html.HiddenFor(x => x.MemberId)
+            </div>
         </div>
     </div>
 </div>
-@Html.HiddenFor(x => x.MemberId)
 
-
-
-@if (!subPaid)
-{
-    <div class="fixedAd">
-        <script type="text/javascript">
+            @if (!subPaid)
+            {
+                <div class="fixedAd">
+                    <script type="text/javascript">
 <!--
     google_ad_client = "ca-pub-1376896373478670";
     /* RDNation SideAd */
@@ -249,17 +226,17 @@
     google_ad_width = 120;
     google_ad_height = 600;
     //-->
-        </script>
-        <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
-        </script>
-    </div>
-}
+                    </script>
+                    <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                </div>
+            }
 
-<script type="text/javascript">
-    $("#tabs").tabs();
-    $("#CalendarViewDefault").change(function () {
-        changeMemberSettingCalView(this.value);
-    });
-    $("#PhoneNumber").numeric({ negative: false, decimal: false });
-    $("#code").numeric({ negative: false, decimal: false });
-</script>
+            <script type="text/javascript">
+                $("#tabs").tabs();
+                $("#CalendarViewDefault").change(function () {
+                    changeMemberSettingCalView(this.value);
+                });
+                $("#PhoneNumber").numeric({ negative: false, decimal: false });
+                $("#code").numeric({ negative: false, decimal: false });
+            </script>

@@ -5,236 +5,277 @@
     ViewBag.Title = "Edit " + Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter2  ">
 
-        @using (Html.BeginForm("EditLeague", "League", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        { 
-            <div class="vmPicture">
-                @if (Model.Logo != null)
-                { 
-                    <img alt="@Model.Logo.Alt" src="@Model.Logo.ImageUrl" />
-                }
-                else
-                {
-                    <img src="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" alt="RDNation Logo" />
-                }
-                <br />
-                <span class="b">League Logo</span><br />
-                <input type="file" name="file" id="file" class="fileUpload" accept="image/*" />
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Edit League</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+        <div class="panel panel-default margin-top-20">
+            <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-shield"></i> Edit League</h3>
             </div>
-            <div class="vmMemberDescription">
-                <div class="usual">
-                    <ul class="idTabs">
-                        <li><a href="#League">League
-                        </a></li>
-                        <li><a href="#Social">Social
-                        </a></li>
-                        <li><a href="#Rules">Rules</a></li>
-                        <li><a href="#Internal">Internal
-                        </a></li>
-                    </ul>
-                    <div id="League" class="usualInner">
-                        <table class="editMemberTable">
-                            <tr>
-                                <td class="b alRight">League Name:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Name)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">City:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.City)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">State:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.State)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Zip Code:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.ZipCode)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Country:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Country)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Culture:</td>
-                                <td>@Html.DropDownListFor(x => x.CultureSelected, Model.CultureList, "Choose Culture...")  <span class="i">Used for dates & languages. Want Another? Contact @RDN.Portable.Config.ServerConfig.DEFAULT_EMAIL</span></td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Date Of Founding:
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(model => model.FoundedCultureString, new { @class = "jquery_datepicker", @Value = Model.Founded.ToShortDateString() })
-                                    @Html.HiddenFor(x => x.Founded)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Phone Number:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.PhoneNumber)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Email Address:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Email)
-                                </td>
-                            </tr>
+             @using (Html.BeginForm("EditLeague", "League", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="panel-body">
+                    <div class="row">
 
-                        </table>
+                        <div class="col-sm-12 col-md-5 col-lg-3  text-center">
+                            @if (Model.Logo != null)
+                            {
+                                <img style="width: 100%; max-width:400px" alt="@Model.Logo.Alt" src="@Model.Logo.ImageUrl" />
+                            }
+                            else
+                            {
+                                <img style="width: 100%; max-width:400px" src="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" alt="RDNation Logo" />
+                            }
+                            <input class="btn btn-default margin-top-10 margin-bottom-10" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto"  type="file" name="file" id="file" accept="image/*" />
+                        </div>
 
-                    </div>
-                    <div id="Social" class="usualInner">
-                        <table class="editMemberTable">
-
-                            <tr>
-                                <td class="b alRight">Website Url:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Website)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Twitter Url:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Twitter)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Facebook Url:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Facebook)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="b alRight">Instagram Url:
-                                </td>
-                                <td>@Html.TextBoxFor(x => x.Instagram)
-                                </td>
-                            </tr>
-
-                        </table>
-
-                    </div>
-
-                    <div id="Rules" class="usualInner">
-                        <table class="editMemberTable">
-                            <tr>
-                                <td class="b alRight alignTop">Rule Sets Play:
-                                </td>
-                                <td class="checkBoxRuleSet">
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.MADE.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.MADE))
-                                        <label for="@RuleSetsUsedEnum.MADE">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.MADE)</label>
-                                    </div>
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.OSDA.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.OSDA))
-                                        <label for="@RuleSetsUsedEnum.OSDA">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.OSDA)</label>
-                                    </div>
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.RDCL.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.RDCL))
-                                        <label for="@RuleSetsUsedEnum.RDCL">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.RDCL)</label>
-                                    </div>
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.Renegade.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.Renegade))
-                                        <label for="@RuleSetsUsedEnum.Renegade">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.Renegade)</label>
-                                    </div>
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.Texas_Derby.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.Texas_Derby))
-                                        <label for="@RuleSetsUsedEnum.Texas_Derby">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.Texas_Derby)</label>
-                                    </div>
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.The_WFTDA.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.The_WFTDA))
-                                        <label for="@RuleSetsUsedEnum.The_WFTDA">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.The_WFTDA)</label>
-                                    </div>
-                                    <div>@Html.CheckBox(RuleSetsUsedEnum.USARS.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.USARS))
-                                        <label for="@RuleSetsUsedEnum.USARS">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.USARS)</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </div>
-
-                    <div id="Internal" class="usualInner">
-                        <table class="editMemberTable">
-                            <tr>
-                                <td class="alignTop  alRight"><span class="b">Colors Of League:</span><br />
-                                    <span class="i">Colors used through out RDNation.</span>
-                                </td>
-                                <td>
-
-
-                                    <div id="colorsToAdd">
-                                        @foreach (var color in Model.Colors)
-                                        { 
-                                            <div class='selectedColorCon'>
-                                                <div class='selectedColor' style='background-color:@color.HexColor;'>@color.NameOfColor</div>
-                                                <span class='spanLink' onclick="RemoveSelectedColor(this, '@color.HexColor')">Remove</span>
+                        <div class="col-sm-12 col-md-7 col-lg-9">
+                            <div class="panel panel-default">
+                                <div class="panel-body no-padding">
+                                    <ul class="nav nav-tabs padding-top-10" id="myTab">
+                                        <li class="active margin-left-15"><a href="#League">League</a></li>
+                                        <li class="margin-left-15"><a href="#Social">Social</a></li>
+                                        <li class="margin-left-15"><a href="#Rules">Rules</a></li>
+                                        <li class="margin-left-15"><a href="#Internal">Internal</a></li>
+                                    </ul>
+                                    <div class="tab-content padding-15">
+                                        <div class="tab-pane active" id="League">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class=" form-label margin-top-10 margin-bottom-5">
+                                                        League Name
+                                                    </div>
+                                                    <div>
+                                                       @Html.TextBoxFor(x => x.Name, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        City
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.City, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        State
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.State, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Zip Code
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.ZipCode, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Country
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.Country, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Culture
+                                                    </div>
+                                                    <div>
+                                                        @Html.DropDownListFor(x => x.CultureSelected, Model.CultureList, "Choose Culture...", new { @class="full-width" }) 
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 margin-top-10">
+                                                    <span class="i text-muted">Culture is used for dates & languages. Want Another? Contact @RDN.Portable.Config.ServerConfig.DEFAULT_EMAIL</span>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Date Of Founding
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(model => model.FoundedCultureString, new { @class = "jquery_datepicker form-control", @Value = Model.Founded.ToShortDateString() })
+                                                        @Html.HiddenFor(x => x.Founded)
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Phone Number
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.PhoneNumber, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Email Address
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.Email, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr id="colors">
-                                <td class="alignTop  alRight"><span class="b">Add Colors to League:</span><br />
-
-                                </td>
-                                <td>
-                                    <br />
-                                    @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()" })  <span class="spanLink" onclick="AddSelectedColor()">Add Selected</span>
-                                    <div><b>OR</b></div>
-                                    <div>
-                                        <input id="colorName" placeholder="Name Of New Color" />
-                                        <div id="colorSelector" class="colorPickerC">
-                                            <div class="colorPickerIn" style="background-color: #0000ff;"></div>
                                         </div>
-                                        <span class="spanLink" onclick="CreateNewColor()">Create New Color</span>
-                                        <div id="colorSelected" class="displayNone"></div>
+                                        <div class="tab-pane" id="Social">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class=" form-label margin-top-10 margin-bottom-5">
+                                                        Website Url
+                                                    </div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-link"></i></span>
+                                                            @Html.TextBoxFor(x => x.Website, new { @type = "text", @class = "form-control"})
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class=" form-label margin-top-10 margin-bottom-5">
+                                                        Twitter Url
+                                                    </div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-twitter"></i></span>
+                                                            @Html.TextBoxFor(x => x.Twitter, new { @type = "text", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Facebook Url
+                                                    </div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-facebook"></i></span>
+                                                            @Html.TextBoxFor(x => x.Facebook, new { @type = "text", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class=" form-label margin-top-10 margin-bottom-5">
+                                                        Instagram Url
+                                                    </div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-instagram"></i></span>
+                                                            @Html.TextBoxFor(x => x.Instagram, new { @type = "text", @class = "form-control" })
+                                                        </div>
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>           
+                                        </div>
+                                        <div class="tab-pane" id="Rules">
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.MADE.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.MADE))
+                                                <label for="@RuleSetsUsedEnum.MADE">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.MADE)</label>
+                                            </div>
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.OSDA.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.OSDA))
+                                                <label for="@RuleSetsUsedEnum.OSDA">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.OSDA)</label>
+                                            </div>
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.RDCL.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.RDCL))
+                                                <label for="@RuleSetsUsedEnum.RDCL">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.RDCL)</label>
+                                            </div>
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.Renegade.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.Renegade))
+                                                <label for="@RuleSetsUsedEnum.Renegade">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.Renegade)</label>
+                                            </div>
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.Texas_Derby.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.Texas_Derby))
+                                                <label for="@RuleSetsUsedEnum.Texas_Derby">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.Texas_Derby)</label>
+                                            </div>
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.The_WFTDA.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.The_WFTDA))
+                                                <label for="@RuleSetsUsedEnum.The_WFTDA">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.The_WFTDA)</label>
+                                            </div>
+                                            <div>
+                                                @Html.CheckBox(RuleSetsUsedEnum.USARS.ToString(), Model.RuleSetsPlayedEnum.HasFlag(RuleSetsUsedEnum.USARS))
+                                                <label for="@RuleSetsUsedEnum.USARS">@EnumExt.ToFreindlyName(RuleSetsUsedEnum.USARS)</label>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="Internal">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="form-label margin-top-20 margin-bottom-5">
+                                                        Colors Of League. <span class="text-muted i">Colors used through out RDNation.</span>
+                                                    </div>
+                                                    <div id="colorsToAdd">
+                                                        @foreach (var color in Model.Colors)
+                                                        {
+                                                            <div class='selectedColorCon' title="@color.NameOfColor" data-toggle="tooltip" data-placement="top">
+                                                                <div class='selectedColor' style='background-color:@color.HexColor;'></div>
+                                                                <span onclick="RemoveSelectedColor(this, '@color.HexColor')"><i class="fa fa-times fa-lg"></i></span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-6">
+                                                    <div class="form-label margin-top-20 margin-bottom-5">
+                                                        Add Colors to League
+                                                    </div>
+                                                    <div>
+                                                        @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()" })  
+                                                        <button type="button" class="btn btn-default btn-sm" onclick="AddSelectedColor()">Add</button>
+                                                        &nbsp;  
+                                                        <b>OR</b>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-xs-12 col-md-6">
+                                                    <div class="form-label margin-top-20 margin-bottom-5">Create new color</div>
+                                                    <div>   
+                                                        <div id="colorSelector" class="colorPickerC">
+                                                            <div class="colorPickerIn" style="background-color: #0000ff;"></div>
+                                                        </div>
+                                                        <input id="colorName" class="form-control input-sm pull-left" placeholder="Name Of New Color" style="width:150px;" />
+                                                        &nbsp; 
+                                                        <button class="btn btn-sm btn-default" type="button" onclick="CreateNewColor()">Create</button>
+                                                        <div id="colorSelected" class="displayNone"></div>
+                                                        @Html.HiddenFor(x => x.ColorsSelected)
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12">
+                                                    <div class="form-label margin-top-20 margin-bottom-5">
+                                                        Your Internal Message To Members. <span class="text-muted i">
+                                                            It will be shown on their
+                                                            welcome screen.
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextAreaFor(x => x.InternalWelcomeMessageModel, new { id = "wmd-input", style = "width:100%" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-
-
-                                    @Html.HiddenFor(x => x.ColorsSelected)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <div class="divider"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <span class="b">Your Internal Message To Members:</span> - Will be shown on their
-                                welcome screen.<br />
-
-                                    @Html.TextAreaFor(x => x.InternalWelcomeMessageModel, new { id = "wmd-input" })
-
-                                </td>
-                            </tr>
-                        </table>
-
+                                </div>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(x => x.LeagueId)
                     </div>
-
+                </div>
+                <div class="panel-footer text-right">
+                    @if (ViewBag.Saved)
+                    {
+                        <span class="addedSuccessfully">Updated Successfully!</span>
+                    }
+                    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update League</button>
                 </div>
 
-
-            </div>
-            
-            <div class="clear">
-            </div>
-            
-            <div class="updateMemberButton">
-                @if (ViewBag.Saved)
-                { 
-                    <span class="addedSuccessfully">Updated Successfully!</span>
-                }
-                <input type="submit" class="primary" value="Update League" />
-            </div>
-            @Html.HiddenFor(x => x.LeagueId)
-        }
+            }
+        </div>
     </div>
 </div>
 
@@ -256,15 +297,20 @@
     });
     $(document).ready(function () {
         LoadDropDownBackgroundColors();
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
 
     $('#FoundedCultureString').datepicker($.extend({},
-  $.datepicker.regional["@(System.Threading.Thread.CurrentThread.CurrentCulture.Name)"] || $.datepicker.regional[''],
-  {
-      altField: "#Founded",
-      altFormat: "mm/dd/yy"
-  }));
+    $.datepicker.regional["@(System.Threading.Thread.CurrentThread.CurrentCulture.Name)"] || $.datepicker.regional[''],
+    {
+        altField: "#Founded",
+        altFormat: "mm/dd/yy"
+    }));
 
     $(function () {
         tinymce.init({

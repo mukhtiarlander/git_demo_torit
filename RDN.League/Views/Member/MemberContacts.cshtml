@@ -10,173 +10,227 @@
     <li class="active">Contacts</li>
 </ol>
 
-<h3>
-    @Model.DerbyName's Contacts
-</h3>
-<div class="titleDescription">
-    All the contacts for yourself.  Add parents, spouses, and emergency doctor information.  Your league managers will use this information in case of an emergency or any other reason.
-
-</div>
-<br />
-
-<div id="Contacts" class="">
-    @foreach (var contact in Model.MemberContacts)
-    {
-        <div class="contactBox col-sm-6 col-md-4 " id="@contact.ContactId-div">
-            <div class="well">
-                <table class="table ">
-                    <tr>
-                        <td class="b">Name:</td>
-                        <td>
-                            @contact.Firstname @contact.Lastname
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Type:</td>
-                        <td>
-                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Email:</td>
-                        <td>
-                            @contact.Email
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Phone Number:</td>
-                        <td>
-                            @contact.PhoneNumber
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">
-                            Address:<br />
-                            @if (contact.AddressDefault != null)
-                            {
-                                <a href="http://www.bing.com/maps/default.aspx?q=@contact.AddressDefault.Address1+@contact.AddressDefault.Address2,+@contact.AddressDefault.CityRaw,+@contact.AddressDefault.StateRaw+@contact.AddressDefault.Zip+@contact.AddressDefault.Country" target="_blank">View Map</a>
-                            }
-                        </td>
-                        <td>
-                            @if (contact.AddressDefault != null)
-                            {
-                                @contact.AddressDefault.Address1<br />
-                                if (!String.IsNullOrEmpty(contact.AddressDefault.Address2))
-                                {
-                                    @contact.AddressDefault.Address2<br />
-                                }
-                                if (!String.IsNullOrEmpty(contact.AddressDefault.CityRaw))
-                                {
-                                    @contact.AddressDefault.CityRaw<br />}
-                                if (!String.IsNullOrEmpty(contact.AddressDefault.StateRaw))
-                                {
-                                    @contact.AddressDefault.StateRaw
-                                }
-                                if (!String.IsNullOrEmpty(contact.AddressDefault.Zip))
-                                {
-                                    <span> @contact.AddressDefault.Zip</span>
-                                }
-                                if (!String.IsNullOrEmpty(contact.AddressDefault.Country))
-                                {
-                                    <br />@contact.AddressDefault.Country
-                                }
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="text-center"><span class="btn btn-warning" onclick="javascript:removeMemberContact('@contact.ContactId')">Remove Contact</span></td>
-                    </tr>
-                </table>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12 col-sm-9 col-lg-10">
+                <h3 class="margin-top-5"><i class="fa fa-group"></i> @Model.DerbyName's Contacts</h3>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-lg-2 text-right">
+                <button id="btnScrollToAddUserForm" onclick="ScrollToAddContactForm()" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Add</button>
             </div>
         </div>
-    }
-</div>
-<div class="clearfix"></div>
-<div class="col-md-8 col-md-offset-2">
-    <div class="text-center">
-        <h4>
-            Add Contact
-        </h4>
+        <span class="text-muted">All the contacts for yourself.  Add parents, spouses, and emergency doctor information.  Your league managers will use this information in case of an emergency or any other reason.</span>
     </div>
-    <table class="table ">
-        
+    <div class="panel-body">
+        <div id="Contacts" class="row">
+            @foreach (var contact in Model.MemberContacts)
+            {
+                <div class="col-xs-12 col-sm-6 col-md-4" id="@contact.ContactId-div">
+                    <div class="panel panel-default" style="min-height:260px">
+                        <div class="panel-heading text-right">
+                            <h4 class="no-margin pull-left"><i class="fa fa-user"></i> @contact.Firstname @contact.Lastname</h4>
+                            <button class="btn btn-default btn-xs" onclick="javascript:removeMemberContact('@contact.ContactId')"><i class="fa fa-trash"></i> Remove</button>
+                        </div>
+                        <div class="panel-body no-padding-bottom">
+                            <table>
+                                <tr>
+                                    <td class="b"><i class="fa fa-suitcase"></i>&nbsp;</td>
+                                    <td>
+                                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b"><i class="fa fa-envelope"></i>&nbsp;</td>
+                                    <td>
+                                        <a href="mailto:@contact.Email">@contact.Email</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b"><i class="fa fa-phone"></i>&nbsp;</td>
+                                    <td>
+                                        <a href="tel:@contact.PhoneNumber">
+                                            @contact.PhoneNumber
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="b" style="vertical-align:top">
+                                        @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
+                                        {
+                                            <span><i class="fa fa-map-marker"></i>&nbsp;</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
+                                        {
+                                            @contact.Addresses.FirstOrDefault().Address1<br />
+                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Address2))
+                                            {
+                                                @contact.Addresses.FirstOrDefault().Address2<br />
+                                            }
+                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().CityRaw))
+                                            {
+                                                @contact.Addresses.FirstOrDefault().CityRaw<br />}
+                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().StateRaw))
+                                            {
+                                                @contact.Addresses.FirstOrDefault().StateRaw<br />
+                                            }
+                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Zip))
+                                            {
+                                                @contact.Addresses.FirstOrDefault().Zip<br />
+                                            }
+                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Country))
+                                            {
+                                                @contact.Addresses.FirstOrDefault().Country
+                                            }
+                                            <br />
+                                            <a class="btn btn-default btn-xs margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                                        }
+                                    </td>
+                                </tr>
 
-        <tr>
-            <td class="b text-right">Name:</td>
-            <td class="form-inline">
-                <div class="form-group">
-
-                    @Html.TextBox("FirstName", "", new { @class = "form-control", @placeholder="First Name" })
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    @Html.TextBox("LastName", "", new { @class = "form-control", @placeholder = "Last Name" })
-                </div>
-
-
-
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Contact Type:</td>
-            <td class="largeInput">
-                @Html.DropDownList("ContactType", (SelectList)ViewBag.Contacts, new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Email:</td>
-            <td class="largeInput">
-                @Html.TextBox("Email", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Phone Number:</td>
-            <td>
-                @Html.TextBox("PhoneNumber", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Address Line 1:</td>
-            <td class="largeInput">
-                @Html.TextBox("Address1", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Address Line 2:</td>
-            <td class="largeInput">
-                @Html.TextBox("Address2", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">City:</td>
-            <td class="largeInput">
-                @Html.TextBox("City", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">State:</td>
-            <td>
-                @Html.TextBox("State", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Zip Code:</td>
-            <td>
-                @Html.TextBox("ZipCode", "", new { @class = "form-control" })
-            </td>
-        </tr>
-        <tr>
-            <td class="b text-right">Country:</td>
-            <td>
-                @Html.DropDownList("Country", (SelectList)ViewBag.Countries, "Select Country...", new { @class = "form-control" })
-            </td>
-        </tr>
-
-        <tr>
-            <td class="text-center" colspan="2"><span class="btn btn-primary" onclick="javascript:AddContactToMember()">Add Contact</span></td>
-        </tr>
-    </table>
+            }
+        </div>
+    </div>
 </div>
 
+<div id="add-contact-form" class="row">
+    <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-5">
+                    <i class="fa fa-credit-card"></i> Add Contact
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            First Name
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("FirstName", "", new { @class = "form-control", @placeholder = "First Name" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Last Name
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("LastName", "", new { @class = "form-control", @placeholder = "Last Name" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Contact Type
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.DropDownList("ContactType", (SelectList)ViewBag.Contacts, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Email
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("Email", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Phone Number
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("PhoneNumber", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Address Line 1
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("Address1", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Address Line 2
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("Address2", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            City
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("City", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            State
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("State", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Zip Code
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("ZipCode", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-label margin-top-10 margin-bottom-5">
+                            Country
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.DropDownList("Country", (SelectList)ViewBag.Countries, "Select Country...", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-right">
+                <button type="button" class="btn btn-primary" onclick="javascript:AddContactToMember()"><i class="fa fa-plus-circle"></i> Add Contact</button>
+            </div>
+        </div>
+    </div>
+</div>
 @Html.HiddenFor(x => x.MemberId)
 
-<br />
+<script type="text/javascript">
+    function ScrollToAddContactForm() {
+            $('html,body').animate({ 'scrollTop': $('#add-contact-form').position().top - 50 }, 500);
+        }
+</script>

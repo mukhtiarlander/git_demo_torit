@@ -44,11 +44,13 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .colorpicker_hex.colorpicker_focus { background-position: bottom; }
 .colorpicker_submit.colorpicker_focus { background-position: bottom; }
 .colorpicker_slider { background-position: bottom; }
-.colorPickerC { width: 25px; height: 25px; float: left; margin: 2px 2px 0px 0px; }
-.colorPickerIn { width: 25px; height: 25px; float: left; margin-top: 2px; border: 1px solid #000; }
+.colorPickerC { width: 28px; height: 28px; float: left; margin: 0px 4px 0px 0px; }
+.colorPickerIn { width: 28px; height: 28px; float: left;  border: 2px solid Silver }
 .selectedColorList { height: 30px; }
-.selectedColor { height: 25px; border: 1px solid #000; }
-.selectedColorCon { width: 50px; text-align: center; vertical-align: middle; font-size: .8em; height: 40px; float: left; }
+.selectedColor { height: 25px; float:left; width:50px; vertical-align:middle}
+.selectedColorCon { width: 77px; text-align: center; vertical-align: middle; font-size: .8em; height: 27px; margin-right:4px; float: left; border: 1px solid gray; margin-top:4px; }
+.selectedColorCon span {width:25px; text-align:center;background-color:#ddd;float:right;height:25px; vertical-align:middle; padding-top:4px;color:gray; border-left:1px solid gray}
+.selectedColorCon span:hover{background-color:silver;cursor:pointer}
 
 .notifications { position: fixed; z-index: 99999; }
 
@@ -134,9 +136,12 @@ select{height:31px;border-radius:4px}
 .inline-block{display:inline-block;}
 .forum-read {background-color:#f9f9f9}
 .b{font-weight:bold}
+.i{font-style:italic}
 .display-none{display:none}
 .padding-left-10{padding-left:10px}
-
+.full-width {width: 100%;}
+.half-width {width: 50%;}
+.font20 {font-size:20px;}
 
 body 
 { 

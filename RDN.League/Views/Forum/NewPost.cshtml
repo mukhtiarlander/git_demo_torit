@@ -7,96 +7,88 @@
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            @Model.GroupName, Post New Message
-        </div>
-        <div class="divider"></div>
-        <div>
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Forum</a></li>
+    <li class="active">New Forum Post</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-10"><i class="fa fa-file-o"></i> @Model.GroupName, Post New Message</h3>
+            </div>
+
             @using (Html.BeginForm("NewPost", "Forum", FormMethod.Post, new { @id = "NewPost" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td colspan="2" class="b">Subject For @Model.GroupName:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="subject">
-                            @Html.TextBoxFor(x => x.Subject, new { tabindex = "1" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="b">Category:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="subject">
-                            @Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, "None", new { tabindex = "2" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            @Html.LabelFor(x => x.Message)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            @Html.TextArea("Message", string.Empty, new
-                           {
-                               id = "wmd-input",
-                               style = "width:700px"
-                           })
-                        </td>
-                    </tr>
-                    @if (Model.ForumType != RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main) { 
-                    <tr>
-                        <td colspan="2">
-                            <br />
-                            @Html.CheckBoxFor(x => x.BroadcastMessage, new { tabindex = "3" }) <span class="b">Broadcast this message</span> Entire group will be sent copy via email.</td>
-                    </tr>
-                    }
+            {
+                <div class="panel-body">
+                    <div class="form-label">
+                        Subject For @Model.GroupName
+                    </div>
+                    <div class="margin-top-5">
+                        @Html.TextBoxFor(x => x.Subject, new { tabindex = "1", @class="form-control" })
+                    </div>
+                    <div class="form-label  margin-top-10">
+                        Category
+                    </div>
+                    <div class=" margin-top-5">
+                        @Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, "None", new { tabindex = "2" })
+                    </div>
+                    <div class="form-label margin-top-10">
+                        @Html.LabelFor(x => x.Message)
+                    </div>
+                    <div class=" margin-top-5">
+                        @Html.TextArea("Message", string.Empty, new
+                        {
+                            id = "wmd-input",
+                            style = "width:700px"
+                        })
+                    </div>
+                    <div class="form-label margin-top-10">
+                        @if (Model.ForumType != RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main)
+                        {
+                            @Html.CheckBoxFor(x => x.BroadcastMessage, new { tabindex = "3" }) <span class="b">Broadcast this message</span> <span>Entire group will be sent copy via email.</span>
+                        }
+                       
+                    </div>
                     @if (Model.IsManagerOrBetter)
-                    {
-                        <tr>
-                            <td colspan="2">
-                                @Html.CheckBoxFor(x => x.PinMessage, new { tabindex = "4" }) <span class="b">Pin this message</span> This message will stay at the top of the forum.</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                @Html.CheckBoxFor(x => x.LockMessage, new { tabindex = "5" }) <span class="b">Lock this message</span> This message will not allow replies.</td>
-                        </tr>
-                    }
-                    <tr>
-                        <td>
-                            <a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Cancel Message</a>
-                        </td>
-                        <td>
-                            <input type="submit" class="primary" value="Post Message" tabindex="6" />
-                        </td>
-                    </tr>
-                </table>
+                        {   
+                            <div class="form-label margin-top-10">
+                                @Html.CheckBoxFor(x => x.PinMessage, new { tabindex = "4" }) <span class="b">Pin this message.</span> <span>This message will stay at the top of the forum.</span>
+                            </div>
+                            <div class="form-label margin-top-10">
+                                @Html.CheckBoxFor(x => x.LockMessage, new { tabindex = "5" }) <span class="b">Lock this message.</span> <span>This message will not allow replies.</span>
+                            </div>
+                        }
+                </div>
                 @Html.HiddenFor(x => x.ForumId)
                 @Html.HiddenFor(x => x.ForumType)
+                <div class="panel-footer text-right">
+                    <button class="btn btn-success btn-sm" type="submit" value="" tabindex="6"><i class="fa fa-save"></i> Post Message</button>
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Cancel</a>
+                </div>
             }
         </div>
     </div>
-    @if (!subPaid)
-    { 
-        <div class="fixedAd">
-            <script type="text/javascript"><!--
+</div>
+@if (!subPaid)
+{
+    <div class="fixedAd">
+        <script type="text/javascript">
+<!--
     google_ad_client = "ca-pub-1376896373478670";
     /* RDNation SideAd */
     google_ad_slot = "9959849457";
     google_ad_width = 120;
     google_ad_height = 600;
     //-->
-            </script>
-            <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
-            </script>
-        </div>
-    }
-</div>
+        </script>
+        <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+}
 <script type="text/javascript">
     $("#NewPost").validate({
         rules: {
@@ -106,7 +98,7 @@
 
     $(function () {
         $("#Subject").focus();
-     
+
         tinymce.init({
             mode: "textareas",
             elements: "elm2",
@@ -133,6 +125,5 @@
             UploadFileUrl: "/forum/postimageupload"
 
         });
-     });
+    });
 </script>
-

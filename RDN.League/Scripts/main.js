@@ -83,13 +83,21 @@ function MarkForumTopicAsRead(img, topicId) {
     $(img).remove();
 }
 
+
+
 function ForumPostToggleWatch(span) {
     var topicId = $("#TopicId").val();
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/WatchTopic", { forumId: forumId, topicId: topicId }, function (result) {
-
+        if($(span).html() == '<i class="fa fa-binoculars"></i> Watch')
+        {
+            $(span).html('<i class="fa fa-binoculars"></i> Stop Watching');
+        }
+        else
+        {
+            $(span).html('<i class="fa fa-binoculars"></i> Watch');
+        }
     });
-    $(span).html("<img src='" + leagueHost + "content/images/greenCheck.png' />");
 }
 
 function EnableForumTopicEdit(span, enable) {
@@ -400,13 +408,15 @@ function AddSelectedColor() {
     var selected = $("#ColorTempSelected option:selected");
     var colors = $("#ColorsSelected");
     colors.val(colors.val() + selected.val() + ";");
-    $("#colorsToAdd").append("<div class='selectedColorCon'><div class='selectedColor' style='background-color:" + selected.val() + ";'>" + selected.html() + "</div><span class='spanLink' onclick=\"RemoveSelectedColor(this, '" + selected.val() + "')\">Remove</span></div>");
+    $("#colorsToAdd").append("<div class='selectedColorCon' title=" + selected.text() + " data-toggle='tooltip' data-placement='top'><div class='selectedColor' style='background-color:" + selected.val() + "'></div><span onclick='RemoveSelectedColor(this,\"" + selected.val() + "\")'><i class='fa fa-times fa-lg'></i></span></div>");
+
 }
 function GenerateSelectedColors() {
     var selected = $("#ColorTempSelected option:selected");
     var colors = $("#ColorsSelected");
     colors.val(colors.val() + selected.val() + ";");
     $("#colorsToAdd").append("<div class='selectedColorCon'><div class='selectedColor' style='background-color:" + selected.val() + ";'>" + selected.html() + "</div><span class='spanLink' onclick=\"RemoveSelectedColor(this, '" + selected.val() + "')\">Remove</span></div>");
+    $('[data-toggle="tooltip"]').tooltip();
 }
 function ColorSelectorChanged() {
     var selected = $("#ColorTempSelected option:selected").val();
@@ -461,6 +471,7 @@ function removeMemberContact(contactId) {
         var memId = $("#MemberId").val();
         $.getJSON("/member/removecontact", { memberId: memId, contactId: contactId }, function (result) {
             if (result.isSuccess === true) {
+
             }
         });
         $("#" + contactId + "-div").remove();
@@ -468,6 +479,7 @@ function removeMemberContact(contactId) {
 }
 
 function AddContactToMember() {
+   
     var firstName = $("#FirstName");
     var lastName = $("#LastName");
     var contactType = $("#ContactType option:selected").val();
@@ -483,40 +495,42 @@ function AddContactToMember() {
 
     $.getJSON("/member/addcontact", { memberId: memId, first: firstName.val(), last: lastName.val(), type: contactType, email: email.val(), phone: phoneNumber.val(), address1: address.val(), address2: address2.val(), city: city.val(), state: state.val(), zip: zipCode.val(), country: country }, function (result) {
         if (result.isSuccess === true) {
+            firstName.val("");
+            lastName.val("");
+            email.val("");
+            phoneNumber.val("");
+            address.val("");
+            address2.val("");
+            city.val("");
+            state.val("");
+            zipCode.val("");
         }
     });
     var cont = $("#Contacts");
     var currentCont = cont.html();
-    var newContact = "<div class='contactBox col-sm-6 col-md-4'><div class='well'>";
-    newContact += "<table class='table'>";
-    newContact += "<tr><td class='b'>Name:</td><td>";
-    newContact += firstName.val() + " " + lastName.val();
-    newContact += "</td></tr><tr><td class='b'>Type:</td><td>";
-    newContact += contactType.replace(/_/g, " ");
-    newContact += "</td></tr><tr><td class='b'>Email:</td><td>";
+    var newContact = '<div class="col-xs-12 col-sm-6 col-md-4 newContact" style="display:none">';
+    newContact += '<div class="panel panel-default" style="min-height:260px"><div class="panel-heading">';
+    newContact += '<h4 class="no-margin"><i class="fa fa-user"></i>&nbsp;' + firstName.val() + ' ' + lastName.val() + '</h4></div>';
+    newContact += '<div class="panel-body no-padding-bottom"><table><tr><td class="b"><i class="fa fa-suitcase"></i>&nbsp;</td><td>';
+    newContact += contactType.replace(/_/g, " ") + '</td></tr><tr><td class="b"><i class="fa fa-envelope"></i>&nbsp;</td><td>';
     newContact += email.val();
-    newContact += "</td></tr><tr><td class='b'>Phone Number:</td><td>";
-    newContact += phoneNumber.val();
-    newContact += "</td></tr><tr><td class='b'>Address:<br /></td><td>";
+    newContact += '</td></tr><tr>';
+    newContact += '<td class="b"><i class="fa fa-phone"></i>&nbsp;</td><td>';
+    newContact += phoneNumber.val() + '</a></td></tr><tr><td class="b" style="vertical-align:top">';
+    newContact += '<span><i class="fa fa-map-marker"></i>&nbsp;</span></td><td>';
     newContact += address.val() + "<br/>";
     newContact += address2.val() + "<br />";
     newContact += city.val() + "<br/>";
     newContact += state.val() + "<br/>";
     newContact += zipCode.val() + "<br/>";
-    newContact += $("#Country option:selected").text(); + "<br/>";
+    newContact += $("#Country option:selected").text();
     newContact += "</td></tr>";
     newContact += "</table>";
-    newContact += "</div></div>";
-    cont.html(currentCont + newContact);
-    firstName.val("");
-    lastName.val("");
-    email.val("");
-    phoneNumber.val("");
-    address.val("");
-    address2.val("");
-    city.val("");
-    state.val("");
-    zipCode.val("");
+    newContact += "</div></div></div>";
+    $('html,body').animate({ 'scrollTop': $('#add-contact-form').position().top - 400 }, 500, function () {
+        cont.html(currentCont + newContact);
+        $("#Contacts .newContact:last-child").fadeIn();
+    });
 }
 
 function HideShowCCInfo(hideShow) {
@@ -2941,3 +2955,4 @@ var MsgIAgree = function (messageId, memberId, forumId, topicId) {
         }
     });
 }
+

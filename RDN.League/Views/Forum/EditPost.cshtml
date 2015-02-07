@@ -4,12 +4,13 @@
     ViewBag.Title = "Reply To " + Model.TopicTitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 <div class="fixedContainer">
     <div class="fixedCenterContainter">
         <div class="fixTitle">
             Edit Forum Post
         </div>
-      
             <div class="divider"></div>
         <div>
             @using (Html.BeginForm("EditPost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
