@@ -1145,7 +1145,7 @@ function ChangeDictionaryItem(checkbox, id, displayName) {
     var text = "";
     var ids = "";
     $.each(dict.reverse(), function (i, val) {
-        text += '<span class="recipientsNames">' + val.name + '</span> ';
+        text += '<span class="label label-primary">' + val.name + '</span> ';
         ids += val.idd + ",";
     });
     if (document.getElementById('ToMemberNamesSelected') !== null)
@@ -1167,7 +1167,7 @@ function toggleCheckedForRecipients(checkbox) {
             var cbId = $(this).attr("name");
             var derbyName = $(this).attr("derbyname");
             dict.push({ name: derbyName, idd: cbId });
-            text += '<span class="recipientsNames">' + derbyName + '</span> ';
+            text += '<span class="label label-primary">' + derbyName + '</span> ';
             ids += cbId + ",";
         }
     });
@@ -2295,11 +2295,11 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="recipientsNames b">' + val.name + ',</span> ';
+                text += '<span class="label label-primary">' + val.name + ',</span> ';
                 ids += val.idd + ",";
             });
         } else {
-            text += '<span class="recipientsNames b">Entire League</span> ';
+            text += '<span class="label label-primary">Entire League</span> ';
         }
 
         if (document.getElementById('ToMemberNamesSelected') !== null)
@@ -2321,12 +2321,12 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="recipientsNames">' + val.name + '</span> ';
+                text += '<span class="label label-primary">' + val.name + '</span> ';
                 ids += val.idd + ",";
             });
             $("#pullGroupEvents").toggleClass("displayNone", false);
         } else {
-            text += '<span class="recipientsNames">Entire League</span> ';
+            text += '<span class="label label-primary">Entire League</span> ';
             $("#pullGroupEvents").toggleClass("displayNone", true);
         }
 
@@ -2372,11 +2372,11 @@ var Messages = new function () {
         var text = "";
         var ids = "";
         $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="recipientsNames">' + val.name + '</span> ';
+            text += '<span class="label label-primary">' + val.name + '</span> ';
             ids += val.idd + ",";
         });
         $.each(membersSelectedIds.reverse(), function (i, val) {
-            text += '<span class="recipientsNames">' + val.name + '</span> ';
+            text += '<span class="label label-primary">' + val.name + '</span> ';
         });
         if (document.getElementById('ToMemberNamesSelected') !== null)
             document.getElementById('ToMemberNamesSelected').innerHTML = text;
@@ -2399,10 +2399,10 @@ var Messages = new function () {
         var text = "";
         var ids = "";
         $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="recipientsNames">' + val.name + '</span> ';
+            text += '<span class="label label-primary">' + val.name + '</span> ';
         });
         $.each(membersSelectedIds.reverse(), function (i, val) {
-            text += '<span class="recipientsNames">' + val.name + '</span> ';
+            text += '<span class="label label-primary">' + val.name + '</span> ';
             ids += val.idd + ",";
         });
 
@@ -2419,7 +2419,7 @@ var Messages = new function () {
         var text = "";
         var ids = "";
         $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="recipientsNames">' + val.name + '</span> ';
+            text += '<span class="label label-primary">' + val.name + '</span> ';
         });
         $("#checkboxes input:checkbox").each(function () {
             $(this).prop('checked', isChecked);
@@ -2427,7 +2427,7 @@ var Messages = new function () {
                 var cbId = $(this).attr("name");
                 var derbyName = $(this).attr("derbyname");
                 membersSelectedIds.push({ name: derbyName, idd: cbId });
-                text += '<span class="recipientsNames">' + derbyName + '</span> ';
+                text += '<span class="label label-primary">' + derbyName + '</span> ';
                 ids += cbId + ",";
             }
         });

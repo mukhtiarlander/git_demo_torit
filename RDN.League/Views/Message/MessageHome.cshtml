@@ -7,6 +7,12 @@
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Messages</li>
+</ol>
+
 @if (!subPaid)
 { 
     <div class="expandableAd2">
@@ -22,75 +28,61 @@
         </script>
     </div>
 }
-<div class="@(subPaid ? "expandableContainer" : "expandableContainerAd")">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-          Private Conversations
-        </div>
-        <div class="expandableCenterContainterRight">
-            <div class="navIcons">
-                <a title="New Message" href="@Url.Content("~/messages/new/" + @Model.OwnerType.ToString() + "/" + @Model.IdOfEntity.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/message-add.png")" alt="New Message"  />New
-                </a>
-            </div>
 
-
-            @if (subPaid)
-            { 
-                <div class="navIcons">
-                    <a title="New Text" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/images/icons/textmessage.png")" alt="New Text Message"  />New Text
-                    </a>
-                </div>
-            }
-            else
-            { 
-                <div class="navIcons">
-                    <a title="New Message" href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)">
-                        <img src="@Url.Content("~/Content/images/icons/textmessage.png")"  alt="New Message" />New
-                    </a>
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h3 class="margin-bottom-5 margin-top-10"><i class="fa fa-comments"></i> Private Conversations</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 text-right">
+                        <a class="btn btn-sm btn-primary" title="New Message" href="@Url.Content("~/messages/new/" + @Model.OwnerType.ToString() + "/" + @Model.IdOfEntity.ToString().Replace("-", ""))">
+                            <i class="fa fa-comment-o"></i> New
+                        </a>
+                        @if (subPaid)
+                        {
+                            <a class="btn btn-sm btn-info" title="New Text" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))">
+                                <i class="fa fa-mobile"></i> New Text
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-info" title="New Message" href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)">
+                                <i class="fa fa-mobile"></i> New
+                            </a>
+                        }
+                    </div>
                 </div>
                 
-            }
-
-        </div>
-        <div class="divider"></div>
-        <div>
-            <table class="calendarTable" id="messages">
-                <thead>
-                    <tr>
-                        <th>Title
-                        </th>
-                        <th>Last Received
-                        </th>
-                        <th>Last Post
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var topic in Model.Conversations.OrderByDescending(x => x.LastPostDate))
-                    {
-                        <tr class="forumTopicRow @(topic.IsConversationRead ? "" : "calCurrentDateEvent")">
-                            <td>
-                                <a @(topic.IsConversationRead ? "" : "class=b") href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())">@topic.Title</a>
-
-                            </td>
-                            <td>
-                                @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)
-                            </td>
-                            <td>
-                                @topic.Messages.LastOrDefault().MessageText by <b>@topic.LastPostBy</b>
-                            </td>
-                            <td>
-
-                                <span class="spanLink" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')">Delete</span>
-
-                            </td>
-                        </tr>           
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+            </div>
+            <div class="panel-body">
+                @foreach (var topic in Model.Conversations.OrderByDescending(x => x.LastPostDate))
+                {
+                    <div class="panel  @(topic.IsConversationRead ? "panel-default" : "panel-info")">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <p>
+                                        <b>@topic.LastPostBy</b>
+                                    </p>
+                                    <p>
+                                        <a @(topic.IsConversationRead ? "" : "class=b") href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())">@topic.Title</a>
+                                    </p>
+                                    <p>
+                                        @topic.Messages.LastOrDefault().MessageText
+                                    </p>
+                                       <span class="text-muted"><small> @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)</small></span>
+                                </div>
+                                <div class="col-xs-2 text-right">
+                                    <button type="button" class="btn btn-xs btn-danger" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div> 
+    </div> 
 </div>

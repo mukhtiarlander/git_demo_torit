@@ -9,164 +9,162 @@
     <li class="active">New Item</li>
 </ol>
 
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
 
-<div class="col-md-10  col-xs-12">
-    <h2>
-        Add New Item
-        <small>
-            Here you can add items to your store.
-        </small>
-    </h2>
-    
-</div>
-
-<div class="col-md-8 col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-10 margin-bottom-5"><i class="fa fa-plus-circle"></i> Add New Item</h3>
+                <span class="text-muted">Here you can add items to your store.</span>
+            </div>
             @using (Html.BeginForm("StoreNewItem", "Store", FormMethod.Post, new { @id = "createNewItem" }))
             {
-                <div class="form-group">
-                    <label for="Name" class="control-label">Name</label>
-                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Name" })
-                </div>
-                <div class="form-group">
-                    <label for="ArticleNumber" class="control-label">Your ID</label>
-                    @Html.TextBoxFor(x => x.ArticleNumber, new { @class = "form-control", @placeholder = "Specific Article Id" })
-                </div>
-                <div class="form-group">
-                    <label for="Description" class="control-label">Description Of Item</label>
-                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control", @placeholder = "Description of the item" })
-                </div>
-                <div class="form-group">
-                    <label for="Weight" class="control-label">Weight</label>
-                    <div class="input-group">
-                        @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", @placeholder = "weight in lbs" })
-                        <span class="input-group-addon">lbs</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="Price" class="control-label">Price</label>
-                    <div class="input-group">
-                        @Html.TextBoxFor(x => x.Price, Model.Price.ToString("N2"), new { @class = "form-control", @placeholder = "" })
-                        <span class="input-group-addon">@Model.Currency</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="Shipping" class="control-label">Shipping Costs</label>
-                    <div class="input-group">
-                        @Html.TextBox("Shipping", Model.Shipping.ToString("N2"), new { @class = "form-control", @placeholder = "" })
-                        <span class="input-group-addon">@Model.Currency</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ShippingAdditional" class="control-label">Additional Shipping Costs</label>
-                    <div class="input-group">
-                        @Html.TextBox("ShippingAdditional", Model.ShippingAdditional.ToString("N2"), new { @class = "form-control", @placeholder = "" })
-                        <span class="input-group-addon">@Model.Currency</span>
-                    </div>
-                    <small>For each item of this type bought, this shipping fee will be charged.</small>
-                </div>
-                <div class="form-group">
-                    <label for="QuantityInStock" class="control-label">Quantity In Stock</label>
-                    @Html.TextBoxFor(x => x.QuantityInStock, new { @class = "form-control", @placeholder = "" })
-                </div>
-                <div class="form-group">
-                    @Html.CheckBoxFor(x => x.CanRunOutOfStock, new { @placeholder = "" })
-                    <label for="CanRunOutOfStock" class="control-label">Can This Item Ever Run Out?</label>
-
-                    <small>Items in stock count down if checked.</small>
-                </div>
-                <div class="form-group">
-                    @Html.CheckBoxFor(x => x.CanPickUpLocally, new { @placeholder = "" })
-                    <label for="CanPickUpLocally" class="control-label">Available for Local Pickup</label>
-
-                </div>
-
-                <div class="form-group">
-                    <label for="ItemType" class="control-label">Type Of Item</label>
-                    @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)", @class = "form-control", @placeholder = "" }) - <small>To Add Type, Email us at <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["WebsiteMainEmail"]">@System.Configuration.ConfigurationManager.AppSettings["WebsiteMainEmail"]</a></small>
-                </div>
-                <div class="form-group @(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt ? "" : "displayNone")" id="shirtSize">
-                    <label for="ItemType" class="control-label">Sizes</label>
-                    <div>
-                        <label class="checkbox-inline">
-                            @Html.CheckBoxFor(x => x.HasExtraSmall)X-Small
-                        </label>
-                        <label class="checkbox-inline">
-                            @Html.CheckBoxFor(x => x.HasSmall)Small
-                        </label>
-                        <label class="checkbox-inline">
-                            @Html.CheckBoxFor(x => x.HasMedium)Medium
-                        </label>
-                        <label class="checkbox-inline">
-                            @Html.CheckBoxFor(x => x.HasLarge)Large
-                        </label>
-                        <label class="checkbox-inline">
-                            @Html.CheckBoxFor(x => x.HasExtraLarge)X-Large
-                        </label>
-                        <label class="checkbox-inline">
-                            @Html.CheckBoxFor(x => x.HasXXLarge)XX-Large
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group @(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal ? "" : "displayNone") " id="colors">
-                    <label for="ColorTempSelected" class="control-label">Colors of Item</label>
-                    <div>
-                        <div class="input-group">
-
-                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()", @class = "form-control", @placeholder = "" })
-
-                            <span class=" input-group-btn">
-                                <button class="btn btn-info" type="button" onclick="AddSelectedColor()">Add Selected</button>
-                            </span>
-                        </div>
-                        <div><b>OR</b></div>
+                <div class="panel-body">
                         <div class="form-group">
-                            <div class="input-group ">
-
-                                <span id="colorSelector" class=" input-group-btn">
-                                    <button class=" btn" type="button" style="background-color: #0000ff;">&nbsp;</button>
-                                </span>
-                                <input id="colorName" placeholder="Name Of New Color" class="form-control" type="text" />
-                                <span class=" input-group-btn">
-                                    <button class="btn btn-info " type="button" onclick="CreateNewColor()">Create New Color</button>
-                                </span>
+                            <label for="Name" class="form-label">Name</label>
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Name" })
+                        </div>
+                        <div class="form-group">
+                            <label for="ArticleNumber" class="form-label">Your ID</label>
+                            @Html.TextBoxFor(x => x.ArticleNumber, new { @class = "form-control", @placeholder = "Specific Article Id" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Description" class="form-label">Description Of Item</label>
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", @placeholder = "Description of the item" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Weight" class="form-label">Weight</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", @placeholder = "weight in lbs" })
+                                <span class="input-group-addon">lbs</span>
                             </div>
-
-                            <div id="colorSelected" class="displayNone"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Price" class="form-label">Price</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Price, Model.Price.ToString("N2"), new { @class = "form-control", @placeholder = "" })
+                                <span class="input-group-addon">@Model.Currency</span>
+                            </div>
                         </div>
 
-                        <div id="colorsToAdd">
-                            @foreach (var color in Model.Colors)
-                            {
-                                <div class='selectedColorCon'>
-                                    <div class='selectedColor' style='background-color:@color.HexColor;'>@color.NameOfColor</div>
-                                    <span class='spanLink' onclick="RemoveSelectedColor(this, '@color.HexColor')">Remove</span>
+                        <div class="form-group">
+                            <label for="Shipping" class="form-label">Shipping Costs</label>
+                            <div class="input-group">
+                                @Html.TextBox("Shipping", Model.Shipping.ToString("N2"), new { @class = "form-control", @placeholder = "" })
+                                <span class="input-group-addon">@Model.Currency</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ShippingAdditional" class="form-label">Additional Shipping Costs</label>
+                            <div class="input-group">
+                                @Html.TextBox("ShippingAdditional", Model.ShippingAdditional.ToString("N2"), new { @class = "form-control", @placeholder = "" })
+                                <span class="input-group-addon">@Model.Currency</span>
+                            </div>
+                            <small>For each item of this type bought, this shipping fee will be charged.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="QuantityInStock" class="form-label">Quantity In Stock</label>
+                            @Html.TextBoxFor(x => x.QuantityInStock, new { @class = "form-control", @placeholder = "" })
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(x => x.CanRunOutOfStock, new { @placeholder = "" })
+                            <label for="CanRunOutOfStock" class="form-label">Can This Item Ever Run Out?</label>
+
+                            <small>Items in stock count down if checked.</small>
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(x => x.CanPickUpLocally, new { @placeholder = "" })
+                            <label for="CanPickUpLocally" class="form-label">Available for Local Pickup</label>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ItemType" class="form-label">Type Of Item</label>
+                            @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)", @class = "form-control", @placeholder = "" }) - <small>To Add Type, Email us at <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["WebsiteMainEmail"]">@System.Configuration.ConfigurationManager.AppSettings["WebsiteMainEmail"]</a></small>
+                        </div>
+                        <div class="form-group @(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt ? "" : "displayNone")" id="shirtSize">
+                            <label for="ItemType" class="form-label">Sizes</label>
+                            <div>
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.HasExtraSmall)X-Small
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.HasSmall)Small
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.HasMedium)Medium
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.HasLarge)Large
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.HasExtraLarge)X-Large
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.HasXXLarge)XX-Large
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group @(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal ? "" : "displayNone") " id="colors">
+                            <label for="ColorTempSelected" class="form-label">Colors of Item</label>
+                            <div>
+                                <div class="input-group">
+
+                                    @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()", @class = "form-control", @placeholder = "" })
+
+                                    <span class=" input-group-btn">
+                                        <button class="btn btn-info" type="button" onclick="AddSelectedColor()">Add Selected</button>
+                                    </span>
                                 </div>
-                            }
+                                <div><b>OR</b></div>
+                                <div class="form-group">
+                                    <div class="input-group ">
+
+                                        <span id="colorSelector" class=" input-group-btn">
+                                            <button class=" btn" type="button" style="background-color: #0000ff;">&nbsp;</button>
+                                        </span>
+                                        <input id="colorName" placeholder="Name Of New Color" class="form-control" type="text" />
+                                        <span class=" input-group-btn">
+                                            <button class="btn btn-info " type="button" onclick="CreateNewColor()">Create New Color</button>
+                                        </span>
+                                    </div>
+
+                                    <div id="colorSelected" class="displayNone"></div>
+                                </div>
+
+                                <div id="colorsToAdd">
+                                    @foreach (var color in Model.Colors)
+                                    {
+                                        <div class='selectedColorCon'>
+                                            <div class='selectedColor' style='background-color:@color.HexColor;'>@color.NameOfColor</div>
+                                            <span class='spanLink' onclick="RemoveSelectedColor(this, '@color.HexColor')">Remove</span>
+                                        </div>
+                                    }
+                                </div>
+                                @Html.HiddenFor(x => x.ColorsSelected)
+                            </div>
                         </div>
-                        @Html.HiddenFor(x => x.ColorsSelected)
-                    </div>
-                </div>
-                <div class="clearfix"></div>
+                        <div class="clearfix"></div>
 
-                <div class="form-group">
-                    <label for="HtmlNote" class="control-label">Public Description</label>
-                    @Html.TextArea("HtmlNote", Model.HtmlNote, new
-                           {
-                               id = "wmd-input",
-                               style = "width:485px;"
-                           })
-                </div>
-            
-                <a class="btn btn-default" href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Cancel Item</a>
-                <input type="submit" class="btn btn-primary" value="Add New Item" />
+                        <div class="form-group">
+                            <label for="HtmlNote" class="form-label">Public Description</label>
+                            @Html.TextArea("HtmlNote", Model.HtmlNote, new
+                               {
+                                   id = "wmd-input",
+                                   style = "width:485px;"
+                               })
+                        </div>
 
-                @Html.HiddenFor(x => x.PrivateManagerId)
-                @Html.HiddenFor(x => x.MerchantId)
-                @Html.HiddenFor(x => x.InternalId)
-                @Html.HiddenFor(x => x.StoreItemId)
+                        @Html.HiddenFor(x => x.PrivateManagerId)
+                        @Html.HiddenFor(x => x.MerchantId)
+                        @Html.HiddenFor(x => x.InternalId)
+                        @Html.HiddenFor(x => x.StoreItemId)
+                
+                </div>
+                <div class="panel-footer text-right">
+                    <button type="submit" class="btn btn-primary" ><i class="fa fa-save"></i> Add New Item</button>
+                    <a class="btn btn-default" href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Cancel Item</a>
+                </div>
             }
         </div>
     </div>

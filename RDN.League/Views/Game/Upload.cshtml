@@ -3,40 +3,45 @@
     ViewBag.Title = "Upload An Old Game";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter2  ">
-        @using (Html.BeginForm("Upload", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        { 
-            <div class="fixTitle">
-                <span>Upload a Game Generated From Thor's Hammer</span>
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Upload</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-10 margin-bottom-5">Upload a Game Generated From Thor's Hammer</h3>
             </div>
-            <div class="divider"></div>
-            <div>
-                You can upload a game generated from <a href="http://rdnation.com/roller-derby-scoreboard"
-                    target="_blank">Thor's Hammer, our Roller Derby scoreboard</a>. If your game
-                was online or offline, we allow you to save the game after its completion. The game
-                is saved to a .XML file directly to your computer. You can then come here and upload
-                that .XML file to our server where it can be published and the stats can be used
-                for all to see.<br />
-                This is mainly for offline games, because when connected to the internet during
-                the game, Thor takes over the process of uploading the game to our server. Once
-                uploaded, you will be directed to a page to edit the game, connect the players of
-                that game to RDNation's online profiles and publish it for the world to see.
+            <div class="panel-body text-r">
+                
+                    <div class="alert alert-info">
+                        You can upload a game generated from <a href="http://rdnation.com/roller-derby-scoreboard"
+                                                                target="_blank">Thor's Hammer, our Roller Derby scoreboard</a>. If your game
+                        was online or offline, we allow you to save the game after its completion. The game
+                        is saved to a .XML file directly to your computer. You can then come here and upload
+                        that .XML file to our server where it can be published and the stats can be used
+                        for all to see.<br />
+                        This is mainly for offline games, because when connected to the internet during
+                        the game, Thor takes over the process of uploading the game to our server. Once
+                        uploaded, you will be directed to a page to edit the game, connect the players of
+                        that game to RDNation's online profiles and publish it for the world to see.
+                    </div>
+                @using (Html.BeginForm("Upload", "Game", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <h4>Upload .XML Game File: </h4>
+                    <input type="file" class="btn btn-default" name="file" id="file"  onchange="validateXmlGameFile()" />
+                }
             </div>
-            <br />
-            <div class="center">
-             <span class="b">Upload .XML Game File:</span> <input type="file" name="file" id="file" class="fileUpload" onchange="validateXmlGameFile()" />
-            </div>
-            <div class="clear">
-            </div>
-            
-            <div class="updateMemberButton">
+            <div class="panel-footer">
                 @if (Model.IsSuccessful == false)
-                { 
+                {
                     <span class="addedSuccessfully">Upload UnSuccesful - @Model.Message</span>
                 }
-                <input type="submit" class="primary" value="Upload Game" />
+                <button type="submit" class="btn btn-success" class="primary"><i class="fa fa-save"></i> Upload Game</button>
             </div>
-        }
+        </div>
     </div>
 </div>

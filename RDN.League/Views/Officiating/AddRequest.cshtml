@@ -6,192 +6,157 @@
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
 
-<div class="fixedContainer">
-     <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/officiating/requests")">All Requests</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Add an Officiating Request
-        </div>
 
-        <div class="titleDescription">
-            Add a new request for officials.
-     
-        </div>
-        <div class="divider"></div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/officiating/requests")">All Requests</a></li>
+    <li class="active">Add an Officiating Request</li>
+</ol>
 
-        <div>
-            @using (Html.BeginForm("AddRequest", "Officiating", FormMethod.Post, new { @id = "addNewRequest" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b alRight">Teams Playing:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.TeamsPlaying) <span class="i">DCRG vs Charm City</span>
-                        </td>
-                    </tr>
-                  
-                    <tr>
-                        <td class="b alRight">Date:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(models => models.Date, new { @class = "jquery_datepicker" })
-
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="b alRight">First Whistle:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(models => models.FirstWhistle, new { @class = "jquery_timepicker" })
-
-                        </td>
-                    </tr>
-                   
-                    <tr>
-                        <td class="b alRight">Location Name:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.LocationName) <span class="i">Place of Game</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Address:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Address)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Address 2:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Address1)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">City:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.City) 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">State:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.State)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Zip:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Zip)
-                        </td>
-                    </tr>
-                      <tr>
-                        <td class="b alRight">Is Regulation:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.IsRegulation) <span class="i">Regulation?</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Evaluations Provided:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.EvaluationsProvided) <span class="i">Evaluations For Certification</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Snacks Provided?:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.IsSnacksProvided) <span class="i">Snacks Provided for officials</span></label>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="b alRight">How Many Refs needed?:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.NoRefNeded)
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="b alRight">How Many NSOs needed?:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.NonsoNeded)
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="b alRight">Stipend Provided?:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.IsReimbursement) <span class="i">Stipend Provided For Travel?</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Travel Stipend for NSOs:</td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.TravelStipendForNSO) 
-                        </td>
-                    </tr>
-                     
-                    <tr>
-                        <td class="b alRight">Travel Stipend for Refs:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.TravelStipendForRefs)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Select Rule Set:
-                        </td>
-                        <td class="largeInput">
-                            @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"))
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Description:
-                        </td>
-                        <td class="largeInput"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-
-
-                            @Html.TextArea("Description", string.Empty, new
-                           {
-                               id = "wmd-input",
-                               style = "width:700px"
-                           })
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight"></td>
-                        <td class="largeInput">
-                            <input type="submit" class="primary" value="Submit Request" name="addRequest" />
-
-                        </td>
-                    </tr>
-
-                </table>
-               
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-user"></i> Add an Officiating Request</h3>
+                <span class="text-muted">
+                    Add a new request for officials.
+                </span>
+            </div>
+          
+                @using (Html.BeginForm("AddRequest", "Officiating", FormMethod.Post, new { @id = "addNewRequest" }))
+                {
+                    <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Teams Playing. <span class="i text-muted">DCRG vs Charm City</span></div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.TeamsPlaying, new {@class="form-control" }) 
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Date</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(models => models.Date, new { @class = "jquery_datepicker form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">First Whistle:</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(models => models.FirstWhistle, new { @class = "jquery_timepicker form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Location Name. <span class="i text-muted">Place of Game</span></div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.LocationName, new { @class = "form-control" }) 
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Address</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Address 2</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.Address1, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">City</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">State</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Zip</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.Zip, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">How Many Refs needed?</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.NoRefNeded, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">How Many NSOs needed?</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.NonsoNeded, new { @class = "form-control" })
+                            </div>
+                        </div>
+                       
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Travel Stipend for NSOs</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.TravelStipendForNSO, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Travel Stipend for Refs</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.TravelStipendForRefs, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Select Rule Set</div>
+                            <div class="margin-bottom-15">
+                                @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"), new { @class = "full-width" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label> Is Regulation? @Html.CheckBoxFor(x => x.IsRegulation)</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>Evaluations For Certification Provided @Html.CheckBoxFor(x => x.EvaluationsProvided)</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>Snacks Provided for officials @Html.CheckBoxFor(x => x.IsSnacksProvided)</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>Stipend Provided For Travel? @Html.CheckBoxFor(x => x.IsReimbursement)</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-label margin-bottom-5">Description</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextArea("Description", string.Empty, new
+                                {
+                                    id = "wmd-input",
+                                    style = "width:700px"
+                                })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-sm btn-success" name="addRequest"><i class="fa fa-paper-plane"></i> Submit Request</button>
+                </div>
             }
         </div>
     </div>
+</div>
+
     @if (!subPaid)
-    { 
+    {
         <div class="fixedAd">
-            <script type="text/javascript"><!--
+            <script type="text/javascript">
+<!--
     google_ad_client = "ca-pub-1376896373478670";
     /* RDNation SideAd */
     google_ad_slot = "9959849457";
@@ -203,7 +168,6 @@
             </script>
         </div>
     }
-</div>
 <script type="text/javascript">
     $("#addNewRequest").validate({
         rules: {
@@ -219,7 +183,7 @@
     $("#NonsoNeded").numeric({ negative: false, decimal: false });
     $('#Date').datepicker();
     $('#FirstWhistle').timepicker();
-    
+
     $(function () {
         tinymce.init({
             mode: "textareas",
