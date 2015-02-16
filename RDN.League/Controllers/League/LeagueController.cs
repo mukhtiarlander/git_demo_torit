@@ -717,6 +717,8 @@ namespace RDN.League.Controllers
                     oe = LeagueOwnersEnum.Polls;
                 else if (ownerType == "inventory")
                     oe = LeagueOwnersEnum.Inventory;
+                else if (ownerType == "sponsor")
+                    oe = LeagueOwnersEnum.Sponsorship;
 
                 //can't assign an owner if you are not the owner.
                 if (oe == LeagueOwnersEnum.Owner)

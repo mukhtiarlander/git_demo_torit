@@ -5,7 +5,7 @@
 
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
-    bool isSec = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    bool isSec = RDN.Library.Cache.MemberCache.IsSponsorshipOrBetterOfLeague(memId);
     
 }
 @helper Truncate(string input, int length = 15)

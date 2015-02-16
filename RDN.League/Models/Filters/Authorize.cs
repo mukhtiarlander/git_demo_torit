@@ -25,10 +25,10 @@ namespace RDN.League.Models.Filters
         public bool IsHeadRef { get; set; }
         public bool IsHeadNSO { get; set; }
         public bool IsShopManager { get; set; }
-        //public bool RequirePresidentStatus { get; set; }
         public bool HasPaidSubscription { get; set; }
         public bool IsGroupModerator { get; set; }
         public bool IsInventoryTracker { get; set; }
+        public bool IsSponsorship{ get; set; }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -122,9 +122,13 @@ namespace RDN.League.Models.Filters
                 if (MemberCache.IsInventoryOrBetterOfLeague(memberId))
                     return;
 
+            if (IsSponsorship)
+                if (MemberCache.IsSponsorshipOrBetterOfLeague(memberId))
+                    return;
+
             //we redirect here because they weren't the required above managers...
             //so we check if any of these are true, and if they are, that means the above rules didn't return.
-            if (IsHeadNSO || IsHeadRef || IsSecretary || IsTreasurer || IsManager || IsShopManager || IsMedical || IsInventoryTracker || IsAttendanceManager || IsPollManager)
+            if (IsHeadNSO || IsHeadRef || IsSecretary || IsTreasurer || IsManager || IsShopManager || IsMedical || IsInventoryTracker || IsAttendanceManager || IsPollManager || IsSponsorship)
             {
                 filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.na.ToString());
                 return;
