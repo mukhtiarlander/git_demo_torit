@@ -3,92 +3,85 @@
     ViewBag.Title = "Merchant Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            @if (!String.IsNullOrEmpty(Model.ReturnUrl))
-            { 
-                <span>< <a href="@Model.ReturnUrl">Back</a></span>
-            }
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Modify Merchant Settings
-        </div>
-      
-         <div class="titleDescription">
-  Here you can modify the settings.
-      
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/paywall/all/")">Paywalls</a></li>
+    <li class="active">Merchant Settings</li>
+</ol>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-md-8">
+                        <h3 class="margin-top-5">Modify Merchant Settings</h3>
+                    </div>
+                    @if (!String.IsNullOrEmpty(Model.ReturnUrl))
+                    {
+                        <div class="col-xs-12 col-md-4 text-right">
+                            <a class="btn btn-default btn-sm" href="@Model.ReturnUrl"><i class="fa fa-arrow-circle-left"></i> Back</a>
+                        </div>
+                    }
+                </div>
+                <span class="text-muted">Here you can modify the settings.</span>
             </div>
-            <div class="divider"></div>
-        <div>
             @using (Html.BeginForm("MerchantSettings", "Merchant", FormMethod.Post, new { @id = "Settings" }))
-            { 
-                <table class="addForumPostTbl">
-
-                    <tr>
-                        <td class="b vLTD">Notifications Email:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.OrderPayedNotificationEmail) <span class="i">Used for any store notifications.</span>
-                        </td>
-                    </tr>
-
+            {
+                <div class="panel-body">
+                    <label class="form-label">
+                        Notifications Email
+                    </label>
+                    <div class="margin-bottom-15">
+                        @Html.TextBoxFor(x => x.OrderPayedNotificationEmail, new { @class="form-control margin-bottom-5"})
+                        <span class="i text-muted">Used for any store notifications.</span>
+                    </div>
                     @if (!Model.AcceptPaymentsViaStripe)
-                    { 
-                        <tr>
-                            <td class="b vLTD">Accept Credit Card Payments:
-                            </td>
-                            <td>
-                                <a href="@ViewBag.StripeUrl">
-                                    <img width="150px" src="@Url.Content("~/Content/images/stripe.png")" /></a>
+                    {
+                        <label class="form-label">
+                            Accept Credit Card Payments
+                        </label>
+                       <div class="margin-bottom-15">
+                                <a class="btn btn-default btn-xs" href="@ViewBag.StripeUrl">
+                                    <i class="fa fa-link"></i>
+                                </a>
                                 <span class="i">Our Payment Processor, They will collect the money as well as pay you.</span>
-                            </td>
-                        </tr>
+                           </div>
                     }
                     else
-                    { 
-                        <tr>
-                            <td class="b vLTD"><a href="https://stripe.com/" target="_blank">Stripe</a> Connected:
-                            </td>
-                            <td>
-                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                    {
+                        <label class="form-label">
+                            Stripe
+                        </label>
+                         <div class="margin-bottom-15">
+                                <i class="fa fa-check"></i>
                                 <span class="i">Your <a href="https://stripe.com/" target="_blank">Stripe</a> Account is Connected.</span>
-                            </td>
-                        </tr>
+                        </div>
                     }
-                    <tr>
-                        <td class="b vLTD">Accept <span class="paypalText">Paypal</span> Payments:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.AcceptPaymentsViaPaypal)
-                            <span class="i">Collect Payments Via Paypal</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Your <span class="paypalText">Paypal</span> Email Address:
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(x => x.PaypalEmail)
-                            <span class="i">Email Address To Send Payments To</span>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            @if (!String.IsNullOrEmpty(Model.ReturnUrl))
-                            { 
-                                <a href="@Model.ReturnUrl">Cancel</a>
-                            }
-                        </td>
-                        <td>
-
-                            <input type="submit" class="primary" value="Update Settings" />
-                        </td>
-                    </tr>
-                </table>
+                    <label class="form-label">
+                        Accept <span class="paypalText">Paypal</span> Payments
+                    </label>
+                    <div class="margin-bottom-15">
+                        @Html.CheckBoxFor(x => x.AcceptPaymentsViaPaypal)
+                        <span class="i">Collect Payments Via Paypal</span>
+                    </div>
+                    <label class="form-label">
+                        Your <span class="paypalText">Paypal</span> Email Address
+                    </label>
+                    <div class="margin-bottom-15">
+                        @Html.TextBoxFor(x => x.PaypalEmail, new { @class="form-control margin-bottom-5"})
+                        <span class="i text-muted">Email Address To Send Payments To</span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-success btn-sm" type="submit" ><i class="fa fa-save"></i> Update Settings</button>
+                    @if (!String.IsNullOrEmpty(Model.ReturnUrl))
+                    {
+                        <a class="btn btn-default" href="@Model.ReturnUrl">Cancel</a>
+                    }
+                </div>
                 @Html.HiddenFor(x => x.PrivateManagerId)
                 @Html.HiddenFor(x => x.MerchantId)
                 @Html.HiddenFor(x => x.InternalReference)
@@ -96,6 +89,7 @@
         </div>
     </div>
 </div>
+                
 <script type="text/javascript">
 
     $("#Settings").validate({

@@ -3,394 +3,415 @@
     ViewBag.Title = "Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="expandableContainer">
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Manage Your Post Game
-        </div>
-        <div class="vmChanges">
-            <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-game/" + Model.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team2Name))">View Changes</a>
-        </div>
 
-        <div class="clear">
-        </div>
-        <div>
-            Here you can update the game you used with <a href="http://rdnation.com/roller-derby-scoreboard"
-                target="_blank">Thor's Hammer</a> or inputed manually.
-        </div>
-            <div class="divider"></div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Owned Games</li>
+    <li class="active">Manage</li>
+</ol>
 
-
-        @using (Html.BeginForm("ManagePost", "Game", FormMethod.Post))
-        {
-            <table class="manageGameTable">
-
-                <tr>
-                    <td class="b">Publish Your Game Online:
-                    </td>
-                    <td>
-                       
-                        @if (Model.IsGamePublishedOnline)
-                        { 
-                             <div id="publishedGameContainer">
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                            - <span class="i">Game is Published</span>
-                        </div>
-                            <input type="button" class="primary" value="UnPublish" onclick="javascript:PublishGameOnline(this, false)" />
-                        }
-                        else
-                        { <div id="publishedGameContainer" class="displayNone">
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                            - <span class="i">Game is Published</span>
-                        </div>
-                            <input type="button" class="primary" value="Publish" onclick="javascript:PublishGameOnline(this, true)" />
-                        }
-                        <img src="@Url.Content("~/Content/loading_lg.gif")" id="loading" class="displayNone" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b">Game Name:
-                    </td>
-                    <td>@Html.TextBoxFor(x => x.GameName)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b">Game Date:
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(model => model.GameDate, new { @class = "jquery_datepicker", @Value = Model.GameDate.ToString("MM/dd/yyyy"), onchange = "document.getElementById('dateChanged').click();" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b">Available Tournaments (optional):
-                    </td>
-                    <td>
-                        @Html.DropDownListFor(x => x.SelectedTournament, new SelectList(Model.AvailableTournaments, "Id", "Name"), "--Select Tournament")
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b">Required Passcode For Selected Tournament:
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(x => x.PassCodeEnteredForTournament)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b">Shop To Advertise:
-                    </td>
-                    <td>
-                        @Html.DropDownListFor(x => x.SelectedShop, new SelectList(Model.AvailableShops, "MerchantId", "ShopName"), "--Select Shop")
-                        <span class="i">If You select a Shop, the game screen will show the merchandise from that shop</span>
-                    </td>
-                </tr>
-            </table>
-      
-            <div class="divider"></div>
-            <div>
-                <div id="usual1" class="usual">
-                    <ul class="idTabs">
-                        <li><a class="selected" href="#playersTab">Players</a></li>
-                        <li><a href="#ownersTab">Owners Of Game</a></li>
-                        <li><a href="#videoStreaming">Video Streaming</a></li>
-                    </ul>
-                    <br />
-                    <div id="playersTab" class="usualInner">
-                        <div>
-                            Connect the players of the game, to the players within RDNation. This will show
-                            updated stats on the player profiles and allow players to begin ranking them selves.
-                        </div>
-                        <br />
-                        <table class="manageGameTable">
-                            <thead>
-                                <tr>
-                                    <th>Skated As
-                                    </th>
-                                    <th class="middleTableColumn"></th>
-                                    <th>Is on RDNation As
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.MembersOfGame.Count; i++)
-                                { 
-                                    <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                        <td>
-                                            @Model.MembersOfGame[i].DerbyName
-                                        </td>
-                                        <td>Is
-                                        </td>
-                                        <td>
-                                            @Html.TextBox(Model.MembersOfGame[i].MemberId.ToString().Replace("-", ""), Model.MembersOfGame[i].DerbyLinkName, new { @id = Model.MembersOfGame[i].MemberId.ToString().Replace("-", "") })
-                                            as known on RDNation.com
-                                            @Html.Hidden(Model.MembersOfGame[i].MemberId.ToString().Replace("-", "") + "hidden", Model.MembersOfGame[i].MemberLinkId.ToString().Replace("-", ""), new { @id = Model.MembersOfGame[i].MemberId.ToString().Replace("-", "") + "hidden" })
-                                            <script type="text/javascript">
-                                                $(document).ready(function () {
-                                                    $('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")').autocomplete({
-                                                        source: '@Url.Action("SearchNames", "Utilities")',
-                                                        width: 140,
-                                                        max: 10,
-                                                        select: function (event, ui) {
-                                                            $("#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")hidden").val(ui.item.MemberId);
-                                                            return false;
-                                                        },
-                                                        focus: function (event, ui) {
-                                                            $("#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")")
-                                                            .val(ui.item.DerbyName + " " + ui.item.DerbyNumber);
-                                                            return false;
-                                                        },
-                                                    })
-                                                    .data("ui-autocomplete")._renderItem = function (ul, item) {
-                                                        return $("<li>")
-                                                            .append("<a>" + item.DerbyName + " " + item.DerbyNumber + "</a>")
-                                                            .appendTo(ul);
-                                                    };
-                                                    $('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")').blur(function () {
-                                                        if ($('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")').val().length < 2)
-                                                            $('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")hidden').val("");
-                                                    });
-                                                });
-                                            </script>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8">
+                        <h3 class="margin-bottom-5 margin-top-10">Manage Your Post Game</h3>
+                        <span class="text-muted">Here you can update the game you used with <a href="http://rdnation.com/roller-derby-scoreboard" target="_blank">Thor's Hammer</a> or inputed manually.</span>
                     </div>
-
-                    <div id="ownersTab" class="usualInner">
-                        <div>
-                            Add Owners of this game. Each owner will be able to modify the game the way they
-                            see fit, so please only assign those you know will keep proper records.
-                        </div>
-                        <br />
-                        <table class="manageGameTable">
-                            <thead>
-                                <tr>
-                                    <th>Add More Owners of the Game
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.MemberOwners.Count; i++)
-                                { 
-                                    <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                        <td>
-                                            @if (String.IsNullOrEmpty(Model.MemberOwners[i].DerbyName))
-                                            {
-                                                <span>Owner:</span>   @Html.TextBox("MemberOwner" + i, Model.MemberOwners[i].DerbyName, new { @id = "MemberOwner" + i })
-                                            
-                                               
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('#MemberOwner' + @i).autocomplete({
-                                                            source: '@Url.Action("SearchNames", "Utilities")',
-                                                            width: 140,
-                                                            max: 10,
-                                                            select: function (event, ui) {
-                                                                $('#MemberOwner' + @i +'hidden').val(ui.item.MemberId);
-                                                                return false;
-                                                            },
-                                                            focus: function (event, ui) {
-                                                                $('#MemberOwner' + @i)
-                                                            .val(ui.item.DerbyName + " " + ui.item.DerbyNumber);
-                                                                return false;
-                                                            },
-                                                        })
-                                                    .data("ui-autocomplete")._renderItem = function (ul, item) {
-                                                        return $("<li>")
-                                                            .append("<a>" + item.DerbyName + " " + item.DerbyNumber + "</a>")
-                                                            .appendTo(ul);
-                                                    };
-                                                        $('#MemberOwner' + @i).blur(function () {
-                                                            if ($('#MemberOwner' + @i).val().length < 2)
-                                                                $('#MemberOwner' + @i +'hidden').val("");
-                                                        });
-                                                    });
-                                                </script>
-                                                @Html.Hidden("MemberOwner" + i + "hidden", "", new { @id = "MemberOwner" + i + "hidden" })
-                                            }
-                                            else
-                                            {
-                                                <span>Owner:</span> @Model.MemberOwners[i].DerbyName
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                  
-            <div class="divider"></div>
-                        <div>
-                            Add League Owners of the game. Each manager and owner of the league added will be
-                            allowed to modify and view reports this game in anyway they see fit, so please only assign those
-                            you know will keep proper records.
-                        </div>
-                        <br />
-                        <table class="manageGameTable">
-                            <thead>
-                                <tr>
-                                    <th>Add League Owner to the Game
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.LeagueOwners.Count; i++)
-                                { 
-                                    <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                        <td>
-                                            @if (String.IsNullOrEmpty(Model.LeagueOwners[i].Name))
-                                            {
-                                                <span>League:</span>   @Html.TextBox("LeagueOwner" + i, Model.LeagueOwners[i].Name, new { @id = "LeagueOwner" + i })
-                                            
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('#LeagueOwner' + @i).autocomplete({
-                                                            source: '@Url.Action("SearchLeagues", "Utilities")',
-                                                            width: 140,
-                                                            max: 10,
-                                                            select: function (event, ui) {
-                                                                $('#LeagueOwner' + @i + 'hidden').val(ui.item.LeagueId);
-                                                                return false;
-                                                            },
-                                                            focus: function (event, ui) {
-                                                                $('#LeagueOwner' + @i)
-                                                            .val(ui.item.LeagueName );
-                                                                return false;
-                                                            },
-                                                        })
-                                                    .data("ui-autocomplete")._renderItem = function (ul, item) {
-                                                        return $("<li>")
-                                                            .append("<a>" + item.LeagueName+ "</a>")
-                                                            .appendTo(ul);
-                                                    };
-                                                        $('#LeagueOwner' + @i).blur(function () {
-                                                            if ($('#LeagueOwner' + @i).val().length < 2)
-                                                                $('#LeagueOwner' + @i + 'hidden').val("");
-                                                        });
-                                                    });
-                                                </script>
-                                                @Html.Hidden("LeagueOwner" + i + "hidden", "", new { @id = "LeagueOwner" + i + "hidden" })
-                                            }
-                                            else
-                                            {
-                                                <span>League:</span> @Model.LeagueOwners[i].Name
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                  
-            <div class="divider"></div>
-                        <div>
-                            Add Federation Owners of the game. Each manager and owner of the federation added
-                            will be allowed to modify and view reports this game in anyway they see fit, so please only assign
-                            those you know will keep proper records.
-                        </div>
-                        <br />
-                        <table class="manageGameTable">
-                            <thead>
-                                <tr>
-                                    <th>Add a Federation Owner to the Game
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.FederationOwners.Count; i++)
-                                { 
-                                    <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
-                                        <td>
-                                            @if (String.IsNullOrEmpty(Model.FederationOwners[i].FederationName))
-                                            {
-                                                <span>Federation:</span> @Html.TextBox("FederationOwner" + i, Model.FederationOwners[i].FederationName, new { @id = "FederationOwner" + i })
-                                            
-                                                <script type="text/javascript">
-                                                    $('#FederationOwner' + @i).autocomplete('@Url.Action("SearchFederations", "Utilities")', {
-                                                        width: 140,
-                                                        max: 10,
-                                                        formatItem: function (data, i, n, value) { return value.split("~")[0]; },
-                                                        formatResult: function (data, value) { return value.split("~")[0]; }
-                                                    });
-                                                    $('#FederationOwner' + @i).result(function (event, data, formatted) {
-                                                        $('#FederationOwner' + @i + 'hidden').val(formatted.split("~")[1]);
-                                                    });
-                                                    $('#FederationOwner' + @i).blur(function () {
-                                                        if ($('#FederationOwner' + @i).val().length < 2)
-                                                            $('#FederationOwner' + @i + 'hidden').val("");
-                                                    });
-                                                </script>
-                                                @Html.Hidden("FederationOwner" + i + "hidden", "", new { @id = "FederationOwner" + i + "hidden" })
-                                            }
-                                            else
-                                            {
-                                                <span>Federation:</span> @Model.FederationOwners[i].FederationName
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="videoStreaming" class="usualInner">
-                        <div>
-                            Does Your Game Have a Video or Are You Live Streaming?
-                        </div>
-
-                        <table class="manageGameTable">
-                            <tr>
-                                <td class="b">Attach Paywall To Video:
-                                </td>
-                                <td>
-                                    @Html.DropDownListFor(x => x.SelectedPaywall, (SelectList)ViewBag.PayWalls, "Select Paywall...")
-
-                                    - <span class="i"><a href="@Url.Content("~/paywall/all")">View Paywalls</a></span></td>
-                            </tr>
-                            <tr>
-                                <td class="b">Embeded Video Html:
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.EmbededVideoString)
-
-                                    <span class="i">Here, you can paste the <b>Share Link</b> you receive on YOUTUBE/Twitch.tv/Justin.tv/etc...
-                            and we will display the video with the LIVE game.</span></td>
-                            </tr>
-
-                            <tr>
-                                <td class="b">Silverlight Url/Mobile:
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.StreamingUrlSilverlight)/@Html.TextBoxFor(x => x.StreamingMobileUrlSilverlight)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>RDNation.com supports <a href="http://www.iis.net/media/experiencesmoothstreaming"
-                                    target="_blank">silverlight streaming of games</a>.
-                            <br />
-                                    We use these inputs to define Silverlight Urls to stream online.
-                            <br />
-                                    For more information on how RDNation.com can LIVE stream your game online, please
-                            email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.
-                            <br />
-                                    Examples: http://host/LiveStream.isml/manifest
-                            <br />
-                                    http://host/LiveStream.isml/manifest(format=m3u8-aapl).m3u8
-                                </td>
-                            </tr>
-
-                        </table>
-
+                    <div class="col-xs-12 col-sm-4 text-right">
+                        <a class="btn btn-warning btn-sm" target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-game/" + Model.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team2Name))"><i class="fa fa-history"></i> View Changes</a>
                     </div>
                 </div>
             </div>
-            <input type="submit" class="primary" value="Update Game" />
-            @Html.HiddenFor(x => x.GameId)
-            @Html.HiddenFor(x => x.PrivateKeyForGame)
+            @using (Html.BeginForm("ManagePost", "Game", FormMethod.Post))
+            {
+                <div class="panel-body">
+                    <div class="alert alert-info padding-10">
+                        @if (Model.IsGamePublishedOnline)
+                        {
+                            <div class="row">
+                                <div id="publishedGameContainer" class="col-xs-12 col-sm-9 font16 padding-top-5">
+                                    <i class="fa fa-check-circle"></i> Game is Published
+                                </div>
+                                <div class="col-xs-12 col-sm-3 text-right">
+                                    <button class="btn btn-primary btn-sm" type="button" onclick="javascript:PublishGameOnline(this, false)">UnPublish</button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger btn-sm" type="button"  onclick="javascript:PublishGameOnline(this, true)" >Publish</button>
+                        }
+                        <img src="@Url.Content("~/Content/loading_lg.gif")" id="loading" class="displayNone" />
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-bottom-5">Game Name</label>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.GameName, new { @class="form-control"})
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-bottom-5">Game Date</label>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(model => model.GameDate, new { @class = "jquery_datepicker form-control", @Value = Model.GameDate.ToString("MM/dd/yyyy"), onchange = "document.getElementById('dateChanged').click();" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-bottom-5">Available Tournaments (optional)</label>
+                            <div class="margin-bottom-15">
+                                @Html.DropDownListFor(x => x.SelectedTournament, new SelectList(Model.AvailableTournaments, "Id", "Name"), "--Select Tournament", new { @class="full-width" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-bottom-5">Required Passcode For Selected Tournament</label>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.PassCodeEnteredForTournament, new  { @class="form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-bottom-5">Shop To Advertise</label>
+                            <div class="margin-bottom-15">
+                                @Html.DropDownListFor(x => x.SelectedShop, new SelectList(Model.AvailableShops, "MerchantId", "ShopName"), "--Select Shop", new { @class = "full-width margin-bottom-5" })
+                                <span class="i text-muted">If You select a Shop, the game screen will show the merchandise from that shop</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul class="nav nav-tabs padding-top-5" id="myTab">
+                            <li class="active margin-left-5"><a href="#playersTab"><i class="fa fa-group"></i> Players</a></li>
+                            <li class="margin-left-5"><a href="#ownersTab"><i class="fa fa-user"></i> Owners Of Game</a></li>
+                            <li class="margin-left-5"><a href="#videoStreaming"><i class="fa fa-video-camera"></i> Video Streaming</a></li>
+                        </ul>
+                        <div class="tab-content padding-15 no-padding-bottom">
+                            <div class="tab-pane active" id="playersTab">
+                                <div class="i text-muted">
+                                    Connect the players of the game, to the players within RDNation. This will show
+                                    updated stats on the player profiles and allow players to begin ranking them selves.
+                                </div>
+                                <br />
+                                <table class="table table-striped table-hover table-condensed no-margin-bottom">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Skated As
+                                            </th>
+                                            <th class="middleTableColumn"></th>
+                                            <th>
+                                                Is on RDNation As
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.MembersOfGame.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="vertical-middle">
+                                                    @Model.MembersOfGame[i].DerbyName
+                                                </td>
+                                                <td class="vertical-middle">
+                                                    Is
+                                                </td>
+                                                <td class="vertical-middle">
+                                                    @Html.TextBox(Model.MembersOfGame[i].MemberId.ToString().Replace("-", ""), Model.MembersOfGame[i].DerbyLinkName, new { @id = Model.MembersOfGame[i].MemberId.ToString().Replace("-", ""), @class = "form-control input-sm" })
 
-        }
+                                                    @Html.Hidden(Model.MembersOfGame[i].MemberId.ToString().Replace("-", "") + "hidden", Model.MembersOfGame[i].MemberLinkId.ToString().Replace("-", ""), new { @id = Model.MembersOfGame[i].MemberId.ToString().Replace("-", "") + "hidden" })
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function () {
+                                                            $('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")').autocomplete({
+                                                                source: '@Url.Action("SearchNames", "Utilities")',
+                                                                width: 140,
+                                                                max: 10,
+                                                                select: function (event, ui) {
+                                                                    $("#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")hidden").val(ui.item.MemberId);
+                                                                    return false;
+                                                                },
+                                                                focus: function (event, ui) {
+                                                                    $("#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")")
+                                                                    .val(ui.item.DerbyName + " " + ui.item.DerbyNumber);
+                                                                    return false;
+                                                                },
+                                                            })
+                                                            .data("ui-autocomplete")._renderItem = function (ul, item) {
+                                                                return $("<li>")
+                                                                    .append("<a>" + item.DerbyName + " " + item.DerbyNumber + "</a>")
+                                                                    .appendTo(ul);
+                                                            };
+                                                            $('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")').blur(function () {
+                                                                if ($('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")').val().length < 2)
+                                                                    $('#@Model.MembersOfGame[i].MemberId.ToString().Replace("-", "")hidden').val("");
+                                                            });
+                                                        });
+                                                    </script>
+                                                </td>
+                                                <td class="vertical-middle">
+                                                    as known on RDNation.com
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="ownersTab">
+                                <div class="panel-group no-margin-bottom" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Add More Owners of the Game</a>
+                                            </h4>
+                                            <div class="i text-muted">
+                                                Add Owners of this game. Each owner will be able to modify the game the way they
+                                                see fit, so please only assign those you know will keep proper records.
+                                            </div>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in">
+                                            <div class="panel-body no-padding-bottom">
+                                                <div class="row">
+                                                    @for (int i = 0; i < Model.MemberOwners.Count; i++)
+                                                    {
+                                                        <div class="col-xs-12 col-md-6">
+                                                            <div class="well well-sm">
+                                                                <p>Owner</p>
+                                                                @if (String.IsNullOrEmpty(Model.MemberOwners[i].DerbyName))
+                                                                {
+                                                                    @Html.TextBox("MemberOwner" + i, Model.MemberOwners[i].DerbyName, new { @id = "MemberOwner" + i, @class = "form-control input-sm" })
+                                                                    <script type="text/javascript">
+                                                            $(document).ready(function () {
+                                                                $('#MemberOwner' + @i).autocomplete({
+                                                                    source: '@Url.Action("SearchNames", "Utilities")',
+                                                                    width: 140,
+                                                                    max: 10,
+                                                                    select: function (event, ui) {
+                                                                        $('#MemberOwner' + @i +'hidden').val(ui.item.MemberId);
+                                                                        return false;
+                                                                    },
+                                                                    focus: function (event, ui) {
+                                                                        $('#MemberOwner' + @i)
+                                                                    .val(ui.item.DerbyName + " " + ui.item.DerbyNumber);
+                                                                        return false;
+                                                                    },
+                                                                })
+                                                            .data("ui-autocomplete")._renderItem = function (ul, item) {
+                                                                return $("<li>")
+                                                                    .append("<a>" + item.DerbyName + " " + item.DerbyNumber + "</a>")
+                                                                    .appendTo(ul);
+                                                            };
+                                                                $('#MemberOwner' + @i).blur(function () {
+                                                                    if ($('#MemberOwner' + @i).val().length < 2)
+                                                                        $('#MemberOwner' + @i +'hidden').val("");
+                                                                });
+                                                            });
+                                                                    </script>
+                                                                    @Html.Hidden("MemberOwner" + i + "hidden", "", new { @id = "MemberOwner" + i + "hidden" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    <b>@Model.MemberOwners[i].DerbyName</b>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Add League Owner to the Game</a>
+                                            </h4>
+                                            <div class="i text-muted">
+                                                Add League Owners of the game. Each manager and owner of the league added will be
+                                                allowed to modify and view reports this game in anyway they see fit, so please only assign those
+                                                you know will keep proper records.
+                                            </div>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                            <div class="panel-body no-padding-bottom">
+                                                <div class="row">
+                                                    @for (int i = 0; i < Model.LeagueOwners.Count; i++)
+                                                    {
+                                                        <div class="col-xs-12 col-md-6">
+                                                            <div class="well well-sm">
+                                                                <p>League</p>
+                                                                @if (String.IsNullOrEmpty(Model.LeagueOwners[i].Name))
+                                                                {
+                                                                    @Html.TextBox("LeagueOwner" + i, Model.LeagueOwners[i].Name, new { @id = "LeagueOwner" + i, @class = "form-control input-sm" })
+                                                                    <script type="text/javascript">
+                                                                        $(document).ready(function () {
+                                                                            $('#LeagueOwner' + @i).autocomplete({
+                                                                                source: '@Url.Action("SearchLeagues", "Utilities")',
+                                                                                width: 140,
+                                                                                max: 10,
+                                                                                select: function (event, ui) {
+                                                                                    $('#LeagueOwner' + @i + 'hidden').val(ui.item.LeagueId);
+                                                                                    return false;
+                                                                                },
+                                                                                focus: function (event, ui) {
+                                                                                    $('#LeagueOwner' + @i)
+                                                                                .val(ui.item.LeagueName );
+                                                                                    return false;
+                                                                                },
+                                                                            })
+                                                                        .data("ui-autocomplete")._renderItem = function (ul, item) {
+                                                                            return $("<li>")
+                                                                                .append("<a>" + item.LeagueName+ "</a>")
+                                                                                .appendTo(ul);
+                                                                        };
+                                                                            $('#LeagueOwner' + @i).blur(function () {
+                                                                                if ($('#LeagueOwner' + @i).val().length < 2)
+                                                                                    $('#LeagueOwner' + @i + 'hidden').val("");
+                                                                            });
+                                                                        });
+                                                                    </script>
+                                                                    @Html.Hidden("LeagueOwner" + i + "hidden", "", new { @id = "LeagueOwner" + i + "hidden" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    <b>@Model.LeagueOwners[i].Name</b>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Add a Federation Owner to the Game</a>
+                                            </h4>
+                                            <div class="i text-muted">
+                                                Add Federation Owners of the game. Each manager and owner of the federation added
+                                                will be allowed to modify and view reports this game in anyway they see fit, so please only assign
+                                                those you know will keep proper records.
+                                            </div>
+                                        </div>
+                                        <div id="collapseThree" class="panel-collapse collapse">
+                                            <div class="panel-body no-padding-bottom">
+                                                <div class="row">
+                                                    @for (int i = 0; i < Model.FederationOwners.Count; i++)
+                                                    {
+                                                        <div class="col-xs-12 col-md-6">
+                                                            <div class="well well-sm">
+                                                                <p>Federation</p>
+                                                                @if (String.IsNullOrEmpty(Model.FederationOwners[i].FederationName))
+                                                                {
+                                                                    <span>Federation:</span> @Html.TextBox("FederationOwner" + i, Model.FederationOwners[i].FederationName, new { @id = "FederationOwner" + i, @class = "form-control input-sm" })
+
+                                                                    <script type="text/javascript">
+                                                                        $('#FederationOwner' + @i).autocomplete('@Url.Action("SearchFederations", "Utilities")', {
+                                                                            width: 140,
+                                                                            max: 10,
+                                                                            formatItem: function (data, i, n, value) { return value.split("~")[0]; },
+                                                                            formatResult: function (data, value) { return value.split("~")[0]; }
+                                                                        });
+                                                                        $('#FederationOwner' + @i).result(function (event, data, formatted) {
+                                                                            $('#FederationOwner' + @i + 'hidden').val(formatted.split("~")[1]);
+                                                                        });
+                                                                        $('#FederationOwner' + @i).blur(function () {
+                                                                            if ($('#FederationOwner' + @i).val().length < 2)
+                                                                                $('#FederationOwner' + @i + 'hidden').val("");
+                                                                        });
+                                                                    </script>
+                                                                    @Html.Hidden("FederationOwner" + i + "hidden", "", new { @id = "FederationOwner" + i + "hidden" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    <b> @Model.FederationOwners[i].FederationName</b>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="videoStreaming">
+                                <div class="text-muted margin-bottom-15">
+                                    Does Your Game Have a Video or Are You Live Streaming?
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <label class="form-label no-margin-bottom">
+                                            Attach Paywall To Video
+                                        </label>
+                                        <div class="margin-bottom-15">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6 col-md-9 col-lg-10 margin-top-5">
+                                                    @Html.DropDownListFor(x => x.SelectedPaywall, (SelectList)ViewBag.PayWalls, "Select Paywall...", new {@class="full-width" })
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 margin-top-5">
+                                                   <a class="btn btn-info btn-sm" href="@Url.Content("~/paywall/all")">View Paywalls</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <label class="form-label margin-bottom-5">
+                                            Embeded Video Html
+                                        </label>
+                                        <div class="margin-bottom-15">
+                                            @Html.TextBoxFor(x => x.EmbededVideoString, new { @class="form-control margin-bottom-5" })
+                                            <span class="i text-muted">
+                                                Here, you can paste the <b>Share Link</b> you receive on YOUTUBE/Twitch.tv/Justin.tv/etc...
+                                                and we will display the video with the LIVE game.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <label class="form-label margin-bottom-5">
+                                            Silverlight Url / Mobile
+                                        </label>
+                                        <div class="margin-bottom-15">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-5">
+                                                    @Html.TextBoxFor(x => x.StreamingUrlSilverlight, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-xs-12 col-sm-1 text-center font20">/</div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    @Html.TextBoxFor(x => x.StreamingMobileUrlSilverlight, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-success no-margin-bottom">
+                                    RDNation.com supports <a href="http://www.iis.net/media/experiencesmoothstreaming"
+                                                                target="_blank">silverlight streaming of games</a>.
+                                    <br />
+                                    We use these inputs to define Silverlight Urls to stream online.
+                                    <br />
+                                    For more information on how RDNation.com can LIVE stream your game online, please
+                                    email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.
+                                    <br />
+                                    Examples: http://host/LiveStream.isml/manifest
+                                    <br />
+                                    http://host/LiveStream.isml/manifest(format=m3u8-aapl).m3u8
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update Game</button>
+                </div>
+                @Html.HiddenFor(x => x.GameId)
+                @Html.HiddenFor(x => x.PrivateKeyForGame)
+            }
+        </div>
     </div>
 </div>
 <script type="text/javascript">    
     $('#GameDate').datepicker({});
-    $("#usual1 ul").idTabs();
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
 </script>

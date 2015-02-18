@@ -6,82 +6,80 @@
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Paywalls</li>
+</ol>
 @if (Model.MerchantId == new Guid())
 {
-    <div class="fixedContainer">
-        <div class="fixedCenterContainter">
-            <div class="fixTitle">
-                Merchant Account Setup And Paywalls
-            </div>
-            <div class="divider"></div>
-            <div>
-                Paywalls are used to collect money through various things.  
-                Right now, RDNation offers paywalls to collect money with online video streaming.  If your game is being displayed on RDNation and you would like people to pay to view the video, you can create a Paywall below.
-               <br />
-                <br />
-                It looks like don't have a merchant account yet with RDNation.  
-                Merchant accounts are used to sell and collect money with RDNation.  
-                By creating this merchant account, you can start collecting money with paywalls.
-
-            </div>
+     <div class="alert alert-warning">
+        <h3 class="margin-top-5">Merchant Account Setup And Paywalls</h3>
+        <p>
+            Paywalls are used to collect money through various things.
+            Right now, RDNation offers paywalls to collect money with online video streaming.  If your game is being displayed on RDNation and you would like people to pay to view the video, you can create a Paywall below.
+            <br />
+            <br />
+            It looks like don't have a merchant account yet with RDNation.
+            Merchant accounts are used to sell and collect money with RDNation.
+            By creating this merchant account, you can start collecting money with paywalls.
+        </p>
+        <p>
             @using (Html.BeginForm("CreatePaywall", "Paywall"))
-            { 
+            {
                 <div>
-                    <input type="submit" class="primary" value="Create Merchant Account" />
+                    <input class="btn btn-success btn-sm" type="submit" value="Create Merchant Account" />
                 </div>
-                @Html.HiddenFor(x => x.InternalReference);
+               @Html.HiddenFor(x => x.InternalReference);
             }
-        </div>
+        </p>
     </div>
 }
 else
-{
-   
-  
-    <div class="expandableContainer">
-        <div class="expandableCenterContainter">
-            <div class="fixTitle">
-                Paywalls
+{ 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-2 col-md-1">
+                    <h3 class="margin-top-5 margin-bottom-15">Paywalls</h3>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-11 text-right">
+                    <a class="btn btn-primary btn-sm" href="@Url.Content("~/paywall/add")"><i class="fa fa-plus-circle"></i> Add Paywall</a>
+                    <a class="btn btn-warning btn-sm" href="@Url.Content("~/paywall/payments/" + RDN.Library.Cache.MemberCache.GetStoreManagerKeysForUrlUser(memId))"><i class="fa fa-money"></i> Payments</a>
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/merchant/settings?return=" + Model.ReturnUrl)"><i class="fa fa-cog"></i> Merchant Settings</a>
+                    <a class="btn btn-default btn-sm" href="http://wiki.rdnation.com/Paywalls" target="_blank">Help</a>    
+                </div>
             </div>
-            <div class="expandableCenterContainterRight">
-                <a href="@Url.Content("~/paywall/add")">
-                    <img src="@Url.Content("~/Content/plus.png")" height="20px" />
-                    Add Paywall</a> | 
-                <a href="@Url.Content("~/paywall/payments/" + RDN.Library.Cache.MemberCache.GetStoreManagerKeysForUrlUser(memId))">Payments</a> |
-                <a href="@Url.Content("~/merchant/settings?return=" + Model.ReturnUrl)">Merchant Settings</a> | <a href="http://wiki.rdnation.com/Paywalls" target="_blank">Help</a>    
-            </div>
-             <div class="titleDescription"> 
-                Paywalls are used to collect money through various things.  
+            <span class="text-muted">
+                Paywalls are used to collect money through various things.
                 Right now, RDNation offers paywalls to collect money with online video streaming.  If your game is being displayed on RDNation and you would like people to pay to view the video, you can create a Paywall below.
-                
-                        
-            </div>
-            <div class="divider"></div>
-           
-
-            <table class="listTable tableExtras" id="members">
+            </span>
+        </div>
+        <div class="panel-body" style="overflow-x:auto">
+            <table class="table table-striped table-hover table-condensed" id="members">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Daily Price</th>
-                        <th>Timespan Price</th>
-                        <th>Is Enabled</th>
+                        <th class="text-center">Start Date</th>
+                        <th class="text-center">End Date</th>
+                        <th class="text-right">Daily Price</th>
+                        <th class="text-right">Timespan Price</th>
+                        <th class="text-center">Is Enabled</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var pay in Model.Paywalls)
-                    { 
+                    {
                         <tr>
-                            <td><a href="@Url.Content("~/paywall/edit/" + pay.PaywallId)">Edit</a></td>
+                            
                             <td><a href="@Url.Content("~/paywall/view/" + pay.PaywallId)">@pay.DescriptionOfPaywall</a></td>
-                            <td>@pay.StartDateDisplay</td>
-                            <td>@pay.EndDateDisplay</td>
-                            <td>@pay.DailyPrice</td>
-                            <td>@pay.TimespanPrice</td>
-                            <td>@pay.IsEnabled</td>
+                            <td class="text-center">@pay.StartDateDisplay</td>
+                            <td class="text-center">@pay.EndDateDisplay</td>
+                            <td class="text-right">@pay.DailyPrice</td>
+                            <td class="text-right">@pay.TimespanPrice</td>
+                            <td class="text-center">@pay.IsEnabled</td>
+                            <td><a class="btn btn-success btn-xs" href="@Url.Content("~/paywall/edit/" + pay.PaywallId)"><i class="fa fa-pencil"></i> Edit</a></td>
                         </tr>
                     }
                 </tbody>
@@ -90,10 +88,9 @@ else
             @Html.HiddenFor(x => x.InternalReference)
             @Html.HiddenFor(x => x.PrivateManagerId)
         </div>
-    
     </div>
-  
 }
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({
@@ -103,7 +100,9 @@ else
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "bAutoWidth": false
         });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
     });
 </script>

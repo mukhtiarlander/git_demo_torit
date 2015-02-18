@@ -7,157 +7,159 @@
     ViewBag.Title = "View Paywall";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a href="@Url.Content("~/paywall/all/")">Paywalls</a> < <a href="@Url.Content("~/paywall/edit/" + Model.PaywallId)">Edit</a>
-        </div>
-        <div class="rightBackLink"><a href="http://wiki.rdnation.com/Paywalls" target="_blank">Help</a>    </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            View Paywall
-        </div>
-      
-         <div class="titleDescription">
-    Here you can edit a paywall for locking parts of RDNation down to your customers only.
-      
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/paywall/all/")">Paywalls</a></li>
+    <li class="active">View Paywall</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h3 class="margin-top-5">View Paywall</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 text-right">
+                        <a class="btn btn-success btn-sm" href="@Url.Content("~/paywall/edit/" + Model.PaywallId)"><i class="fa fa-pencil"></i> Edit</a>
+                        <a class="btn btn-default btn-sm" href="http://wiki.rdnation.com/Paywalls" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+                    </div>
+                </div>
+                <span class="text-muted">Here you can edit a paywall for locking parts of RDNation down to your customers only.</span>
             </div>
-            <div class="divider"></div>
-        <div>
-
-            <table class="addForumPostTbl">
-                <tr>
-                    <td class="b alRight">Description of Wall:
-                    </td>
-                    <td class="subject">
-                        @Model.DescriptionOfPaywall
-
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Start Date:
-                    </td>
-                    <td class="largeInput">
-                        @Model.StartDateDisplay
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">End Date:
-                    </td>
-                    <td class="largeInput">
-                        @Model.EndDateDisplay
-
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Daily Price:
-                    </td>
-                    <td class="mediumInput">$@Model.DailyPrice.ToString("N2")
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Full Price:
-                    </td>
-                    <td class="mediumInput">$@Model.TimespanPrice.ToString("N2")
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Is Enabled?:
-                    </td>
-                    <td>
-                        @if (Model.IsEnabled)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Games Attached To Paywall:
-                    </td>
-                    <td>
-                        <table class="listTable " id="games">
-                            <thead>
-                                <tr>
-                                    <th>Game</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var game in Model.Games)
-                                { 
-                                    <tr>
-                                        <td>
-
-                                            <a href="@Url.Content("~/game/manage/" + game.PrivateKeyForGame.ToString().Replace("-", "") + "/" + game.GameId.ToString().Replace("-", ""))">@game.GameName </a>
-                                        </td>
-                                    </tr>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 margin-bottom-10">
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-12 col-sm-6">
+                                Description of Wall
+                            </div>
+                            <div class="col-xs-12 col-sm-6 b">
+                                @Model.DescriptionOfPaywall
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-12 col-sm-6">
+                                Start Date
+                            </div>
+                            <div class="col-xs-12 col-sm-6 b">
+                                @Model.StartDateDisplay
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-12 col-sm-6">
+                                End Date
+                            </div>
+                            <div class="col-xs-12 col-sm-6 b">
+                                @Model.EndDateDisplay
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-12 col-sm-6">
+                                Daily Price
+                            </div>
+                            <div class="col-xs-12 col-sm-6 b">
+                                $@Model.DailyPrice.ToString("N2")
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-12 col-sm-6">
+                                Full Price
+                            </div>
+                            <div class="col-xs-12 col-sm-6 b">
+                                $@Model.TimespanPrice.ToString("N2")
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                Is Enabled?
+                            </div>
+                            <div class="col-xs-12 col-sm-6 b">
+                                @if (Model.IsEnabled)
+                                {
+                                    <i class="fa fa-check-circle"></i>
                                 }
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Orders:
-                    </td>
-                    <td>
-                             <table class="listTable" id="orders">
-            <thead>
-                <tr>
-                    <th>Created</th>
-                    <th>Number</th>
-                    <th>Payment Through S(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Stripe).Count()) PP(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Paypal).Count())</th>
-                    <th>Total @Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful).Sum(x => x.TotalIncludingTax)</th>
-                    <th>Invoice Status</th>
-                    <th>Email</th>
-                    
-                    <th>Your Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var invoice in Model.Invoices)
-                { 
-                    <tr>
-                        <td>@invoice.Created.ToString("yyyy/M/d")</td>
-                        <td><a href="@Url.Content("~/paywall/order/" + invoice.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + invoice.Merchant.MerchantId.ToString().Replace("-", "") + "/" + invoice.InvoiceId.ToString().Replace("-", ""))">@invoice.InvoiceId.ToString().Replace("-", "")</a></td>
-                        <td>@invoice.PaymentProvider</td>
-                        <td>@invoice.TotalIncludingTax @invoice.Currency</td>
-                        @*<td>@invoice.RDNDeductedFee @invoice.Currency</td>*@
-                        <td>@EnumExt.ToFreindlyName(invoice.InvoiceStatus)</td>
-                        <td>@invoice.InvoiceBilling.Email</td>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Games Attached To Paywall
+                            </div>
+                            <div class="panel-body no-padding">
+                                <table class="table table-striped table-hover table-condensed " id="games">
+                                    <tbody>
+                                        @foreach (var game in Model.Games)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="@Url.Content("~/game/manage/" + game.PrivateKeyForGame.ToString().Replace("-", "") + "/" + game.GameId.ToString().Replace("-", ""))">@game.GameName </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         
-                        <td>@invoice.AdminNote</td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Created</th>
-                    <th>Number</th>
-                    <th>Payment Through S(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Stripe).Count()) PP(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Paypal).Count())</th>
-                    <th>Total @Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful).Sum(x => x.TotalIncludingTax)</th>
-                    <th>Invoice Status</th>
-                    <th>Email</th>
-                    
+                    </div>
+                </div>
+                
+                <span class="font18">Orders</span>
+                <div style="overflow-x:auto">
+                    <table class="table table-striped table-hover table-condensed" id="orders">
+                        <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th>Number</th>
+                                <th>Payment Through S(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Stripe).Count()) PP(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Paypal).Count())</th>
+                                <th>Total @Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful).Sum(x => x.TotalIncludingTax)</th>
+                                <th>Invoice Status</th>
+                                <th>Email</th>
 
-                    <th>Your Notes</th>
-                </tr>
-            </tfoot>
-        </table>
-   
-                    </td>
-                </tr>
+                                <th>Your Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var invoice in Model.Invoices)
+                        {
+                                <tr>
+                                    <td>@invoice.Created.ToString("yyyy/M/d")</td>
+                                    <td><a href="@Url.Content("~/paywall/order/" + invoice.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + invoice.Merchant.MerchantId.ToString().Replace("-", "") + "/" + invoice.InvoiceId.ToString().Replace("-", ""))">@invoice.InvoiceId.ToString().Replace("-", "")</a></td>
+                                    <td>@invoice.PaymentProvider</td>
+                                    <td>@invoice.TotalIncludingTax @invoice.Currency</td>
+                                    @*<td>@invoice.RDNDeductedFee @invoice.Currency</td>*@
+                                    <td>@EnumExt.ToFreindlyName(invoice.InvoiceStatus)</td>
+                                    <td>@invoice.InvoiceBilling.Email</td>
 
-            </table>
-            @Html.HiddenFor(x => x.PaywallId)
+                                    <td>@invoice.AdminNote</td>
+                                </tr>
+                        }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Created</th>
+                                <th>Number</th>
+                                <th>Payment Through S(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Stripe).Count()) PP(@Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful && x.PaymentProvider == PaymentProvider.Paypal).Count())</th>
+                                <th>Total @Model.Invoices.Where(x => x.InvoiceStatus == InvoiceStatus.Payment_Successful).Sum(x => x.TotalIncludingTax)</th>
+                                <th>Invoice Status</th>
+                                <th>Email</th>
 
+
+                                <th>Your Notes</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    @Html.HiddenFor(x => x.PaywallId)
+                </div>
+            </div>
         </div>
     </div>
 </div>
+   
 <script type="text/javascript">
     $(document).ready(function () {
         $('#games').dataTable({
@@ -178,9 +180,6 @@
             "bSort": true,
             "bInfo": false,
             "bAutoWidth": false,
-
         });
     });
-
-
 </script>
