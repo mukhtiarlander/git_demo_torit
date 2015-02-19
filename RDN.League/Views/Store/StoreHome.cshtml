@@ -52,7 +52,7 @@ else
                         <div class="col-xs-12 col-md-8">
                             @if (Model.IsPublished)
                             {
-                                <h3 class="margin-bottom-5 margin-top-10">
+                                <h3 class="margin-bottom-10 margin-top-5">
                                     <i class="fa fa-shopping-cart"></i> <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a>
                                 </h3>
                                 <span class="text-muted i">Published</span>

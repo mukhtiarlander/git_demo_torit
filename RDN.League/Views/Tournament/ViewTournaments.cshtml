@@ -12,7 +12,14 @@
 
 <div class="panel panel-default margin-top-20">
     <div class="panel-heading">
-        <h3 class="margin-bottom-5 margin-top-10"><i class="fa fa-gamepad"></i> Manage Your Owned Tournaments</h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-8">
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-trophy"></i> Manage Your Owned Tournaments</h3>
+            </div>
+            <div class="col-xs-12 col-md-4 text-right">
+                <a class="btn btn-primary btn-sm" href="@Url.Content("~/tournament/create")"><i class="fa fa-plus-circle"></i> Create Tournament</a>
+            </div>
+        </div>
     </div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed" id="tournaments">
@@ -42,13 +49,13 @@
 
                     <tr>
                         <td>
-                            <a href="@Url.Content("~/tournament/view/" + Model[i].PrivateKey.ToString().Replace("-", "") + "/" + Model[i].Id.ToString().Replace("-", ""))">
-                                Manage
+                            <a class="btn btn-info btn-xs" href="@Url.Content("~/tournament/view/" + Model[i].PrivateKey.ToString().Replace("-", "") + "/" + Model[i].Id.ToString().Replace("-", ""))">
+                                <i class="fa fa-cog"></i> Manage
                             </a>
                         </td>
                         <td>
-                            <a href="@Url.Content("~/tournament/brackets/" + Model[i].PrivateKey.ToString().Replace("-", "") + "/" + Model[i].Id.ToString().Replace("-", ""))">
-                                Brackets
+                            <a class="btn btn-warning btn-xs" href="@Url.Content("~/tournament/brackets/" + Model[i].PrivateKey.ToString().Replace("-", "") + "/" + Model[i].Id.ToString().Replace("-", ""))">
+                                <i class="fa fa-sitemap"></i> Brackets
                             </a>
                         </td>
                         <td>
@@ -70,34 +77,9 @@
             </tbody>
 
         </table>
-        @using (Html.BeginForm("ViewMembers", "Federation"))
-        {
-            <text>
-                <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
-                <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
-                Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
-                <input type="submit" value="Show" />
-            </text>
-        }
     </div>
 </div>
 
-<div class="expandableContainer">
-    <div class="rightBackLink">
-        <a href="@Url.Content("~/tournament/create")"><img src="@Url.Content("~/Content/plus.png")" height="20px" />Create Tournament</a>
-    </div>
-    <div class="expandableCenterContainter">
-        <div class="fixTitle">
-            Manage Your Owned Tournaments
-        </div>
-        <div class="divider"></div>
-        <div>
-            <table class="listTable tableExtras" id="">
-            
-            </table>
-        </div>
-    </div>
-</div>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#tournaments').dataTable({
@@ -107,10 +89,9 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "bAutoWidth": false,
-
         });
+        $('#tournaments_filter input').addClass('form-control').attr("placeholder", "Search");
     });
-
-
 </script>
