@@ -3,32 +3,35 @@
     ViewBag.Title = "Change Your Account Email";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Change Your Account Email
-        </div>
-        <div class="divider"></div>
-        <div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Change Email</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-envelope"></i> Change Your Account Email</h3>
+            </div>
             @using (Html.BeginForm("ChangeEmail", "Member", FormMethod.Post))
             { 
-                <table class="addForumPostTbl">
-
-                    <tr>
-                        <td class="b">New Email:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.UserName)
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="submit" class="primary" value="Change Email" />
-                        </td>
-                    </tr>
-                </table>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label">
+                                New Email
+                            </label>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+              
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Change Email</button>
+                </div>
                 @Html.HiddenFor(x => x.MemberId)
                 @Html.HiddenFor(x => x.UserId)
                 @Html.HiddenFor(x => x.DerbyName)

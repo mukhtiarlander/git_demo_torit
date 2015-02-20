@@ -6,208 +6,211 @@
     ViewBag.Title = "Your Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a href="@Url.Content("~/paywall/payments/" + Model.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">Payments</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            View Paywall Order
-        </div>
-    
-            <div class="divider"></div>
-        <div>
-            @using (Html.BeginForm("PaywallOrder", "Paywall", FormMethod.Post, new { @id = "order" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b vLT2D">Created:
-                        </td>
-                        <td class="largeInput">
-                            @Model.Created.ToString("yyyy/M/d")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Invoice Id:
-                        </td>
-                        <td class="largeInput">
-                            @Model.InvoiceId.ToString().Replace("-", "")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Invoice Status:
-                        </td>
-                        <td id="invoiceStatus">
-                            @EnumExt.ToFreindlyName(Model.InvoiceStatus)
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Valid Till:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Paywall.ValidUntilDisplay)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Price Type:
-                        </td>
-                        <td class="largeInput">
-                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Paywall.PriceType)
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="b vLT2D">Payment Through:
-                        </td>
-                        <td class="largeInput">
-                            @if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Paypal)
-                            { 
-                                <span><a href="http://paypal.com/" target="_blank">Paypal</a></span>
-                            }
-                            else if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Stripe)
-                            {
-                                <span><a href="http://stripe.com/" target="_blank">Stripe</a></span>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Total Payment:
-                        </td>
-                        <td class="smallInput">
-                            @Model.TotalIncludingTax @Model.Currency
-                        </td>
-                    </tr>
-                    @if (Model.InvoiceStatus == InvoiceStatus.Partially_Refunded || Model.InvoiceStatus == InvoiceStatus.Refunded)
-                    { 
-                        <tr>
-                            <td class="b vLT2D">Total Refunded:
-                            </td>
-                            <td class="smallInput">
-                                @(Model.TotalIncludingTax - Model.RefundAmount) @Model.Currency
-                            </td>
-                        </tr>
-                    
-                    }
-
-                    <tr>
-                        <td class="b vLT2D">Times Used Password:
-                        </td>
-                        <td>
-                            @Model.Paywall.TimesUsedPassword
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Minutes Actively Used Paywall:
-                        </td>
-                        <td>
-                            @if (Model.Paywall.SecondsViewedPaywall > 0)
-                            { 
-                                @((Model.Paywall.SecondsViewedPaywall / 60))
-                            }
-                            else
-                            {
-                                @Model.Paywall.SecondsViewedPaywall
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Last Used Paywall:
-                        </td>
-                        <td>
-                            @Model.Paywall.LastViewedPaywall.GetValueOrDefault()
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLT2D">Buyers Email:
-                        </td>
-                        <td>
-                            @Model.InvoiceBilling.Email
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td class="b vLTD">Your Notes:
-                        </td>
-                        <td>
-                            @Html.TextAreaFor(x => x.AdminNote)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-
-                            <input type="submit" class="primary" value="Update Order" />
-                        </td>
-                    </tr>
-                </table>
-                @Html.HiddenFor(x => x.Merchant.PrivateManagerId)
-                @Html.HiddenFor(x => x.Merchant.MerchantId)
-                @Html.HiddenFor(x => x.InvoiceId)
-            }
-        </div>
-        <br />
-        @if (Model.CanRefundCustomer && Model.InvoiceStatus != InvoiceStatus.Refunded)
-        { 
-            <div>
-                <div class="fixTitle">
-                    Refund Paywall Order
-                </div>
-              
-                 <div class="titleDescription">
-
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/paywall/payments/" + Model.Merchant.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">Payments</a></li>
+    <li class="active">Paywall Order</li>
+</ol>
+<div class="row">
+    <div  class="@(Model.CanRefundCustomer && Model.InvoiceStatus != InvoiceStatus.Refunded ? "col-xs-12 col-md-7 col-lg-6" : "col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3")">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-shopping-cart"></i> View Paywall Order</h3>
             </div>
-            <div class="divider"></div>
-                @using (Html.BeginForm("PaywallRefundOrder", "Paywall", FormMethod.Post, new { @id = "orderRefund" }))
-                { 
-                    <table class="addForumPostTbl">
-                        <tr>
-                            <td class="b vLT2D">Refund Amount:
-                            </td>
-                            <td class="largeInput">
-                                @Html.TextBoxFor(x => x.RefundAmount)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b vLTD">Your Notes:
-                            </td>
-                            <td>
-                                @Html.TextAreaFor(x => x.AdminNote)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
+            <div class="panel-body">
+                @using (Html.BeginForm("PaywallOrder", "Paywall", FormMethod.Post, new { @id = "order" }))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <label class="form-label">
+                Invoice Id
+            </label>
+            <div class="margin-bottom-15 font16 b">
+                @Model.InvoiceId.ToString().Replace("-", "")
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Created
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @Model.Created.ToString("yyyy/M/d")
+</div>
+</div>
 
-                                <input type="submit" class="primary" value="Refund Order" />
-                            </td>
-                        </tr>
-                    </table>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Invoice Status
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @EnumExt.ToFreindlyName(Model.InvoiceStatus)
+</div>
+</div>
+
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Price Type
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Paywall.PriceType)
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Payment Through
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Paypal)
+                                {
+                                    <a href="http://paypal.com/" target="_blank">Paypal</a>
+                                }
+                                else if (Model.PaymentProvider == RDN.Library.Classes.Payment.Enums.PaymentProvider.Stripe)
+                                {
+                                    <a href="http://stripe.com/" target="_blank">Stripe</a>
+                                }
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Total Payment
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @Model.TotalIncludingTax @Model.Currency
+</div>
+</div>
+@if (Model.InvoiceStatus == InvoiceStatus.Partially_Refunded || Model.InvoiceStatus == InvoiceStatus.Refunded)
+                        {
+                            <div class="col-xs-12 col-md-6">
+                                <label class="form-label">
+                                    Total Refunded
+                                </label>
+                                <div class="margin-bottom-15 font16 b">
+                                    @(Model.TotalIncludingTax - Model.RefundAmount) @Model.Currency
+</div>
+</div>
+                        }
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Times Used Password
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @Model.Paywall.TimesUsedPassword
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Minutes Actively Used Paywall
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @if (Model.Paywall.SecondsViewedPaywall > 0)
+                                {
+                                    @((Model.Paywall.SecondsViewedPaywall / 60))
+                                }
+                                else
+                                {
+                                    @Model.Paywall.SecondsViewedPaywall
+                                }
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Last Used Paywall
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @Model.Paywall.LastViewedPaywall.GetValueOrDefault()
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Buyers Email
+    </label>
+    <div class="margin-bottom-15 font16 b">
+        @Model.InvoiceBilling.Email
+</div>
+</div>
+<div class="col-xs-12 col-md-6">
+    <label class="form-label">
+        Valid Till
+    </label>
+    <div class="margin-bottom-15">
+        @Html.TextBoxFor(x => x.Paywall.ValidUntilDisplay, new { @class = "form-control" })
+</div>
+</div>
+<div class="col-xs-12">
+    <label class="form-label">
+        Your Notes
+    </label>
+    <div class="margin-bottom-15 font16">
+        @Html.TextAreaFor(x => x.AdminNote, new { @class = "form-control" })
+</div>
+</div>
+</div>
+    @Html.HiddenFor(x => x.Merchant.PrivateManagerId)
+    @Html.HiddenFor(x => x.Merchant.MerchantId)
+    @Html.HiddenFor(x => x.InvoiceId)
+}
+</div>
+<div class="panel-footer">
+    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update Order</button>
+</div>
+</div>
+</div>
+
+    @if (Model.CanRefundCustomer && Model.InvoiceStatus != InvoiceStatus.Refunded)
+    {
+        <div class="col-xs-12 col-md-5 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="margin-top-5 margin-bottom-5">Refund Paywall Order</h3>
+                </div>
+                @using (Html.BeginForm("PaywallRefundOrder", "Paywall", FormMethod.Post, new { @id = "orderRefund" }))
+                {
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <label class="form-label">
+                                    Refund Amount
+                                </label>
+                                <div class="margin-bottom-15">
+                                    @Html.TextBoxFor(x => x.RefundAmount, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label class="form-label">
+                                    Your Notes
+                                </label>
+                                <div class="margin-bottom-15 font16">
+                                    @Html.TextAreaFor(x => x.AdminNote, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-download"></i> Refund Order</button>
+                    </div>
                     @Html.HiddenFor(x => x.Merchant.PrivateManagerId)
                     @Html.HiddenFor(x => x.Merchant.MerchantId)
                     @Html.HiddenFor(x => x.InvoiceId)
                     @Html.HiddenFor(x => x.PaymentProvider)
                 }
-
             </div>
-        }
-        <br />
-        <br />
-        <ul class="noList">
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order, order is sitting in users Cart.</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Payment)</b> - order was sent to paypal or stripe, awaiting purchase.</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Payment_Successful)</b> - Payment was successful, moving into shipment mode soon.</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Shipping)</b> - Seller NEEDS to ship product.</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Archived_Item_Completed)</b> - Order is complete and archived</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Cancelled)</b> - Order is cancelled</li>
-            <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Shipped)</b> - Order is shipped.</li>
-        </ul>
-    </div>
+        </div>
+    }
 </div>
+<div class="alert alert-info">
+    <ul class="noList">
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order, order is sitting in users Cart.</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Payment)</b> - order was sent to paypal or stripe, awaiting purchase.</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Payment_Successful)</b> - Payment was successful, moving into shipment mode soon.</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Awaiting_Shipping)</b> - Seller NEEDS to ship product.</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Not_Started)</b> - didn't complete the order</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Archived_Item_Completed)</b> - Order is complete and archived</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Cancelled)</b> - Order is cancelled</li>
+        <li><b>@EnumExt.ToFreindlyName(InvoiceStatus.Shipped)</b> - Order is shipped.</li>
+    </ul>
+</div>
+       
 <script type="text/javascript">
     $('#Paywall_ValidUntilDisplay').datetimepicker({
         ampm: true
@@ -215,7 +218,6 @@
     $("#orderRefund").validate({
         rules: {
             RefundAmount: "required"
-
         }
     });
     $("#RefundAmount").numeric({ negative: false });
