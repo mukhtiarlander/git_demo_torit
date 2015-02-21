@@ -13,13 +13,13 @@
 <div class="panel panel-default margin-top-20">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-6">
                 <h3 style="margin-top:5px !important"><i class="fa fa-lg fa-bullhorn"></i> Polls For @Model.LeagueName</h3>
             </div>
-            <div class="col-xs-12 col-sm-6 text-right">
+            <div class="col-xs-6 text-right">
                 @if (Model.IsPollManager)
                 {
-                    <a class="btn btn-sm btn-success" href="@Url.Content("~/poll/add/" + Model.LeagueId.ToString().Replace("-", ""))" title="Create Poll">
+                    <a class="btn btn-sm btn-success margin-top-5" href="@Url.Content("~/poll/add/" + Model.LeagueId.ToString().Replace("-", ""))" title="Create Poll">
                         <i class="fa fa-plus-circle"></i> Create
                     </a>
                 }
@@ -79,12 +79,12 @@
                             <td style="vertical-align:middle">
                                 @if (Model.IsPollManager)
                                 {
-                                    <a class="btn btn-xs btn-info" href="@Url.Content("~/poll/edit/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-pencil"></i> Edit</a>
-                                    <a class="btn btn-xs btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
+                                    <a class="btn btn-sm btn-info" href="@Url.Content("~/poll/edit/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-pencil"></i> Edit</a>
+                                    <a class="btn btn-sm btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
                                 }
                                 else if (Model.Polls[i].IsOpenToLeague)
                                 {
-                                    <a class="btn btn-xs btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
+                                    <a class="btn btn-sm btn-warning" href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-eye"></i> View</a>
                                 }
                             </td>
                             

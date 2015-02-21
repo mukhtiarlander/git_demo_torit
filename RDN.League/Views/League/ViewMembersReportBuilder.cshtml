@@ -8,7 +8,7 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li class="active">Medical Members</li>
+    <li class="active">Mebmers Report</li>
 </ol>
 
 <div class="row">
@@ -24,8 +24,8 @@
                 @using (Html.BeginForm("ViewMembersReportBuild", "League", FormMethod.Post, new { @id = "SavedReport" }))
                 {
                     @Html.DropDownListFor(x => x.SelectedReport, Model.SavedReports, "Saved Reports...")
-                    <button type="button" class="btn btn-success btn-sm" onclick="document.getElementById('SavedReport').submit();" ><i class="fa fa-download"></i> Export Report</button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="League.DeleteLeagueReport(this)"><i class="fa fa-trash"></i> Remove Selected</button>
+                    <button type="button" class="btn btn-success" onclick="document.getElementById('SavedReport').submit();" ><i class="fa fa-download"></i> Export Report</button>
+                    <button type="button" class="btn btn-danger" onclick="League.DeleteLeagueReport(this)"><i class="fa fa-trash"></i> Remove Selected</button>
                     @Html.HiddenFor(x => x.LeagueId)
                 }
             </div>

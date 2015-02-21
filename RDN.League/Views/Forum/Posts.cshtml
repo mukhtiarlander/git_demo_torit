@@ -57,17 +57,17 @@ else
     <div class="panel panel-default margin-top-20">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-4">
                     <h3 class="margin-top-5"><i class="fa fa-files-o"></i> Forum</h3>
                 </div>
-                <div class="col-xs-12 col-sm-9 text-right">
-                    <a class="btn btn-default btn-sm" title="Settings" id="postSettingLink" href="@Url.Content("~/forum/settings/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
+                <div class="col-xs-8 text-right">
+                    <a class="btn btn-default btn-sm  margin-top-5" title="Settings" id="postSettingLink" href="@Url.Content("~/forum/settings/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
                         <i class="fa fa-cogs"></i> Settings
                     </a>
-                    <a class="btn btn-default btn-sm" id="archivedBtn" onclick="Forum.getArchivedForumGroup(this, '@Model.CurrentGroup.GroupId')">
+                    <a class="btn btn-default btn-sm margin-top-5" id="archivedBtn" onclick="Forum.getArchivedForumGroup(this, '@Model.CurrentGroup.GroupId')">
                         <i class="fa fa-archive"></i> Archived
                     </a>
-                    <a class="btn btn-primary btn-sm" title="New Post" id="newPost" href="@Url.Content("~/forum/new/" + @Model.Type + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
+                    <a class="btn btn-primary btn-sm margin-top-5" title="New Post" id="newPost" href="@Url.Content("~/forum/new/" + @Model.Type + "/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
                         <i class="fa fa-plus-circle"></i> New
                     </a>
                    
@@ -112,7 +112,7 @@ else
                 </div>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body scroll-x">
             <table class="table table-hover table-condensed no-margin-bottom">
                 <thead>
                     <tr>
@@ -152,7 +152,7 @@ else
                                 {
                                     <i id="pinned-icon-@topic.TopicId" class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>
                                 }
-                               
+
                             </td>
                             <td>
                                 @if (topic.Category != null)
@@ -205,7 +205,7 @@ else
                                     <a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move" href="@Url.Content("~/forum/post/move/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @topic.TopicId)"><i class="fa fa-arrows"></i></a>
                                     if (!topic.IsRead)
                                     {
-                                        <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"><i class="fa fa-check-square-o"></i></button>
+                                        <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"><i class="fa fa-check-square-o"></i></button>
                                     }
                                     if (topic.IsPinned)
                                     {

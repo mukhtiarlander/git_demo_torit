@@ -17,13 +17,13 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-6">
                 <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-thumbs-up"></i> Bout Challenges</h3>
             </div>
-            <div class="col-xs-12 col-sm-6 text-right">
+            <div class="col-xs-6 text-right">
                 @if (isAdminOfLeague)
                 {
-                    <a class="btn btn-sm btn-primary" title="Add Members" href="@Url.Content("~/boutchallenge/add/request")">
+                    <a class="btn btn-sm btn-primary margin-top-5" title="Add Members" href="@Url.Content("~/boutchallenge/add/request")">
                         <i class="fa fa-plus-circle"></i> Add
                     </a>
                 }
@@ -33,7 +33,7 @@
             By adding a bout challenge request, your asking other leagues to come bout with you on a certain weekend.
             Each request should be closed when the challenge has been accepted.  Requests are shown to every league within RDNation.</span>
     </div>
-    <div class="panel-body">
+    <div class="panel-body scroll-x">
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="boutRequest">
             <thead>
                 <tr>

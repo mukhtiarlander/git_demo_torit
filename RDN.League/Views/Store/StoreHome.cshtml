@@ -49,7 +49,7 @@ else
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-xs-12 col-md-8">
+                        <div class="col-xs-12 col-sm-6">
                             @if (Model.IsPublished)
                             {
                                 <h3 class="margin-bottom-10 margin-top-5">
@@ -62,14 +62,14 @@ else
                                 @Model.ShopName
                             }
                         </div>
-                        <div class="col-xs-12 col-md-4 text-right">
+                        <div class="col-xs-12 col-sm-6 text-right">
                             @if (RDN.Library.Cache.MemberCache.IsManagerOrBetterOfStore(RDN.Library.Classes.Account.User.GetMemberId(), Model.MerchantId))
                             {
-                                <a class="btn btn-primary" href="@Url.Content("~/store/orders/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))"><i class="fa fa-shopping-cart"></i> Orders</a>
-                                <a class="btn btn-primary" href="@Url.Content("~/store/new/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">
+                                <a class="btn btn-primary margin-top-5" href="@Url.Content("~/store/orders/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))"><i class="fa fa-shopping-cart"></i> Orders</a>
+                                <a class="btn btn-primary margin-top-5" href="@Url.Content("~/store/new/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))">
                                     <i class="fa fa-plus-circle"></i> Add Item
                                 </a>
-                                <a class="btn btn-primary" href="@Url.Content("~/store/settings/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))"><i class="fa fa-cog"></i> Settings</a>
+                                <a class="btn btn-primary margin-top-5" href="@Url.Content("~/store/settings/" + @Model.PrivateManagerId.ToString().Replace("-", "") + "/" + @Model.MerchantId.ToString().Replace("-", ""))"><i class="fa fa-cog"></i> Settings</a>
                             }
                         </div>
                     </div>

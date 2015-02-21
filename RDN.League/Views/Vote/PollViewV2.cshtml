@@ -19,14 +19,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-6">
                         <h3 style="margin-top:5px !important"><i class="fa fa-bullhorn"></i> @Model.Title</h3>
                     </div>
-                    <div class="col-xs-12 col-sm-6 text-right">
-                        <a class="btn btn-primary btn-sm" title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId + "/" + Model.VotingId)">
+                    <div class="col-xs-6 text-right">
+                        <a class="btn btn-primary btn-sm margin-top-5" title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId + "/" + Model.VotingId)">
                             <i class="fa fa-thumbs-o-up"></i> Vote
                         </a>
-                        <a class="btn btn-info btn-sm" title="Vote" href="@Url.Content("~/poll/edit/" + Model.LeagueId + "/" + Model.VotingId)">
+                        <a class="btn btn-info btn-sm margin-top-5" title="Vote" href="@Url.Content("~/poll/edit/" + Model.LeagueId + "/" + Model.VotingId)">
                             <i class="fa fa-pencil"></i> Edit
                         </a>
                     </div>
@@ -35,84 +35,85 @@
                 <div class="text-muted"> View the Poll details.</div>
             </div>
                 <div class="panel-body no-padding-top">
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Title</label>
-                        <div>
-                         <b>@Model.Title</b>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Title</label>
+                            <div>
+                                <b>@Model.Title</b>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
-                        <div>
-                           <b>@Html.Raw(Model.Description)</b>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
+                            <div>
+                                <b>@Html.Raw(Model.Description)</b>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 margin-top-10">
-                        <div>
-                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                        <div class="col-xs-12 margin-top-10">
+                            <div>
+                                <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12">
+                        <div class="col-xs-12">
 
-                        @if (Model.IsPollAnonymous)
+                            @if (Model.IsPollAnonymous)
                         { <label class="form-label margin-top-10">Anonymous Questions & Answers</label> }
                         else
                         {   <label class="form-label margin-top-10">Questions & Answers</label> }
 
-                        <div id="pollQuestions">
-                            @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
+                            <div id="pollQuestions">
+                                @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
                             {
 
-                                <div id="updateQuestionTd-@question.QuestionId" class="panel panel-default">
-                                    <div class="panel-heading no-padding padding-5">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-10 padding-top-5">
-                                                <span style="font-size:16px;">
-                                                    <i class="fa fa-question-circle"></i> @question.Question
-                                                </span>
-                                                @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                                    <div id="updateQuestionTd-@question.QuestionId" class="panel panel-default">
+                                        <div class="panel-heading no-padding padding-5">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-10 padding-top-5">
+                                                    <span style="font-size:16px;">
+                                                        <i class="fa fa-question-circle"></i> @question.Question
+                                                    </span>
+                                                    @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
                                                 {<small class='text-muted'> - multiple choice</small> }
-                                            </div>
-                                            <div class="col-xs-12 col-sm-2 text-right">
-                                                <span class="btn btn-sm btn-default sortableHandle" title="Sort Question/Drag and Drop"><i class="fa fa-arrows"></i></span>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-2 text-right">
+                                                    <span class="btn btn-sm btn-default sortableHandle" title="Sort Question/Drag and Drop"><i class="fa fa-arrows"></i></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="panel-body no-padding-top no-padding-bottom">
-                                        <div id="newAnswerForQuestionTd-@question.QuestionId">
-                                            @foreach (var answer in question.Answers.OrderBy(x => x.AnswerId))
+                                        <div class="panel-body no-padding-top no-padding-bottom">
+                                            <div id="newAnswerForQuestionTd-@question.QuestionId">
+                                                @foreach (var answer in question.Answers.OrderBy(x => x.AnswerId))
                                             {
-                                                <div class="row padding-bottom-10" style="border-bottom:1px solid #eee">
-                                                    <div class="col-xs-12 col-sm-3 col-md-2 margin-top-10">
-                                                        @if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
+                                                    <div class="row padding-bottom-10" style="border-bottom:1px solid #eee">
+                                                        <div class="col-xs-12 col-sm-3 col-md-2 margin-top-10">
+                                                            @if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
                                                         {
-                                                            <button class="btn btn-xs btn-primary" type="button" onclick="ShowVotes('@answer.AnswerId')">
-                                                                <b> @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)% <i class="fa fa-arrow-circle-down"></i></b>
-                                                            </button>
+                                                                <button class="btn btn-xs btn-primary" type="button" onclick="ShowVotes('@answer.AnswerId')">
+                                                                    <b> @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)% <i class="fa fa-arrow-circle-down"></i></b>
+                                                                </button>
                                                         }
                                                         else
                                                         {
-                                                            <button class="btn btn-xs btn-default disabled" type="button">
-                                                                @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)%
-                                                            </button>
+                                                                <button class="btn btn-xs btn-default disabled" type="button">
+                                                                    @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)%
+                                                                </button>
                                                         }
-                                                    </div>
+                                                        </div>
 
-                                                    <div id="labelAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10">
-                                                        <b>@answer.Answer</b>
-                                                    </div>
-                                                    <div id="updateAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10" style="display:none">
-                                                        <input type='text' class='form-control input-sm' id='textAnswerId-@answer.AnswerId' value='@answer.Answer' />
-                                                    </div>
-                                                  
-                                                    <div id="btnEditAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10">
-                                                        @if (answer.WasRemoved)
+                                                        <div id="labelAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10">
+                                                            <b>@answer.Answer</b>
+                                                        </div>
+                                                        <div id="updateAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10" style="display:none">
+                                                            <input type='text' class='form-control input-sm' id='textAnswerId-@answer.AnswerId' value='@answer.Answer' />
+                                                        </div>
+
+                                                        <div id="btnEditAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10">
+                                                            @if (answer.WasRemoved)
                                                         {
-                                                            <span>Answer Was Removed From Poll</span>
+                                                                <span>Answer Was Removed From Poll</span>
                                                         }
-                                                    </div>
-                                                    <div class="col-xs-12">
-                                                        @if (!Model.IsPollAnonymous)
+                                                        </div>
+                                                        <div class="col-xs-12">
+                                                            @if (!Model.IsPollAnonymous)
                                                             {
                                                                 if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
                                                                 {
@@ -132,40 +133,42 @@
                                                                     @vote.OtherText
                                                                 }
                                                             }
-                                                    </div></div>
-                                               
-                                                @*<tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
-                                                        <td colspan="3">
-                                                            <div style="width: @question.GetBarLength(answer.AnswerId, 720)px" style="background-color:silver">
-                                                                &nbsp;
-                                                            </div>
-                                                        </td>
+                                                        </div>
+                                                    </div>
 
-                                                    </tr>*@
+                                                    @*<tr class="@(i % 2 == 0 ? "oddP" : "evenP")">
+                                            <td colspan="3">
+                                                <div style="width: @question.GetBarLength(answer.AnswerId, 720)px" style="background-color:silver">
+                                                    &nbsp;
+                                                </div>
+                                            </td>
+
+                                        </tr>*@
                                                 { i += 1; }
                                             }
+                                            </div>
                                         </div>
+
                                     </div>
-                                   
-                                </div>
                             }
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <label class="form-label col-xs-6">
-                                Didn't Vote
-                            </label>
-                            <div class="col-xs-6 text-right">
                             </div>
-                        </div><div>
-                            <div class="row panel panel-default no-margin" style="height:150px;overflow:auto">
-                                @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <label class="form-label col-xs-6">
+                                    Didn't Vote
+                                </label>
+                                <div class="col-xs-6 text-right">
+                                </div>
+                            </div><div>
+                                <div class="row panel panel-default no-margin" style="height:150px;overflow:auto">
+                                    @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
                                 {
-                                    <div class="col-xs-12 col-sm-4">
-                                        <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
-                                    </div>
+                                        <div class="col-xs-12 col-sm-4">
+                                            <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                                        </div>
                                 }
+                                </div>
                             </div>
                         </div>
                     </div>

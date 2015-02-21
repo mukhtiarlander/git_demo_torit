@@ -17,10 +17,10 @@
     <div class="panel-heading">
         
             <div class="row">
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-6">
                     <h3 style="margin-top:5px !important"><i class="fa fa-money"></i> Dues Collections For @Model.LeagueOwnerName</h3>
                 </div>
-                <div class="col-xs-12 col-sm-6 text-right">
+                <div class="col-xs-6 text-right">
                     @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
                     { 
                         <a class="btn btn-primary btn-sm" title="Generate New Dues Item" onclick="return confirm('Generate New Dues Payment?')" href="@Url.Content("~/dues/new/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
@@ -34,17 +34,17 @@
     </div>
     @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
     { 
-        <div class="panel-heading text-right" style="background-color: #fafafa">
-            <a class="btn btn-default btn-sm" title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+        <div class="panel-heading text-right padding-top-5" style="background-color: #fafafa">
+            <a class="btn btn-default btn-sm margin-top-5" title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
                 <i class="fa fa-cog"></i> Settings
             </a>
-            <a class="btn btn-default btn-sm" title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+            <a class="btn btn-default btn-sm margin-top-5" title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
                 <i class="fa fa-folder"></i> Classify
             </a>
-            <button type="button" class="btn btn-default btn-sm" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
+            <button type="button" class="btn btn-default btn-sm margin-top-5" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
                 <i class="fa fa-download"></i> Export
             </button>
-            <a class="btn btn-default btn-sm" title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+            <a class="btn btn-default btn-sm margin-top-5" title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
                 <i class="fa fa-group"></i> Members
             </a>
         </div>

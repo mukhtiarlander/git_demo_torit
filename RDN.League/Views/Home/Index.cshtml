@@ -193,7 +193,7 @@ else
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>RSVP</th>
+                                            <th class="smallCaps text-center">RSVP</th>
                                             <th>
                                                 Event
                                             </th>
@@ -220,29 +220,25 @@ else
                                             <td>
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                                 {
-                                                    <img src="@Url.Content("~/Content/images/icons/birthday.png")" height="25px" />
+                                                   <i class="fa fa-birthday-cake fa-3x "></i>
                                                 }
                                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
                                                 {
-                                                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
+                                                   <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
                                                 }
                                                 else
                                                 {
                                                     if (avail == null)
                                                     {
-                                                        <div class="spanIcons">
-                                                            <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
-                                                                <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + AvailibilityEnum.Not_Going + ".png")" />
-                                                            </span>
-                                                        </div>
+                                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
+                                                            <i class="fa fa-calendar-o fa-3x cursor"></i>
+                                                        </span>
                                                     }
                                                     else if (avail != null)
                                                     {
-                                                        <div class="spanIcons">
-                                                            <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
-                                                                <img id="@calEvent.CalendarItemId-availIcon" src="@Url.Content("~/Content/images/icons/" + avail.Availability + ".png")" />
-                                                            </span>
-                                                        </div>
+                                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
+                                                            <i class="fa fa-calendar fa-3x cursor"></i>
+                                                        </span>
                                                     }
                                                 }
                                             </td>

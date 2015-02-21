@@ -33,8 +33,8 @@
                             using (Html.BeginForm("ClosePoll", "Vote", FormMethod.Post, new { @id = "createNewEventForm", @class = "inline-block" }))
                             {
                                 <button class="btn btn-warning btn-sm" title="Close Poll" onclick="return confirm('Really Close Poll?')"><i class='fa fa-times'></i> Close</button>
-                                                        @Html.HiddenFor(x => x.VotingId)
-                                                        @Html.HiddenFor(x => x.LeagueId)
+                                @Html.HiddenFor(x => x.VotingId)
+                                @Html.HiddenFor(x => x.LeagueId)
                             }
                         }
                          else
@@ -136,14 +136,14 @@
                                                             <input type='text' class='form-control input-sm' id='textAnswerId-@answer.AnswerId' value='@answer.Answer' />
                                                         </div>
                                                         <div id="btnUpdateAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10 padding-top-5" style="display:none">
-                                                            <button class="btn btn-success btn-xs" type="button" onclick="UpdateEditAnswerInPoll('@answer.AnswerId')">Update</button>
-                                                            <button class="btn btn-default btn-xs" type="button" onclick="CancelEditAnswerInPoll('@answer.AnswerId')">Cancel</button>
+                                                            <button class="btn btn-success btn-sm" type="button" onclick="UpdateEditAnswerInPoll('@answer.AnswerId')"><i class="fa fa-save"></i></button>
+                                                            <button class="btn btn-default btn-sm" type="button" onclick="CancelEditAnswerInPoll('@answer.AnswerId')"><i class="fa fa-times"></i></button>
                                                         </div>
                                                         <div id="btnEditAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10" >
                                                             @if (!answer.WasRemoved)
                                                             {
-                                                                <button class="btn btn-xs btn-success" type="button" onclick="EditAnswerInPoll('@answer.Answer', '@answer.AnswerId')">Edit</button>
-                                                                <button class="btn btn-xs btn-danger" type="button" onclick="RemoveAnswerInPoll('@answer.AnswerId')">Remove</button>
+                                                                <button class="btn btn-sm btn-success" type="button" onclick="EditAnswerInPoll('@answer.Answer', '@answer.AnswerId')"><i class="fa fa-pencil"></i></button>
+                                                                <button class="btn btn-sm btn-danger" type="button" onclick="RemoveAnswerInPoll('@answer.AnswerId')"><i class="fa fa-trash"></i></button>
                                                             }
                                                             else
                                                             {

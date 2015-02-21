@@ -34,22 +34,22 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-6">
                         <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-comments"></i> Private Conversations</h3>
                     </div>
-                    <div class="col-xs-12 col-sm-6 text-right">
-                        <a class="btn btn-sm btn-primary" title="New Message" href="@Url.Content("~/messages/new/" + @Model.OwnerType.ToString() + "/" + @Model.IdOfEntity.ToString().Replace("-", ""))">
+                    <div class="col-xs-6 text-right">
+                        <a class="btn btn-sm btn-primary margin-top-5" title="New Message" href="@Url.Content("~/messages/new/" + @Model.OwnerType.ToString() + "/" + @Model.IdOfEntity.ToString().Replace("-", ""))">
                             <i class="fa fa-comment-o"></i> New
                         </a>
                         @if (subPaid)
                         {
-                            <a class="btn btn-sm btn-info" title="New Text" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))">
+                            <a class="btn btn-sm btn-info margin-top-5" title="New Text" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))">
                                 <i class="fa fa-mobile"></i> New Text
                             </a>
                         }
                         else
                         {
-                            <a class="btn btn-sm btn-info" title="New Message" href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)">
+                            <a class="btn btn-sm btn-info margin-top-5" title="New Message" href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)">
                                 <i class="fa fa-mobile"></i> New
                             </a>
                         }
