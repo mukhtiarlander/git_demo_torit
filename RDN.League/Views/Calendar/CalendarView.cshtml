@@ -10,6 +10,12 @@
     bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
     var isAttendance = MemberCache.IsAttendanceManager(memId);
 }
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Calendar</li>
+</ol>
+
 @if (Model.CalendarId == new Guid())
 {
     <div class="fixedContainer">
@@ -36,55 +42,38 @@
 }
 else
 {
+    <div class="panel panel-default margin-top-20">
+        <div class="panel-heading">
+            @if (isSec || isAttendance || isEventsCourd)
+            {
+                <a class="btn btn-default btn-sm" title="New Event" href="@Url.Content("~/calendar/new/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                    <i class="fa fa-plus "></i> New
+                </a>
+            }
+            <a class="btn btn-default btn-sm" title="Calendar" href="@Url.Content("~/calendar/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                <i class="fa fa-list-ul"></i> List
+            </a>
+            @if (isSec || isAttendance || isEventsCourd)
+            {
 
-    @section SecondNav{
-        <nav class="navbar navbar-default navbar-lower" style="margin-bottom:0px;" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondNavBar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                <a class="btn btn-default btn-sm" title="Import Calendar" href="@Url.Content("~/calendar/import/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                    <span class="glyphicon glyphicon-import " aria-hidden="true"></span>  Import
+                </a>
+                <a class="btn btn-default btn-sm" title="Calendar Settings" href="@Url.Content("~/calendar/settings/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                    <i class="fa fa-cogs "></i> Settings
+                </a>
 
-                </div>
-                <div class="collapse navbar-collapse collapse-buttons" id="secondNavBar">
-                    <div class="navbar-form navbar-left" role="search">
-
-                        @if (isSec || isAttendance || isEventsCourd)
-                        {
-                            <a class="btn btn-default btn-sm" title="New Event" href="@Url.Content("~/calendar/new/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                                <i class="fa fa-plus "></i> New
-                            </a>
-                        }
-                        <a class="btn btn-default btn-sm" title="Calendar" href="@Url.Content("~/calendar/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                            <i class="fa fa-calendar "></i> List
-                        </a>
-                        @if (isSec || isAttendance || isEventsCourd)
-                        {
-
-                            <a class="btn btn-default btn-sm" title="Import Calendar" href="@Url.Content("~/calendar/import/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                                <span class="glyphicon glyphicon-import " aria-hidden="true"></span>  Import
-                            </a>
-                            <a class="btn btn-default btn-sm" title="Calendar Settings" href="@Url.Content("~/calendar/settings/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                                <i class="fa fa-cogs "></i> Settings
-                            </a>
-
-                        }
-                        <a class="btn btn-default btn-sm" title="Run Report" href="@Url.Content("~/calendar/reports/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
-                            <span class="glyphicon glyphicon-list-alt " aria-hidden="true"></span> Report
-                        </a>
-
-
-
-                    </div>
-                </div>
+            }
+            <a class="btn btn-default btn-sm" title="Run Report" href="@Url.Content("~/calendar/reports/" + @Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", ""))">
+                <span class="glyphicon glyphicon-list-alt " aria-hidden="true"></span> Report
+            </a>
+        </div>
+        <div class="panel-body">
+            <div id="calendar">
             </div>
-        </nav>
-
-    }<br />
-
+        </div>
+    </div>
+    
     <script type='text/javascript'>
         $(document).ready(function () {
             var date = new Date();
@@ -127,9 +116,4 @@ else
     <style type='text/css'>
         #calendar { margin: 0 auto; }
     </style>
-    <div class="col-xs-12 ">
-        <div id="calendar">
-        </div>
-        <br /><br />
-    </div>
 }

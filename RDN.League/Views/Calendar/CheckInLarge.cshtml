@@ -25,307 +25,313 @@
 </ol>
 
 
-<div class="col-md-offset-1  col-md-10  col-xs-12">
-    <h2 class="text-center">
-        Check Members Into @Model.Name
-    </h2>
-    <div>
-
-        @if (Model.PreviousEventId != new Guid())
-        {
-            <a class="pull-left cursor" href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.PreviousEventId.ToString().Replace("-", ""))"><i class="fa fa-backward fa-3x" title="Last Event"></i></a>
-        }
-
-        @if (Model.NextEventId != new Guid())
-        {
-            <a class="pull-right cursor" href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.NextEventId.ToString().Replace("-", ""))"><i class="fa fa-forward fa-3x" title="Next Event"></i></a>
-        }
-        <div class="text-center center" style="width:100px;">
-            @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport" }))
-            {
-
-                <button type="submit" class="btn btn-default ">
-                    <i class="fa fa-file-excel-o"></i> Export
-                    @Html.HiddenFor(x => x.CalendarId)
-                    @Html.HiddenFor(x => x.CalendarItemId)
-                    @Html.HiddenFor(x => x.CalendarReoccurringId)
-                </button>
-
-            }
-        </div>
-    </div>
-
-</div>
-<div class="col-md-offset-1 col-md-10 col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-
-
-            <table class="table">
-
-                <tr>
-                    <td class="b text-right">
-                        Date and Time:
-                    </td>
-                    <td>
-                        @Model.StartDate.ToLongDateString()
-                        <div>@Model.StartDate.ToShortTimeString() - @Model.EndDate.ToLongTimeString()</div>
-                    </td>
-                </tr>
-                @if (Model.GroupsForEvent.Count > 0)
-                {
-                    <tr>
-                        <td class="b text-right">
-                            Groups:
-                        </td>
-                        <td>
-                            @foreach (var g in Model.GroupsForEvent)
-                            {
-                                <span>@g.GroupName; </span>
-                            }
-                        </td>
-                    </tr>
-                }
-                <tr>
-                    <td class="b text-right">
-                        Check In Points:
-                    </td>
-                    <td>
-                        @if (Model.EventType != null)
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-2">
+                        @if (Model.PreviousEventId != new Guid())
                         {
-                            <label>
-                                <input type="radio" name="PointTypes" points="@Model.EventType.PointsForPresent" id="@CalendarEventPointTypeEnum.Present.ToString()" checked="checked" value="@CalendarEventPointTypeEnum.Present.ToString()" />
-                                <b>@Model.EventType.PointsForPresent</b>
-
-                                @CalendarEventPointTypeEnum.Present
-                            </label>
-                            <label>
-                                <input type="radio" name="PointTypes" points="@Model.EventType.PointsForPartial" id="@CalendarEventPointTypeEnum.Partial.ToString()" value="@CalendarEventPointTypeEnum.Present.ToString()" />
-                                <b>@Model.EventType.PointsForPartial</b>
-                                @CalendarEventPointTypeEnum.Partial
-                            </label>
-                            <label>
-                                <input type="radio" name="PointTypes" points="@Model.EventType.PointsForNotPresent" id="@CalendarEventPointTypeEnum.Not_Present.ToString()" value="@CalendarEventPointTypeEnum.Present.ToString()" />
-                                <b>@Model.EventType.PointsForNotPresent</b>
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Not_Present)
-
-                            </label>
-                            <label>
-                                <input type="radio" name="PointTypes" points="@Model.EventType.PointsForExcused" id="@CalendarEventPointTypeEnum.Excused.ToString()" value="@CalendarEventPointTypeEnum.Present.ToString()" />
-                                <b>@Model.EventType.PointsForExcused</b>
-                                @CalendarEventPointTypeEnum.Excused
-                            </label>
-                            <br />
-                            <div class="col-xs-3">
-                                <input value="0" type="text" name="additionalPoints" class="form-control input-sm" id="additionalPoints" />
-                            </div>
-                            <small>
-                                Additional Pts. Add or subtract points. exp: -1 or 10<br />
-                                <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
-                            </small>
-
+                            <a class="btn btn-default" href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.PreviousEventId.ToString().Replace("-", ""))"><i class="fa fa-backward fa-lg" title="Last Event"></i></a>
                         }
-                    </td>
-                </tr>
-            </table>
-            <table id="checkInMembers" class="table">
-                <thead class="vmTableHead">
-                    <tr>
-                        <th></th>
-                        <th class="center">
-                            Number
-                        </th>
-                        <th class="center">
-                            Name
-                        </th>
-                        <th>
-                            Point Type
-                        </th>
-                        <th>
-                            Points
-                        </th>
-                        <th>
-                            Notes
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Attendees.Count; i++)
-                    {
-                        <tr class="trBorderB">
-                            <td class="b">
-                                @(counter += 1).
-                            </td>
-                            <td class="center">
-                                @Model.Attendees[i].MemberNumber
-                            </td>
-                            <td>
-                                <a target="_blank" href="@Url.Content("~/member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">
-                                    @Model.Attendees[i].MemberName
-                                </a>
-                            </td>
-                            <td id="@Model.Attendees[i].MemberId">
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Attendees[i].PointType)
-                                @if (Model.Attendees[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                {
-                                    <span>
-                                        - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Attendees[i].SecondaryPointType)
-                                    </span> }
-                            </td>
-                            <td id="@Model.Attendees[i].MemberId-points">
-                                @Model.Attendees[i].PointsStringForReading
+                    </div>
+                    <div class="col-xs-8 text-center">
+                        <h3 class="margin-bottom-5 margin-top-5">Check Members Into "@Model.Name"</h3>
+                    </div>
+                    <div class="col-xs-2 text-right">
+                        @if (Model.NextEventId != new Guid())
+                        {
+                            <a class="btn btn-default" href="@Url.Content("~/calendar/event/checkin-l/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.NextEventId.ToString().Replace("-", ""))"><i class="fa fa-forward fa-lg" title="Next Event"></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel-heading">
+                @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport" }))
+                {
+                    <button type="submit" class="btn btn-info btn-sm">
+                        <i class="fa fa-file-excel-o"></i> Export
+                        @Html.HiddenFor(x => x.CalendarId)
+                        @Html.HiddenFor(x => x.CalendarItemId)
+                        @Html.HiddenFor(x => x.CalendarReoccurringId)
+                    </button>
+                }
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body no-padding">
+                        <table class="table">
 
-                            </td>
-                            <td id="@Model.Attendees[i].MemberId-Note-cell">
-                                @if (!Model.Attendees[i].IsCheckedIn)
-                                {
-                                    <input type="text" id="@Model.Attendees[i].MemberId-Note" class="form-control" />
-                                }
-                                else
-                                {
-                                    <span class="i">@Model.Attendees[i].Note</span>
-                                }
-                            </td>
-                            <td id="@Model.Attendees[i].MemberId-tardy-cell">
-                                @if (!Model.Attendees[i].IsCheckedIn)
-                                {
-                                    <label>
-                                        <input type="checkbox" id="@Model.Attendees[i].MemberId-tardy" title="Is Tardy" /><span>Tardy?</span>
-                                    </label>
-                                }
-                            </td>
-                            <td id="@Model.Attendees[i].MemberId-checkin-cell">
-                                @if (!String.IsNullOrEmpty(Model.Attendees[i].MemberName))
-                                {
-                                    if (!Model.Attendees[i].IsCheckedIn)
+                            <tr>
+                                <td class="b text-right">
+                                    Date and Time:
+                                </td>
+                                <td>
+                                    @Model.StartDate.ToLongDateString()
+                                    <div>@Model.StartDate.ToShortTimeString() - @Model.EndDate.ToLongTimeString()</div>
+                                </td>
+                            </tr>
+                            @if (Model.GroupsForEvent.Count > 0)
+                            {
+                                <tr>
+                                    <td class="b text-right">
+                                        Groups:
+                                    </td>
+                                    <td>
+                                        @foreach (var g in Model.GroupsForEvent)
+                                        {
+                                            <span>@g.GroupName; </span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td class="b text-right">
+                                    Check In Points:
+                                </td>
+                                <td>
+                                    @if (Model.EventType != null)
                                     {
-                                        <input type="button" class="btn btn-primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.Attendees[i].MemberId    ', '@Model.Attendees[i].MemberName.Replace("'", "")    ')" />
+                                        <label>
+                                            <input type="radio" name="PointTypes" points="@Model.EventType.PointsForPresent" id="@CalendarEventPointTypeEnum.Present.ToString()" checked="checked" value="@CalendarEventPointTypeEnum.Present.ToString()" />
+                                            <b>@Model.EventType.PointsForPresent</b>
+
+                                            @CalendarEventPointTypeEnum.Present
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="PointTypes" points="@Model.EventType.PointsForPartial" id="@CalendarEventPointTypeEnum.Partial.ToString()" value="@CalendarEventPointTypeEnum.Present.ToString()" />
+                                            <b>@Model.EventType.PointsForPartial</b>
+                                            @CalendarEventPointTypeEnum.Partial
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="PointTypes" points="@Model.EventType.PointsForNotPresent" id="@CalendarEventPointTypeEnum.Not_Present.ToString()" value="@CalendarEventPointTypeEnum.Present.ToString()" />
+                                            <b>@Model.EventType.PointsForNotPresent</b>
+                                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Not_Present)
+
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="PointTypes" points="@Model.EventType.PointsForExcused" id="@CalendarEventPointTypeEnum.Excused.ToString()" value="@CalendarEventPointTypeEnum.Present.ToString()" />
+                                            <b>@Model.EventType.PointsForExcused</b>
+                                            @CalendarEventPointTypeEnum.Excused
+                                        </label>
+                                        <br />
+                                        <div class="col-xs-3">
+                                            <input value="0" type="text" name="additionalPoints" class="form-control input-sm" id="additionalPoints" />
+                                        </div>
+                                        <small>
+                                            Additional Pts. Add or subtract points. exp: -1 or 10<br />
+                                            <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
+                                        </small>
+
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+              
+                <div class="scroll-x">
+                    <table id="checkInMembers" class="table">
+                        <thead class="vmTableHead">
+                            <tr>
+                                <th></th>
+                                <th class="center">
+                                    Number
+                                </th>
+                                <th class="center">
+                                    Name
+                                </th>
+                                <th>
+                                    Point Type
+                                </th>
+                                <th>
+                                    Points
+                                </th>
+                                <th>
+                                    Notes
+                                </th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Attendees.Count; i++)
+                        {
+                                <tr class="trBorderB">
+                                    <td class="b">
+                                        @(counter += 1).
+                                    </td>
+                                    <td class="center">
+                                        @Model.Attendees[i].MemberNumber
+                                    </td>
+                                    <td>
+                                        <a target="_blank" href="@Url.Content("~/member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">
+                                            @Model.Attendees[i].MemberName
+                                        </a>
+                                    </td>
+                                    <td id="@Model.Attendees[i].MemberId">
+                                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Attendees[i].PointType)
+                                        @if (Model.Attendees[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                    {
+                                            <span>
+                                                - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Attendees[i].SecondaryPointType)
+                                            </span> }
+                                    </td>
+                                    <td id="@Model.Attendees[i].MemberId-points">
+                                        @Model.Attendees[i].PointsStringForReading
+
+                                    </td>
+                                    <td id="@Model.Attendees[i].MemberId-Note-cell">
+                                        @if (!Model.Attendees[i].IsCheckedIn)
+                                    {
+                                            <input type="text" id="@Model.Attendees[i].MemberId-Note" class="form-control" />
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-warning" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.Attendees[i].MemberId', '@Model.Attendees[i].MemberName.Replace("'", "")')">Remove</button>
+                                            <span class="i">@Model.Attendees[i].Note</span>
                                     }
-                                }
-                            </td>
-                        </tr>
-                    }
-                    @for (int i = 0; i < Model.MembersToCheckIn.Count; i++)
-                    {
-                        <tr class="trBorderB">
-                            <td class="b">
-                                @(counter += 1).
-                            </td>
-                            <td class="center">
-                                @Model.MembersToCheckIn[i].MemberNumber
-                            </td>
-                            <td>
-                                <a target="_blank" href="@Url.Content("~/member/" + Model.MembersToCheckIn[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MembersToCheckIn[i].MemberName))">
-                                    @Model.MembersToCheckIn[i].MemberName
-                                </a>
-                            </td>
-                            <td id="@Model.MembersToCheckIn[i].MemberId">
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.MembersToCheckIn[i].PointType)
-                                @if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                {
-                                    <span>
-                                        - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Attendees[i].SecondaryPointType)
-                                    </span> }
-                            </td>
-                            <td id="@Model.MembersToCheckIn[i].MemberId-points">
-                                @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Present)
-                                {
-                                    @Model.EventType.PointsForPresent
-                                    if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                    { <span>
-                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
-                                    </span> }
-                                }
-                                @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Partial)
-                                {
-                                    @Model.EventType.PointsForPartial
-                                    if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                    { <span>
-                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
-                                    </span> }
-                                }
-                                @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
-                                {
-                                    @Model.EventType.PointsForNotPresent
-                                    if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                    { <span>
-                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
-                                    </span> }
-                                }
-                                @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Excused)
-                                {
-                                    @Model.EventType.PointsForExcused
-                                    if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                    { <span>
-                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
-                                    </span> }
-                                }
-                            </td>
-                            <td id="@Model.MembersToCheckIn[i].MemberId-Note-cell">
-                                @if (!Model.MembersToCheckIn[i].IsCheckedIn)
-                                {
-                                    <input type="text" id="@Model.MembersToCheckIn[i].MemberId-Note" class="form-control" />
-                                }
-                                else
-                                {
-                                    <span class="i">@Model.MembersToCheckIn[i].Note</span>
-                                }
-                            </td>
-                            <td id="@Model.MembersToCheckIn[i].MemberId-tardy-cell">
-                                @if (!Model.MembersToCheckIn[i].IsCheckedIn)
-                                {
-                                    <label>
-                                        <input type="checkbox" id="@Model.MembersToCheckIn[i].MemberId-tardy" title="Is Tardy" /><span>Tardy?</span>
-                                    </label>
-                                }
-                            </td>
-                            <td id="@Model.MembersToCheckIn[i].MemberId-checkin-cell">
-                                @if (!String.IsNullOrEmpty(Model.MembersToCheckIn[i].MemberName))
-                                {
-                                    if (!Model.MembersToCheckIn[i].IsCheckedIn)
+                                    </td>
+                                    <td id="@Model.Attendees[i].MemberId-tardy-cell">
+                                        @if (!Model.Attendees[i].IsCheckedIn)
                                     {
-                                        <input type="button" class="btn btn-primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.MembersToCheckIn[i].MemberId    ', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")    ')" />
+                                            <label>
+                                                <input type="checkbox" id="@Model.Attendees[i].MemberId-tardy" title="Is Tardy" /><span>Tardy?</span>
+                                            </label>
+                                    }
+                                    </td>
+                                    <td id="@Model.Attendees[i].MemberId-checkin-cell">
+                                        @if (!String.IsNullOrEmpty(Model.Attendees[i].MemberName))
+                                    {
+                                        if (!Model.Attendees[i].IsCheckedIn)
+                                        {
+                                            <input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.Attendees[i].MemberId    ', '@Model.Attendees[i].MemberName.Replace("'", "")    ')" />
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.Attendees[i].MemberId', '@Model.Attendees[i].MemberName.Replace("'", "")')">Remove</button>
+                                        }
+                                    }
+                                    </td>
+                                </tr>
+                        }
+                            @for (int i = 0; i < Model.MembersToCheckIn.Count; i++)
+                        {
+                                <tr class="trBorderB">
+                                    <td class="b">
+                                        @(counter += 1).
+                                    </td>
+                                    <td class="center">
+                                        @Model.MembersToCheckIn[i].MemberNumber
+                                    </td>
+                                    <td>
+                                        <a target="_blank" href="@Url.Content("~/member/" + Model.MembersToCheckIn[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MembersToCheckIn[i].MemberName))">
+                                            @Model.MembersToCheckIn[i].MemberName
+                                        </a>
+                                    </td>
+                                    <td id="@Model.MembersToCheckIn[i].MemberId">
+                                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.MembersToCheckIn[i].PointType)
+                                        @if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                    {
+                                            <span>
+                                                - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.Attendees[i].SecondaryPointType)
+                                            </span> }
+                                    </td>
+                                    <td id="@Model.MembersToCheckIn[i].MemberId-points">
+                                        @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Present)
+                                    {
+                                            @Model.EventType.PointsForPresent
+                                        if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                        { <span>
+                                            + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
+                                        </span> }
+                                    }
+                                        @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Partial)
+                                    {
+                                            @Model.EventType.PointsForPartial
+                                        if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                        { <span>
+                                            + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
+                                        </span> }
+                                    }
+                                        @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
+                                    {
+                                            @Model.EventType.PointsForNotPresent
+                                        if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                        { <span>
+                                            + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
+                                        </span> }
+                                    }
+                                        @if (Model.MembersToCheckIn[i].PointType == CalendarEventPointTypeEnum.Excused)
+                                    {
+                                            @Model.EventType.PointsForExcused
+                                        if (Model.MembersToCheckIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                        { <span>
+                                            + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
+                                        </span> }
+                                    }
+                                    </td>
+                                    <td id="@Model.MembersToCheckIn[i].MemberId-Note-cell">
+                                        @if (!Model.MembersToCheckIn[i].IsCheckedIn)
+                                    {
+                                            <input type="text" id="@Model.MembersToCheckIn[i].MemberId-Note" class="form-control" />
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-primary" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.MembersToCheckIn[i].MemberId', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")')">Remove Check In</button>
+                                            <span class="i">@Model.MembersToCheckIn[i].Note</span>
                                     }
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            @Html.Hidden("TardyPoints", Model.EventType.PointsForTardy)
-            @Html.HiddenFor(x => x.CalendarId)
-            @Html.HiddenFor(x => x.CalendarItemId)
-
+                                    </td>
+                                    <td id="@Model.MembersToCheckIn[i].MemberId-tardy-cell">
+                                        @if (!Model.MembersToCheckIn[i].IsCheckedIn)
+                                    {
+                                            <label style="width:80px;">
+                                                <input type="checkbox" id="@Model.MembersToCheckIn[i].MemberId-tardy" title="Is Tardy" /><span>Tardy?</span>
+                                            </label>
+                                    }
+                                    </td>
+                                    <td id="@Model.MembersToCheckIn[i].MemberId-checkin-cell">
+                                    @if (!String.IsNullOrEmpty(Model.MembersToCheckIn[i].MemberName))
+                                    {
+                                        if (!Model.MembersToCheckIn[i].IsCheckedIn)
+                                        {
+                                            <input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.MembersToCheckIn[i].MemberId    ', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")    ')" />
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.MembersToCheckIn[i].MemberId', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")')">Remove Check In</button>
+                                        }
+                                    }
+                                    </td>
+                                </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                @Html.Hidden("TardyPoints", Model.EventType.PointsForTardy)
+                @Html.HiddenFor(x => x.CalendarId)
+                @Html.HiddenFor(x => x.CalendarItemId)
+            </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#checkInMembers').dataTable({
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "aaSorting": [[2, 'asc']],
-            "oLanguage": { "sSearch": "" },
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $('td:eq(0)', nRow).html(iDisplayIndex + 1 + ".");
-                return nRow;
-            },
-        });
-        $("#checkInMembers_filter input").addClass("form-control input-sm").attr("placeholder", "Search");
-        $("#additionalPoints").numeric();
-    });
-</script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#checkInMembers').dataTable({
+                        "bPaginate": false,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bSort": true,
+                        "bInfo": false,
+                        "bAutoWidth": false,
+                        "aaSorting": [[2, 'asc']],
+                        "oLanguage": { "sSearch": "" },
+                        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                            $('td:eq(0)', nRow).html(iDisplayIndex + 1 + ".");
+                            return nRow;
+                        },
+                    });
+                    $("#checkInMembers_filter input").addClass("form-control input-sm").attr("placeholder", "Search");
+                    $("#additionalPoints").numeric();
+                });
+            </script>

@@ -22,21 +22,10 @@
     <li class="active">Birthday</li>
 </ol>
 
-<div class="col-md-offset-1  col-md-10  col-xs-12">
-    <h2 class="text-center">
-        Today is @Model.Name's Birthday
+<div class="alert alert-info text-center padding-top-20">
+   <i class="fa fa-birthday-cake fa-4x"></i>
+    <h2>
+         @Model.StartDate.ToShortDateString() is @Model.Name's Birthday
     </h2>
-
-</div>
-
-<div class="col-md-offset-1 col-md-10 col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <h3 class="text-center">
-                @Model.StartDate.ToShortDateString() is @Model.Name's Birthday
-            </h3>
-
-        </div>
-    </div>
 </div>
 

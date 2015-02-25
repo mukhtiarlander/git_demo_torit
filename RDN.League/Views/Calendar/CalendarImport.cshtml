@@ -22,65 +22,56 @@
     <li class="active">Import</li>
 </ol>
 
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-5 margin-bottom-10"><i class="fa fa-download"></i> Import Calendar</h3>
+                <span class="text-muted">Import the Google Calendar from your leagues private google calendar. View <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Importing_Events_From_Other_Calendars" target="_blank">help if your having trouble</a>.
+                Once a calendar has been imported, You will need to import the calendar again via this page. <span class="b">Locations will not be parsed</span> and added at this moment due to the large amount of variations accepted.</span>
+            </div>
+@using (Html.BeginForm("CalendarImport", "Calendar", FormMethod.Post))
+                {
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label class="form-label">Google Calendar ICS Feed</label>
+                        <div class="margin-bottom-20">
+                            @Html.TextBoxFor(x => x.GoogleCalendarUrl, new { @class = "form-control margin-bottom-5" })
+                            <span class="i text-muted">Url to the <span class="b">ICAL/.ICS</span> google calendar file.</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label">TimeZone of Calendar</label>
+                        <div class="margin-bottom-20">
+                            @Html.DropDownListFor(x => x.TimeZoneId, new SelectList(Model.TimeZones, "ZoneId", "LocationGMT"), "Select TimeZone...", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                                @if (String.IsNullOrEmpty(Model.GoogleCalendarUrl))
+                {
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Import Google Calendar</button>
+                }
+        else {
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update Google Calendar</button>
+                } 
+            </div>
+            @Html.HiddenFor(x => x.CalendarId)
+            @Html.HiddenFor(x => x.OwnerEntity)
+        }
+        </div>
+    </div>
+</div>
 
 <div class="col-md-offset-1  col-md-10  col-xs-12">
     <h2 class="text-center">
-        Import Calendar
+        
     </h2>
 
 </div>
-<div class="col-md-offset-1 col-md-10 col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
 
-            <div class="titleDescription2">
-                Import the Google Calendar from your leagues private google calendar. View <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Importing_Events_From_Other_Calendars" target="_blank">help if your having trouble</a>.
-                
-                Once a calendar has been imported, You will need to import the calendar again via this page.
-                
-                <span class="b">Locations will not be parsed</span> and added at this moment due to the large amount of variations accepted.
-
-
-            </div>
-            
-            <div>
-                @using (Html.BeginForm("CalendarImport", "Calendar", FormMethod.Post))
-                {
-                    <table class="table">
-                        <tr>
-                            <td class="b text-right">
-                                Google Calendar ICS Feed:
-                            </td>
-                            <td class="extraLargeInput">
-                                @Html.TextBoxFor(x => x.GoogleCalendarUrl, new {@class="form-control" }) <small class="i">Url to the <span class="b">ICAL/.ICS</span> google calendar file.</small>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="b text-right">TimeZone of Calendar:</td>
-                            <td>@Html.DropDownListFor(x => x.TimeZoneId, new SelectList(Model.TimeZones, "ZoneId", "LocationGMT"), "Select TimeZone...", new { @class = "form-control" })</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                @if (String.IsNullOrEmpty(Model.GoogleCalendarUrl))
-                                {
-                                    <input type="submit" class="btn btn-primary" value="Import Google Calendar" />
-                                }
-                                else
-                                {
-                                    <input type="submit" class="btn btn-primary" value="Update Google Calendar" />
-                                }
-                            </td>
-                        </tr>
-                    </table>
-                    @Html.HiddenFor(x => x.CalendarId)
-                    @Html.HiddenFor(x => x.OwnerEntity)
-                }
-            </div>
-        </div>
-    </div>
-    </div>
     <script type="text/javascript">
         $('#GoogleCalendarUrl').change(function () {
             var ext = $('#GoogleCalendarUrl').val().split('.').pop().toLowerCase();

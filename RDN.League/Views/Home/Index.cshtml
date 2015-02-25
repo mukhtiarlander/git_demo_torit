@@ -211,6 +211,8 @@ else
                                     @foreach (var calEvent in Model.Calendar.Events.OrderBy(x => x.StartDate))
                                     {
                                         var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
+                                        var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
+                                        var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
                                         <tr class="homeUpcomingRow" id="@calEvent.CalendarItemId-calendarEventRow">
                                             <td>
 

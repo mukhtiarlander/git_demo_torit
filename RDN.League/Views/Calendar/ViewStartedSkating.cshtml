@@ -23,21 +23,11 @@
     <li class="active">Started Skating</li>
 </ol>
 
-<div class="col-md-offset-1  col-md-10  col-xs-12">
-    <h2 class="text-center">
-        @Model.Name Started Skating Today
+<div class="alert alert-info text-center padding-top-20">
+    <i class="fa fa-user fa-4x"></i>
+    <h2>
+        @Model.Name started skating on @Model.StartDate.ToShortDateString()
     </h2>
-
 </div>
 
-<div class="col-md-offset-1 col-md-10 col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <h3 class="text-center">
-                @Model.Name started skating on @Model.StartDate.ToShortDateString()
-            </h3>
-
-        </div>
-    </div>
-</div>
 

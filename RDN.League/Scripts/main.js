@@ -1129,7 +1129,7 @@ function PostInternalMessage() {
 
 var dict = [];
 function ChangeDictionaryItem(checkbox, id, displayName) {
-    var memNames = $("#ToMemberNamesSelected");
+    var memNames = $("# ToMemberNamesSelected");
     var memIds = $("#ToMemberIds");
     var checked = $(checkbox).is(":checked");
     if (checked) {
@@ -1665,32 +1665,37 @@ function checkIntoEvent(idOfPopUp, calId, evenId, name) {
 
     calendarId = calId;
     eventId = evenId;
-    if (addEventPopup === false) {
-        var popup = $('#checkInPopUp').clone();
-        $("<tr id='calendar-" + evenId + "'><td colspan='5'>" + popup.html() + "</td></tr>").hide().insertAfter($("#" + evenId + "-mainrow")).slideDown('fast');
-        addEventPopup = true;
-    }
+    $(".popover").hide().remove();
+    $('button[data-toggle="popover"]').popover('destroy');
+    var popup = $('#checkInPopUp').clone();
+    addEventPopup = true;
+    $("#" + eventId).popover({ content: popup.html() });
+    $("#" + eventId).popover('show');
+    
 }
 function setAvailForEvent(calId, evenId) {
     calendarId = calId;
     eventId = evenId;
-    if (addEventPopup === false) {
-        var popup = $('#availablePopUp').clone();
-        $("<tr id='calendar-" + evenId + "'><td colspan='5'>" + popup.html() + "</td></tr>").hide().insertAfter($("#" + evenId + "-mainrow")).slideDown('fast');
-        addEventPopup = true;
-    }
+    $(".popover").hide().remove();
+    $('button[data-toggle="popover"]').popover('destroy');
+    var popup = $('#availablePopUp').clone();
+    addEventPopup = true;
+    $("#" + eventId + "-setAvail").popover({ content: popup.html() });
+    $("#" + eventId + "-setAvail").popover('show');
 }
 
 function CloseAddedRow() {
     if (addEventPopup === true) {
         $("#calendar-" + eventId).remove();
+        $(".popover").hide().remove();
         addEventPopup = false;
+        $("#" + eventId + "-setAvail").popover('destroy');
     }
 }
 
 function checkInMemberToEvent() {
-    var noted = $("#notes").val();
-    var selectedItem = $("#checkInSelection option:selected").val();
+    var noted = $(".popover-content #notes").val();
+    var selectedItem = $(".popover-content #checkInSelection option:selected").val();
     if (selectedItem === "") {
         $('.bottom-right').notify({
             message: { text: 'Please Select Check In Type. ' },
@@ -1699,13 +1704,13 @@ function checkInMemberToEvent() {
         }).show();
         return;
     }
-    var isTardy = $("#IsTardy").is(':checked');
+    var isTardy = $(".popover-content #IsTardy").is(':checked');
 
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
-            $("#" + eventId).toggleClass("fa-check-o", false);
-            $("#" + eventId).toggleClass("fa-check-square", true);
+            $("#" + eventId).children('i').toggleClass("fa-square-o", false);
+            $("#" + eventId).children('i').toggleClass("fa-check-square", true);
             $('.bottom-right').notify({
                 message: { text: 'Checked In! ' },
                 fadeOut: { enabled: true, delay: 4000 }
@@ -1727,8 +1732,8 @@ function checkInMemberToEvent() {
 }
 
 function setAvailabilityMemberToEvent() {
-    var noted = $("#availableNotes").val();
-    var selectedItem = $("#availableSelection option:selected");
+    var noted = $(".popover-content #availableNotes").val();
+    var selectedItem = $(".popover-content #availableSelection option:selected");
     if (selectedItem.val() === "") {
         $('.bottom-right').notify({
             message: { text: 'Please Select an Available Type. ' },
@@ -1740,7 +1745,7 @@ function setAvailabilityMemberToEvent() {
     CloseAddedRow();
     $.getJSON("/Calendar/SetAvailabilityForEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem.val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#" + eventId + "-setAvail").html("<i class='fa fa-calendar fa-3x cursor'></i>");
+            $("#" + eventId + "-setAvail").html("<i class='fa fa-calendar fa-lg'></i>");
             $('.bottom-right').notify({
                 message: { text: 'RSVPed! ' },
                 fadeOut: { enabled: true, delay: 4000 }
@@ -2131,7 +2136,7 @@ var Calendar = new function () {
         if (isTardy)
             pontType += " - Tardy";
         var rowCount = $('#checkInMembers tr').length + 1;
-        $("#checkInMembers tbody").prepend('<tr class="trBorderB" id="' + selectedItem + '-row"><td></td><td></td><td>' + selectedMember + '</td><td>' + pontType + '</td><td>' + (+points + +additionalPoints) + '</td><td><button  class="btn btn-warning" onclick="javascript:Calendar.checkInRemoveSmall(this,\'' + selectedItem + '\', \'' + selectedMember + '\')">Remove</button></td></tr>');
+        $("#checkInMembers tbody").prepend('<tr class="trBorderB" id="' + selectedItem + '-row"><td></td><td></td><td>' + selectedMember + '</td><td>' + pontType + '</td><td>' + (+points + +additionalPoints) + '</td><td><button  class="btn btn-danger" onclick="javascript:Calendar.checkInRemoveSmall(this,\'' + selectedItem + '\', \'' + selectedMember + '\')"><i class="fa fa-trash"></i></button></td></tr>');
         $("#SelectedMemberId option[value='" + selectedItem + "']").remove();
         dropDown.val("");
         noteCheckIn.val("");

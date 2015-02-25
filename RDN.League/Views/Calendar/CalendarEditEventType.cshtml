@@ -22,112 +22,104 @@
     <li class="active">Update Event Type</li>
 </ol>
 
-<div class="col-md-offset-1  col-md-10  col-xs-12">
-    <h2 class="text-center">
-        Update Calendar Event Type
-    </h2>
-</div>
-
-<div class="col-md-offset-1 col-md-10 col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-
-
-
-
-
-            <div class="titleDescription">
-                Event types are used to describe what type event it is. Updating a Type allows you
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-10 margin-top-5">
+                    Update Calendar Event Type
+                </h3>
+                <span class="text-muted">Event types are used to describe what type event it is. Updating a Type allows you
                 to assign various point structures to your events. Also when reporting, reports
                 get broken down by what type of event it was and how many each person attended.
                 Therefore giving you a better estimate if a person attended 19 out of 20 mandatory
                 practices when 20 total are required. Be sure to read <b>
-                    <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained"
-                       target="_blank">Point Types Explained</a>
-                </b> before updating your first event
-                type.
+    <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained"
+       target="_blank">Point Types Explained</a>
+</b> before updating your first event
+                type.</span>
             </div>
-
-            <div>
-                @using (Html.BeginForm("CalendarEditEventType", "Calendar", FormMethod.Post, new { @id = "CalendarEditEventType" }))
-                {
-                <table class="table">
-                    <tr>
-                        <td class="b text-right">
-                            Name of Event Type:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.EventTypeName, new { @class = "form-control input-sm" }) <small class="i">
+@using (Html.BeginForm("CalendarEditEventType", "Calendar", FormMethod.Post, new { @id = "CalendarEditEventType" }))
+{
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label class="form-label">
+                            Name of Event Type
+                        </label>
+                        <div class="margin-bottom-15">
+                            @Html.TextBoxFor(x => x.EventTypeName, new { @class = "form-control margin-bottom--5" }) 
+                            <span class="i text-muted">
                                 Mandatory Practice, Event, Team
                                 Function, something recongnizable when running reports and creating events.
-                            </small>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b text-right">
-                            Event Type Color:
-                        </td>
-                        <td class="largeInput">
-                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()", @class = "form-control" }) @if (isSec)
-                                {<small class="i">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></small>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b text-right">
-                            Points For Being Present:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.PointsForPresent, new { @class = "form-control input-sm" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b text-right">
-                            Points For Being Partially There:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.PointsForPartial, new { @class = "form-control input-sm" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b text-right">
-                            Points For Being Not Present:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.PointsForNotPresent, new { @class = "form-control input-sm" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b text-right">
-                            Points For Being Excused:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.PointsForExcused, new { @class = "form-control input-sm" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b text-right">
-                            Points For Being Tardy:
-                        </td>
-                        <td class="smallInput">
-                            @Html.TextBoxFor(x => x.PointsForTardy, new { @class = "form-control input-sm" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="submit" class="btn btn-primary" value="Update Event Type" name="add" />
-                        </td>
-                    </tr>
-                </table>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <label class="form-label">
+                            Event Type Color
+                        </label>
+                        <div class="margin-bottom-10">
+                            @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()", @class = "form-control margin-bottom-5" }) 
+                            @if (isSec)
+                            {<span class="i text-muted">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <label class="form-label">
+                            Points For Being Present
+                        </label>
+                        <div class="margin-bottom-10">
+                            @Html.TextBoxFor(x => x.PointsForPresent, new { @class = "form-control margin-bottom-5" })
+                            @if (isSec)
+                            {<span class="i text-muted"> &nbsp;</span> }
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <label class="form-label">
+                            Points For Being Partially There
+                        </label>
+                        <div class="margin-bottom-10">
+                            @Html.TextBoxFor(x => x.PointsForPartial, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <label class="form-label">
+                            Points For Being Not Present
+                        </label>
+                        <div class="margin-bottom-10">
+                            @Html.TextBoxFor(x => x.PointsForNotPresent, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <label class="form-label">
+                            Points For Being Excused
+                        </label>
+                        <div class="margin-bottom-10">
+                            @Html.TextBoxFor(x => x.PointsForExcused, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <label class="form-label">
+                            Points For Being Tardy
+                        </label>
+                        <div class="margin-bottom-10">
+                            @Html.TextBoxFor(x => x.PointsForTardy, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
                 @Html.HiddenFor(x => x.CalendarId)
                 @Html.HiddenFor(x => x.OwnerEntity)
                 @Html.HiddenFor(x => x.CalendarEventTypeId)
-                }
             </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary"  name="add" ><i class="fa fa-save"></i> Update Event Type</button>
+            </div>
+                }
         </div>
-
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         LoadDropDownBackgroundColors();
