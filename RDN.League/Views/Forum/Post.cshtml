@@ -112,7 +112,10 @@
                                             {
                                                 <button class="btn btn-sm btn-default" onclick="javascript:RemovePostOfForumTopic(this, '@message.MessageId')" type="button"><i class="fa fa-trash"></i> Delete</button>
                                             }
-                                            <a class="btn btn-sm btn-default" href="@Url.Content("~/forum/post/quote/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "/" + message.MessageId)"><i class="fa fa-exclamation-circle"></i> Quote</a>
+                                            @if (!Model.IsLocked)
+                                            {
+                                                <a class="btn btn-sm btn-default" href="@Url.Content("~/forum/post/quote/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "/" + message.MessageId)"><i class="fa fa-exclamation-circle"></i> Quote</a>
+                                            }
                                         </div>
                                     </div>
                                     
