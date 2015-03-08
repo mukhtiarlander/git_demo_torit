@@ -2577,27 +2577,27 @@ var League = new function () {
                     $("#documents tbody tr").removeClass('rowSelected').find(":checkbox").prop('checked', false);
                     thisViewModel.documentId = parseInt(row.attr("id").replace(/[\D]/g, ""), 10);
                     row.addClass('rowSelected').find(":checkbox").prop('checked', true);
-                    $("#itemOptions").toggleClass("displayNone", false);
-                    $("#img-MoveItem").toggleClass("displayNone", true);
+                    $("#doc-rename-delete-div").toggleClass("display-none", false);
+                    $("#img-MoveItem").toggleClass("display-none", true);
                 }
                 else {
                     row.removeClass('rowSelected').find(":checkbox").prop('checked', false);
-                    $("#itemOptions").toggleClass("displayNone", true);
-                    $("#img-MoveItem").toggleClass("displayNone", true);
+                    $("#doc-rename-delete-div").toggleClass("display-none", true);
+                    $("#img-MoveItem").toggleClass("display-none", true);
                 }
             } else {
                 //if the user clicked on the row.
                 if (row.find(":checkbox").is(":checked")) {
                     row.removeClass('rowSelected').find(":checkbox").prop('checked', false);
-                    $("#itemOptions").toggleClass("displayNone", true);
-                    $("#img-MoveItem").toggleClass("displayNone", true);
+                    $("#doc-rename-delete-div").toggleClass("display-none", true);
+                    $("#img-MoveItem").toggleClass("display-none", true);
                 }
                 else {
                     $("#documents tbody tr").removeClass('rowSelected').find(":checkbox").prop('checked', false);
                     thisViewModel.documentId = parseInt(row.attr("id").replace(/[\D]/g, ""), 10);
                     row.addClass('rowSelected').find(":checkbox").prop('checked', true);
-                    $("#itemOptions").toggleClass("displayNone", false);
-                    $("#img-MoveItem").toggleClass("displayNone", true);
+                    $("#doc-rename-delete-div").toggleClass("display-none", false);
+                    $("#img-MoveItem").toggleClass("display-none", true);
                 }
             }
         });
@@ -2619,7 +2619,7 @@ var League = new function () {
     this.RenameDocument = function (span) {
         var docName = $("#docRow-" + thisViewModel.documentId).attr("name");
         var output = docName;
-        $("#rn-" + thisViewModel.documentId).html("<input type='text' id='rns-" + thisViewModel.documentId + "' value='" + output + "' /> <span id='rnl-" + thisViewModel.documentId + "' class='spanLink' onclick='League.RenameDocumentSubmit(this,\"" + thisViewModel.documentId + "\")'>Rename</span>");
+        $("#rn-" + thisViewModel.documentId).html("<div class='input-group'><input type='text' class='form-control' id='rns-" + thisViewModel.documentId + "' value='" + output + "' /><span class='input-group-btn'><button type='button' id='rnl-" + thisViewModel.documentId + "' class='btn btn-success' onclick='League.RenameDocumentSubmit(this,\"" + thisViewModel.documentId + "\")'><i class='fa fa-save'></i> Rename</button></span></div>");
         $("#rns-" + thisViewModel.documentId).focus();
     }
     this.RenameDocumentSubmit = function (span) {
