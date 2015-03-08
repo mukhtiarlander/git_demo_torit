@@ -90,10 +90,17 @@
                         @System.Configuration.ConfigurationManager.AppSettings["WebsiteSlogan"]
                     </small>
                 </h1>
-
+                @if (!User.Identity.IsAuthenticated) { 
                 <div class="affix-bottom">
                     <a href="@Url.Content("~/signup")" class="btn btn-success btn-lg">Sign Me Up</a>
                 </div>
+                }
+                else { 
+
+                <div class="affix-bottom">
+                    <a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]" class="btn btn-success btn-lg">Take Me To My League</a>
+                </div>
+                }
             </div>
         </div>
 
