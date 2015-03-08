@@ -66,23 +66,16 @@
 
                                     <div id="updateQuestionTd-@question.QuestionId" class="panel panel-default">
                                         <div class="panel-heading no-padding padding-5">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-10 padding-top-5">
-                                                    <span style="font-size:16px;">
-                                                        <i class="fa fa-question-circle"></i> @question.Question
-                                                    </span>
-                                                    @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
-                                                {<small class='text-muted'> - multiple choice</small> }
-                                                </div>
-                                                <div class="col-xs-12 col-sm-2 text-right">
-                                                    <span class="btn btn-sm btn-default sortableHandle" title="Sort Question/Drag and Drop"><i class="fa fa-arrows"></i></span>
-                                                </div>
-                                            </div>
+                                            <span style="font-size:16px;">
+                                                <i class="fa fa-question-circle"></i> @question.Question
+                                            </span>
+                                            @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                                            {<small class='text-muted'> - multiple choice</small> }
                                         </div>
                                         <div class="panel-body no-padding-top no-padding-bottom">
                                             <div id="newAnswerForQuestionTd-@question.QuestionId">
                                                 @foreach (var answer in question.Answers.OrderBy(x => x.AnswerId))
-                                            {
+                                                {
                                                     <div class="row padding-bottom-10" style="border-bottom:1px solid #eee">
                                                         <div class="col-xs-12 col-sm-3 col-md-2 margin-top-10">
                                                             @if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)

@@ -3,100 +3,93 @@
     ViewBag.Title = "Group Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="fixedContainer">
-    <div>
-        < Back To <a href="@Url.Content("~/league/groups/")">Groups</a>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            @Model.GroupName Group
-        </div>
-        <div class="titleDescription">
-            <a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">Read the wiki before continuing</a> to manage the group for the first time.
-        </div>
-        <div class="divider"></div>
-        <div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/groups/")">Groups</a></li>
+    <li class="active">Edit Group</li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> @Model.GroupName Group</h3>
+                <span class="text-muted"><a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">Read the wiki before continuing</a> to manage the group for the first time.</span>
+            </div>
             @using (Html.BeginForm("GroupsSettings", "League", FormMethod.Post, new { @id = "GroupsSettings" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b">Group Name:
-                        </td>
-                        <td class="subject">
-                            @Html.TextBoxFor(x => x.GroupName)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Is Group Public:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.IsPublicToWorld) - Public Groups are for teams or committees you want to display to the world.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Group Type:</td>
-                        <td>@Html.DropDownListFor(x => x.GroupTypeEnum, (SelectList)ViewData["groupTypeSelectList"]) - <a href="http://wiki.rdnation.com/Groups_And_Teams#Group_Types_Explained" target="_blank">Group Types Explained</a>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Email Address:
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(x => x.EmailAddress)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Members:</td>
-                        <td>
-                            <table id="groupMembers" class="listTable">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Apart Of Group</th>
-                                        <th>Member Type</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (var mem in Model.GroupMembers)
-                                    {
+            {
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label">Group Name</label>
+                            <div class="margin-bottom-20">
+                                @Html.TextBoxFor(x => x.GroupName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">Is Group Public</label>
+                            <div class="margin-bottom-20">
+                                @Html.CheckBoxFor(x => x.IsPublicToWorld) - Public Groups are for teams or committees you want to display to the world.
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">Group Type</label>
+                            <div class="margin-bottom-20">
+                                @Html.DropDownListFor(x => x.GroupTypeEnum, (SelectList)ViewData["groupTypeSelectList"], new {@class="full-width margin-bottom-5" })
+                                <a  href="http://wiki.rdnation.com/Groups_And_Teams#Group_Types_Explained" target="_blank">Group Types Explained</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">Email Address</label>
+                            <div class="margin-bottom-20">
+                                @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">Members</label>
+                            <div>
+                                <table id="groupMembers" class="table table-striped table-hover">
+                                    <thead>
                                         <tr>
-                                            <td>@mem.DerbyName</td>
-                                            <td>@Html.CheckBox(mem.MemberId + "-check", mem.IsApartOfGroup, new { @style = "width:50px;" })</td>
-                                            <td>
-                                                <select name="@mem.MemberId.ToString()-memType" id="@mem.MemberId.ToString().Replace("-", "")-memType">
-                                                    @foreach (var item in RDN.League.Classes.Enums.EnumExt.ToSelectList(RDN.Portable.Classes.League.Enums.GroupMemberAccessLevelEnum.Member))
-                                                    { 
-                                                        <option value="@item.Value" title="@item.Text" @(mem.MemberAccessLevelEnum.ToString() == item.Text ? "selected=selected" : "") label="@item.Text"></option>
-                                                    }
-                                                </select></td>
-
+                                            <th>Name</th>
+                                            <th>Apart Of Group</th>
+                                            <th>Member Type</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
 
-                        </td>
+                                        @foreach (var mem in Model.GroupMembers)
+                                        {
+                                            <tr>
+                                                <td class="vertical-middle">@mem.DerbyName</td>
+                                                <td class="vertical-middle">@Html.CheckBox(mem.MemberId + "-check", mem.IsApartOfGroup, new { @style = "width:50px;" })</td>
+                                                <td>
+                                                    <select name="@mem.MemberId.ToString()-memType" id="@mem.MemberId.ToString().Replace("-", "")-memType">
+                                                        @foreach (var item in RDN.League.Classes.Enums.EnumExt.ToSelectList(RDN.Portable.Classes.League.Enums.GroupMemberAccessLevelEnum.Member))
+                                                        {
+                                                            <option value="@item.Value" title="@item.Text" @(mem.MemberAccessLevelEnum.ToString() == item.Text ? "selected=selected" : "") label="@item.Text"></option>
+                                                        }
+                                                    </select>
+                                                </td>
 
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="@Url.Content("~/league/groups/")">Cancel Group</a>
-                        </td>
-                        <td>
-                            <input type="submit" class="primary" value="Update Group" />
-                        </td>
-
-                    </tr>
-                </table>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update Group</button>
+                    <a class="btn btn-default" href="@Url.Content("~/league/groups/")">Cancel Group</a>
+                </div>
                 @Html.HiddenFor(x => x.League.LeagueId)
                 @Html.HiddenFor(x => x.Id)
             }
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $("#GroupsSettings").validate({
         rules: {

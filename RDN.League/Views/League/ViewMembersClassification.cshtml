@@ -40,7 +40,7 @@
         </div>
         <div class="text-muted"> Here you can view the Member Skating Levels for your league.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body" style="overflow-x:auto">
@@ -105,7 +105,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#membersTypeButtons").find("a[tag='skatinglevel']").addClass('active');
+        $("#membersTypeButtons").find("li[tag='skatinglevel']").addClass('active b');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,

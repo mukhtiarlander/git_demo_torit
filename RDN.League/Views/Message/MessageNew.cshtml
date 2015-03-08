@@ -43,33 +43,50 @@
                             </div>
                         </div>
                         <div class="col-xs-12 font16">
-                            Known Recipients
-                            <label class="margin-left-10" style="font-weight:normal">
-                                <input type="checkbox" onchange="Messages.toggleCheckedForRecipients(this)" id="checkAll" />
-                                Check All
+                            
+                            <label class="form-label margin-top-10">
+                                To Selected
                             </label>
-                        </div>
-                        
-                    </div>
-                    <div class="row margin-top-10">
-                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-warning btn-sm pull-right" onclick="Messages.ShowNewPrivateMessageMembersPopup()"><i class="fa fa-check-square-o"></i> Select</button>
                             <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div id="checkboxes">
-                                            @foreach (var mem in Model.Recipients)
-                                            {
-                                                <div class="col-xs-12 col-sm-6 col-md-4">
-                                                    <label style="font-weight:normal">
-                                                        @Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "Messages.ChangeDictionaryItem(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })<span id="@mem.MemberId.ToString()-name">
-                                                            @mem.DerbyName  @if (!String.IsNullOrEmpty(mem.Firstname) || !String.IsNullOrEmpty(mem.LastName))
-                                                            {
-                                                                <span>[@((mem.Firstname + " " + mem.LastName).Trim())]</span>
-                                                            }
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            }
+                                <div class="panel-body padding-left-5 padding-right-5 padding-bottom-5 no-padding-top">
+                                    <div name="ToMemberNamesSelected" id="ToMemberNamesSelected">
+                                        <span class="margin-top-5 pull-left">No Recipients Selected!</span>
+                                    </div>
+                                    @Html.HiddenFor(x => x.ToMemberIds)
+                                </div>
+                            </div>
+                            <div class="modal fade" id="NewPrivateMessageMembersPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"><i class="fa fa-check-square-o"></i> Known Recipients</h4>
+                                        </div>
+                                        <div class="modal-body padding-10">
+                                            <div class="text-right">
+                                                <label class="margin-left-10" style="font-weight:normal">
+                                                    <input type="checkbox" onchange="Messages.toggleCheckedForRecipients(this)" id="checkAll" />
+                                                    Select All
+                                                </label>
+                                            </div>
+                                            <div id="checkboxes" class="row panel panel-default no-margin padding-top-10" style="max-height:500px; overflow-y:auto">
+                                                @foreach (var mem in Model.Recipients)
+                                                {
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <label>
+                                                            @Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "Messages.ChangeDictionaryItem(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })<span id="@mem.MemberId.ToString()-name">
+                                                                @mem.DerbyName  @if (!String.IsNullOrEmpty(mem.Firstname) || !String.IsNullOrEmpty(mem.LastName))
+                                                                {
+                                                                    <span>[@((mem.Firstname + " " + mem.LastName).Trim())]</span>
+                                                                }
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" data-dismiss="modal" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Done</button>
                                         </div>
                                     </div>
                                 </div>
@@ -92,13 +109,8 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-label">To Selected</div>
-                            <div class="margin-bottom-10">
-                                <div name="ToMemberNamesSelected" id="ToMemberNamesSelected">
-                                </div>
-                                @Html.HiddenFor(x => x.ToMemberIds)
-                            </div>
-                            <div class="form-label margin-bottom-5">To Additional  <button type="button" onclick="Messages.ExpandGroupMemberList()" class="btn btn-xs btn-default"><i class="fa fa-arrow-circle-o-down fa-lg"></i></button></div>
+                           
+                            <div class="form-label margin-bottom-5">To Additional  <button type="button" onclick="Messages.ExpandGroupMemberList()" class="btn btn-sm btn-default"><i class="fa fa-arrow-circle-o-down fa-lg"></i></button></div>
                             <div class="margin-bottom-10">
                                 @Html.TextBoxFor(x => x.ToMemberNames, new { @class = "messagesInput" })
                                 <div class="displayNone groupMemberLists" id="groupMemberLists">

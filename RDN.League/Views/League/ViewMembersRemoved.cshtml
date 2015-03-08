@@ -44,7 +44,7 @@
         </div>
         <div class="text-muted">These are the members that have been removed from your league.  For records management, you are still able to see their information.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body" style="overflow-x:auto">
@@ -117,7 +117,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#membersTypeButtons").find("a[tag='removed']").addClass('active');
+        $("#membersTypeButtons").find("li[tag='removed']").addClass('active b');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,

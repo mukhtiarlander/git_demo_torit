@@ -34,7 +34,7 @@
                         Category
                     </div>
                     <div class=" margin-top-5">
-                        @Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, "None", new { tabindex = "2" })
+                        @Html.DropDownListFor(x => x.ChosenCategory, Model.ForumCategories, "None", new { tabindex = "2",@class="full-width" })
                     </div>
                     <div class="form-label margin-top-10">
                         @Html.LabelFor(x => x.Message)
@@ -49,17 +49,17 @@
                     <div class="form-label margin-top-10">
                         @if (Model.ForumType != RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main)
                         {
-                            @Html.CheckBoxFor(x => x.BroadcastMessage, new { tabindex = "3" }) <span class="b">Broadcast this message</span> <span>Entire group will be sent copy via email.</span>
+                            <label>@Html.CheckBoxFor(x => x.BroadcastMessage, new { tabindex = "3" }) <span class="b">Broadcast this message</span> <span>Entire group will be sent copy via email.</span></label>
                         }
                        
                     </div>
                     @if (Model.IsManagerOrBetter)
                         {   
                             <div class="form-label margin-top-10">
-                                @Html.CheckBoxFor(x => x.PinMessage, new { tabindex = "4" }) <span class="b">Pin this message.</span> <span>This message will stay at the top of the forum.</span>
+                                <label>@Html.CheckBoxFor(x => x.PinMessage, new { tabindex = "4" }) <span class="b">Pin this message.</span> <span>This message will stay at the top of the forum.</span></label>
                             </div>
                             <div class="form-label margin-top-10">
-                                @Html.CheckBoxFor(x => x.LockMessage, new { tabindex = "5" }) <span class="b">Lock this message.</span> <span>This message will not allow replies.</span>
+                                <label>@Html.CheckBoxFor(x => x.LockMessage, new { tabindex = "5" }) <span class="b">Lock this message.</span> <span>This message will not allow replies.</span></label>
                             </div>
                         }
                 </div>

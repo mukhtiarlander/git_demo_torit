@@ -4,102 +4,122 @@
     ViewBag.Title = "Quote " + Model.TopicTitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Quote Forum Post
-        </div>
-        <div class="divider"></div>
-        <div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Forum</a></li>
+    <li class="active">Quote Forum Post</li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-5">Quote Forum Post</h3>
+            </div>
+
             @using (Html.BeginForm("QuotePost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td colspan="2">
-                            @Html.LabelFor(x => x.Message)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            @Html.TextArea("Message", Model.Message, new
+            {
+                <div class="panel-body">
+
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                @Html.LabelFor(x => x.Message)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                @Html.TextArea("Message", Model.Message, new
                            {
                                id = "wmd-input",
                                style = "width:700px"
                            })
-                        </td>
-                    </tr>
-                    @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main) { 
-                    <tr>
-                        <td colspan="2">
-                            <br />
-                            @Html.CheckBoxFor(x => x.BroadcastMessage) <span class="b">Broadcast this message</span> Entire group will be sent copy via email.</td>
-                    </tr>
+                            </td>
+                        </tr>
+                        @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main) {
+                <tr>
+                    <td colspan="2">
+                        <br />
+                        @Html.CheckBoxFor(x => x.BroadcastMessage) <span class="b">Broadcast this message</span> Entire group will be sent copy via email.
+                    </td>
+                </tr>
                     }
-                    <tr>
-                        <td>
-                            <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
-                        </td>
-                        <td>
-                            <input type="submit" class="primary" value="Save Post" />
-                        </td>
-                    </tr>
-                </table>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Post</button>
+                    <a class="btn btn-default" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
+                </div>
                 @Html.HiddenFor(x => x.ForumId)
                 @Html.HiddenFor(x => x.ForumType)
                 @Html.HiddenFor(x => x.TopicId)
                 @Html.HiddenFor(x => x.MessageId)
             }
-        </div>
+            <div class="panel-body">
+                @foreach (var message in Model.Messages)
+                {
+                    <div id="msg-@message.MessageId" class="panel panel-default" style="background-color:#fafafa">
+                        <div class="panel-body padding-bottom-10 padding-top-10">
+                            <div class="row">
+                                <div class="col-xs-12 padding-bottom-10" style="border-bottom:#ddd dashed 1px">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        @if (message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                                                        {
+                                                            <img height="65px" alt="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                                                        }
+                                                        else if (message.Member.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                                        {
+                                                            <img height="65px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img height="65px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                                                        }
+                                                    </td>
+                                                    <td class="padding-left-10">
+                                                        @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
+                                                        {
+                                                            <a target="_blank" href="@Url.Content("~/member/" + message.Member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName))">
+                                                                <h4 class="no-margin-top">@message.Member.DerbyName</h4>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName) + "/" + message.Member.MemberId.ToString().Replace("-", ""))">
+                                                                <h4>@message.Member.DerbyName</h4>
+                                                            </a>
+                                                        }
+                                                        <span class="label label-danger">@message.Member.TotalForumPostsCount Posts</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
 
-        <div class="divider"></div>
-        <div class="forumMessages">
-            @foreach (var message in Model.Messages)
-            { 
-                <div id="msg-@message.MessageId">
-                    <div class="forumPostHead">
-                        <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "#msg-" + message.MessageId)"><b>Posted</b> @message.Created.ToLongDateString()</a>
-                    </div>
+                                    </div>
 
-                    <div class="forumPostProfile">
-                        @if (message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
-                        { 
-                            <img height="65px" alt="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
-                        }
-                        else if (message.Member.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-                        { 
-                            <img height="65px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-                        }
-                        else
-                        {
-                            <img height="65px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
-                        }
-                        <br />
-                       
-                        @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
-                        { 
-                            <a target="_blank" href="@Url.Content("~/member/" + message.Member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName))">
-                                @message.Member.DerbyName
-                            </a>
-                        }
-                        else
-                        { 
-                            <a target="_blank" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName) + "/" + message.Member.MemberId.ToString().Replace("-", ""))">
-                                @message.Member.DerbyName
-                            </a>                                            
-                        }
-                        <div><span><b>Posts:</b> </span>@message.Member.TotalForumPostsCount</div>
-                    </div>
-                    <div class="forumPostMessage">
-                        @Html.Raw(message.MessageHTML)
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-            }
+                                </div>
+                                <div class="col-xs-12 padding-top-10" style="background-color:white">
+                                    @Html.Raw(message.MessageHTML)
+                                </div>
+                                <div class="col-xs-12 col-sm-7 col-md-6 padding-top-10">
+                                    <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "#msg-" + message.MessageId)"><i class="fa fa-clock-o"></i> @message.Created.ToLongDateString() @message.Created.ToShortTimeString()</a>
+                                </div>
+                                <div class="col-xs-12 col-sm-3 col-md-6 padding-top-10 text-right">
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
+
+           
 
 <script type="text/javascript">
     $("#editMessage").validate({

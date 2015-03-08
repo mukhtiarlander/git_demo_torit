@@ -5,55 +5,65 @@
   bool isMed = RDN.Library.Cache.MemberCache.IsMedicalOrBetterOfLeague(memId);
 }
 
-<div id="membersTypeButtons" class="btn-group" role="group">
-    <a tag="roster" class="btn btn-default" href="@Url.Content("~/league/members/view/all")">Roster</a>
-    @if (isSec)
+<ul class="nav nav-tabs no-margin-bottom" id="membersTypeButtons" style="margin-bottom:-1px">
+    <li tag="roster" class="margin-left-5">
+        <a href="@Url.Content("~/league/members/view/all")">Roster</a>
+    </li>
+     @if (isSec)
     {
-        <a tag="dates" class="btn btn-default" href="@Url.Content("~/league/members/view/dates")">Dates</a>
+        <li tag="dates" class="margin-left-5">
+            <a href="@Url.Content("~/league/members/view/dates")">Dates</a>
+        </li>
     }
-    <a tag="dayjobs" class="btn btn-default" href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a>
+    <li tag="dayjobs" class="margin-left-5">
+        <a  href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a>
+    </li>
     @if (isPaid)
     {
-        <a tag="groups" class="btn btn-default" href="@Url.Content("~/league/groups")">Groups</a>
-
-            <a tag="insurancenumbers" class="btn btn-default" href="@Url.Content("~/league/members/view/insurance")">Insurance Numbers</a>
-
+        <li tag="groups" class="margin-left-5">
+            <a href="@Url.Content("~/league/groups")">Groups</a>
+        </li>
+        <li tag="insurancenumbers" class="margin-left-5">
+            <a href="@Url.Content("~/league/members/view/insurance")">Insurance Numbers</a>
+        </li>
         if (isMed || isSec)
         {
-            <a tag="medical" class="btn btn-default" href="@Url.Content("~/league/members/view/medical")">Medical</a>
+            <li tag="medical" class="margin-left-5">
+                <a href="@Url.Content("~/league/members/view/medical")">Medical</a>
+            </li>
         }
     }
     else
     {
-        <a tag="groups" class="btn btn-default" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Groups are only available to subscribed leagues">Groups</a>
-
-    <a tag="insurancenumbers" class="btn btn-default" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Insurance Numbers are only available to subscribed leagues">Insurance Numbers</a>
-
+        <li tag="groups" class="margin-left-5">
+            <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Groups are only available to subscribed leagues">Groups</a>
+        </li>
+        <li tag="insurancenumbers" class="margin-left-5">
+            <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Insurance Numbers are only available to subscribed leagues">Insurance Numbers</a>
+        </li>
         if (isSec || isMed)
         {
-            <a tag="medical" class="btn btn-default" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Medical Information is only available to subscribed leagues">Medical</a>
+            <li tag="medical" class="margin-left-5">
+                <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Medical Information is only available to subscribed leagues">Medical</a>
+            </li>
         }
     }
     @if (isManager)
-{
-    <a tag="permissions" class="btn btn-default" href="@Url.Content("~/league/members/view/permissions")">Permissions</a>
-}
-
-
-    <a tag="skatinglevel" class="btn btn-default" href="@Url.Content("~/league/members/view/class")">Skating Level</a>
-
-    <a tag="map" class="btn btn-default" href="@Url.Content("~/league/members/view/map")">Map</a>
-
-    <a tag="removed" class="btn btn-default" href="@Url.Content("~/league/members/view/removed")">Removed</a>
-
-
-    @*<a class="btn btn-default" href="@Url.Content("~/league/members/view/all")">Roster</a>
-
-    @if (isSec)
     {
-        <a class="btn btn-default" href="@Url.Content("~/league/members/view/dates")">Dates</a>
+        <li tag="permissions" class="margin-left-5">
+            <a href="@Url.Content("~/league/members/view/permissions")">Permissions</a>
+        </li>
     }
-    <a class="btn btn-default" href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a>*@
+    <li tag="skatinglevel" class="margin-left-5">
+        <a  href="@Url.Content("~/league/members/view/class")">Skating Level</a>
+    </li>
+    <li tag="map" class="margin-left-5">
+        <a href="@Url.Content("~/league/members/view/map")">Map</a>
+    </li>
+    <li tag="removed" class="margin-left-5">
+        <a href="@Url.Content("~/league/members/view/removed")">Removed</a>
+    </li>
+</ul>
+       
 
-</div>
-    
+       

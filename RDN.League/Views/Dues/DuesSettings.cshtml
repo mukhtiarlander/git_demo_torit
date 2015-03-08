@@ -20,51 +20,61 @@
             </div>
             <div class="panel-body" style="overflow-x:auto">
                 <div class="row">
-
                     @using (Html.BeginForm("DuesSettings", "Dues", FormMethod.Post))
                     {
-                        <div class="col-xs-12 col-sm-2 col-md-4">
+                        <div class="col-xs-12 col-sm-4">
                             <label class="form-label margin-top-10">Day Of Month To Collect</label>
                             <div>
-                                @Html.TextBoxFor(x => x.DayOfMonthToCollectDefault, new { @class="form-control" })
+                                @Html.TextBoxFor(x => x.DayOfMonthToCollectDefault, new { @class = "form-control" })
                             </div>
                         </div>
-                       <div class="col-xs-12 col-sm-2 col-md-4">
+                        <div class="col-xs-12 col-sm-4">
                             <label class="form-label margin-top-10">Days Before to Notify Member</label>
                             <div>
                                 @Html.TextBoxFor(x => x.DaysBeforeDeadlineToNotifyDefault, new { @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-2 col-md-4">
+                        <div class="col-xs-12 col-sm-4">
                             <label class="form-label margin-top-10">Amount of Money To Collect</label>
                             <div>
                                 @Html.TextBoxFor(x => x.DuesCostDisplay, new { @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Dues Management for Managers Only</label>
-                            <div>
-                                <label>@Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)  Users only shown their payments and withstanding. Not leagues.</label>
+                        <div class="col-xs-12 col-md-6 margin-top-25">
+                            <div class="panel panel-default no-margin-bottom">
+                                <div class="panel-heading" style="background-color: #fff !important">
+                                    <label class="form-label margin-top-5">Dues Management for Managers Only</label>
+                                    <div>
+                                        <label>@Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)  Users only shown their payments and withstanding. Not leagues.</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Currency for Dues</label>
-                            <div>
-                                @Html.DropDownListFor(x => x.Currency, Model.CurrencyList)
-                                To add your currency, email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">info@rdnation.com</a>
+                        <div class="col-xs-12 col-md-6 margin-top-25">
+                            <div class="panel panel-default no-margin-bottom">
+                                <div class="panel-heading" style="background-color:#fff !important">
+                                    <label class="form-label margin-top-5">Accept Paypal Dues Payments</label>
+                                    <div>
+                                        <label>@Html.CheckBoxFor(x => x.AcceptPaymentsOnline) Members can pay with their Paypal account</label>
+                                        <br />&nbsp;
+                                    </div>  
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Accept Paypal Dues Payments</label>
+                        <div class="col-xs-12 col-md-6 margin-top-20">
+                            <label class="form-label">Currency for Dues</label>
                             <div>
-                                <label>@Html.CheckBoxFor(x => x.AcceptPaymentsOnline) Members can pay with their Paypal account</label>
+                                @Html.DropDownListFor(x => x.Currency, Model.CurrencyList, new { @class = "full-width" })
+                                <div class="text-muted margin-top-5 i">
+                                    To add your currency, email us at <a href="mailto:@RDN.Portable.Config.ServerConfig.DEFAULT_INFO_EMAIL">info@rdnation.com</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Leagues Paypal Email Address</label>
+                        <div class="col-xs-12 col-md-6  margin-top-20">
+                            <label class="form-label">Leagues Paypal Email Address</label>
                             <div>
                                 @Html.TextBoxFor(x => x.PayPalEmailAddress, new { @class = "form-control" })
-                                <div class="text-muted margin-top-5">Email Address of the league to collect dues, this needs to be a <b><a href="@RDN.Portable.Config.ServerConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT" target="_blank">VERIFIED</a></b> paypal account.</div>
+                                <div class="text-muted margin-top-5 i">Email Address of the league to collect dues, this needs to be a <b><a href="@RDN.Portable.Config.ServerConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT" target="_blank">VERIFIED</a></b> paypal account.</div>
                             </div>
                         </div>
                         <div class="col-xs-12">
@@ -79,7 +89,7 @@
                     }
                 </div>
 
-            </div>
+    </div>
             <div class="panel-footer">
                 @if (ViewBag.IsSuccessful)
                 {

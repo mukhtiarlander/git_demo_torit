@@ -4,46 +4,58 @@
     ViewBag.Title = "Reply To " + Model.TopicTitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Forum</a></li>
+    <li class="active">Edit Forum Post</li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-pencil"></i> Edit Forum Post</h3>
+            </div>
+            @using (Html.BeginForm("EditPost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
+            {
+                 <div class="panel-body">
+                    <table class="addForumPostTbl">
+                        <tr>
+                            <td colspan="2">
+                                @Html.LabelFor(x => x.Message)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                @Html.TextArea("Message", Model.MessageMarkDown, new
+                               {
+                                   id = "wmd-input",
+                                   style = "width:700px"
+                               })
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Post</button>
+                        <a class="btn btn-default" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
+                    </div>
+                     @Html.HiddenFor(x => x.ForumId)
+                    @Html.HiddenFor(x => x.ForumType)
+                    @Html.HiddenFor(x => x.TopicId)
+                    @Html.HiddenFor(x => x.MessageId)
+                }
+        </div>
+    </div>
+</div>
 
 <div class="fixedContainer">
     <div class="fixedCenterContainter">
         <div class="fixTitle">
-            Edit Forum Post
+            
         </div>
             <div class="divider"></div>
         <div>
-            @using (Html.BeginForm("EditPost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td colspan="2">
-                            @Html.LabelFor(x => x.Message)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                                @Html.TextArea("Message", Model.MessageMarkDown, new
-                           {
-                               id = "wmd-input",
-                               style = "width:700px"
-                           })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId)">Cancel Message</a>
-                        </td>
-                        <td>
-                            <input type="submit" class="primary" value="Save Post" />
-                        </td>
-                    </tr>
-                </table>
-                @Html.HiddenFor(x => x.ForumId)
-                @Html.HiddenFor(x => x.ForumType)
-                @Html.HiddenFor(x => x.TopicId)
-                @Html.HiddenFor(x => x.MessageId)
-            }
+           
         </div>
     </div>
 </div>

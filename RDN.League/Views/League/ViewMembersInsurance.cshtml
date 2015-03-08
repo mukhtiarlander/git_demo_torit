@@ -42,7 +42,7 @@
         </div>
         <div class="text-muted"> Here you can view the Member Insurance Numbers for your league.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body" style="overflow-x:auto">
@@ -66,27 +66,14 @@
                         WFTDA
                     </th>
                     <th>
-                        Expires
-                    </th>
-                    <th>
                         USARS
-                    </th>
-                    <th>
-                        Expires
                     </th>
                     <th>
                         CRDI
                     </th>
                     <th>
-                        Expires
-                    </th>
-                    <th>
                         Other
                     </th>
-                    <th>
-                        Expires
-                    </th>
-                 
                 </tr>
             </thead>
             <tbody>
@@ -111,45 +98,36 @@
                             @Model.Model.Items[i].Firstname @Model.Model.Items[i].LastName
                         </td>
                         <td>
-                            @Model.Model.Items[i].InsuranceNumWftda
-                        </td>
-                        <td>
+                            @Model.Model.Items[i].InsuranceNumWftda<br />
                             @if (Model.Model.Items[i].InsuranceNumWftdaExpires.HasValue)
                             {
-                                @Model.Model.Items[i].InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
+                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
                             }
                         </td>
                         <td>
-                            @Model.Model.Items[i].InsuranceNumUsars
-                        </td>
-                        <td>
+                            @Model.Model.Items[i].InsuranceNumUsars<br />
                             @if (Model.Model.Items[i].InsuranceNumUsarsExpires.HasValue)
                             {
-                                @Model.Model.Items[i].InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
+                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
                             }
                         </td>
                         <td>
-                            @Model.Model.Items[i].InsuranceNumCRDI
-                        </td>
-                        <td>
+                            @Model.Model.Items[i].InsuranceNumCRDI<br />
                             @if (Model.Model.Items[i].InsuranceNumCRDIExpires.HasValue)
                             {
-                                @Model.Model.Items[i].InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
+                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
                             }
                         </td>
                         <td>
-                            @Model.Model.Items[i].InsuranceNumOther
-                        </td>
-                        <td>
+                            @Model.Model.Items[i].InsuranceNumOther<br />
                             @if (Model.Model.Items[i].InsuranceNumOtherExpires.HasValue)
                             {
-                                @Model.Model.Items[i].InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
+                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
                             }
                         </td>
                     </tr>
                 }
             </tbody>
-
         </table>
     </div>
 </div>
@@ -157,7 +135,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#membersTypeButtons").find("a[tag='insurancenumbers']").addClass('active');
+        $("#membersTypeButtons").find("li[tag='insurancenumbers']").addClass('active b');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,

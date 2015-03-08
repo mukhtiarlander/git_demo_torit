@@ -43,61 +43,65 @@
         </div>
         <div class="text-muted">Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from RDNation can be considered against the law in some countries.  Members only granted these rights to Managers of the league and not to anyone else.  Please stay within the law.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
+    </div>  
+    <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-body no-padding">
+                <div id="mapdiv" style="height: 500px; width: 100%;"></div>
+                <script src="@Url.Content("~/scripts/openlayers.js")"></script>
+                <style>
+                    .olControlAttribution {
+                        bottom: 0px;
+                    }
+                </style>
+
+                <div class="margin-top-10" style="overflow-y:auto; height:400px">
+
+                    <table class="table table-striped table-hover table-condensedas" id="members">
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!String.IsNullOrEmpty(Model[i].ThumbUrl))
+                                    {
+                                        <img class="round-corners" alt="@Model[i].DerbyName" src="@Model[i].ThumbUrl" style="width:100px;" />
+                                    }
+                                    else if (!String.IsNullOrEmpty(Model[i].photoUrl))
+                                    {
+                                        <img class="round-corners" alt="@Model[i].DerbyName" src="@Model[i].photoUrl" style="width:100px;" />
+                                    }
+                                </td>
+                                <td> @(i + 1)<span>.</span></td>
+                                <td>
+                                    @Model[i].DerbyName
+                                    @if (!String.IsNullOrEmpty(Model[i].Address1))
+                                    {
+                                        <br />
+                                        @Model[i].Address1 @Model[i].Address2
+                                        <br />
+                                    }
+                                    @Model[i].City @Model[i].State @Model[i].Zip
+
+                                    @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
+                                    {
+
+                                        <script type="text/javascript">
+                                            $(document).ready(function () {
+                                                var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
+                                                createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
+                                            });
+                                        </script>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="panel-body" >
-        <div class="margin-bottom-10" style="overflow-y:auto; height:400px">
-           
-            <table class="table table-striped table-hover table-condensedas" id="members">
-                @for (int i = 0; i < Model.Count; i++)
-            {
-                    <tr>
-                        <td>
-                            @if (!String.IsNullOrEmpty(Model[i].ThumbUrl))
-                        {
-                                <img class="memimage" alt="@Model[i].DerbyName" src="@Model[i].ThumbUrl" />
-                        }
-                        else if (!String.IsNullOrEmpty(Model[i].photoUrl))
-                        {
-                            <img class="memimage" alt="@Model[i].DerbyName" src="@Model[i].photoUrl" />
-                        }
-                        </td>
-                        <td> @(i + 1)<span>.</span></td>
-                        <td>
-                            @Model[i].DerbyName
-                            @if (!String.IsNullOrEmpty(Model[i].Address1))
-                        {
-                                <br />
-                                @Model[i].Address1 @Model[i].Address2
-                                <br />
-                        }
-                            @Model[i].City @Model[i].State @Model[i].Zip
-
-                            @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
-                        {
-
-                                <script type="text/javascript">
-                                                $(document).ready(function () {
-                                                    var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
-                                                    createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
-                                                });
-                                </script>
-                        }
-                        </td>
-                    </tr>
-            }
-            </table>
-        </div>
-        
-            <div id="mapdiv" style="height: 500px; width: 100%;"></div>
-            <script src="@Url.Content("~/scripts/openlayers.js")"></script>
-            <style>
-                .olControlAttribution {
-                    bottom: 0px;
-                }
-            </style>
-        </div>
 </div>
 
 <script type="text/javascript">
@@ -111,7 +115,7 @@
         map.zoomTo(map.zoomToExtent(bounds));
     });
     $(document).ready(function () {
-        $("#membersTypeButtons").find("a[tag='map']").addClass('active');
+        $("#membersTypeButtons").find("li[tag='map']").addClass('active b');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,

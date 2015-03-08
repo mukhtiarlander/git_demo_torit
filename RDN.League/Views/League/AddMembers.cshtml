@@ -5,7 +5,7 @@
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
    
-    <li class="active">Add multiple Members</li>
+    <li class="active">Add Members</li>
 </ol>
 <div class="panel panel-default margin-top-20">
     <div class="panel-heading">
@@ -15,12 +15,6 @@
         </div>
     </div>
     <div class="panel-body">
-        <div class="alert alert-warning" role="alert">
-            <b>Please Read:</b> We are not ready to invite all the members of the leagues. You
-            can fill out the members, but we will not be inviting them to RDNation.com just
-            yet. They can sign up at <a href="http://rdnation.com/signup">http://rdnation.com/signup</a>, and verifiy their membership
-            with their First Name, Derby Name and Email Address. So please make sure those three are correct.
-        </div>
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr>
@@ -90,7 +84,8 @@
             <span class="addedSuccessfully displayNone" id="addedSuccessfully">
                 All Members Were Added Successfully!
             </span>
-            <img src="@Url.Content("~/Content/loading_lg.gif")" id="savingMembers" class="displayNone" style="width:20px;" />
+        <i id="savingMembers" class="fa fa-spinner fa-spin fa-lg margin-right-10 displayNone"></i>
+        
             <button class="btn btn-primary" data-bind="click: addMemberForLeague">
                 <i class="fa fa-plus-circle"></i> Add More
             </button>

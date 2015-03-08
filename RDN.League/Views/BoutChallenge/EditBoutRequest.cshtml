@@ -3,169 +3,134 @@
     ViewBag.Title = "Edit Bout Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
+    <li class="active">Edit Bout Challenge</li>
+</ol>
 
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/boutchallenge/view/all")">Cancel Edit</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Request for Bout Challenge
-        </div>
-        <div class="tvChanges">
-            <div class="navIcons">
-                <a onclick="return confirm('Close the Request Because You Found a League?')" title="Close Request" href="@Url.Content("~/boutchallenge/close/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
-                    <img  src="@Url.Content("~/Content/images/icons/close.png")"  />Close
-                </a>
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6 col-md-8">
+                        <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-pencil"></i> Edit Request for Bout Challenge</h3>        
+                    </div>
+                    <div class="col-xs-6 col-md-4 text-right">
+                        <a class="btn btn-warning btn-sm" onclick="return confirm('Close the Request Because You Found a League?')" title="Close Request" href="@Url.Content("~/boutchallenge/close/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                            <i class="fa fa-times"></i> Close
+                        </a>
+                        <a class="btn btn-danger btn-sm" onclick="return confirm('Really Delete?')" title="Delete Request" href="@Url.Content("~/boutchallenge/delete/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+                <span class="text-muted">
+                    Edit/Close a bout challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
+                </span>
             </div>
-            <div class="navIcons">
-                <a onclick="return confirm('Really Delete?')" title="Delete Request" href="@Url.Content("~/boutchallenge/delete/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
-                    <img  src="@Url.Content("~/Content/images/icons/delete.png")"  />Delete
-                </a>
-            </div>
-        </div>
-        <div class="titleDescription">
-            Edit/Close a bout challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
-     
-        </div>
-
-        <div class="divider"></div>
-
-        <div>
             @using (Html.BeginForm("EditBoutRequest", "BoutChallenge", FormMethod.Post, new { @id = "editRequest" }))
             {
-                <table class="addForumPostTbl">
-                    @Html.HiddenFor(x => x.ChallengeId)
-                    <tr>
-                        <td class="b alRight">Location:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.Location)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Start Date of Game:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(models => models.StartDateOfEvent, new { @class = "jquery_datepicker", @Value = Model.StartDateOfEvent > new DateTime() ? Model.StartDateOfEvent.ToString("MM/dd/yyyy") : "" })
+                <div class="panel-body">
+                    <div class="row">
+                        
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Location</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.Location, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Start Date of Game</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(models => models.StartDateOfEvent, new { @class = "jquery_datepicker form-control", @Value = Model.StartDateOfEvent > new DateTime() ? Model.StartDateOfEvent.ToString("MM/dd/yyyy") : "" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">End Date of Game</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(models => models.EndDateOfEvent, new { @class = "jquery_datepicker form-control", @Value = Model.EndDateOfEvent > new DateTime() ? Model.EndDateOfEvent.ToString("MM/dd/yyyy") : "" }) <span class="i text-muted">If there is no specific date required</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5"> Crowd Size</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.CrowdSize, new { @class = "form-control" }) <span class="i text-muted">1-9999</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Current Ranking</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.CurrentRanking, new { @class = "form-control" }) <span class="i text-muted">Exp: 150 WFTDA, 110 FlatTrackStats</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Travel Stipend Amount</div>
+                            <div class="margin-bottom-15">
+                                @Html.TextBoxFor(x => x.TravelStipendAmount, new { @class = "form-control" }) <span class="i text-muted">Amount able to help pay.</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>@Html.CheckBoxFor(x => x.IsOfferTravelStipend) <span>Can you help pay travel expenses?</span></label>
+                            </div>
+                        </div>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">End Date of Game:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(models => models.EndDateOfEvent, new { @class = "jquery_datepicker", @Value = Model.EndDateOfEvent > new DateTime() ? Model.EndDateOfEvent.ToString("MM/dd/yyyy") : "" }) <span class="i">If there is no specific date required</span>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Crowd Size:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.CrowdSize) <span class="i">1-9999</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Current Ranking:</td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.CurrentRanking) <span class="i">Exp: 150 WFTDA, 110 FlatTrackStats</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Can Offer Travel Stipend:
-                        </td>
-                        <td>
-                           <label> @Html.CheckBoxFor(x => x.IsOfferTravelStipend) <span class="i">Can you help pay travel expenses?</span></label>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="b alRight">Travel Stipend Amount:
-                        </td>
-                        <td class="largeInput">
-                            @Html.TextBoxFor(x => x.TravelStipendAmount)
-                        </td>
-                    </tr>
-                   
-                    <tr>
-                        <td class="b alRight">Live Online:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.IsStreamLive) <span class="i">Do you broadcast games live online/TV?</span></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Offer Housing:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span class="i">Can your league offer housing?</span></label>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Hang Over Bout Offered:
-                        </td>
-                        <td>
-                            <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered)<span class="i">@Html.LabelFor(x => x.IsHangOverBoutOffered, "Check if Hang Over Bout Offered.")</span>
-                            </label>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="b alRight">Is Away Game:
-                        </td>
-                        <td><label>@Html.CheckBoxFor(x => x.IsAwayGame)<span class="i">Looking for an Away game rather than a home game?</span></label>
-
-                        </td>
-                    </tr>
-                       <tr>
-                        <td class="b alRight">Display To Public:
-                        </td>
-                        <td><label>@Html.CheckBoxFor(x => x.DisplayToPublic)<span class="i">Will be shown publicly to anyone visiting RDNation.com.</span></label>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Select Rule Set:
-                        </td>
-                        <td class="largeInput">
-                            @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"))
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight">Event Information:
-                        </td>
-                        <td class="largeInput"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-
-                            @Html.TextArea("EventInformation", new
-                           {
-                               id = "wmd-input",
-                               @Value = Model.EventInformation != null ? Model.EventInformation.ToString() : "",
-                               style = "width:700px"
-                           })
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b alRight"></td>
-                        <td class="largeInput">
-                            <input type="submit" class="primary" value="Save Request" name="saveRequest" />
-
-                        </td>
-                    </tr>
-
-                </table>    
-                @Html.HiddenFor(x => x.ChallengeId)           
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>@Html.CheckBoxFor(x => x.IsStreamLive) <span>Do you broadcast games live online/TV?</span></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span>Can your league offer housing?</span></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered)<span>Leagues like hang over bouts the next day.  Can your league offer one?</span></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>@Html.CheckBoxFor(x => x.IsAwayGame)<span>Looking for an Away game rather than a home game?</span></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                <label>@Html.CheckBoxFor(x => x.DisplayToPublic)<span>Will be shown publicly to anyone visiting RDNation.com.</span></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="margin-bottom-15">
+                                @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"), new { @class = "full-width" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="margin-bottom-15">
+                                @Html.TextArea("EventInformation", new
+                                {
+                                    id = "wmd-input",
+                                    @Value = Model.EventInformation != null ? Model.EventInformation.ToString() : "",
+                                    style = "width:100%"
+                                })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(x => x.ChallengeId)
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-sm btn-success" name="saveRequest"><i class="fa fa-paper-plane"></i> Save Request</button>
+                    <a class ="btn btn-sm btn-default" href="@Url.Content("~/boutchallenge/view/all")">Cancel Edit</a>
+                </div>
             }
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript">
     $("#editRequest").validate({
         rules: {

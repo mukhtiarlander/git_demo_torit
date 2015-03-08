@@ -53,7 +53,7 @@ else
                             @if (Model.IsPublished)
                             {
                                 <h3 class="margin-bottom-10 margin-top-5">
-                                    <i class="fa fa-shopping-cart"></i> <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a>
+                                    <i class="fa fa-shopping-cart"></i> <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a> <i class="fa fa-external-link text-primary"></i>
                                 </h3>
                                 <span class="text-muted i">Published</span>
                             }
@@ -83,8 +83,8 @@ else
                                 <div class="panel panel-default">
                                     @if (item.Photos.FirstOrDefault() != null)
                                     {
-                                        <div class="panel-heading no-padding">
-                                            <img class="full-width" src="@item.Photos.FirstOrDefault().ImageUrl" alt="@item.Photos.FirstOrDefault().Alt" />
+                                        <div class="panel-heading">
+                                            <img class="full-width round-corners" src="@item.Photos.FirstOrDefault().ImageUrl" alt="@item.Photos.FirstOrDefault().Alt" />
                                         </div>
                                     }
                                     <div class="panel-body">

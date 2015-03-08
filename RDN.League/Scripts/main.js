@@ -324,8 +324,13 @@ function AddCommentToDocument(id, ownerId) {
     var com = $("#comment");
     $.getJSON("/document/AddCommentToLeagueDocument", { docId: id, docOwnerId: ownerId, comment: com.val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#folderBody div:first").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + id + '\',\'' + ownerId + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
-        } else {
+           
+        }
+        if ($("#folderBody").html().trim() == "") {
+            $("#folderBody").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + ownerId + '\',\'' + id + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
+        }
+        else {
+            $("#folderBody div:first").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + ownerId + '\',\'' + id + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
         }
         com.val("");
     }).error(function () {
@@ -533,17 +538,18 @@ function AddContactToMember() {
     });
 }
 
-function HideShowCCInfo(hideShow) {
+function HideShowCCInfo(div,hideShow) {
+    $(".subscribtion-payment-type").removeClass('panel-primary');
+    $(".subscribtion-payment-type").addClass('panel-default');
+    $(div).removeClass('panel-default');
+    $(div).addClass('panel-primary');
+
     if (hideShow === 'show') {
-        $("#expirationDateTR").toggleClass('displayNone', false);
-        $("#securityCodeTR").toggleClass('displayNone', false);
-        $("#cardNumberTR").toggleClass('displayNone', false);
+        $("#CCTable").toggleClass('displayNone', false);
         toggleSubscriptionValidationRules(true);
     }
     else if (hideShow === 'hide') {
-        $("#expirationDateTR").toggleClass('displayNone', true);
-        $("#securityCodeTR").toggleClass('displayNone', true);
-        $("#cardNumberTR").toggleClass('displayNone', true);
+        $("#CCTable").toggleClass('displayNone', true);
         toggleSubscriptionValidationRules(false);
     }
 }
@@ -554,6 +560,9 @@ function RemoveGroupFromLeague(gId) {
             if (result.isSuccess === true) {
                 window.location.href = window.location.href;
             }
+        });
+        $(".group-row-" + gId).fadeOut(function () {
+            $(".group-row-" + gId).remove();
         });
     }
 }
@@ -567,7 +576,7 @@ function AddCategoryToForum(button) {
         if (result.isSuccess === true) {
         }
     });
-    $('#categories > tbody:last').append('<tr><td></td><td>' + cat + '</td><td>' + groupN + '</td><td></td></tr>');
+    $('#categories > tbody:last').append('<tr><td><div class="padding-5 b">' + cat + '</div></td><td>' + groupN + '</td></tr>');
     $("#NewCategory").val("");
 }
 function UpdateCategoryToForum(button, categoryId) {
@@ -606,7 +615,9 @@ function RemovePostOfForumTopic(link, messageId) {
         if (result.isSuccess === true) {
         }
     });
-    $(link).parent().parent().parent().remove();
+    $("#msg-" + messageId).fadeOut(function () {
+        $("#msg-" + messageId).remove();
+    });
 }
 function PinForumTopic(link, topicId, pin) {
     var forumId = $("#ForumId").val();
@@ -1017,6 +1028,10 @@ function stripeResponseHandler(status, response) {
 }
 
 function selectSubOption(div, price) {
+    $(".subscribtion-type").removeClass('panel-primary');
+    $(".subscribtion-type").addClass('panel-default');
+    $(div).removeClass('panel-default');
+    $(div).addClass('panel-primary');
     var parentOfDiv = $(div).parent();
     $(':radio').each(function () {
         $(this).parent().toggleClass("subOptionSel", false);
@@ -1129,7 +1144,7 @@ function PostInternalMessage() {
 
 var dict = [];
 function ChangeDictionaryItem(checkbox, id, displayName) {
-    var memNames = $("# ToMemberNamesSelected");
+    var memNames = $("#ToMemberNamesSelected");
     var memIds = $("#ToMemberIds");
     var checked = $(checkbox).is(":checked");
     if (checked) {
@@ -1589,12 +1604,12 @@ function UpdateDuesDueForMem(button, memId) {
         }).error(function () {
 
         });
-        $(button).parent().append('<img  src="' + leagueHost + '/Content/images/greenCheck.png")" />');
+        $(button).parent().append('<i class="fa fa-check"></i>');
         $(button).remove();
     }
 }
 function updateEditMemberDuesCost(btn, memberId, duesId, duesItemId) {
-    $(btn).html('<i class="fa fa-refresh fa-spin"></i> Update');
+    $(btn).html('<i class="fa fa-spinner fa-spin"></i> Update');
     memberId = $.trim(memberId);
     var amountButton = $("#amountDue");
     var amount = amountButton.val();
@@ -1881,7 +1896,9 @@ var Polls = new function () {
 
 
         panel.append(questionAndAnswersPanel);
-
+        if ($('#addQuestionRow').html().trim() == "No Questions Added") {
+            $('#addQuestionRow').empty();
+        }
         $('#addQuestionRow').append(panel);
         $("#createPollPopup1").modal('hide');
         simpleId += 1;
@@ -1898,6 +1915,19 @@ var Polls = new function () {
 
             }
         });
+    }
+
+    this.ShowNewPollMembersPopup = function()
+    {
+        $("#NewPollMembersPopup").modal('show');
+    }
+
+    this.NewPollChooseMembersDone = function () {
+        $("#NewPollSelectedMembersDiv").empty();
+        $("#checkboxes input:checkbox:checked").each(function () {
+            $("#NewPollSelectedMembersDiv").append('<span class="label label-primary pull-left padding-5 margin-top-5 margin-right-5 font12">' + $("#" + $(this).attr('name') + "-name").html() + '</span>');
+        });
+        $("#NewPollMembersPopup").modal('hide');
     }
 }
 
@@ -2011,7 +2041,7 @@ function ShowVotes(questionId)
 function AddNewAnswerToQuestionPoll(questionId) {
     $.getJSON("/vote/AddAnswerToQuestionToPoll", { questionId: questionId, text: $('#newAnswerForQuestionInput-' + questionId).val() }, function (result) {
         if (result.isSuccess === true) {
-            var row = ' <div class="row padding-bottom-10" style="border-bottom:1px solid #eee"><div class="col-xs-12 col-sm-3 col-md-2 margin-top-10" ><label class="label label-primary padding-top-5 padding-bottom-5" >0 vote(s) 0%</label></div><div class="col-xs-12 col-sm-6 col-md-8 margin-top-10"><b>' + $('#newAnswerForQuestionInput-' + questionId).val() + '</b></div></div>';
+            var row = ' <div class="row padding-bottom-10" style="border-bottom:1px solid #eee"><div class="col-xs-12 col-sm-3 col-md-2 margin-top-10" ><button class="btn btn-default btn-xs disabled" >0 vote(s) 0%</label></div><div class="col-xs-12 col-sm-6 col-md-8 margin-top-10"><b>' + $('#newAnswerForQuestionInput-' + questionId).val() + '</b></div></div>';
             $("#newAnswerForQuestionTd-" + questionId).append(row);
             $('#newAnswerForQuestionInput-' + questionId).val("");
         }
@@ -2245,11 +2275,12 @@ var Calendar = new function () {
     this.SetAvailForEventHomePage = function (calId, evenId) {
         calendarId = calId;
         eventId = evenId;
-        if (addEventPopup === false) {
-            var popup = $('#availablePopUp').clone();
-            $("<tr id='calendar-" + evenId + "'><td colspan='3'>" + popup.html() + "</td></tr>").hide().insertAfter($("#" + evenId + "-calendarEventRow")).slideDown('fast');
-            addEventPopup = true;
-        }
+        $(".popover").hide().remove();
+        $('button[data-toggle="popover"]').popover('destroy');
+        var popup = $('#availablePopUp').clone();
+        addEventPopup = true;
+        $("#" + eventId + "-setAvail").popover({ content: popup.html() });
+        $("#" + eventId + "-setAvail").popover('show');
     }
     this.InitializeNewEvent = function () {
         var gList = $("#groupList");
@@ -2353,7 +2384,7 @@ var Messages = new function () {
         $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
-                    gList.append("<li><label><input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                    gList.append("<li class='group-icon'><label><i class='fa fa-group'></i>&nbsp;<input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
                 });
             }
         }).error(function () {
@@ -2439,6 +2470,12 @@ var Messages = new function () {
         if (document.getElementById('ToMemberNamesSelected') !== null)
             document.getElementById('ToMemberNamesSelected').innerHTML = text;
         memIds.val(ids);
+    }
+    this.ShowNewPrivateMessageMembersPopup = function () {
+        $("#NewPrivateMessageMembersPopup").modal('show');
+    }
+    this.ShowNewTextMessageMembersPopup = function () {
+        $("#NewTextMessageMembersPopup").modal('show');
     }
 }
 
@@ -2530,7 +2567,7 @@ var League = new function () {
     }
     this.SetUpDocumentsSection = function () {
         //moveScroller("folder-anchor", "folder-scroller");
-        moveScroller("header-anchor", "header-scroller");
+        //moveScroller("header-anchor", "header-scroller");
         $("#documents tbody tr").on('click', function (event) {
             var row = $(this);
             var box = $(event.target).closest('input[type="checkbox"]');
@@ -2539,7 +2576,6 @@ var League = new function () {
                 if (box.is(":checked")) {
                     $("#documents tbody tr").removeClass('rowSelected').find(":checkbox").prop('checked', false);
                     thisViewModel.documentId = parseInt(row.attr("id").replace(/[\D]/g, ""), 10);
-                    alert(thisViewModel.documentId);
                     row.addClass('rowSelected').find(":checkbox").prop('checked', true);
                     $("#itemOptions").toggleClass("displayNone", false);
                     $("#img-MoveItem").toggleClass("displayNone", true);

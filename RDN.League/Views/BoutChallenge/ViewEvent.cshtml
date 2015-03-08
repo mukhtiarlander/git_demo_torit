@@ -4,167 +4,175 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
+    <li class="active">Event Information</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/boutchallenge/view/all")">All Bout Requests </a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Event Information For @Model.LeagueName
-        </div>
-        <div class="tvChanges">
-            <div class="navIcons">
-                <a title="Contact" href="@Url.Content("~/messages/new/league/"+ Model.LeagueId.ToString().Replace("-", ""))">
-                    <img  src="@Url.Content("~/Content/images/icons/contact.png")"  />Contact
-                </a>
+
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-clock-o"></i> Event Information For @Model.LeagueName</h3>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a class="btn btn-sm btn-primary" title="Contact" href="@Url.Content("~/messages/new/league/"+ Model.LeagueId.ToString().Replace("-", ""))">
+                            <i class="fa fa-mobile-phone"></i> Contact
+                        </a>
+                    </div>
+                </div>
+                <span class="text-muted">Details of the Bout Challenge Request</span>
             </div>
-        </div>
-        <div class="titleDescription">
-            Details of the Bout Challenge Request
-     
-        </div>
-        <div class="divider"></div>
+            <div class="panel-body">
+                <table class="table table-bordered no-margin-bottom">
+                    <tr>
+                        <td class="b text-right">
+                            Location:
+                        </td>
+                        <td >
+                            @Model.Location
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Start Date of Game:
+                        </td>
+                        <td >
+                            @Model.StartDateOfEvent.ToShortDateString()
+                        </td>
+                    </tr>
+                    @if (Model.EndDateOfEvent > new DateTime())
+                    {
+                        <tr>
+                            <td class="b text-right">
+                                End Date of Game:
+                            </td>
+                            <td >
+                                @Model.EndDateOfEvent.ToShortDateString()
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="b text-right">
+                            Crowd Size:
+                        </td>
+                        <td >
+                            @Model.CrowdSize
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">Current Ranking:</td>
+                        <td >
+                            @Model.CurrentRanking
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Can Offer Travel Stipend:
+                        </td>
+                        <td >
+                            @if (Model.IsOfferTravelStipend)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                               <i class="fa fa-times"></i>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Travel Stipend Amount:
+                        </td>
+                        <td >
+                            @Model.TravelStipendAmount
+                        </td>
+                    </tr>
 
-        <div>
-            <table class="addForumPostTbl">
+                    <tr>
+                        <td class="b text-right">
+                            Live Online:
+                        </td>
+                        <td >
+                            @if (Model.IsStreamLive)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                               <i class="fa fa-times"></i>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Offer Housing:
+                        </td>
+                        <td >
+                            @if (Model.IsSkaterHousingOffered)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                               <i class="fa fa-times"></i>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Hang Over Bout Offered:
+                        </td>
+                        <td >
+                            @if (Model.IsHangOverBoutOffered)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                               <i class="fa fa-times"></i>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Is Away Game:
+                        </td>
+                        <td >
+                            @if (Model.IsAwayGame)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                               <i class="fa fa-times"></i>
+                            }
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td class="b alRight" style="width:300px;">Location:
-                    </td>
-                    <td class="vRTD">
-                        @Model.Location
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Start Date of Game:
-                    </td>
-                    <td class="vRTD">
-                        @Model.StartDateOfEvent.ToShortDateString()
-                    </td>
-                </tr>
-                @if (Model.EndDateOfEvent > new DateTime()) { 
-                <tr>
-                    <td class="b alRight">End Date of Game:
-                    </td>
-                    <td class="vRTD">
-                        @Model.EndDateOfEvent.ToShortDateString()
-                    </td>
-                </tr>
-                }
-                <tr>
-                    <td class="b alRight">Crowd Size:
-                    </td>
-                    <td class="vRTD">
-                        @Model.CrowdSize
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Current Ranking:</td>
-                    <td class="vRTD">
-                        @Model.CurrentRanking
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Can Offer Travel Stipend:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsOfferTravelStipend)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                        else
-                        { 
-                        <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Travel Stipend Amount:
-                    </td>
-                    <td class="vRTD">
-                        @Model.TravelStipendAmount
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Live Online:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsStreamLive)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                       <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Offer Housing:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsSkaterHousingOffered)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                    <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Hang Over Bout Offered:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsHangOverBoutOffered)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                      <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                  <tr>
-                    <td class="b alRight">Is Away Game:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsAwayGame)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                      <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                  
-                <tr>
-                    <td class="b alRight">Rule Set:
-                    </td>
-                    <td class="vRTD">
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)                 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Event Note:
-                    </td>
-                    <td class="largeInput"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        @Html.Raw(Model.EventInformation)
-                    </td>
-                </tr>
-            </table>
+                    <tr>
+                        <td class="b text-right">
+                            Rule Set:
+                        </td>
+                        <td >
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">
+                            Event Note:
+                        </td>
+                        <td>
+                            @Html.Raw(Model.EventInformation)
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

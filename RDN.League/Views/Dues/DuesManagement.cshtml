@@ -51,6 +51,37 @@
                         <a class="btn btn-info btn-sm" title="Your Dues Payments" href="@Url.Content("~/dues/member/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + memId.ToString().Replace("-", ""))">
                             <i class="fa fa-user"></i> Yours
                         </a>
+                        @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
+                        {
+                            <div class="dropdown hidden-sm visible-xs">
+                              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                Dropdown
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation">
+                                    <a title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                                        <i class="fa fa-cog"></i> Settings
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                                        <i class="fa fa-folder"></i> Classify
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <button type="button" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
+                                        <i class="fa fa-download"></i> Export
+                                    </button>
+                                </li>
+                                <li role="presentation">
+                                    <a title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                                        <i class="fa fa-group"></i> Members
+                                    </a>
+                                </li>
+                              </ul>
+                            </div>
+                        }
                     </div>
             </div>
 
@@ -58,7 +89,8 @@
 
     </div>
     @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
-    {
+{
+    <div class="hidden-xs">
         <div class="panel-heading text-right padding-top-5" style="background-color:#fafafa">
             <a class="btn btn-default btn-sm margin-top-5" title="Dues Settings" href="@Url.Content("~/dues/settings/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
                 <i class="fa fa-cog"></i> Settings
@@ -73,13 +105,12 @@
                 <i class="fa fa-group"></i> Members
             </a>
         </div>
-    }
-    <div class="panel-body" style="overflow-x:auto">
+    </div>
+}
+    <div id="double-scroll1" class="panel-body no-padding" style="overflow-x:auto">
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="notPaid">
-            <thead class="vmTableHead">
+            <thead>
                 <tr>
-
-
                     <th>
                         Due Date
                     </th>
@@ -107,11 +138,10 @@
                 {
                 <tr>
 
-
                     <td>
                         @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
                             {
-                            <a class="btn btn-xs btn-default" href="@Url.Content("~/dues/collection/" + item.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">@item.PayBy.ToLongDateString()</a>
+                            <a href="@Url.Content("~/dues/collection/" + item.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">@item.PayBy.ToLongDateString()</a>
                             }
                             else
                             {
@@ -147,8 +177,8 @@
                         }
                         else if (item.IsCurrentMemberPaidOrWaivedInFull)
                         {
-                            <span>Paid</span>
-                        }
+                           <i class="fa fa-check-circle fa-lg text-info"></i>
+                          }
                     </td>
 
                     <td>
@@ -218,6 +248,7 @@
                 "bAutoWidth": false,
                 "aoColumns": [null, null, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, null],
             });
+            $("#double-scroll1").doubleScroll();
         });
     </script>
 

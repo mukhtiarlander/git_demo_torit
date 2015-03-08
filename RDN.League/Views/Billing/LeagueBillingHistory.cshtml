@@ -6,46 +6,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscriptions</a>
-        </div>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscribtions</a></li>
+    <li class="active">Billing History</li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="margin-bottom-5 margin-top-5"> Biling History for @Model.LeagueName</h3>
+        <span class="text-muted">Billing history for your league.  Please let us know if there is anything we can do for you by contacting us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here for you.</span>
     </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Biling History for @Model.LeagueName
-        </div>
-      
-       <div class="titleDescription">
-            Billing history for your league.  Please let us know if there is anything we can do for you by contacting us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here for you.
-        
-        </div>
-        <div class="divider"></div>
-      
-        <div>
-            <table class="listTable" id="receipts">
-                <thead>
-                    <tr>
-                        <th>Invoice Id</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Expires</th>
-                    </tr>
-                </thead>
-                @foreach (var receipt in Model.Receipts)
-                { 
-                    <tr>
-                        <td>@receipt.InvoiceId.ToString().Replace("-", "")</td>
-                        <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(receipt.Status)</td>
-                        <td>$@receipt.AmountPaid.ToString("N2")</td>
-                        <td>@receipt.Expires.ToShortDateString()</td>
-                    </tr>
-                }
-            </table>
-        </div>
+    <div class="panel-body">
+        <table class="table table-responsive table-striped table-hover" id="receipts">
+            <thead>
+                <tr>
+                    <th>Invoice Id</th>
+                    <th>Status</th>
+                    <th class="text-right">Amount</th>
+                    <th class="text-center">Expires</th>
+                </tr>
+            </thead>
+            @foreach (var receipt in Model.Receipts)
+            {
+                <tr>
+                    <td>@receipt.InvoiceId.ToString().Replace("-", "")</td>
+                    <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(receipt.Status)</td>
+                    <td class="text-right">$@receipt.AmountPaid.ToString("N2")</td>
+                    <td class="text-center">@receipt.Expires.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#receipts').dataTable({
@@ -55,7 +50,9 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": false,
+            "oLanguage": { "sSearch": "" },
             "bAutoWidth": false
         });
+        $('#receipts_filter input').addClass('form-control').attr("placeholder", "Search");
     });
 </script>

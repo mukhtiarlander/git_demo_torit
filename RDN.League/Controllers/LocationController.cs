@@ -83,6 +83,7 @@ namespace RDN.League.Controllers
             }
             return View(location);
         }
+
         [HttpPost]
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true)]
