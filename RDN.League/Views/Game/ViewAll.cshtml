@@ -99,7 +99,7 @@
                 <input type="hidden" name="NumberOfPages" value="@Model.Model.NumberOfPages.ToString()" />
                 <input type="hidden" name="NumberOfRecords" value="@Model.Model.NumberOfRecords.ToString()" />
                 Showing page: @Html.DropDownList("CurrentPage", Model.Model.Pages)
-                <input type="submit" value="Show" />
+                <button type="submit" class="btn btn-info">Show</button>
             </text>
         }
     </div>

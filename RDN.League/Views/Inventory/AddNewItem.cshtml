@@ -23,40 +23,42 @@
                     <div class="text-muted"> Add a new item to the inventory.</div>
                 </div>
                 <div class="panel-body no-padding-top">
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Item Serial No</label>
-                        <div>
-                            @Html.TextBoxFor(x => x.ItemSerialNo, new { @type = "text", @class = "form-control" })
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Item Serial No</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.ItemSerialNo, new { @type = "text", @class = "form-control" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Item Name</label>
-                        <div>
-                            @Html.TextBoxFor(x => x.ItemName, new { @type = "text", @class = "form-control" })
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-top-10">Item Name</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.ItemName, new { @type = "text", @class = "form-control" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Unit Price</label>
-                        <div>
-                            @Html.TextBoxFor(x => x.UnitePice, new { @type = "text", @class = "form-control" })
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-top-10">Unit Price</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.UnitePice, new { @type = "text", @class = "form-control" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Location</label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Location, new { @type = "text", @class = "form-control" })
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-top-10">Location</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.Location, new { @type = "text", @class = "form-control" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <label class="form-label margin-top-10">Quantity</label>
-                        <div>
-                            @Html.TextBoxFor(x => x.Quantity, new { @type = "text", @class = "form-control" })
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label margin-top-10">Quantity</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.Quantity, new { @type = "text", @class = "form-control" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Notes</label>
-                        <div>
-                            @Html.TextArea("Notes", string.Empty, new { @class = "form-control" })
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Notes</label>
+                            <div>
+                                @Html.TextArea("Notes", string.Empty, new { @class = "form-control full-width" })
+                            </div>
                         </div>
                     </div>
                 </div>
