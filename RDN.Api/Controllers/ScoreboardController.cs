@@ -243,9 +243,9 @@ namespace RDN.Api.Controllers
                                 }
                                 try
                                 {
-                                    //FileInfo f3 = new FileInfo(finalFile);
-                                    //if (f3.Exists)
-                                    //    f3.Delete();
+                                    FileInfo f3 = new FileInfo(finalFile);
+                                    if (f3.Exists)
+                                        f3.Delete();
                                 }
                                 catch (Exception e)
                                 {
