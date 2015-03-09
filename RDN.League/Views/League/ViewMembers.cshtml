@@ -48,7 +48,7 @@
         </div>
         <div class="text-muted margin-top-5"> Contacts are a way to keep in touch with anyone of interest.  Volunteers, Sponsors, Officials and any other person you might need to contact.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body">
@@ -138,17 +138,13 @@
                                 @Model.Model.Items[i].Email
                             }
                         </td>
-                        <td class="center">
-                           
-
-                        </td>
-                        <td class="center">
+                        <td class="text-center">
                             @if (Model.Model.Items[i].IsInactiveFromCurrentLeague)
                             {
                                 <img src="@Url.Content("~/Content/images/greenCheck.png")" />
                             }
                         </td>
-                        <td class="center">
+                        <td class="text-center">
                             @if (!Model.Model.Items[i].IsCarrierVerified && Model.Model.Items[i].MemberId == memId)
                             {
                                 <a href="@Url.Content("~/member/settings")">Setup</a>
@@ -161,19 +157,13 @@
                         @if (isAdminOfLeague)
                         {
                             <td>
-
                                 <a class="btn btn-xs btn-success" href="@Url.Content("~/League/Member/Edit/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))"> <i class="fa fa-pencil"></i> </a>
-
                             </td>
                         }
                         <td id="@Model.Model.Items[i].MemberId-connected" class="center">
                             @if (!Model.Model.Items[i].IsConnected && isAdminOfLeague)
                             {
                                 <input class="btn btn-xs btn-warning" id="@Model.Model.Items[i].MemberId-invite" type="button" value="Invite" onclick="SendEmailInviteToRDNation('@Model.Model.Items[i].MemberId', '@ViewBag.LeagueName')" />
-                            }
-                            else if (Model.Model.Items[i].IsConnected)
-                            {
-                                <small>Joined</small>
                             }
                         </td>
 
@@ -206,7 +196,7 @@
   
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#membersTypeButtons").find("a[tag='roster']").addClass('active');
+            $("#membersTypeButtons").find("li[tag='roster']").addClass('active b');
             $('#members').dataTable({
                 "aaSorting": [[1, "asc"]],
                 "bPaginate": false,

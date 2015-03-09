@@ -16,8 +16,6 @@
 </ol>
 
 
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
         <div class="panel panel-default margin-top-20">
             <div class="panel-heading">
                     <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Edit Profile</h3>
@@ -29,15 +27,15 @@
                         <div class="col-sm-12 col-md-5 col-lg-3  text-center">
                             @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
                             {
-                                <img style="width: 100%; max-width:400px" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                                <img class="round-corners" style="width: 100%; max-width:400px" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
                             }
                             else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
                             {
-                                <img style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                                <img class="round-corners" style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
                             }
                             else
                             {
-                                <img style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                                <img class="round-corners" style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
                             }
                             <input class="btn btn-default margin-top-10 margin-bottom-10" type="file" name="file" id="file" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto" />
                         </div>
@@ -433,8 +431,6 @@
                 </div>
             }
         </div>
-    </div>
-</div>
 
 <br /><br />
 <script type="text/javascript">

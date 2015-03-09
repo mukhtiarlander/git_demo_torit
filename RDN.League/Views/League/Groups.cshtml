@@ -46,7 +46,7 @@
         </div>
         <div class="text-muted"> Here you can view the Groups of your League. Groups are used to organize people into particular teams, commitees, the BoD and any other reason for them.  The <a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">wiki/help will tell</a> you whats possible with them.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body no-padding">
@@ -73,7 +73,7 @@
             <tbody>
                 @for (int i = 0; i < Model.Groups.Count; i++)
                 {
-                    <tr style="background-color: #f1f1f1">
+                    <tr class="group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
                         <td>@Model.Groups[i].GroupName</td>
                         <td>@Model.Groups[i].GroupMembers.Count</td>
                         <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>
@@ -81,66 +81,66 @@
                         <td class="text-center">
                             @if (Model.Groups[i].IsPublicToWorld)
                             {
-                                <img src="@Url.Content("~/content/images/greencheck.png")" alt="Is Public" />
+                                <i class="fa fa-check-circle fa-lg"></i>
                             }
                         </td>
                         <td class="text-right">
                             @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
-                            {
-                                <a class="btn btn-success btn-xs" href="@Url.Content("~/league/groups/settings/" + Model.Groups[i].Id)">Edit </a>
-                            }
+                                            {
+                                            <a class="btn btn-success btn-xs" href="@Url.Content("~/league/groups/settings/" + Model.Groups[i].Id)">Edit </a>
+                                            }
 
                             @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
-                            {
-                                <button class="btn btn-danger btn-xs" type="button" onclick="RemoveGroupFromLeague('@Model.Groups[i].Id')">Remove Group</button>
-                            }
+                                            {
+                                            <button class="btn btn-danger btn-xs" type="button" onclick="RemoveGroupFromLeague('@Model.Groups[i].Id')">Remove Group</button>
+                                            }
                         </td>
                     </tr>
                     if (@Model.Groups[i].GroupMembers.Count > 0)
-                    { 
-                         <tr style="background-color:white">
-                        <td colspan="6" style="padding:10px;">
-                            <div class="panel panel-default no-margin">
-                                <table class="table table-condensedas">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left">Name</th>
-                                            <th class="text-left">Type</th>
-                                            <th class="text-left">Derby Name</th>
-                                            <th class="text-left">Number</th>
-                                            <th class="text-left">Phone Number</th>
-                                            <th class="text-left">Email</th>
-                                        </tr>
-                                    </thead>
-                                    @for (int j = 0; j < Model.Groups[i].GroupMembers.Count; j++)
-                                    {
-                                        <tr>
-                                            <td class="text-left">
-                                                @Model.Groups[i].GroupMembers[j].Firstname @Model.Groups[i].GroupMembers[j].LastName
-                                            </td>
-                                            <td class="text-left">
-                                                @Model.Groups[i].GroupMembers[j].MemberAccessLevelEnum.ToString()
-                                            </td>
-                                            <td class="text-left">
-                                                <a href="@Url.Content("~/Member/" + Model.Groups[i].GroupMembers[j].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Groups[i].GroupMembers[j].DerbyName))">
-                                                    @Model.Groups[i].GroupMembers[j].DerbyName
-                                                </a>
-                                            </td>
-                                            <td class="text-left">
-                                                @Model.Groups[i].GroupMembers[j].PlayerNumber
-                                            </td>
-                                            <td class="text-left">
-                                                @Model.Groups[i].GroupMembers[j].PhoneNumber
-                                            </td>
-                                            <td class="text-left">
-                                                @Model.Groups[i].GroupMembers[j].Email
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
+                    {
+                        <tr class="group-row-@Model.Groups[i].Id" style="background-color:white">
+                            <td colspan="6" style="padding:10px;">
+                                <div class="panel panel-default no-margin">
+                                    <table class="table table-condensedas">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">Name</th>
+                                                <th class="text-left">Type</th>
+                                                <th class="text-left">Derby Name</th>
+                                                <th class="text-left">Number</th>
+                                                <th class="text-left">Phone Number</th>
+                                                <th class="text-left">Email</th>
+                                            </tr>
+                                        </thead>
+                                        @for (int j = 0; j < Model.Groups[i].GroupMembers.Count; j++)
+                                        {
+                                            <tr>
+                                                <td class="text-left">
+                                                    @Model.Groups[i].GroupMembers[j].Firstname @Model.Groups[i].GroupMembers[j].LastName
+                                                </td>
+                                                <td class="text-left">
+                                                    @Model.Groups[i].GroupMembers[j].MemberAccessLevelEnum.ToString()
+                                                </td>
+                                                <td class="text-left">
+                                                    <a href="@Url.Content("~/Member/" + Model.Groups[i].GroupMembers[j].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Groups[i].GroupMembers[j].DerbyName))">
+                                                        @Model.Groups[i].GroupMembers[j].DerbyName
+                                                    </a>
+                                                </td>
+                                                <td class="text-left">
+                                                    @Model.Groups[i].GroupMembers[j].PlayerNumber
+                                                </td>
+                                                <td class="text-left">
+                                                    @Model.Groups[i].GroupMembers[j].PhoneNumber
+                                                </td>
+                                                <td class="text-left">
+                                                    @Model.Groups[i].GroupMembers[j].Email
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
                     }
                 }
             </tbody>
@@ -155,7 +155,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#membersTypeButtons").find("a[tag='groups']").addClass('active');
+        $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,

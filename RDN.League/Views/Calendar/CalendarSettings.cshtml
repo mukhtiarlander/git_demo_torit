@@ -41,7 +41,7 @@
         <div class="panel-body">
             @using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
             {
-                <table class="table no-margin-bottom">
+                <table class="table no-margin-bottom table-bordered">
                     <tr>
                         <td class="b text-right">TimeZone of Calendar:</td>
                         <td>@Html.DropDownListFor(x => x.TimeZoneId, new SelectList(Model.TimeZones, "ZoneId", "LocationGMT"), "Select TimeZone...", new { @class="form-control"})</td>
@@ -51,11 +51,11 @@
                             Allow Self Check Ins:
                         </td>
                         <td>
-                            <label>
+                           
                                 @Html.CheckBoxFor(x => x.AllowSelfCheckIn) 
                                     Allows user to check their
                                     self into the event.
-                            </label>
+                            
                         </td>
                     </tr>
                     <tr>
@@ -63,7 +63,7 @@
                             Not Present Required For Check In:
                         </td>
                         <td>
-                            <label>@Html.CheckBoxFor(x => x.NotPresentCheckIn) If Enabled, you will NOT need to count the @RDN.Utilities.Config.ConfigManager.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a></label>
+                           @Html.CheckBoxFor(x => x.NotPresentCheckIn) If Enabled, you will NOT need to count the @RDN.Utilities.Config.ConfigManager.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="http://wiki.rdnation.com/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a>
                         </td>
                     </tr>
                     <tr>
@@ -71,7 +71,7 @@
                             Disable Birthdays:
                         </td>
                         <td>
-                            <label>  @Html.CheckBoxFor(x => x.DisableBirthdays) Removes Birthdays from Calendar</label>
+                            @Html.CheckBoxFor(x => x.DisableBirthdays) Removes Birthdays from Calendar
                         </td>
                     </tr>
                     <tr>
@@ -79,7 +79,7 @@
                             Disable @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date:
                         </td>
                         <td>
-                            <label> @Html.CheckBoxFor(x => x.DisableSkatingStartDates) Removes @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date From Calendar</label>
+                           @Html.CheckBoxFor(x => x.DisableSkatingStartDates) Removes @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date From Calendar
                         </td>
                     </tr>
                     <tr>
@@ -87,7 +87,7 @@
                             Locations:
                         </td>
                         <td>
-                            <a href="@Url.Content("~/location/all")">Edit Locations</a>
+                            <a class="btn btn-warning btn-xs" href="@Url.Content("~/location/all")"><i class="fa fa-map-marker"></i> Edit Locations</a>
                         </td>
                     </tr>
                     <tr>
@@ -95,84 +95,82 @@
                             Event Types:
                         </td>
                         <td>
-                            <a href="@Url.Content("~/calendar/event-type/new/" + Model.OwnerEntity.ToString() + "/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Event Type</a> <small class="i">
+                            <a class="btn btn-warning btn-xs" href="@Url.Content("~/calendar/event-type/new/" + Model.OwnerEntity.ToString() + "/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Event Type</a> 
+                            <br />
+                            <small class="i">
                                 Used for describing what type of event it is,
                                 as well as point structures for that event.
                             </small>
                         </td>
                     </tr>
+                </table>
+                 <div class="panel panel-default margin-top-10">
+        <div class="panel-heading">
+            <i class="fa fa-star"></i> Points
+        </div>
+        <div class="panel-body no-padding">
+            <table class="table table-hover no-margin-bottom">
+                <thead>
                     <tr>
-                        <td colspan="2">
-                            <div class="panel panel-default margin-top-10">
-                                <div class="panel-heading">
-                                   <i class="fa fa-star"></i> Points
-                                </div>
-                                <div class="panel-body no-padding">
-                                    <table class="table table-hover no-margin-bottom">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-right">
-                                                    Name Of Event
-                                                </th>
-                                                <th class="tht">
-                                                    Color
-                                                </th>
-                                                <th class="tht">
-                                                    Present
-                                                </th>
-                                                <th class="tht">
-                                                    Partial
-                                                </th>
-                                                <th class="tht">
-                                                    Not Present
-                                                </th>
-                                                <th class="tht">
-                                                    Excused
-                                                </th>
-                                                <th class="tht">
-                                                    Tardy
-                                                </th>
-                                                <th class="tht"></th>
-                                            </tr>
-                                        </thead>
-                                        @foreach (var type in Model.EventTypes)
-                                        {
-                                            <tr>
-                                                <td class="text-right">
-                                                    @type.EventTypeName
-                                                </td>
-                                                <td>
-                                                    @if (!String.IsNullOrEmpty(type.ColorTempSelected))
-                                                    {
-                                                        <label class="label" style="background-color: @type.ColorTempSelected">@type.ColorName</label>
-                                                    }
-                                                </td>
-                                                <td class="text-center">
-                                                    @type.PointsForPresent
-                                                </td>
-                                                <td class="text-center">
-                                                    @type.PointsForPartial
-                                                </td>
-                                                <td class="text-center">
-                                                    @type.PointsForNotPresent
-                                                </td>
-                                                <td class="text-center">
-                                                    @type.PointsForExcused
-                                                </td>
-                                                <td class="text-center">
-                                                    @type.PointsForTardy
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-success btn-xs" href="@Url.Content("~/calendar/event-type/edit/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + type.CalendarEventTypeId)"><i class="fa fa-pencil"></i> Edit</a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </table>
-                                </div>
-                            </div>
+                        <th class="text-right">
+                            Name Of Event
+                        </th>
+                        <th class="tht">
+                            Color
+                        </th>
+                        <th class="tht">
+                            Present
+                        </th>
+                        <th class="tht">
+                            Partial
+                        </th>
+                        <th class="tht">
+                            Not Present
+                        </th>
+                        <th class="tht">
+                            Excused
+                        </th>
+                        <th class="tht">
+                            Tardy
+                        </th>
+                        <th class="tht"></th>
+                    </tr>
+                </thead>
+                @foreach (var type in Model.EventTypes)
+                {
+                    <tr>
+                        <td class="text-right">
+                            @type.EventTypeName
+                        </td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(type.ColorTempSelected))
+                            {
+                                <label class="label" style="background-color: @type.ColorTempSelected">@type.ColorName</label>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @type.PointsForPresent
+                        </td>
+                        <td class="text-center">
+                            @type.PointsForPartial
+                        </td>
+                        <td class="text-center">
+                            @type.PointsForNotPresent
+                        </td>
+                        <td class="text-center">
+                            @type.PointsForExcused
+                        </td>
+                        <td class="text-center">
+                            @type.PointsForTardy
+                        </td>
+                        <td>
+                            <a class="btn btn-success btn-xs" href="@Url.Content("~/calendar/event-type/edit/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + type.CalendarEventTypeId)"><i class="fa fa-pencil"></i> Edit</a>
                         </td>
                     </tr>
-                </table>
+                }
+            </table>
+        </div>
+    </div>
                 @Html.HiddenFor(x => x.CalendarId)
                 @Html.HiddenFor(x => x.EntityName)
                 @Html.HiddenFor(x => x.OwnerEntity)

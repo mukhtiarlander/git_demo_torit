@@ -23,7 +23,7 @@
                             <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.ItemName</h3>
                         </div>
                         <div class="col-xs-12 col-sm-6 text-right">
-                            <a class="btn btn-danger btn-sm" onclick="return confirm('Really Delete?')" title="Delete Sponsor" href="@Url.Content("~/league/inventory/delete/" + Model.ItemId + "/" + Model.ItemsForLeague.ToString().Replace("-", ""))">
+                            <a class="btn btn-danger btn-sm" onclick="return confirm('Really Delete?')" title="Delete Inventory Item" href="@Url.Content("~/league/inventory/delete/" + Model.ItemId + "/" + Model.ItemsForLeague.ToString().Replace("-", ""))">
                                 <i class="fa fa-trash"></i> Delete
                             </a>
                         </div>

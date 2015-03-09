@@ -5,72 +5,73 @@
     ViewBag.Title = "Modify Dues Collection Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            <div class="navIcons">
-                <a title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/wallet.png")"  />Dues</a>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">Dues</a></li>
+    <li class="active">Classifications for Dues</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-pencil"></i> Edit Classification</h3>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a class="btn btn-default btn-sm" title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                            <i class="fa fa-money"></i> Dues
+                        </a>
+                        <a class="btn btn-default btn-sm" title="Dues Management" href="@Url.Content("~/dues/classification/league/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                            <i class="fa fa-folder"></i> Classify
+                        </a>
+                        <a class="btn btn-default btn-sm" title="Delete Group" onclick="return confirm('Really Remove?')" href="@Url.Content("~/dues/classification/delete/league/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", "") + "/" + Model.FeeClassificationId)">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+                <span class="text-muted"> Edit the classification name and price.</span>
             </div>
-        </div>
-        <div class="backLink">
-            <div class="navIcons">
-                <a title="Dues Management" href="@Url.Content("~/dues/classification/league/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                    <img src="@Url.Content("~/Content/images/icons/group.png")"  />Classify</a>
-            </div>
-        </div>
-        <div class="backLink">
-            <div class="navIcons">
-                <a title="Delete Group" onclick="return confirm('Really Remove?')" href="@Url.Content("~/dues/classification/delete/league/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", "") + "/" + Model.FeeClassificationId)">
-                    <img src="@Url.Content("~/Content/images/icons/group-remove.png")"  />Delete</a>
-            </div>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Edit Classification
-        </div>
-      
-         <div class="titleDescription">
-               Edit the classification name and price.
-      
-        </div>
-        <div class="divider"></div>
-       
-        <div>
             @using (Html.BeginForm("DuesClassificationEdit", "Dues", FormMethod.Post, new { @id = "form", @name = "form" }))
-            { 
-                <table class="addForumPostTbl">
-                    <tr>
-                        <td class="b vLTD">Name of Class:
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(x => x.Name) <span class="i">Name of the dues group.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Does Not Pay Dues:
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(x => x.DoesNotPayDues, new { @onchange="classificationDoesNotPayDues(this)" }) <span class="i">Set if group does NOT pay dues.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b vLTD">Amount For Dues:
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(x => x.FeeRequiredInput) <span class="i">Amount required for each dues collection. </span>
-                        </td>
-                    </tr>
+            {
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label">
+                                Name of Class
+                            </label>
+                            <div class="margin-bottom-20">
+                                @Html.TextBoxFor(x => x.Name, new { @class="form-control margin-bottom-5"}) 
+                                <small class="text-muted i">Name of the dues group.</small>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">
+                                Does Not Pay Dues
+                            </label>
+                            <div class="margin-bottom-20">
+                                <label>
+                                    @Html.CheckBoxFor(x => x.DoesNotPayDues, new { @onchange = "classificationDoesNotPayDues(this)" })
+                                    Set if group does NOT pay dues.
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">
+                                Amount For Dues
+                            </label>
+                            <div>
+                                @Html.TextBoxFor(x => x.FeeRequiredInput, new { @class = "form-control margin-bottom-5" }) 
+                                <small class="text-muted i">Amount required for each dues collection. </small>
+                            </div>
+                        </div>
 
-                    <tr>
-                        <td></td>
-                        <td>
-
-                            <input type="submit" class="primary" value="Update Class" />
-                        </td>
-                    </tr>
-                </table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update Class</button>
+                </div>
                 @Html.HiddenFor(x => x.DuesId)
                 @Html.HiddenFor(x => x.LeagueOwnerId)
                 @Html.HiddenFor(x => x.OwnerEntity)
@@ -79,6 +80,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $("#FeeRequiredInput").numeric({ negative: false });
     $("#form").validate({

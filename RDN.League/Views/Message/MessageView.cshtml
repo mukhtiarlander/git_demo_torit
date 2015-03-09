@@ -9,89 +9,101 @@
     var lastDateShown = String.Empty;
     long lastMessageId = 0;
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + @Model.OwnerUserId.ToString().Replace("-", ""))">Messages</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            @if (String.IsNullOrEmpty(Model.Title))
-            {
-                <span>Private: @Model.FromName</span>
-            }
-            else
-            { 
-                <span>Private: @Model.Title</span>
-            }
-        </div>
-         
-            <div class="divider"></div>
-        <div>
-            <div class="messView" id="messageView">
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + @Model.OwnerUserId.ToString().Replace("-", ""))">Messages</a></li>
+    <li class="active">View Message</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-5">
+                    @if (String.IsNullOrEmpty(Model.Title))
+                    {
+                        <span>Private: @Model.FromName</span>
+                    }
+                    else
+                    {
+                        <span>Private: @Model.Title</span>
+                    }
+                </h3>
+            </div>
+            <div class="panel-body">
                 @foreach (var message in Model.Messages.OrderBy(x => x.MessageCreated))
                 {
-                    if (lastIdShown != message.FromId.ToString())
-                    { 
-                    <span class="messName">@message.FromName</span>
-                    }
+
                     if (lastDateShown != @message.MessageCreated.ToShortDateString())
-                    { 
-                    <span class="messCreated">@message.MessageCreated.ToShortDateString() </span>
+                    {
+                        <div class=" margin-top-10 margin-bottom-10">
+                            <span class="label label-default">@message.MessageCreated.ToShortDateString() </span>
+                        </div>
                     }
-                    
-                    <span class="messText clear">
+                    if (lastIdShown != message.FromId.ToString())
+                    {
+                        <div class="b margin-top-10 margin-bottom-5">@message.FromName</div>
+                    }
+
+                    if (lastIdShown != message.FromId.ToString())
+                    {
+                        <div style="border-top:1px solid #eee; height:5px;"></div>
+                    }
+                    <div class="text-muted">
                         @Html.Nl2Br(message.MessageTextHtml)
-                    </span>
-                  
+                    </div>
+
                     lastIdShown = message.FromId.ToString();
                     lastDateShown = message.MessageCreated.ToShortDateString();
                     lastMessageId = message.MessageId;
                 }
-                <div id="messagesAdd">
+            </div>
+            <div class="panel-footer">
+                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply...", @class="form-control" })
+                <div class="padding-top-5 text-right">
+                    <button name="submit" id="submit" type="submit" class="btn btn-success"
+                            onclick="javascript: PostInternalMessage()">
+                        Send Reply
+                    </button>
                 </div>
             </div>
-            <div class="messInputCont">
-                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply..." })
-                <input name="submit" id="submit" type="submit" value="Send Reply" class="primary"
-                    onclick="javascript: PostInternalMessage()" />
+            @Html.HiddenFor(x => x.FromName)
+            @Html.HiddenFor(x => x.OwnerUserId)
+            @Html.HiddenFor(x => x.GroupMessageId)
+            @Html.Hidden("lastMessageId", lastMessageId)
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> Members of Chat</h4>
+            </div>
+            <div class="panel-body no-padding-bottom">
+                @if (Model.Recipients.Count > 0)
+                {
+                    foreach (var mem in Model.Recipients.OrderBy(x => x.DerbyName))
+                    {
+                        <div class="margin-bottom-10">
+                            @if (mem.HasNotReadConversation)
+                            {
+                                <i class="fa fa-envelope"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-envelope-o"></i>
+                            }
+                            &nbsp;&nbsp;<a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">
+                                @mem.DerbyName
+                            </a>
+                        </div>
+                    }
+                }
             </div>
         </div>
-        @Html.HiddenFor(x => x.FromName)
-        @Html.HiddenFor(x => x.OwnerUserId)
-        @Html.HiddenFor(x => x.GroupMessageId)
-        @Html.Hidden("lastMessageId", lastMessageId)
-    </div>
-    <div class="panelBox">
-        <div class="panelBoxTitle">
-            Members Of Chat
-            <div class="divider"></div>
-        </div>
-        <ul class="noList">
-            @if (Model.Recipients.Count > 0)
-            {
-
-                foreach (var mem in Model.Recipients.OrderBy(x => x.DerbyName))
-                { 
-                <li>
-                    @if (mem.HasNotReadConversation)
-                    { 
-                        <img title="Unread" src="@Url.Content("~/Content/images/icons/unread.png")" height="20" />
-                    }
-                    else
-                    { 
-                        <img title="Read" src="@Url.Content("~/Content/images/icons/read.png")" height="20" />
-                    }
-                    <a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">
-                        @mem.DerbyName
-                    </a></li>            
-                }
-            }
-        </ul>
-
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var objDiv = document.getElementById("messageView");

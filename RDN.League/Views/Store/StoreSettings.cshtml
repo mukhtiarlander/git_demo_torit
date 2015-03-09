@@ -20,28 +20,25 @@
             </div>
             @using (Html.BeginForm("StoreSettings", "Store", FormMethod.Post, new { @id = "storeSettings" }))
             {
-                <div class="panel-body">
-                            <div class="form-label margin-bottom-5">
-                                Name Of Store
-                            </div>
-                            <div class="margin-bottom-15">
-                                @Html.TextBoxFor(x => x.ShopName, new { @class = "form-control" })
-                            </div>
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Name Of Store
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
-                            <span class="text-muted i"> <small>Few words to describe the store. ex: Handmade Derby Gear, Zipping Roller Derby Leagues Store </small></span>
-                        </div>  
+    <div class="panel-body">
+        <div class="form-label margin-bottom-5">
+            Name Of Store
+        </div>
+        <div class="margin-bottom-15">
+            @Html.TextBoxFor(x => x.ShopName, new { @class = "form-control" })
+        </div>
+        <div class="form-label margin-bottom-5 margin-top-15">
+            Description
+        </div>
+        <div class="margin-bottom-15">
+            @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+            <small class="text-muted i"> Few words to describe the store. ex: Handmade Derby Gear, Zipping Roller Derby Leagues Store</small>
+        </div>
 
-                        @if (Model.Location == null)
+        @if (Model.Location == null)
                         {
-                            <div class="form-label margin-bottom-5 margin-top-15">
-                                Location
-                            </div>
                             <div class="margin-bottom-15">
-                                <a href="@Url.Content("~/location/new/shop/shop/" + Model.PrivateManagerId.ToString().Replace("-", ""))">Add Location</a>
+                                <a class="btn btn-default btn-sm" href="@Url.Content("~/location/new/shop/shop/" + Model.PrivateManagerId.ToString().Replace("-", ""))"><i class="fa fa-map-marker"></i> Add Location of Shop</a>
                             </div>
                         }
                         else
@@ -80,104 +77,119 @@
                                 }
                             </div>
                         }
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Notifications Email
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.TextBoxFor(x => x.OrderPayedNotificationEmail, new { @class = "form-control" })
-                            <span class="text-muted i"><small>Used for any store notifications.</small></span>
-                        </div>
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Currency
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.DropDownListFor(x => x.Currency, Model.CurrencyList, new { @class = "form-control" })
-                        </div>
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Tax Rate Added to Item:
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.TextBoxFor(x => x.TaxRate, new { @class = "form-control" }) 
-                            <span class="text-muted i">
-                                <small>
-                                    Taxes in percentage required for order. exp .06
-                                </small>
-                            </span>
-                        </div>
-                        @if (!Model.AcceptPaymentsViaStripe)
-                        {
-                            <div class="form-label margin-bottom-5 margin-top-15">
-                                Accept Credit Card Payments:
-                            </div>
-                            <div class="margin-bottom-15">
-                                <a href="@ViewBag.StripeUrl">
-                                    <img width="150px" src="@Url.Content("~/Content/images/stripe.png")" />
-                                </a>
-                                <br />
-                                <span class="text-muted i">Our Payment Processor, They will collect the money as well as pay you.</span>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="form-label margin-bottom-5 margin-top-15">
-                                <a href="https://stripe.com/" target="_blank">Stripe</a> Connected
-                            </div>
-                            <div class="margin-bottom-15">
-                                <span class="text-muted i">
-                                    <i class="fa fa-check-circle-o"></i> Your <a href="https://stripe.com/" target="_blank">Stripe</a> Account is Connected.
-                                </span>
-                            </div>
-                        }
-
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Accept <span class="paypalText">Paypal</span> Payments
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.CheckBoxFor(x => x.AcceptPaymentsViaPaypal)
-                            <span class="text-muted i"><small>Collect Payments Via Paypal</small></span>
-                        </div>
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Your <span class="paypalText">Paypal</span> Email Address
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.TextBoxFor(x => x.PayPalEmailAddressForPayments, new { @class = "form-control" })
-                            <span class="text-muted i"><small>Email Address To Send Payments To</small></span>
-                        </div>
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Publish Store?
-                        </div>
-                        <div class="margin-bottom-15">
-                            @if (Model.AcceptPaymentsViaStripe || (Model.AcceptPaymentsViaPaypal && !String.IsNullOrEmpty(Model.PayPalEmailAddressForPayments)))
+        <div class="form-label margin-bottom-5 margin-top-15">
+            Notifications Email
+        </div>
+        <div class="margin-bottom-15">
+            @Html.TextBoxFor(x => x.OrderPayedNotificationEmail, new { @class = "form-control" })
+            <span class="text-muted i"><small>Used for any store notifications.</small></span>
+        </div>
+        <div class="form-label margin-bottom-5 margin-top-15">
+            Currency
+        </div>
+        <div class="margin-bottom-15">
+            @Html.DropDownListFor(x => x.Currency, Model.CurrencyList, new { @class = "form-control" })
+        </div>
+        <div class="form-label margin-bottom-5 margin-top-15">
+            Tax Rate Added to Item:
+        </div>
+        <div class="margin-bottom-15">
+            @Html.TextBoxFor(x => x.TaxRate, new { @class = "form-control" })
+            <span class="text-muted i">
+                <small>
+                    Taxes in percentage required for order. exp .06
+                </small>
+            </span>
+        </div>
+        <div class="panel panel-default">
+            @if (!Model.AcceptPaymentsViaStripe)
                             {
-                                <label>
-                                    @Html.CheckBoxFor(x => x.IsPublished)
-                                    - <span class="b">PUBLISH</span> the store online.
-                                    store.
-                                </label>
+                <div class="panel-heading">
+                    <div class="form-label margin-bottom-5 margin-top-15">
+                        Accept Credit Card Payments:
+                    </div>
+                    <div class="margin-bottom-5">
+                        <a href="@ViewBag.StripeUrl">
+                            <img width="150px" src="@Url.Content("~/Content/images/stripe.png")" />
+                        </a>
+                    </div>
+                    <div class="margin-bottom-15 no-margin-bottom">
+                        <small class="text-muted i">Our Payment Processor, They will collect the money as well as pay you.</small>
+                    </div>
+                </div>
                             }
                             else
                             {
-                                <span class="b">Store cannot be published until <span class="paypalText">Paypal</span> Or Stripe Have been Setup.</span>
+                <div class="panel-heading">
+                    <div class="form-label margin-bottom-5 margin-top-15">
+                        <a href="https://stripe.com/" target="_blank">Stripe</a> Connected
+                    </div>
+                    <div class="margin-bottom-15 no-margin-bottom">
+                        <span class="text-muted i">
+                            <i class="fa fa-check-circle-o"></i> Your <a href="https://stripe.com/" target="_blank">Stripe</a> Account is Connected.
+                        </span>
+                    </div>
+                </div>
                             }
-                        </div>
-                        <div class="form-label margin-bottom-5 margin-top-15">
-                            Message
-                        </div>
-                        <div class="margin-bottom-15">
-                            @Html.TextAreaFor(x => x.WelcomeMessage, new { @class = "form-control", @rows = "5" })
-                            <span class="text-muted i"> <small>Shown to users who visit your shop</small></span>
-                        </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="form-label margin-top-15">
+                    <div class="form-label margin-bottom-5 margin-top-15">
+                        Accept <span class="paypalText">Paypal</span> Payments
+                    </div>
+                    <div>
+                        <label>
+                            @Html.CheckBoxFor(x => x.AcceptPaymentsViaPaypal) Collect Payments Via Paypal
+                        </label>
+                    </div>
                 </div>
-                <div class="panel-footer text-right">
-                    @if (ViewBag.IsSuccessful)
+            </div>
+        </div>
+                <div class="form-label margin-bottom-5 margin-top-15">
+                    Your <span class="paypalText">Paypal</span> Email Address
+                </div>
+                <div class="margin-bottom-5">
+                    @Html.TextBoxFor(x => x.PayPalEmailAddressForPayments, new { @class = "form-control" })
+                    
+                </div>
+                <div class="margin-bottom-20">
+                    <span class="text-muted i"><small>Email Address To Send Payments To</small></span>
+                </div>
+                <div class="form-label margin-bottom-5 margin-top-15">
+                    Publish Store?
+                </div>
+                <div class="margin-bottom-15">
+                    @if (Model.AcceptPaymentsViaStripe || (Model.AcceptPaymentsViaPaypal && !String.IsNullOrEmpty(Model.PayPalEmailAddressForPayments)))
+                            {
+                        <label>
+                            @Html.CheckBoxFor(x => x.IsPublished)
+                            Publish the store online.
+                        </label>
+                            }
+                            else
+                            {
+                        <span class="b">Store cannot be published until <span class="paypalText">Paypal</span> Or Stripe Have been Setup.</span>
+                            }
+                </div>
+                <div class="form-label margin-bottom-5 margin-top-15">
+                    Message
+                </div>
+                <div class="margin-bottom-15">
+                    @Html.TextAreaFor(x => x.WelcomeMessage, new { @class = "form-control", @rows = "5" })
+                    <span class="text-muted i"> <small>Shown to users who visit your shop</small></span>
+                </div>
+            </div>
+            <div class="panel-footer text-right">
+                @if (ViewBag.IsSuccessful)
                     {
-                        <span class="addedSuccessfully">Updated Successfully!</span>
+                    <span class="addedSuccessfully">Updated Successfully!</span>
                     }
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update Settings</button>
-                </div>
-                @Html.HiddenFor(x => x.PrivateManagerId)
-                @Html.HiddenFor(x => x.MerchantId)
-                @Html.HiddenFor(x => x.InternalReference)
+                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update Settings</button>
+            </div>
+            @Html.HiddenFor(x => x.PrivateManagerId)
+            @Html.HiddenFor(x => x.MerchantId)
+            @Html.HiddenFor(x => x.InternalReference)
             }
         </div>
     </div>

@@ -29,9 +29,7 @@
     </div>
 }
 
-<div class="row">
-    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <div class="panel panel-default">
+ <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-6">
@@ -57,32 +55,27 @@
                 </div>
                 
             </div>
-            <div class="panel-body">
-                @foreach (var topic in Model.Conversations.OrderByDescending(x => x.LastPostDate))
-                {
-                    <div class="panel  @(topic.IsConversationRead ? "panel-default" : "panel-info")">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <p>
-                                        <b>@topic.LastPostBy</b>
-                                    </p>
-                                    <p>
-                                        <a @(topic.IsConversationRead ? "" : "class=b") href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())">@topic.Title</a>
-                                    </p>
-                                    <p>
-                                        @topic.Messages.LastOrDefault().MessageText
-                                    </p>
-                                       <span class="text-muted"><small> @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)</small></span>
-                                </div>
-                                <div class="col-xs-2 text-right">
-                                    <button type="button" class="btn btn-xs btn-danger" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')"><i class="fa fa-trash"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+            <div class="panel-body no-padding">
+                <table class="table table-hover no-margin-bottom">
+                    @foreach (var topic in Model.Conversations.OrderByDescending(x => x.LastPostDate))
+                        {
+                            <tr class="@(topic.IsConversationRead ? "" : "unread-message")">
+                                <td>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            @topic.LastPostBy
+                                        </div>
+                                        <div class="col-xs-12 col-md-8">
+                                            <a @(topic.IsConversationRead ? "" : "class=b") href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())">@topic.Title</a> - @topic.Messages.LastOrDefault().MessageText
+                                            <span class="text-muted pull-right"><small> @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)</small></span>
+                                        </div>
+                                        <div class="col-xs-12 col-md-1 text-right">
+                                            <button type="button" class="btn btn-xs btn-danger" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                </table>
             </div>
         </div> 
-    </div> 
-</div>

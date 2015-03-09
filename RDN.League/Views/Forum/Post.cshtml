@@ -12,11 +12,38 @@
 </ol>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 text-right margin-bottom-15">
+        @if (!Model.IsLocked)
+        {
+            <a class="btn btn-success btn-sm" href="@Url.Content("~/forum/post/reply/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @Model.TopicId.ToString().Replace("-", ""))">
+                <i class="fa fa-reply"></i> Reply To Post
+            </a>
+        }
+        else
+        {
+            <i class="fa fa-lock" title="Topic is locked"></i>
+        }
+        @if (!Model.IsWatching)
+        {
+            <button type="button" onclick="ForumPostToggleWatch(this)" class="btn btn-success btn-sm" title="Sends email notifications when someone replies">
+                <i class="fa fa-binoculars"></i> Watch
+            </button>
+        }
+        else
+        {
+            <button onclick="ForumPostToggleWatch(this)" class="btn btn-success btn-sm" title="Sends email notifications when someone replies">
+                <i class="fa fa-binoculars"></i> Stop Watching
+            </button>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+        <div class="panel panel-default margin-bottom-15">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-8 col-lg-9" >
+                    <div class="col-xs-12 col-sm-8 col-lg-9">
                         <h3 id="topicTitle" class="margin-top-5"><b>"@Model.TopicTitle"</b></h3>
                         <span id="topicEditTitle" class="display-none ">
                             <input class="form-control margin-bottom-10" type="text" id="topicTitleEdit" placeholder="@Model.TopicTitle" />
@@ -35,30 +62,7 @@
                     }
                 </div>
             </div>
-            <div class="panel-heading text-right" style="background-color:#fafafa">
-                @if (!Model.IsLocked)
-                {
-                    <a class="btn btn-success btn-sm" href="@Url.Content("~/forum/post/reply/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @Model.TopicId.ToString().Replace("-", ""))">
-                        <i class="fa fa-reply"></i> Reply To Post
-                    </a>
-                }
-                else
-                {
-                    <i class="fa fa-lock" title="Topic is locked"></i>
-                }
-                @if (!Model.IsWatching)
-                {
-                    <button type="button" onclick="ForumPostToggleWatch(this)" class="btn btn-success btn-sm" title="Sends email notifications when someone replies">
-                        <i class="fa fa-binoculars"></i> Watch
-                    </button>
-                }
-                else
-                {
-                    <button onclick="ForumPostToggleWatch(this)" class="btn btn-success btn-sm" title="Sends email notifications when someone replies">
-                        <i class="fa fa-binoculars"></i> Stop Watching
-                    </button>
-                }
-            </div>
+           
             <div class="panel-body">
 
                 @foreach (var message in Model.Messages)
@@ -88,7 +92,7 @@
                                                     <td class="padding-left-10">
                                                         @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
                                                         {
-                                                            <a target="_blank"  href="@Url.Content("~/member/" + message.Member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName))">
+                                                            <a target="_blank" href="@Url.Content("~/member/" + message.Member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName))">
                                                                 <h4 class="no-margin-top">@message.Member.DerbyName</h4>
                                                             </a>
                                                         }
@@ -118,7 +122,7 @@
                                             }
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-xs-12 padding-top-10" style="background-color:white">
                                     @Html.Raw(message.MessageHTML)
@@ -139,14 +143,14 @@
                     </div>
                 }
                 <div>Members Unread</div>
-                    @foreach (var user in Model.TopicInbox)
-                    {
-                        <span>
-                            <a target="_blank" href="@Url.Content("~/member/" + user.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(user.DerbyName))">
-                                @user.DerbyName
-                            </a>,
-                        </span>
-                    }
+                @foreach (var user in Model.TopicInbox)
+                {
+                    <span>
+                        <a target="_blank" href="@Url.Content("~/member/" + user.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(user.DerbyName))">
+                            @user.DerbyName
+                        </a>,
+                    </span>
+                }
                 @Html.HiddenFor(x => x.TopicId)
                 @Html.HiddenFor(x => x.ForumId)
             </div>
@@ -154,6 +158,33 @@
     </div>
 </div>
 
+
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 text-right margin-bottom-15">
+        @if (!Model.IsLocked)
+        {
+            <a class="btn btn-success btn-sm" href="@Url.Content("~/forum/post/reply/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @Model.TopicId.ToString().Replace("-", ""))">
+                <i class="fa fa-reply"></i> Reply To Post
+            </a>
+        }
+        else
+        {
+            <i class="fa fa-lock" title="Topic is locked"></i>
+        }
+        @if (!Model.IsWatching)
+        {
+            <button type="button" onclick="ForumPostToggleWatch(this)" class="btn btn-success btn-sm" title="Sends email notifications when someone replies">
+                <i class="fa fa-binoculars"></i> Watch
+            </button>
+        }
+        else
+        {
+            <button onclick="ForumPostToggleWatch(this)" class="btn btn-success btn-sm" title="Sends email notifications when someone replies">
+                <i class="fa fa-binoculars"></i> Stop Watching
+            </button>
+        }
+    </div>
+</div>
 <script type="text/JavaScript">
     AddPageViewToCount('@Model.ForumId', '@Model.TopicId');
 </script>

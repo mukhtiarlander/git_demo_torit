@@ -8,6 +8,7 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
     <li class="active">Request for Bout Challenge</li>
 </ol>
 
@@ -91,9 +92,9 @@
                                 <label>@Html.CheckBoxFor(x => x.DisplayToPublic)<span class="i">Will be shown publicly to anyone visiting RDNation.com.</span></label>
                             </div>
                         </div>
-                        <div class="col-xs-12">
+                        <div class="col-xs-12 col-sm-6">
                             <div class="margin-bottom-15">
-                                @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"))
+                                @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"), new { @class="full-width"})
                             </div>
                         </div>
                         <div class="col-xs-12">
@@ -101,7 +102,7 @@
                                 @Html.TextArea("EventInformation", string.Empty, new
                                 {
                                     id = "wmd-input",
-                                    style = "width:700px"
+                                    style = "width:100%"
                                 })
                             </div>
                         </div>

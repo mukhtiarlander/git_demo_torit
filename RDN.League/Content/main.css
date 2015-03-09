@@ -106,6 +106,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .margin-top-5{margin-top:5px;}
 .margin-top-10{margin-top:10px;}
 .margin-top-20{margin-top:20px;}
+.margin-top-25{margin-top:25px;}
 .margin-top-30{margin-top:30px;}
 .margin-bottom-5{margin-bottom:5px;}
 .margin-bottom-10{margin-bottom:10px;}
@@ -121,6 +122,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .padding-15 {padding:15px}
 .padding-top-5{padding-top:5px;}
 .padding-left-5{padding-left:5px;}
+.padding-right-5{padding-right:5px;}
 .padding-bottom-5{padding-bottom:5px;}
 .padding-top-10{padding-top:10px;}
 .padding-top-15{padding-top:15px;}
@@ -129,6 +131,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .margin-left-15{margin-left:15px;}
 .margin-left-10{margin-left:10px;}
 .margin-left-5{margin-left:5px;}
+.margin-right-5{margin-right:5px;}
 .margin-right-10{margin-right:10px;}
 .no-margin-bottom{margin-bottom:0px;}
 .no-margin-right{margin-right:0px;}
@@ -139,7 +142,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .no-border {border:0px}
 select{height:35px;border-radius:4px}
 .vertical-middle{vertical-align:middle !important}
-#addAnswerToAnswersList{ height:380px;overflow-y:auto}
+#addAnswerToAnswersList{ height:500px;overflow-y:auto}
 .inline-block{display:inline-block;}
 .forum-read {background-color:#f9f9f9}
 .message-read {background-color:#f9f9f9}
@@ -149,6 +152,7 @@ select{height:35px;border-radius:4px}
 .padding-left-10{padding-left:10px}
 .full-width {width: 100%;}
 .half-width {width: 50%;}
+.font12 {font-size:12px;}
 .font14 {font-size:14px;}
 .font16 {font-size:16px;}
 .font18 {font-size:18px;}
@@ -157,7 +161,10 @@ select{height:35px;border-radius:4px}
 .height35{height:35px}
 .scroll-x{overflow-x:auto}
 .scroll-y{overflow-y:auto}
-
+.round-corners{border-radius:8px;}
+.select-sm{height:34px !important;}
+.curor-pointer{cursor:pointer;}
+.unread-message{background-color:#f9f9f9;font-weight:bold}
 body 
 { 
 	background-color: White
@@ -665,6 +672,13 @@ ol.tree
 		cursor: pointer;
 		display: block;
 		padding-left: 37px;
+	}
+    li.group-icon label
+	{
+        background: none;
+		cursor: pointer;
+		display: block;
+		padding-left: 20px;
 	}
 
 	li input:checked + ol

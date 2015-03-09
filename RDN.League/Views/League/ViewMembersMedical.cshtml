@@ -43,10 +43,10 @@
         </div>
         <div class="text-muted">Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from RDNation can be considered against the law in some countries.  Members only granted these rights to Managers of the league and not to anyone else.  Please stay within the law.</div>
     </div>
-    <div class="panel-heading text-center" style="background-color:#fbfbfb">
+    <div class="panel-heading text-center no-padding-bottom margin-bottom-10" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
-    <div class="panel-body" style="overflow-x:auto">
+    <div id="double-scroll" class="panel-body no-padding padding-top-10" style="overflow-x:auto">
         <table class="table table-striped table-hover table-condensedas" id="members">
             <thead>
                 <tr>
@@ -112,55 +112,55 @@
                         <td>
                             @if (Model.Model.Items[i].Medical.Epilepsy)
                             {
-                                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                                <i class="fa fa-check-circle fa-lg"></i>
                             }
                     </td>
                     <td>
                         @if (Model.Model.Items[i].Medical.Diabetes)
                         {
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                            <i class="fa fa-check-circle fa-lg"></i>
                         }
                 </td>
                 <td>
                     @if (Model.Model.Items[i].Medical.HeartProblems)
                     {
-                        <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                        <i class="fa fa-check-circle fa-lg"></i>
                     }
             </td>
             <td>
                 @if (Model.Model.Items[i].Medical.HeartMurmur)
                 {
-                    <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                    <i class="fa fa-check-circle fa-lg"></i>
                 }
         </td>
         <td>
             @if (Model.Model.Items[i].Medical.AsthmaBronchitis)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>
             @if (Model.Model.Items[i].Medical.Hernia)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>
             @if (Model.Model.Items[i].Medical.Concussion)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>
             @if (Model.Model.Items[i].Medical.WearGlasses)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>
             @if (Model.Model.Items[i].Medical.ContactLenses)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>
@@ -172,28 +172,28 @@
         <td>
             @if (Model.Model.Items[i].Medical.FractureInThreeYears)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>@Model.Model.Items[i].Medical.FractureText</td>
         <td>
             @if (Model.Model.Items[i].Medical.Dislocation)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>@Model.Model.Items[i].Medical.DislocationText</td>
         <td>
             @if (Model.Model.Items[i].Medical.ReoccurringPain)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>@Model.Model.Items[i].Medical.ReoccurringPainText</td>
         <td>
             @if (Model.Model.Items[i].Medical.BackNeckPain)
             {
-                <img src="@Url.Content("~/Content/images/greenCheck.png")" />
+                <i class="fa fa-check-circle fa-lg"></i>
             }
         </td>
         <td>@Model.Model.Items[i].Medical.SportsInjuriesText</td>
@@ -262,7 +262,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#membersTypeButtons").find("a[tag='medical']").addClass('active');
+        $("#membersTypeButtons").find("li[tag='medical']").addClass('active b');
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,
@@ -274,6 +274,7 @@
             "bAutoWidth": false
         });
         $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+        $("#double-scroll").doubleScroll();
     });
 
 </script>

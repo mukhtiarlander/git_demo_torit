@@ -193,7 +193,7 @@ else
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th class="smallCaps text-center">RSVP</th>
+                                            <th class="text-center">RSVP</th>
                                             <th>
                                                 Event
                                             </th>
@@ -219,32 +219,34 @@ else
                                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
 
                                             </td>
-                                            <td>
+                                            <td class="text-center vertical-middle">
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                                 {
-                                                   <i class="fa fa-birthday-cake fa-3x "></i>
+                                                    <i class="fa fa-birthday-cake fa-lg"></i>
                                                 }
                                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
                                                 {
-                                                   <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
+                                                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
                                                 }
                                                 else
                                                 {
                                                     if (avail == null)
                                                     {
-                                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
-                                                            <i class="fa fa-calendar-o fa-3x cursor"></i>
-                                                        </span>
+                                                        <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                                data-container="body" data-toggle="popover" data-html="true">
+                                                            <i class="fa fa-calendar fa-lg"></i>
+                                                        </button>
                                                     }
                                                     else if (avail != null)
                                                     {
-                                                        <span id="@calEvent.CalendarItemId-setAvail" onclick="javascript:Calendar.SetAvailForEventHomePage('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')">
-                                                            <i class="fa fa-calendar fa-3x cursor"></i>
-                                                        </span>
+                                                        <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                                data-container="body" data-toggle="popover" data-html="true">
+                                                            <i class="fa fa-calendar fa-lg"></i>
+                                                        </button>
                                                     }
                                                 }
                                             </td>
-                                            <td class="noTwoLine">
+                                            <td class="vertical-middle">
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
                                                 {
                                                     <a href="@Url.Content("~/calendar/event/" + Model.Calendar.OwnerEntity.ToString().Replace("-", "") + "/" + Model.Calendar.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
@@ -258,12 +260,12 @@ else
                                                     <a href="@Url.Content("~/calendar/started-skating/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                                                 }
                                             </td>
-                                            <td class="noTwoLine">
+                                            <td>
 
                                                 <span>@calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()</span>
 
                                             </td>
-                                            <td class="noTwoLine">
+                                            <td>
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
                                                 {
                                                     <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
@@ -320,45 +322,25 @@ else
                         </div>
                     }
                 </div>
-
-
-
                 <div id="availablePopUp" style="display: none;">
-                    <table class="checkInTable">
-                        <tr>
-                            <td class="b alignRight">
-                                Available Type:
-                            </td>
-                            <td>
-                                @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...")
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="b alignRight">
-                                Notes:
-                            </td>
-                            <td>
-                                <input type="text" id="availableNotes" style="width: 95%;" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td class="alignRight">
-                                <input type="button" id="availableButtonPopUp" value="Set Availability" class="primary" onclick="javascript: setAvailabilityMemberToEvent()" />
-                            </td>
-                            <td>
-                                <span class="spanLink" onclick="javascript:CloseAddedRow()">Cancel</span>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label">Available Type</label>
+                            <div class="margin-bottom-20">
+                                @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label">Notes</label>
+                            <div class="margin-bottom-20">
+                                <input type="text" id="availableNotes" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <button type="button" id="availableButtonPopUp" value="Set Availability" class="btn btn-primary" onclick="javascript:setAvailabilityMemberToEvent()">Set Availability</button>
+                            <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

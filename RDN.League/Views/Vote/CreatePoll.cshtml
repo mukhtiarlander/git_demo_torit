@@ -13,35 +13,60 @@
 <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2">
         @using (Html.BeginForm("CreatePollAdd", "Vote", FormMethod.Post, new { @id = "PollsAdd" }))
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 style="margin-top:5px !important"><i class="fa fa-bullhorn"></i> Create a New Poll</h3>
-                    <div class="text-muted"> Create a new Poll for the league.</div>
-                </div>
-                <div class="panel-body no-padding-top">
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <label class="form-label margin-top-10 col-xs-6">
-                                League Members
-                            </label>
-                            <label class="margin-top-10 col-xs-6 text-right">
-                                <input type="checkbox" onchange="javascript:toggleCheckedForRecipients(this)" id="checkAll" /><b>
-                                    Check All
-                                </b>
-                            </label>
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 style="margin-top:5px !important"><i class="fa fa-bullhorn"></i> Create a New Poll</h3>
+            <div class="text-muted"> Create a new Poll for the league.</div>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-12">
+                <label class="form-label margin-top-10">
+                    League Members
+                </label>
+                <button type="button" class="btn btn-warning btn-sm pull-right" onclick="Polls.ShowNewPollMembersPopup()"><i class="fa fa-check-square-o"></i> Change</button>
+                <div class="panel panel-default">
+                    <div class="panel-body padding-left-5 padding-right-5 padding-bottom-5 no-padding-top">
+                        <div id="NewPollSelectedMembersDiv">
+                            <span class="label label-primary pull-left padding-5 margin-top-5 font12">All</span>
                         </div>
-                        <div>
-                            <div id="checkboxes" class="row panel panel-default no-margin" style="height:150px;overflow:auto">
-                                @foreach (var mem in Model.Voters)
-                                {
-                                    <div class="col-xs-12 col-sm-4">
-                                        <label>@Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "ChangeDictionaryItem(this, '" + mem.MemberId + "','" + RDN.Utilities.Strings.StringExt.ToJavascriptFriendly(mem.DerbyName) + "')" })&nbsp;&nbsp;<span id="@mem.MemberId.ToString()-name">@mem.DerbyName</span></label>
-                                    </div>
-                                }
+                    </div>
+                </div>
+
+                <div class="modal fade" id="NewPollMembersPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><i class="fa fa-check-square-o"></i> Choose League Members</h4>
+                            </div>
+                            <div class="modal-body padding-10">
+                                <div class="text-right">
+                                    <label>
+                                        <input type="checkbox" onchange="javascript:toggleCheckedForRecipients(this)" id="checkAll" />
+                                        <b>
+                                            Select All
+                                        </b>
+                                    </label>
+                                </div>
+                                <div id="checkboxes" class="row panel panel-default no-margin" style="max-height:500px; overflow-y:auto">
+                                    @foreach (var mem in Model.Voters)
+                                    {
+                                        <div class="col-xs-12 col-sm-6">
+                                            <label>@Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "ChangeDictionaryItem(this, '" + mem.MemberId + "','" + RDN.Utilities.Strings.StringExt.ToJavascriptFriendly(mem.DerbyName) + "')" })&nbsp;&nbsp;<span id="@mem.MemberId.ToString()-name">@mem.DerbyName</span></label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="Polls.NewPollChooseMembersDone()" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Done</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default btn-sm">Cancel</button>
                             </div>
                         </div>
                     </div>
+                </div>
+
+            </div>
+
                     <div class="col-xs-12">
                         <label class="form-label margin-top-10">Title</label>
                         <div>
@@ -73,12 +98,21 @@
                             <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to league.</i></span>
                         </div>
                     </div>
-                    <div id="addQuestionRow" class="col-xs-12 margin-top-10">
-
+                </div>
+                <div class="panel-footer text-center">  
+                    <div class="row">
+                        <div class="col-xs-6 text-left">
+                            <h3 class="margin-bottom-5 margin-top-5">Questions:</h3>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <button class="btn btn-sm btn-warning" type="button" onclick="AddPollAnswerCreate()"><i class="fa fa-question-circle"></i> Add Questions</button>
+                        </div>
                     </div>
                 </div>
-                <div class="panel-footer text-center">
-                    <button class="btn btn-sm btn-warning" type="button" onclick="AddPollAnswerCreate()"><i class="fa fa-question-circle"></i> Add Questions</button>
+                <div class="panel-body">
+                    <div id="addQuestionRow" class="col-xs-12 margin-top-10 text-center">
+                        No Questions Added
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <button type="submit" class="btn btn-default btn-success" name="NewSponsorAdd"><i class="fa fa-save"></i> Create Poll</button>
@@ -92,7 +126,7 @@
 </div>
 <div id="createPollPopup1" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div id="addAnswerToAnswersList" class="modal-content">
             <div class="panel panel-default no-margin no-border">
                 <div class="panel-heading">
                     <h4 class="no-margin"><i class="fa fa-question-circle"></i>  Add a Question</h4>
@@ -117,7 +151,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="addAnswerToAnswersList" class="panel-body no-padding">
+                        <div class="panel-body no-padding">
                             <div class="col-xs-12">
                                 <label class="form-label margin-top-10">Answer <span class="text-muted"><i>I obstain from voting</i></span></label>
                                 <div>
@@ -211,7 +245,6 @@
             theme_advanced_resizing: true,
         });
     });
-
-
+   
 </script>
 
