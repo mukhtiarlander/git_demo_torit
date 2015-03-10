@@ -1889,17 +1889,24 @@ namespace RDN.Library.Classes.Forum
                     //this is making sure its the actual starting group.
                     if (g.Id == groupId)
                     {
-                        var topics = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
+                        var topics = dc.ForumTopics.Include("CreatedByMember").Include("Messages").Include("TopicsInbox").Include("TopicsInbox.ToUser").Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
 
                         foreach (var topic in topics)
                         {
-                            if (gff.Topics.Where(x => x.TopicId == topic.TopicId).FirstOrDefault() == null)
+                            try
                             {
-                                ForumTopic top = DisplayForumTopic(memberId, isManager, topic);
-                                if (!top.IsPinned)
-                                    gff.Topics.Add(top);
-                                else
-                                    gff.Topics.Insert(0, top);
+                                if (gff.Topics.Where(x => x.TopicId == topic.TopicId).FirstOrDefault() == null)
+                                {
+                                    ForumTopic top = DisplayForumTopic(memberId, isManager, topic);
+                                    if (!top.IsPinned)
+                                        gff.Topics.Add(top);
+                                    else
+                                        gff.Topics.Insert(0, top);
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+                                ErrorDatabaseManager.AddException(exception, exception.GetType());
                             }
                         }
                         var topicsSticky = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.IsSticky == true && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
@@ -2143,8 +2150,11 @@ namespace RDN.Library.Classes.Forum
             if (topic.Category != null)
                 top.Category = new ForumCategory { CategoryId = topic.Category.CategoryId, CategoryName = topic.Category.NameOfCategory };
             top.CreatedByMember = new MemberDisplay();
-            top.CreatedByMember.DerbyName = topic.CreatedByMember.DerbyName;
-            top.CreatedByMember.MemberId = topic.CreatedByMember.MemberId;
+            if (topic.CreatedByMember != null)
+            {
+                top.CreatedByMember.DerbyName = topic.CreatedByMember.DerbyName;
+                top.CreatedByMember.MemberId = topic.CreatedByMember.MemberId;
+            }
             top.LastPostByMember = new MemberDisplay();
             top.LastPostByMember.DerbyName = topic.LastPostByMember.DerbyName;
             top.LastPostByMember.MemberId = topic.LastPostByMember.MemberId;

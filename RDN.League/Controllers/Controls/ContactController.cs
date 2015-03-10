@@ -86,6 +86,7 @@ namespace RDN.League.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddContact(ContactDisplayBasic contact)
         {
             try
@@ -118,6 +119,7 @@ namespace RDN.League.Controllers
         }
         [Authorize]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult EditContact(ContactDisplayBasic contact)
         {
             try
