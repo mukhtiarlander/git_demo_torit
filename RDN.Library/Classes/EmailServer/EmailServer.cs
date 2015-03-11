@@ -113,8 +113,9 @@ namespace RDN.Library.Classes.EmailServer
         RNWriterRegistered = 62,
 
         RDNShopsReviewPurchaseMade = 63,
-        RDNJobNewCreated= 64,
-        RDNWelcomeMessageInviteMembers= 65,
+        RDNJobNewCreated = 64,
+        RDNWelcomeMessageInviteMembers = 65,
+        RNAutomatedEmailForWriter = 66
 
     }
     public static class EmailServer

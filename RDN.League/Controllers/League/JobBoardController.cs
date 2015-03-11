@@ -106,7 +106,7 @@ namespace RDN.League.Controllers.League
                     message.Message = "Job Successfully Closed.";
                     this.AddMessage(message);
                 }
-                
+
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
                 if (league != null)
@@ -122,6 +122,32 @@ namespace RDN.League.Controllers.League
 
             return View();
         }
+
+
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
+        [Authorize]
+        public ActionResult OldJobs()
+        {
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var league = MemberCache.GetLeagueOfMember(memId);
+                if (league != null)
+                    SetCulture(league.CultureSelected);
+
+                var jobLists = RDN.Library.Classes.League.JobBoard.GetJobListOld(league.LeagueId);
+                return View(jobLists);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+
+            return View();
+        }
+
 
         [Authorize]
         public ActionResult EditJob(long id, string leagueId)

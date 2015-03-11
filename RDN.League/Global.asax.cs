@@ -722,6 +722,11 @@ new { controller = "JobBoard", action = "AddJob"} // Parameter defaults
 new { controller = "JobBoard", action = "ViewJobBoard" } // Parameter defaults
 );
             routes.MapRoute(
+"JobBoardViewOld", // Route name
+"league/job/archive", // URL with parameters
+new { controller = "JobBoard", action = "OldJobs" } // Parameter defaults
+);
+            routes.MapRoute(
 "EditJobPost", // Route name
 "league/Job/edit/{id}/{leagueId}", // URL with parameters
 new { controller = "JobBoard", action = "EditJob" } // Parameter defaults

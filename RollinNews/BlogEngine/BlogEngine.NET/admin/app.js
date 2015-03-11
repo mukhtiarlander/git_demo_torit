@@ -28,6 +28,7 @@
         .when("/users", { templateUrl: "views/users/index.html" })
         .when("/users/roles", { templateUrl: "views/users/roles.html" })
         .when("/users/profile", { templateUrl: "views/users/profile.html" })
+            .when("/users/schedule", { templateUrl: "views/users/schedule.html" })
 
         .when("/settings", { templateUrl: "views/settings/basic.html" })
 		.when("/settings/advanced", { templateUrl: "views/settings/advanced.html" })

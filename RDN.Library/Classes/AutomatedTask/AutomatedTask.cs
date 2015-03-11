@@ -28,6 +28,7 @@ using RDN.Portable.Classes.Controls.Message;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Federation.Enums;
+using RDN.Library.Cache.Singletons;
 
 namespace RDN.Library.Classes.AutomatedTask
 {
@@ -242,7 +243,7 @@ namespace RDN.Library.Classes.AutomatedTask
 
                         Payment.PaymentGateway pg = new Payment.PaymentGateway();
                         pg.StartInvoiceWizard()
-                            .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", Payment.Enums.PaymentProvider.Paypal, Payment.Enums.PaymentMode.Test, Payment.Enums.ChargeTypeEnum.RollinNewsWriterPayouts)
+                            .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", Payment.Enums.PaymentProvider.Paypal, SiteSingleton.Instance.IsPayPalLive , Payment.Enums.ChargeTypeEnum.RollinNewsWriterPayouts)
                             .FinalizeInvoice();
 
                     }

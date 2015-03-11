@@ -852,11 +852,11 @@ namespace RDN.League.Controllers
                 List<ForumTopicJson> topics = new List<ForumTopicJson>();
                 ForumOwnerTypeEnum type = (ForumOwnerTypeEnum)Enum.Parse(typeof(ForumOwnerTypeEnum), forumType);
                 long cat = -1;
-                Int64.TryParse(catId,out cat);
+                Int64.TryParse(catId, out cat);
                 if (cat != -1)
                     topics = Forum.GetForumTopicsJson(Convert.ToInt32(page), Forum.DEFAULT_PAGE_SIZE, new Guid(forumId), Convert.ToInt64(groupId), cat, false, type);
                 else
-                    topics = Forum.GetForumTopicsJsonUnread(new Guid(forumId), Convert.ToInt64(groupId),memberId );
+                    topics = Forum.GetForumTopicsJsonUnread(new Guid(forumId), Convert.ToInt64(groupId), memberId);
 
 
                 System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
@@ -930,7 +930,7 @@ namespace RDN.League.Controllers
 
 
 
-      
+
         /// <summary>
         /// This Method will get the message id and process the count in database.
         /// For every individual message id will have one row.
@@ -943,19 +943,22 @@ namespace RDN.League.Controllers
         /// </returns>
         [Authorize]
         [LeagueAuthorize(EmailVerification = true)]
-        public JsonResult GetLikeCount(string messageId, string memberId, string forumId, string topicId)
+        public JsonResult GetLikeCount(string messageId, string forumId, string topicId)
         {
-            var data = Forum.AddNewLike(Convert.ToInt64(messageId), new Guid(memberId));
+            var memberId = RDN.Library.Classes.Account.User.GetMemberId();
+            var data = Forum.ToggleMessageLike(Convert.ToInt64(messageId), memberId);
 
-            ForumMessage model = new ForumMessage { MessageId = Convert.ToInt64(messageId), MessageLike2 = data };
+
+            if (data == null)
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
 
 
             ForumTopicCache.ClearTopicCache(new Guid(forumId), Convert.ToInt64(topicId));
             WebClient client = new WebClient();
             client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_FORUM_TOPIC_API + "forumId=" + forumId + "&topicId=" + topicId));
 
- 
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, message = data }, JsonRequestBehavior.AllowGet);
+
         }
 
         /// <summary>
@@ -967,17 +970,22 @@ namespace RDN.League.Controllers
         /// 
         [Authorize]
         [LeagueAuthorize(EmailVerification = true)]
-        public JsonResult GetIAgreeCount(string messageId, string memberId, string forumId, string topicId)
+        public JsonResult GetIAgreeCount(string messageId, string forumId, string topicId)
         {
-            var data = Forum.AddNewIAgree(Convert.ToInt64(messageId), new Guid(memberId));
+            var memberId = RDN.Library.Classes.Account.User.GetMemberId();
+            var data = Forum.ToggleMessageAgreement(Convert.ToInt64(messageId), memberId);
 
-            ForumMessage model = new ForumMessage { MessageId = Convert.ToInt64(messageId), MessageIAgree2 = data };
+            if (data == null)
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+
+
 
             ForumTopicCache.ClearTopicCache(new Guid(forumId), Convert.ToInt64(topicId));
             WebClient client = new WebClient();
             client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_FORUM_TOPIC_API + "forumId=" + forumId + "&topicId=" + topicId));
 
-            return Json(model, JsonRequestBehavior.AllowGet);
+
+            return Json(new { success = true, message = data }, JsonRequestBehavior.AllowGet);
 
         }
 

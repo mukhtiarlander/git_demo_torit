@@ -27,81 +27,84 @@ namespace BlogEngine.Core.Data
                 int postCount = 0;
                 try
                 {
-                    XmlReaderSettings settings = new XmlReaderSettings();
-                    settings.ProhibitDtd = false;
-                    XmlReader reader = XmlReader.Create(feeds[i].RSSUrl, settings);
-                    SyndicationFeed feed = SyndicationFeed.Load(reader);
-                    string authorName = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
-
-                    if (!String.IsNullOrEmpty(feeds[i].AuthorUserName))
+                    if (!String.IsNullOrEmpty(feeds[i].RSSUrl))
                     {
-                        authorName = feeds[i].AuthorUserName;
-                    }
+                        XmlReaderSettings settings = new XmlReaderSettings();
+                        settings.ProhibitDtd = false;
+                        XmlReader reader = XmlReader.Create(feeds[i].RSSUrl, settings);
+                        SyndicationFeed feed = SyndicationFeed.Load(reader);
+                        string authorName = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
 
-                    var latestPosts = feed.Items.Where(x => x.PublishDate >= feeds[i].LastChecked).ToList();
-                    for (int j = 0; j < latestPosts.Count; j++)
-                    {
-                        try
+                        if (!String.IsNullOrEmpty(feeds[i].AuthorUserName))
                         {
-                            PostDetail detail = new PostDetail();
-
-                            var p = latestPosts[j];
-
-                            detail.Author = authorName;
-
-                            foreach (SyndicationElementExtension ext in p.ElementExtensions)
-                            {
-                                if (ext.GetObject<XElement>().Name.LocalName == "encoded")
-                                    detail.Content = ext.GetObject<XElement>().Value;
-                            }
-
-                            if (p.Content != null)
-                                detail.Content = (p.Content as TextSyndicationContent).Text;
-                            if (p.Summary != null)
-                            {
-                                detail.Description = (p.Summary as TextSyndicationContent).Text;
-                                if (String.IsNullOrEmpty(detail.Content))
-                                    detail.Content = detail.Description;
-                            }
-
-
-                            detail.Title = p.Title.Text;
-                            detail.DateCreated = DateTime.UtcNow.ToString();
-                            detail.IsSavedForApproval = true;
-                            detail.Tags = new List<TagItem>();
-                            detail.Categories = new List<CategoryItem>();
-                            detail.HasCommentsEnabled = true;
-                            
-
-                            foreach (var cat in feeds[i].Categories)
-                            {
-                                detail.Categories.Add(new CategoryItem()
-                                {
-                                    Id = cat.CategoryRNId,
-                                    Title = Category.GetCategory(cat.CategoryRNId).Title
-                                });
-                            }
-                            foreach (var tag in feeds[i].Tags)
-                            {
-                                detail.Tags.Add(new TagItem()
-                                {
-                                    TagName = tag.TagName
-                                });
-                            }
-
-
-                            detail.MainImageUrl = feeds[i].MainImageUrl;
-                            detail.InitialImageUrl = feeds[i].InitialImageUrl;
-                            detail.FeedId = feeds[i].FeedId;
-
-                            PostRepository repo = new PostRepository();
-                            detail = repo.Add(detail, "RNFeedSubmittal");
-                            PostManager.AddPostForFeed(detail.Id, feeds[i].FeedId);
-                            postCount += 1;
+                            authorName = feeds[i].AuthorUserName;
                         }
-                        catch (Exception exception)
-                        {
 
+                        var latestPosts = feed.Items.Where(x => x.PublishDate >= feeds[i].LastChecked).ToList();
+                        for (int j = 0; j < latestPosts.Count; j++)
+                        {
+                            try
+                            {
+                                PostDetail detail = new PostDetail();
+
+                                var p = latestPosts[j];
+
+                                detail.Author = authorName;
+
+                                foreach (SyndicationElementExtension ext in p.ElementExtensions)
+                                {
+                                    if (ext.GetObject<XElement>().Name.LocalName == "encoded")
+                                        detail.Content = ext.GetObject<XElement>().Value;
+                                }
+
+                                if (p.Content != null)
+                                    detail.Content = (p.Content as TextSyndicationContent).Text;
+                                if (p.Summary != null)
+                                {
+                                    detail.Description = (p.Summary as TextSyndicationContent).Text;
+                                    if (String.IsNullOrEmpty(detail.Content))
+                                        detail.Content = detail.Description;
+                                }
+
+
+                                detail.Title = p.Title.Text;
+                                detail.DateCreated = DateTime.UtcNow.ToString();
+                                detail.IsSavedForApproval = true;
+                                detail.Tags = new List<TagItem>();
+                                detail.Categories = new List<CategoryItem>();
+                                detail.HasCommentsEnabled = true;
+
+
+                                foreach (var cat in feeds[i].Categories)
+                                {
+                                    detail.Categories.Add(new CategoryItem()
+                                    {
+                                        Id = cat.CategoryRNId,
+                                        Title = Category.GetCategory(cat.CategoryRNId).Title
+                                    });
+                                }
+                                foreach (var tag in feeds[i].Tags)
+                                {
+                                    detail.Tags.Add(new TagItem()
+                                    {
+                                        TagName = tag.TagName
+                                    });
+                                }
+
+
+                                detail.MainImageUrl = feeds[i].MainImageUrl;
+                                detail.InitialImageUrl = feeds[i].InitialImageUrl;
+                                detail.FeedId = feeds[i].FeedId;
+
+                                PostRepository repo = new PostRepository();
+                                detail = repo.Add(detail, "RNFeedSubmittal");
+                                PostManager.AddPostForFeed(detail.Id, feeds[i].FeedId);
+                                postCount += 1;
+                            }
+                            catch (Exception exception)
+                            {
+
+                            }
                         }
                     }
 
@@ -110,7 +113,8 @@ namespace BlogEngine.Core.Data
                 }
                 catch (Exception exception)
                 {
-                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: feeds[i].RSSUrl);
+                    if (!String.IsNullOrEmpty(exception.Message) && !exception.Message.Contains("The operation has timed out") && !exception.Message.Contains(@"c:\windows\system32\inetsrv\NA") && !exception.Message.Contains("Unable to connect to the remote serve") && !exception.Message.Contains("remote name could not be resolved"))
+                        ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: feeds[i].RSSUrl);
                 }
                 fact.FinishFeedPolling(feeds[i].FeedId, postCount);
             }

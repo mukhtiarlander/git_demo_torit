@@ -21,6 +21,7 @@ namespace RDN.Portable.Classes.League.Enums
         Medical = 512,
         Attendance = 1024,
         Polls = 2048,
-        Inventory = 4096
+        Inventory = 4096,
+        Sponsorship = 8192
     }
 }

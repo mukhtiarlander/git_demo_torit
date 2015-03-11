@@ -4,8 +4,7 @@
     $scope.rss = {};
     $scope.id = ($location.search()).id;
     $scope.EditPostCategories = EditPostCategories();
-    $scope.lookups = [];
-    $scope.allTags = [];
+        $scope.allTags = [];
 
     $scope.images = [];
     $scope.SearchImages = [];

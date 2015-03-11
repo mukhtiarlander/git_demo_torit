@@ -2644,5 +2644,15 @@ namespace RDN.Library.Classes.League
             int c = dc.SaveChanges();
             return c;
         }
+
+        public static bool RefreshLeagueJoinCode(Guid leagueId)
+        {
+            var dc = new ManagementContext();
+            var leagues = dc.Leagues.Where(x => x.LeagueId == leagueId).FirstOrDefault();
+
+            leagues.LeagueJoinCode = Guid.NewGuid();
+            int c = dc.SaveChanges();
+            return c>0;
+        }
     }
 }

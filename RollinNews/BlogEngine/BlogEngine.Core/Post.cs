@@ -1018,10 +1018,10 @@
             for (int i = 0; i < list.Count; i++)
                 posts.Add(PostRepository.ToJson(list[i]));
 
-            if(count == 0)
+            if (count == 0)
                 return posts.OrderByDescending(x => x.DateCreated).ToList();
             else
-            return posts.OrderByDescending(x => x.DateCreated).Take(count).ToList();
+                return posts.OrderByDescending(x => x.DateCreated).Take(count).ToList();
         }
         public static List<Post> GetPostsByAuthorIPublishable(string author)
         {
@@ -1308,7 +1308,9 @@
         /// <returns>Slug that is unique across blogs</returns>
         public static string GetUniqueSlug(string slug, Guid postId)
         {
-            string s = Utils.RemoveIllegalCharacters(slug.Trim());
+            string s = slug;
+            if (!string.IsNullOrEmpty(slug))
+                s = Utils.RemoveIllegalCharacters(slug.Trim());
 
             // will do for up to 100 unique post titles
             for (int i = 1; i < 101; i++)

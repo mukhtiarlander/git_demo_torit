@@ -18,7 +18,9 @@ namespace RDN.Utilities.Strings
         private static Regex carriageReplacement = new Regex(@"[\r\n]+", RegexOptions.Compiled);
         public static string ReplaceCarriageReturnsWithBreaks(string source)
         {
-            return carriageReplacement.Replace(source, "<br />");
+            if (!String.IsNullOrEmpty(source))
+                return carriageReplacement.Replace(source, "<br />");
+            return source;
         }
 
         /// <summary>
