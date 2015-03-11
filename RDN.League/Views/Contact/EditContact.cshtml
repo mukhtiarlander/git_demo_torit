@@ -110,7 +110,7 @@
                 </div>
                 <div class="col-xs-12">
                     <label class="form-label margin-top-10">Notes <small class="text-muted"><i>Optional</i></small></label>
-                    @Html.TextArea("Notes", string.Empty, new { id = "wmd-input", @class = "form-control" })
+                    @Html.TextArea("Notes", Model.Notes != null ? Model.Notes.ToString() : "", new { id = "wmd-input", @class = "form-control full-width" })
                 </div>
             </div>
             @Html.HiddenFor(x => x.ContactType)
