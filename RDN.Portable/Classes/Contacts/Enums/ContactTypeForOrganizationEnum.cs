@@ -24,7 +24,8 @@ namespace RDN.Portable.Classes.Contacts.Enums
         NSO = 14,
         Skater = 15,
         Fresh_Meat = 16,
-        Merchandise = 17
+        Merchandise = 17,
+        Charity = 18
 
     }
 }

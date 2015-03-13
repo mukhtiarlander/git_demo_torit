@@ -33,11 +33,22 @@ namespace RDN.Library.DataModels.Member
         public bool IsVerified { get; set; }
         [MaxLength(500)]
         public string DerbyName { get; set; }
-       
+
         public string PlayerNumber { get; set; }
         public int Gender { get; set; }
         public int PositionType { get; set; }
         public bool Retired { get; set; }
+
+        public string Name
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(DerbyName))
+                    return DerbyName;
+                else
+                    return Firstname;
+            }
+        }
 
         //are the considered to be in derby.
         //careted this flag for those people that just sign up to buy things through RDNation.
@@ -80,7 +91,7 @@ namespace RDN.Library.DataModels.Member
         #endregion
 
         #region References
-         
+
         [Obsolete("this league column is obsolete, please use the list of leagues")]
         public virtual League.League League { get; set; }
         public virtual MemberMedical MedicalInformation { get; set; }
@@ -97,7 +108,7 @@ namespace RDN.Library.DataModels.Member
         public virtual ICollection<MemberContact> MemberContacts { get; set; }
         public virtual MemberSettings Settings { get; set; }
         public virtual MemberNotifications Notifications { get; set; }
-		public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<JobBoard> JobBoards { get; set; }
         public virtual ICollection<Sponsorship> Sponsorships { get; set; }
         public virtual ICollection<Organize> Organize { get; set; }
@@ -108,8 +119,8 @@ namespace RDN.Library.DataModels.Member
         public virtual ICollection<ForumMessageAgree> ForumMessageAgree { get; set; }
         public virtual ICollection<ForumMessageLike> ForumMessageLike { get; set; }
 
-        
-        
+
+
         #endregion
     }
 }

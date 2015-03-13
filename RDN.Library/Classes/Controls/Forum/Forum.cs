@@ -64,35 +64,39 @@ namespace RDN.Library.Classes.Forum
         /// <param name="MessageId">long MessageId</param>
         /// <param name="memberId">Guid memberId</param>
         /// <returns></returns>
-        public static long AddNewLike(long MessageId, Guid memberId)
+        public static ForumMessage ToggleMessageLike(long MessageId, Guid memberId)
         {
             try
             {
                 long total;
                 var dc = new ManagementContext();
-                var check = dc.ForumMessageLike.Where(x => x.Messages.MessageId == MessageId && x.Member.MemberId == memberId).Count();
-                if (check >= 1)
+                var check = dc.ForumMessageLike.Where(x => x.Messages.MessageId == MessageId && x.Member.MemberId == memberId).FirstOrDefault();
+                if (check != null)
                 {
-                    return -1;
+                    if (check.TotalCount == 0)
+                        check.TotalCount = 1;
+                    else if (check.TotalCount == 1)
+                        check.TotalCount = 0;
                 }
-
-                DataModels.Controls.Forum.ForumMessageLike messageLike = new DataModels.Controls.Forum.ForumMessageLike();
-                messageLike.Member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
-                messageLike.Messages = dc.ForumMessages.Where(x => x.MessageId == MessageId).FirstOrDefault();
-                messageLike.TotalCount = 1;
-                dc.ForumMessageLike.Add(messageLike);
+                else
+                {
+                    DataModels.Controls.Forum.ForumMessageLike messageLike = new DataModels.Controls.Forum.ForumMessageLike();
+                    messageLike.Member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
+                    messageLike.Messages = dc.ForumMessages.Where(x => x.MessageId == MessageId).FirstOrDefault();
+                    messageLike.TotalCount = 1;
+                    dc.ForumMessageLike.Add(messageLike);
+                }
                 int c = dc.SaveChanges();
-
-                total = dc.ForumMessageLike.Where(x => x.Messages.MessageId == MessageId).Count();
+                total = dc.ForumMessageLike.Where(x => x.Messages.MessageId == MessageId).Sum(x => x.TotalCount);
 
                 if (c > 0)
-                    return total;
+                    return new ForumMessage { MessageId = MessageId, MessageLikeCount = total };
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return 0;
+            return new ForumMessage { MessageId = MessageId, MessageAgreeCount = 0 };
         }
 
         /// <summary>
@@ -101,37 +105,42 @@ namespace RDN.Library.Classes.Forum
         /// <param name="MessageId"></param>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        public static long AddNewIAgree(long MessageId, Guid memberId)
+        public static ForumMessage ToggleMessageAgreement(long MessageId, Guid memberId)
         {
             try
             {
                 long total;
                 var dc = new ManagementContext();
-                var check = dc.ForumMessageAgree.Where(x => x.Messages.MessageId == MessageId && x.Member.MemberId == memberId).Count();
-                if (check >= 1)
+                var check = dc.ForumMessageAgree.Where(x => x.Messages.MessageId == MessageId && x.Member.MemberId == memberId).FirstOrDefault();
+                if (check != null)
                 {
-                    return -1;
+                    if (check.TotalCount == 0)
+                        check.TotalCount = 1;
+                    else if (check.TotalCount == 1)
+                        check.TotalCount = 0;
                 }
+                else
+                {
 
-
-                DataModels.Controls.Forum.ForumMessageAgree messageAgree = new DataModels.Controls.Forum.ForumMessageAgree();
-                messageAgree.Member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
-                messageAgree.Messages = dc.ForumMessages.Where(x => x.MessageId == MessageId).FirstOrDefault();
-                messageAgree.TotalCount = 1;
-                dc.ForumMessageAgree.Add(messageAgree);
+                    DataModels.Controls.Forum.ForumMessageAgree messageAgree = new DataModels.Controls.Forum.ForumMessageAgree();
+                    messageAgree.Member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
+                    messageAgree.Messages = dc.ForumMessages.Where(x => x.MessageId == MessageId).FirstOrDefault();
+                    messageAgree.TotalCount = 1;
+                    dc.ForumMessageAgree.Add(messageAgree);
+                }
                 int c = dc.SaveChanges();
 
 
-                total = dc.ForumMessageAgree.Where(x => x.Messages.MessageId == MessageId).Count();//.FirstOrDefault();
+                total = dc.ForumMessageAgree.Where(x => x.Messages.MessageId == MessageId).Sum(x => x.TotalCount);//.FirstOrDefault();
 
                 if (c > 0)
-                    return total;
+                    return new ForumMessage { MessageId = MessageId, MessageAgreeCount = total };
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return 0;
+            return new ForumMessage { MessageId = MessageId, MessageAgreeCount = 0 };
         }
 
 
@@ -582,7 +591,7 @@ namespace RDN.Library.Classes.Forum
                         me.Member.Photos.Add(new PhotoItem(photo.ImageUrl, true, me.Member.DerbyName));
                     }
                 }
-                //<p>sdfasdf</p>\r\n\r\n<p>asdfasdf\r\nasdf</p>\r\n\r\n<p>asdfasdf</p>
+
 
                 if (message.LastModified > new DateTime(2013, 11, 23) || message.Created > new DateTime(2013, 11, 23))
                 {
@@ -602,27 +611,8 @@ namespace RDN.Library.Classes.Forum
                 me.MessageId = message.MessageId;
                 me.MessagePlain = message.MessagePlain;
 
-                var dc = new ManagementContext();
-                var like = dc.ForumMessageLike.Where(x => x.Messages.MessageId == message.MessageId).Count();
-                if (like > 0)
-                {
-                    me.MessageLike = like.ToString() + " " + "Likes";
-                }
-                else
-                {
-                    me.MessageLike = "Like";
-                }
-
-
-                var agree = dc.ForumMessageAgree.Where(x => x.Messages.MessageId == message.MessageId).Count();
-                if (agree > 0)
-                {
-                    me.MessageIAgree = agree.ToString() + " " + "in Agreement";
-                }
-                else
-                {
-                    me.MessageIAgree = "I Agree";
-                }
+                me.MessageLikeCount = message.MessagesLike.Sum(x => x.TotalCount);
+                me.MessageAgreeCount = message.MessagesAgree.Sum(x => x.TotalCount);
 
 
                 return me;

@@ -17,19 +17,16 @@ namespace RDN.Library.Classes.Forum
         public string MessageHTML { get; set; }
         public string MessageMarkDown { get; set; }
         public long MessageId { get; set; }
-        public string   MessagePlain { get; set; }
+        public string MessagePlain { get; set; }
         /// <summary>
         /// Get Total Message Liked
         /// </summary>
-        public string MessageLike { get; set; } //Get Total like 
+        public long MessageLikeCount { get; set; } //Get Total like 
         /// <summary>
         /// Get Tolal Message Agreed
         /// </summary>
-        public long MessageIAgree2 { get; set; } //Get Total Agree
-        /// <summary>
-        /// This will get the message likes
-        /// </summary>
-        public long MessageLike2 { get; set; }
-        public string MessageIAgree { get; set; }
+        public long MessageAgreeCount { get; set; } //Get Total Agree
+        
+
     }
 }

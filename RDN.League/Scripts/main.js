@@ -1124,8 +1124,23 @@ function PostInternalMessage() {
     var to = $("#OwnerUserId").val();
     var grp = $("#GroupMessageId").val();
     if (message.length > 0) {
-        $.getJSON("/message/PostMessage", { groupId: grp, ownerUserId: to, mess: message });
         $("#inputNewMessage").val("");
+        var paramValue = JSON.stringify({ groupId: grp, ownerUserId: to, mess: message });
+        $.ajax({
+            url: '/message/PostMessage', //This will call the function in controller
+            type: 'POST',
+            dataType: 'json',
+            data: paramValue,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.result) {
+
+                } else {
+                    $("#inputNewMessage").val(message);
+                    alert("Something happened.  Try again later.");
+                }
+            }
+        });
     }
     $("#inputNewMessage").focus();
     message = message.replace(/\n\r?/g, '<br />');
@@ -2951,47 +2966,38 @@ var jquerySortableHelper = function (e, tr) {
     return $helper;
 }
 
-var MsgLike = function (messageId, memberId, forumId, topicId) {
-    //alert("Called");
-    var paramValue = JSON.stringify({ messageId: messageId, memberId: memberId, forumId: forumId, topicId: topicId });
+var MsgLike = function (link, messageId, forumId, topicId) {
+    var paramValue = JSON.stringify({ messageId: messageId, forumId: forumId, topicId: topicId });
     $.ajax({
-
         url: '/forum/message/like', //This will call the function in controller
         type: 'POST',
         dataType: 'json',
         data: paramValue,
-
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            //  alert(data.MessageId + ":" + data.MessageLike);
-            if (data.MessageLike2 == -1) {
-                alert("You already liked this.");
+            if (data.success) {
+                $(link).text(data.message.MessageLikeCount + " Likes");
             }
             else {
-                $('#' + "L-" + data.MessageId).text(data.MessageLike2 + " " + "Likes");
+                alert("Something happened.  Try again later.");
             }
         }
     });
 }
 
-var MsgIAgree = function (messageId, memberId, forumId, topicId) {
-    //alert("Called");
-    var paramValue = JSON.stringify({ messageId: messageId, memberId: memberId, forumId: forumId, topicId: topicId });
+var MsgIAgree = function (link, messageId, forumId, topicId) {
+    var paramValue = JSON.stringify({ messageId: messageId, forumId: forumId, topicId: topicId });
     $.ajax({
-
         url: '/forum/message/agree', //This will call the function in controller
         type: 'POST',
         dataType: 'json',
         data: paramValue,
-
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            //  alert(data.MessageId + ":" + data.MessageLike);
-            if (data.MessageIAgree2 == -1) {
-                alert("You already Agreed this.");
-            }
-            else {
-                $('#' + "A-" + data.MessageId).text(data.MessageIAgree2 + " " + "in Agreement");
+            if (data.success) {
+                $(link).text(data.message.MessageAgreeCount + " Agree");
+            } else {
+                alert("Something happened.  Try again later.");
             }
         }
     });

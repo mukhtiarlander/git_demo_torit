@@ -1,0 +1,26 @@
+﻿@model List<RDN.Library.Classes.Controls.Calendar.CalendarEvent>
+@{
+    ViewBag.Title = "ViewDeletedEvents";
+}
+
+<h2>ViewDeletedEvents</h2>
+<table>
+    <tr>
+        <td>ev.Name</td>
+        <td>ev.CalendarId</td>
+        <td>ev.CalendarItemId</td>
+        <td>ev.Attendees.Count</td>
+        <td>ev.StartDateDisplay</td>
+    </tr>
+    @foreach (var ev in Model)
+    {
+        <tr>
+            <td>@ev.Name</td>
+            <td>@ev.CalendarId</td>
+            <td>@ev.CalendarItemId</td>
+            <td>@ev.Attendees.Count</td>
+            <td>@ev.StartDateDisplay</td>
+        </tr>
+
+    }
+</table>
