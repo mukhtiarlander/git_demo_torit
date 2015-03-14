@@ -52,7 +52,7 @@ namespace RDN.League
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap/bootstrap-notify.js"));
+                      "~/Scripts/bootstrap/bootstrap-notify.js", "~/Scripts/jquery.doubleScroll.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

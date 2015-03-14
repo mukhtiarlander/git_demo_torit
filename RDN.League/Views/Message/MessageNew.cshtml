@@ -104,27 +104,23 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                           
                             <div class="form-label margin-bottom-5">
                                 To Additional
                             </div>
-
-                            <div class="input-group input-group-sm">
-                                @Html.TextBoxFor(x => x.ToMemberNames, new { @class = "form-control" })
-                                <span class="input-group-btn">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.ToMemberNames, new { @class = "form-control full-width" })
+                                <span class="input-group-btn" style="vertical-align:top">
                                     <button type="button" onclick="Messages.ExpandGroupMemberList()" class="btn btn-default">
                                         <i class="fa fa-arrow-circle-o-down fa-lg"></i>
                                     </button>
                                 </span>
                             </div>
                             
-                            <div class="margin-bottom-10">
-                                
+                            <div class="margin-10">
                                 <div class="displayNone groupMemberLists" id="groupMemberLists">
                                     <ul id="groupList" class="noList no-padding"></ul>
                                     <div class="clear"></div>
                                 </div>
-
                                 @Html.HiddenFor(x => x.ToGroupIds)
                             </div>
                             <div class="form-label margin-bottom-5">
