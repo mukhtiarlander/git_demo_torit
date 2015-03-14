@@ -18,6 +18,15 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-comment-o"></i> Send New Private Message</h3>
+                <span class="text-muted">
+                    You can send a message to anyone within RDNation by just typing their name into
+                    the "To Additional Members Field" or just select their name from the list on the
+                    left.
+                    @if (!Model.IsCarrierVerified)
+                    {
+                        <span><a href="@Url.Content("~/member/settings")">Verify Your Phone Number Now</a></span>
+                    }
+                </span>
             </div>
             @using (Html.BeginForm("CreateNewMessage", "Message", FormMethod.Post))
             {
@@ -43,7 +52,6 @@
                             </div>
                         </div>
                         <div class="col-xs-12 font16">
-                            
                             <label class="form-label margin-top-10">
                                 To Selected
                             </label>
@@ -61,6 +69,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title"><i class="fa fa-check-square-o"></i> Known Recipients</h4>
+                                            <span class="text-muted">This list is people you are connected to within RDNation.</span>
                                         </div>
                                         <div class="modal-body padding-10">
                                             <div class="text-right">
@@ -95,24 +104,22 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <p>This list is people you are connected to within RDNation.</p>
-                            <div class="alert alert-info">
-                                You can send a message to anyone within RDNation by just typing their name into
-                                the "To Additional Members Field" or just select their name from the list on the
-                                left.
-                                @if (!Model.IsCarrierVerified)
-                                {
-                                    <span><a href="@Url.Content("~/member/settings")">Verify Your Phone Number Now</a></span>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
                            
-                            <div class="form-label margin-bottom-5">To Additional  <button type="button" onclick="Messages.ExpandGroupMemberList()" class="btn btn-sm btn-default"><i class="fa fa-arrow-circle-o-down fa-lg"></i></button></div>
+                            <div class="form-label margin-bottom-5">
+                                To Additional
+                            </div>
+
+                            <div class="input-group input-group-sm">
+                                @Html.TextBoxFor(x => x.ToMemberNames, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <button type="button" onclick="Messages.ExpandGroupMemberList()" class="btn btn-default">
+                                        <i class="fa fa-arrow-circle-o-down fa-lg"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            
                             <div class="margin-bottom-10">
-                                @Html.TextBoxFor(x => x.ToMemberNames, new { @class = "messagesInput" })
+                                
                                 <div class="displayNone groupMemberLists" id="groupMemberLists">
                                     <ul id="groupList" class="noList no-padding"></ul>
                                     <div class="clear"></div>

@@ -52,8 +52,6 @@
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body">
-        
-
         @if (Model.Model.Items.Count < 10)
         {
             <div>
@@ -67,7 +65,6 @@
             <thead>
                 <tr>
                     <th></th>
-                  
                     <th>
                         Derby Name
                     </th>
@@ -103,10 +100,8 @@
                 {
 
                     <tr>
-                        <th>
-                            @i
-                        </th>
-                        
+                        <td>
+                        </td>
                         <td>
                             <a target="_blank" href="@Url.Content("~/Member/" + Model.Model.Items[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].DerbyName))">
                                 @Model.Model.Items[i].DerbyName
@@ -205,7 +200,11 @@
                 "bSort": true,
                 "bInfo": false,
                 "oLanguage": { "sSearch": "" },
-                "bAutoWidth": false
+                "bAutoWidth": false,
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
             });
             $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
             

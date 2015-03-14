@@ -2304,9 +2304,9 @@ var Calendar = new function () {
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
                     if (currentIds.indexOf(this[1]) === -1)
-                        gList.append("<li><label><input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                        gList.append("<li><label style='font-weight:normal'><input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0] + "</label></li>");
                     else { // if the group already is in the event.
-                        gList.append("<li><label><input checked='checked' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                        gList.append("<li><label style='font-weight:normal'><input  checked='checked' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0] + "</label></li>");
                         var group = { name: this[0], idd: this[1] };
                         groupsSelectedIds.push(group);
                     }
@@ -2319,9 +2319,9 @@ var Calendar = new function () {
         var gList = $("#groupList");
         $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
             if (result.isSuccess === true) {
-                gList.append("<li><label><input groupName='Entire League' id='0' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' >Entire League</label></li>");
+                gList.append("<li><label class='no-bold'><input groupName='Entire League' id='0' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' > Entire League</label></li>");
                 $(result.groups).each(function () {
-                    gList.append("<li><label><input groupName='" + this[0] + "' id='" + this[1] + "' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' >" + this[0] + "</label></li>");
+                    gList.append("<li><label class='no-bold'><input groupName='" + this[0] + "' id='" + this[1] + "' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' > " + this[0] + "</label></li>");
                 });
             }
         }).error(function () {
@@ -2346,11 +2346,11 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="label label-primary">' + val.name + ',</span> ';
+                text += '<span class="label label-primary font12 padding-top-5">' + val.name + '</span> ';
                 ids += val.idd + ",";
             });
         } else {
-            text += '<span class="label label-primary">Entire League</span> ';
+            text += '<span class="label label-primary font12 padding-top-5">Entire League</span> ';
         }
 
         if (document.getElementById('ToMemberNamesSelected') !== null)
@@ -2372,12 +2372,12 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="label label-primary">' + val.name + '</span> ';
+                text += '<span class="label label-primary font12 padding-top-5">' + val.name + '</span> ';
                 ids += val.idd + ",";
             });
             $("#pullGroupEvents").toggleClass("displayNone", false);
         } else {
-            text += '<span class="label label-primary">Entire League</span> ';
+            text += '<span class="label label-primary font12 padding-top-5">Entire League</span> ';
             $("#pullGroupEvents").toggleClass("displayNone", true);
         }
 
