@@ -88,11 +88,11 @@ else
                         <div class="panel panel-default ">
                             <div class="panel-heading">    Votes Needed</div>
                             <div class="panel-body" style="overflow-x:auto">
-                                <table class="listTable" id="members">
-                                    <thead>
+                                <table class="table table-condensed table-hover no-margin-bottom" id="members">
+                                    <thead> 
                                         <tr>
                                             <th>View</th>
-                                            <th>Vote</th>
+                                            <th class="text-center">Vote</th>
                                             <th>Question</th>
                                         </tr>
                                     </thead>
@@ -102,8 +102,8 @@ else
                                             if (Model.Polls.Polls[i].Version == 1)
                                             {
                                                 <tr>
-                                                    <td>
-                                                        <a href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Vote</a>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)"><i class="fa fa-thumbs-up"></i> Vote</a>
                                                     </td>
                                                     <td>
                                                         @Model.Polls.Polls[i].Question
@@ -119,8 +119,8 @@ else
                                                             <a href="@Url.Content("~/poll/viewv2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Results</a>
                                                         }
                                                     </td>
-                                                    <td>
-                                                        <a href="@Url.Content("~/poll/votev2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Vote</a>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/votev2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)"><i class="fa fa-thumbs-up"></i> Vote</a>
                                                     </td>
                                                     <td>
                                                         @Model.Polls.Polls[i].Title
@@ -232,7 +232,7 @@ else
                                                 {
                                                     if (avail == null)
                                                     {
-                                                        <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                        <button class="btn btn-default btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
                                                                 data-container="body" data-toggle="popover" data-html="true">
                                                             <i class="fa fa-calendar fa-lg"></i>
                                                         </button>
@@ -317,7 +317,7 @@ else
                         <div class="panel panel-default ">
 
                             <div class="panel-body">
-                                <img alt="@Model.League.Logo.Alt" src="@Model.League.Logo.ImageUrl" />
+                                <img alt="@Model.League.Logo.Alt" class=" img-responsive img-rounded" src="@Model.League.Logo.ImageUrl" />
                             </div>
                         </div>
                     }

@@ -73,8 +73,6 @@
                 @foreach (var b in Model)
                 {
                     <tr>
-
-
                         <td>
                             @b.JobTitle
                         </td>
@@ -91,7 +89,6 @@
                                 else if (b.DaysRemaining > 1)
                                 {  <text> (@b.DaysRemaining Days left) </text> }
 
-
                             }
                         </td>
                         <td>
@@ -105,9 +102,9 @@
                         </td>
                         <td>
                             @if (memId == b.JobCreator || isSec)
-                             {
-                                 <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/job/view/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View </a> <a class="btn btn-info btn-xs" href="@Url.Content("~/league/Job/edit/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit </a>
-                                }
+                            {
+                                <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/job/view/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View </a> <a class="btn btn-info btn-xs" href="@Url.Content("~/league/Job/edit/" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit </a>
+                            }
                             else
                             {
                                 <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/job/view" + b.JobId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View </a>
