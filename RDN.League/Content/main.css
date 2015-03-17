@@ -142,7 +142,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .no-border {border:0px}
 select{height:35px;border-radius:4px}
 .vertical-middle{vertical-align:middle !important}
-#addAnswerToAnswersList{ height:500px;overflow-y:auto}
+#addAnswerToAnswersListPopup{ height:500px;overflow-y:auto}
 .inline-block{display:inline-block;}
 .forum-read {background-color:#f9f9f9}
 .message-read {background-color:#f9f9f9}
@@ -165,6 +165,7 @@ select{height:35px;border-radius:4px}
 .select-sm{height:34px !important;}
 .curor-pointer{cursor:pointer;}
 .unread-message{background-color:#f9f9f9;font-weight:bold}
+.no-bold{font-weight:normal}
 body 
 { 
 	background-color: White
@@ -625,17 +626,17 @@ ol.tree
 	padding: 0 0 0 30px;
 	width: 300px;
 }
-	li 
+	ol.tree li 
 	{ 
 		position: relative; 
 		margin-left: -15px;
 		list-style: none;
 	}
-	li.file
+	ol.tree li.file
 	{
 		margin-left: -1px !important;
 	}
-		li.file a
+		ol.tree li.file a
 		{
 			background: url(document.png) 0 0 no-repeat;
 			color: #fff;
@@ -643,11 +644,11 @@ ol.tree
 			text-decoration: none;
 			display: block;
 		}
-		li.file a[href *= '.pdf']	{ background: url(images/document.png) 0 0 no-repeat; }
-		li.file a[href *= '.html']	{ background: url(images/document.png) 0 0 no-repeat; }
-		li.file a[href $= '.css']	{ background: url(images/document.png) 0 0 no-repeat; }
-		li.file a[href $= '.js']		{ background: url(images/document.png) 0 0 no-repeat; }
-	li input
+		ol.tree li.file a[href *= '.pdf']	{ background: url(images/document.png) 0 0 no-repeat; }
+		ol.tree li.file a[href *= '.html']	{ background: url(images/document.png) 0 0 no-repeat; }
+		ol.tree li.file a[href $= '.css']	{ background: url(images/document.png) 0 0 no-repeat; }
+		ol.tree li.file a[href $= '.js']		{ background: url(images/document.png) 0 0 no-repeat; }
+	ol.tree li input
 	{
 		position: absolute;
 		left: 0;
@@ -659,21 +660,21 @@ ol.tree
 		width: 1em;
 		top: 0;
 	}
-		li input + ol
+		ol.tree li input + ol
 		{
 			background: url(images/toggle-small-expand.png) 0 0 no-repeat;
 			margin: -1.55em 0 0 0; /* 15px */
 			height: 1.5em;
 		}
-		li input + ol > li { display: none; margin-left: -14px !important; padding-left: 1px; }
-	li label
+		ol.tree li input + ol > li { display: none; margin-left: -14px !important; padding-left: 1px; }
+	ol.tree li label
 	{
 		background: url(images/folder-horizontal.png) 15px 1px no-repeat;
 		cursor: pointer;
 		display: block;
 		padding-left: 37px;
 	}
-    li.group-icon label
+    ol.tree li.group-icon label
 	{
         background: none;
 		cursor: pointer;
@@ -681,15 +682,28 @@ ol.tree
 		padding-left: 20px;
 	}
 
-.padding-10 {
-    padding: 0 10px;
-}
-	li input:checked + ol
+	ol.tree li input:checked + ol
 	{
 		background: url(images/toggle-small.png) 0px 0px no-repeat;
 		margin: -1.55em 0 0 0; /* 20px */
 		padding: 1.563em 0 0 35px;
 		height: auto;
 	}
-		li input:checked + ol > li { display: block; margin: 0 0 0.125em;  /* 2px */}
-		li input:checked + ol > li:last-child { margin: 0 0 0.063em; /* 1px */ }
+		ol.tree li input:checked + ol > li { display: block; margin: 0 0 0.125em;  /* 2px */}
+		ol.tree li input:checked + ol > li:last-child { margin: 0 0 0.063em; /* 1px */ }
+
+        ul.token-input-list-facebook { overflow: hidden; height: auto !important; height: 20px; width: 375px; border: 1px solid #8496ba; cursor: text; font-size: 12px; font-family: Verdana, sans-serif; min-height: 1px; z-index: 999; margin: 0; padding: 0; background-color: #fff; list-style-type: none; clear: left; }
+	ul.token-input-list-facebook li input { border: 0; width: 100px; padding: 3px 8px; background-color: white; margin: 2px 0; -webkit-appearance: caret; }
+li.token-input-token-facebook { overflow: hidden; height: auto !important; height: 15px; margin: 3px; padding: 1px 3px; background-color: #872f95; color: #FFF; cursor: default; border: 1px solid #ccd5e4; font-size: 11px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; float: left; white-space: nowrap; }
+	li.token-input-token-facebook p { display: inline; padding: 0; margin: 0; }
+	li.token-input-token-facebook span { color: #a6b3cf; margin-left: 5px; font-weight: bold; cursor: pointer; }
+li.token-input-selected-token-facebook { background-color: #5670a6; border: 1px solid #3b5998; color: #fff; }
+li.token-input-input-token-facebook { float: left; margin: 0; padding: 0; list-style-type: none; }
+div.token-input-dropdown-facebook { position: absolute; width: 400px; background-color: #fff; overflow: hidden; border-left: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; cursor: default; font-size: 11px; font-family: Verdana, sans-serif; z-index: 1; }
+	div.token-input-dropdown-facebook p { margin: 0; padding: 5px; font-weight: bold; color: #777; }
+	div.token-input-dropdown-facebook ul { margin: 0; padding: 0; }
+		div.token-input-dropdown-facebook ul li { background-color: #fff; padding: 3px; margin: 0; list-style-type: none; }
+			div.token-input-dropdown-facebook ul li.token-input-dropdown-item-facebook { background-color: #fff; }
+			div.token-input-dropdown-facebook ul li.token-input-dropdown-item2-facebook { background-color: #fff; }
+			div.token-input-dropdown-facebook ul li em { font-weight: bold; font-style: normal; }
+			div.token-input-dropdown-facebook ul li.token-input-selected-dropdown-item-facebook { background-color: #872f95; color: #fff; }

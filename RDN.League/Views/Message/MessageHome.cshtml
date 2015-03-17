@@ -65,11 +65,12 @@
                                         <div class="col-xs-12 col-md-3">
                                             @topic.LastPostBy
                                         </div>
-                                        <div class="col-xs-12 col-md-8">
-                                            <a @(topic.IsConversationRead ? "" : "class=b") href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())">@topic.Title</a> - @topic.Messages.LastOrDefault().MessageText
-                                            <span class="text-muted pull-right"><small> @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)</small></span>
+                                        <div class="col-xs-12 col-md-7">
+                                            <span @(topic.IsConversationRead ? "" : "class=b")>@topic.Title</span> - <span class="text-muted">@topic.Messages.LastOrDefault().MessageText</span>
+                                            <span class="text-muted pull-right"><small>@RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastPostDate)</small></span>
                                         </div>
-                                        <div class="col-xs-12 col-md-1 text-right">
+                                        <div class="col-xs-12 col-md-2 text-right">
+                                            <a class="btn btn-xs btn-info" href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())"><i class="fa fa-eye"></i> View</a>
                                             <button type="button" class="btn btn-xs btn-danger" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')"><i class="fa fa-trash"></i></button>
                                         </div>
                                     </div>

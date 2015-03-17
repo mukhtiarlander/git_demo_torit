@@ -624,15 +624,15 @@ function PinForumTopic(link, topicId, pin) {
     $.getJSON("/forum/PinForumTopic", { forumId: forumId, topicId: topicId, pin: pin }, function (result) {
         if (result.isSuccess === true) {
             if (pin == "true") {
-                $(link).html("<i class='fa fa-times-circle'></i>");
+                $(link).html("<i class='fa fa-thumb-tack fa-rotate-90'></i>");
                 $(link).attr('onclick', "javascript:PinForumTopic(this,'" + topicId + "', 'false')");
                 $(link).attr('data-original-title', "UnPin");
-                $("#forum-title-" + topicId).append('<i id="pinned-icon-' + topicId + '" class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
+                $("#forum-title-" + topicId).append('<i id="pinned-icon-' + topicId + '" class="fa fa-thumb-tack text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
                 $("#pinned-icon-" + topicId).tooltip('show');
             }
             else
             {
-                $(link).html("<i class='fa fa-check-circle'></i>");
+                $(link).html("<i class='fa fa-thumb-tack'></i>");
                 $(link).attr('data-original-title', "Pin");
                 $(link).attr('onclick', "javascript:PinForumTopic(this,'" + topicId + "', 'true')");
                 $("#pinned-icon-" + +topicId).remove();
@@ -645,7 +645,20 @@ function LockForumTopic(link, topicId, loc) {
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/LockForumTopic", { forumId: forumId, topicId: topicId, lockTopic: loc }, function (result) {
         if (result.isSuccess === true) {
-            $(link).remove();
+            if (loc == "true") {
+                $(link).html("<i class='fa fa-unlock'></i>");
+                $(link).attr('onclick', "javascript:LockForumTopic(this,'" + topicId + "', 'false')");
+                $(link).attr('data-original-title', "Unlock");
+                $("#forum-title-" + topicId).append('<i id="locked-icon-' + topicId + '" class="fa fa-lock text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Locked"></i>');
+                $("#locked-icon-" + topicId).tooltip('show');
+            }
+            else {
+                $(link).html("<i class='fa fa-lock'></i>");
+                $(link).attr('data-original-title', "Lock");
+                $(link).attr('onclick', "javascript:LockForumTopic(this,'" + topicId + "', 'true')");
+                $("#locked-icon-" + +topicId).remove();
+                $(".tooltip").fadeOut();
+            }
         }
     });
 }
@@ -699,7 +712,7 @@ var Forum = new function () {
         if (item.IsLocked === true)
             firstColumn.append('<i class="fa fa-lock text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Locked"></i>');
         if (item.IsPinned === true)
-            firstColumn.append(' <i id="pinned-icon-' + item.TopicId + '" class="fa fa-check-circle text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
+            firstColumn.append(' <i id="pinned-icon-' + item.TopicId + '" class="fa fa-thumb-tack text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
         row.append(firstColumn);
 
         var catColumn = $(document.createElement('td'));
@@ -755,9 +768,9 @@ var Forum = new function () {
                 sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read"  onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')"> <i class="fa fa-check-square-o"></i></button>');
 
             if (item.IsPinned)
-                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-times-circle"></i></button>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-thumb-tack fa-rotate-90"></i></button>');
             else
-                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Pin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-check-circle"></i></button>');
+                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Pin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-thumb-tack"></i></button>');
 
             if (item.IsLocked)
                 sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Unlock" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-unlock"></i></button>');
@@ -772,6 +785,7 @@ var Forum = new function () {
             sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="javascript:Forum.RemoveForumTopic(this, \'' + item.TopicId + '\')"><i class="fa fa-trash"></i></button>');
         }
         row.append(sevenColumn);
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
 
@@ -1030,6 +1044,8 @@ function stripeResponseHandler(status, response) {
 function selectSubOption(div, price) {
     $(".subscribtion-type").removeClass('panel-primary');
     $(".subscribtion-type").addClass('panel-default');
+    $(".billing-choose-action-div").html('<button type="button" class="btn btn-default">Choose</button>');
+    $(div).children('.panel-body').children('.billing-choose-action-div').html('<i class="fa fa-check-circle text-warning font32"></i>');
     $(div).removeClass('panel-default');
     $(div).addClass('panel-primary');
     var parentOfDiv = $(div).parent();
@@ -1038,6 +1054,7 @@ function selectSubOption(div, price) {
     });
     $(div).toggleClass("subOptionSel");
     $('.dueAmount').text(price);
+
 }
 
 function GetCurrentDateTime() {
@@ -1145,14 +1162,16 @@ function PostInternalMessage() {
     $("#inputNewMessage").focus();
     message = message.replace(/\n\r?/g, '<br />');
     var newMess = "";
-    if (lastMessageNameId != to) {
-        newMess += '<span class="messName">' + fromName + '</span>';
-        newMess += '<span class="messCreated">' + GetCurrentDateTime() + '</span>';
+    if (lastMessageNameId != to) 
+        {
+        newMess += '<div class=" margin-top-10 margin-bottom-10"><span class="label label-default">' +GetCurrentDateTime() + '</span></div>'
+        newMess += '<div class="b margin-top-10 margin-bottom-5">' + fromName + '</div>';
+        newMess += '<div style="border-top:1px solid #eee; height:5px;"></div>';
     }
-    newMess += '<span class="messText clear">' + message + '</span>';
+    newMess += '<div class="text-muted">' + message + '</div>';
 
     $("#messagesAdd").append(newMess);
-    var objDiv = document.getElementById("messageView");
+    var objDiv = document.getElementById("messagesAdd");
     objDiv.scrollTop = objDiv.scrollHeight;
     lastMessageNameId = to;
 }
@@ -2304,9 +2323,9 @@ var Calendar = new function () {
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
                     if (currentIds.indexOf(this[1]) === -1)
-                        gList.append("<li><label><input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                        gList.append("<li><label style='font-weight:normal'><input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0] + "</label></li>");
                     else { // if the group already is in the event.
-                        gList.append("<li><label><input checked='checked' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                        gList.append("<li><label style='font-weight:normal'><input  checked='checked' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0] + "</label></li>");
                         var group = { name: this[0], idd: this[1] };
                         groupsSelectedIds.push(group);
                     }
@@ -2319,9 +2338,9 @@ var Calendar = new function () {
         var gList = $("#groupList");
         $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
             if (result.isSuccess === true) {
-                gList.append("<li><label><input groupName='Entire League' id='0' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' >Entire League</label></li>");
+                gList.append("<li><label class='no-bold'><input groupName='Entire League' id='0' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' > Entire League</label></li>");
                 $(result.groups).each(function () {
-                    gList.append("<li><label><input groupName='" + this[0] + "' id='" + this[1] + "' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' >" + this[0] + "</label></li>");
+                    gList.append("<li><label class='no-bold'><input groupName='" + this[0] + "' id='" + this[1] + "' name='groupToReportOn' onchange='Calendar.ChangeGroupDictionaryItemReport(this)' type='radio' > " + this[0] + "</label></li>");
                 });
             }
         }).error(function () {
@@ -2346,11 +2365,11 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="label label-primary">' + val.name + ',</span> ';
+                text += '<span class="label label-primary font12 padding-top-5">' + val.name + '</span> ';
                 ids += val.idd + ",";
             });
         } else {
-            text += '<span class="label label-primary">Entire League</span> ';
+            text += '<span class="label label-primary font12 padding-top-5">Entire League</span> ';
         }
 
         if (document.getElementById('ToMemberNamesSelected') !== null)
@@ -2372,12 +2391,12 @@ var Calendar = new function () {
         var ids = "";
         if (groupsSelectedIds.length > 0) {
             $.each(groupsSelectedIds.reverse(), function (i, val) {
-                text += '<span class="label label-primary">' + val.name + '</span> ';
+                text += '<span class="label label-primary font12 padding-top-5">' + val.name + '</span> ';
                 ids += val.idd + ",";
             });
             $("#pullGroupEvents").toggleClass("displayNone", false);
         } else {
-            text += '<span class="label label-primary">Entire League</span> ';
+            text += '<span class="label label-primary font12 padding-top-5">Entire League</span> ';
             $("#pullGroupEvents").toggleClass("displayNone", true);
         }
 
@@ -2399,7 +2418,7 @@ var Messages = new function () {
         $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
-                    gList.append("<li class='group-icon'><label><i class='fa fa-group'></i>&nbsp;<input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                    gList.append("<li class='group-icon' style='list-style: none;'><label><i  class='fa fa-group'></i>&nbsp;<input style='position: absolute;left: 0;margin-left: 0;opacity: 0;z-index: 2;cursor: pointer;height: 1em;width: 1em;top: 0;' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
                 });
             }
         }).error(function () {

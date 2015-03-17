@@ -33,6 +33,9 @@
                             <b>
                                 $10.99/mo
                             </b>
+                            <div class="billing-choose-action-div margin-top-10">
+                                <i class="fa fa-check-circle text-warning font32"></i>
+                            </div>
                         </div>
                         <div class="panel-footer">
                             one payment of $131.99
@@ -49,6 +52,9 @@
                             <b>
                                 $11.99/mo
                             </b>
+                            <div class="billing-choose-action-div margin-top-10">
+                                <button type="button" class="btn btn-default">Choose</button>
+                            </div>
                         </div>
                         <div class="panel-footer">
                             one payment of $71.99
@@ -66,6 +72,9 @@
                             <b>
                                 $13.99/mo
                             </b>
+                            <div class="billing-choose-action-div margin-top-10">
+                                <button type="button" class="btn btn-default">Choose</button>
+                            </div>
                         </div>
                         <div class="panel-footer">
                             one payment of $41.99
@@ -80,8 +89,11 @@
                         </div>
                         <div class="panel-body font20">
                             <b>
-                                15.9/mo
+                                $15.9/mo
                             </b>
+                            <div class="billing-choose-action-div margin-top-10">
+                                <button type="button" class="btn btn-default">Choose</button>
+                            </div>
                         </div>
                         <div class="panel-footer">
                             one payment of $15.99
@@ -243,7 +255,7 @@
                 <button type="submit" class="btn btn-success" ><i class="fa fa-check-circle-o"></i> Subscribe Now</button>
             </div>
             <span id="working1" class="displayNone" ><i class="fa fa-spinner fa-spin fa-lg"></i></span>
-            <div class="margin-top-10">Amount Due: <span class="b">$131.99</span></div>
+            <div class="margin-top-10 ">Amount Due: <span class="b dueAmount">$131.99</span></div>
         </div>
         @Html.HiddenFor(x => x.AddSubscriptionOwnerId)
         @Html.HiddenFor(x => x.AddSubscriptionOwnerName)
@@ -495,7 +507,7 @@
                 <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o"></i> Subscribe Now</button>
             </div>
             <span id="working" class="displayNone"><i class="fa fa-spinner fa-spin fa-lg"></i></span>
-            <div class="margin-top-10">Amount Due: <span class="b">$131.99</span></div>
+            <div class="margin-top-10">Amount Due: <span class="b dueAmount">$131.99</span></div>
         </div>
     }
     </div>

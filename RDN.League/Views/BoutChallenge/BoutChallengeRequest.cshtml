@@ -79,20 +79,21 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered)<span class="i">Leagues like hang over bouts the next day.  Can your league offer one?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered) <span class="i">Leagues like hang over bouts the next day.  Can your league offer one?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsAwayGame)<span class="i">Looking for an Away game rather than a home game?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsAwayGame) <span class="i">Looking for an Away game rather than a home game?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.DisplayToPublic)<span class="i">Will be shown publicly to anyone visiting RDNation.com.</span></label>
+                                <label>@Html.CheckBoxFor(x => x.DisplayToPublic) <span class="i">Will be shown publicly to anyone visiting RDNation.com.</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
+                            <div class="form-label margin-bottom-5">Rule Set</div>
                             <div class="margin-bottom-15">
                                 @Html.DropDownListFor(x => x.RuleSetId, new SelectList(ViewBag.RuleSets, "Value", "Text"), new { @class="full-width"})
                             </div>
