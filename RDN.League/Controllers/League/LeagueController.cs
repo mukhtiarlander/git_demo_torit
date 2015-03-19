@@ -1852,7 +1852,7 @@ namespace RDN.League.Controllers
                 leag.Facebook = league.Facebook;
                 leag.RuleSetsPlayedEnum = league.RuleSetsPlayedEnum;
                 leag.CultureSelected = league.CultureSelected;
-
+                leag.ThemeColor = league.ThemeColor;
                 ViewBag.Saved = false;
                 var colors = ColorDisplayFactory.GetColors();
                 leag.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
