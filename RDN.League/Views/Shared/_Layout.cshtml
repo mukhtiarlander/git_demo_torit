@@ -55,7 +55,7 @@
     <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" />
     <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" />
 </head>
-<body>
+<body id="navbar-theme">
     @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
@@ -72,326 +72,317 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="@Url.Content("~/")">
-                    <img alt="Brand" height="25" src="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+                    <img alt="Brand" style="height:50px" src="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="nav navbar-nav ">
+                <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@System.Configuration.ConfigurationManager.AppSettings["WebsiteShortName"]<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Portable.Config.ServerConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
-                                    <img src="@Url.Content("~/Content/images/icons/forum.png")" class="img-responsive pull-left" alt="Forum" /> Forum
+                                    <i class="fa fa-bullhorn"></i> Forum
                                 </a>
                             </li>
                         </ul>
                     </li>
                     @if (isConnected)
                     {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/member/" + memId.ToString().Replace("-", ""))" title="View Member">
-                                        <img src="@Url.Content("~/Content/images/icons/user.png")" class="img-responsive pull-left" alt="view" /> @member.DerbyName
-                                    </a>
-                                </li>
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlUser(memId))" title="Your Shop">
-                                        <img src="@Url.Content("~/Content/images/icons/Shop.png")" class="img-responsive pull-left" alt="Your Shop" /> Shop
-                                    </a>
-                                </li>
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/member/edit")" title="Edit Member">
-                                        <img src="@Url.Content("~/Content/images/icons/user.png")" class="img-responsive pull-left" alt="edit" /> Edit
-                                    </a>
-                                </li>
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/member/settings")" title="Settings">
-                                        <img src="@Url.Content("~/Content/images/icons/settings.png")" class="img-responsive pull-left" alt="settings" /> Settings
-                                    </a>
-                                </li>
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/member/medical")" title="Medical">
-                                        <img src="@Url.Content("~/Content/images/icons/medical.png")" class="img-responsive pull-left" alt="medical" />Medical
-                                    </a>
-                                </li>
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/member/contacts")" title="Contacts">
-                                        <img src="@Url.Content("~/Content/images/icons/contacts.png")" class="img-responsive pull-left" alt="contacts" />Contacts
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="@Url.Content("~/member/" + memId.ToString().Replace("-", ""))" title="View Member">
+                                    <i class="fa fa-user"></i> @member.DerbyName
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlUser(memId))" title="Your Shop">
+                                    <i class="fa fa-shopping-cart"></i> Shop
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Content("~/member/edit")" title="Edit Member">
+                                    <i class="fa fa-group"></i> Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Content("~/member/settings")" title="Settings">
+                                    <i class="fa fa-cog"></i> Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Content("~/member/medical")" title="Medical">
+                                    <i class="fa fa-medkit"></i> Medical
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Content("~/member/contacts")" title="Contacts">
+                                    <i class="fa fa-group"></i> Contacts
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     }
                     @if ((isConnected && !MemberCache.HasOwnersOfLeague(memId, MemberCache.GetLeagueIdOfMember(memId))))
                     {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">League<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/league/setup")" title="Setup League">
-                                        <img src="@Url.Content("~/Content/images/icons/setup.png")" class="img-responsive pull-left" alt="Setup League" />Setup
-                                    </a>
-                                </li>
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/league/join")" title="Join League">
-                                        <img src="@Url.Content("~/Content/images/icons/join.png")" class="img-responsive pull-left" alt="Join League" />Join
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">League<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="@Url.Content("~/league/setup")" title="Setup League">
+                                    <i class="fa fa-wrench"></i> Setup
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Content("~/league/join")" title="Join League">
+                                    <i class="fa fa-check-circle"></i> Join
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     }
                     else if (MemberCache.GetLeagueIdOfMember(memId) != new Guid())
                     {
-                        <li class="dropdown ">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">League<span class="caret"></span></a>
-                            <ul class="dropdown-menu ">
-                                <li class="navIcon">
-                                    <div class="yamm-content">
-                                        <div class="row">
-                                            <ul class="col-sm-4 list-unstyled">
-                                                <li><b>Personal</b></li>
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">League<span class="caret"></span></a>
+                        <ul class="dropdown-menu multi-column columns-3">
+                            <div class="row no-margin">
+                                <div class="col-sm-4 no-padding">
+                                    <ul class="multi-column-dropdown">
+                                        <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Personal</li>
 
-                                                <li>
-                                                    <a href="@Url.Content("~/")" title="League Home">
-                                                        <img src="@Url.Content("~/Content/images/icons/home.png")" class="img-responsive pull-left" alt="League Home" />Home
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View && isPaid)
-                                                    {
-                                                        <a href="@Url.Content("~/calendar/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
-                                                            <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
-                                                        </a>
-                                                    }
-                                                    else if (isPaid)
-                                                    {
-                                                        <a href="@Url.Content("~/calendar/view/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
-                                                            <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Calendar">
-                                                            <img src="@Url.Content("~/Content/images/icons/calendar.png")" class="img-responsive pull-left" alt="Calendar" />Calendar
-                                                        </a>
-                                                    }
-                                                </li>
+                                        <li>
+                                            <a href="@Url.Content("~/")" title="League Home">
+                                                <i class="fa fa-home"></i> Home
+                                            </a>
+                                        </li>
+                                        <li>
+                                            @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View && isPaid)
+                                        {
+                                        <a href="@Url.Content("~/calendar/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
+                                            <i class="fa fa-calendar"></i> Calendar
+                                        </a>
+                                        }
+                                        else if (isPaid)
+                                        {
+                                        <a href="@Url.Content("~/calendar/view/" + RDN.Portable.Classes.Controls.Calendar.Enums.CalendarOwnerEntityEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetCalendarIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Calendar">
+                                            <i class="fa fa-calendar"></i> Calendar
+                                        </a>
+                                        }
+                                        else
+                                        {
+                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Calendar">
+                                            <i class="fa fa-calendar"></i> Calendar
+                                        </a>
+                                        }
+                                        </li>
 
-                                                @if (MemberCache.IsDuesManagementLockedDown(memId) && !isTreas && isPaid)
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/dues/member/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "/" + memId.ToString().Replace("-", ""))" title="Dues">
-                                                            <img src="@Url.Content("~/Content/images/icons/Wallet.png")" class="img-responsive pull-left" alt="Dues" />Dues
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else if (isPaid)
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/dues/" + RDN.Library.Classes.Dues.Enums.DuesOwnerEntityEnum.league.ToString() + "/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))" title="Dues Management">
-                                                            <img src="@Url.Content("~/Content/images/icons/Wallet.png")" class="img-responsive pull-left" alt="Dues" />Dues
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Dues Management">
-                                                            <img src="@Url.Content("~/Content/images/icons/Wallet.png")" class="img-responsive pull-left" alt="Dues Management" />Dues
-                                                        </a>
-                                                    </li>
-                                                }
-                                                <li class="navIcon">
-                                                    <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetForumIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Forum">
-                                                        <img src="@Url.Content("~/Content/images/icons/forum.png")" class="img-responsive pull-left" alt="Forum" />Forum
-                                                    </a>
-                                                </li>
-
-
-
-                                            </ul>
-                                            <ul class="col-sm-4 list-unstyled">
-                                                <li><b>League</b></li>
-                                                <li>
-                                                    @if (isPaid)
-                                                    {
-                                                        <a href="@Url.Content("~/league/contacts")" title="Contacts">
-                                                            <img src="@Url.Content("~/Content/images/icons/contacts.png")" class="img-responsive pull-left" alt="contacts" />Contacts
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Contacts">
-                                                            <img src="@Url.Content("~/Content/images/icons/contacts.png")" class="img-responsive pull-left" alt="contacts" />Contacts
-                                                        </a>
-                                                    }
-                                                </li>
-                                                <li>
-                                                    @if (isPaid)
-                                                    {
-                                                        <a href="@Url.Content("~/league/documents/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))" title="Documents">
-                                                            <img src="@Url.Content("~/Content/images/icons/docs.png")" class="img-responsive pull-left" alt="Documents" />Docs
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Documents">
-                                                            <img src="@Url.Content("~/Content/images/icons/docs.png")" class="img-responsive pull-left" alt="Documents" />Docs
-                                                        </a>
-                                                    }
-                                                </li>
-                                                <li class="navIcon">
-                                                    <a href="@Url.Content("~/Game/View/All/league")" title="Games">
-                                                        <img src="@Url.Content("~/Content/images/icons/games.png")" class="img-responsive pull-left" alt="Games" />Games
-                                                    </a>
-                                                </li>
-                                                <li class="navIcon">
-                                                    <a href="@Url.Content("~/league/inventory/all")" title="Inventory">
-                                                        <img src="@Url.Content("~/Content/images/icons/inventory.png")" class="img-responsive pull-left" alt="Inventory" />Inventory
-
-                                                    </a>
-                                                </li>
-                                                @if (isPaid)
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/league/jobboard/")" title="Jobs">
-                                                            <img src="@Url.Content("~/Content/images/icons/job.png")" class="img-responsive pull-left" alt="Jobs" />Jobs
-                                                            @if (MemberCache.GetJobsCount(memId) > 0)
-                                                            {<span class="badge">@MemberCache.GetJobsCount(memId)</span>}
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/billing/league/" + leagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Jobs">
-                                                            <img src="@Url.Content("~/Content/images/icons/job.png")" class="img-responsive pull-left" alt="jobs" />Jobs
-                                                        </a>
-                                                    </li>
-                                                }
-                                                <li class="navIcon">
-                                                    <a href="@Url.Content("~/league/members/view/all")" title="Members">
-                                                        <img src="@Url.Content("~/Content/images/icons/users.png")" class="img-responsive pull-left" alt="Members" />Members
-                                                    </a>
-                                                </li>
-                                                @if (isPaid)
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/poll/" + leagueId)" title="Polls">
-                                                            <img src="@Url.Content("~/Content/images/icons/poll.png")" class="img-responsive pull-left" alt="Polls" />Polls
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/billing/league/" + leagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Polls">
-                                                            <img src="@Url.Content("~/Content/images/icons/poll.png")" class="img-responsive pull-left" alt="polls" />Polls
-                                                        </a>
-                                                    </li>
-                                                }
-
-
-                                                @if (isPaid)
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/league/sponsors")" title="Sponsors">
-                                                            <img src="@Url.Content("~/Content/images/icons/addsponsor.png")" class="img-responsive pull-left" alt="Sponsors" />Sponsors
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/billing/league/" + leagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Sponsors">
-                                                            <img src="@Url.Content("~/Content/images/icons/addsponsor.png")" class="img-responsive pull-left" alt="sponsors" />Sponsors
-                                                        </a>
-                                                    </li>
-                                                }
-
-                                            </ul>
-
-                                            <ul class="col-sm-4 list-unstyled">
-                                                <li><b>Manage</b></li>
-
-                                                @if (isSec)
-                                                {
-                                                    <li>
-                                                        <a href="@Url.Content("~/league/edit/" + leagueId)" title="Edit League">
-                                                            <img src="@Url.Content("~/Content/images/icons/edit_league.png")" class="img-responsive pull-left" alt="Edit League" />Edit
-                                                        </a>
-                                                    </li>
-                                                }
-                                                @if (isShopMan)
-                                                {
-                                                    <li class="navIcon">
-                                                        <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlLeague(memId))" title="League Shop">
-                                                            <img src="@Url.Content("~/Content/images/icons/Shop.png")" class="img-responsive pull-left" alt="Shop" />Shop
-                                                        </a>
-                                                    </li>
-                                                }
-
-                                                <li class="navIcon">
-                                                    <a href="@Url.Content("~/billing/league/" + leagueId)" title="Subscription">
-                                                        <img src="@Url.Content("~/Content/images/icons/subscribe.png")" class="img-responsive pull-left" alt="Subscription" />Subscribe
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
+                                        @if (MemberCache.IsDuesManagementLockedDown(memId) && !isTreas && isPaid)
+                                    {
+                                    <li>
+                                        <a href="@Url.Content("~/dues/member/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "/" + memId.ToString().Replace("-", ""))" title="Dues">
+                                            <i class="fa fa-money"></i> Dues
+                                        </a>
+                                    </li>
+                                    }
+                                    else if (isPaid)
+                                    {
+                                    <li>
+                                        <a href="@Url.Content("~/dues/" + RDN.Library.Classes.Dues.Enums.DuesOwnerEntityEnum.league.ToString() + "/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))" title="Dues Management">
+                                            <i class="fa fa-money"></i> Dues
+                                        </a>
+                                    </li>
+                                    }
+                                    else
+                                    {
+                                    <li>
+                                        <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Dues Management">
+                                            <i class="fa fa-money"></i> Dues
+                                        </a>
+                                    </li>
+                                    }
+                                        <li>
+                                            <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league.ToString() + "/" + RDN.Library.Cache.MemberCache.GetForumIdForMemberLeague(memId).ToString().Replace("-", ""))" title="Forum">
+                                                <i class="fa fa-files-o"></i> Forum
+                                            </a>
+                                        </li>
 
 
 
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4 no-padding">
+                                    <ul class="multi-column-dropdown">
+                                        <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">League</li>
+                                        <li>
+                                            @if (isPaid)
+                                            {
+                                                <a href="@Url.Content("~/league/contacts")" title="Contacts">
+                                                    <i class="fa fa-group class=" text-center""=text-center""></i> Contacts
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Contacts">
+                                                    <i class="fa fa-group "></i> Contacts
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @if (isPaid)
+                                            {
+                                                <a href="@Url.Content("~/league/documents/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))" title="Documents">
+                                                    <i class="fa fa-file-word-o"></i> Docs
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Documents">
+                                                    <i class="fa fa-file-word-o"></i> Docs
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Content("~/Game/View/All/league")" title="Games">
+                                                <i class="fa fa-gamepad"></i> Games
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Content("~/league/inventory/all")" title="Inventory">
+                                                <i class="fa fa-cubes"></i> Inventory
+
+                                            </a>
+                                        </li>
+                                        @if (isPaid)
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/league/jobboard/")" title="Jobs">
+                                                    <i class="fa fa-suitcase"></i> Jobs
+                                                    @if (MemberCache.GetJobsCount(memId) > 0)
+                                                    {<span class="badge">@MemberCache.GetJobsCount(memId)</span>}
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/billing/league/" + leagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Jobs">
+                                                    <i class="fa fa-suitcase"></i> Jobs
+                                                </a>
+                                            </li>
+                                        }
+                                        <li>
+                                            <a href="@Url.Content("~/league/members/view/all")" title="Members">
+                                                <i class="fa fa-group"></i> Members
+                                            </a>
+                                        </li>
+                                        @if (isPaid)
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/poll/" + leagueId)" title="Polls">
+                                                    <i class="fa fa-check-square"></i> Polls
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/billing/league/" + leagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Polls">
+                                                    <i class="fa fa-check-square"></i> Polls
+                                                </a>
+                                            </li>
+                                        }
 
 
+                                        @if (isPaid)
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/league/sponsors")" title="Sponsors">
+                                                    <i class="fa fa-bank"></i> Sponsors
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/billing/league/" + leagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Sponsors">
+                                                    <i class="fa fa-bank"></i> Sponsors
+                                                </a>
+                                            </li>
+                                        }
 
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4 no-padding">
+                                    <ul class="multi-column-dropdown">
+                                        <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Manage</li>
 
+                                        @if (isSec)
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/league/edit/" + leagueId)" title="Edit League">
+                                                    <i class="fa fa-pencil-square"></i> Edit
+                                                </a>
+                                            </li>
+                                        }
+                                        @if (isShopMan)
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlLeague(memId))" title="League Shop">
+                                                    <i class="fa fa-shopping-cart"></i> Shop
+                                                </a>
+                                            </li>
+                                        }
 
-
-
-                            </ul>
-                        </li>
+                                        <li>
+                                            <a href="@Url.Content("~/billing/league/" + leagueId)" title="Subscription">
+                                                <i class="fa fa-bookmark"></i> Subscribe
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
                     }
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Message
                             @if (MemberCache.GetUnreadMessagesCount(memId) > 0)
-                            {<span class="badge">@MemberCache.GetUnreadMessagesCount(memId)</span>}
+                            {<span class="label label-warning margin-left-5">@MemberCache.GetUnreadMessagesCount(memId)</span>}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))" title="View Messages">
-                                    <img src="@Url.Content("~/Content/images/icons/message.png")" class="img-responsive pull-left" alt="View Messages" />Messages
+                                    <i class="fa fa-comments"></i> Messages
                                     @if (MemberCache.GetUnreadMessagesCount(memId) > 0)
-                                    {<span class="badge">@MemberCache.GetUnreadMessagesCount(memId)</span>}
+                                    {<span class="label label-warning margin-left-5">@MemberCache.GetUnreadMessagesCount(memId)</span>}
                                 </a>
                             </li>
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/messages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))" title="New Message">
-                                    <img src="@Url.Content("~/Content/images/icons/message-add.png")" class="img-responsive pull-left" alt="New Message" />New
+                                    <i class="fa fa-comment"></i> New
                                 </a>
                             </li>
                             @if (isPaid)
                             {
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))" title="New Text Message">
-                                        <img src="@Url.Content("~/Content/images/icons/textmessage.png")" class="img-responsive pull-left" alt="New Text Message" />Texts
-                                    </a>
-                                </li>
+                            <li>
+                                <a href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member.ToString() + "/" + memId.ToString().Replace("-", ""))" title="New Text Message">
+                                    <i class="fa fa-mobile-phone"></i> Texts
+                                </a>
+                            </li>
                             }
                             else
                             {
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="New Text Message">
-                                        <img src="@Url.Content("~/Content/images/icons/textmessage.png")" class="img-responsive pull-left" alt="New Text Message" />Text
-                                    </a>
-                                </li>
+                            <li>
+                                <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="New Text Message">
+                                    <i class="fa fa-mobile-phone"></i> Text
+                                </a>
+                            </li>
                             }
                         </ul>
 
@@ -400,46 +391,46 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
 
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/boutchallenge/view/all")" title="Bout Challenges">
-                                    <img src="@Url.Content("~/Content/images/icons/challenge.png")" class="img-responsive pull-left" alt="Bout Challenge" />Challenge
+                                    <i class="fa fa-thumbs-up"></i> Challenge
                                     @if (ManagementCache.GetBoutChallengesCount() > 0)
                                     {<span class="label label-default pull-right">@ManagementCache.GetBoutChallengesCount()</span>}
                                 </a>
                             </li>
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/officiating/requests")" title="Officials Needed">
-                                    <img src="@Url.Content("~/Content/images/icons/whistle.png")" class="img-responsive pull-left" alt="Officials Needed" />Officials
+                                    <i class="fa fa-table"></i> Officials
                                     @if (ManagementCache.GetOfficiatingRequestsCount() > 0)
                                     {<span class="messageSpan">@ManagementCache.GetOfficiatingRequestsCount()</span>}
                                 </a>
                             </li>
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/game/upload")" title="Upload Game">
-                                    <img src="@Url.Content("~/Content/images/icons/upload.png")" class="img-responsive pull-left" alt="Upload Game" />Upload
+                                    <i class="fa fa-upload"></i> Upload
                                 </a>
                             </li>
                             @if (isConnected)
                             {
-                                <li class="navIcon">
-                                    <a href="@Url.Content("~/game/view/all/skater")" title="Games Played">
-                                        <img src="@Url.Content("~/Content/images/icons/played.png")" class="img-responsive pull-left" alt="Games Played" />Played
-                                    </a>
-                                </li>
+                            <li>
+                                <a href="@Url.Content("~/game/view/all/skater")" title="Games Played">
+                                    <i class="fa fa-check-circle"></i> Played
+                                </a>
+                            </li>
                             }
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/game/manage/all")" title="Games Owned">
-                                    <img src="@Url.Content("~/Content/images/icons/owned.png")" class="img-responsive pull-left" alt="Games Owned" />Owned
+                                    <i class="fa fa-user"></i> Owned
                                 </a>
                             </li>
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/tournament/view/all")" title="Tournaments Owned">
-                                    <img src="@Url.Content("~/Content/images/icons/brackets.png")" class="img-responsive pull-left" alt="Tournaments Owned" />Tournys
+                                    <i class="fa fa-calendar"></i> Tournys
                                 </a>
                             </li>
-                            <li class="navIcon">
+                            <li>
                                 <a href="@Url.Content("~/paywall/all")" title="Paywall for Streaming Online Content">
-                                    <img src="@Url.Content("~/Content/images/icons/wall.png")" class="img-responsive pull-left" alt="Paywall for Streaming Online Content" />Paywalls
+                                    <i class="fa fa-paypal"></i> Paywalls
                                 </a>
                             </li>
 
@@ -454,16 +445,15 @@
                         <ul class="dropdown-menu" role="menu">
                             @foreach (var league in leagues)
                             {
-                                <li class="navIcon"><a href="@Url.Content("~/league/change/" + league.LeagueId.ToString().Replace("-", ""))">Switch To @league.Name</a></li>
+                            <li><a href="@Url.Content("~/league/change/" + league.LeagueId.ToString().Replace("-", ""))">Switch To @league.Name</a></li>
                             }
-                            <li class="navIcon"><a href="@Url.Content("~/member/settings")">Settings</a></li>
-                            <li class="navIcon"><a href="@Url.Content("~/member/password")">Change Password</a></li>
-                            <li class="navIcon"><a href="@Url.Content("~/member/username")">Change Email</a></li>
-                            <li class="navIcon"><a href="@Url.Content("~/league/join")">Join League</a></li>
-                            <li class="navIcon"><a href="@Url.Content("~/account/logout")">Logout</a></li>
-                            <li class="navIcon">
+                            <li><a href="@Url.Content("~/member/settings")"><i class="fa fa-cogs"></i> Settings</a></li>
+                            <li><a href="@Url.Content("~/member/password")"><i class="fa fa-key"></i> Change Password</a></li>
+                            <li><a href="@Url.Content("~/member/username")"><i class="fa fa-envelope"></i> Change Email</a></li>
+                            <li><a href="@Url.Content("~/account/logout")"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            <li>
                                 <a href="@RDN.Portable.Config.ServerConfig.WIKI_URL" title="Help" target="_blank">
-                                    Help
+                                    <i class="fa fa-question-circle"></i> Help
                                 </a>
                             </li>
                         </ul>
@@ -489,18 +479,12 @@
     </div>
 
 
-    <div class="container-fluid footer">
-        <br />
-        <div class="text-center white">
-            Questions, Comments or Concerns? Feel Free to Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>
-        </div>
-        <br />
-        <h3 class="text-center"><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION ">Shops at RDNation</a></h3>
+    <div class="container-fluid footer padding-top-15 padding-bottom-10 text-center">
         <div class="row">
             @foreach (var item in storeItems.StoreItems)
             {
                 <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail">
+                    <div class="thumbnail" style="background-color:#5B6A77; border-color:#8B9AA7">
                         <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                             @if (item.Photos.Count > 0 && item.Photos[0] != null)
                             {
@@ -508,19 +492,25 @@
                             }
                         </a>
                         <div class="caption">
-                            <h4><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a></h4>
-                            <p><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a></p>
-                            <p>
+                            <p style="color:#f9f9f9; font-weight:bold;font-size:20px;">
 
                                 @if (item.Currency == "USD")
                                 {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
                             </p>
-                        </div>
+                            <h4 style="color:#ddd">@item.NameTrimmed</h4>
+                            <p>
+                                <a style="color:#313940" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                            </p>
+                            <a class="btn btn-info btn-sm" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">Buy</a>
+                           </div>
                     </div>
                 </div>
             }
         </div>
-
+        <a class="btn btn-warning btn-lg margin-bottom-10" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION "><i class="fa fa-shopping-cart"></i> Shops at RDNation</a>
+        <div class="white padding-bottom-10">
+            Questions, Comments or Concerns? Feel Free to Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>
+        </div>
     </div>
     <script type="text/javascript">
 
@@ -546,7 +536,31 @@
     </script>
     <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=League Feedback" target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>
     @MiniProfiler.RenderIncludes()
-    </div>
+    <div id="ThemeBox" style="width:210px;position:fixed;right:-170px;top:170px;">
+        <div onclick="ShowThemeBox()" style="background-color:#aaa;height:40px;top:38px;padding-top:7px;text-align:center; width:40px;position:absolute;color:white;">
+            <i class="fa fa-cog fa-2x"></i>
+        </div>
+        <div style="background-color:#eee;padding-bottom:5px;width:170px;float:right">
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#3498db" onclick="HideThemeBox('theme1','#3498db')"></div>
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#F6BB43" onclick="HideThemeBox('theme2', '#F6BB43')"></div>
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#34BC9B" onclick="HideThemeBox('theme3', '#34BC9B')"></div>
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#E7573E" onclick="HideThemeBox('theme4', '#E7573E')"></div>
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#8CC152" onclick="HideThemeBox('theme5', '#8CC152')"></div>
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#2c3e50" onclick="HideThemeBox('theme6', '#2c3e50')"></div>
+            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#9b59b6" onclick="HideThemeBox('theme7', '#9b59b6')"></div>
+        </div>
+        <script>
+            function ShowThemeBox() {
+                $("#ThemeBox").animate({ right: '0px' });
+            }
+            function HideThemeBox(theme,color) {
+                $('body').removeClass();
+                $('body').addClass(theme);
+                $(".footer").css('background-color', '#313940');
+                $("#ThemeBox").animate({ right: '-170px' });
+            }
+        </script>
     </div>
 </body>
+
 </html>

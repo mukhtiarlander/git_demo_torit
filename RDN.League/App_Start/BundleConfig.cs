@@ -9,9 +9,11 @@ namespace RDN.League
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-1.11.1.min.js",
-                        "~/Scripts/knockout-2.1.0.js",
-                        "~/Scripts/knockout/knockout.mapping-2.4.1.js",
+                        "~/Scripts/jquery-{version}.js",
+                        "~/content/jquery-ui.min.js",
+                        "~/Scripts/Knockout-{version}.js",
+                        "~/Scripts/Knockout.mapping-{version}.js",
+                        "~/Scripts/jquery/jquery.fileupload.js",
                         "~/Scripts/jquery.numeric.js",
                         "~/Scripts/jquery.validate.min.js",
                         "~/Scripts/jquery.validate.unobtrusive.min.js",

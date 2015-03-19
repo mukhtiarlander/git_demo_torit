@@ -1315,6 +1315,7 @@
             // will do for up to 100 unique post titles
             for (int i = 1; i < 101; i++)
             {
+
                 if (IsUniqueSlug(s, postId))
                     break;
 
@@ -2011,8 +2012,10 @@
         /// <returns>True if unique</returns>
         private static bool IsUniqueSlug(string slug, Guid postId)
         {
-            return Post.ApplicablePosts.Where(p => p.slug != null && p.slug.ToLower() == slug.ToLower()
-                && p.Id != postId).FirstOrDefault() == null ? true : false;
+            if (!String.IsNullOrEmpty(slug))
+                return Post.ApplicablePosts.Where(p => p != null && p.slug != null && p.slug.ToLower() == slug.ToLower()
+                    && p.Id != postId).FirstOrDefault() == null ? true : false;
+            return true;
         }
 
         #endregion
