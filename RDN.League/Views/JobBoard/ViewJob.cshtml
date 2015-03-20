@@ -3,68 +3,56 @@
     ViewBag.Title = "View Job Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/league/jobboard")">All Jobs</a>
-        </div>
-    </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-           Job Details
-        </div>
-        <div class="tvChanges">
-            <div class="navIcons">
-                <a title="Contact" href="@Url.Content("~/messages/new/jobboard/"+ Model.JobCreator.ToString().Replace("-", ""))">
-                    <img  src="@Url.Content("~/Content/images/icons/contact.png")"  />Contact
-                </a>
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/jobboard")">Jobs</a></li>
+    <li class="active">View Job</li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3 class="margin-bottom-5 margin-top-5">Job Details</h3>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a class="btn btn-info btn-sm" title="Contact" href="@Url.Content("~/messages/new/jobboard/"+ Model.JobCreator.ToString().Replace("-", ""))">
+                            <i class="fa fa-user"></i> Contact
+                        </a>
+                    </div>
+                </div>
+                <div class="text-muted">
+                    Details of the Job
+                </div>
             </div>
-        </div>
-        <div class="titleDescription">
-            Details of the Job
-        </div>
-        <div class="divider"></div>
-        <div>
-            <table class="addForumPostTbl">
-                <tr>
-                    <td class="b alRight">Job Title:
-                    </td>
-                    <td class="vRTD">
-                        @Model.JobTitle
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Job Completed:
-                    </td>
-                    <td class="vRTD">
-                        @Model.JobEnds.ToShortDateString()
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Hours Per Week:
-                    </td>
-                    <td class="vRTD">
-                        @Model.HoursPerWeek
-                    </td>
-                </tr>     
-                <tr>
-                    <td class="b alRight">Reports To:
-                    </td>
-                    <td class="vRTD">
-                        @Model.ReportsTo
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Job Details:</td>
-                    <td>
-                       <div class="Details">
-                          <p>
-                            @Html.Raw( Model.JobDesc)
-                           </p>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="panel-body">
+                <table class="table table-bordered table-condensed">
+                    <tr>
+                        <td class="b text-right col-xs-6">
+                            Job Title
+                        </td>
+                        <td class="col-xs-6">@Model.JobTitle</td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">Job Completed</td>
+                        <td>@Model.JobEnds.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">Hours Per Week</td>
+                        <td>@Model.HoursPerWeek</td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">Reports To</td>
+                        <td>@Model.ReportsTo</td>
+                    </tr>
+                    <tr>
+                        <td class="b text-right">Job Details</td>
+                        <td>@Html.Raw(Model.JobDesc)</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -20,5 +20,7 @@ namespace RDN.Library.DataModels.Member
         public byte CalendarViewSetting { get; set; }
 
         public long MemberPrivacySettingsEnum { get; set; }
+
+        public bool ForumDescending { get; set; }
     }
 }

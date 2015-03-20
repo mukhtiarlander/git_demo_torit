@@ -205,7 +205,10 @@ namespace RDN.League.Controllers
                     topic.IsWatching = true;
                 else
                     topic.IsWatching = false;
-                post.Messages = topic.Messages.OrderByDescending(x => x.Created).ToList();
+
+               RDN.Portable.Classes.Account.Classes.MemberDisplay setting =  MemberCache.GetMemberDisplay(memId);
+               if (setting.Settings.ForumDescending)
+                    post.Messages = topic.Messages.OrderByDescending(x => x.Created).ToList();
                 post.ForumId = topic.ForumId;
                 post.ForumType = topic.ForumType;
                 post.TopicId = topic.TopicId;

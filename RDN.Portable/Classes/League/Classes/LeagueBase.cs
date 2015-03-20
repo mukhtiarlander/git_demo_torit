@@ -88,6 +88,10 @@ namespace RDN.Portable.Classes.League.Classes
         [DataMember]
         public List<Culture> Cultures { get; set; }
 
+        [ProtoMember(22)]
+        [DataMember]
+        public string ThemeColor { get; set; }
+
         public LeagueBase()
         {
             Cultures = new List<Culture>();
