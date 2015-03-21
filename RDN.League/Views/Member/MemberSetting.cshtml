@@ -27,6 +27,7 @@
                             <li role="presentation" class="margin-left-5"><a href="#Mobile" role="tab" data-toggle="tab"><i class="fa fa-mobile"></i> Mobile</a></li>
                             <li role="presentation" class="margin-left-5"><a href="#Notifications" role="tab" data-toggle="tab"><i class="fa fa-envelope-o"></i> Notifications</a></li>
                             <li role="presentation" class="margin-left-5"><a href="#Privacy" role="tab" data-toggle="tab"><i class="fa fa-shield"></i> Privacy</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Forum" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i> Forum</a></li>
                         </ul>
                     </div>
                 </div>
@@ -206,6 +207,15 @@
                             </tr>
 
                         </table>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="Forum">
+                        <h4 style="border-bottom:1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
+                            <i class="fa fa-files-o"></i> Forum Settings
+                        </h4>
+                        <div class="form-label margin-bottom-5">
+                            <label>Order Messages as Latest First @Html.CheckBoxFor(x => x.ForumDescending, new { @onchange = "Member.changeForumMessageOrderSetting(this)" })</label>
+                        </div>
                     </div>
                 </div>
 

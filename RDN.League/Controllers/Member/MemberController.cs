@@ -105,6 +105,26 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ChangeForumMessageOrderSetting(string checkedUnCheck)
+        {
+            try
+            {
+                bool success = false;
+                Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+
+                success = MemberSettingsFactory.ChangeForumMessageOrderSetting(memId,Convert.ToBoolean(checkedUnCheck));
+
+                RDN.Library.Cache.MemberCache.Clear(memId);
+                MemberCache.ClearApiCache(memId);
+                return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+
         [LeagueAuthorize(EmailVerification = true)]
         public ActionResult MemberSetting()
         {
@@ -113,7 +133,7 @@ namespace RDN.League.Controllers
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var display = MemberCache.GetMemberDisplay(memId);
 
-                if (display.Settings == null)
+                //if (display.Settings == null)
                 {
                     display.Settings = new MemberSettingsClass();
                     display.Settings.CalendarViewDefault = CalendarDefaultViewEnum.List_View;
@@ -125,7 +145,7 @@ namespace RDN.League.Controllers
                 display.Settings.IsCarrierVerified = display.IsCarrierVerified;
                 display.Settings.DoesReceiveLeagueNotifications = display.DoesReceiveLeagueNotifications;
                 display.Settings.EmailCalendarNewEventBroadcast = display.EmailCalendarNewEventBroadcast;
-                display.Settings.EmailForumBroadcasts = display.EmailForumBroadcasts;
+                display.Settings.ForumDescending = display.EmailForumBroadcasts;
                 display.Settings.EmailForumNewPost = display.EmailForumNewPost;
                 display.Settings.EmailForumWeeklyRoundup = display.EmailForumWeeklyRoundup;
                 display.Settings.EmailMessagesReceived = display.EmailMessagesReceived;
@@ -136,7 +156,7 @@ namespace RDN.League.Controllers
                 display.Settings.Hide_Email_From_League = display.Settings.Hide_Email_From_League;
                 display.Settings.Hide_Phone_Number_From_League = display.Settings.Hide_Phone_Number_From_League;
                 display.Settings.DoYouDerby = !display.IsNotConnectedToDerby;
-
+                display.Settings.ForumDescending = display.Settings.ForumDescending;
                 ViewBag.CalendarView = RDN.League.Classes.Enums.EnumExt.ToSelectList(display.Settings.CalendarViewDefault);
                 ViewBag.ServiceProviders = RDN.League.Classes.Enums.EnumExt.ToSelectListValue(display.Settings.ServiceProvider);
                 return View(display.Settings);

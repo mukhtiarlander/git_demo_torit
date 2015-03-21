@@ -25,6 +25,7 @@ using RDN.Portable.Classes.League.Classes;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Account.Enums.Settings;
 using RDN.Portable.Classes.Controls.Calendar;
+using RDN.Library.DataModels.Context;
 
 namespace RDN.Library.Cache
 {
@@ -653,6 +654,23 @@ namespace RDN.Library.Cache
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return false;
+        }
+        public static string GetLeagueThemeColor(Guid leagueid)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var league = dc.Leagues.Include("Groups").Include("Federations").Include("Owners").Include("Teams").Include("Members").Include("Members.SkaterClass").Include("ContactCard").Include("Contacts").Where(x => x.LeagueId == leagueid).FirstOrDefault();
+
+                if (league.ThemeColor != null)
+                    return league.ThemeColor;
+                return "";
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return "";
         }
         public static bool IsMemberApartOfForum(Guid memberId, Guid forumId)
         {

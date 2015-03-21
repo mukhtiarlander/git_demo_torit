@@ -683,6 +683,7 @@ namespace RDN.Library.Classes.League
                 RDN.Portable.Classes.League.Classes.League leagueTemp = new Portable.Classes.League.Classes.League();
                 leagueTemp.LeagueId = league.LeagueId;
                 leagueTemp.Name = league.Name;
+                leagueTemp.ThemeColor = league.ThemeColor;
                 //leagues don't put the http in their profile.
                 if (!String.IsNullOrEmpty(league.WebSite) && !league.WebSite.Contains("http://"))
                     leagueTemp.Website = "http://" + league.WebSite;
@@ -2157,6 +2158,7 @@ namespace RDN.Library.Classes.League
                 var dc = new ManagementContext();
                 var league = dc.Leagues.Include("ContactCard").Where(x => x.LeagueId == leagueToUpdate.LeagueId).FirstOrDefault();
                 league.Name = leagueToUpdate.Name;
+                league.ThemeColor = leagueToUpdate.ThemeColor;
                 league.WebSite = leagueToUpdate.Website;
                 league.Twitter = leagueToUpdate.Twitter;
                 league.Instagram = leagueToUpdate.Instagram;

@@ -179,6 +179,8 @@ namespace RDN.Library.Classes.League.Classes
                         return MimeType.ps;
                     case ".wps":
                         return MimeType.wps;
+                    case ".xps":
+                        return MimeType.xps;
                     default:
                         {
                             ErrorDatabaseManager.AddException(new Exception("Mime Type Not Found: " + fi.Extension + ":" + docName), new Exception().GetType());

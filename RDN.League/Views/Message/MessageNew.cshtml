@@ -78,11 +78,11 @@
                                                     Select All
                                                 </label>
                                             </div>
-                                            <div id="checkboxes" class="row panel panel-default no-margin padding-top-10" style="max-height:500px; overflow-y:auto">
+                                            <div id="checkboxes" class="row panel panel-default no-margin padding-top-10" style="max-height:300px; overflow-y:auto">
                                                 @foreach (var mem in Model.Recipients)
                                                 {
                                                     <div class="col-xs-12 col-sm-6">
-                                                        <label>
+                                                        <label class="no-bold">
                                                             @Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "Messages.ChangeDictionaryItem(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })<span id="@mem.MemberId.ToString()-name">
                                                                 @mem.DerbyName  @if (!String.IsNullOrEmpty(mem.Firstname) || !String.IsNullOrEmpty(mem.LastName))
                                                                 {
