@@ -133,7 +133,7 @@ namespace RDN.League.Controllers
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var display = MemberCache.GetMemberDisplay(memId);
 
-                if (display.Settings == null)
+                //if (display.Settings == null)
                 {
                     display.Settings = new MemberSettingsClass();
                     display.Settings.CalendarViewDefault = CalendarDefaultViewEnum.List_View;
