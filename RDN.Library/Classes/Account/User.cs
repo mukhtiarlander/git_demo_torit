@@ -1965,6 +1965,8 @@ namespace RDN.Library.Classes.Account
                             leagueMember.MembershipDate = league.MembershipDate;
                         if (league.DepartureDate != new DateTime())
                             leagueMember.DepartureDate = league.DepartureDate;
+                        if (league.PassedWrittenExam != new DateTime())
+                            leagueMember.PassedWrittenExam = league.PassedWrittenExam;
                     }
                 }
                 int other = Convert.ToInt32(InsuranceProviderEnum.Other);
@@ -2528,6 +2530,7 @@ namespace RDN.Library.Classes.Account
                         l.Name = league.League.Name;
                         l.IsInactiveInLeague = league.IsInactiveForLeague;
                         l.DepartureDate = league.DepartureDate;
+                        l.PassedWrittenExam = league.PassedWrittenExam;
                         l.MembershipDate = league.MembershipDate;
                         l.SkillsTestDate = league.SkillsTestDate;
                         l.HasLeftLeague = league.HasLeftLeague;

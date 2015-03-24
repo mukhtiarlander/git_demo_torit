@@ -126,6 +126,10 @@ namespace RDN.Portable.Classes.League.Classes
         [DataMember]
         public bool IsDuesManagementLocked { get; set; }
 
+        [ProtoMember(235)]
+        [DataMember]
+        public DateTime? PassedWrittenExam { get; set; }
+
         public League()
         {
             LeagueMembers = new List<MemberDisplay>();
