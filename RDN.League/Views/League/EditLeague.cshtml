@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Edit " + Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    SelectList themes = new SelectList(new[] { "Purple", "Blue", "Orange", "Gray", "Red", "Green","Violet"});
+    SelectList themes = new SelectList(System.Configuration.ConfigurationManager.AppSettings["ThemeColors"].ToString().Split(','));
 }
 
 <ol class="breadcrumb">
