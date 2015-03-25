@@ -165,14 +165,7 @@ namespace RDN.Raspberry.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, GetType());
             }
-            try
-            {
-                AutomatedTask.ImportRinxterGames();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, GetType());
-            }
+            
             try
             {
                 AutomatedTask.EmailAdminsAboutAutomationWorking(task);
