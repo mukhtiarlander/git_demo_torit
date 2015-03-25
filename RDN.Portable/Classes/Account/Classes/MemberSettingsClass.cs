@@ -82,5 +82,12 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public Guid CurrentLeagueId { get; set; }
 
+        /// <summary>
+        /// Sort order of Forum Message
+        /// </summary>
+        [ProtoMember(619)]
+        [DataMember]
+        public bool ForumDescending { get; set; }
+
     }
 }

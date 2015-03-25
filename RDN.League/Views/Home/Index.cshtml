@@ -139,7 +139,7 @@ else
                         <div class="panel panel-default">
                             <div class="panel-heading">Unread Forum Topics <span class="titleDesc">@Model.Forum.Count Unread Topics</span></div>
                             <div class="panel-body" style="overflow-x:auto">
-                                <table class="forumTable">
+                                <table class="table table-striped table-condensed table-hover">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -149,6 +149,7 @@ else
                                             <th>
                                                 Posts
                                             </th>
+                                            <th>Group</th>
                                             <th>
                                                 Views
                                             </th>
@@ -161,13 +162,16 @@ else
                                     {
                                         <tr class="homeUpcomingRow">
                                             <td>
-                                                <img height="20px" alt="Mark As Read" class="cursor" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')" src="@Url.Content("~/Content/images/icons/unread.png")" />
+                                                <i class="fa fa-envelope"></i>
                                             </td>
                                             <td>
                                                 <a class="b" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
                                             </td>
                                             <td>
                                                 @topic.Replies
+                                            </td>
+                                            <td>
+                                                @topic.ForumGroup
                                             </td>
                                             <td>
                                                 @topic.ViewCount

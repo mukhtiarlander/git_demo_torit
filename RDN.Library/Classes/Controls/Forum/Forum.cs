@@ -538,6 +538,7 @@ namespace RDN.Library.Classes.Forum
                 {
                     top.Messages.Add(DisplayMessage(message));
                 }
+                top.Messages = top.Messages.OrderByDescending(o => o.Created).ToList();
                 foreach (var inbox in topic.TopicsInbox)
                 {
                     try
@@ -1442,7 +1443,7 @@ namespace RDN.Library.Classes.Forum
                             //if nt league manager and group id > 0
                             if (message.topic.GroupId > 0 && !isManager)
                                 top.IsManagerOfTopic = isModerator;
-
+                            top.ForumGroup = message.topic.Forum.LeagueOwner.Name;
                             //case happens when the user selects to only see unread topics.
                             //which means the category will be -1.
                             topics.Add(top);

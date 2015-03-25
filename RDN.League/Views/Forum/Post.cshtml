@@ -132,10 +132,10 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-3 col-md-6 padding-top-10 text-right">
                                     <a class="btn btn-xs btn-warning" onclick="MsgLike('@message.MessageId','@message.Member.MemberId','@message.ForumId','@message.TopicId')">
-                                        <span id="L-@message.MessageId"><i class="fa fa-thumbs-up"></i> @message.MessageLike</span>
+                                        <span id="L-@message.MessageId"><i class="fa fa-thumbs-up"></i> @message.MessageLikeCount</span>
                                     </a>
                                     <a class="btn btn-xs btn-warning" onclick="MsgIAgree('@message.MessageId','@message.Member.MemberId','@message.ForumId','@message.TopicId')">
-                                        <span id="A-@message.MessageId"><i class="fa fa-check"></i> @message.MessageIAgree</span>
+                                        <span id="A-@message.MessageId"><i class="fa fa-check"></i> @message.MessageAgreeCount</span>
                                     </a>
                                 </div>
                             </div>

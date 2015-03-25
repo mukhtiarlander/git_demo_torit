@@ -35,5 +35,6 @@ namespace RDN.Library.Classes.Forum
         public bool IsPinned { get; set; }
         public string  Category{ get; set; }
         public long CategoryId { get; set; }
+        public string ForumGroup { get; set; }
     }
 }

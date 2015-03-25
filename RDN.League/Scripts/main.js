@@ -2099,6 +2099,8 @@ function changeEmailNotification(cb, groupLeague, id) {
     });
 }
 
+
+
 function AddPollAnswerCreate() {
     //$("#createPollPopup").fadeIn("fast");
     //$("#createPollPopup").center();
@@ -2544,6 +2546,15 @@ var Member = new function () {
         }).error(function () {
         });
     };
+    this.changeForumMessageOrderSetting = function(cb) {
+        var isChecked = $(cb).is(":checked");
+        $.getJSON("/member/ChangeForumMessageOrderSetting", { checkedUnCheck: isChecked }, function (result) {
+            if (result.isSuccess === true) {
+            }
+            else {
+            }
+        });
+    }
 };
 
 function MoveSelectionRight() {

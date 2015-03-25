@@ -27,7 +27,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Edit Member</h3>
+                        <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Edit @Model.DerbyName</h3>
                     </div>
                     <div class="col-xs-6 text-right">
                         <a target="_blank" class="btn btn-primary pull-right margin-top-5" href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.DerbyName))">
@@ -348,102 +348,121 @@
                                         <div class="row">
                                             @foreach (var leag in Model.Leagues)
                                             {
+
+                                                <div class="col-xs-12 padding-top-10" style="background-color:#f7f7f7">
+                                                    <div class="form-label">
+                                                        Name: <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.Name) + "/" + leag.LeagueId.ToString().Replace("-", "") + "/")">
+                                                            <b>@leag.Name</b>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                    @*
+                                                        <tr>
+                                                            <td class="b">Management Role:
+                                                            </td>
+                                                            <td>
+                                                                @Html.DropDownList("LEAGUEOwner[" + leag.LeagueId + "]", new SelectList(LeagueOwnerTypes, "ID", "Name", LeagueOwnerTypes.Where(x => x.Name == leag.LeagueOwnerType).FirstOrDefault().ID))
+                                                                - Assign to help manage your league
+                                                            </td>
+                                                        </tr>
+                                                    *@
+                                                <div class="col-xs-12 padding-bottom-10" style="background-color:#f7f7f7">
+                                                    <div class="form-label">@Html.CheckBox("LEAGUEIsInactive[" + leag.LeagueId + "]", leag.IsInactiveInLeague) Inactive  <i class="fa fa-question-circle"></i> <a href="http://wiki.rdnation.com/Member_Information#League_Member_Information" target="_blank">Help</a> </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">Membership Date</div>
+                                                    <div>
+                                                        @if (leag.MembershipDate.HasValue)
+                                                        {
+                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", leag.MembershipDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
+                                                        }
+                                                        else
+                                                        {
+                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", "", new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">Departure Date</div>
+                                                    <div>
+                                                        @if (leag.DepartureDate.HasValue)
+                                                        {
+                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", leag.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
+                                                        }
+                                                        else
+                                                        {
+                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", "", new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">Passed Written Exam</div>
+                                                    <div>
+                                                        @if (leag.PassedWrittenExam.HasValue)
+                                                        {  
+                                                            @Html.TextBox(leag.LeagueId + "-LEAGUEPassedWrittenExam", leag.PassedWrittenExam.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEPassedWrittenExam", @class = "jquery_datepicker form-control" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.TextBox(leag.LeagueId + "-LEAGUEPassedWrittenExam", "", new { @id = leag.LeagueId + "-LEAGUEPassedWrittenExam", @class = "jquery_datepicker form-control" })
+                                                        }
+                                                    </div>
+                                                </div>
+                                                if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
+                                                {
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <div class="form-label margin-top-10 margin-bottom-5">Skills Test Date</div>
+                                                        <div>
+                                                            @if (leag.SkillsTestDate.HasValue)
+                                                            {
+                                                            @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", leag.SkillsTestDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
+                                                            }
+                                                            else
+                                                            {
+                                                            @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", "", new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12  col-sm-6">
+                                                        <div class="form-label margin-top-10 margin-bottom-5">
+                                                            Skater Class:
+                                                        </div>
+                                                        <div>
+                                                            @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")
+                                                            <a class="btn btn-success btn-sm" href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)"><i class="fa fa-plus-circle"></i> Add Class</a>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                }
+                                                <div class="col-xs-12">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Notes
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextArea(leag.LeagueId + "-LEAGUEMemberNotes", leag.NotesAboutMember, new { @class="form-control" })
+                                                        <small class="text-muted">These notes can only be seen by managers of the league.</small>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $('#@leag.LeagueId-LEAGUESkillsDate').datepicker({
+                                                        required: false
+                                                    });
+                                                    $('#@leag.LeagueId-LEAGUEDepartureDate').datepicker({
+                                                        required: false
+                                                    });
+                                                    $('#@leag.LeagueId-LEAGUEMembershipDate').datepicker({
+                                                        required: false
+                                                    });
+                                                    $('#@leag.LeagueId-LEAGUEPassedWrittenExam').datepicker({
+                                                        required: false
+                                                    });
+                                                </script>
+                                            }
                                             <div class="col-xs-12">
-                                                <div class="form-label">
-                                                    Name: <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.Name) + "/" + leag.LeagueId.ToString().Replace("-", "") + "/")">
-                                                        @leag.Name
-                                                    </a>
-                                                </div>
-                                            </div>@*
-                                            <tr>
-                                            <td class="b">Management Role:
-                                            </td>
-                                            <td>
-                                            @Html.DropDownList("LEAGUEOwner[" + leag.LeagueId + "]", new SelectList(LeagueOwnerTypes, "ID", "Name", LeagueOwnerTypes.Where(x => x.Name == leag.LeagueOwnerType).FirstOrDefault().ID))
-                                            - Assign to help manage your league
-                                            </td>
-                                            </tr>*@
-                                            <div class="col-xs-12">
-                                                <div class="form-label">@Html.CheckBox("LEAGUEIsInactive[" + leag.LeagueId + "]", leag.IsInactiveInLeague) Inactive  <i class="fa fa-question-circle"></i> <a href="http://wiki.rdnation.com/Member_Information#League_Member_Information" target="_blank">Help</a> </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">Membership Date</div>
-                                                <div>
-                                                    @if (leag.MembershipDate.HasValue)
-                                                    {
-                                                    @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", leag.MembershipDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
-                                                    }
-                                                    else
-                                                    {
-                                                    @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", "", new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
-                                                    }
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">Departure Date</div>
-                                                <div>
-                                                    @if (leag.DepartureDate.HasValue)
-                                                    {
-                                                    @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", leag.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
-                                                    }
-                                                    else
-                                                    {
-                                                    @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", "", new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
-                                                    }
-                                                </div>
-                                            </div>
-                                            if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
-                                            {
-                                            <div class="col-xs-12 col-sm-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">Skills Test Date</div>
-                                                <div>
-                                                    @if (leag.SkillsTestDate.HasValue)
-                                                    {
-                                                    @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", leag.SkillsTestDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
-                                                    }
-                                                    else
-                                                    {
-                                                    @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", "", new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
-                                                    }
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12  col-sm-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Skater Class:
-                                                </div>
-                                                <div>
-                                                    @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")
-                                                    <a class="btn btn-success btn-sm" href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)"><i class="fa fa-plus-circle"></i> Add Class</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class="alert alert-warning margin-top-10">
+                                                <div class="alert alert-warning margin-top-10 no-margin-bottom">
                                                     Please <a href="http://wiki.rdnation.com/League_Member_Skater_Classes" target="_blank">read the wiki</a> to understand Class Types.
                                                 </div>
                                             </div>
-                                            }
-                                            <div class="col-xs-12">
-                                                <div class="form-label margin-bottom-5">
-                                                    Notes
-                                                </div>
-                                                <div>
-                                                    @Html.TextArea(leag.LeagueId + "-LEAGUEMemberNotes", leag.NotesAboutMember, new { @class="form-control" })
-                                                    These notes can only be seen by managers of the league.
-                                                </div>
-                                            </div>
-                                            <script type="text/javascript">
-                                                $('#@leag.LeagueId-LEAGUESkillsDate').datepicker({
-                                                    required: false
-                                                });
-                                                $('#@leag.LeagueId-LEAGUEDepartureDate').datepicker({
-                                                    required: false
-                                                });
-                                                $('#@leag.LeagueId-LEAGUEMembershipDate').datepicker({
-                                                    required: false
-                                                });
-                                            </script>
-
-                                            }
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="Federation">

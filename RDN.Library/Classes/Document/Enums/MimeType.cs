@@ -45,6 +45,7 @@ namespace RDN.Library.Classes.Document.Enums
         mp3 = 37,
         wmv = 38, 
         ps = 39,
-        wps = 40
+        wps = 40,
+        xps = 41
     }
 }

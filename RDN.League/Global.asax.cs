@@ -210,6 +210,13 @@ new { controller = "Scoreboard", action = "ManageGame", id = UrlParameter.Option
 "Member/ChangeEmailNotificationSetting", // URL with parameters
 new { controller = "Member", action = "ChangeEmailNotificationSetting" } // Parameter defaults
 );
+
+            routes.MapRoute(
+"ChangeForumMessageOrderSetting", // Route name
+"Member/ChangeForumMessageOrderSetting", // URL with parameters
+new { controller = "Member", action = "ChangeForumMessageOrderSetting" } // Parameter defaults
+);
+            
             routes.MapRoute(
 "MemberRetireSelf", // Route name
 "Member/RetireSelf", // URL with parameters
@@ -748,7 +755,7 @@ new { controller = "JobBoard", action = "FillJob" } // Parameter defaults
 );
             routes.MapRoute(
 "ViewJobDetails", // Route name
-"view/job/detail/{id}/{leagueId}", // URL with parameters
+"league/Job/view/{id}/{leagueId}", // URL with parameters
 new { controller = "JobBoard", action = "ViewJob" } // Parameter defaults
 );
 

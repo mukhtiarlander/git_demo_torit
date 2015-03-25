@@ -1,4 +1,4 @@
-﻿@using RDN.Library.Classes.Document.Enums
+﻿    @using RDN.Library.Classes.Document.Enums
 @model RDN.Library.Classes.Document.DocumentRepository
 @{
     ViewBag.Title = "Documents for " + Model.OwnerName;
@@ -251,6 +251,9 @@
                                             break;
                                         case MimeType.wps:
                                         <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/wps.png")" />
+                                            break;
+                                        case MimeType.xps:
+                                            <i class="fa fa-file-excel-o fa-lg"></i>
                                             break;
                                     }
 

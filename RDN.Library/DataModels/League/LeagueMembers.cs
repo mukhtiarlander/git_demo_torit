@@ -35,6 +35,7 @@ namespace RDN.Library.DataModels.League
 
         public DateTime? MembershipDate { get; set; }
         public DateTime? DepartureDate { get; set; }
+        public DateTime? PassedWrittenExam { get; set; }
         public bool HasLeftLeague { get; set; }
         public DateTime? SkillsTestDate { get; set; }
         public string Notes { get; set; }

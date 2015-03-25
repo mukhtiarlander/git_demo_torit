@@ -227,6 +227,35 @@ namespace RDN.Library.Classes.Account.Classes
             return false;
         }
 
+        /// <summary>
+        /// Change Sort Order of Forum Messages
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <param name="groupId"></param>
+        /// <param name="onOrOff"></param>
+        /// <returns></returns>
+        public static bool ChangeForumMessageOrderSetting(Guid memberId, bool onOrOff)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var leagueMember = dc.Members.Include("Notifications").Include("Settings").Include("Leagues").Include("Leagues.SkaterClass").Include("InsuranceNumbers").Include("ContactCard").Include("ContactCard.Emails").Include("ContactCard.Communications").Include("Photos").Include("Federations").Include("MedicalInformation").Where(x => x.MemberId == memberId).FirstOrDefault();
+                if (leagueMember.Settings == null)
+                    leagueMember.Settings = new DataModels.Member.MemberSettings();
+
+                leagueMember.Settings.ForumDescending = onOrOff;
+                int c = dc.SaveChanges();
+
+                return c > 0;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+            return false;
+        }
+
         public static bool ChangeCalendarViewSetting(CalendarDefaultViewEnum viewType, Guid memberId)
         {
             try
@@ -329,6 +358,7 @@ namespace RDN.Library.Classes.Account.Classes
                 s.Hide_DOB_From_Public = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_DOB_From_Public);
                 s.Hide_Email_From_League = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_Email_From_League);
                 s.Hide_Phone_Number_From_League = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_Phone_Number_From_League);
+                s.ForumDescending = settings.ForumDescending;
                 return s;
             }
             catch (Exception exception)

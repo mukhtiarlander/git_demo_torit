@@ -893,6 +893,16 @@ namespace RDN.League.Controllers
                                 leag.DepartureDate = null;
                         }
 
+                        if (!String.IsNullOrEmpty(HttpContext.Request.Form[leag.LeagueId + "-LEAGUEPassedWrittenExam"]))
+                        {
+                            DateTime outDT;
+                            bool success = DateTime.TryParse(HttpContext.Request.Form[leag.LeagueId + "-LEAGUEPassedWrittenExam"], out outDT);
+                            if (success)
+                                leag.PassedWrittenExam = outDT;
+                            else
+                                leag.PassedWrittenExam = null;
+                        }
+
                         if (!String.IsNullOrEmpty(HttpContext.Request.Form[leag.LeagueId + "-LEAGUESkillsDate"]))
                         {
                             DateTime outDT;
@@ -1852,7 +1862,7 @@ namespace RDN.League.Controllers
                 leag.Facebook = league.Facebook;
                 leag.RuleSetsPlayedEnum = league.RuleSetsPlayedEnum;
                 leag.CultureSelected = league.CultureSelected;
-
+                leag.ThemeColor = league.ThemeColor;
                 ViewBag.Saved = false;
                 var colors = ColorDisplayFactory.GetColors();
                 leag.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
