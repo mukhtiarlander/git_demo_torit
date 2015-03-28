@@ -31,26 +31,26 @@
                         </a>
                     </div>
                 </div>
-
-                <div class="text-muted"> View the Poll details.</div>
             </div>
                 <div class="panel-body no-padding-top">
                     <div class="row">
                         <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Title</label>
+                            <label class="form-label margin-top-10"><b>Description</b></label>
                             <div>
-                                <b>@Model.Title</b>
+                                @Html.Raw(Model.Description)
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
+                        <div class="col-xs-12 margin-top-5">
                             <div>
-                                <b>@Html.Raw(Model.Description)</b>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 margin-top-10">
-                            <div>
-                                <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                                @if(Model.IsOpenToLeague)
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle"></i>
+                                }
+                                Open Results <span class="text-muted"><i>Results can be seen by league.</i></span>
                             </div>
                         </div>
                         <div class="col-xs-12">
@@ -58,7 +58,7 @@
                             @if (Model.IsPollAnonymous)
                         { <label class="form-label margin-top-10">Anonymous Questions & Answers</label> }
                         else
-                        {   <label class="form-label margin-top-10">Questions & Answers</label> }
+                        {   <label class="form-label margin-top-10"><b>Questions & Answers</b></label> }
 
                             <div id="pollQuestions">
                                 @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
@@ -166,10 +166,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <button type="submit" class="btn btn-default btn-success"><i class="fa fa-save"></i> Update Poll</button>
-                    <a class="btn btn-default pull-right" href="@Url.Content("~/poll/" + Model.LeagueId)">Cancel</a>
-                </div>
+               
                 @Html.HiddenFor(x => x.LeagueId)
                 @Html.HiddenFor(x => x.VotingId)
         </div>
