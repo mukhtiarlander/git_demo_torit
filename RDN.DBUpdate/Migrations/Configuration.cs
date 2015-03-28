@@ -20,22 +20,22 @@ namespace RDN.DBUpdate.Migrations
         }
 
     }
-    internal sealed class CRN : DbMigrationsConfiguration<RNManagementContext>
-    {
-        public CRN()
-        {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-        }
+    //internal sealed class CRN : DbMigrationsConfiguration<RNManagementContext>
+    //{
+    //    public CRN()
+    //    {
+    //        AutomaticMigrationsEnabled = true;
+    //        AutomaticMigrationDataLossAllowed = true;
+    //    }
 
-    }
+    //}
 
-    internal sealed class CTask : DbMigrationsConfiguration<TaskContext>
-    {
-        public CTask()
-        {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-        }
-    }
+    //internal sealed class CTask : DbMigrationsConfiguration<TaskContext>
+    //{
+    //    public CTask()
+    //    {
+    //        AutomaticMigrationsEnabled = true;
+    //        AutomaticMigrationDataLossAllowed = true;
+    //    }
+    //}
 }
