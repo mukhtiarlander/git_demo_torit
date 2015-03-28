@@ -133,7 +133,7 @@ namespace RDN.League.Controllers
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var display = MemberCache.GetMemberDisplay(memId);
 
-                //if (display.Settings == null)
+                if (display.Settings == null)
                 {
                     display.Settings = new MemberSettingsClass();
                     display.Settings.CalendarViewDefault = CalendarDefaultViewEnum.List_View;
@@ -145,7 +145,7 @@ namespace RDN.League.Controllers
                 display.Settings.IsCarrierVerified = display.IsCarrierVerified;
                 display.Settings.DoesReceiveLeagueNotifications = display.DoesReceiveLeagueNotifications;
                 display.Settings.EmailCalendarNewEventBroadcast = display.EmailCalendarNewEventBroadcast;
-                display.Settings.ForumDescending = display.EmailForumBroadcasts;
+                display.Settings.EmailForumBroadcasts = display.EmailForumBroadcasts;
                 display.Settings.EmailForumNewPost = display.EmailForumNewPost;
                 display.Settings.EmailForumWeeklyRoundup = display.EmailForumWeeklyRoundup;
                 display.Settings.EmailMessagesReceived = display.EmailMessagesReceived;

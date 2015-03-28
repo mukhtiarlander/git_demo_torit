@@ -18,7 +18,18 @@
     var storeItems = SiteCache.GetRandomPublishedStoreItems(4);
     var leagueId = MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "");
     var leaguethemecolor = MemberCache.GetLeagueThemeColor(MemberCache.GetLeagueIdOfMember(memId));
+
+    int games_cnt = 0;
+    if (ManagementCache.GetBoutChallengesCount() > 0)
+    {
+        games_cnt += ManagementCache.GetBoutChallengesCount();
+    }
+    if (ManagementCache.GetOfficiatingRequestsCount() > 0)
+    {
+        games_cnt += ManagementCache.GetOfficiatingRequestsCount();
+    }
 }
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 @using StackExchange.Profiling;
@@ -387,25 +398,14 @@
                             }
                         </ul>
 
-                    </li>
+                    </li> 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Games
-                        @{
-                            int games_cnt = 0;
-                            if (ManagementCache.GetBoutChallengesCount() > 0)
+                            @if (games_cnt > 0)
                             {
-                                games_cnt += ManagementCache.GetBoutChallengesCount();
+                                    <span class="label label-warning margin-left-10">@games_cnt</span>
                             }
-                            if (ManagementCache.GetOfficiatingRequestsCount() > 0)
-                            {
-                                games_cnt += ManagementCache.GetOfficiatingRequestsCount();
-                            }
-                            if (games_cnt > 0)
-                            { 
-                                <span class="label label-warning margin-left-10">@games_cnt</span>
-                            }
-                        }
                         <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
 
@@ -554,31 +554,7 @@
     </script>
     <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=League Feedback" target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>
     @MiniProfiler.RenderIncludes()
-    <div id="ThemeBox" style="width:210px;position:fixed;right:-170px;top:170px;">
-        <div onclick="ShowThemeBox()" style="background-color:#aaa;height:40px;top:38px;padding-top:7px;text-align:center; width:40px;position:absolute;color:white;">
-            <i class="fa fa-cog fa-2x"></i>
-        </div>
-        <div style="background-color:#eee;padding-bottom:5px;width:170px;float:right">
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#9b59b6" onclick="HideThemeBox('Purple', '#9b59b6')"></div>
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#3498db" onclick="HideThemeBox('Light Blue', '#3498db')"></div>
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#F6BB43" onclick="HideThemeBox('Orange', '#F6BB43')"></div>
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#34BC9B" onclick="HideThemeBox('Gray', '#34BC9B')"></div>
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#E7573E" onclick="HideThemeBox('Red', '#E7573E')"></div>
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#8CC152" onclick="HideThemeBox('Green', '#8CC152')"></div>
-            <div style="float:left;margin-top:5px;margin-left:5px;height:50px;width:50px;background-color:#2c3e50" onclick="HideThemeBox('Blue', '#2c3e50')"></div>
-        </div>
-        <script>
-            function ShowThemeBox() {
-                $("#ThemeBox").animate({ right: '0px' });
-            }
-            function HideThemeBox(theme, color) {
-                $('body').removeClass();
-                $('body').addClass(theme);
-                $(".footer").css('background-color', '#313940');
-                $("#ThemeBox").animate({ right: '-170px' });
-            }
-        </script>
-    </div>
+   
 </body>
 
 </html>

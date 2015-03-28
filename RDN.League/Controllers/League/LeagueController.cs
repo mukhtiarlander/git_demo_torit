@@ -893,6 +893,16 @@ namespace RDN.League.Controllers
                                 leag.DepartureDate = null;
                         }
 
+                        if (!String.IsNullOrEmpty(HttpContext.Request.Form[leag.LeagueId + "-LEAGUEPassedWrittenExam"]))
+                        {
+                            DateTime outDT;
+                            bool success = DateTime.TryParse(HttpContext.Request.Form[leag.LeagueId + "-LEAGUEPassedWrittenExam"], out outDT);
+                            if (success)
+                                leag.PassedWrittenExam = outDT;
+                            else
+                                leag.PassedWrittenExam = null;
+                        }
+
                         if (!String.IsNullOrEmpty(HttpContext.Request.Form[leag.LeagueId + "-LEAGUESkillsDate"]))
                         {
                             DateTime outDT;

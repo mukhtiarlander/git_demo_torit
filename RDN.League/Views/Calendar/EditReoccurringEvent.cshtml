@@ -134,14 +134,14 @@
                         <div class="col-xs-12 col-md-6">
                             <label class="form-label">Start Date & Time</label>
                             <div class="margin-bottom-20">
-                                @Html.TextBoxFor(x => x.StartDate, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
+                                @Html.TextBoxFor(x => x.StartDateDisplay, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
                             </div>
                         </div>
 
                         <div class="col-xs-12 col-md-6">
                             <label class="form-label">End Date & Time</label>
                             <div class="margin-bottom-20">
-                                @Html.TextBoxFor(x => x.EndDate, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
+                                @Html.TextBoxFor(x => x.EndDateDisplay, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
                             </div>
                         </div>
 
@@ -223,96 +223,96 @@
                     <button type="submit" class="btn btn-primary" name="updateEvent" ><i class="fa fa-save"></i> Update Event</button>
                     <a class="btn btn-default" href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Cancel Event</a>
                 </div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-calendar-o"></i> Event Life</h4>
+                            </div>
+                            <div class="modal-body no-padding-bottom">
+                                <div class="well">
+                                    <label class="form-label">
+                                        Repeat
+                                    </label>
+                                    <div>
+                                        @Html.DropDownListFor(x => x.RepeatsFrequencySelectedId, Model.RepeatsFrequencyDropDown, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="well">
+                                    <label id="repeatsOnRow" class="form-label">On</label>
+                                    <div id="repeatsOnRowSel">
+                                        <div class="displayNone checkboxError" id="selectDate">Please Select a Day</div>
+                                        <label>@Html.CheckBoxFor(x => x.IsSunday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;S&nbsp;</label>
+                                        <label>@Html.CheckBoxFor(x => x.IsMonday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;M&nbsp;</label>
+                                        <label>@Html.CheckBoxFor(x => x.IsTuesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;T&nbsp;</label>
+                                        <label>@Html.CheckBoxFor(x => x.IsWednesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;W&nbsp;</label>
+                                        <label>@Html.CheckBoxFor(x => x.IsThursday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;T&nbsp;</label>
+                                        <label>@Html.CheckBoxFor(x => x.IsFriday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;F&nbsp;</label>
+                                        <label>@Html.CheckBoxFor(x => x.IsSaturday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;S&nbsp;</label>
+                                    </div>
+                                    <div id="repeatsOnRowSelMonthly" class="display-none">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <span class="displayNone checkboxError" id="selectWeekOfMonth">Please Select Week</span>
+                                                The
+                                            </span>
+                                            @Html.DropDownListFor(x => x.MonthlyIntervalId, Model.MonthlyInterval, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control input-sm" })
+                                            <span class="input-group-addon">Week of the Month</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="well no-margin-bottom">
+                                    <label class="form-label">Ends</label>
+                                    <div>
+                                        <label class="margin-left-15 margin-bottom-10">
+                                            @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.Never.ToString(), new { @checked = "checked", @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
+                                            @EndsWhenReoccuringEnum.Never.ToString()
+                                        </label>
+                                        <br />
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <label class="no-margin-bottom">
+                                                    @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.After.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "no-margin-bottom" })
+                                                    @EndsWhenReoccuringEnum.After.ToString()
+                                                </label>
+                                            </span>
+                                            @Html.TextBoxFor(x => x.EndsOccurences, new { @onkeyup = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
+                                            <span class="input-group-addon">ocurrences</span>
+                                        </div>
+                                        <br />
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <label class="no-margin-bottom">
+                                                    @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.On.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
+                                                    @EndsWhenReoccuringEnum.On.ToString()
+                                                </label>
+                                            </span>
+                                            @Html.TextBox("EndsDate", Model.EndDateReoccurringDisplay, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id="summaryPopUp" style="padding: 15px; background-color: #428bca; color:white; font-weight:bold; margin-left:-15px;margin-right:-15px;" class="margin-top-20"></div>
+                            </div>
+                            <div class="modal-footer">
+
+                                <input type="button" id="checkInButtonPopUp" value="Done" class="btn btn-success" data-dismiss="modal" onclick="javascript: CloseReOccuringEventWindow(true)" />
+                                <span class="btn btn-default" onclick="javascript:CloseReOccuringEventWindow(false)" data-dismiss="modal">Cancel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @Html.HiddenFor(x => x.CalendarId)
-                    @Html.HiddenFor(x => x.CalendarType)
-                    @Html.HiddenFor(x => x.CalendarItemId)
-                    @Html.HiddenFor(x => x.ToGroupIds)
-
-
+                @Html.HiddenFor(x => x.CalendarType)
+                @Html.HiddenFor(x => x.CalendarItemId)
+                @Html.HiddenFor(x => x.ToGroupIds)
             }
         </div>
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-calendar-o"></i> Event Life</h4>
-                </div>
-                <div class="modal-body no-padding-bottom">
-                    <div class="well">
-                        <label class="form-label">
-                            Repeat
-                        </label>
-                        <div>
-                            @Html.DropDownListFor(x => x.RepeatsFrequencySelectedId, Model.RepeatsFrequencyDropDown, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="well">
-                        <label id="repeatsOnRow" class="form-label">On</label>
-                        <div id="repeatsOnRowSel">
-                            <div class="displayNone checkboxError" id="selectDate">Please Select a Day</div>
-                            <label>@Html.CheckBoxFor(x => x.IsSunday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;S&nbsp;</label>
-                            <label>@Html.CheckBoxFor(x => x.IsMonday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;M&nbsp;</label>
-                            <label>@Html.CheckBoxFor(x => x.IsTuesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;T&nbsp;</label>
-                            <label>@Html.CheckBoxFor(x => x.IsWednesday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;W&nbsp;</label>
-                            <label>@Html.CheckBoxFor(x => x.IsThursday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;T&nbsp;</label>
-                            <label>@Html.CheckBoxFor(x => x.IsFriday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;F&nbsp;</label>
-                            <label>@Html.CheckBoxFor(x => x.IsSaturday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;S&nbsp;</label>
-                        </div>
-                        <div id="repeatsOnRowSelMonthly" class="display-none">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <span class="displayNone checkboxError" id="selectWeekOfMonth">Please Select Week</span>
-                                    The
-                                </span>
-                                @Html.DropDownListFor(x => x.MonthlyIntervalId, Model.MonthlyInterval, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control input-sm" })
-                                <span class="input-group-addon">Week of the Month</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="well no-margin-bottom">
-                        <label class="form-label">Ends</label>
-                        <div>
-                            <label class="margin-left-15 margin-bottom-10">
-                                @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.Never.ToString(), new { @checked = "checked", @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
-                                @EndsWhenReoccuringEnum.Never.ToString()
-                            </label>
-                            <br />
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <label class="no-margin-bottom">
-                                        @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.After.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "no-margin-bottom" })
-                                        @EndsWhenReoccuringEnum.After.ToString()
-                                    </label>
-                                </span>
-                                @Html.TextBoxFor(x => x.EndsOccurences, new { @onkeyup = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
-                                <span class="input-group-addon">ocurrences</span>
-                            </div>
-                            <br />
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <label class="no-margin-bottom">
-                                        @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.On.ToString(), new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
-                                        @EndsWhenReoccuringEnum.On.ToString()
-                                    </label>
-                                </span>
-                                 @Html.TextBox("EndsDate", Model.EndDateReoccurringDisplay, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
-                            </div>
-                        </div>
+    
 
-                    </div>
-                    <div id="summaryPopUp" style="padding: 15px; background-color: #428bca; color:white; font-weight:bold; margin-left:-15px;margin-right:-15px;" class="margin-top-20"></div>
-                </div>
-                <div class="modal-footer">
-
-                    <input type="button" id="checkInButtonPopUp" value="Done" class="btn btn-success" data-dismiss="modal" onclick="javascript: CloseReOccuringEventWindow(true)" />
-                    <span class="btn btn-default" onclick="javascript:CloseReOccuringEventWindow(false)" data-dismiss="modal">Cancel</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -321,16 +321,12 @@
 
 <script type="text/javascript">
 
-    </script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            IsReoccuringEvent($("#IsReoccurring"));
-            LoadDropDownBackgroundColors();
-            Calendar.InitializeNewEvent();
-            ToggleReoccuringEventPopup($("#IsReoccurring"));
-        });
+    $(document).ready(function () {
+        IsReoccuringEvent($("#IsReoccurring"));
+        LoadDropDownBackgroundColors();
+        Calendar.InitializeNewEvent();
+        ToggleReoccuringEventPopup($("#IsReoccurring"));
+    });
     var d = new Date();
     var curr_date = d.getDate();
 
