@@ -44,7 +44,13 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 col-sm-8 col-lg-9">
-                        <h3 id="topicTitle" class="margin-top-5"><b>"@Model.TopicTitle"</b></h3>
+                        <span id="topicTitle" class="margin-top-5 font20"><b>"@Model.TopicTitle"</b></span>
+                        @if (Model.IsManagerOfTopic)
+                        {
+                            <button class="btn btn-default btn-xs margin-bottom-5" type="button" id="editTitle" onclick="EnableForumTopicEdit(this,'true')">
+                                <i class="fa fa-pencil fa-lg"></i>
+                            </button>
+                        }
                         <span id="topicEditTitle" class="display-none ">
                             <input class="form-control margin-bottom-10" type="text" id="topicTitleEdit" placeholder="@Model.TopicTitle" />
                         </span>
@@ -53,9 +59,6 @@
                     @if (Model.IsManagerOfTopic)
                     {
                         <div class="col-xs-12 col-sm-4 col-lg-3 text-right">
-                            <button class="btn btn-primary btn-sm" type="button" id="editTitle" onclick="EnableForumTopicEdit(this,'true')">
-                                <i class="fa fa-pencil"></i> Edit
-                            </button>
                             <button id="updateEditTitle" class="btn btn-success btn-sm display-none" type="button" onclick="ForumTopicEditSub(this)"><i class="fa fa-save"></i> Save</button>
                             <button id="cancelEditTitle" class="btn btn-default btn-sm display-none" type="button" onclick="EnableForumTopicEdit(this,'false')">Cancel</button>
                         </div>
