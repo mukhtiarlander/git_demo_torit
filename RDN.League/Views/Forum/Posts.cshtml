@@ -85,7 +85,11 @@ else
                             {
                                 <li class="margin-left-5 @(Model.GroupTopics[i].GroupId == Model.CurrentGroup.GroupId ? "active" : "")">
                                     <a href="javascript:void(0)" onclick="Forum.changeForumGroup(this, '@Model.GroupTopics[i].GroupId', '@Model.ForumId')">
-                                        @Model.GroupTopics[i].GroupName <span class="label label-primary">@Model.GroupTopics[i].UnreadTopics</span>
+                                        @Model.GroupTopics[i].GroupName 
+                                        @if(Model.GroupTopics[i].UnreadTopics > 0)
+                                        { 
+                                            <span class="label label-primary">@Model.GroupTopics[i].UnreadTopics</span>
+                                        }
                                     </a>
                                 </li>
                             }
