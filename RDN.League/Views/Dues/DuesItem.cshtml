@@ -34,6 +34,9 @@
         </div>
     </div>
     <div class="panel-heading text-right" style="background-color:#fafafa">
+        <span class="pull-left margin-top-5">
+            Amount: <b class="font18">@Fee.CostOfDues.ToString("N2")</b>
+        </span>
         <a class="btn btn-default btn-sm" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
             <i class="fa fa-download"></i> Export
         </a>
@@ -43,32 +46,7 @@
         <button class="btn btn-default btn-sm" type="button" onclick="javascript:SendReminderToPayDuesAll(this)"><i class="fa fa-envelope"></i> Send Reminder Email to All</button>
     </div>
     <div class="panel-body" style="overflow-x:auto">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="well well-sm">
-                    <label class="form-label">For</label>
-                    <div class="font18">
-                        <b>@Model.LeagueOwnerName</b>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="well well-sm">
-                    <label class="form-label"> Date of Payment</label>
-                    <div class="font18">
-                        <b>@Fee.PayBy.ToLongDateString()</b>
-                    </div>
-                </div>
-                </div>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="well well-sm">
-                    <label class="form-label">Amount</label>
-                    <div class="font18">
-                        <b>@Fee.CostOfDues.ToString("N2")</b>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="members">
             <thead>
                 <tr>
