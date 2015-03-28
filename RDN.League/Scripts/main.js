@@ -3005,7 +3005,7 @@ var jquerySortableHelper = function (e, tr) {
     return $helper;
 }
 
-var MsgLike = function (link, messageId, forumId, topicId) {
+function MsgLike(link, messageId,memberid, forumId, topicId) {
     var paramValue = JSON.stringify({ messageId: messageId, forumId: forumId, topicId: topicId });
     $.ajax({
         url: '/forum/message/like', //This will call the function in controller
@@ -3024,7 +3024,7 @@ var MsgLike = function (link, messageId, forumId, topicId) {
     });
 }
 
-var MsgIAgree = function (link, messageId, forumId, topicId) {
+function MsgIAgree(link, messageId, memberid, forumId, topicId) {
     var paramValue = JSON.stringify({ messageId: messageId, forumId: forumId, topicId: topicId });
     $.ajax({
         url: '/forum/message/agree', //This will call the function in controller
