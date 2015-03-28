@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using RDN.Library.DataModels.Context;
 using System.Web.Mvc;
 
 namespace RDN.League.Models.Location
@@ -24,6 +25,8 @@ namespace RDN.League.Models.Location
         public Guid OwnerId { get; set; }
         public string OwnerType { get; set; }
         public string RedirectTo { get; set; }
+
+       
 
     }
 }

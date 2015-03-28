@@ -1963,6 +1963,16 @@ var Polls = new function () {
         });
         $("#NewPollMembersPopup").modal('hide');
     }
+
+    this.AddNewPoll = function () {
+        if ($("#checkboxes input:checkbox:checked").length > 0) {
+            document.getElementById('PollsAdd').submit();
+        }
+        else
+        {
+            alert('No Names have been selected');
+        }
+    }
 }
 
 
@@ -2747,7 +2757,6 @@ var LeagueMembersReportBuilder = new function () {
         $("#warning").text("");
         document.getElementById('MembersReport').submit();
     }
-
 }
 
 

@@ -8,6 +8,7 @@ using RDN.League.Models.Enum;
 using RDN.League.Models.Filters;
 using RDN.League.Models.Utilities;
 using RDN.Library.Classes.Error;
+using RDN.Library.Classes.Location;
 using RDN.Library.Util;
 using RDN.Library.Util.Enum;
 using RDN.Library.Classes.Location;
@@ -21,6 +22,68 @@ namespace RDN.League.Controllers
 #endif
     public class LocationController : BaseController
     {
+
+        [Authorize]
+        public ActionResult EditLocation(Guid locationid)
+        {
+            try
+            {
+                var location = RDN.Library.Classes.Location.LocationFactory.GetLocation(locationid);
+                if (location == null)
+                    return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
+                return View(location);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+        }
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult EditPaywall(Paywall pw)
+        //{
+        //    try
+        //    {
+        //        string priceDaily = HttpContext.Request.Form["Price"];
+        //        string priceFull = HttpContext.Request.Form["FullPrice"];
+        //        if (!String.IsNullOrEmpty(priceDaily))
+        //            pw.DailyPrice = Convert.ToDecimal(priceDaily);
+        //        if (!String.IsNullOrEmpty(priceFull))
+        //            pw.TimespanPrice = Convert.ToDecimal(priceFull);
+        //        pw.OwnerId = RDN.Library.Classes.Account.User.GetMemberId();
+        //        DateTime sd = new DateTime();
+
+        //        bool successsd = DateTime.TryParse(pw.StartDateDisplay, out sd);
+        //        if (successsd)
+        //            pw.StartDate = sd;
+        //        else
+        //            pw.StartDate = null;
+
+        //        DateTime ed = new DateTime();
+
+        //        bool successed = DateTime.TryParse(pw.EndDateDisplay, out ed);
+        //        if (successed)
+        //            pw.EndDate = ed;
+        //        else
+        //            pw.EndDate = null;
+
+
+
+        //        var wall = pw.UpdatePaywall(pw);
+
+        //        if (wall == null)
+        //            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
+        //        return Redirect(Url.Content("~/paywall/all?u=" + SiteMessagesEnum.su));
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        ErrorDatabaseManager.AddException(exception, exception.GetType());
+        //    }
+        //    return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+        //}
+
+
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsManager = false)]
         public ActionResult DeleteLocation(string lId)

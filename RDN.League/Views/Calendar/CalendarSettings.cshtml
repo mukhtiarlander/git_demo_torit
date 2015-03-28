@@ -38,9 +38,10 @@
             <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-cogs"></i> Calendar Settings</h3>
             <span class="text-muted">Modify the calendar settings for your organization.</span>
         </div>
-        <div class="panel-body">
-            @using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
+@using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
             {
+        <div class="panel-body">
+           
                 <table class="table no-margin-bottom table-bordered">
                     <tr>
                         <td class="b text-right">TimeZone of Calendar:</td>
@@ -174,10 +175,11 @@
                 @Html.HiddenFor(x => x.CalendarId)
                 @Html.HiddenFor(x => x.EntityName)
                 @Html.HiddenFor(x => x.OwnerEntity)
-            }
+          
         </div>
         <div class="panel-footer">
             <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update Settings</button>
         </div>
+            }
     </div>
 </div>

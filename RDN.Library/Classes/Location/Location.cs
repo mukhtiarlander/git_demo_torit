@@ -13,8 +13,6 @@ namespace RDN.Library.Classes.Location
 {
     public class LocationFactory
     {
-
-
         public static void UpdateLocations()
         {
             var dc = new ManagementContext();

@@ -8,6 +8,7 @@ using RDN.League.Models.League;
 using RDN.Library.Classes.Federation;
 using RDN.Library.Classes.Utilities;
 using RDN.Library.Classes.Error;
+using RDN.Library.Classes.Calendar;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Account.Classes;
 using RDN.League.Models.Utilities;
@@ -1856,6 +1857,11 @@ namespace RDN.League.Controllers
                 leag.State = league.State;
                 leag.Teams = league.Teams;
                 leag.TimeZone = league.TimeZone;
+                if (leag.TimeZone != null)
+                    if(leag.TimeZoneSelection != null)
+                        leag.TimeZoneId = leag.TimeZoneSelection.ZoneId;
+                leag.TimeZones = RDN.Library.Classes.Location.TimeZoneFactory.GetTimeZones();
+
                 leag.Website = league.Website;
                 leag.Twitter = league.Twitter;
                 leag.Instagram = league.Instagram;

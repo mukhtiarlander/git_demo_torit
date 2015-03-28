@@ -48,6 +48,10 @@ namespace RDN.Library.DataModels.League
         public int CultureLCID { get; set; }
         public long IntroductoryEmailEnum { get; set; }
         public string ThemeColor { get; set; }
+
+        public virtual TimeZone.TimeZone TimeZoneSelection { get; set; }
+        public int TimeZone { get; set; }
+        public bool IsLeagueInUTC { get; set; } 
         
         #region References
         public virtual ICollection<ItemInfo> ItemInfo { get; set; }

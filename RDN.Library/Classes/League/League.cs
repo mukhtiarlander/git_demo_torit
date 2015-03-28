@@ -2159,6 +2159,11 @@ namespace RDN.Library.Classes.League
                 var league = dc.Leagues.Include("ContactCard").Where(x => x.LeagueId == leagueToUpdate.LeagueId).FirstOrDefault();
                 league.Name = leagueToUpdate.Name;
                 league.ThemeColor = leagueToUpdate.ThemeColor;
+
+                league.TimeZoneSelection = dc.TimeZone.Where(x => x.ZoneId == leagueToUpdate.TimeZoneId).FirstOrDefault();
+                if (league.TimeZoneSelection != null)
+                    league.TimeZone = league.TimeZoneSelection.GMTOffset;
+
                 league.WebSite = leagueToUpdate.Website;
                 league.Twitter = leagueToUpdate.Twitter;
                 league.Instagram = leagueToUpdate.Instagram;
@@ -2214,6 +2219,8 @@ namespace RDN.Library.Classes.League
                 addresses.CityRaw = leagueToUpdate.City;
                 addresses.StateRaw = leagueToUpdate.State;
                 addresses.Zip = leagueToUpdate.ZipCode;
+
+
 
                 var countryDb = dc.Countries.Where(x => x.Name.ToLower() == leagueToUpdate.Country.ToLower()).FirstOrDefault();
                 if (countryDb == null)

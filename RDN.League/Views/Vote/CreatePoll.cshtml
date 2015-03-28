@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button type="submit" class="btn btn-default btn-success" name="NewSponsorAdd"><i class="fa fa-save"></i> Create Poll</button>
+                    <button type="button" onclick="Polls.AddNewPoll()" class="btn btn-default btn-success" name="NewSponsorAdd"><i class="fa fa-save"></i> Create Poll</button>
                     <a class="btn btn-default pull-right" href="@Url.Content("~/poll/" + Model.LeagueId)">Cancel</a>
                 </div>
             </div>

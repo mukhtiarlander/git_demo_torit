@@ -4,6 +4,7 @@ using RDN.Portable.Classes.Contacts;
 using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.League.Enums;
+using RDN.Portable.Classes.Location;
 using RDN.Portable.Classes.Team;
 using System;
 using System.Collections.Generic;
@@ -129,6 +130,17 @@ namespace RDN.Portable.Classes.League.Classes
         [ProtoMember(235)]
         [DataMember]
         public DateTime? PassedWrittenExam { get; set; }
+
+        [ProtoMember(236)]
+        [DataMember]
+        public int TimeZoneId { get; set; }
+        [ProtoMember(237)]
+        [DataMember]
+        public List<TimeZone> TimeZones { get; set; }
+
+        [ProtoMember(238)]
+        [DataMember]
+        public TimeZone TimeZoneSelection { get; set; }
 
         public League()
         {
