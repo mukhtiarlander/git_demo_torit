@@ -91,7 +91,6 @@ else
                                 <table class="table table-condensed table-hover no-margin-bottom" id="members">
                                     <thead> 
                                         <tr>
-                                            <th>View</th>
                                             <th class="text-center">Vote</th>
                                             <th>Question</th>
                                         </tr>
@@ -102,12 +101,13 @@ else
                                             if (Model.Polls.Polls[i].Version == 1)
                                             {
                                                 <tr>
-                                                    <td class="text-center">
-                                                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)"><i class="fa fa-thumbs-up"></i> Vote</a>
-                                                    </td>
                                                     <td>
                                                         @Model.Polls.Polls[i].Question
                                                     </td>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)"><i class="fa fa-thumbs-up"></i> Vote</a>
+                                                    </td>
+                                                   
                                                 </tr>
                                             }
                                             else
@@ -116,16 +116,16 @@ else
                                                     <td>
                                                         @if (Model.Polls.Polls[i].IsOpenToLeague)
                                                         {
-                                                            <a href="@Url.Content("~/poll/viewv2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">Results</a>
+                                                            <a href="@Url.Content("~/poll/viewv2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)">@Model.Polls.Polls[i].Title</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            @Model.Polls.Polls[i].Title
                                                         }
                                                     </td>
                                                     <td class="text-center">
                                                         <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/votev2/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)"><i class="fa fa-thumbs-up"></i> Vote</a>
                                                     </td>
-                                                    <td>
-                                                        @Model.Polls.Polls[i].Title
-                                                    </td>
-
                                                 </tr>
                                             }
                                         }
