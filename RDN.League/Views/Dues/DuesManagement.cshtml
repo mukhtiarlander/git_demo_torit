@@ -246,7 +246,11 @@
                 "bFilter": false,
                 "bInfo": false,
                 "bAutoWidth": false,
-                "aoColumns": [null, null, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, null],
+                "aoColumns": [{ "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, { "sType": "natural" }, null, null],
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [6,7]
+                }]
             });
             $("#double-scroll1").doubleScroll();
         });
