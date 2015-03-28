@@ -1878,6 +1878,7 @@ namespace RDN.League.Controllers
                 //https://github.com/jquery/jquery-ui/tree/master/ui/i18n
                 var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(x => x.Name.Contains("en")).OrderBy(x => x.DisplayName);
                 leag.CultureList = new SelectList(cultures, "LCID", "DisplayName");
+                @ViewBag.ThemeList = new SelectList(System.Configuration.ConfigurationManager.AppSettings["ThemeColors"].ToString().Split(','));
 
                 return View(leag);
 

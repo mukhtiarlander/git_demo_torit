@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Edit " + Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    SelectList themes = new SelectList(System.Configuration.ConfigurationManager.AppSettings["ThemeColors"].ToString().Split(','));
+    
 }
 
 <ol class="breadcrumb">
@@ -250,7 +250,7 @@
                                                 <div class="col-xs-12 col-md-6">
                                                     <div class="form-label margin-top-20 margin-bottom-5">League Theme</div>
                                                     <div>
-                                                        @Html.DropDownListFor(x => x.ThemeColor, themes, "Choose Theme...", new { @class = "select-xs" })
+                                                        @Html.DropDownListFor(x => x.ThemeColor, (SelectList)@ViewBag.ThemeList, "Choose Theme...", new { @class = "select-xs" })
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-md-6">

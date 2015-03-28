@@ -17,7 +17,7 @@ namespace RDN.League
                         "~/Scripts/jquery.numeric.js",
                         "~/Scripts/jquery.validate.min.js",
                         "~/Scripts/jquery.validate.unobtrusive.min.js",
-                        "~/Scripts/knockout.validation.js",
+                        "~/Scripts/knockout/knockout.validation.js",
                         "~/Scripts/jquery.idTabs.min.js",
                         "~/Scripts/jquery.dataTables.min.js",
                         "~/Scripts/Pages/AddOldGame.js",
