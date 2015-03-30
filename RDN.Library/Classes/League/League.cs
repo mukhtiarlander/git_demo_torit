@@ -766,6 +766,15 @@ namespace RDN.Library.Classes.League
                         leagueTemp.InternalWelcomeMessageHtml = leagueTemp.InternalWelcomeMessageHtml.Replace("</p>", "</p><br/>");
                     }
                 }
+                if (league.TimeZoneSelection != null)
+                {
+                    Portable.Classes.Location.TimeZone tz = new Portable.Classes.Location.TimeZone();
+                    tz.ZoneId = league.TimeZoneSelection.ZoneId;
+                    tz.Location= league.TimeZoneSelection.Location;
+                    tz.GMTOffset = league.TimeZoneSelection.GMTOffset;
+                    tz.GMT = league.TimeZoneSelection.GMT;
+                    leagueTemp.TimeZoneSelection = tz;
+                }
 
                 List<LeagueMember> members = new List<LeagueMember>();
                 if (isPublic)
