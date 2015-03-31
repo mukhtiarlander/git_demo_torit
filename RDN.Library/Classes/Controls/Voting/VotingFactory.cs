@@ -215,7 +215,7 @@ namespace RDN.Library.Classes.Controls.Voting
                     v.IsDeleted = voting[i].IsDeleted;
                     v.Question = voting[i].Title;
                     v.VotingId = voting[i].VotingId;
-                    v.Created = voting[i].Created;
+                    v.Created = voting[i].Created + new TimeSpan(voting[i].LeagueOwner.TimeZone,0,0);
                     v.NonVotes = voting[i].Voters.Count;
                     if (voting[i].Questions.Count > 0)
                         v.Voted = voting[i].Questions.FirstOrDefault().Votes.Count;

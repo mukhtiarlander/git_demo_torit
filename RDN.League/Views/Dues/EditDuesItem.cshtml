@@ -84,7 +84,7 @@
            
         </div>
     </div>
-    <div class="panel-body" style="overflow-x:auto">
+    <div class="panel-body scroll-x">
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="members">
             <thead>
                 <tr>
@@ -139,7 +139,7 @@
                                     @Model.Members[i].collected.ToString("N2")
                                 }
                             </td>
-                            <td class="text-center" style="vertical-align:middle">
+                            <td class="text-center vertical-middle">
                                 @if (Model.Members[i].isWaived)
                                 {
                                     <button class="btn btn-default btn-xs" type="button" onclick="Dues.RemoveWaivedFee(this,'@Model.Members[i].MemberId    ')">Clear Waived</button>

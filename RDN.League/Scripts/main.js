@@ -791,7 +791,7 @@ var Forum = new function () {
 
     this.ArchiveForumTopic = function (link, topicId, loc) {
         thisViewModel.IsScrollingAllowed = true;
-        $("#noMoreTopics").toggleClass("displayNone", true);
+        $("#noMoreTopics").toggleClass("inline-block", true);
         var forumId = $("#ForumId").val();
         $.getJSON("/forum/ArchiveForumTopic", { forumId: thisViewModel.forumId, topicId: topicId, lockTopic: loc }, function (result) {
             if (result.isSuccess === true) {

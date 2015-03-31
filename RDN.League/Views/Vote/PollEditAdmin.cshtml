@@ -91,16 +91,16 @@
                                         <div class="panel-heading no-padding padding-5">
                                             <div class="row">
                                                 <div id='lblDivQuestionId-@question.QuestionId' class="col-xs-12 col-sm-10 padding-top-5">
-                                                    <span id='lblQuestionId-@question.QuestionId' style="font-size:16px;">
+                                                    <span id='lblQuestionId-@question.QuestionId'  class="font16">
                                                         <i class="fa fa-question-circle"></i> @question.Question
                                                     </span>
                                                     @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
                                                     {<small class='text-muted'> - multiple choice</small> }
                                                 </div>
-                                                <div id='updateQuestionId-@question.QuestionId' class="col-xs-12 col-sm-9" style="display:none">
+                                                <div id='updateQuestionId-@question.QuestionId' class="col-xs-12 col-sm-9 display-none">
                                                     <input id='textQuestionId-@question.QuestionId' class="form-control input-sm" type='text' value='@question.Question' />
                                                 </div>
-                                                <div id='updateBtnQuestionId-@question.QuestionId' class="col-xs-12 col-sm-3 text-left" style="display:none;">
+                                                <div id='updateBtnQuestionId-@question.QuestionId' class="col-xs-12 col-sm-3 text-left display-none">
                                                     <button class='btn btn-sm btn-success' type="button" onclick="UpdateEditQuestionInPoll('@question.QuestionId')">Update</button>
                                                     <button class='btn btn-sm btn-default' type="button" onclick="CancelEditQuestionInPoll('@question.QuestionId')">Cancel</button>
                                                 </div>
@@ -132,10 +132,10 @@
                                                         <div id="labelAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10">
                                                             <b>@answer.Answer</b>
                                                         </div>
-                                                        <div id="updateAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10" style="display:none">
+                                                        <div id="updateAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10 display-none" >
                                                             <input type='text' class='form-control input-sm' id='textAnswerId-@answer.AnswerId' value='@answer.Answer' />
                                                         </div>
-                                                        <div id="btnUpdateAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10 padding-top-5" style="display:none">
+                                                        <div id="btnUpdateAnswerTd-@answer.AnswerId" class="text-right col-xs-12 col-sm-3 col-md-2 margin-top-10 padding-top-5 display-none" >
                                                             <button class="btn btn-success btn-sm" type="button" onclick="UpdateEditAnswerInPoll('@answer.AnswerId')"><i class="fa fa-save"></i></button>
                                                             <button class="btn btn-default btn-sm" type="button" onclick="CancelEditAnswerInPoll('@answer.AnswerId')"><i class="fa fa-times"></i></button>
                                                         </div>
@@ -155,7 +155,7 @@
                                                             {
                                                                 if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
                                                                 {
-                                                                    <div id="votes-@answer.AnswerId" class="row panel panel-default margin-top-10 no-margin-bottom no-margin-left no-margin-right padding-5" style="max-height:150px;overflow:auto;display:none">
+                                                                    <div id="votes-@answer.AnswerId" class="row panel panel-default margin-top-10 no-margin-bottom no-margin-left no-margin-right padding-5 h150 scroll display-none">
                                                                         @foreach (var vote in question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).OrderBy(x => x.DerbyName))
                                                                         {
                                                                             <a target="_blank" class="" href="@Url.Content("~/Member/" + vote.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(vote.DerbyName))">@vote.DerbyName</a>
@@ -213,7 +213,7 @@
                                 <button class="btn btn-warning btn-xs" type="button" onclick="SendEmailPollNotification('@Model.LeagueId','@Model.VotingId')"><i class="fa fa-envelope"></i> Re-Send Email Notifications</button>
                             </div>
                         </div><div>
-                            <div id="checkboxes" class="row panel panel-default no-margin" style="height:150px;overflow:auto">
+                            <div id="checkboxes" class="row panel panel-default no-margin h150 scroll">
                                 @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
                                 {
                                     <div class="col-xs-12 col-sm-4">

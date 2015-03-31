@@ -102,7 +102,7 @@
                         </div>
                                 @if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
                                 {
-                                    <div class="tab-pane" id="TRounds" style="overflow-x:auto">
+                                    <div class="tab-pane scroll-x" id="TRounds">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 font16">
                                                 Add / Edit Rounds
@@ -174,23 +174,23 @@
                                                                                                         @if (i == 0)
                                                                                                         {
                                                                                                             <td class="EventTournamentRoundPairingTeamName padding-bottom-5 padding-left-10">
-                                                                                                                <label class="label label-primary font14" style="font-weight:normal"><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
+                                                                                                                <label class="label label-primary font14 no-bold"><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
                                                                                                             </td>
                                                                                                         }
                                                                                                         else
                                                                                                         {
                                                                                                             <td class="EventTournamentRoundPairingTeamName padding-bottom-5 padding-left-10">
-                                                                                                                <label class="label label-warning font14 padding-bottom-5" style="font-weight:normal"><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
+                                                                                                                <label class="label label-warning font14 padding-bottom-5 no-bold" ><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
                                                                                                             </td>
                                                                                                         }
                                                                                                         @if (i == 0)
                                                                                                         {
 
                                                                                                             <td rowspan="2" class="padding-left-10">
-                                                                                                                <input class="form-control input-sm" placeholder="Track #" id="trackNumber-@Pairing.Id" value="@Pairing.TrackId" style="width:100px;" />
+                                                                                                                <input class="form-control input-sm w100" placeholder="Track #" id="trackNumber-@Pairing.Id" value="@Pairing.TrackId"/>
                                                                                                             </td>
                                                                                                             <td rowspan="2" class="padding-left-10">
-                                                                                                                <input class="form-control input-sm" placeholder="2:00 PM" id="trackTime-@Pairing.Id" value="@Pairing.TimeToStartDisplay" style="width: 100px;" />
+                                                                                                                <input class="form-control input-sm w100" placeholder="2:00 PM" id="trackTime-@Pairing.Id" value="@Pairing.TimeToStartDisplay" />
                                                                                                                 <script type="text/ecmascript">
                                                                                                                                     $('#trackTime-@Pairing.Id').timepicker();
                                                                                                                 </script>
@@ -208,7 +208,7 @@
                                                                                                             </select>
                                                                                                         </td>
                                                                                                         <td class="smallInput EventTournamentRoundPairingTeamScore padding-bottom-5 padding-top-5">
-                                                                                                            <input class="form-control input-sm" id="ScoreId-@i-@Pairing.Id" value="@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())" placeholder="@(Pairing.Teams.Count() == 1 ? "Bye" : (TeamPairing.Score == 0 ? "?" : TeamPairing.Score.ToString()))" style="width:100px;" />
+                                                                                                            <input class="form-control input-sm w100" id="ScoreId-@i-@Pairing.Id" value="@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())" placeholder="@(Pairing.Teams.Count() == 1 ? "Bye" : (TeamPairing.Score == 0 ? "?" : TeamPairing.Score.ToString()))" />
                                                                                                         </td>
 
                                                                                                         @if (i == 0)
@@ -239,7 +239,7 @@
                                 }
                                 @if ((Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None && Model.HasSeedingFinishForTournament) || Model.TouramentTypeForSeedingEnum == RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
                                 {
-                                    <div class="tab-pane" id="TStandings" style="overflow-x:auto">
+                                    <div class="tab-pane scroll-x" id="TStandings">
                                         @if (Model.TournamentRounds.Any())
                                          {
                                             <div>Standings and Rankings</div>
@@ -274,7 +274,7 @@
                                 }
                                 @if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
                                 {
-                                    <div class="tab-pane" id="PRounds" style="overflow-x:auto">
+                                    <div class="tab-pane scroll-x" id="PRounds" >
                                         <div class="alert alert-info">
                                             <span class="b">NOTE: </span>These are the performance rounds.  Once completed, the actual tournament rounds will appear. These rounds/rankings are used to seed the actual tournament. To turn off performance rounds, go manage the tournament.
                                         </div>
@@ -324,7 +324,7 @@
                                                                     {
                                                                         <div class="EventTournamentRound">
                                                                             <div class="b margin-bottom-10 font14">@("Round " + Round.RoundNumber)</div>
-                                                                            <div style="overflow-x:auto">
+                                                                            <div class="scroll-x">
                                                                                 <table class="table table-striped table-hover table-condensed no-margin-bottom full-width">
                                                                                     @*<thead>
                                                                                             <tr>
@@ -356,22 +356,22 @@
                                                                                                                 @if (i == 0)
                                                                                                                 {
                                                                                                                     <td class="EventTournamentRoundPairingTeamName padding-bottom-5 padding-left-10">
-                                                                                                                        <label class="label label-primary font14" style="font-weight:normal"><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
+                                                                                                                        <label class="label label-primary font14 no-bold"><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
                                                                                                                     </td>
                                                                                                                 }
                                                                                                                 else
                                                                                                                 {
                                                                                                                     <td class="EventTournamentRoundPairingTeamName padding-bottom-5 padding-left-10">
-                                                                                                                        <label class="label label-warning font14 padding-bottom-5" style="font-weight:normal"><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
+                                                                                                                        <label class="label label-warning font14 padding-bottom-5 no-bold" ><i class="fa fa-group"></i> @TeamPairing.TeamName</label>
                                                                                                                     </td>
                                                                                                                 }
                                                                                                                 @if (i == 0)
                                                                                                                 {
                                                                                                                     <td rowspan="2" class="padding-left-10">
-                                                                                                                        <input class="form-control input-sm" placeholder="Track #" id="trackNumber-@Pairing.Id" value="@Pairing.TrackId" style="width:100px;" />
+                                                                                                                        <input class="form-control input-sm w100" placeholder="Track #" id="trackNumber-@Pairing.Id" value="@Pairing.TrackId" />
                                                                                                                     </td>
                                                                                                                     <td rowspan="2" class="padding-left-10">
-                                                                                                                        <input class="form-control input-sm" placeholder="2:00 PM" id="trackTime-@Pairing.Id" value="@Pairing.TimeToStartDisplay" style="width: 100px;" />
+                                                                                                                        <input class="form-control input-sm w100" placeholder="2:00 PM" id="trackTime-@Pairing.Id" value="@Pairing.TimeToStartDisplay" />
                                                                                                                         <script type="text/ecmascript">
                                                                                                                     $('#trackTime-@Pairing.Id').timepicker();
                                                                                                                         </script>
@@ -389,7 +389,7 @@
                                                                                                                     </select>
                                                                                                                 </td>
                                                                                                                 <td class="smallInput EventTournamentRoundPairingTeamScore padding-bottom-5 padding-top-5">
-                                                                                                                    <input class="form-control input-sm" id="ScoreId-@i-@Pairing.Id" value="@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())" placeholder="@(Pairing.Teams.Count() == 1 ? "Bye" : (TeamPairing.Score == 0 ? "?" : TeamPairing.Score.ToString()))" style="width:100px;" />
+                                                                                                                    <input class="form-control input-sm w100" id="ScoreId-@i-@Pairing.Id" value="@(TeamPairing.Score == 0 ? "" : TeamPairing.Score.ToString())" placeholder="@(Pairing.Teams.Count() == 1 ? "Bye" : (TeamPairing.Score == 0 ? "?" : TeamPairing.Score.ToString()))"  />
                                                                                                                 </td>
 
                                                                                                                 @if (i == 0)
@@ -427,7 +427,7 @@
                                 }
                                 @if (Model.TouramentTypeForSeedingEnum != RDN.Library.Classes.Game.Tournaments.TournamentTypeEnum.None)
                                 {
-                                    <div class="tab-pane" id="PStandings" style="overflow-x:auto">
+                                    <div class="tab-pane scroll-x" id="PStandings" >
                                         @if (Model.TournamentRoundsForSeedingGameplay.Any())
                                         {
                                             <div class="font16 margin-bottom-15">Standings and Rankings</div>

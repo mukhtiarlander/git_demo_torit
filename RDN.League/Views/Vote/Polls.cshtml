@@ -76,7 +76,7 @@
                                     <a class="btn btn-danger btn-sm disabled"  title="Not Allowed"><i class="fa fa-lg fa-times-circle"></i></a>
                                 }
                             </td>
-                            <td style="vertical-align:middle">
+                            <td class="vertical-middle">
                                 @if (Model.IsPollManager)
                                 {
                                     <a class="btn btn-sm btn-info" href="@Url.Content("~/poll/edit/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-pencil"></i> Edit</a>

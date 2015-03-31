@@ -59,7 +59,7 @@
                                 }
                                 else
                                 {
-                                    <input type="button" class="btn btn-success btn-sm" style="width:100px" value="Publish" onclick="Tournament.PublishTournament(this)" /><img id="publishTournament" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" />
+                                    <input type="button" class="btn btn-success btn-sm w100" value="Publish" onclick="Tournament.PublishTournament(this)" /><img id="publishTournament" src="@Url.Content("~/content/images/greenCheck.png")" class="displayNone" />
                                 }
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                     @Html.HiddenFor(x => x.Id)
                     @Html.HiddenFor(x => x.PrivateKey)
                 }
-                <div class="panel-footer" style="background:none; margin-left:-15px; margin-right:-15px;overflow-x:auto">
+                <div class="panel-footer scroll-x" style="background:none; margin-left:-15px; margin-right:-15px;">
                     <table class="table table-striped table-hover table-condensed" id="games">
                         <thead>
                             <tr>
@@ -260,7 +260,7 @@
                             <div class="margin-bottom-15 margin-top-10">
                             @foreach (var image in Model.Photos)
                             {
-                                <img src="@image.ImageUrl" alt="@image.Alt" id="image-@image.PhotoId" style="max-width:150px; max-height:150px;" />
+                                <img src="@image.ImageUrl" alt="@image.Alt" id="image-@image.PhotoId"  class="mh150 mw150"/>
                             }
                             </div>
                             <div class="row">

@@ -54,16 +54,16 @@
                                         </div>
                                         <div class="modal-body padding-10">
                                             <div class="text-right">
-                                                <label class="margin-left-10" style="font-weight:normal">
+                                                <label class="margin-left-10 no-bold">
                                                     <input type="checkbox" onchange="Messages.toggleCheckedForRecipients(this)" id="checkAll" />
                                                     Select All
                                                 </label>
                                             </div>
-                                            <div id="checkboxes" class="row panel panel-default no-margin padding-top-10" style="max-height:400px; overflow-y:auto">
+                                            <div id="checkboxes" class="row panel panel-default no-margin padding-top-10 scroll-y mh400">
                                                 @foreach (var mem in Model.Recipients)
                                                 {
                                                     <div class="col-xs-12 col-sm-6">
-                                                        <label style="font-weight:normal">
+                                                        <label class="no-bold">
                                                             @Html.CheckBox(mem.MemberId.ToString(), new { @derbyname = mem.DerbyName, @onchange = "Messages.ChangeDictionaryItem(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })<span id="@mem.MemberId.ToString()-name">
                                                                 @mem.DerbyName  @if (!String.IsNullOrEmpty(mem.Firstname) || !String.IsNullOrEmpty(mem.LastName))
                                                                 {
@@ -111,7 +111,7 @@
                                 Text To Send <small class="pull-right text-muted">Max character limit: 150</small>
                             </div>
                             <div class="margin-bottom-10">
-                                @Html.TextArea("MessageTextWriting", new { maxlength = "150", rows = "2", style = "height:60px;width:100%", @class = "form-control" })
+                                @Html.TextArea("MessageTextWriting", new { maxlength = "150", rows = "2", @class = "form-control full-width h60" })
                                 <label id="counter" class="margin-top-10"></label>
                             </div>
                         </div>
