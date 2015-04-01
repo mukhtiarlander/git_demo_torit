@@ -538,7 +538,7 @@ namespace RDN.Library.Classes.Forum
                 {
                     top.Messages.Add(DisplayMessage(message));
                 }
-                top.Messages = top.Messages.OrderByDescending(o => o.Created).ToList();
+                
                 foreach (var inbox in topic.TopicsInbox)
                 {
                     try

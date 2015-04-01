@@ -587,12 +587,15 @@ namespace RDN.Library.Classes.Messages
         }
         private static void GetGroupMessages(Guid ownerId, MessageModel mess, ManagementContext dc, int page, int take)
         {
+            
             //TODO: add Take(50) a few days from now.
             var to = (from xx in dc.GroupMessages
                       where xx.IsDeleted == false
                       where xx.Recipients.Where(z => z.IsRemovedFromGroup == false).Select(x => x.Recipient.MemberId).Contains(ownerId)
                       select xx).AsParallel().OrderByDescending(x => x.LastModified).Skip(page * take).Take(take).ToList();
             List<RDN.Library.DataModels.Messages.GroupMessage> groups = new List<DataModels.Messages.GroupMessage>();
+
+            
 
             //foreach (var recipient in to)
             foreach (var group in to)
@@ -613,6 +616,7 @@ namespace RDN.Library.Classes.Messages
                             ms.FromId = message.FromUser.MemberId;
                             ms.FromName = message.FromUser.DerbyName;
                         }
+                      
                         ms.MessageCreated = message.Created;
                         ms.MessageId = message.MessageId;
                         if (!String.IsNullOrEmpty(message.MessageText))

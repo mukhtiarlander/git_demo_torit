@@ -89,12 +89,10 @@ function ForumPostToggleWatch(span) {
     var topicId = $("#TopicId").val();
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/WatchTopic", { forumId: forumId, topicId: topicId }, function (result) {
-        if($(span).html() == '<i class="fa fa-binoculars"></i> Watch')
-        {
+        if ($(span).html() == '<i class="fa fa-binoculars"></i> Watch') {
             $(span).html('<i class="fa fa-binoculars"></i> Stop Watching');
         }
-        else
-        {
+        else {
             $(span).html('<i class="fa fa-binoculars"></i> Watch');
         }
     });
@@ -129,7 +127,7 @@ function ForumTopicEditSub(button) {
         title.toggleClass("error", false);
         $.getJSON("/forum/UpdateTopicName", { fId: $("#ForumId").val(), tId: $("#TopicId").val(), n: title.val() }, function (result) {
             if (result.isSuccess === true) {
-                
+
             }
         });
         title.val("");
@@ -324,7 +322,7 @@ function AddCommentToDocument(id, ownerId) {
     var com = $("#comment");
     $.getJSON("/document/AddCommentToLeagueDocument", { docId: id, docOwnerId: ownerId, comment: com.val() }, function (result) {
         if (result.isSuccess === true) {
-           
+
         }
         if ($("#folderBody").html().trim() == "") {
             $("#folderBody").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + ownerId + '\',\'' + id + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
@@ -346,7 +344,7 @@ function DeleteCommentFromDocument(span, docOwnerId, commentId) {
         }
     }).error(function () {
     });
-    
+
 }
 function AddFolderToDocumentRepo(leagueId) {
     var folder = $("#folderName");
@@ -484,7 +482,7 @@ function removeMemberContact(contactId) {
 }
 
 function AddContactToMember() {
-   
+
     var firstName = $("#FirstName");
     var lastName = $("#LastName");
     var contactType = $("#ContactType option:selected").val();
@@ -538,7 +536,7 @@ function AddContactToMember() {
     });
 }
 
-function HideShowCCInfo(div,hideShow) {
+function HideShowCCInfo(div, hideShow) {
     $(".subscribtion-payment-type").removeClass('panel-primary');
     $(".subscribtion-payment-type").addClass('panel-default');
     $(div).removeClass('panel-default');
@@ -630,8 +628,7 @@ function PinForumTopic(link, topicId, pin) {
                 $("#forum-title-" + topicId).append('<i id="pinned-icon-' + topicId + '" class="fa fa-thumb-tack text-muted" data-toggle="tooltip" data-placement="top" title="Topic is Pinned"></i>');
                 $("#pinned-icon-" + topicId).tooltip('show');
             }
-            else
-            {
+            else {
                 $(link).html("<i class='fa fa-thumb-tack'></i>");
                 $(link).attr('data-original-title', "Pin");
                 $(link).attr('onclick', "javascript:PinForumTopic(this,'" + topicId + "', 'true')");
@@ -1162,9 +1159,8 @@ function PostInternalMessage() {
     $("#inputNewMessage").focus();
     message = message.replace(/\n\r?/g, '<br />');
     var newMess = "";
-    if (lastMessageNameId != to) 
-        {
-        newMess += '<div class=" margin-top-10 margin-bottom-10"><span class="label label-default">' +GetCurrentDateTime() + '</span></div>'
+    if (lastMessageNameId != to) {
+        newMess += '<div class=" margin-top-10 margin-bottom-10"><span class="label label-default">' + GetCurrentDateTime() + '</span></div>'
         newMess += '<div class="b margin-top-10 margin-bottom-5">' + fromName + '</div>';
         newMess += '<div style="border-top:1px solid #eee; height:5px;"></div>';
     }
@@ -1651,7 +1647,7 @@ function updateEditMemberDuesCost(btn, memberId, duesId, duesItemId) {
         $.getJSON("/Dues/SetDuesAmount", { duesId: duesItemId, duesManagementId: duesId, amountDue: amount, memberId: memberId }, function (result) {
             if (result.isSuccess === true) {
             } else {
-            }   
+            }
         }).error(function () {
 
         });
@@ -1720,7 +1716,7 @@ function checkIntoEvent(idOfPopUp, calId, evenId, name) {
     addEventPopup = true;
     $("#" + eventId).popover({ content: popup.html() });
     $("#" + eventId).popover('show');
-    
+
 }
 function setAvailForEvent(calId, evenId) {
     calendarId = calId;
@@ -1926,7 +1922,7 @@ var Polls = new function () {
             else { break; }
         }
         $("#questionInput").val("");
-        
+
 
 
         panel.append(questionAndAnswersPanel);
@@ -1951,8 +1947,7 @@ var Polls = new function () {
         });
     }
 
-    this.ShowNewPollMembersPopup = function()
-    {
+    this.ShowNewPollMembersPopup = function () {
         $("#NewPollMembersPopup").modal('show');
     }
 
@@ -1968,8 +1963,7 @@ var Polls = new function () {
         if ($("#checkboxes input:checkbox:checked").length > 0) {
             document.getElementById('PollsAdd').submit();
         }
-        else
-        {
+        else {
             alert('No Names have been selected');
         }
     }
@@ -2077,8 +2071,7 @@ function UpdateEditQuestionInPoll(questionId) {
     });
 }
 
-function ShowVotes(questionId)
-{
+function ShowVotes(questionId) {
     $("#votes-" + questionId).slideDown("fast");
 }
 
@@ -2556,10 +2549,14 @@ var Member = new function () {
         }).error(function () {
         });
     };
-    this.changeForumMessageOrderSetting = function(cb) {
+    this.changeForumMessageOrderSetting = function (cb) {
         var isChecked = $(cb).is(":checked");
         $.getJSON("/member/ChangeForumMessageOrderSetting", { checkedUnCheck: isChecked }, function (result) {
             if (result.isSuccess === true) {
+                $('.bottom-right').notify({
+                    message: { text: 'Saved! ' },
+                    fadeOut: { enabled: true, delay: 3000 }
+                }).show();
             }
             else {
             }
@@ -3005,7 +3002,7 @@ var jquerySortableHelper = function (e, tr) {
     return $helper;
 }
 
-function MsgLike(link, messageId,memberid, forumId, topicId) {
+function MsgLike(link, messageId, memberid, forumId, topicId) {
     var paramValue = JSON.stringify({ messageId: messageId, forumId: forumId, topicId: topicId });
     $.ajax({
         url: '/forum/message/like', //This will call the function in controller

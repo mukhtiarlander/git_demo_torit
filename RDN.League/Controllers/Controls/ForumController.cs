@@ -454,6 +454,11 @@ namespace RDN.League.Controllers
 
                 var topic = ForumTopicCache.GetTopic(new Guid(forumId), Convert.ToInt64(topicId));
 
+                var display = MemberCache.GetMemberDisplay(memId);
+
+                if (display.Settings.ForumDescending)
+                    topic.Messages = topic.Messages.OrderByDescending(o => o.Created).ToList();
+
                 var isWatching = topic.Watchers.Where(x => x.MemberId == memId).FirstOrDefault();
                 if (isWatching != null)
                     topic.IsWatching = true;
