@@ -57,7 +57,16 @@
 
                             <li>
                                 <label for="folder.FolderId">
-                                    <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + folder.FolderId)">@folder.FolderName</a>
+                                    <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + folder.FolderId)">
+                                        @if (folder.FolderName.ToString().Length > 17)
+                                        {
+                                            @folder.FolderName.Substring(0, 17)<span>..</span>;
+                                        }
+                                        else
+                                        {
+                                            @folder.FolderName
+                                        }
+                                    </a>
                                 </label><input type="checkbox" id="folder.FolderId" />
                                 @if (Model.Folders.Where(x => x.ParentFolderId == folder.FolderId).Count() > 0)
                                 {
@@ -65,7 +74,16 @@
                                     @foreach (var subFolder in Model.Folders.Where(x => x.ParentFolderId == folder.FolderId).OrderBy(x => x.FolderName))
                                     {
                                     <li>
-                                        <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + subFolder.FolderId)">@subFolder.FolderName</a>
+                                        <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + subFolder.FolderId)">
+                                            @if (subFolder.FolderName.ToString().Length > 17)
+                                            {
+                                                @subFolder.FolderName.Substring(0, 17)<span>..</span>;
+                                            }
+                                            else
+                                            {
+                                                @subFolder.FolderName
+                                            }
+                                        </a>
                                     </li>
                                     }
                                 </ol>
@@ -80,7 +98,16 @@
                     {
                     <li>
                         <label for="group.Id">
-                            <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?g=" + group.Id)">@group.GroupName</a>
+                            <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?g=" + group.Id)">
+                                @if (group.GroupName.ToString().Length > 17)
+                                {
+                                    @group.GroupName.Substring(0, 17)<span>..</span>;
+                                }
+                                else
+                                {
+                                    @group.GroupName
+                                }
+                            </a>
                         </label><input type="checkbox" checked id="group.Id" />
 
                         <ol>
@@ -88,7 +115,16 @@
                             {
                             <li>
                                 <label for="groupFolder.FolderId">
-                                    <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + groupFolder.FolderId)">@groupFolder.FolderName</a>
+                                    <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + groupFolder.FolderId)">
+                                        @if (groupFolder.FolderName.ToString().Length > 17)
+                                        {
+                                            @groupFolder.FolderName.Substring(0, 17)<span>..</span>;
+                                        }
+                                        else
+                                        {
+                                            @groupFolder.FolderName
+                                        }
+                                    </a>
                                 </label><input type="checkbox" checked id="groupFolder.FolderId" />
                                 @if (Model.Folders.Where(x => x.ParentFolderId == groupFolder.FolderId).Count() > 0)
                                 {
@@ -97,7 +133,16 @@
                                     {
                                     <li>
                                         <label>
-                                            <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + subFolder.FolderId)">@subFolder.FolderName</a>
+                                            <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + subFolder.FolderId)">
+                                                @if (subFolder.FolderName.ToString().Length > 17)
+                                                {
+                                                    @subFolder.FolderName.Substring(0, 17)<span>..</span>;
+                                                }
+                                                else
+                                                {
+                                                    @subFolder.FolderName
+                                                }
+                                            </a>
                                         </label>
 </li>
                                     }
@@ -124,7 +169,7 @@
                         <div id="fileUpload-list" class="uploadList"></div>
                     </div>
                     <div class="margin-bottom-10">
-                            @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...")
+                            @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...", new { @class="select-sm"})
                     </div>
                     <button class="btn btn-success btn-sm" id="submitDocs" type="submit"><i class="fa fa-upload"></i> Upload Documents</button>
                        
@@ -158,7 +203,7 @@
                     }
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body scroll-y">
                 <table id="documents" class="table table-striped table-hover table-condensed no-margin-bottom">
                     <thead>
                         <tr>
