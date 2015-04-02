@@ -1882,7 +1882,7 @@ namespace RDN.Library.Classes.Forum
                     //this is making sure its the actual starting group.
                     if (g.Id == groupId)
                     {
-                        var topics = dc.ForumTopics.Include("CreatedByMember").Include("Messages").Include("TopicsInbox").Include("TopicsInbox.ToUser").Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
+                        var topics = dc.ForumTopics.Include("Forum").Include("Forum.LeagueOwner").Include("CreatedByMember").Include("Messages").Include("TopicsInbox").Include("TopicsInbox.ToUser").Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
 
                         foreach (var topic in topics)
                         {

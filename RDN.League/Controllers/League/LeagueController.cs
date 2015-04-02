@@ -1857,7 +1857,7 @@ namespace RDN.League.Controllers
                 leag.State = league.State;
                 leag.Teams = league.Teams;
                 leag.TimeZone = league.TimeZone;
-                if (leag.TimeZone != null)
+                if (leag.TimeZone != null && league.TimeZoneSelection!= null)
                     leag.TimeZoneId = league.TimeZoneSelection.ZoneId;
                 leag.TimeZones = RDN.Library.Classes.Location.TimeZoneFactory.GetTimeZones();
 
