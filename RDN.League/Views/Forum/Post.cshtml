@@ -146,15 +146,13 @@
                     </div>
                 }
                 <div>Members Unread</div>
-                @{
-                    var last = Model.TopicInbox.Last();    
-                }
+               
                 
                 @foreach (var user in Model.TopicInbox)
                 {
                     <span>
                         <a target="_blank" href="@Url.Content("~/member/" + user.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(user.DerbyName))">
-                            @user.DerbyName</a>@if (user != last)
+                            @user.DerbyName</a>@if (user != Model.TopicInbox.Last())
                        {<span>,</span>}
                     </span>
                 }
