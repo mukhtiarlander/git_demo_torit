@@ -2748,7 +2748,10 @@ var LeagueMembersReportBuilder = new function () {
 
     this.ExportReport = function (formName) {
         if ($("#selectedColumns").find("option").length <= 0) {
-            $("#warning").text("No Columns Selected");
+            $('.bottom-right').notify({
+                message: { text: 'No Column Selected!' },
+                fadeOut: { enabled: true, delay: 4000 }
+            }).show();
             return;
         }
         $("#warning").text("");
