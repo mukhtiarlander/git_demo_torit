@@ -162,7 +162,7 @@ else
                             <td>
                                 @if (topic.Category != null)
                                 {
-                                    <span onclick="Forum.changeForumCategoryLink('@topic.GroupId', '@topic.Category.CategoryId')">@topic.Category.CategoryName</span>
+                                    <a href="JavaScript:void" onclick="Forum.changeForumCategoryLink('@topic.GroupId', '@topic.Category.CategoryId')">@topic.Category.CategoryName</a>
                                 }
                             </td>
                             <td>

@@ -714,10 +714,10 @@ var Forum = new function () {
 
         var catColumn = $(document.createElement('td'));
 
-        var catLink = $(document.createElement('span'));
-        catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')" });
+        var catLink = $(document.createElement('a'));
+        catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')", href: "JavaScript:void(0)" });
         catLink.html(item.Category);
-        catLink.addClass("spanLink");
+      
         catColumn.append(catLink);
         row.append(catColumn);
 
