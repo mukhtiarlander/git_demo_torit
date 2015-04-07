@@ -162,6 +162,7 @@ namespace RDN.League.Controllers
             }
             return Redirect("~/messages/" + GroupOwnerTypeEnum.member.ToString() + "/" + RDN.Library.Classes.Account.User.GetMemberId().ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.na.ToString());
         }
+
         [Authorize]
         public ActionResult MessageNew(string type, string id)
         {
@@ -383,6 +384,27 @@ namespace RDN.League.Controllers
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return Redirect("~/messages/" + GroupOwnerTypeEnum.member.ToString() + "/" + model.OwnerId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.mns.ToString());
+        }
+
+
+        [Authorize]
+        public ActionResult SaveMembersToMessage(string memberids, string groupid)
+        {
+            List<Guid> member_ids = new List<Guid>();
+            if (!String.IsNullOrEmpty(memberids))
+            {
+                foreach (string guid in memberids.Split(','))
+                {
+                    Guid temp = new Guid();
+                    bool didWork = Guid.TryParse(guid, out temp);
+                    if (didWork)
+                        member_ids.Add(temp);
+                }
+            }
+
+           return Json(Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid)));
+
+
         }
     }
 }

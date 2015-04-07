@@ -30,8 +30,8 @@ namespace RDN.League
                         "~/Scripts/jquery.MultiFile.js",
                         "~/Scripts/jquery/jquery.ajaxfileupload.js",
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
-                        "~/Scripts/FullCalendar/gcal.js"
-                        
+                        "~/Scripts/FullCalendar/gcal.js",
+                         "~/Scripts/select2/select2.min.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
@@ -60,7 +60,9 @@ namespace RDN.League
                       "~/Content/font-awesome.css",
                       "~/Content/main.css",
                       "~/Content/jquery-ui-1.10.4.custom.css",
-                      "~/Content/FullCalendar/fullcalendar.css"
+                      "~/Content/FullCalendar/fullcalendar.css",
+                       "~/Content/select2.min.css"
+
                       //,
                       //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));

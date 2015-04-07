@@ -9,7 +9,7 @@
     var lastDateShown = String.Empty;
     long lastMessageId = 0;
 }
-
+<link href="~/Scripts/select2/select2.min.css" rel="stylesheet" />
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/messages/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + @Model.OwnerUserId.ToString().Replace("-", ""))">Messages</a></li>
@@ -18,7 +18,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8">
-        <div class="panel panel-default">
+        <div class="panel panel-default" >
             <div class="panel-heading">
                 <h3 class="margin-bottom-5 margin-top-5">
                     @if (String.IsNullOrEmpty(Model.Title))
@@ -61,11 +61,11 @@
 
             </div>
             <div class="panel-footer">
-                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply...", @class="form-control" })
+                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply...", @class = "form-control" })
                 <div class="padding-top-5 text-right">
                     <button name="submit" id="submit" type="submit" class="btn btn-success"
                             onclick="javascript: PostInternalMessage()">
-                        Send Reply
+                        <i class="fa fa-paper-plane-o"></i> Send Reply
                     </button>
                 </div>
             </div>
@@ -76,11 +76,19 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-4">
-        <div class="panel panel-default">
+        <div id="panel-members" class="panel panel-default" data-container="body" data-toggle="popover" data-placement="left" >
             <div class="panel-heading">
-                <h4 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> Members of Chat</h4>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h4 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> Members of Chat</h4>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <button class="btn btn-info btn-xs margin-top-5" onclick="ShowAddMemberPopup()"><i class="fa fa-plus-circle"></i> Add</button>
+                    </div>
+                </div>
+
             </div>
-            <div class="panel-body no-padding-bottom">
+            <div id="message-member-list" class="panel-body no-padding-bottom">
                 @if (Model.Recipients.Count > 0)
                 {
                     foreach (var mem in Model.Recipients.OrderBy(x => x.DerbyName))
@@ -104,15 +112,115 @@
         </div>
     </div>
 </div>
-
+<script src="~/Scripts/select2/select2.min.js"></script>
+<style>
+    .popover-footer {
+  margin: 0;
+  padding: 8px 14px;
+  background-color: #F7F7F7;
+  border-top: 1px solid #EBEBEB;
+}
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
-        var objDiv = document.getElementById("messageView");
-        objDiv.scrollTop = objDiv.scrollHeight;
-        var timerMessages = $.timer(function () {
-            GetInternalMessageHistory();
+        //var objDiv = document.getElementById("messageView");
+        //objDiv.scrollTop = objDiv.scrollHeight;
+        //var timerMessages = $.timer(function () {
+        //    GetInternalMessageHistory();
+        //});
+
+        //timerMessages.set({ time: 10000, autostart: true });
+
+
+
+
+    });
+
+    function ShowAddMemberPopup()
+    {
+        $("#panel-members").on('shown.bs.popover', function () {
+
+            var group_id = @Model.GroupMessageId;
+            $(".js-data-example-ajax").select2({
+                ajax: {
+                    url: '@Url.Action("SearchNamesToAdd", "Utilities")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            groupid:group_id
+                        };
+                    },
+                    processResults: function (data, page) {
+                        // parse the results into the format expected by Select2.
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                },  placeholder: "Search Members..",
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                minimumInputLength: 1,
+                templateResult: formatRepo, // omitted for brevity, see the source of this page
+                templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+            });
+
+        }).popover(
+          {
+
+              html: true,
+              content: '<select id="ddlMembersList" class="js-data-example-ajax w200" multiple="multiple"></select>',
+              template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="SaveMembersToMessage()"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default">Close</button></div></div>',
+              title: "<i class='fa fa-plus-circle'></i> Add Member"
+          });
+
+
+
+    }
+    function formatRepo(repo) {
+        if (repo.loading) return repo.text;
+
+        var markup;
+        if (repo.picture != '')
+            markup = '<img src="' + repo.picture + '" class="w30 round-corners"/> ' + repo.name;
+        else
+            markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + repo.name;
+        return markup;
+    }
+
+    function formatRepoSelection(repo) {
+        return repo.name;
+    }
+    function SaveMembersToMessage()
+    {
+        console.dir($("#ddlMembersList").select2('data'));
+        $.ajax({
+            url:'/Message/SaveMembersToMessage',
+            type: 'POST',
+            data:'memberids=' + $("#ddlMembersList").val() + '&groupId=' +  @Model.GroupMessageId,
+            success:function(result){
+                $("#panel-members").popover('hide');
+                if(result == true)
+                {
+                    var selected_members =  $("#ddlMembersList").select2('data');
+                    for(var i = 0;i<selected_members.length; i++)
+                    {
+                        $("#message-member-list").append('<div class="margin-bottom-10"><i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></div>')
+                    }
+
+                }
+                else
+                {
+                    alert('error');
+                }
+            },
+            error:function(){
+                alert('error');
+            }
         });
 
-        timerMessages.set({ time: 10000, autostart: true });
-    });
+    }
 </script>

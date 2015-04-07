@@ -19,6 +19,7 @@ using RDN.Library.Classes.Payment;
 using RDN.Library.Classes.Calendar;
 using MoreLinq;
 using RDN.Portable.Classes.Controls.Forum;
+using RDN.Library.Classes.Messages;
 
 namespace RDN.League.Controllers
 {
@@ -197,6 +198,26 @@ namespace RDN.League.Controllers
             namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();
             return Json(namesFound, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult SearchNamesToAdd(string q, string groupid)
+        {
+            List<MemberJson> new_members = new List<MemberJson>();
+            var added_members = Messages.GetConversationMembers(Convert.ToInt64(groupid));
+            var total_members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
+            new_members = (from xx in total_members
+                                where ((xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))
+                                || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
+                                || (xx.LastName != null && xx.LastName.ToLower().Contains(q)))
+                                && !added_members.Contains(xx.MemberId)
+                                select new MemberJson
+                                {
+                                    link = Url.Content("~/Member/" + xx.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(xx.DerbyName)),
+                                    picture= xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null  ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
+                                    name = xx.DerbyName,
+                                    id = xx.MemberId
+                                }).Take(5).ToList();
+            return Json(new_members, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult SearchLeagues(string term)
         {
             var namesFound = RDN.Library.Classes.League.LeagueFactory.SearchForLeagueName(term, 10);
