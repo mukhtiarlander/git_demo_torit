@@ -175,34 +175,39 @@ function VerifySMSCarrier(button) {
         alert("Please Enter a Number");
     num = num.replace(/\+/g, "").replace(/\./g, "");
 
-    $("#loading").toggleClass("displayNone", false);
+   
+    $(button).attr('disabled', true).html("<i class='fa fa-refresh fa-spin'></i> Sending..");
+    
+    
     $.getJSON("/member/verifysms", { number: num }, function (result) {
         if (result.isSuccess === true) {
-            $("#verifyButton").toggleClass("displayNone", true);
-            $("#codeHtml").toggleClass("displayNone", false);
-
+           
+            $("#codeHtml").toggleClass("display-none", false);
         } else {
-        }
-        $("#loading").toggleClass("displayNone", true);
 
+        }
+        $(button).attr('disabled', false).html("Resend");
     }).error(function () {
     });
 }
 
 function EnterCarrierCode(button) {
+    $(button).attr('disabled', true).html("<i class='fa fa-refresh fa-spin'></i> Verifying..");
     var num = $("#PhoneNumber").val();
     num = num.replace(/\+/g, "").replace(/\./g, "");
     var code = $("#code").val();
-    $("#loading2").toggleClass("displayNone", false);
+    $("#loading2").toggleClass("display-none", false);
     $.getJSON("/member/verifysmscode", { number: num, code: code }, function (result) {
         if (result.isSuccess === true) {
             $('.bottom-right').notify({
-                message: { text: 'Verification number is saved! ' },
+                message: { text: 'Verification number is saved!' },
                 fadeOut: { enabled: true, delay: 4000 }
             }).show();
+            $(button).attr('disabled', false).html("<i class='fa fa-check-circle'></i> Verify");
         } else {
+            $(button).attr('disabled', false).html("<i class='fa fa-exclamation-circle'></i> Try Again");
         }
-        $("#loading2").toggleClass("displayNone", true);
+      
     }).error(function () {
     });
 }

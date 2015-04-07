@@ -41,7 +41,7 @@
                         <div class="form-label margin-bottom-5">
                             Default Calendar View
                         </div>
-                        <div>
+                        <div class="margin-bottom-10">
                             @Html.DropDownListFor(x => x.CalendarViewDefault, (SelectList)ViewBag.CalendarView, new { @class = "form-control margin-bottom-5 half-width" })
                             <span class="text-muted i">This is the default view you receive when viewing the calendar</span>
                         </div>
@@ -69,21 +69,21 @@
                                 <small class="text-muted">We will not share your number; for more information, see our <a href="http://rdnation.com/privacy" target="_blank">Privacy Policy</a>. Fees May Apply</small>
                             </p>
                             <p>
-                                <input type="button" value="Verify Number" class="btn btn-primary" onclick="javascript: VerifySMSCarrier(this)" />
-                                <img class="displayNone" src="@Url.Content("~/Content/loading_lg.gif")" id="loading" />
+                                <button type="button"  class="btn btn-primary" onclick="javascript: VerifySMSCarrier(this)"><i class="fa fa-envelope-o"></i> Send Verification Code</button>
+                                
                             </p>
                         </div>
-                        <div id="codeHtml" class="display-none">
-                            <div class="b">Enter Verification Code:</div>
+                        <div id="codeHtml" class="display-none margin-bottom-10">
                             <small>A Verification Code was sent to your mobile phone.  </small>
-                            <input type="text" id="code" placeholder="Verification Code" class="form-control" />
-                            <br /><input type="button" value="Submit Code" class="btn btn-primary" onclick="javascript: EnterCarrierCode(this)" />
-                            <img class="floatLeft displayNone" src="@Url.Content("~/Content/loading_lg.gif")" id="loading2" />
+                            <div class="margin-bottom-5">Enter Verification Code:</div>
+                            <input type="text" id="code" placeholder="Verification Code" class="form-control w200" />
+                            <button type="button" class="btn btn-primary margin-top-10" onclick="javascript: EnterCarrierCode(this)" >Verify</button>
+                            
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="Notifications">
                         <h4 class="margin-bottom-10 padding-bottom-5">
-                            <i class="fa fa-mobile-phone"></i> Email Notifications - <small><a target="_blank" href="http://wiki.rdnation.com/Member_Settings#Notification_Settings">Help</a></small><br />
+                            <i class="fa fa-envelope-o"></i> Email Notifications - <small><a target="_blank" href="http://wiki.rdnation.com/Member_Settings#Notification_Settings">Help</a></small><br />
                             <span class="text-muted"><small>Checking this first box will ENABLE an email notification to you outside of the forums section.</small></span>
                         </h4>
                         <table class="table">
