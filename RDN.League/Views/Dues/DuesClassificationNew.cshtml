@@ -12,113 +12,80 @@
     <li class="active">Dues Item</li>
 </ol>
 
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
 
-<div class="panel panel-default margin-top-20">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <h3 style="margin-top:5px !important"><i class="fa fa-pencil-square-o"></i> Collect Dues For @Fee.PayBy.ToLongDateString()</h3>
+        <div class="panel panel-default margin-top-20">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h3 style="margin-top:5px !important"><i class="fa fa-pencil-square-o"></i> Add New Classification</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 text-right">
+                        <a class="btn btn-default" title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
+                            <i class="fa fa-money"></i> Dues
+                        </a>
+                        <a class="btn btn-default" title="Dues Management" href="@Url.Content("~/dues/classification/league/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
+                            <i class="fa fa-folder"></i> Classify
+                        </a>
+                    </div>
+                </div>
+                <div class="text-muted">
+                    Here you can add a new classification for the skaters who you want to put into a group that pay dues at a group price rather than the leagues default price.
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-6 text-right">
-                <a class="btn btn-default btn-sm" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
-                    <i class="fa fa-download"></i> Export
-                </a>
-                <a class="btn btn-default btn-sm" title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                    <i class="fa fa-folder"></i> Classify
-                </a>
-                <a class="btn btn-primary btn-sm" title="Edit Item" href="@Url.Content("~/dues/collection/edit/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">
-                    <i class="fa fa-pencil"></i> Edit
-                </a>
-            </div>
-        </div>
-        <div class="text-muted">
-            This page allows you to define who has paid dues and who hasn't. You can send them
-            reminders, pay only a fraction of the required payment or just review who paid and
-            who didn't. Only a owner or manager can see this page.
+            @using (Html.BeginForm("DuesClassificationNew", "Dues", FormMethod.Post, new { @id = "form", @name = "form" }))
+            {
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10 margin-top-10">
+                            <label class="form-label">
+                                Name of the dues group
+                            </label>
+                            <div>
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10 margin-top-10">
+
+                            <label class="form-label">
+                                Amount required for each dues collection
+                            </label>
+                            <div>
+                                @Html.TextBoxFor(x => x.FeeRequiredInput, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10 margin-top-10">
+                            <label class="form-label">
+                                Does Not Pay Dues
+                            </label>
+                            <div>
+                                @Html.CheckBoxFor(x => x.DoesNotPayDues, new { @onchange = "classificationDoesNotPayDues(this)" }) <span class="b">Set if group does NOT pay dues.</span>
+                            </div>
+                        </div>
+                      
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Create New Class</button>
+                </div>
+                @Html.HiddenFor(x => x.DuesId)
+                @Html.HiddenFor(x => x.LeagueOwnerId)
+                @Html.HiddenFor(x => x.OwnerEntity)
+            }
         </div>
     </div>
 </div>
 
-    <div class="fixedContainer">
-        <div class="fixedlinksContainter">
-            <div class="backLink">
-                <div class="navIcons">
-                    <a title="Dues Management" href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/images/icons/wallet.png")" />Dues
-                    </a>
-                </div>
-            </div>
-            <div class="backLink">
-                <div class="navIcons">
-                    <a title="Dues Management" href="@Url.Content("~/dues/classification/league/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
-                        <img src="@Url.Content("~/Content/images/icons/group.png")" />Classify
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="fixedCenterContainter">
-            <div class="fixTitle">
-                Add New Classification
-            </div>
-
-            <div class="titleDescription">
-                Here you can add a new classification for the skaters who you want to put into a group that pay dues at a group price rather than the leagues default price.
-
-            </div>
-            <div class="divider"></div>
-
-            <div>
-                @using (Html.BeginForm("DuesClassificationNew", "Dues", FormMethod.Post, new { @id = "form", @name = "form" }))
-                {
-                    <table class="addForumPostTbl">
-                        <tr>
-                            <td class="b vLTD">
-                                Name of Class:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.Name) <span class="i">Name of the dues group.</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b vLTD">
-                                Does Not Pay Dues:
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(x => x.DoesNotPayDues, new { @onchange = "classificationDoesNotPayDues(this)" }) <span class="i">Set if group does NOT pay dues.</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b vLTD">
-                                Amount For Dues:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.FeeRequiredInput) <span class="i">Amount required for each dues collection. </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td></td>
-                            <td>
-
-                                <input type="submit" class="primary" value="Create New Class" />
-                            </td>
-                        </tr>
-                    </table>
-                    @Html.HiddenFor(x => x.DuesId)
-                    @Html.HiddenFor(x => x.LeagueOwnerId)
-                    @Html.HiddenFor(x => x.OwnerEntity)
-
-                }
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $("#FeeRequiredInput").numeric({ negative: false });
-        $("#form").validate({
-            rules: {
-                Name: "required",
-                FeeRequiredInput: "required"
-            }
-        });
-    </script>
+<script type="text/javascript">
+    $("#FeeRequiredInput").numeric({ negative: false });
+    $("#form").validate({
+        rules: {
+            Name: "required",
+            FeeRequiredInput: "required"
+        }
+    });
+</script>
+    
 
