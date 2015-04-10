@@ -89,11 +89,16 @@ function ForumPostToggleWatch(span) {
     var topicId = $("#TopicId").val();
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/WatchTopic", { forumId: forumId, topicId: topicId }, function (result) {
-        if ($(span).html() == '<i class="fa fa-binoculars"></i> Watch') {
-            $(span).html('<i class="fa fa-binoculars"></i> Stop Watching');
-        }
-        else {
-            $(span).html('<i class="fa fa-binoculars"></i> Watch');
+        if (result.result == true) {
+            if ($(span).prop('name') == 'watch') {
+                $('button[name="watch"]').html('<i class="fa fa-binoculars"></i> Stop Watching');
+                $('button[name="watch"]').attr('name', 'stopwatch');
+
+            }
+            else {
+                $('button[name="stopwatch"]').html('<i class="fa fa-binoculars"></i> Watch');
+                $('button[name="stopwatch"]').attr('name', 'watch');
+            }
         }
     });
 }
