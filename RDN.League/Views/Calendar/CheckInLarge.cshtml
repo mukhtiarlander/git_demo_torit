@@ -18,7 +18,7 @@
     }
     else
     {
-        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month)">Calendar</a></li>
+        <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
     }
     <li><a href="@Url.Content("~/calendar/event/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))">@Model.Name</a></li>
     <li class="active">Check In</li>
