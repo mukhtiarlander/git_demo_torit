@@ -66,7 +66,7 @@ namespace RDN.Library.Classes.Calendar
                             calEvent.backColor = ColorTranslator.ToHtml(c);
                         }
                         calEvent.title = ev.Name;
-                        
+
                         calEvent.id = ev.CalendarItemId;
                         if (ev.ReocurringEvent != null)
                             calEvent.ReocurringId = ev.ReocurringEvent.CalendarItemId;
@@ -94,7 +94,7 @@ namespace RDN.Library.Classes.Calendar
                         ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: calDb.TimeZone + ":" + ev.StartDate + ":" + ev.EndDate);
                     }
                 }
-                
+
                 int amount = dc.SaveChanges();
             }
             catch (Exception exception)
@@ -347,7 +347,7 @@ namespace RDN.Library.Classes.Calendar
                     mem.AvailabilityNote = note;
                     mem.AvailibityEnum = (byte)avail;
                     int c = dc.SaveChanges();
-                    return c > 0;
+                    return true;
                 }
             }
             catch (Exception exception)
