@@ -18,6 +18,7 @@ using RDN.Portable.Classes.Controls.Message;
 using RDN.Portable.Classes.Controls.Message.Enums;
 using RDN.Library.Classes.Mobile;
 using RDN.Portable.Classes.League.Enums;
+using RDN.Library.DataModels.Messages;
 
 namespace RDN.Library.Classes.Messages
 {
@@ -841,6 +842,36 @@ namespace RDN.Library.Classes.Messages
             }
             return con;
         }
+
+        public static List<Guid> GetConversationMembers(long groupId)
+        {
+            List<Guid> memberids = new List<Guid>();
+            try
+            {
+                var dc = new ManagementContext();
+                var gro = (from xx in dc.GroupMessages.Include("Messages")
+                           where xx.GroupId == groupId
+                           where xx.IsDeleted == false
+                           select new
+                           {
+                               Recipients = xx.Recipients.Where(x => x.IsRemovedFromGroup == false),
+                           }).AsParallel().FirstOrDefault();
+
+                if (gro == null)
+                    return null;
+
+                foreach (var user in gro.Recipients)
+                {
+                    memberids.Add(user.Recipient.MemberId);
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return memberids;
+        }
+
         public static bool MarkGroupConversationAsRead(long groupId, Guid ownerId)
         {
 
@@ -893,6 +924,34 @@ namespace RDN.Library.Classes.Messages
 
                 if (group.Recipients.Where(x => x.IsRemovedFromGroup == false).Count() == 0)
                     group.IsDeleted = true;
+                int c = dc.SaveChanges();
+                return c > 0;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
+
+        public static bool SaveMembersToMessage(List<Guid> memberids, long groupid)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var gro = (from xx in dc.GroupMessages.Include("Messages")
+                           where xx.GroupId == groupid
+                           where xx.IsDeleted == false
+                           select xx).AsParallel().FirstOrDefault();
+
+                foreach (Guid memberid in memberids)
+                {
+                    DataModels.Messages.MessageRecipient recipient = new DataModels.Messages.MessageRecipient();
+                    recipient.Group = gro;
+                    
+                    recipient.Recipient = dc.Members.Where(x => x.MemberId == memberid).FirstOrDefault();
+                    gro.Recipients.Add(recipient);
+                }
                 int c = dc.SaveChanges();
                 return c > 0;
             }

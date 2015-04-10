@@ -118,15 +118,15 @@
                                                         <div class="col-xs-12 col-sm-3 col-md-2 margin-top-10">
                                                             @if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
                                                             {
-                                                                <button class="btn btn-xs btn-primary" type="button" onclick="ShowVotes('@answer.AnswerId')">
-                                                                    <b> @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)% <i class="fa fa-arrow-circle-down"></i></b>
-                                                                </button>
+                                                                <label class="label label-primary">
+                                                                    <b> @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)%</b>
+                                                                </label>
                                                             }
                                                             else
                                                             {
-                                                                <button class="btn btn-xs btn-default disabled" type="button">
+                                                                <label class="label label-default">
                                                                     @question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() vote(s) @question.GetPercentage(answer.AnswerId)%
-                                                                </button>
+                                                                </label>
                                                             }
                                                         </div>
                                                         <div id="labelAnswerTd-@answer.AnswerId" class="col-xs-12 col-sm-6 col-md-8 margin-top-10">
@@ -155,7 +155,7 @@
                                                             {
                                                                 if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
                                                                 {
-                                                                    <div id="votes-@answer.AnswerId" class="row panel panel-default margin-top-10 no-margin-bottom no-margin-left no-margin-right padding-5 h150 scroll display-none">
+                                                                    <div id="votes-@answer.AnswerId" class="row panel panel-default margin-top-10 no-margin-bottom no-margin-left no-margin-right padding-5 mh150 scroll">
                                                                         @foreach (var vote in question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).OrderBy(x => x.DerbyName))
                                                                         {
                                                                             <a target="_blank" class="" href="@Url.Content("~/Member/" + vote.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(vote.DerbyName))">@vote.DerbyName</a>

@@ -311,6 +311,8 @@ new { controller = "Member", action = "RemoveContact" } // Parameter defaults
 new { controller = "Member", action = "ViewMember", name = UrlParameter.Optional } // Parameter defaults
 );
 
+
+
             #endregion
 
             #region GameAndTournamentRoutes
@@ -949,6 +951,11 @@ new { controller = "Message", action = "MessageHome" } // Parameter defaults
 );
 
 
+            routes.MapRoute(
+"SaveMembersToMessage", // Route name
+"Messages/SaveMembersToMessage",
+new { controller = "Messages", action = "SaveMembersToMessage" } 
+);
 
             #endregion
 

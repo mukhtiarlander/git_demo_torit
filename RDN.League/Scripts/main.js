@@ -89,11 +89,16 @@ function ForumPostToggleWatch(span) {
     var topicId = $("#TopicId").val();
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/WatchTopic", { forumId: forumId, topicId: topicId }, function (result) {
-        if ($(span).html() == '<i class="fa fa-binoculars"></i> Watch') {
-            $(span).html('<i class="fa fa-binoculars"></i> Stop Watching');
-        }
-        else {
-            $(span).html('<i class="fa fa-binoculars"></i> Watch');
+        if (result.result == true) {
+            if ($(span).prop('name') == 'watch') {
+                $('button[name="watch"]').html('<i class="fa fa-binoculars"></i> Stop Watching');
+                $('button[name="watch"]').attr('name', 'stopwatch');
+
+            }
+            else {
+                $('button[name="stopwatch"]').html('<i class="fa fa-binoculars"></i> Watch');
+                $('button[name="stopwatch"]').attr('name', 'watch');
+            }
         }
     });
 }
@@ -175,34 +180,39 @@ function VerifySMSCarrier(button) {
         alert("Please Enter a Number");
     num = num.replace(/\+/g, "").replace(/\./g, "");
 
-    $("#loading").toggleClass("displayNone", false);
+   
+    $(button).attr('disabled', true).html("<i class='fa fa-refresh fa-spin'></i> Sending..");
+    
+    
     $.getJSON("/member/verifysms", { number: num }, function (result) {
         if (result.isSuccess === true) {
-            $("#verifyButton").toggleClass("displayNone", true);
-            $("#codeHtml").toggleClass("displayNone", false);
-
+           
+            $("#codeHtml").toggleClass("display-none", false);
         } else {
-        }
-        $("#loading").toggleClass("displayNone", true);
 
+        }
+        $(button).attr('disabled', false).html("Resend");
     }).error(function () {
     });
 }
 
 function EnterCarrierCode(button) {
+    $(button).attr('disabled', true).html("<i class='fa fa-refresh fa-spin'></i> Verifying..");
     var num = $("#PhoneNumber").val();
     num = num.replace(/\+/g, "").replace(/\./g, "");
     var code = $("#code").val();
-    $("#loading2").toggleClass("displayNone", false);
+    $("#loading2").toggleClass("display-none", false);
     $.getJSON("/member/verifysmscode", { number: num, code: code }, function (result) {
         if (result.isSuccess === true) {
             $('.bottom-right').notify({
-                message: { text: 'Verification number is saved! ' },
+                message: { text: 'Verification number is saved!' },
                 fadeOut: { enabled: true, delay: 4000 }
             }).show();
+            $(button).attr('disabled', false).html("<i class='fa fa-check-circle'></i> Verify");
         } else {
+            $(button).attr('disabled', false).html("<i class='fa fa-exclamation-circle'></i> Try Again");
         }
-        $("#loading2").toggleClass("displayNone", true);
+      
     }).error(function () {
     });
 }
@@ -714,10 +724,10 @@ var Forum = new function () {
 
         var catColumn = $(document.createElement('td'));
 
-        var catLink = $(document.createElement('span'));
-        catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')" });
+        var catLink = $(document.createElement('a'));
+        catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')", href: "JavaScript:void(0)" });
         catLink.html(item.Category);
-        catLink.addClass("spanLink");
+      
         catColumn.append(catLink);
         row.append(catColumn);
 
@@ -2748,7 +2758,10 @@ var LeagueMembersReportBuilder = new function () {
 
     this.ExportReport = function (formName) {
         if ($("#selectedColumns").find("option").length <= 0) {
-            $("#warning").text("No Columns Selected");
+            $('.bottom-right').notify({
+                message: { text: 'No Column Selected!' },
+                fadeOut: { enabled: true, delay: 4000 }
+            }).show();
             return;
         }
         $("#warning").text("");

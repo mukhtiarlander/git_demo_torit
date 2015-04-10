@@ -157,11 +157,10 @@
     $(document).ready(function () {
         $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
         $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": true,
-            "bSort": true,
+            "bSort": false,
             "bInfo": false,
             "oLanguage": { "sSearch": "" },
             "bAutoWidth": false
