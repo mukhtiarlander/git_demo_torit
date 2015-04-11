@@ -18,10 +18,11 @@
                 <h3 style="margin-top:5px !important"><i class="fa fa-cogs"></i> Modify Dues Settings</h3>
                 <span class="text-muted">Here you can modify the dues management settings for your league.</span>
             </div>
+            @using (Html.BeginForm("DuesSettings", "Dues", FormMethod.Post))
+            {
             <div class="panel-body" style="overflow-x:auto">
                 <div class="row">
-                    @using (Html.BeginForm("DuesSettings", "Dues", FormMethod.Post))
-                    {
+                 
                         <div class="col-xs-12 col-sm-4">
                             <label class="form-label margin-top-10">Day Of Month To Collect</label>
                             <div>
@@ -86,10 +87,10 @@
                         @Html.HiddenFor(x => x.DuesId)
                         @Html.HiddenFor(x => x.LeagueOwnerId)
                         @Html.HiddenFor(x => x.OwnerEntity)
-                    }
+                   
                 </div>
 
-    </div>
+                </div>
             <div class="panel-footer">
                 @if (ViewBag.IsSuccessful)
                 {
@@ -97,6 +98,7 @@
                 }
                 <button class="btn btn-success btn-sm" type="submit" ><i class="fa fa-save"></i> Update Settings</button>
             </div>
+            }
         </div>
     </div>
 </div>
