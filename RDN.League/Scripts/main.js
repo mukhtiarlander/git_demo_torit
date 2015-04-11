@@ -1813,7 +1813,19 @@ function setAvailabilityMemberToEvent() {
     CloseAddedRow();
     $.getJSON("/Calendar/SetAvailabilityForEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem.val() }, function (result) {
         if (result.isSuccess === true) {
-            $("#" + eventId + "-setAvail").html("<i class='fa fa-calendar fa-lg'></i>");
+            if (selectedItem.val().toString() == "1") {
+                $("#" + eventId + "-setAvail").addClass('btn-success');
+                $("#" + eventId + "-setAvail").html('<i class="fa fa-car"></i>');
+            }
+            else if (selectedItem.val().toString() == "3") {
+                $("#" + eventId + "-setAvail").addClass('btn-warning');
+                $("#" + eventId + "-setAvail").html('<i class="fa fa-car"></i>');
+            }
+            else if (selectedItem.val().toString() == "2") {
+                $("#" + eventId + "-setAvail").addClass('btn-danger');
+                $("#" + eventId + "-setAvail").html('<i class="fa fa-home"></i>');
+            }
+            
             $('.bottom-right').notify({
                 message: { text: 'RSVPed! ' },
                 fadeOut: { enabled: true, delay: 4000 }

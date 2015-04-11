@@ -227,7 +227,7 @@ else
                                             <td class="text-center vertical-middle">
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                                 {
-                                                    <i class="fa fa-birthday-cake fa-lg"></i>
+                                                    <i class="fa fa-check-square fa-lg"></i>
                                                 }
                                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
                                                 {
@@ -237,19 +237,37 @@ else
                                                 {
                                                     if (avail == null)
                                                     {
-                                                        <button class="btn btn-default btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                        <button class="btn btn-xs btn-default" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
                                                                 data-container="body" data-toggle="popover" data-html="true">
-                                                            <i class="fa fa-calendar fa-lg"></i>
+                                                            <i class="fa fa-calendar"></i>
                                                         </button>
                                                     }
                                                     else if (avail != null)
                                                     {
-                                                        <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
-                                                                data-container="body" data-toggle="popover" data-html="true">
-                                                            <i class="fa fa-calendar fa-lg"></i>
-                                                        </button>
+                                                        if (avail.Availability == AvailibilityEnum.Going)
+                                                        {
+                                                            <button class="btn btn-xs btn-success" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                                    data-container="body" data-toggle="popover" data-html="true">
+                                                                <i class="fa fa-car"></i>
+                                                            </button>
+                                                        }
+                                                        else if (avail.Availability == AvailibilityEnum.Maybe_Going)
+                                                        {
+                                                            <button class="btn btn-xs btn-warning" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                                    data-container="body" data-toggle="popover" data-html="true">
+                                                                <i class="fa fa-car"></i>
+                                                            </button>
+                                                        }
+                                                        else
+                                                        { 
+                                                            <button class="btn btn-danger btn-xs" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                                    data-container="body" data-toggle="popover" data-html="true">
+                                                                <i class="fa fa-home"></i>
+                                                            </button>
+                                                        }
                                                     }
                                                 }
+                                                    
                                             </td>
                                             <td class="vertical-middle">
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
@@ -265,18 +283,18 @@ else
                                                     <a href="@Url.Content("~/calendar/started-skating/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                                                 }
                                             </td>
-                                            <td>
+                                            <td class="vertical-middle">
 
                                                 <span>@calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()</span>
 
                                             </td>
-                                            <td>
+                                            <td class="vertical-middle">
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
                                                 {
                                                     <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
                                                 }
                                             </td>
-                                            <td>
+                                            <td class="vertical-middle">    
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && calEvent.Location != null)
                                                 {
                                                     @calEvent.Location.LocationName
@@ -350,6 +368,7 @@ else
             </div>
         </div>
     </div>
+   
     <script type="text/javascript">
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
