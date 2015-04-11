@@ -30,7 +30,7 @@ namespace RDN.Library.DataModels.Forum
         public virtual ICollection<ForumMessageLike> MessagesLike { get; set; }
         public virtual ICollection<ForumMessageAgree> MessagesAgree { get; set; }
 
-        public virtual ICollection<ForumMessage> Messages { get; set; }
+        
         #endregion
     }
 }
