@@ -1,18 +1,18 @@
 ﻿$(document).ready(function () {
     $.ajaxSetup({ cache: false });
-   
-	$(window).scroll(function(){
-		if ($(this).scrollTop() > 300) {
-			$('.scrollup').fadeIn();
-		} else {
-			$('.scrollup').fadeOut();
-		}
-	}); 
-	$('.scrollup').click(function(){
-		$("html, body").animate({ scrollTop: 0 }, 600);
-		return false;
-	});
- 
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.scrollup').fadeIn();
+        } else {
+            $('.scrollup').fadeOut();
+        }
+    });
+    $('.scrollup').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+
 });
 
 
@@ -193,13 +193,13 @@ function VerifySMSCarrier(button) {
         alert("Please Enter a Number");
     num = num.replace(/\+/g, "").replace(/\./g, "");
 
-   
+
     $(button).attr('disabled', true).html("<i class='fa fa-refresh fa-spin'></i> Sending..");
-    
-    
+
+
     $.getJSON("/member/verifysms", { number: num }, function (result) {
         if (result.isSuccess === true) {
-           
+
             $("#codeHtml").toggleClass("display-none", false);
         } else {
 
@@ -225,7 +225,7 @@ function EnterCarrierCode(button) {
         } else {
             $(button).attr('disabled', false).html("<i class='fa fa-exclamation-circle'></i> Try Again");
         }
-      
+
     }).error(function () {
     });
 }
@@ -740,7 +740,7 @@ var Forum = new function () {
         var catLink = $(document.createElement('a'));
         catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')", href: "JavaScript:void(0)" });
         catLink.html(item.Category);
-      
+
         catColumn.append(catLink);
         row.append(catColumn);
 
@@ -1814,18 +1814,18 @@ function setAvailabilityMemberToEvent() {
     $.getJSON("/Calendar/SetAvailabilityForEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem.val() }, function (result) {
         if (result.isSuccess === true) {
             if (selectedItem.val().toString() == "1") {
-                $("#" + eventId + "-setAvail").addClass('btn-success');
-                $("#" + eventId + "-setAvail").html('<i class="fa fa-car"></i>');
+                $("#" + eventId + "-setAvail").removeClass("btn-warning").removeClass("btn-danger").removeClass("padding-3").removeClass("padding-left-10").removeClass("padding-right-10").addClass('btn-success');
+                $("#" + eventId + "-setAvail").html('<i class="fa fa-car fa-lg"></i>');
             }
             else if (selectedItem.val().toString() == "3") {
-                $("#" + eventId + "-setAvail").addClass('btn-warning');
-                $("#" + eventId + "-setAvail").html('<i class="fa fa-car"></i>');
+                $("#" + eventId + "-setAvail").removeClass("btn-success").removeClass("btn-danger").removeClass("padding-3").removeClass("padding-left-10").removeClass("padding-right-10").addClass('btn-warning');
+                $("#" + eventId + "-setAvail").html('<i class="fa fa-car fa-lg"></i>');
             }
             else if (selectedItem.val().toString() == "2") {
-                $("#" + eventId + "-setAvail").addClass('btn-danger');
-                $("#" + eventId + "-setAvail").html('<i class="fa fa-home"></i>');
+                $("#" + eventId + "-setAvail").removeClass("btn-success").addClass("padding-3").addClass("padding-left-10").addClass("padding-right-10").addClass('btn-danger');
+                $("#" + eventId + "-setAvail").html('<i class="fa fa-home font18"></i>');
             }
-            
+
             $('.bottom-right').notify({
                 message: { text: 'RSVPed! ' },
                 fadeOut: { enabled: true, delay: 4000 }

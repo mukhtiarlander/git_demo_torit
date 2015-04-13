@@ -93,8 +93,7 @@ else
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th class="smallCaps text-center">RSVP</th>
+                             <th class="smallCaps text-center">RSVP</th>
                             <th class="text-center">Check In</th>
                             <th>
                                 Event
@@ -127,28 +126,46 @@ else
                     var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
                     var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
                         <tr id="@calEvent.CalendarItemId-mainrow" class="forumTopicRow @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "calCurrentDateEvent" : "")">
-                            <td>
-                                <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
-                            </td>
                             <td class="text-center">
+                                <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
+
+
                                 @if (calEvent.EventType.EventType != CalendarEventTypeEnum.Birthday && calEvent.EventType.EventType != CalendarEventTypeEnum.StartSkatingDate)
-                        {
-                            if (avail == null)
-                            {
-                                <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
-                                        data-container="body" data-toggle="popover" data-html="true">
-                                    <i class="fa fa-calendar fa-lg"></i>
-                                </button>
-                            }
-                            else if (avail != null)
-                            {
-                                <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
-                                        data-container="body" data-toggle="popover" data-html="true">
-                                    <i class="fa fa-calendar fa-lg"></i>
-                                </button>
-                            }
-                        }
-                        </td>
+                                {
+                                    if (avail == null)
+                                    {
+                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                                data-container="body" data-toggle="popover" data-html="true">
+                                            <i class="fa fa-calendar fa-lg"></i>
+                                        </button>
+                                    }
+                                    else if (avail != null)
+                                    {
+                                        if (avail.Availability == AvailibilityEnum.Going)
+                                        {
+                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                                    data-container="body" data-toggle="popover" data-html="true">
+                                                <i class="fa fa-car fa-lg"></i>
+                                            </button>
+                                        }
+                                        else if (avail.Availability == AvailibilityEnum.Maybe_Going)
+                                        {
+                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                                    data-container="body" data-toggle="popover" data-html="true">
+                                                <i class="fa fa-car fa-lg"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                                    data-container="body" data-toggle="popover" data-html="true">
+                                                <i class="fa fa-home font18"></i>
+                                            </button>
+                                        }
+                                    }
+
+                                }
+                            </td>
                         <td class="text-center vertical-middle">
                         @if (attend != null)
                         {

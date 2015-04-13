@@ -46,7 +46,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .colorpicker_slider { background-position: bottom; }
 .colorPickerC { width: 28px; height: 28px; float: left; margin: 0px 4px 0px 0px; }
 .colorPickerIn { width: 28px; height: 28px; float: left;  border: 2px solid Silver }
-.selectedColorList { height: 30px;width:4px; }
+.selectedColorList { height: 29px;width:4px; float:left;}
 .selectedColor { height: 25px; float:left; width:50px; vertical-align:middle}
 .selectedColorCon { width: 77px; text-align: center; vertical-align: middle; font-size: .8em; height: 27px; margin-right:4px; float: left; border: 1px solid gray; margin-top:4px; }
 .selectedColorCon span {width:25px; text-align:center;background-color:#ddd;float:right;height:25px; vertical-align:middle; padding-top:4px;color:gray; border-left:1px solid gray}
@@ -117,6 +117,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .no-padding-top{padding-top:0px;}
 .no-margin-top{margin-top:0px}
 .no-padding-bottom{padding-bottom:0px;}
+.padding-3 {padding:3px}
 .padding-5 {padding:5px}
 .padding-10 {padding:10px}
 .padding-15 {padding:15px}
