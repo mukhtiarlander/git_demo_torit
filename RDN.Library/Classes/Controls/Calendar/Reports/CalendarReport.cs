@@ -62,11 +62,17 @@ namespace RDN.Library.Classes.Calendar.Report
             CalendarReport report = new CalendarReport();
             var memId = RDN.Library.Classes.Account.User.GetMemberId();
             var leagueId = MemberCache.GetLeagueIdOfMember(memId);
-
+          
             try
             {
-                report.EndDateSelected = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
-                report.StartDateSelected = startDate;
+
+                var dc = new ManagementContext();
+                var cal = (from xx in dc.Calendar
+                           where xx.CalendarId == calendarId
+                           select xx).FirstOrDefault();
+
+                report.EndDateSelected = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59) - new TimeSpan(cal.TimeZone, 0, 0);
+                report.StartDateSelected = startDate - new TimeSpan(cal.TimeZone, 0, 0);
                 report.CalendarId = calendarId;
                 report.EntityName = calendarType;
                 report.IsSubmitted = true;
@@ -74,11 +80,7 @@ namespace RDN.Library.Classes.Calendar.Report
                 TimeSpan daysReporting = endDate - startDate;
                 report.DaysBackwards = daysReporting.Days;
 
-                var dc = new ManagementContext();
-                var cal = (from xx in dc.Calendar
-                           where xx.CalendarId == calendarId
-                           select xx).FirstOrDefault();
-
+              
                 report.NotPresentForCheckIn = cal.NotPresentCheckIn;
                 List<DataModels.Calendar.CalendarEvent> events = new List<DataModels.Calendar.CalendarEvent>();
                 List<MemberDisplay> members = new List<MemberDisplay>();
