@@ -148,12 +148,12 @@
                 <div>Members Unread</div>
                
                 
-                @foreach (var user in Model.TopicInbox)
+                @for (int i = 0; i < Model.TopicInbox.Count(); i++ )
                 {
                     <span>
-                        <a target="_blank" href="@Url.Content("~/member/" + user.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(user.DerbyName))">
-                            @user.DerbyName</a>@if (user != Model.TopicInbox.Last())
-                       {<span>,</span>}
+                        <a target="_blank" href="@Url.Content("~/member/" + Model.TopicInbox[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.TopicInbox[i].DerbyName))">
+                            @Model.TopicInbox[i].DerbyName</a>@if (Model.TopicInbox[i] != Model.TopicInbox.Last())
+                                               {<span>,</span>}
                     </span>
                 }
                 @Html.HiddenFor(x => x.TopicId)
