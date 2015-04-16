@@ -661,9 +661,9 @@ namespace RDN.Library.Cache
             {
                 var dc = new ManagementContext();
                 var league = dc.Leagues.Include("Groups").Include("Federations").Include("Owners").Include("Teams").Include("Members").Include("Members.SkaterClass").Include("ContactCard").Include("Contacts").Where(x => x.LeagueId == leagueid).FirstOrDefault();
-
-                if (league.ThemeColor != null)
-                    return league.ThemeColor;
+                if (league != null)
+                    if (league.ThemeColor != null)
+                        return league.ThemeColor;
                 return "";
             }
             catch (Exception exception)
