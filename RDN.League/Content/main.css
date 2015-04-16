@@ -17,6 +17,8 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .displayNone { display: none; }
 .spanLink { text-decoration: underline; }
 .cursor { cursor: pointer; }
+.hyperlink{cursor:pointer}
+.hyperlink:hover{text-decoration:underline}
 
 .center { margin: 0px auto; position: relative; }
 
@@ -188,6 +190,26 @@ select{height:35px;border-radius:4px}
 .scroll{overflow:auto}
 .bg-color-silver{background-color:silver}
 .column-nowrap{white-space:nowrap; width:1px;}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
 
 
 /* Blue Theme */

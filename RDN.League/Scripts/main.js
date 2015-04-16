@@ -101,12 +101,17 @@ function MarkForumTopicAsRead(img, topicId) {
 function ForumPostToggleWatch(span) {
     var topicId = $("#TopicId").val();
     var forumId = $("#ForumId").val();
+    $('button[name="watch"]').attr('disabled', true);
+    $('button[name="stopwatch"]').attr('disabled', true);
+    $('button[name="watch"]').html('<i class="fa fa-refresh fa-spin"></i> Please wait..');
+    $('button[name="stopwatch"]').html('<i class="fa fa-refresh fa-spin"></i> Please wait..');
     $.getJSON("/forum/WatchTopic", { forumId: forumId, topicId: topicId }, function (result) {
         if (result.result == true) {
+            $('button[name="watch"]').attr('disabled', false);
+            $('button[name="stopwatch"]').attr('disabled', false);
             if ($(span).prop('name') == 'watch') {
                 $('button[name="watch"]').html('<i class="fa fa-binoculars"></i> Stop Watching');
                 $('button[name="watch"]').attr('name', 'stopwatch');
-
             }
             else {
                 $('button[name="stopwatch"]').html('<i class="fa fa-binoculars"></i> Watch');
@@ -737,9 +742,12 @@ var Forum = new function () {
 
         var catColumn = $(document.createElement('td'));
 
-        var catLink = $(document.createElement('a'));
-        catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')", href: "JavaScript:void(0)" });
+
+        var catLink = $(document.createElement('span'));
+        catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')" });
+      
         catLink.html(item.Category);
+        catLink.addClass("hyperlink");
 
         catColumn.append(catLink);
         row.append(catColumn);
