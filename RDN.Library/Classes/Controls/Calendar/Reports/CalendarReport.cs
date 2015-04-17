@@ -71,11 +71,13 @@ namespace RDN.Library.Classes.Calendar.Report
                            where xx.CalendarId == calendarId
                            select xx).FirstOrDefault();
 
+                DateTime enddate_utc = endDate - new TimeSpan(cal.TimeZone, 0, 0);
+
                 report.EndDateSelected = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
                 report.StartDateSelected = startDate;
 
                 startDate = startDate - new TimeSpan(cal.TimeZone, 0, 0);
-                endDate = endDate - new TimeSpan(cal.TimeZone, 0, 0);
+                endDate = new DateTime(enddate_utc.Year, enddate_utc.Month, enddate_utc.Day, 23, 59, 59);
 
                 report.CalendarId = calendarId;
                 report.EntityName = calendarType;
