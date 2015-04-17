@@ -46,7 +46,7 @@
                     }
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body scroll-x">
                 
                 <ol class="tree">
                     <li>
@@ -58,14 +58,9 @@
                             <li>
                                 <label for="folder.FolderId">
                                     <a href="@Url.Content("~/league/documents/" + @Model.OwnerId.ToString().Replace("-", "") + "?f=" + folder.FolderId)">
-                                        @if (folder.FolderName.ToString().Length > 17)
-                                        {
-                                            @folder.FolderName.Substring(0, 17)<span>..</span>;
-                                        }
-                                        else
-                                        {
+                                    
                                             @folder.FolderName
-                                        }
+                                        
                                     </a>
                                 </label><input type="checkbox" id="folder.FolderId" />
                                 @if (Model.Folders.Where(x => x.ParentFolderId == folder.FolderId).Count() > 0)
@@ -169,7 +164,7 @@
                         <div id="fileUpload-list" class="uploadList"></div>
                     </div>
                     <div class="margin-bottom-10">
-                            @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...", new { @class="select-sm"})
+                            @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...", new { @class="select-sm full-width"})
                     </div>
                     <button class="btn btn-success btn-sm" id="submitDocs" type="submit"><i class="fa fa-upload"></i> Upload Documents</button>
                        
