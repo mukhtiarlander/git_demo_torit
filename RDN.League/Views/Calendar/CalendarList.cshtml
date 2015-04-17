@@ -12,7 +12,7 @@
                             select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
     var AvailableType = from AvailibilityEnum d in Enum.GetValues(typeof(AvailibilityEnum))
                         where d.ToString() != "None"
-                        select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
+                        select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Data = d.ToString() };
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     var isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
@@ -280,7 +280,7 @@ else
             <div class="col-xs-12">
                 <label class="form-label">Available Type</label>
                 <div class="margin-bottom-20">
-                    @Html.DropDownList("availableSelection", new SelectList(AvailableType, "ID", "Name"), "Set Availability...", new { @class = "form-control" })
+                    @Html.DropDownList("availableSelection", new SelectList(AvailableType, "Data", "Name"), "Set Availability...", new { @class = "form-control" })
                 </div>
             </div> 
             <div class="col-xs-12">

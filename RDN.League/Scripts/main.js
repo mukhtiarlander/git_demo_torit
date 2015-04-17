@@ -745,7 +745,7 @@ var Forum = new function () {
 
         var catLink = $(document.createElement('span'));
         catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')" });
-      
+
         catLink.html(item.Category);
         catLink.addClass("hyperlink");
 
@@ -1819,17 +1819,18 @@ function setAvailabilityMemberToEvent() {
         return;
     }
     CloseAddedRow();
+   
     $.getJSON("/Calendar/SetAvailabilityForEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem.val() }, function (result) {
         if (result.isSuccess === true) {
-            if (selectedItem.val().toString() == "1") {
+            if (selectedItem.val().toString() == "Going") {
                 $("#" + eventId + "-setAvail").removeClass("btn-warning").removeClass("btn-danger").removeClass("padding-3").removeClass("padding-left-10").removeClass("padding-right-10").addClass('btn-success');
                 $("#" + eventId + "-setAvail").html('<i class="fa fa-car fa-lg"></i>');
             }
-            else if (selectedItem.val().toString() == "3") {
+            else if (selectedItem.val().toString() == "Maybe_Going") {
                 $("#" + eventId + "-setAvail").removeClass("btn-success").removeClass("btn-danger").removeClass("padding-3").removeClass("padding-left-10").removeClass("padding-right-10").addClass('btn-warning');
                 $("#" + eventId + "-setAvail").html('<i class="fa fa-car fa-lg"></i>');
             }
-            else if (selectedItem.val().toString() == "2") {
+            else if (selectedItem.val().toString() == "Not_Going") {
                 $("#" + eventId + "-setAvail").removeClass("btn-success").addClass("padding-3").addClass("padding-left-10").addClass("padding-right-10").addClass('btn-danger');
                 $("#" + eventId + "-setAvail").html('<i class="fa fa-home font18"></i>');
             }
