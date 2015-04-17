@@ -2794,7 +2794,8 @@ var LeagueMembersReportBuilder = new function () {
         if ($("#selectedColumns").find("option").length <= 0) {
             $('.bottom-right').notify({
                 message: { text: 'No Column Selected!' },
-                fadeOut: { enabled: true, delay: 4000 }
+                fadeOut: { enabled: true, delay: 10000 },
+                type: "danger"
             }).show();
             return;
         }
