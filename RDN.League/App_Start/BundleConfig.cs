@@ -62,7 +62,6 @@ namespace RDN.League
                       "~/Content/jquery-ui-1.10.4.custom.css",
                       "~/Content/FullCalendar/fullcalendar.css",
                        "~/Content/select2.min.css"
-
                       //,
                       //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));

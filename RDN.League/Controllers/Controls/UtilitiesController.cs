@@ -180,6 +180,12 @@ namespace RDN.League.Controllers
 
             return Json(namesFound, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// Search top 10 Members to be added in Message
+        /// </summary>        
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public ActionResult SearchNamesObjects(string q)
         {
             List<MemberJson> namesFound = new List<MemberJson>();
@@ -198,10 +204,10 @@ namespace RDN.League.Controllers
             namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();
             return Json(namesFound, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult SearchNamesToAdd(string q, string groupid)
+        public ActionResult SearchNamesToAdd(string q, string messageGroupId)
         {
             List<MemberJson> new_members = new List<MemberJson>();
-            var added_members = Messages.GetConversationMembers(Convert.ToInt64(groupid));
+            var added_members = Messages.GetConversationMembers(Convert.ToInt64(messageGroupId));
             var total_members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
             new_members = (from xx in total_members
                                 where ((xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))

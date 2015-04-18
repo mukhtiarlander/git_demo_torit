@@ -353,16 +353,16 @@ namespace RDN.Library.Classes.Messages
                 grp.Messages.Add(m);
                 dc.SaveChanges();
 
-                var recips = grp.Recipients.Where(x => x.IsRemovedFromGroup == false);
-                foreach (var mem in recips)
+                var recips = grp.Recipients.Where(x => x.IsRemovedFromGroup == false).ToList();
+                for (int i = 0; i < recips.Count(); i++ )
                 {
                     DataModels.Messages.MessageInbox inbox = new DataModels.Messages.MessageInbox();
                     inbox.Message = m;
-                    inbox.ToUser = dc.Members.Where(x => x.MemberId == mem.Recipient.MemberId).FirstOrDefault();
-                    if (mem.Recipient.MemberId == ownerMemberId)
+                    inbox.ToUser = dc.Members.Where(x => x.MemberId == recips[i].Recipient.MemberId).FirstOrDefault();
+                    if (recips[i].Recipient.MemberId == ownerMemberId)
                         inbox.IsRead = true;
                     else
-                        MemberCache.AddMessageCountToCache(+1, mem.Recipient.MemberId);
+                        MemberCache.AddMessageCountToCache(+1, recips[i].Recipient.MemberId);
                     inbox.MessageReadDateTime = DateTime.UtcNow;
                     inbox.NotifiedEmailDateTime = DateTime.UtcNow;
                     dc.MessageInbox.Add(inbox);

@@ -162,7 +162,7 @@ else
                                     {
                                         <tr class="homeUpcomingRow">
                                             <td>
-                                                <button onclick="MarkHomeForumTopicAsRead(this,'@topic.TopicId','@topic.ForumId')" type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="View on Map"><i class="fa fa-envelope"></i></button> 
+                                                <button onclick="Forum.MarkHomeForumTopicAsRead(this,'@topic.TopicId','@topic.ForumId')" type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Mark as Read"><i class="fa fa-envelope"></i></button> 
                                             </td>
                                             <td>
                                                 <a class="b" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
@@ -365,19 +365,4 @@ else
             </div>
         </div>
     </div>
-   
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-        function MarkHomeForumTopicAsRead(btn, topicId, forumId) {
-            var cell = $(btn).parent;
-            cell.html("<i class='fa fa-spin fa-refresh'></i>");
-            $.getJSON("/forum/MarkAsRead", { forumId: forumId, topicId: topicId }, function (result) {
-                if (result.isSuccess === true) {
-                    cell.html("<i class='fa fa-check-circle'></i>");
-                }
-            });
-        }
-    </script>
 }
