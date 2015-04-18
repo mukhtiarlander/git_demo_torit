@@ -2797,16 +2797,19 @@ var League = new function () {
 
     };
     this.DeleteDocument = function (span) {
-        var owner = $("#OwnerId");
-        $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
-            if (result.isSuccess === true) {
-            } else {
-            }
-        }).error(function () {
-        });
         var docs = thisViewModel.documentId.split(',');
-        for (var i = 0; i < docs.length; i++) {
-            $("#docRow-" + docs[i].toString()).remove();
+        if (docs.length > 1 ? confirm('Are you sure you want to delete ' + docs.length + ' documents?') : confirm('Are you sure you want to delete this document?')) {
+            var owner = $("#OwnerId");
+            $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
+                if (result.isSuccess === true) {
+                } else {
+                }
+            }).error(function () {
+            });
+          
+            for (var i = 0; i < docs.length; i++) {
+                $("#docRow-" + docs[i].toString()).remove();
+            }
         }
     }
     this.SetDocumentId = function (docId) {
