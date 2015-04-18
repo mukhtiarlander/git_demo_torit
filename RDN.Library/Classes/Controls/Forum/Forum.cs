@@ -1444,9 +1444,9 @@ namespace RDN.Library.Classes.Forum
                             if (message.topic.GroupId > 0 && !isManager)
                                 top.IsManagerOfTopic = isModerator;
 
-                            var groupname = MemberCache.GetGroupsApartOf(RDN.Library.Classes.Account.User.GetMemberId()).Where(w => w.Id == message.topic.GroupId).SingleOrDefault().GroupName;
+                            var groupname = MemberCache.GetGroupsApartOf(RDN.Library.Classes.Account.User.GetMemberId()).Where(w => w.Id == message.topic.GroupId).FirstOrDefault();
                             if (groupname != null)
-                                top.ForumGroup = groupname;
+                                top.ForumGroup = groupname.GroupName;
                             //case happens when the user selects to only see unread topics.
                             //which means the category will be -1.
                             topics.Add(top);
