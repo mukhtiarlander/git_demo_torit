@@ -2394,11 +2394,12 @@ namespace RDN.Library.Classes.Account
                 if (member.IsProfileRemovedFromPublic && isPublicProfile)
                     return null;
 
-                foreach (var photo in member.Photos.OrderBy(x => x.Created))
+                foreach (var photo in member.Photos.OrderByDescending(x => x.Created))
                 {
                     mem.Photos.Add(new PhotoItem(photo.ImageUrl, photo.IsPrimaryPhoto, member.DerbyName));
                 }
-                if (member.YearStartedSkating != null && member.YearStartedSkating != new DateTime())
+
+                                if (member.YearStartedSkating != null && member.YearStartedSkating != new DateTime())
                     mem.StartedSkating = member.YearStartedSkating.Value;
                 else
                     mem.StartedSkating = null;
