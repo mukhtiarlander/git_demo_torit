@@ -43,9 +43,16 @@ namespace RDN.League.Controllers
         {
             try
             {
-                bool succ = DocumentRepository.DeleteDocument(new Guid(ownerId), Convert.ToInt64(doc));
+                 bool success = true;
+                string[] docs = doc.Split(',');
+                for(int i=0; i<docs.Count(); i++)
+                {
+                    bool succ = DocumentRepository.DeleteDocument(new Guid(ownerId), Convert.ToInt64(docs[i]));
+                    if (succ == false)
+                        success = false;
+                }
                 MemberCache.ClearLeagueDocument(RDN.Library.Classes.Account.User.GetMemberId());
-                return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -76,16 +83,25 @@ namespace RDN.League.Controllers
         {
             try
             {
-                bool succ = false;
-                if (String.IsNullOrEmpty(moveTo))
-                    moveTo = "0";
-                if (!moveToName.Contains("G-"))
-                    succ = DocumentRepository.MoveDocumentFolder(new Guid(ownerId), Convert.ToInt64(moveTo), Convert.ToInt64(doc));
-                else
-                    succ = DocumentRepository.MoveDocumentToGroup(new Guid(ownerId), Convert.ToInt64(moveTo), Convert.ToInt64(doc));
+                bool success = true;
 
+                string[] docs = doc.Split(',');
+                for (int i = 0; i < docs.Count(); i++)
+                {
+                    bool succ = true;
+                    if (String.IsNullOrEmpty(moveTo))
+                        moveTo = "0";
+                    if (!moveToName.Contains("G-"))
+                        succ = DocumentRepository.MoveDocumentFolder(new Guid(ownerId), Convert.ToInt64(moveTo), Convert.ToInt64(docs[i]));
+                    else
+                        succ = DocumentRepository.MoveDocumentToGroup(new Guid(ownerId), Convert.ToInt64(moveTo), Convert.ToInt64(docs[i]));
+
+                    if (succ == false)
+                        success = false;
+                }
+               
                 MemberCache.ClearLeagueDocument(RDN.Library.Classes.Account.User.GetMemberId());
-                return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {

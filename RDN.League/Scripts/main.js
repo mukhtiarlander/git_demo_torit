@@ -2662,40 +2662,38 @@ var League = new function () {
         $("#img-" + folderId).toggleClass("displayNone", false);
     }
     this.SetUpDocumentsSection = function () {
-        //moveScroller("folder-anchor", "folder-scroller");
-        //moveScroller("header-anchor", "header-scroller");
-        $("#documents tbody tr").on('click', function (event) {
-            var row = $(this);
-            var box = $(event.target).closest('input[type="checkbox"]');
-            //if the user clicked on the actual checkbox.
-            if (box.length > 0) {
-                if (box.is(":checked")) {
-                    $("#documents tbody tr").removeClass('rowSelected').find(":checkbox").prop('checked', false);
-                    thisViewModel.documentId = parseInt(row.attr("id").replace(/[\D]/g, ""), 10);
-                    row.addClass('rowSelected').find(":checkbox").prop('checked', true);
-                    $("#doc-rename-delete-div").toggleClass("display-none", false);
-                    $("#img-MoveItem").toggleClass("display-none", true);
+        $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
+            thisViewModel.documentId = '';
+            $.each($("#documents tbody tr"),function(index, tr){
+                if($(tr).find(":checkbox").is(":checked"))
+                {
+                    thisViewModel.documentId += parseInt($(tr).attr("id").replace(/[\D]/g, ""), 10) + ",";
                 }
-                else {
-                    row.removeClass('rowSelected').find(":checkbox").prop('checked', false);
-                    $("#doc-rename-delete-div").toggleClass("display-none", true);
-                    $("#img-MoveItem").toggleClass("display-none", true);
-                }
-            } else {
-                //if the user clicked on the row.
-                if (row.find(":checkbox").is(":checked")) {
-                    row.removeClass('rowSelected').find(":checkbox").prop('checked', false);
-                    $("#doc-rename-delete-div").toggleClass("display-none", true);
-                    $("#img-MoveItem").toggleClass("display-none", true);
-                }
-                else {
-                    $("#documents tbody tr").removeClass('rowSelected').find(":checkbox").prop('checked', false);
-                    thisViewModel.documentId = parseInt(row.attr("id").replace(/[\D]/g, ""), 10);
-                    row.addClass('rowSelected').find(":checkbox").prop('checked', true);
-                    $("#doc-rename-delete-div").toggleClass("display-none", false);
-                    $("#img-MoveItem").toggleClass("display-none", true);
-                }
+            });
+            thisViewModel.documentId = thisViewModel.documentId.substr(0, thisViewModel.documentId.length - 1);
+            
+
+            if ($("#documents tbody tr").find(":checkbox:checked").length == 0)
+            {
+                $("#doc-rename-btn").toggleClass("display-none", true);
+                $("#doc-delete-btn").toggleClass("display-none", true);
+                $("#doc-move-ddl").toggleClass("display-none", true);
             }
+            else if ($("#documents tbody tr").find(":checkbox:checked").length == 1)
+            {
+                $("#doc-rename-btn").toggleClass("display-none", false);
+                $("#doc-delete-btn").toggleClass("display-none", false);
+                $("#doc-move-ddl").toggleClass("display-none", false);
+            }
+            else
+            {
+                $("#doc-rename-btn").toggleClass("display-none", true);
+                $("#doc-delete-btn").toggleClass("display-none", false);
+                $("#doc-move-ddl").toggleClass("display-none", false);
+            }
+
+            $("#img-MoveItem").toggleClass("display-none", true);
+
         });
 
     };
@@ -2707,7 +2705,10 @@ var League = new function () {
             }
         }).error(function () {
         });
-        $("#docRow-" + thisViewModel.documentId).remove();
+        var docs = thisViewModel.documentId.split(',');
+        for (var i = 0; i < docs.length; i++) {
+            $("#docRow-" + docs[i].toString()).remove();
+        }
     }
     this.SetDocumentId = function (docId) {
         documentId = docId;
@@ -2726,7 +2727,11 @@ var League = new function () {
             if (result.isSuccess === true) {
                 var row = $("#rn-" + thisViewModel.documentId).html(result.link);
                 $("#docRow-" + thisViewModel.documentId).attr("name", text.val());
-            } else {
+                $.each($("#documents tbody tr"), function (index, tr) {
+                    $(tr).find(":checkbox").prop("checked", false);
+                });
+            } 
+            else {
             }
         }).error(function () {
         });
@@ -2739,7 +2744,14 @@ var League = new function () {
         var selectedFolder = $(dropDown).find("option:selected");
         $.getJSON("/document/MoveFileTo", { ownerId: owner.val(), moveTo: selectedFolder.val(), moveToName: selectedFolder.text(), doc: thisViewModel.documentId }, function (result) {
             if (result.isSuccess === true) {
-                $("#fn-" + thisViewModel.documentId).html(selectedFolder.text());
+                var docs = thisViewModel.documentId.split(',');
+                for(var i=0;i<docs.length;i++)
+                {
+                    $("#fn-" + docs[i]).html(selectedFolder.text());
+                }
+                $.each($("#documents tbody tr"), function (index, tr) {
+                    $(tr).find(":checkbox").prop("checked", false);
+                });
             } else {
             }
         }).error(function () {
