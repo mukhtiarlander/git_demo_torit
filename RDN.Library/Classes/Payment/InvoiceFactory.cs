@@ -1506,9 +1506,10 @@ namespace RDN.Library.Classes.Payment
                     var payout = invoice.WriterPayouts.FirstOrDefault();
 
                     //gotta check if we are already paying this user.
-                    var f = tempFundsBeingPaid.Where(x => x.UserId == payout.UserPaidId).FirstOrDefault();
-                    if (f != null)
+
+                    if (payout != null && tempFundsBeingPaid.Where(x => x.UserId == payout.UserPaidId).FirstOrDefault() != null)
                     {
+                        var f = tempFundsBeingPaid.Where(x => x.UserId == payout.UserPaidId).FirstOrDefault();
                         if (f.ActiveInUserAccount >= (f.AmountToWithdraw + (double)invoice.BasePriceForItems))
                         {
                             f.AmountToWithdraw += (double)payout.PriceAfterFees;
@@ -1827,7 +1828,7 @@ namespace RDN.Library.Classes.Payment
         }
 
         #endregion
-       
+
 
 
         private class GoogleCheckoutReturn
