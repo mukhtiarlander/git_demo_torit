@@ -1443,7 +1443,10 @@ namespace RDN.Library.Classes.Forum
                             //if nt league manager and group id > 0
                             if (message.topic.GroupId > 0 && !isManager)
                                 top.IsManagerOfTopic = isModerator;
-                            top.ForumGroup = message.topic.Forum.LeagueOwner.Name;
+
+                            var groupname = MemberCache.GetGroupsApartOf(RDN.Library.Classes.Account.User.GetMemberId()).Where(w => w.Id == message.topic.GroupId).SingleOrDefault().GroupName;
+                            if (groupname != null)
+                                top.ForumGroup = groupname;
                             //case happens when the user selects to only see unread topics.
                             //which means the category will be -1.
                             topics.Add(top);
