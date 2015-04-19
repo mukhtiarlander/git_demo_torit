@@ -2798,7 +2798,8 @@ var League = new function () {
     };
     this.DeleteDocument = function (span) {
         var docs = thisViewModel.documentId.split(',');
-        if (docs.length > 1 ? confirm('Are you sure you want to delete ' + docs.length + ' documents?') : confirm('Are you sure you want to delete this document?')) {
+        var msg = docs.length > 1 ? 'Are you sure you want to delete ' + docs.length + ' documents?' : 'Are you sure you want to delete this document?';
+        if (confirm(msg)) {
             var owner = $("#OwnerId");
             $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
                 if (result.isSuccess === true) {
