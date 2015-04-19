@@ -86,14 +86,14 @@
                         </td>
                         <td class="text-right">
                             @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
-                                            {
-                                            <a class="btn btn-success btn-xs" href="@Url.Content("~/league/groups/settings/" + Model.Groups[i].Id)">Edit </a>
-                                            }
+                            {
+                                <a class="btn btn-success btn-xs" href="@Url.Content("~/league/groups/settings/" + Model.Groups[i].Id)">Edit </a>
+                            }
 
                             @if (RDN.Library.Cache.MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, Model.Groups[i].Id) || isAdminOfLeague)
-                                            {
-                                            <button class="btn btn-danger btn-xs" type="button" onclick="RemoveGroupFromLeague('@Model.Groups[i].Id')">Remove Group</button>
-                                            }
+                            {
+                                <button class="btn btn-danger btn-xs" type="button" onclick="RemoveGroupFromLeague('@Model.Groups[i].Id')">Remove Group</button>
+                            }
                         </td>
                     </tr>
                     if (@Model.Groups[i].GroupMembers.Count > 0)
@@ -152,19 +152,3 @@
     </div>
 </div>
 
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
-        $('#members').dataTable({
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": false,
-            "bInfo": false,
-            "oLanguage": { "sSearch": "" },
-            "bAutoWidth": false
-        });
-        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
-    });
-</script>
