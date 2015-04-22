@@ -22,7 +22,38 @@ namespace RDN.Library.Classes.League.Reports
         League_Departure_Date = 13,
         Day_Job = 14,
         Email = 15,
-        Phone_Number=16
+        Phone_Number=16,
+        Mom = 17,
+        Dad = 18,
+        Step_Dad = 19,
+        Step_Mom = 20,
+        Grand_Mother = 21,
+        Grand_Father = 22,
+        Guardian = 23,
+        Emergency_Contact = 24,
+        Doctor = 25,
+        Dentist = 26,
+        Husband = 27,
+        Wife = 28,
+        Son = 29,
+        Daughter = 30,
+        Partner = 31,
+        Sibling = 32
         //Groups = 15
+    }
+    public enum MembersReportContactEnum
+    {
+        Member_First_Name = 1,
+        Member_Last_Name = 2,
+        First_Name = 3,
+        Last_Name = 4,
+        Email = 5,
+        Phone_Number = 6,
+        Address_Line_1 = 7,
+        Address_Line_2 = 8,
+        City = 9,
+        State = 10,
+        Zip = 11,
+        Country = 12
     }
 }
