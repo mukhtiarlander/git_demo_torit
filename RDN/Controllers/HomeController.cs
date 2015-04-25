@@ -27,6 +27,7 @@ using RDN.Library.Classes.Store.Display;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Account.Enums;
 using RDN.Portable.Classes.Account.Classes;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Controllers
 {

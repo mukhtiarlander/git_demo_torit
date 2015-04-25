@@ -1213,10 +1213,6 @@ namespace RDN.Library.Cache
 
                             if (SiteSingleton.Instance.IsProduction)
                             {
-                                //dataObject.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                                //dataObject.PublicLeagues = Classes.League.League.GetAllPublicLeagues();
-                                //dataObject.NumberOfLeaguesSignedUpWithRDNation = dataObject.PublicLeagues.Count;
-                                //dataObject.NumberOfMembersSignedUpWithRDNation = dataObject.PublicMembers.Count;
                                 StoreGateway sg = new StoreGateway();
                                 dataObject.ShopItems = sg.GetAllPublishedStoreItems();
                                 dataObject.NumberOfItems = sg.GetAllPublishedStoreItemsCount();
