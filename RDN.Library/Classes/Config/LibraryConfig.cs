@@ -13,7 +13,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["PublicSite1"];
+                return ConfigurationManager.AppSettings["PublicSite"];
             }
         }
 
