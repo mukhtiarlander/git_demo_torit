@@ -1,0 +1,30 @@
+<div style="font-size: 14px; font-weight: bold; padding-bottom: 2px;">
+Hello %derbyname%,
+
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size: 13px;">
+<tbody>
+<tr>
+<td>
+New Event Created, by %FromUserName%.<br/><br/>
+<ul>
+<li><b>Event:</b> %eventName%</li>
+<li><b>Event Type:</b> %eventType%</li>
+<li><b>Points:</b> %points%</li>
+<li><b>Date/Time:</b> %eventDateTime%</li>
+<li><b>Location:</b> %location% %locationMap%</li>
+<li>
+<b>Event Notes</b><br/>
+%eventNotes%</li>
+</ul>
+
+<br/><br/>
+<a href="%viewEventLink%">View the event on RDNation</a>
+<br/>
+</td></td>
+</tr>
+</tbody>
+</table>
+<div style="font-size: 14px; margin-top: 20px;">
+The RDNation Team
+</div>
