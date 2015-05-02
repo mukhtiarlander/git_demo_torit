@@ -220,7 +220,7 @@ else
                                         var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
                                         <tr class="homeUpcomingRow" id="@calEvent.CalendarItemId-calendarEventRow">
                                             
-                                            <td class="text-center vertical-middle column-nowrap"> 
+                                            <td class="text-center vertical-middle column-nowrap">
                                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;margin-right:5px'></div>
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                                 {
