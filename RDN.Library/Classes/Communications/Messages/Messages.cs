@@ -353,16 +353,16 @@ namespace RDN.Library.Classes.Messages
                 grp.Messages.Add(m);
                 dc.SaveChanges();
 
-                var recips = grp.Recipients.Where(x => x.IsRemovedFromGroup == false).ToList();
-                for (int i = 0; i < recips.Count(); i++ )
+                var recips = grp.Recipients.Where(x => x.IsRemovedFromGroup == false);
+                foreach (var mem in recips)
                 {
                     DataModels.Messages.MessageInbox inbox = new DataModels.Messages.MessageInbox();
                     inbox.Message = m;
-                    inbox.ToUser = dc.Members.Where(x => x.MemberId == recips[i].Recipient.MemberId).FirstOrDefault();
-                    if (recips[i].Recipient.MemberId == ownerMemberId)
+                    inbox.ToUser = dc.Members.Where(x => x.MemberId == mem.Recipient.MemberId).FirstOrDefault();
+                    if (mem.Recipient.MemberId == ownerMemberId)
                         inbox.IsRead = true;
                     else
-                        MemberCache.AddMessageCountToCache(+1, recips[i].Recipient.MemberId);
+                        MemberCache.AddMessageCountToCache(+1, mem.Recipient.MemberId);
                     inbox.MessageReadDateTime = DateTime.UtcNow;
                     inbox.NotifiedEmailDateTime = DateTime.UtcNow;
                     dc.MessageInbox.Add(inbox);
@@ -480,13 +480,16 @@ namespace RDN.Library.Classes.Messages
                 //add all members of the groups
                 foreach (var g in con.GroupIds)
                 {
-                    var tempG = tempGroups.Where(x => x.Id == g).FirstOrDefault();
-                    if (tempG != null)
+                    if (tempGroups != null && tempGroups.Count > 0)
                     {
-                        foreach (var mTemp in tempG.GroupMembers)
+                        var tempG = tempGroups.Where(x => x.Id == g).FirstOrDefault();
+                        if (tempG != null)
                         {
-                            if (con.Recipients.Where(x => x.MemberId == mTemp.MemberId).FirstOrDefault() == null)
-                                con.Recipients.Add(new MemberDisplayMessage() { MemberId = mTemp.MemberId });
+                            foreach (var mTemp in tempG.GroupMembers)
+                            {
+                                if (con.Recipients.Where(x => x.MemberId == mTemp.MemberId).FirstOrDefault() == null)
+                                    con.Recipients.Add(new MemberDisplayMessage() { MemberId = mTemp.MemberId });
+                            }
                         }
                     }
                 }
@@ -588,7 +591,7 @@ namespace RDN.Library.Classes.Messages
         }
         private static void GetGroupMessages(Guid ownerId, MessageModel mess, ManagementContext dc, int page, int take)
         {
-            
+
             //TODO: add Take(50) a few days from now.
             var to = (from xx in dc.GroupMessages
                       where xx.IsDeleted == false
@@ -596,7 +599,7 @@ namespace RDN.Library.Classes.Messages
                       select xx).AsParallel().OrderByDescending(x => x.LastModified).Skip(page * take).Take(take).ToList();
             List<RDN.Library.DataModels.Messages.GroupMessage> groups = new List<DataModels.Messages.GroupMessage>();
 
-            
+
 
             //foreach (var recipient in to)
             foreach (var group in to)
@@ -617,7 +620,7 @@ namespace RDN.Library.Classes.Messages
                             ms.FromId = message.FromUser.MemberId;
                             ms.FromName = message.FromUser.DerbyName;
                         }
-                      
+
                         ms.MessageCreated = message.Created;
                         ms.MessageId = message.MessageId;
                         if (!String.IsNullOrEmpty(message.MessageText))
@@ -948,7 +951,7 @@ namespace RDN.Library.Classes.Messages
                 {
                     DataModels.Messages.MessageRecipient recipient = new DataModels.Messages.MessageRecipient();
                     recipient.Group = gro;
-                    
+
                     recipient.Recipient = dc.Members.Where(x => x.MemberId == memberid).FirstOrDefault();
                     gro.Recipients.Add(recipient);
                 }

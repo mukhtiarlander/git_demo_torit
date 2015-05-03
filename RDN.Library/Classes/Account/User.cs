@@ -44,6 +44,7 @@ using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Games.Scoreboard;
 using RDN.Portable.Classes.Games.Scoreboard.Game;
 using System.Configuration;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Account
 {
@@ -565,7 +566,7 @@ namespace RDN.Library.Classes.Account
                     newUserConfirm.Add(NewUserEnum.Email_EmailNotRightIncorrect);
 
 
-                
+
 
 
                 if (member.UserId != new Guid())
@@ -1517,13 +1518,13 @@ namespace RDN.Library.Classes.Account
             }
             else if (mem.Gender == (int)GenderEnum.Female)
             {
-                m.photoUrl = ConfigurationManager.AppSettings["PublicSite"] + "content/roller-girl.jpg";
+                m.photoUrl = LibraryConfig.PublicSite + "content/roller-girl.jpg";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Female.ToString();
             }
             else if (mem.Gender == (int)GenderEnum.Male)
             {
-                m.photoUrl = ConfigurationManager.AppSettings["PublicSite"] + "/content/roller-person.gif";
+                m.photoUrl = LibraryConfig.PublicSite + "/content/roller-person.gif";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Male.ToString();
             }
@@ -2399,7 +2400,7 @@ namespace RDN.Library.Classes.Account
                     mem.Photos.Add(new PhotoItem(photo.ImageUrl, photo.IsPrimaryPhoto, member.DerbyName));
                 }
 
-                                if (member.YearStartedSkating != null && member.YearStartedSkating != new DateTime())
+                if (member.YearStartedSkating != null && member.YearStartedSkating != new DateTime())
                     mem.StartedSkating = member.YearStartedSkating.Value;
                 else
                     mem.StartedSkating = null;
