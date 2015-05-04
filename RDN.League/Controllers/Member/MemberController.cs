@@ -60,7 +60,7 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
-        [LeagueAuthorize(EmailVerification = true)]
+        [Authorize]
         public ActionResult ChangeEmailNotificationSetting(string groupLeague, string id, string checkedUnCheck)
         {
             try
@@ -112,7 +112,7 @@ namespace RDN.League.Controllers
                 bool success = false;
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
 
-                success = MemberSettingsFactory.ChangeForumMessageOrderSetting(memId,Convert.ToBoolean(checkedUnCheck));
+                success = MemberSettingsFactory.ChangeForumMessageOrderSetting(memId, Convert.ToBoolean(checkedUnCheck));
 
                 RDN.Library.Cache.MemberCache.Clear(memId);
                 MemberCache.ClearApiCache(memId);
