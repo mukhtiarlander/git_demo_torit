@@ -2803,7 +2803,17 @@ var League = new function () {
             var owner = $("#OwnerId");
             $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
                 if (result.isSuccess === true) {
+                    $('.bottom-right').notify({
+                        message: { text: 'Files Moved. ' },
+                        fadeOut: { enabled: true, delay: 4000 },
+                        type: "success"
+                    }).show();
                 } else {
+                    $('.bottom-right').notify({
+                        message: { text: 'Something Happened, Try again later. ' },
+                        fadeOut: { enabled: true, delay: 4000 },
+                        type: "danger"
+                    }).show();
                 }
             }).error(function () {
             });
@@ -2855,7 +2865,17 @@ var League = new function () {
                 $.each($("#documents tbody tr"), function (index, tr) {
                     $(tr).find(":checkbox").prop("checked", false);
                 });
+                $('.bottom-right').notify({
+                    message: { text: 'Files Moved. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "success"
+                }).show();
             } else {
+                $('.bottom-right').notify({
+                    message: { text: 'Something Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "danger"
+                }).show();
             }
         }).error(function () {
         });

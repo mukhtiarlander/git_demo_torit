@@ -1275,83 +1275,89 @@ namespace RDN.League.Controllers
 
             int column = 1;
             int row = 1;
-           var memId = RDN.Library.Classes.Account.User.GetMemberId();
-            var member = RDN.Library.Classes.Account.User.GetMember();
-            var contacts = RDN.Library.Cache.MemberCache.GetMemberDisplay(memId).MemberContacts.Where(w => w.ContactType.ToString() == contacttype.ToString())
-                .Select(s=> new {
-                    Member_First_Name = member.Firstname,
-                    Member_Last_Name = member.Lastname,
-                    First_Name = s.Firstname,
-                    Last_Name = s.Lastname,
-                    Email  = s.Email,
-                    Phone_Number = s.PhoneNumber,
-                    Address_Line_1 = s.Addresses.FirstOrDefault().Address1,
-                    Address_Line_2 = s.Addresses.FirstOrDefault().Address2,
-                    City = s.Addresses.FirstOrDefault().CityRaw,
-                    State = s.Addresses.FirstOrDefault().StateRaw,
-                    Zip = s.Addresses.FirstOrDefault().Zip,
-                    Country = s.Addresses.FirstOrDefault().Country
-                }).ToList();
+            
+            var league = RDN.Library.Classes.League.LeagueFactory.GetLeague(MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()));
+            var members = RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(league.LeagueId);
 
-            if (contacts.Count() > 0)
+            for(int i = 0; i< members.Count(); i++)
             {
-                foreach (string item in Enum.GetNames(typeof(MembersReportContactEnum)))
-                {
-                    if (!String.IsNullOrEmpty(item))
-                    {
-                        MembersReportContactEnum temp = (MembersReportContactEnum)Enum.Parse(typeof(MembersReportContactEnum), item);
-                        contactSheet.Cells[row, column].Value = RDN.Portable.Util.Enums.EnumExt.ToFreindlyName(temp);
-                        row += 1;
-                        for (int i = 0; i < contacts.Count; i++)
-                        {
-                            switch (temp)
-                            {
-                                case MembersReportContactEnum.Member_First_Name:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Member_First_Name;
-                                    break;
-                                case MembersReportContactEnum.Member_Last_Name:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Member_Last_Name;
-                                    break;
-                                case MembersReportContactEnum.First_Name:
-                                    contactSheet.Cells[row, column].Value = contacts[i].First_Name;
-                                    break;
-                                case MembersReportContactEnum.Last_Name:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Last_Name;
-                                    break;
-                                case MembersReportContactEnum.Email:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Email;
-                                    break;
-                                case MembersReportContactEnum.Phone_Number:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Phone_Number;
-                                    break;
-                                case MembersReportContactEnum.Address_Line_1:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Address_Line_1;
-                                    break;
-                                case MembersReportContactEnum.Address_Line_2:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Address_Line_2;
-                                    break;
-                                case MembersReportContactEnum.City:
-                                    contactSheet.Cells[row, column].Value = contacts[i].City;
-                                    break;
-                                case MembersReportContactEnum.State:
-                                    contactSheet.Cells[row, column].Value = contacts[i].State;
-                                    break;
-                                case MembersReportContactEnum.Zip:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Zip;
-                                    break;
-                                case MembersReportContactEnum.Country:
-                                    contactSheet.Cells[row, column].Value = contacts[i].Country;
-                                    break;
-                            }
-                            row += 1;
-                        }
-                        row = 1;
-                        column += 1;
+                var contacts = RDN.Library.Cache.MemberCache.GetMemberDisplay(members[i].MemberId).MemberContacts.Where(w => w.ContactType.ToString() == contacttype.ToString())
+               .Select(s => new
+               {
+                   Member_First_Name = members[i].Firstname,
+                   Member_Last_Name = members[i].LastName,
+                   First_Name = s.Firstname,
+                   Last_Name = s.Lastname,
+                   Email = s.Email,
+                   Phone_Number = s.PhoneNumber,
+                   Address_Line_1 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address1 : "",
+                   Address_Line_2 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address2 : "",
+                   City = s.Addresses.FirstOrDefault() != null ?  s.Addresses.FirstOrDefault().CityRaw: "",
+                   State = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().StateRaw: "",
+                   Zip = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Zip : "",
+                   Country = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Country : ""
+               }).ToList();
 
+                if (contacts.Count() > 0)
+                {
+                    foreach (string item in Enum.GetNames(typeof(MembersReportContactEnum)))
+                    {
+                        if (!String.IsNullOrEmpty(item))
+                        {
+                            MembersReportContactEnum temp = (MembersReportContactEnum)Enum.Parse(typeof(MembersReportContactEnum), item);
+                            contactSheet.Cells[row, column].Value = RDN.Portable.Util.Enums.EnumExt.ToFreindlyName(temp);
+                            row += 1;
+                            for (int j = 0; j < contacts.Count; j++)
+                            {
+                                switch (temp)
+                                {
+                                    case MembersReportContactEnum.Member_First_Name:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Member_First_Name;
+                                        break;
+                                    case MembersReportContactEnum.Member_Last_Name:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Member_Last_Name;
+                                        break;
+                                    case MembersReportContactEnum.First_Name:
+                                        contactSheet.Cells[row, column].Value = contacts[j].First_Name;
+                                        break;
+                                    case MembersReportContactEnum.Last_Name:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Last_Name;
+                                        break;
+                                    case MembersReportContactEnum.Email:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Email;
+                                        break;
+                                    case MembersReportContactEnum.Phone_Number:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Phone_Number;
+                                        break;
+                                    case MembersReportContactEnum.Address_Line_1:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Address_Line_1;
+                                        break;
+                                    case MembersReportContactEnum.Address_Line_2:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Address_Line_2;
+                                        break;
+                                    case MembersReportContactEnum.City:
+                                        contactSheet.Cells[row, column].Value = contacts[j].City;
+                                        break;
+                                    case MembersReportContactEnum.State:
+                                        contactSheet.Cells[row, column].Value = contacts[j].State;
+                                        break;
+                                    case MembersReportContactEnum.Zip:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Zip;
+                                        break;
+                                    case MembersReportContactEnum.Country:
+                                        contactSheet.Cells[row, column].Value = contacts[j].Country;
+                                        break;
+                                }
+                                row += 1;
+                            }
+                            row = 1;
+                            column += 1;
+
+                        }
                     }
                 }
             }
-
+           
             contactSheet.Cells["A1:Z100"].AutoFitColumns();
             return contactSheet;
         }

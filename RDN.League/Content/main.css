@@ -18,7 +18,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .spanLink { text-decoration: underline; }
 .cursor { cursor: pointer; }
 .hyperlink{cursor:pointer}
-.hyperlink:hover{text-decoration:underline}
+.hyperlink:hover{text-decoration:underline} 
 
 .center { margin: 0px auto; position: relative; }
 
@@ -180,7 +180,7 @@ select{height:35px;border-radius:4px}
 .w65{width:65px}
 .w40{width:40px}
 .w30{width:30px}
-
+.nowrap{white-space:nowrap}
 .round-corners{border-radius:8px;}
 .select-sm{height:34px !important;}
 .select-xs{height:29px !important;}
@@ -191,7 +191,7 @@ select{height:35px;border-radius:4px}
 .h150 {height:150px}
 .scroll{overflow:auto}
 .bg-color-silver{background-color:silver}
-.column-nowrap{white-space:nowrap; width:1px;}
+.column-nowrap{white-space:nowrap;width:1px}
 
 .btn-file {
     position: relative;
