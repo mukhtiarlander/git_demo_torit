@@ -1277,9 +1277,9 @@ namespace RDN.League.Controllers
             int row = 1;
             
             var league = RDN.Library.Classes.League.LeagueFactory.GetLeague(MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()));
-            var members = RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(league.LeagueId);
+            var members = RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(league.LeagueId); 
 
-            for(int i = 0; i< members.Count(); i++)
+            for(int i = 0; i< members.Count(); i++) 
             {
                 var contacts = RDN.Library.Cache.MemberCache.GetMemberDisplay(members[i].MemberId).MemberContacts.Where(w => w.ContactType.ToString() == contacttype.ToString())
                .Select(s => new
@@ -1290,8 +1290,8 @@ namespace RDN.League.Controllers
                    Last_Name = s.Lastname,
                    Email = s.Email,
                    Phone_Number = s.PhoneNumber,
-                   Address_Line_1 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address1 : "",
-                   Address_Line_2 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address2 : "",
+                   Address_Line_1 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address1 : "", 
+                   Address_Line_2 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address2 : "", 
                    City = s.Addresses.FirstOrDefault() != null ?  s.Addresses.FirstOrDefault().CityRaw: "",
                    State = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().StateRaw: "",
                    Zip = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Zip : "",
