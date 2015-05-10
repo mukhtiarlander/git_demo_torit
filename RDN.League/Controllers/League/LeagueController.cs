@@ -971,7 +971,7 @@ namespace RDN.League.Controllers
 
                 }
 
-                
+
 
                 ViewBag.LeagueName = league.Name;
                 ViewBag.JoinCode = league.JoinCode.ToString().Replace("-", "");
@@ -1234,7 +1234,7 @@ namespace RDN.League.Controllers
                                             case MembersReportEnum.Day_Job:
                                                 reportSheet.Cells[row, column].Value = league.LeagueMembers[i].DayJob;
                                                 break;
-                                            
+
                                         }
                                         row += 1;
                                     }
@@ -1257,6 +1257,10 @@ namespace RDN.League.Controllers
                     if (String.IsNullOrEmpty(model.SavedReportName))
                         model.SavedReportName = "ReportBuilder";
                     string file = model.SavedReportName + "_" + DateTime.UtcNow.ToString("yyyyMMdd") + ".xlsx";
+                    Response.Headers.Add("Content-Type", RDN.Utilities.IO.FileExt.GetMIMEType(file));
+                    Response.AddHeader("Content-Length", bin.Length.ToString());
+                    Response.ContentType = RDN.Utilities.IO.FileExt.GetMIMEType(file);
+                    
                     return File(bin, RDN.Utilities.IO.FileExt.GetMIMEType(file), file);
                 }
             }
@@ -1275,11 +1279,11 @@ namespace RDN.League.Controllers
 
             int column = 1;
             int row = 1;
-            
-            var league = RDN.Library.Classes.League.LeagueFactory.GetLeague(MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()));
-            var members = RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(league.LeagueId); 
 
-            for(int i = 0; i< members.Count(); i++) 
+            var league = RDN.Library.Classes.League.LeagueFactory.GetLeague(MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()));
+            var members = RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(league.LeagueId);
+
+            for (int i = 0; i < members.Count(); i++)
             {
                 var contacts = RDN.Library.Cache.MemberCache.GetMemberDisplay(members[i].MemberId).MemberContacts.Where(w => w.ContactType.ToString() == contacttype.ToString())
                .Select(s => new
@@ -1290,10 +1294,10 @@ namespace RDN.League.Controllers
                    Last_Name = s.Lastname,
                    Email = s.Email,
                    Phone_Number = s.PhoneNumber,
-                   Address_Line_1 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address1 : "", 
-                   Address_Line_2 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address2 : "", 
-                   City = s.Addresses.FirstOrDefault() != null ?  s.Addresses.FirstOrDefault().CityRaw: "",
-                   State = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().StateRaw: "",
+                   Address_Line_1 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address1 : "",
+                   Address_Line_2 = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Address2 : "",
+                   City = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().CityRaw : "",
+                   State = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().StateRaw : "",
                    Zip = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Zip : "",
                    Country = s.Addresses.FirstOrDefault() != null ? s.Addresses.FirstOrDefault().Country : ""
                }).ToList();
@@ -1357,7 +1361,7 @@ namespace RDN.League.Controllers
                     }
                 }
             }
-           
+
             contactSheet.Cells["A1:Z100"].AutoFitColumns();
             return contactSheet;
         }
@@ -1960,7 +1964,7 @@ namespace RDN.League.Controllers
                 leag.State = league.State;
                 leag.Teams = league.Teams;
                 leag.TimeZone = league.TimeZone;
-                if (leag.TimeZone != null && league.TimeZoneSelection!= null)
+                if (leag.TimeZone != null && league.TimeZoneSelection != null)
                     leag.TimeZoneId = league.TimeZoneSelection.ZoneId;
                 leag.TimeZones = RDN.Library.Classes.Location.TimeZoneFactory.GetTimeZones();
 

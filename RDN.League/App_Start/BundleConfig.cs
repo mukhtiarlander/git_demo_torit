@@ -28,7 +28,6 @@ namespace RDN.League
                         "~/Scripts/jquery.dataTables.naturalSort.js",
                         "~/Scripts/colorPicker/colorpicker.js",
                         "~/Scripts/jquery.MultiFile.js",
-                        "~/Scripts/jquery/jquery.ajaxfileupload.js",
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
                         "~/Scripts/FullCalendar/gcal.js",
                          "~/Scripts/select2/select2.min.js"

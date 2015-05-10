@@ -5,6 +5,7 @@ using RDN.Library.DataModels.EmailServer;
 using RDN.Library.DataModels.EmailServer.Enums;
 using RDN.Library.Classes.Error;
 using System;
+using Common.EmailServer.Library.Classes.Email;
 
 namespace RDN.Library.Classes.EmailServer
 {
@@ -198,18 +199,10 @@ namespace RDN.Library.Classes.EmailServer
         {
             try
             {
-                var dc = new ManagementContext();
+                Dictionary<string, string> properties = new Dictionary<string, string>();
+                properties.Add("body", body);
+                EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
-                var email = new EmailSendItem(priority);
-                email.EmailLayout = "Default";
-                email.From = from;
-                email.DisplayNameFrom = displayNameFrom;
-                email.Reciever = to;
-                email.Subject = subject;
-                email.Properties.Add(new EmailProperty { Key = "body", Value = body });
-                if (!String.IsNullOrEmpty(email.Reciever))
-                    dc.EmailServer.Add(email);
-                dc.SaveChanges();
             }
             catch (Exception exception)
             {
@@ -228,75 +221,18 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="priority"></param>
         public static bool SendEmail(string from, string displayNameFrom, string to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important)
         {
+
             try
             {
-                var dc = new ManagementContext();
 
-                if (layout == EmailServerLayoutsEnum.TextMessage)
-                    priority = EmailPriority.Important;
+                EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
-                var email = new EmailSendItem(priority);
-                email.EmailLayout = layout.ToString();
-                email.From = from;
-                email.DisplayNameFrom = displayNameFrom;
-                email.Reciever = to;
-                email.Subject = subject;
-                foreach (var property in properties)
-                    email.Properties.Add(new EmailProperty { Key = property.Key, Value = property.Value });
-
-                if (!String.IsNullOrEmpty(email.Reciever))
-                    dc.EmailServer.Add(email);
-
-                int c = dc.SaveChanges();
-                return c > 0;
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: to);
             }
             return false;
-        }
-
-        internal static List<EmailSendItem> PullPriorityItemsToSend()
-        {
-            var dc = new ManagementContext();
-            return dc.EmailServer.Include("Properties").Where(x => x.Prio.Equals(1)).OrderBy(x => x.Created).ToList();
-        }
-
-        internal static List<EmailSendItem> PullItemsToSend(int numberOfItemsToPull)
-        {
-            var dc = new ManagementContext();
-            return dc.EmailServer.Include("Properties").Where(x => x.Prio.Equals(0)).OrderBy(x => x.Created).Take(numberOfItemsToPull).ToList();
-        }
-
-        internal static string PullLatestEmailMessage()
-        {
-            var dc = new EmailServerContext();
-            var message = dc.EmailMessages.OrderByDescending(x => x.EmailId).FirstOrDefault();
-            if (message != null)
-                return message.Message;
-            return string.Empty;
-        }
-
-        internal static void DeleteItem(int itemId)
-        {
-            var dc = new ManagementContext();
-            var item = dc.EmailServer.FirstOrDefault(x => x.EmailSendItemId.Equals(itemId));
-            if (item == null)
-                return;
-            dc.EmailServer.Remove(item);
-            dc.SaveChanges();
-        }
-
-        internal static void DeleteItems(IList<int> itemIds)
-        {
-            var dc = new ManagementContext();
-            var items = dc.EmailServer.Where(x => itemIds.Contains(x.EmailSendItemId)).ToList();
-            if (!items.Any())
-                return;
-            foreach (var item in items)
-                dc.EmailServer.Remove(item);
-            dc.SaveChanges();
         }
     }
 }
