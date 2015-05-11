@@ -24,7 +24,7 @@ namespace RDN.DBUpdate.Migrations
     //{
     //    public CRN()
     //    {
-    //        AutomaticMigrationsEnabled = true;
+    //        AutomaticMigrationsEnabled = true;    
     //        AutomaticMigrationDataLossAllowed = true;
     //    }
 
