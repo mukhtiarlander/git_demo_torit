@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>2b3a0f38</NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -146,9 +149,6 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.IO.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net40\System.Net.Http.dll</HintPath>
@@ -165,16 +165,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activities" />
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.Threading.Tasks.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Windows.Forms" />
@@ -277,7 +271,6 @@
     <Compile Include="Classes\League\ItemInfoDA.cs" />
     <Compile Include="Classes\League\JobBoard.cs" />
     <Compile Include="Classes\League\Organization.cs" />
-    <Compile Include="Classes\League\Reports\MembersReportContactEnum.cs" />
     <Compile Include="Classes\League\TaskList\TaskDA.cs" />
     <Compile Include="Classes\League\TaskList\TaskListDA.cs" />
     <Compile Include="Classes\Officials\RequestDA.cs" />
@@ -462,6 +455,7 @@
       <DependentUpon>YafDataContext.dbml</DependentUpon>
     </Compile>
     <Compile Include="DatabaseInitializers\ErrorInitializer.cs" />
+    <Compile Include="DatabaseInitializers\EmailServerInitializer.cs" />
     <Compile Include="DatabaseInitializers\ManagementInitializer.cs" />
     <Compile Include="DataModels\Admin\Download\Scoreboard.cs" />
     <Compile Include="DataModels\Admin\Email\AdminEmailMessages.cs" />
@@ -478,6 +472,7 @@
     <Compile Include="DataModels\BruiseBash\BruiseBashImages.cs" />
     <Compile Include="DataModels\BruiseBash\BruiseBashItem.cs" />
     <Compile Include="DataModels\BruiseBash\BruiseBashRatings.cs" />
+    <Compile Include="DataModels\Context\EmailServerContext.cs" />
     <Compile Include="DataModels\Context\ErrorContext.cs" />
     <Compile Include="DataModels\Context\RNManagementContext.cs" />
     <Compile Include="DataModels\Controls\Calendar\Calendar.cs" />
@@ -724,6 +719,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Util\SiteMessage.cs" />
     <Compile Include="Util\Markdown.cs" />
     <Compile Include="Util\Enum\SiteMessagesEnum.cs" />
@@ -778,10 +774,6 @@
     <Folder Include="Classes\Utilities\Enums\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
-      <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
-      <Name>Common.EmailServer.Library</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RDN.Portable\RDN.Portable.csproj">
       <Project>{68721c49-c417-40de-a445-c4077d9469cb}</Project>
       <Name>RDN.Portable</Name>
@@ -819,7 +811,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

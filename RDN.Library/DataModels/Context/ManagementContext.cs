@@ -113,7 +113,7 @@ namespace RDN.Library.DataModels.Context
         public DbSet<ContactCard.Email> EmailsForAllEntities { get; set; }
         public DbSet<NonSubscribersList> NonSubscribersList { get; set; }
         public DbSet<SubscribersList> SubscribersList { get; set; }
-        //public DbSet<AdminEmailMessages> AdminEmailMessages { get; set; }
+        public DbSet<AdminEmailMessages> AdminEmailMessages { get; set; }
 
 
         // **************** Game **************** \\
@@ -170,7 +170,7 @@ namespace RDN.Library.DataModels.Context
 
 
         // **************** Email **************** \\
-        //public DbSet<EmailSendItem> EmailServer { get; set; }
+        public DbSet<EmailSendItem> EmailServer { get; set; }
         public DbSet<Subscriber> SubscriptionSubscriber { get; set; }
         public DbSet<SubscriptionOwner> SubscriptionOwners { get; set; }
         public DbSet<SubscriptionList> SubscriptionLists { get; set; }

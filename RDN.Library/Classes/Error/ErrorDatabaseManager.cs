@@ -29,7 +29,10 @@ namespace RDN.Library.Classes.Error
         {
             AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorGroup, errorSeverity, parameters, additionalInformation));
         }
-        
+        public static void AddExceptionEmailServer(Exception e, Type type, ErrorGroupEnum? errorGroup = null, ErrorSeverityEnum? errorSeverity = null, IList<Expression<Func<object>>> parameters = null, string additionalInformation = null)
+        {
+            AddExceptionEmails(ErrorManager.GetErrorObject(e, type, errorGroup, errorSeverity, parameters, additionalInformation));
+        }
 
         /// <summary>
         /// Stores the error object in the database
@@ -136,7 +139,57 @@ namespace RDN.Library.Classes.Error
             { AddException(except, except.GetType()); }
         }
 
-    
+        public static void AddExceptionEmails(ErrorObject errorObject)
+        {
+            try
+            {
+                var dc = new EmailServerContext();
+                var databaseError = new DataModels.Exception.Exception
+                {
+                    AdditionalInformation = errorObject.AdditionalInformation,
+                    AssemblyName = errorObject.AssemblyName,
+                    AssemblyVersion = errorObject.AssemblyVersion,
+                    Created = errorObject.Created,
+                    ErrorNameSpace = errorObject.ErrorNameSpace,
+                    MethodName = errorObject.MethodName,
+                    NameSpace = errorObject.NameSpace,
+                    Group = errorObject.ErrorGroup.HasValue ? (byte?)errorObject.ErrorGroup.Value : null,
+                    Severity = errorObject.ErrorSeverity.HasValue ? (byte?)errorObject.ErrorSeverity.Value : null
+                };
+
+                if (errorObject.ErrorData != null && errorObject.ErrorData.Count > 0)
+                {
+                    foreach (var errorDataDetail in errorObject.ErrorData)
+                    {
+                        var databaseErrorData = new DataModels.Exception.ExceptionData
+                        {
+                            DataType = (byte)errorDataDetail.DataType,
+                            Name = errorDataDetail.Key,
+                            Data = errorDataDetail.Value
+                        };
+
+                        databaseError.ExceptionData.Add(databaseErrorData);
+                    }
+                }
+
+                if (errorObject.ErrorExceptions != null)
+                    foreach (var exception in errorObject.ErrorExceptions)
+                    {
+                        var exceptionErrorDetail = new DataModels.Exception.ExceptionDetail();
+                        exceptionErrorDetail.Depth = exception.Depth;
+                        exceptionErrorDetail.Message = exception.Message;
+                        exceptionErrorDetail.MethodName = exception.MethodName;
+                        exceptionErrorDetail.StackTrace = exception.StackTrace;
+                        databaseError.ExceptionDetails.Add(exceptionErrorDetail);
+                    }
+
+                dc.ErrorExceptions.Add(databaseError);
+                dc.SaveChanges();
+            }
+            catch (Exception except)
+            { AddException(except, except.GetType()); }
+        }
+
         public static List<Classes.Error> GetErrorObjects(int recordsToSkip, int numberOfRecordsToPull)
         {
             var output = new List<Classes.Error>();

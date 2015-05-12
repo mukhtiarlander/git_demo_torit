@@ -62,7 +62,7 @@ namespace RDN.Library.Classes.Calendar.Report
             CalendarReport report = new CalendarReport();
             var memId = RDN.Library.Classes.Account.User.GetMemberId();
             var leagueId = MemberCache.GetLeagueIdOfMember(memId);
-
+          
             try
             {
 
@@ -71,24 +71,13 @@ namespace RDN.Library.Classes.Calendar.Report
                            where xx.CalendarId == calendarId
                            select xx).FirstOrDefault();
 
+                DateTime enddate_utc = endDate - new TimeSpan(cal.TimeZone, 0, 0);
 
-
-                report.StartDateSelected = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
                 report.EndDateSelected = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
+                report.StartDateSelected = startDate;
 
-                DateTime startDateUtc = report.StartDateSelected;
-                DateTime endDateUtc = report.EndDateSelected;
-
-                //user chose a timezone
-                if (cal.TimeZoneSelection != null)
-                {
-                    //first we need to get the utc datetime of selected dates.
-                    startDateUtc = report.StartDateSelected - new TimeSpan(cal.TimeZoneSelection.GMTOffset, 0, 0);
-                    endDateUtc = report.EndDateSelected - new TimeSpan(cal.TimeZoneSelection.GMTOffset, 0, 0);
-                    //then we need to select the days of utc times.
-                    //startDateUtc = new DateTime(startDateUtc.Year, startDateUtc.Month, startDateUtc.Day, 0, 0, 0);
-                    //endDateUtc = new DateTime(endDateUtc.Year, endDateUtc.Month, endDateUtc.Day, 23, 59, 59);
-                }
+                startDate = startDate - new TimeSpan(cal.TimeZone, 0, 0);
+                endDate = new DateTime(enddate_utc.Year, enddate_utc.Month, enddate_utc.Day, 23, 59, 59);
 
                 report.CalendarId = calendarId;
                 report.EntityName = calendarType;
@@ -97,15 +86,14 @@ namespace RDN.Library.Classes.Calendar.Report
                 TimeSpan daysReporting = endDate - startDate;
                 report.DaysBackwards = daysReporting.Days;
 
-
+              
                 report.NotPresentForCheckIn = cal.NotPresentCheckIn;
                 List<DataModels.Calendar.CalendarEvent> events = new List<DataModels.Calendar.CalendarEvent>();
                 List<MemberDisplay> members = new List<MemberDisplay>();
                 if (group == 0) //no grops were selected
                 {
                     members = MemberCache.GetLeagueMembers(memId, leagueId);
-                    events = cal.CalendarEvents.Where(x => x.IsInUTCTime).Where(x => x.StartDate >= startDateUtc).Where(x => x.EndDate < endDateUtc).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList();
-                    events.AddRange(cal.CalendarEvents.Where(x => x.IsInUTCTime == false).Where(x => x.StartDate >= report.StartDateSelected).Where(x => x.EndDate < report.EndDateSelected).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList());
+                    events = cal.CalendarEvents.Where(x => x.StartDate >= startDate).Where(x => x.EndDate < endDate).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList();
                 }
                 else
                 {
@@ -123,15 +111,10 @@ namespace RDN.Library.Classes.Calendar.Report
                             members.Add(m);
                         }
                     if (reportOnGroupedEventsOnly)
-                    {
-                        events = cal.CalendarEvents.Where(x => x.IsInUTCTime).Where(x => x.StartDate >= startDateUtc).Where(x => x.EndDate < endDateUtc).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Select(y => y.Group.Id).Contains(group)).ToList();
-                        events.AddRange(cal.CalendarEvents.Where(x => x.IsInUTCTime == false).Where(x => x.StartDate >= report.StartDateSelected).Where(x => x.EndDate < report.EndDateSelected).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Select(y => y.Group.Id).Contains(group)).ToList());
-                    }
+                        events = cal.CalendarEvents.Where(x => x.StartDate >= startDate).Where(x => x.EndDate < endDate).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Select(y => y.Group.Id).Contains(group)).ToList();
                     else
-                    {
-                        events = cal.CalendarEvents.Where(x => x.IsInUTCTime).Where(x => x.StartDate >= startDateUtc).Where(x => x.EndDate < endDateUtc).Where(x => x.IsRemovedFromCalendar == false).ToList();
-                        events.AddRange(cal.CalendarEvents.Where(x => x.IsInUTCTime == false).Where(x => x.StartDate >= report.StartDateSelected).Where(x => x.EndDate < report.EndDateSelected).Where(x => x.IsRemovedFromCalendar == false).ToList());
-                    }
+                        events = cal.CalendarEvents.Where(x => x.StartDate >= startDate).Where(x => x.EndDate < endDate).Where(x => x.IsRemovedFromCalendar == false).ToList();
+
                 }
                 foreach (var calEvent in events)
                 {

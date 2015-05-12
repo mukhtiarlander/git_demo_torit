@@ -953,59 +953,6 @@ var Forum = new function () {
             }
         });
     }
-    this.SetupNewForumPost = function()
-    {
-
-        tinymce.init({
-            mode: "textareas",
-            elements: "wmd-input",
-
-
-
-            plugins: "mention",
-
-            // Theme options
-            theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
-            theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
-            theme_advanced_buttons3: "",
-            theme_advanced_buttons4: "",
-            theme_advanced_toolbar_location: "top",
-            theme_advanced_toolbar_align: "left",
-            theme_advanced_statusbar_location: "bottom",
-            theme_advanced_resizing: true,
-            language: "en",
-            relative_urls: false,
-            uploadType: "Forum",
-            ForumId: '@Model.ForumId',
-            ForumType: '@Model.ForumType',
-            TopicId: '@Model.TopicId',
-            UploadFileUrl: "/forum/postimageupload",
-            mentions: {
-                source: function (query, process, delimiter) {
-                    if (delimiter === '@') {
-                        $.getJSON('/Utilities/SearchNamesForMention?q=' + query, function (data) {
-                            process(data)
-                        });
-                    }
-                },
-                render: function (item) {
-                    alert('dd');
-                    var markup;
-                    if (item.picture != '')
-                        markup = '<li><a href="javascript:;"><img src="' + item.picture + '" class="w20 round-corners"/> ' + item.name + '</a></li>';
-                    else
-                        markup = '<li><a href="javascript:;"><i class="fa fa-user fa-lg text-muted"></i> ' + item.name + '</a></li>';
-                    return markup;
-                },
-                highlighter: function (text) {
-                    //make matched block italic
-                    return text.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
-                        return '<b>' + match + '</b>';
-                    });
-                }
-            }
-        });
-    }
 }
 
 
@@ -2693,7 +2640,7 @@ var Messages = new function () {
                     var selected_members =  $("#ddlMembersList").select2('data');
                     for(var i = 0;i<selected_members.length; i++)
                     {
-                        $("#message-member-list").append('<div class="margin-bottom-10"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<a href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></div>')
+                        $("#message-member-list").append('<div class="margin-bottom-10"><i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></div>')
                     }
 
                 }
@@ -2849,24 +2796,14 @@ var League = new function () {
         });
 
     };
-    this.DeleteDocument = function (span) { 
+    this.DeleteDocument = function (span) {
         var docs = thisViewModel.documentId.split(',');
         var msg = docs.length > 1 ? 'Are you sure you want to delete ' + docs.length + ' documents?' : 'Are you sure you want to delete this document?';
         if (confirm(msg)) {
             var owner = $("#OwnerId");
             $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
                 if (result.isSuccess === true) {
-                    $('.bottom-right').notify({
-                        message: { text: 'Files Deleted. ' },
-                        fadeOut: { enabled: true, delay: 4000 },
-                        type: "success"
-                    }).show();
                 } else {
-                    $('.bottom-right').notify({
-                        message: { text: 'Something Happened, Try again later. ' },
-                        fadeOut: { enabled: true, delay: 4000 },
-                        type: "danger"
-                    }).show();
                 }
             }).error(function () {
             });
@@ -2904,7 +2841,7 @@ var League = new function () {
         text.remove();
         spans.remove();
     }
-    this.MoveDocumentToFolder = function (dropDown) { 
+    this.MoveDocumentToFolder = function (dropDown) {
         var owner = $("#OwnerId");
         var folder = $("#folderName");
         var selectedFolder = $(dropDown).find("option:selected");
@@ -2918,17 +2855,7 @@ var League = new function () {
                 $.each($("#documents tbody tr"), function (index, tr) {
                     $(tr).find(":checkbox").prop("checked", false);
                 });
-                $('.bottom-right').notify({
-                    message: { text: 'Files Moved. ' },
-                    fadeOut: { enabled: true, delay: 4000 },
-                    type: "success"
-                }).show();
             } else {
-                $('.bottom-right').notify({
-                    message: { text: 'Something Happened, Try again later. ' },
-                    fadeOut: { enabled: true, delay: 4000 },
-                    type: "danger"
-                }).show();
             }
         }).error(function () {
         });
