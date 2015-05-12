@@ -1,4 +1,4 @@
-﻿using RDN.Library.DataModels.Admin.Email;
+﻿using Common.EmailServer.Library.Database.Emails;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace RDN.Raspberry.Models.Admin
    
     public class AdminMessagesModel
     {
-      public   List<AdminEmailMessages> Items { get; set; }
+        public List<AdminEmailMessage> Items { get; set; }
         public string NewMessage { get; set; }
         
         

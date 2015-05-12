@@ -971,7 +971,7 @@ namespace RDN.League.Controllers
 
                 }
 
-                
+
 
                 ViewBag.LeagueName = league.Name;
                 ViewBag.JoinCode = league.JoinCode.ToString().Replace("-", "");
@@ -1149,6 +1149,10 @@ namespace RDN.League.Controllers
                     if (String.IsNullOrEmpty(model.SavedReportName))
                         model.SavedReportName = "ReportBuilder";
                     string file = model.SavedReportName + "_" + DateTime.UtcNow.ToString("yyyyMMdd") + ".xlsx";
+                    Response.Headers.Add("Content-Type", RDN.Utilities.IO.FileExt.GetMIMEType(file));
+                    Response.AddHeader("Content-Length", bin.Length.ToString());
+                    Response.ContentType = RDN.Utilities.IO.FileExt.GetMIMEType(file);
+                    
                     return File(bin, RDN.Utilities.IO.FileExt.GetMIMEType(file), file);
                 }
             }
@@ -1759,7 +1763,7 @@ namespace RDN.League.Controllers
                 leag.State = league.State;
                 leag.Teams = league.Teams;
                 leag.TimeZone = league.TimeZone;
-                if (leag.TimeZone != null && league.TimeZoneSelection!= null)
+                if (leag.TimeZone != null && league.TimeZoneSelection != null)
                     leag.TimeZoneId = league.TimeZoneSelection.ZoneId;
                 leag.TimeZones = RDN.Library.Classes.Location.TimeZoneFactory.GetTimeZones();
 

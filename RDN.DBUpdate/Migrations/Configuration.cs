@@ -20,6 +20,19 @@ namespace RDN.DBUpdate.Migrations
         }
 
     }
+
+    internal sealed class CEmail : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailServerContext>
+    {
+        public CEmail()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
+
+        }
+
+    }
+
+
     //internal sealed class CRN : DbMigrationsConfiguration<RNManagementContext>
     //{
     //    public CRN()

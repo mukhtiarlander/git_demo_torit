@@ -463,7 +463,6 @@
       <DependentUpon>YafDataContext.dbml</DependentUpon>
     </Compile>
     <Compile Include="DatabaseInitializers\ErrorInitializer.cs" />
-    <Compile Include="DatabaseInitializers\EmailServerInitializer.cs" />
     <Compile Include="DatabaseInitializers\ManagementInitializer.cs" />
     <Compile Include="DataModels\Admin\Download\Scoreboard.cs" />
     <Compile Include="DataModels\Admin\Email\AdminEmailMessages.cs" />
@@ -480,7 +479,6 @@
     <Compile Include="DataModels\BruiseBash\BruiseBashImages.cs" />
     <Compile Include="DataModels\BruiseBash\BruiseBashItem.cs" />
     <Compile Include="DataModels\BruiseBash\BruiseBashRatings.cs" />
-    <Compile Include="DataModels\Context\EmailServerContext.cs" />
     <Compile Include="DataModels\Context\ErrorContext.cs" />
     <Compile Include="DataModels\Context\RNManagementContext.cs" />
     <Compile Include="DataModels\Controls\Calendar\Calendar.cs" />
@@ -782,6 +780,10 @@
     <Folder Include="Classes\Utilities\Enums\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
+      <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
+      <Name>Common.EmailServer.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RDN.Portable\RDN.Portable.csproj">
       <Project>{68721c49-c417-40de-a445-c4077d9469cb}</Project>
       <Name>RDN.Portable</Name>
