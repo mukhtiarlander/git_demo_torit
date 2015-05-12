@@ -21,6 +21,7 @@ using RDN.Utilities.Error;
 using System.Web.Security;
 using RDN.Portable.Config;
 using RDN.Library.DataModels.Admin.Email;
+using Common.EmailServer.Library.Classes.Email;
 
 
 namespace RDN.Library.Classes.Admin.Admin
@@ -29,17 +30,11 @@ namespace RDN.Library.Classes.Admin.Admin
     {
         public static bool SaveNextAdminMessage(string message)
         {
-            var dc = new ManagementContext();
-            AdminEmailMessages m = new AdminEmailMessages();
-            m.Message = message;
-            dc.AdminEmailMessages.Add(m);
-            int c = dc.SaveChanges();
-            return c > 0;
+            return EmailServerFactory.CreateNew().SaveNextAdminMessage(message);
         }
-        public static List<AdminEmailMessages> GetLastAdminEmailMessages(int count)
+        public static List<Common.EmailServer.Library.Database.Emails.AdminEmailMessage> GetLastAdminEmailMessages(int count)
         {
-            var dc = new ManagementContext();
-            return dc.AdminEmailMessages.OrderByDescending(x => x.EmailId).Take(count).ToList();
+            return EmailServerFactory.CreateNew().GetLastAdminEmailMessages(count);
         }
 
         public static int GetContactLeagueCount()
@@ -189,21 +184,7 @@ namespace RDN.Library.Classes.Admin.Admin
             }
         }
 
-        public static bool SendEmail(string email, string subject, string body, string from = "info@rdnation.com")
-        {
-            var dce = new EmailServerContext();
-            if (Utilities.EmailValidator.Validate(email) && !String.IsNullOrEmpty(email))
-            {
-                dce.EmailServer.Add(new EmailSendItem(EmailPriority.Normal)
-                {
-                    //Body = body,
-                    Reciever = email,
-                    Subject = subject
-                });
-            }
-            dce.SaveChanges();
-            return true;
-        }
+
 
         public static bool SendMassScoreboardEmailsForLeaguesWorldWide(bool isMassSendVerified, string subject, string body, string testEmail)
         {
@@ -566,7 +547,7 @@ namespace RDN.Library.Classes.Admin.Admin
             var UnSubscribedEmails = dc.NonSubscribersList.Select(x => x.EmailToRemoveFromList).ToList();
 
             var users = Roles.GetUsersInRole(roleName);
-            
+
             foreach (var email in users)
             {
                 if (!UnSubscribedEmails.Contains(email))
