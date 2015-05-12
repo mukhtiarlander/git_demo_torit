@@ -73,9 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201505102101577_emailadding.cs" />
-    <Compile Include="Migrations\201505102101577_emailadding.Designer.cs">
-      <DependentUpon>201505102101577_emailadding.cs</DependentUpon>
+    <Compile Include="Migrations\201505091837356_ForumMessageMention.cs" />
+    <Compile Include="Migrations\201505091837356_ForumMessageMention.Designer.cs">
+      <DependentUpon>201505091837356_ForumMessageMention.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -128,8 +128,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505102101577_emailadding.resx">
-      <DependentUpon>201505102101577_emailadding.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505091837356_ForumMessageMention.resx">
+      <DependentUpon>201505091837356_ForumMessageMention.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

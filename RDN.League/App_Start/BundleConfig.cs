@@ -60,7 +60,9 @@ namespace RDN.League
                       "~/Content/main.css",
                       "~/Content/jquery-ui-1.10.4.custom.css",
                       "~/Content/FullCalendar/fullcalendar.css",
-                       "~/Content/select2.min.css"
+                       "~/Content/select2.min.css",
+                       //"~/Content/jquery.mentionsInput.css"
+                        "~/Content/tinymce.mentions.css"
                       //,
                       //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));
