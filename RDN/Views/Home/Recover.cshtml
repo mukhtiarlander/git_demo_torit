@@ -6,6 +6,13 @@
 @{
     ViewBag.Title = "Recover Password";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string strEmailWaringStyle = "display:none";
+
+    if (ViewBag.IsEmailExists != null)
+    {
+        strEmailWaringStyle = string.Empty;
+    }
 }
 <div class="page-header col-md-offset-1  col-md-10  col-xs-12 text-center">
     <h2>Recover Your Password</h2>
@@ -15,10 +22,19 @@
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true, "Could Not Find Your Email.")
-
-        <div>
+       
+         <div>
             <fieldset>
                 <table class="table">
+                    <tr>
+                        <td class="text-right"></td>
+                        <td class="suRTD">
+                            <div class="alert alert-warning" style="@strEmailWaringStyle">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                <strong>Warning!</strong> That email seems to be incorrect.  Please try again.
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="text-right">
                             @Html.LabelFor(m => m.Email):
@@ -37,12 +53,12 @@
                     <tr>
                         <td></td>
                         <td>
-                            
-                            
+
+
                             <b>
                                 @Html.DisplayTextFor(m => m.ConfirmationMessage)
                             </b>
-                            
+
                         </td>
                     </tr>
                 </table>

@@ -265,8 +265,7 @@ namespace RDN.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {
-
+                {                   
                     var user = Membership.GetUser(model.Email);
                     if (user != null)
                     {
@@ -276,6 +275,8 @@ namespace RDN.Controllers
                             model.ConfirmationMessage = "Something went wrong, if this problem persists please contact info@rdnation.com";
                         return View(model);
                     }
+
+                    ViewBag.IsEmailExists = false;                
                 }
             }
             catch (Exception exception)
