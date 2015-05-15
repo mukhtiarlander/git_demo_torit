@@ -18,8 +18,8 @@ namespace RDN.TransactionHandler
         public void ProcessRequest(HttpContext context)
         {
             try
-            {
-                string mode = ConfigurationManager.AppSettings["PaypalLiveTest"];
+            {                
+                string mode = Library.Classes.Config.LibraryConfig.PaypalLiveTest;
                 PaypalPaymentFactory.PaypalMode setting = (PaypalPaymentFactory.PaypalMode)Enum.Parse(typeof(RDN.Library.Classes.Payment.Paypal.PaypalPaymentFactory.PaypalMode), mode);
                 IPNHandler ipn = new IPNHandler(setting, HttpContext.Current);
                 ipn.CheckStatus();

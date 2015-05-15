@@ -83,11 +83,11 @@
             </div>
             <div class="text-center col-sm-12 ontopCarousel">
                 <h1 id="tagline" class="text-uppercase text-jumbo white ">
-                    @System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]
+                    @RDN.Library.Classes.Config.LibraryConfig.WebsiteName
 
                     <br />
                     <small class="white text-lowercase">
-                        @System.Configuration.ConfigurationManager.AppSettings["WebsiteSlogan"]
+                        @RDN.Library.Classes.Config.LibraryConfig.WebsiteSlogan
                     </small>
                 </h1>
                 @if (!User.Identity.IsAuthenticated) { 
@@ -98,7 +98,7 @@
                 else { 
 
                 <div class="affix-bottom">
-                    <a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]" class="btn btn-success btn-lg">Take Me To My League</a>
+                    <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite" class="btn btn-success btn-lg">Take Me To My League</a>
                 </div>
                 }
             </div>

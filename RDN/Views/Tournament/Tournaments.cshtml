@@ -5,11 +5,11 @@
 }
 <div class="page-header">
     <h2>
-        @System.Configuration.ConfigurationManager.AppSettings["SportName"] Tournaments
+        @RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments
     </h2>
 </div>
 <div class="col-xs-offset-1">
-    <a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]tournament/create" class="btn btn-success">Add A Tournament</a>
+    <a href="'@RDN.Library.Classes.Config.LibraryConfig.InternalSite'tournament/create" class="btn btn-success">Add A Tournament</a>
 </div>
 <br />
 <table class="table table-striped table-bordered table-hover" id="tourns">
@@ -35,7 +35,7 @@
                     }
                 </td>
                 <td>
-                    <a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["TournamentPublicUrl"]+ tourny.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(tourny.Name))">
+                    <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.TournamentPublicUrl + tourny.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(tourny.Name))">
                         
                         @tourny.Name
                     </a>
@@ -65,7 +65,7 @@
     </tbody>
 </table>
 <div class="col-xs-offset-1">
-    <a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]tournament/create" class="btn btn-success">Add A Tournament</a>
+    <a href="'@RDN.Library.Classes.Config.LibraryConfig.TournamentPublicUrl'tournament/create" class="btn btn-success">Add A Tournament</a>
 </div>
 <br />
 

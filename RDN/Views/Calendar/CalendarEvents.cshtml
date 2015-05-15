@@ -13,7 +13,7 @@
     <h2>
         Roller Derby Events
     </h2>
-    <a class="btn btn-success" href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]">Add Event</a>
+    <a class="btn btn-success" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Add Event</a>
 </div>
 
 <div data-bind="foreach: Events">
@@ -55,7 +55,7 @@
 
     $(document).ready(function () {
         ko.applyBindings(CalendarViewModel);
-        CalendarViewModel.LoadEventsList('@System.Configuration.ConfigurationManager.AppSettings["ListLoadingCount"]');
+        CalendarViewModel.LoadEventsList('@RDN.Library.Classes.Config.LibraryConfig.ListLoadingCount');
 
         $(window).resize(function () {
             var w = $("#mapDiv").width();

@@ -564,7 +564,7 @@ else if (!Model.Paywall.IsPaid && Model.Game.PaywallId > 0 && Model.Paywall.EndD
 
         </div>
 
-        @if (System.Configuration.ConfigurationManager.AppSettings["SiteType"] == "RollerDerby")
+        @if(RDN.Library.Classes.Config.LibraryConfig.SiteType == "RollerDerby")
         {
             <div class="text-center">
                 <a href="http://rdnation.com/roller-derby-scoreboard" class="btn btn-primary">

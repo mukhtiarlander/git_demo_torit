@@ -18,6 +18,7 @@ using RDN.Library.Classes.Facebook;
 using RDN.Library.Classes.Social.Facebook;
 using System.Configuration;
 using RDN.Library.Classes.Social.Twitter;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -126,13 +127,20 @@ namespace RDN.League.Controllers
                 //FacebookFactory.Initialize(token).GetPageAuthorization(ConfigurationManager.AppSettings["FacebookPageName"].ToString(), ConfigurationManager.AppSettings["FacebookPageId"].ToString())
                 //    .PostToFanPage("Bout Challenge:" + BoutChallenge.LeagueName + "@" + BoutChallenge.StartDateOfEvent.Date + "\n" + RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId, "", "", "", "", "");
 
-                FacebookFactory.Initialize(token).GetPageAuthorization(ConfigurationManager.AppSettings["FacebookPageName2"].ToString(), ConfigurationManager.AppSettings["FacebookPageId2"].ToString())
-                        .PostToFanPage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId, "", "", "", "", "");
+                //FacebookFactory.Initialize(token).GetPageAuthorization(ConfigurationManager.AppSettings["FacebookPageName2"].ToString(), ConfigurationManager.AppSettings["FacebookPageId2"].ToString())
+                //        .PostToFanPage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId, "", "", "", "", "");
+
+                //ConfigurationManager.AppSettings has been moved to LibraryConfig as RDN-18 request
+                FacebookFactory.Initialize(token).GetPageAuthorization(LibraryConfig.FacebookPageName2, LibraryConfig.FacebookPageId2)
+                       .PostToFanPage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId, "", "", "", "", "");
                 try
                 {
 
                     ///Twitter
-                    TwitterFactory.Initialize(ConfigurationManager.AppSettings["TwitterConsumerKey"].ToString(), ConfigurationManager.AppSettings["TwitterConsumerSecret"].ToString(), ConfigurationManager.AppSettings["TwitterToken"].ToString(), ConfigurationManager.AppSettings["TwitterTokenSecret"].ToString())
+                    //TwitterFactory.Initialize(ConfigurationManager.AppSettings["TwitterConsumerKey"].ToString(), ConfigurationManager.AppSettings["TwitterConsumerSecret"].ToString(), ConfigurationManager.AppSettings["TwitterToken"].ToString(), ConfigurationManager.AppSettings["TwitterTokenSecret"].ToString())
+                    //          .SendMessage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId);
+
+                    TwitterFactory.Initialize(LibraryConfig.TwitterConsumerKey, LibraryConfig.TwitterConsumerSecret, LibraryConfig.TwitterToken, LibraryConfig.TwitterTokenSecret)
                               .SendMessage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId);
                 }
                 catch (Exception exception)

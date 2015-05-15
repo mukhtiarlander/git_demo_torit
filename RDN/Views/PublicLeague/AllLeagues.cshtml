@@ -85,7 +85,7 @@
 
     $(document).ready(function () {
         ko.applyBindings(LeagueViewModel);
-        LeagueViewModel.LoadLeagueList('@System.Configuration.ConfigurationManager.AppSettings["ListLoadingCount"]');
+        LeagueViewModel.LoadLeagueList('@RDN.Library.Classes.Config.LibraryConfig.ListLoadingCount');
 
         $(window).resize(function () {
             var w = $("#mapDiv").width();
