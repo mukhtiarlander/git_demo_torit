@@ -7,6 +7,7 @@
     ViewBag.Title = "Pay Dues For " + Fee.PayBy.ToLongDateString();
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+
 }
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
@@ -16,6 +17,24 @@
 
 
 <div class="panel panel-default margin-top-20">
+    <div class="panel-heading text-right" style="background-color:#fafafa">
+        @if (ViewBag.previousDueItem != 0)
+        {
+            <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/" + ViewBag.previousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i> Previous Due</a>
+        }
+        else
+        {
+            <a class="btn btn-default btn-sm" href="javascript: void(0)"><i class="fa fa-backward"></i> Previous Due</a>
+        }
+        @if (ViewBag.nextDueItem != 0)
+        {
+            <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/" + ViewBag.nextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))">Next Due <i class="fa fa-forward"></i> </a>
+        }
+        else
+        {
+            <a class="btn btn-default btn-sm" href="javascript: void(0)"><i class="fa fa-forward"></i> Next Due</a>
+        }
+    </div>
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-6">
@@ -46,7 +65,7 @@
         <button class="btn btn-default btn-sm" type="button" onclick="javascript:SendReminderToPayDuesAll(this)"><i class="fa fa-envelope"></i> Send Reminder Email to All</button>
     </div>
     <div class="panel-body" style="overflow-x:auto">
-       
+
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="members">
             <thead>
                 <tr>
@@ -126,8 +145,10 @@
                         <td class="vertical-middle">
                             @if (!Model.Members[i].isPaidFull && Model.Members[i].UserId != new Guid())
                             {
-                                <button class="btn btn-info btn-xs" id="@Model.Members[i].MemberId-button-email" type="button" 
-                                        onclick="javascript:SendReminderToPayDues(this,'@Model.Members[i].MemberId    ')" ><i class="fa fa-envelope"></i> Send Reminder</button>
+                                <button class="btn btn-info btn-xs" id="@Model.Members[i].MemberId-button-email" type="button"
+                                        onclick="javascript:SendReminderToPayDues(this,'@Model.Members[i].MemberId    ')">
+                                    <i class="fa fa-envelope"></i> Send Reminder
+                                </button>
                             }
                         </td>
                     </tr>
