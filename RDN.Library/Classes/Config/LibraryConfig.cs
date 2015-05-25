@@ -246,5 +246,45 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["ShopUrl"];
             }
         }
+
+        public static string MemberPublicUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MemberPublicUrl"];
+            }
+        }
+
+        public static string BaseSiteUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BaseSiteUrl"];
+            }
+        }
+
+        public static string SiteEmail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SiteEmail"];
+            }
+        }
+
+        public static string FromEmailName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FromEmailName"];
+            }
+        }
+
+        public static string StripeApiKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["StripeApiKey"];
+            }
+        }
     }
 }

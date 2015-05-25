@@ -25,9 +25,9 @@ namespace RDN.Library.Cache.Singletons
         public IEnumerable<TwitterStatus> GetTweetsStatus(string screenName)
         {
             if (instance.GetTweets == null || instance.LastRefresh < DateTime.UtcNow.AddHours(-2))
-            {
-                var service = new TwitterService(ConfigurationManager.AppSettings["TwitterConsumerKey"].ToString(), ConfigurationManager.AppSettings["TwitterConsumerSecret"].ToString());
-                service.AuthenticateWith(ConfigurationManager.AppSettings["TwitterToken"].ToString(), ConfigurationManager.AppSettings["TwitterTokenSecret"].ToString());
+            {               
+                var service = new TwitterService(RDN.Library.Classes.Config.LibraryConfig.TwitterConsumerKey, RDN.Library.Classes.Config.LibraryConfig.TwitterConsumerSecret);
+                service.AuthenticateWith(RDN.Library.Classes.Config.LibraryConfig.TwitterToken,RDN.Library.Classes.Config.LibraryConfig.TwitterTokenSecret);
 
                 instance.GetTweets = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions { Count = 150 }).ToList();
                 instance.LastRefresh = DateTime.UtcNow;

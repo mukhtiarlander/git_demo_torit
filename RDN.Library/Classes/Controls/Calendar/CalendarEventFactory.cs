@@ -1868,7 +1868,7 @@ namespace RDN.Library.Classes.Calendar
                         calEvent.OrganizersName = owner.League.Name;
                         if (owner.League.Logo != null)
                             calEvent.ImageUrl = owner.League.Logo.ImageUrlThumb;
-                        calEvent.OrganizerUrl = ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
+                        calEvent.OrganizerUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
                         break;
                     }
                 }
@@ -1918,7 +1918,7 @@ namespace RDN.Library.Classes.Calendar
                 if (ev.ReocurringEvent != null)
                     calEvent.CalendarReoccurringId = ev.ReocurringEvent.CalendarItemId;
                 calEvent.Name = ev.Name;
-                calEvent.NameUrl = ConfigurationManager.AppSettings["EventPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(ev.Name) + "/" + ev.CalendarItemId.ToString().Replace("-", "");
+                calEvent.NameUrl =RDN.Library.Classes.Config.LibraryConfig.EventPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(ev.Name) + "/" + ev.CalendarItemId.ToString().Replace("-", "");
                 calEvent.TicketUrl = ev.TicketUrl;
                 calEvent.CalendarItemId = ev.CalendarItemId;
 

@@ -1284,14 +1284,10 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
                 RegisterGlobalFilters(GlobalFilters.Filters);
                 RegisterRoutes(RouteTable.Routes);
                 
-
-                //SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
                 SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
                 
-                //SiteSingleton.Instance.IsPayPalLive = (PaymentMode)Enum.Parse(typeof(PaymentMode),Library.Classes.Config.LibraryConfig.IsPayPalLive);
                 SiteSingleton.Instance.IsPayPalLive = (PaymentMode)Enum.Parse(typeof(PaymentMode), Library.Classes.Config.LibraryConfig.IsPayPalLive);
 
-                //SiteSingleton.Instance.SiteType = (SiteType)Enum.Parse(typeof(SiteType), ConfigurationManager.AppSettings["SiteType"].ToString());
                 SiteSingleton.Instance.SiteType = (SiteType)Enum.Parse(typeof(SiteType), Library.Classes.Config.LibraryConfig.SiteType);
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);

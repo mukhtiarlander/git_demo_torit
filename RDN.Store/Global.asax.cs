@@ -41,7 +41,7 @@ namespace RDN.Store
 
             log4net.Config.XmlConfigurator.Configure();
 
-            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
+            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(RDN.Library.Classes.Config.LibraryConfig.IsProduction);
         }
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {

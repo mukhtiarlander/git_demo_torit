@@ -26,12 +26,10 @@ namespace RDN.Library.Classes.RN.Communication
 
                 Dictionary<string, string> emailProps = new Dictionary<string, string>(){
                 {"Name",mem.Name}   ,
-                {"link",ConfigurationManager.AppSettings["BaseSiteUrl"]  + "admin/#/"}   
+                {"link",RDN.Library.Classes.Config.LibraryConfig.BaseSiteUrl  + "admin/#/"}   
                };
 
-                EmailServer.EmailServer.SendEmail(ConfigurationManager.AppSettings["SiteEmail"], ConfigurationManager.AppSettings["FromEmailName"], user.UserName, "Rollin News Reminder", emailProps, EmailServerLayoutsEnum.RNAutomatedEmailForWriter, EmailPriority.Important);
-
-
+                EmailServer.EmailServer.SendEmail(RDN.Library.Classes.Config.LibraryConfig.SiteEmail, RDN.Library.Classes.Config.LibraryConfig.FromEmailName, user.UserName, "Rollin News Reminder", emailProps, EmailServerLayoutsEnum.RNAutomatedEmailForWriter, EmailPriority.Important);
             }
 
             return true;

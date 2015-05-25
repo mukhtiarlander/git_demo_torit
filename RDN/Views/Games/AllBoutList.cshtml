@@ -43,20 +43,15 @@
                     </td>
 
                     <td>
-                        @*<a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
-                            <img src="http://www.marcofolio.net/images/stories/fun/imagedump/demotivational_posters/exercise.jpg" class="thumbnail-sm pull-left" />
-                        </a>*@
                         @if (!String.IsNullOrEmpty(b.LeagueLogoUrl))
                         {
                             <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))" class="padding-5">
                                 <img src="@b.LeagueLogoUrl" class="thumbnail-sm pull-left img-rounded " />
                             </a>
-                        }
-
+                        }                        
                         <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
                             @b.LeagueName
                         </a>
-
                     </td>
                     <td>@b.Location</td>
                     <td>

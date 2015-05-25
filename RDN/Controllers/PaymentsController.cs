@@ -21,7 +21,7 @@ namespace RDN.Controllers
         public ActionResult RNContent()
         {
             PaymentViewModel model = new PaymentViewModel();
-            //model.StripeKey = ConfigurationManager.AppSettings["StripeApiPublicKey"];
+            
             model.StripeKey= Library.Classes.Config.LibraryConfig.StripeApiPublicKey;
             return View(model);
         }

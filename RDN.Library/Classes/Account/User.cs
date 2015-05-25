@@ -1528,7 +1528,7 @@ namespace RDN.Library.Classes.Account
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Male.ToString();
             }
-            m.DerbyNameUrl = ConfigurationManager.AppSettings["MemberPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "");
+            m.DerbyNameUrl =RDN.Library.Classes.Config.LibraryConfig.MemberPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "");
             m.DerbyName = mem.DerbyName;
             m.DerbyNumber = mem.PlayerNumber;
             m.MemberId = mem.MemberId.ToString().Replace("-", "");
@@ -1546,7 +1546,7 @@ namespace RDN.Library.Classes.Account
             var leag = mem.Leagues.Where(x => x.League.LeagueId == mem.CurrentLeagueId).FirstOrDefault();
             if (leag != null)
             {
-                m.LeagueUrl = ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
+                m.LeagueUrl =RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
                 m.LeagueName = leag.League.Name;
                 m.LeagueId = leag.League.LeagueId.ToString().Replace("-", "");
                 if (leag.League.Logo != null)

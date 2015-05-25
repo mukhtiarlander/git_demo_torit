@@ -2,8 +2,7 @@
 @using RDN.Library.Classes.Payment.Enums.Paywall;
 @using RDN.Library.Classes.Billing.Enums;
 @model RDN.Library.Classes.Game.Tournament
-@{
-    //ViewBag.Title = @Model.Name + System.Configuration.ConfigurationManager.AppSettings["SportName"] + " Tournament";
+@{  
     ViewBag.Title = @Model.Name + RDN.Library.Classes.Config.LibraryConfig.SportName + " Tournament";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
