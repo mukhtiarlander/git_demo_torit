@@ -1999,28 +1999,6 @@ namespace RDN.Library.Classes.League
         /// </summary>
         /// <param name="leagueId"></param>
         /// <param name="ownerId"></param>
-        //public static bool AttachOwnerToLeague(Guid leagueId, Guid memberId)
-        //{
-        //    try
-        //    {
-        //        var dc = new ManagementContext();
-        //        var league = dc.Leagues.Where(x => x.LeagueId == leagueId).FirstOrDefault();
-        //        var member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
-
-        //        LeagueOwnership owner = new LeagueOwnership();
-        //        owner.League = league;
-        //        owner.OwnerType = Convert.ToInt32(LeagueOwnerEnum.Owner);
-        //        owner.Member = member;
-        //        dc.LeagueOwners.Add(owner);
-        //        dc.SaveChanges();
-        //        return true;
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        ErrorDatabaseManager.AddException(exception, exception.GetType());
-        //    }
-        //    return false;
-        //}
         public static bool ToggleOwnerToLeague(Guid leagueId, Guid memberId, LeagueOwnersEnum ownerType)
         {
             try
