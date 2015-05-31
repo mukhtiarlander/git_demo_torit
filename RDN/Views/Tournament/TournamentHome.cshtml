@@ -2,8 +2,8 @@
 @using RDN.Library.Classes.Payment.Enums.Paywall;
 @using RDN.Library.Classes.Billing.Enums;
 @model RDN.Library.Classes.Game.Tournament
-@{
-    ViewBag.Title = @Model.Name + System.Configuration.ConfigurationManager.AppSettings["SportName"] + " Tournament";
+@{  
+    ViewBag.Title = @Model.Name + RDN.Library.Classes.Config.LibraryConfig.SportName + " Tournament";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @if ((!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId == 0) || (!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId > 0 && Model.Paywall.IsPaid))
@@ -646,10 +646,10 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
 <div class="text-center">
 
     <div class="">
-        <a href="@System.Configuration.ConfigurationManager.AppSettings["InternalSite"]tournament/create" class="btn btn-success">Add A Tournament</a>
+        <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite'tournament/create" class="btn btn-success">Add A Tournament</a>
     </div>
     <br />
-    @if (System.Configuration.ConfigurationManager.AppSettings["SiteType"] == "RollerDerby")
+    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == "RollerDerby")
     {
         <div>
             <a href="http://rdnation.com/roller-derby-scoreboard" class="btn btn-primary">
@@ -660,7 +660,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
     }
 </div>
 
-<br /><br />
+<br /><br />e
 <script type="text/javascript">
 
 

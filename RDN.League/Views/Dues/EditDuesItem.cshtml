@@ -16,6 +16,24 @@
 
 
 <div class="panel panel-default margin-top-20">
+    <div class="panel-heading text-right" style="background-color:#fafafa">
+        @if (ViewBag.previousDueItem != 0)
+        {
+            <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/edit/" + ViewBag.previousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i> Previous Due</a>
+        }
+        else
+        {
+            <a class="btn btn-default btn-sm" href="javascript: void(0)"><i class="fa fa-backward"></i> Previous Due</a>
+        }
+        @if (ViewBag.nextDueItem != 0)
+        {
+            <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/edit/" + ViewBag.nextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))">Next Due <i class="fa fa-forward"></i> </a>
+        }
+        else
+        {
+            <a class="btn btn-default btn-sm" href="javascript: void(0)"><i class="fa fa-forward"></i> Next Due</a>
+        }
+    </div>
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-12 col-sm-6">

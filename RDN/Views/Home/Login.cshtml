@@ -10,7 +10,7 @@
 
 <div class="text-center page-header">
     <h3>
-        @System.Configuration.ConfigurationManager.AppSettings["WebsiteShortName"] helps you connect with your fans, manage your teams and view your stats.
+       @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName helps you connect with your fans, manage your teams and view your stats.
     </h3>
 </div>
 <div class="text-center col-sm-6 visible-sm visible-lg visible-md">
@@ -22,7 +22,7 @@
         Login
     </h3>
     <h4 class="signUpDesc">
-        Play As a Team, Track As a Sport, Love @System.Configuration.ConfigurationManager.AppSettings["SportName"]
+        Play As a Team, Track As a Sport, Love @RDN.Library.Classes.Config.LibraryConfig.SportName
     </h4>
     @using (Html.BeginForm())
     {

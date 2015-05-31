@@ -42,8 +42,8 @@ namespace RDN.Controllers
         public ActionResult OfficiatingRequests()
         {
             RequestsModel model = new RequestsModel();
-            model.Requests = RequestFactory.GetRequestList();
-            model.UrlToRequest = ConfigurationManager.AppSettings["InternalSite"] + "officiating/requests";
+            model.Requests = RequestFactory.GetRequestList();            
+            model.UrlToRequest = Library.Classes.Config.LibraryConfig.InternalSite + "officiating/requests";
             return View(model);
 
         }
@@ -59,8 +59,8 @@ namespace RDN.Controllers
                     Data.Description = Data.Description.Replace(Environment.NewLine, "<br/>");
                 }
 
-                Data.UrlToRequest = ConfigurationManager.AppSettings["InternalSite"] + "officiating/requests";
-                Data.UrlToContact = ConfigurationManager.AppSettings["InternalSite"] + "messages/new/" + GroupOwnerTypeEnum.officiating.ToString() + "/" + Data.RequestCreator.ToString().Replace("-", "");
+                Data.UrlToRequest = Library.Classes.Config.LibraryConfig.InternalSite + "officiating/requests";
+                Data.UrlToContact = Library.Classes.Config.LibraryConfig.InternalSite + "messages/new/" + GroupOwnerTypeEnum.officiating.ToString() + "/" + Data.RequestCreator.ToString().Replace("-", "");
                 return View(Data);
 
             }

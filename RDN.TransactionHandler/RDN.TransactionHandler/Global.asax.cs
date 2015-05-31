@@ -42,7 +42,7 @@ namespace RDN.TransactionHandler
             RegisterRoutes(RouteTable.Routes);
             //ErrorDatabaseManager.AddException(new Exception("Transactions Just Started Up"), GetType());
 
-            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
+            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
         }
     }
 }

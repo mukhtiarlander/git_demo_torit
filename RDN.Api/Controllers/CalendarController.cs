@@ -146,7 +146,7 @@ namespace RDN.Api.Controllers
                         j.Latitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Latitude;
                         j.Longitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Longitude;
                     }
-                    j.RDNUrl = ConfigurationManager.AppSettings["EventPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
+                    j.RDNUrl =Library.Classes.Config.LibraryConfig.EventPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
                     if (e.Location != null)
                         j.Location = e.Location.LocationName;
                     evs.Events.Add(j);
@@ -196,7 +196,7 @@ namespace RDN.Api.Controllers
                     j.Latitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Latitude;
                     j.Longitude = e.Location.Contact.Addresses.FirstOrDefault().Coords.Longitude;
                     j.Miles = Conversion.ConvertMetersToMiles(geo.GetDistanceTo(new GeoCoordinate(j.Latitude, j.Longitude)));
-                    j.RDNUrl = ConfigurationManager.AppSettings["EventPublicUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
+                    j.RDNUrl = Library.Classes.Config.LibraryConfig.EventPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
                     if (e.Location != null)
                         j.Location = e.Location.LocationName;
                     evs.Events.Add(j);

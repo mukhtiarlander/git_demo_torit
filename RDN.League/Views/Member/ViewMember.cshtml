@@ -395,7 +395,7 @@
                                                     <div class="well padding-15">
                                                         @if (league.Logo != null)
                                                             {
-                                                            <a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
 
                                                                 <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
 
@@ -403,7 +403,7 @@
                                                             }
                                                         <div class="caption">
                                                             <h4 class="no-margin">
-                                                                <a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["LeagueUrl"] + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                                                <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
                                                                     @league.Name
                                                                 </a>
 

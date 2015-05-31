@@ -316,7 +316,7 @@ namespace RDN.Library.Classes.Store
         {
             try
             {
-                var stripeService = new StripeOAuthTokenService(ConfigurationManager.AppSettings["StripeApiKey"]);
+                var stripeService = new StripeOAuthTokenService(RDN.Library.Classes.Config.LibraryConfig.StripeApiKey);
                 var stripeTokenOptions = new StripeOAuthTokenCreateOptions() { Code = stripeKey, GrantType = "authorization_code" };
                 var response = stripeService.Create(stripeTokenOptions);
 

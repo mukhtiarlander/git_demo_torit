@@ -6,7 +6,7 @@
 
 <div class="page-header">
     <h2>
-        This Past Weeks @System.Configuration.ConfigurationManager.AppSettings["SportName"] Games
+        This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName Games
     </h2>
 </div>
 @foreach (RDN.Portable.Models.Json.Games.CurrentGameJson game in Model)
@@ -85,7 +85,7 @@
 
 <div class="text-center">
 
-    @if (System.Configuration.ConfigurationManager.AppSettings["SiteType"] == "RollerDerby")
+    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == "RollerDerby")
     {
         <div>
             <a href="http://rdnation.com/roller-derby-scoreboard" class="btn btn-primary">

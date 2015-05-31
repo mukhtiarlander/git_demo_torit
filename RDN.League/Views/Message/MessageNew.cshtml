@@ -45,10 +45,7 @@
                                 {
                                     <div class="btn-group" role="group"><a class="btn  btn-sm btn-default" href="@Url.Content("~/messages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.Federation + "/" + MemberCache.GetFederationIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Federation Members</a></div>
                                 }
-                                @if (MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()) != new Guid())
-                                {
-                                    <div class="btn-group" role="group"><a class="btn  btn-sm btn-default" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.League + "/" + MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">League Members</a></div>
-                                }
+                                
                             </div>
                         </div>
                         <div class="col-xs-12 font16">

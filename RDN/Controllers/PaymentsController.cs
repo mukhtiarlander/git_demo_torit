@@ -21,13 +21,14 @@ namespace RDN.Controllers
         public ActionResult RNContent()
         {
             PaymentViewModel model = new PaymentViewModel();
-            model.StripeKey = ConfigurationManager.AppSettings["StripeApiPublicKey"];
+            
+            model.StripeKey= Library.Classes.Config.LibraryConfig.StripeApiPublicKey;
             return View(model);
         }
         [HttpPost]
         public ActionResult RNContent(PaymentViewModel model)
         {
-            var options = InvoiceFactory.CreateNew().Initalize(ServerConfig.RDNATION_STORE_ID, "GBP", PaymentProvider.Stripe, (PaymentMode)Enum.Parse(typeof(PaymentMode), ConfigurationManager.AppSettings["PaymentMode"].ToString()), ChargeTypeEnum.Subscription)
+            var options = InvoiceFactory.CreateNew().Initalize(ServerConfig.RDNATION_STORE_ID, "GBP", PaymentProvider.Stripe, (PaymentMode)Enum.Parse(typeof(PaymentMode), Library.Classes.Config.LibraryConfig.PaymentMode), ChargeTypeEnum.Subscription)
              .SetStripeTokenId(HttpContext.Request.Form["stripeToken"].ToString())
             .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription

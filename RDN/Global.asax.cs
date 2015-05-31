@@ -382,7 +382,7 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
             RegisterRoutes(RouteTable.Routes);
             
             //SiteCache.StartSite(HttpContext.Current.Cache);
-            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"].ToString());
+            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 

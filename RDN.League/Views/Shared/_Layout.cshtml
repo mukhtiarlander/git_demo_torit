@@ -67,7 +67,7 @@
     <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" />
     <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" />
 </head>
-<body id="navbar-theme" class="@(leaguethemecolor =="" ?  System.Configuration.ConfigurationManager.AppSettings["DefaultThemeColor"] : leaguethemecolor)">
+<body id="navbar-theme" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
     @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
@@ -91,7 +91,7 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@System.Configuration.ConfigurationManager.AppSettings["WebsiteShortName"]<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Portable.Config.ServerConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
