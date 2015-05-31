@@ -959,12 +959,7 @@ var Forum = new function () {
         tinymce.init({
             mode: "textareas",
             elements: "wmd-input",
-
-
-
             plugins: "mention",
-
-            // Theme options
             theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
             theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
             theme_advanced_buttons3: "",
@@ -989,7 +984,6 @@ var Forum = new function () {
                     }
                 },
                 render: function (item) {
-                    alert('dd');
                     var markup;
                     if (item.picture != '')
                         markup = '<li><a href="javascript:;"><img src="' + item.picture + '" class="w20 round-corners"/> ' + item.name + '</a></li>';
@@ -1002,6 +996,10 @@ var Forum = new function () {
                     return text.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
                         return '<b>' + match + '</b>';
                     });
+                },
+                insert: function (item) {
+                    var html = '<span class="mentioned_name" style="background:#eaeaea;padding:3px" id="' + item.id + '">' + item.name + '</span>';
+                    return html;
                 }
             }
         });
@@ -2812,7 +2810,7 @@ var League = new function () {
         }).error(function () {
         });
         $("#img-" + folderId).toggleClass("displayNone", false);
-    }
+    };
     this.SetUpDocumentsSection = function () {
         $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
             thisViewModel.documentId = '';
@@ -2868,6 +2866,7 @@ var League = new function () {
                         type: "danger"
                     }).show();
                 }
+                League.ResetDocumentGrid();
             }).error(function () {
             });
           
@@ -2893,31 +2892,27 @@ var League = new function () {
             if (result.isSuccess === true) {
                 var row = $("#rn-" + thisViewModel.documentId).html(result.link);
                 $("#docRow-" + thisViewModel.documentId).attr("name", text.val());
-                $.each($("#documents tbody tr"), function (index, tr) {
-                    $(tr).find(":checkbox").prop("checked", false);
-                });
-            } 
+                League.ResetDocumentGrid();
+            }
             else {
             }
         }).error(function () {
         });
         text.remove();
         spans.remove();
-    }
-    this.MoveDocumentToFolder = function (dropDown) { 
+    };
+    this.MoveDocumentToFolder = function (dropDown) {
         var owner = $("#OwnerId");
         var folder = $("#folderName");
         var selectedFolder = $(dropDown).find("option:selected");
+
         $.getJSON("/document/MoveFileTo", { ownerId: owner.val(), moveTo: selectedFolder.val(), moveToName: selectedFolder.text(), doc: thisViewModel.documentId }, function (result) {
             if (result.isSuccess === true) {
                 var docs = thisViewModel.documentId.split(',');
-                for(var i=0;i<docs.length;i++)
-                {
+                for (var i = 0; i < docs.length; i++) {
                     $("#fn-" + docs[i]).html(selectedFolder.text());
                 }
-                $.each($("#documents tbody tr"), function (index, tr) {
-                    $(tr).find(":checkbox").prop("checked", false);
-                });
+
                 $('.bottom-right').notify({
                     message: { text: 'Files Moved. ' },
                     fadeOut: { enabled: true, delay: 4000 },
@@ -2930,9 +2925,21 @@ var League = new function () {
                     type: "danger"
                 }).show();
             }
+            League.ResetDocumentGrid();
         }).error(function () {
+
         });
-    }
+    };
+    this.ResetDocumentGrid = function () {
+
+        $.each($("#documents tbody tr"), function (index, tr) {
+            $(tr).find(":checkbox").prop("checked", false);
+        });
+        $("#doc-rename-btn").toggleClass("display-none", true);
+        $("#doc-delete-btn").toggleClass("display-none", true);
+        $("#doc-move-ddl").toggleClass("display-none", true);
+        $("#doc-move-ddl").val('');
+    };
     this.DeleteLeagueReport = function (span) {
         var reportId = $("#SelectedReport :selected");
         if (reportId.val() > 0) {
