@@ -2930,7 +2930,7 @@ var League = new function () {
 
         });
     };
-    this.ResetDocumentGrid = function () {
+    this.ResetDocumentGrid = function () { 
 
         $.each($("#documents tbody tr"), function (index, tr) {
             $(tr).find(":checkbox").prop("checked", false);
