@@ -86,14 +86,15 @@ function changeMoveTopicForum(dropdown) {
     });
 }
 
-function MarkForumTopicAsRead(img, topicId) {
+function MarkForumTopicAsRead(btn, topicId) {
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/MarkAsRead", { forumId: forumId, topicId: topicId }, function (result) {
         if (result.isSuccess === true) {
         }
     });
-    $(img).parent().parent().toggleClass("forumIsRead", true);
-    $(img).remove();
+    $(btn).parent().html("<i class='fa fa-check-circle'></i>");
+    $('#forum-title-' + topicId + ' a').removeClass('b');
+    $(btn).remove();
 }
 
 
@@ -945,11 +946,10 @@ var Forum = new function () {
         }
     }
     this.MarkHomeForumTopicAsRead = function (btn, topicId, forumId) {
-        var cell = $(btn).parent;
-        cell.html("<i class='fa fa-spin fa-refresh'></i>");
+        $(btn).html("<i class='fa fa-refresh fa-spin'></i>");
         $.getJSON("/forum/MarkAsRead", { forumId: forumId, topicId: topicId }, function (result) {
-            if (result.isSuccess === true) {
-                cell.html("<i class='fa fa-check-circle'></i>");
+            if (result.result === true) {
+                $(btn).parent().parent().remove();
             }
         });
     }
