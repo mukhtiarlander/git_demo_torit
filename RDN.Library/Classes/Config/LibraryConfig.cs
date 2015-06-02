@@ -62,7 +62,7 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["TwitterTokenSecret"];
             }
         }
-        
+
         public static string ThemeColors
         {
             get
@@ -284,6 +284,15 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["StripeApiKey"];
+            }
+        }
+
+        public static List<string> DatabaseConnectionStringNames
+        {
+            get
+            {
+                string conns = ConfigurationManager.AppSettings["DatabaseConnectionStringNames"];
+                return conns.Split(',').ToList();
             }
         }
     }
