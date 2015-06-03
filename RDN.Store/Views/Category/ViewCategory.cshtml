@@ -1,6 +1,6 @@
 ﻿@model RDN.Library.Classes.Store.Display.DisplayCategory
 @{
-    ViewBag.Title = " Roller Derby " + Model.Name;
+    ViewBag.Title = @RDN.Library.Classes.Config.LibraryConfig.SportName + Model.Name;
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
 

@@ -1,6 +1,6 @@
 ﻿@model Scoreboard.Library.ViewModel.GameViewModel
 @{
-    ViewBag.Title = Model.GameName + " Roller Derby Bout";
+    ViewBag.Title = Model.GameName + " "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Bout";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="fixedContainer">

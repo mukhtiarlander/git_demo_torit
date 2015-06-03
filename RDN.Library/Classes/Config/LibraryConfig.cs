@@ -86,21 +86,6 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string IsPayPalLive
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["IsPayPalLive"];
-            }
-        }
-
-        public static string PaypalLiveTest
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["PaypalLiveTest"];
-            }
-        }
         public static string InternalSite
         {
             get
@@ -290,6 +275,29 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["StripeApiKey"];
+            }
+        }
+        
+        public static string NameOfMember
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["NameOfMember"];
+            }
+        }
+
+        public static string MemberName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MemberName"];
+            }
+        }
+        public static string ConnectionStringName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ConnectionStringName"];
             }
         }
 

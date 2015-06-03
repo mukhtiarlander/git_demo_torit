@@ -1,6 +1,6 @@
 ﻿@model RDN.Portable.Classes.Account.Classes.MemberDisplay
 @{
-    ViewBag.Title = "Edit " + Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + " Roller Derby Team";
+    ViewBag.Title = "Edit " + Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + " "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Team";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -34,8 +34,6 @@
                 <input type="file" name="file" id="file" class="fileUpload" />
             </div>
             <div class="vmMemberDescription">
-
-
 
                 <div class="vmContactLine">
                     <div class="usual">

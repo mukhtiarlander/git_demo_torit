@@ -42,7 +42,7 @@ namespace RDN.League.Controllers
             {
                 SiteMessage message = new SiteMessage();
                 message.MessageType = SiteMessageType.Error;
-                message.Message = "Those features require a subscription to RDNation. Please subscribe to Enable those features.";
+                message.Message = "Those features require a subscription to "+LibraryConfig.WebsiteShortName+". Please subscribe to Enable those features.";
                 this.AddMessage(message);
             }
             else if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.sc.ToString())

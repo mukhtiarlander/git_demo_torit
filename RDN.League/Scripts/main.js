@@ -726,6 +726,22 @@ var Forum = new function () {
         if (item.IsRead !== true)
             row.addClass("forum-read");
 
+        var zeroColumn = $(document.createElement('td'));
+        zeroColumn.addClass("text-center vertical-middle");
+        if (item.IsRead !== true)
+        {
+           var btn = $(document).createElement('button');
+           btn.addClass('btn btn-default btn-sm');
+           btn.attr({'data-toggle': 'tooltip','data-placement':'top','data-original-title' :'Mark As Read', onclick: "javascript:MarkForumTopicAsRead(this, '" + item.TopicId  + "')"});
+           btn.html('<i class="fa fa-envelope"></i>');
+           zeroColumn.append(btn);
+        }
+        else
+        {
+            zeroColumn.append('<i class="fa fa-check-circle"></i>');
+        }
+        row.append(zeroColumn); 
+
         var firstColumn = $(document.createElement('td'));
         firstColumn.attr('id', "forum-title-" + item.TopicId);
         var forumLink = $(document.createElement('a'));
@@ -793,8 +809,8 @@ var Forum = new function () {
         if (item.IsManagerOfTopic) {
 
             sevenColumn.append('<a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move"  href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '"><i class="fa fa-arrows"></i></a>');
-            if (item.IsRead === false)
-                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read"  onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')"> <i class="fa fa-check-square-o"></i></button>');
+            //if (item.IsRead === false)
+            //    sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read"  onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')"> <i class="fa fa-check-square-o"></i></button>');
 
             if (item.IsPinned)
                 sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-thumb-tack fa-rotate-90"></i></button>');
@@ -838,7 +854,7 @@ var Forum = new function () {
                 $("#loading").toggleClass("displayNone", false);
                 var tableBody = $("#forumbody");
                 $.getJSON("/forum/GetForumPosts", { groupId: thisViewModel.groupId, forumId: thisViewModel.forumId, page: thisViewModel.currentPage, isArchived: thisViewModel.isArchived, pageCount: "20", forumType: thisViewModel.forumType }, function (result) {
-                    console.log(result.Topics.length);
+                    console.dir(result.Topics);
                     if (result.Topics.length > 0) {
                         $.each(result.Topics, function (i, item) {
                             thisViewModel.DisplayForumRow(result.Topics, tableBody, item);

@@ -1,6 +1,6 @@
 ﻿@model List<RDN.Library.Classes.Game.Tournament>
 @{
-    ViewBag.Title = "Roller Derby Tournaments";
+    ViewBag.Title = @RDN.Library.Classes.Config.LibraryConfig.SportName + " Tournaments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="page-header">
@@ -71,7 +71,7 @@
 
 
 <div class="gpSBVersion">
-    Want to Show Your Games LIVE on RDNation For Free?
+    Want to Show Your Games LIVE on @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName For Free?
     <br />
     <a href="http://rdnation.com/roller-derby-scoreboard">
         Download Thor's Hammer Roller

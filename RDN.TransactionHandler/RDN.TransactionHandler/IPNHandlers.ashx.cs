@@ -6,6 +6,7 @@ using System.Web;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Payment.Paypal;
 using RDN.Utilities.Config;
+using RDN.Library.Classes.Config;
 
 namespace RDN.TransactionHandler
 {
@@ -18,10 +19,12 @@ namespace RDN.TransactionHandler
         public void ProcessRequest(HttpContext context)
         {
             try
-            {                
-                string mode = Library.Classes.Config.LibraryConfig.PaypalLiveTest;
-                PaypalPaymentFactory.PaypalMode setting = (PaypalPaymentFactory.PaypalMode)Enum.Parse(typeof(RDN.Library.Classes.Payment.Paypal.PaypalPaymentFactory.PaypalMode), mode);
-                IPNHandler ipn = new IPNHandler(setting, HttpContext.Current);
+            {
+                RDN.Library.Classes.Payment.Paypal.PaypalPaymentFactory.PaypalMode mode = PaypalPaymentFactory.PaypalMode.test;
+                if (LibraryConfig.IsProduction)
+                    mode = PaypalPaymentFactory.PaypalMode.live;
+
+                IPNHandler ipn = new IPNHandler(mode, HttpContext.Current);
                 ipn.CheckStatus();
                 ipn.InsertNewIPNNotification();
 

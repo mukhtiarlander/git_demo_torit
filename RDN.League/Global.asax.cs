@@ -1286,8 +1286,6 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
                 
                 SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
                 
-                SiteSingleton.Instance.IsPayPalLive = (PaymentMode)Enum.Parse(typeof(PaymentMode), Library.Classes.Config.LibraryConfig.IsPayPalLive);
-
                 SiteSingleton.Instance.SiteType = (SiteType)Enum.Parse(typeof(SiteType), Library.Classes.Config.LibraryConfig.SiteType);
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);

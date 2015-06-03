@@ -54,12 +54,8 @@ namespace RDN.Library.Classes.Payment.Paypal
             try
             {
                 this.ModeLiveTest = mode;
-                //Boomers.Utilities.Documents.TextLogger.LogItem("paypalIPN", "getting base url");
                 this.PostUrl = PaypalPaymentFactory.GetBaseUrl(mode);
-                //Boomers.Utilities.Documents.TextLogger.LogItem("paypalIPN", "filling properties");
                 this._Message = this.FillIPNProperties(context);
-                //Boomers.Utilities.Documents.TextLogger.LogItem("paypalIPN", "checking status");
-                //throw new Exception("Boom");
             }
             catch (Exception exception)
             {
@@ -214,6 +210,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             try
             {
+
                 //we use the adaptive payment API to handle dues and payments throught the store
 
                 //verified items come from the subscriptions handler
@@ -655,7 +652,13 @@ namespace RDN.Library.Classes.Payment.Paypal
                 message.Memo = context.Request.Form["memo"];
                 message.Invoice = context.Request.Form["invoice"];
                 if (message.Invoice != null && message.Invoice.Contains(':'))
-                    message.Invoice = message.Invoice.Split(':').First();
+                {
+                    var messages = message.Invoice.Split(':');
+                    message.Invoice = messages[0];
+                    if (messages.Count() > 1)
+                        message.ConnectionName = messages[1];
+
+                }
                 message.Tax = context.Request.Form["tax"];
                 message.QuantityCartItems = context.Request.Form["num_cart_items"];
                 message.PaymentDate = context.Request.Form["payment_date"];
@@ -693,7 +696,12 @@ namespace RDN.Library.Classes.Payment.Paypal
                             t.amount = context.Request.Form["transaction[" + i + "].amount"];
                             t.invoiceId = context.Request.Form["transaction[" + i + "].invoiceId"];
                             if (!String.IsNullOrEmpty(t.invoiceId) && t.invoiceId.Contains(':'))
-                                t.invoiceId = t.invoiceId.Split(':').First();
+                            {
+                                var messages = t.invoiceId.Split(':');
+                                t.invoiceId = messages[0];
+                                if (messages.Count() > 1)
+                                    t.connectionName = messages[1];
+                            }
 
                             t.status = context.Request.Form["transaction[" + i + "].status"];
                             t.id = context.Request.Form["transaction[" + i + "].id"];

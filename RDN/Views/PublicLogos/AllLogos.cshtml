@@ -1,12 +1,12 @@
 ﻿@model List<RDN.Portable.Classes.Team.TeamLogo>
 @{
-    ViewBag.Title = "All Roller Derby Logos World Wide";
+    ViewBag.Title = "All "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Logos World Wide";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
         <div class="fixTitle">
-            @Model.Count Roller Derby Logos World Wide
+            @Model.Count @RDN.Library.Classes.Config.LibraryConfig.SportName Logos World Wide
         </div>
         <div class="divider"></div>
         @foreach (var logo in Model)
@@ -22,6 +22,6 @@
         </div>
         <div class="clear"></div>
         <div class="center">
-        These Logos were uploaded from <a href="http://rdnation.com/roller-derby-scoreboard" target="_blank">RDNation's Roller Derby Scoreboard.</a></div>
+        These Logos were uploaded from <a href="http://rdnation.com/roller-derby-scoreboard" target="_blank">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName's  @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard.</a></div>
     </div>
 </div>
