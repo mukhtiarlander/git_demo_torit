@@ -22,6 +22,8 @@ namespace RDN.Library.Classes.Payment
 {
     public sealed class PaymentGateway
     {
+
+
         //ToDo: Delete old shopping cart when payment has been recieved? or when dispatched to google?. Shopping cart will have the same id as the invoice.
         // ToDo: WHEN DELETE OLD SHOP CART. Remember to reduce the number of items in stock.
         // ToDo: Cronjob to delete old shopping cards / old invoices that has expired
