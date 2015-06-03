@@ -192,6 +192,10 @@ namespace RDN.League.Controllers
                 {
                     List<long> DueItemIdCollection = (List<long>)TempData["DueItemId"];
 
+                    var duePortableModel = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId()).DuesFees;
+
+                    //var dueItemCollection=DuesFactory.GetDuesObject(.DuesFees;
+
                     TempData.Keep("DueItemId");
 
                     int currentItemIndex = DueItemIdCollection.FindIndex(item => item.Equals(Convert.ToInt64(duesItemId)));
@@ -411,25 +415,29 @@ namespace RDN.League.Controllers
 
                     TempData.Keep("DueItemId");
 
-                    int currentItemIndex = DueItemIdCollection.FindIndex(item => item.Equals(Convert.ToInt64(duesItemId)));
-                    if (currentItemIndex >= 0)
-                    {
-                        if (currentItemIndex == 0) //check to see its first element
-                        {
-                            ViewBag.nextDueItem = DueItemIdCollection[currentItemIndex + 1];
-                            ViewBag.previousDueItem = 0;
-                        }
-                        else if (currentItemIndex != 0 && (currentItemIndex + 1 != DueItemIdCollection.Count()))
-                        {
-                            ViewBag.nextDueItem = DueItemIdCollection[currentItemIndex + 1];
-                            ViewBag.previousDueItem = DueItemIdCollection[currentItemIndex - 1];
-                        }
-                        else //check to see its last element
-                        {
-                            ViewBag.nextDueItem = 0;
-                            ViewBag.previousDueItem = DueItemIdCollection[currentItemIndex - 1];
-                        }
-                    }
+                    var duePortableModel= DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
+
+                    //duePortableModel.DuesFees
+
+                    //int currentItemIndex = DueItemIdCollection.FindIndex(item => item.Equals(Convert.ToInt64(duesItemId)));                    
+                    //if (currentItemIndex >= 0)
+                    //{
+                    //    if (currentItemIndex == 0) //check to see its first element
+                    //    {
+                    //        ViewBag.nextDueItem = DueItemIdCollection[currentItemIndex + 1];
+                    //        ViewBag.previousDueItem = 0;
+                    //    }
+                    //    else if (currentItemIndex != 0 && (currentItemIndex + 1 != DueItemIdCollection.Count()))
+                    //    {
+                    //        ViewBag.nextDueItem = DueItemIdCollection[currentItemIndex + 1];
+                    //        ViewBag.previousDueItem = DueItemIdCollection[currentItemIndex - 1];
+                    //    }
+                    //    else //check to see its last element
+                    //    {
+                    //        ViewBag.nextDueItem = 0;
+                    //        ViewBag.previousDueItem = DueItemIdCollection[currentItemIndex - 1];
+                    //    }
+                    //}
                 }
                 var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
                 ViewBag.Saved = false;
@@ -808,6 +816,7 @@ namespace RDN.League.Controllers
             var duesItem = DuesFactory.GetDuesCollectionItem(duesItemId, dues.DuesId, memId);
             var Fee = duesItem.DuesFees.FirstOrDefault();
             var league = MemberCache.GetLeagueOfMember(memId);
+
             if (league != null)
                 SetCulture(league.CultureSelected);
 

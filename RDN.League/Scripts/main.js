@@ -86,14 +86,15 @@ function changeMoveTopicForum(dropdown) {
     });
 }
 
-function MarkForumTopicAsRead(img, topicId) {
+function MarkForumTopicAsRead(btn, topicId) {
     var forumId = $("#ForumId").val();
     $.getJSON("/forum/MarkAsRead", { forumId: forumId, topicId: topicId }, function (result) {
         if (result.isSuccess === true) {
         }
     });
-    $(img).parent().parent().toggleClass("forumIsRead", true);
-    $(img).remove();
+    $(btn).parent().html("<i class='fa fa-check-circle'></i>");
+    $('#forum-title-' + topicId + ' a').removeClass('b');
+    $(btn).remove();
 }
 
 
@@ -725,6 +726,22 @@ var Forum = new function () {
         if (item.IsRead !== true)
             row.addClass("forum-read");
 
+        var zeroColumn = $(document.createElement('td'));
+        zeroColumn.addClass("text-center vertical-middle");
+        if (item.IsRead !== true)
+        {
+           var btn = $(document).createElement('button');
+           btn.addClass('btn btn-default btn-sm');
+           btn.attr({'data-toggle': 'tooltip','data-placement':'top','data-original-title' :'Mark As Read', onclick: "javascript:MarkForumTopicAsRead(this, '" + item.TopicId  + "')"});
+           btn.html('<i class="fa fa-envelope"></i>');
+           zeroColumn.append(btn);
+        }
+        else
+        {
+            zeroColumn.append('<i class="fa fa-check-circle"></i>');
+        }
+        row.append(zeroColumn); 
+
         var firstColumn = $(document.createElement('td'));
         firstColumn.attr('id', "forum-title-" + item.TopicId);
         var forumLink = $(document.createElement('a'));
@@ -792,8 +809,8 @@ var Forum = new function () {
         if (item.IsManagerOfTopic) {
 
             sevenColumn.append('<a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move"  href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '"><i class="fa fa-arrows"></i></a>');
-            if (item.IsRead === false)
-                sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read"  onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')"> <i class="fa fa-check-square-o"></i></button>');
+            //if (item.IsRead === false)
+            //    sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"  title="Mark As Read"  onclick="javascript:MarkForumTopicAsRead(this, \'' + item.TopicId + '\')"> <i class="fa fa-check-square-o"></i></button>');
 
             if (item.IsPinned)
                 sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-thumb-tack fa-rotate-90"></i></button>');
@@ -837,7 +854,7 @@ var Forum = new function () {
                 $("#loading").toggleClass("displayNone", false);
                 var tableBody = $("#forumbody");
                 $.getJSON("/forum/GetForumPosts", { groupId: thisViewModel.groupId, forumId: thisViewModel.forumId, page: thisViewModel.currentPage, isArchived: thisViewModel.isArchived, pageCount: "20", forumType: thisViewModel.forumType }, function (result) {
-                    console.log(result.Topics.length);
+                    console.dir(result.Topics);
                     if (result.Topics.length > 0) {
                         $.each(result.Topics, function (i, item) {
                             thisViewModel.DisplayForumRow(result.Topics, tableBody, item);
@@ -945,11 +962,10 @@ var Forum = new function () {
         }
     }
     this.MarkHomeForumTopicAsRead = function (btn, topicId, forumId) {
-        var cell = $(btn).parent;
-        cell.html("<i class='fa fa-spin fa-refresh'></i>");
+        $(btn).html("<i class='fa fa-refresh fa-spin'></i>");
         $.getJSON("/forum/MarkAsRead", { forumId: forumId, topicId: topicId }, function (result) {
-            if (result.isSuccess === true) {
-                cell.html("<i class='fa fa-check-circle'></i>");
+            if (result.result === true) {
+                $(btn).parent().parent().remove();
             }
         });
     }
@@ -959,12 +975,7 @@ var Forum = new function () {
         tinymce.init({
             mode: "textareas",
             elements: "wmd-input",
-
-
-
             plugins: "mention",
-
-            // Theme options
             theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
             theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",
             theme_advanced_buttons3: "",
@@ -989,7 +1000,6 @@ var Forum = new function () {
                     }
                 },
                 render: function (item) {
-                    alert('dd');
                     var markup;
                     if (item.picture != '')
                         markup = '<li><a href="javascript:;"><img src="' + item.picture + '" class="w20 round-corners"/> ' + item.name + '</a></li>';
@@ -1002,6 +1012,10 @@ var Forum = new function () {
                     return text.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
                         return '<b>' + match + '</b>';
                     });
+                },
+                insert: function (item) {
+                    var html = '<span class="mentioned_name" style="background:#eaeaea;padding:3px" id="' + item.id + '">' + item.name + '</span>';
+                    return html;
                 }
             }
         });
@@ -2716,7 +2730,56 @@ var Messages = new function () {
 
 var Member = new function () {
     var thisViewModel = this;
-
+    this.RetireSelf = function (btn) {
+        if (confirm("Are You Sure?")) {
+            $.ajax({
+                url: '/member/retireself', 
+                type: 'POST',
+                dataType: 'json',
+                data: {},
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data.success) {
+                        $('.bottom-right').notify({
+                            message: { text: 'Your Account has been Retired.' },
+                            fadeOut: { enabled: true, delay: 3000 }
+                        }).show();
+                        $(btn).remove();
+                        return false;
+                    }
+                    else {
+                        alert("Something happened.  Try again later.");
+                    }
+                }
+            });
+            return false;
+        }
+    };
+    this.UnRetireSelf= function (btn) {
+        if (confirm("Are You Sure?")) {
+            $.ajax({
+                url: '/member/unretireself',
+                type: 'POST',
+                dataType: 'json',
+                data: {},
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data.success) {
+                        $('.bottom-right').notify({
+                            message: { text: 'Your Account has been UnRetired.' },
+                            fadeOut: { enabled: true, delay: 3000 }
+                        }).show();
+                        $(btn).remove();
+                        return false;
+                    }
+                    else {
+                        alert("Something happened.  Try again later.");
+                    }
+                }
+            });
+            return false;
+        }
+    };
     this.RemoveSelfFromLeague = function (span, memberId, leagueId) {
         if (confirm("Remove Your Self Entirely From the League?")) {
             $.getJSON("/member/removememberfromleague", { memberId: memberId, leagueId: leagueId }, function (result) {
@@ -2812,7 +2875,7 @@ var League = new function () {
         }).error(function () {
         });
         $("#img-" + folderId).toggleClass("displayNone", false);
-    }
+    };
     this.SetUpDocumentsSection = function () {
         $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
             thisViewModel.documentId = '';
@@ -2868,6 +2931,7 @@ var League = new function () {
                         type: "danger"
                     }).show();
                 }
+                League.ResetDocumentGrid();
             }).error(function () {
             });
           
@@ -2893,31 +2957,27 @@ var League = new function () {
             if (result.isSuccess === true) {
                 var row = $("#rn-" + thisViewModel.documentId).html(result.link);
                 $("#docRow-" + thisViewModel.documentId).attr("name", text.val());
-                $.each($("#documents tbody tr"), function (index, tr) {
-                    $(tr).find(":checkbox").prop("checked", false);
-                });
-            } 
+                League.ResetDocumentGrid();
+            }
             else {
             }
         }).error(function () {
         });
         text.remove();
         spans.remove();
-    }
-    this.MoveDocumentToFolder = function (dropDown) { 
+    };
+    this.MoveDocumentToFolder = function (dropDown) {
         var owner = $("#OwnerId");
         var folder = $("#folderName");
         var selectedFolder = $(dropDown).find("option:selected");
+
         $.getJSON("/document/MoveFileTo", { ownerId: owner.val(), moveTo: selectedFolder.val(), moveToName: selectedFolder.text(), doc: thisViewModel.documentId }, function (result) {
             if (result.isSuccess === true) {
                 var docs = thisViewModel.documentId.split(',');
-                for(var i=0;i<docs.length;i++)
-                {
+                for (var i = 0; i < docs.length; i++) {
                     $("#fn-" + docs[i]).html(selectedFolder.text());
                 }
-                $.each($("#documents tbody tr"), function (index, tr) {
-                    $(tr).find(":checkbox").prop("checked", false);
-                });
+
                 $('.bottom-right').notify({
                     message: { text: 'Files Moved. ' },
                     fadeOut: { enabled: true, delay: 4000 },
@@ -2930,9 +2990,21 @@ var League = new function () {
                     type: "danger"
                 }).show();
             }
+            League.ResetDocumentGrid();
         }).error(function () {
+
         });
-    }
+    };
+    this.ResetDocumentGrid = function () { 
+
+        $.each($("#documents tbody tr"), function (index, tr) {
+            $(tr).find(":checkbox").prop("checked", false);
+        });
+        $("#doc-rename-btn").toggleClass("display-none", true);
+        $("#doc-delete-btn").toggleClass("display-none", true);
+        $("#doc-move-ddl").toggleClass("display-none", true);
+        $("#doc-move-ddl").val('');
+    };
     this.DeleteLeagueReport = function (span) {
         var reportId = $("#SelectedReport :selected");
         if (reportId.val() > 0) {

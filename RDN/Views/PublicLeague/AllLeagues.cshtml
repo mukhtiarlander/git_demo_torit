@@ -1,7 +1,7 @@
 ﻿@using RDN.Utilities.Paging
 @model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Models.Json.Public.LeagueJsonDataTable>>
 @{
-    ViewBag.Title = "All Roller Derby Leagues";
+    ViewBag.Title = "All "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Leagues";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,7 +11,7 @@
 </style>
 
 <div class=" text-center">
-    <h2> @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Leagues World Wide</h2>
+    <h2> @Model.Model.NumberOfRecords.ToString("N0") @RDN.Library.Classes.Config.LibraryConfig.SportName Leagues World Wide</h2>
 </div>
 <div class="col-sm-offset-3 col-sm-6 col-xs-12">
     <div class="input-group">

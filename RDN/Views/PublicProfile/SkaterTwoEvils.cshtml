@@ -2,7 +2,7 @@
 @model MemberDisplay
 @{
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
-    ViewBag.Title = Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + " Roller Derby League";
+    ViewBag.Title = Model.DerbyName + " (" + Model.PlayerNumber + ")" + " Skates For " + Model.TeamName + @RDN.Library.Classes.Config.LibraryConfig.SportName+" League";
 }
 <div class="fixedContainer">
     <div class="fixedCenterContainter2  ">

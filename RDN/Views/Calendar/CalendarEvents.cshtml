@@ -1,6 +1,6 @@
 ﻿@model RDN.Library.Classes.Calendar.Models.EventsOutModel
 @{
-    ViewBag.Title = "Roller Derby Events";
+    ViewBag.Title = @RDN.Library.Classes.Config.LibraryConfig.SportName+" Events";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="mapdiv" class="page-header" style="height: 350px; width: 100%;"></div>
@@ -11,7 +11,7 @@
 <div class="page-header text-center">
 
     <h2>
-        Roller Derby Events
+        @RDN.Library.Classes.Config.LibraryConfig.SportName Events
     </h2>
     <a class="btn btn-success" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Add Event</a>
 </div>

@@ -60,7 +60,7 @@ namespace RDN.League.Controllers
                     reportSheet.Name = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Roster " + calEventTemp.Name + " - " + calEventTemp.StartDate.ToString("yyyy-M-d")); //Setting Sheet's name
                     reportSheet.Cells.Style.Font.Size = 11; //Default font size for whole sheet
                     reportSheet.Cells.Style.Font.Name = "Calibri"; //Default Font name for whole sheet
-                    reportSheet.Cells[1, 1].Value = "Derby Name";
+                    reportSheet.Cells[1, 1].Value = RDN.Library.Classes.Config.LibraryConfig.MemberName;
                     reportSheet.Cells[1, 2].Value = "#";
                     reportSheet.Cells[1, 3].Value = "Full Name";
                     reportSheet.Cells[1, 4].Value = "Present-" + calEventTemp.EventType.PointsForNotPresent;
@@ -144,7 +144,7 @@ namespace RDN.League.Controllers
                     }
                     reportSheet.Cells[1, 1, rowReport, 10].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Medium);
                     reportSheet.Cells[rowReport, 5, rowReport, 6].Merge = true;
-                    reportSheet.Cells[rowReport, 5, rowReport, 6].Value = "Provided by RDNation";
+                    reportSheet.Cells[rowReport, 5, rowReport, 6].Value = "Provided by " + @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName;
 
 
                 }

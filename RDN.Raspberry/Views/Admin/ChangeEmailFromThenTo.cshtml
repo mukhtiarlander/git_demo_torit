@@ -6,9 +6,7 @@
 <h2>
     Un Subscribe an email</h2>
 @using (Html.BeginForm())
-{
-
-    
+{   
     <div>
         Change Email From, To OldEmail:<br />
         @Html.TextBoxFor(x => x.Id)<br />
@@ -17,11 +15,10 @@
     </div>
     
     <div>
-        Does a massive search in all the emails on RDNation and changes the email we have
+        Does a massive search in all the emails on @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName and changes the email we have
         to the new one. This does NOT change the users login email...
     </div>
-
-    
+        
     <input type="submit" class="primary" />
     
     

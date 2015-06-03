@@ -522,7 +522,6 @@ PaymentProvider.Stripe, PaymentMode.Live, ChargeTypeEnum.SubscriptionUpdated)
                 even.LiveMode = se.LiveMode.GetValueOrDefault();
                 if (se.Data != null)
                 {
-                    //StripeCustomer cust = (StripeCustomer)se.Data.Object;
                     StripeCustomer cust = Stripe.Mapper<StripeCustomer>.MapFromJson(se.Data.Object.ToString());
                     StripeCustomerDb custDb = new StripeCustomerDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_created;

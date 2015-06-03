@@ -379,7 +379,7 @@
                                             }
                                             else
                                             {
-                                            <div class="subPleaseSubscribeMessage">Subscribe to RDNation to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
+                                            <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
                                             }
 
                                         <small>Only Managers of the league can see this information.</small>

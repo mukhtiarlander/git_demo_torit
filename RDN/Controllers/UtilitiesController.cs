@@ -151,6 +151,7 @@ namespace RDN.Controllers
             if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyderbyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login"))
                 SitemapHelper.AddNode(url, modified);
             return Json(new { answer = true }, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult SearchForDerbyName(string name)
