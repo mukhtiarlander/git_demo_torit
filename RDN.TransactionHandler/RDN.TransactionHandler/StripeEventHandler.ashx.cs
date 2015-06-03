@@ -37,15 +37,11 @@ namespace RDN.TransactionHandler
                 FileInfo file = new FileInfo(path + filename);
 
                 string json = new StreamReader(context.Request.InputStream).ReadToEnd();
-                //if (file.Exists)
-                //{
-                //    filename = "stripe-json " + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + "-" + rand.Next(100) + ".txt";
-                //    file = new FileInfo(path + filename);
-                //}
-                //using (var fileStream = file.CreateText())
-                //{
-                //    fileStream.Write(json);
-                //}
+                
+                //TODO:
+                //get stripe event.
+                //use unique id within stripe to iterate through databases and check which database payment was made in.
+                //update the database based on that information.
 
                 var stripeEvent = StripeEventUtility.ParseEvent(json);
 

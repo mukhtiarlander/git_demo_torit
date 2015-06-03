@@ -489,46 +489,44 @@ namespace RDN.League.Controllers
         [HttpPost]
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = false, IsManager = false)]
-        public ActionResult RetireSelf(EditMember member)
+        public ActionResult RetireSelf()
         {
             try
             {
-                ViewBag.Saved = false;
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                RDN.Library.Classes.Account.User.RetireMember(memId);
+                RDN.Library.Cache.MemberCache.Clear(memId);
+                MemberCache.ClearApiCache(memId);
 
-                RDN.Library.Classes.Account.User.RetireMember(member.MemberId);
-                RDN.Library.Cache.MemberCache.Clear(member.MemberId);
-                MemberCache.ClearApiCache(member.MemberId);
-
-                return Redirect(Url.Content("~/member/edit"));
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpPost]
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = false, IsManager = false)]
-        public ActionResult UnRetireSelf(EditMember member)
+        public ActionResult UnRetireSelf()
         {
             try
             {
-                ViewBag.Saved = false;
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                RDN.Library.Classes.Account.User.UnRetireMember(memId);
+                RDN.Library.Cache.MemberCache.Clear(memId);
+                MemberCache.ClearApiCache(memId);
 
-                RDN.Library.Classes.Account.User.UnRetireMember(member.MemberId);
-                RDN.Library.Cache.MemberCache.Clear(member.MemberId);
-                MemberCache.ClearApiCache(member.MemberId);
-
-                return Redirect(Url.Content("~/member/edit"));
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+            return Json(new { success = false}, JsonRequestBehavior.AllowGet);
         }
 
         [LeagueAuthorize(EmailVerification = true, IsInLeague = false)]
