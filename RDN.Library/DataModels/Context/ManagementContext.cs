@@ -271,7 +271,7 @@ namespace RDN.Library.DataModels.Context
         public DbSet<MobileNotificationSettings> MobileSettings { get; set; }
 
         // **************** Social **************** \\
-        public DbSet<SocialAuthKeys> SocialAuthKeys{ get; set; }
+        public DbSet<SocialAuthKeys> SocialAuthKeys { get; set; }
 
         // **************** SiteHistory **************** \\
         public DbSet<FrontPageHistory> FrontPageHistory { get; set; }
@@ -312,10 +312,11 @@ namespace RDN.Library.DataModels.Context
             //Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
         }
 
-    //    static ManagementContext()
-    //{
-    //    Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
-    //}
+        public ManagementContext(string connectionStringName)
+            : base(connectionStringName)
+        {
+        }
+
 
 
         // Automatically add the times the entity got created/modified

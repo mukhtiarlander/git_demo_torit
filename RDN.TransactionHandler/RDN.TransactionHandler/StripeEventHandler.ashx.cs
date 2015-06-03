@@ -37,7 +37,7 @@ namespace RDN.TransactionHandler
                 FileInfo file = new FileInfo(path + filename);
 
                 string json = new StreamReader(context.Request.InputStream).ReadToEnd();
-                
+
                 //TODO:
                 //get stripe event.
                 //use unique id within stripe to iterate through databases and check which database payment was made in.

@@ -159,8 +159,8 @@ PaymentProvider.Stripe, PaymentMode.Live, ChargeTypeEnum.SubscriptionUpdated)
                 if (se.Data != null)
                 {
                     StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
-                    //StripeSubscription cust = (StripeSubscription)se.Data.Object;
                     StripeSubscriptionDb custDb = new StripeSubscriptionDb();
+                    
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_subscription_created;
                     custDb.CanceledAt = cust.CanceledAt;
                     custDb.EndedAt = cust.EndedAt;

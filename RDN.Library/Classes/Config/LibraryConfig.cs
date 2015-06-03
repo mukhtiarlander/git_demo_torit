@@ -71,14 +71,20 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string IsProduction
+        public static bool IsProduction
         {
             get
             {
-                return ConfigurationManager.AppSettings["IsProduction"];
+                return Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
             }
         }
-
+        public static string ConnectionStringName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ConnectionStringName"];
+            }
+        }
 
         public static string IsPayPalLive
         {

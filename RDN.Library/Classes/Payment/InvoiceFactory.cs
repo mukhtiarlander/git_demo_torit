@@ -25,6 +25,7 @@ using System.Text;
 using RDN.Library.Classes.RN.Funds;
 using RDN.Portable.Classes.Payment.Classes;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment
 {
@@ -1049,6 +1050,7 @@ namespace RDN.Library.Classes.Payment
                     myCustomer.CardAddressState = invoice.InvoiceBilling.State;
                     myCustomer.CardAddressZip = invoice.InvoiceBilling.Zip;
                     myCustomer.Email = invoice.InvoiceBilling.Email;
+                    myCustomer.Description = LibraryConfig.ConnectionStringName;
                 }
                 if (invoice.Subscription != null)
                 {

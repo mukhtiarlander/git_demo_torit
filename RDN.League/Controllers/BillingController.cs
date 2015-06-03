@@ -22,6 +22,7 @@ using RDN.Library.Util;
 using RDN.Portable.Config;
 using RDN.Library.Cache.Singletons;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -75,8 +76,8 @@ namespace RDN.League.Controllers
                 add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
                 add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
 
-               // add.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_DEBUG_KEY + "');";
-                add.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
+
             }
             catch (Exception exception)
             {
