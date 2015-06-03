@@ -1,6 +1,6 @@
 ﻿@model RDN.Portable.Classes.Games.Officiating.RequestsModel
 @{
-    ViewBag.Title = "Officials in Roller Derby Leagues";
+    ViewBag.Title = "Officials in "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Leagues";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @helper Truncate(string input, int length = 30)

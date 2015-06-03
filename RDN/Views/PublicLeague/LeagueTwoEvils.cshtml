@@ -1,6 +1,6 @@
 ﻿@model RDN.Portable.Classes.League.Classes.League
 @{
-    ViewBag.Title = Model.Name.Replace("Roller Derby League","") + " Roller Derby League";
+    ViewBag.Title = Model.Name.Replace("Roller Derby League"," ") + @RDN.Library.Classes.Config.LibraryConfig.SportName+ " League";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
 <div class="expandableContainer">
@@ -27,7 +27,7 @@
                             <th>
                             </th>
                             <th>
-                                Derby Name
+                                @RDN.Library.Classes.Config.LibraryConfig.MemberName
                             </th>
                             <th>
                                 Derby Number

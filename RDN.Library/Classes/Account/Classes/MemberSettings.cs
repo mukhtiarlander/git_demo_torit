@@ -322,12 +322,12 @@ namespace RDN.Library.Classes.Account.Classes
                 var mem = MemberCache.GetMemberDisplay(memberId);
                 if (mem.SMSVerificationNum == code)
                 {
-                    string body = "You are now Verified to receive RDNation text messages.";
+                    string body = "You are now Verified to receive " + @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName + " text messages.";
 
 
                     var emailData = new Dictionary<string, string> { { "body", body } };
 
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, "RDNation", ServerConfig.TEXT_MESSAGE_EMAIL, mem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage, DataModels.EmailServer.Enums.EmailPriority.Important);
+                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName, ServerConfig.TEXT_MESSAGE_EMAIL, mem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage, DataModels.EmailServer.Enums.EmailPriority.Important);
 
                     var dc = new ManagementContext();
                     var memDb = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();

@@ -1,7 +1,7 @@
 ﻿@using RDN.Portable.Classes.League.Classes;
 @model League
 @{
-    ViewBag.Title = Model.Name + " Roller Derby League";
+    ViewBag.Title = Model.Name + " "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" League";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="fixedContainer">

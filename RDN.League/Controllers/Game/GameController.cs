@@ -98,7 +98,7 @@ namespace RDN.League.Controllers
                     }
                     else
                     {
-                        model.Message = "No Game was uploaded.  Please make sure this file was generated from the RDNation Scoreboard.";
+                        model.Message = "No Game was uploaded.  Please make sure this file was generated from the "+@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName+" Scoreboard.";
                         model.IsSuccessful = false;
                         return View(model);
                     }

@@ -1,7 +1,7 @@
 ﻿@using RDN.Library.Classes.BruiseBash
 @model BruiseBash
 @{
-    ViewBag.Title = "Roller Derby Bruise " + Model.Title;
+    ViewBag.Title = @RDN.Library.Classes.Config.LibraryConfig.SportName+" Bruise " + Model.Title;
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
 <h2>

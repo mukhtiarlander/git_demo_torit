@@ -23,6 +23,7 @@ using RDN.Library.Cache;
 using RDN.Library.Classes.Location;
 using RDN.Library.Classes.Error;
 using RDN.Library.Util;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -823,7 +824,7 @@ namespace RDN.League.Controllers
                             result.Add(new SiteMessage
                                            {
                                                MessageType = SiteMessageType.Error,
-                                               Message = "We couldn't find your verfication Id, Have you already Verified with RDNation? You should be able to use RDNation now."
+                                               Message = "We couldn't find your verfication Id, Have you already Verified with "+LibraryConfig.WebsiteShortName+"? You should be able to use "+LibraryConfig.WebsiteShortName+" now."
                                            });
                             break;
                         case VerifyEmailEnum.Code_Invalid:
