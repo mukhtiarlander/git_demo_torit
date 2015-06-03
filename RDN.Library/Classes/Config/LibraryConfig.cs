@@ -71,30 +71,15 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string IsProduction
+        public static bool IsProduction
         {
             get
             {
-                return ConfigurationManager.AppSettings["IsProduction"];
+                return Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
             }
         }
 
 
-        public static string IsPayPalLive
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["IsPayPalLive"];
-            }
-        }
-
-        public static string PaypalLiveTest
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["PaypalLiveTest"];
-            }
-        }
         public static string InternalSite
         {
             get
@@ -287,19 +272,20 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string NameOfMember
+        public static string ConnectionStringName
         {
             get
             {
-                return ConfigurationManager.AppSettings["NameOfMember"];
+                return ConfigurationManager.AppSettings["ConnectionStringName"];
             }
         }
 
-        public static string MemberName
+        public static List<string> DatabaseConnectionStringNames
         {
             get
             {
-                return ConfigurationManager.AppSettings["MemberName"];
+                string conns = ConfigurationManager.AppSettings["DatabaseConnectionStringNames"];
+                return conns.Split(',').ToList();
             }
         }
     }

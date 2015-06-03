@@ -348,7 +348,7 @@ namespace RDN.Library.Classes.Messages
                 m.MessageText = message;
                 dc.Message.Add(m);
 
-                var grp = dc.GroupMessages.Where(x => x.GroupId == groupId).FirstOrDefault();
+                var grp = dc.GroupMessages.Include("Recipients").Where(x => x.GroupId == groupId).FirstOrDefault();
                 grp.LastModified = DateTime.UtcNow;
                 grp.Messages.Add(m);
                 dc.SaveChanges();
@@ -356,17 +356,23 @@ namespace RDN.Library.Classes.Messages
                 var recips = grp.Recipients.Where(x => x.IsRemovedFromGroup == false);
                 foreach (var mem in recips)
                 {
-                    DataModels.Messages.MessageInbox inbox = new DataModels.Messages.MessageInbox();
-                    inbox.Message = m;
-                    inbox.ToUser = dc.Members.Where(x => x.MemberId == mem.Recipient.MemberId).FirstOrDefault();
-                    if (mem.Recipient.MemberId == ownerMemberId)
-                        inbox.IsRead = true;
-                    else
-                        MemberCache.AddMessageCountToCache(+1, mem.Recipient.MemberId);
-                    inbox.MessageReadDateTime = DateTime.UtcNow;
-                    inbox.NotifiedEmailDateTime = DateTime.UtcNow;
-                    dc.MessageInbox.Add(inbox);
-
+                    try
+                    {
+                        DataModels.Messages.MessageInbox inbox = new DataModels.Messages.MessageInbox();
+                        inbox.Message = m;
+                        inbox.ToUser = dc.Members.Where(x => x.MemberId == mem.Recipient.MemberId).FirstOrDefault();
+                        if (mem.Recipient.MemberId == ownerMemberId)
+                            inbox.IsRead = true;
+                        else
+                            MemberCache.AddMessageCountToCache(+1, mem.Recipient.MemberId);
+                        inbox.MessageReadDateTime = DateTime.UtcNow;
+                        inbox.NotifiedEmailDateTime = DateTime.UtcNow;
+                        dc.MessageInbox.Add(inbox);
+                    }
+                    catch (Exception exception)
+                    {
+                        ErrorDatabaseManager.AddException(exception, exception.GetType());
+                    }
                 }
                 dc.SaveChanges();
             }

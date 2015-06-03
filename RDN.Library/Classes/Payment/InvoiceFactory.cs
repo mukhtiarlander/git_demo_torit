@@ -25,6 +25,7 @@ using System.Text;
 using RDN.Library.Classes.RN.Funds;
 using RDN.Portable.Classes.Payment.Classes;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment
 {
@@ -1408,7 +1409,7 @@ namespace RDN.Library.Classes.Payment
                             recRDNation.primary = true;
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recRDNation.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.ShopName;
+                        recRDNation.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": Payment to " + merchant.ShopName;
                         recRDNation.paymentType = PaymentTypeEnum.GOODS.ToString();
                         receiverList.receiver.Add(recRDNation);
                         if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
@@ -1422,7 +1423,7 @@ namespace RDN.Library.Classes.Payment
                             recLeague.primary = false;
                             //if we modify this invoiceID, 
                             //you need to modify this code here: 
-                            recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.ShopName;
+                            recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": Payment to " + merchant.ShopName;
                             recLeague.paymentType = PaymentTypeEnum.GOODS.ToString();
                             receiverList.receiver.Add(recLeague);
                         }
@@ -1665,7 +1666,7 @@ namespace RDN.Library.Classes.Payment
 
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recRDNation.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": " + leagueSettings.LeagueOwnerName + " Dues Payment";
+                        recRDNation.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": " + leagueSettings.LeagueOwnerName + " Dues Payment";
                         recRDNation.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recRDNation);
 
@@ -1679,7 +1680,7 @@ namespace RDN.Library.Classes.Payment
                         recLeague.primary = false;
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": " + leagueSettings.LeagueOwnerName + " Dues Payment";
+                        recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": " + leagueSettings.LeagueOwnerName + " Dues Payment";
                         recLeague.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recLeague);
 

@@ -1,4 +1,4 @@
-﻿@using RDN.Utilities.Paging
+﻿    @using RDN.Utilities.Paging
 @using RDN.Library.Classes.Forum;
 @model Forum
 @{
@@ -105,6 +105,7 @@ else
             <table class="table table-hover no-margin-bottom">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>
                             Topic
                         </th>
@@ -130,6 +131,16 @@ else
                     @foreach (var topic in Model.CurrentGroup.Topics)
                     {
                         <tr class="@(topic.IsRead ? "" : "forum-read")">
+                            <td class="text-center vertical-middle" >
+                                @if (!topic.IsRead)
+                                {
+                                    <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"><i class="fa fa-envelope"></i></button>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                            </td>
                             <td id="forum-title-@topic.TopicId">
                                 <a class="@(topic.IsRead ? "" : "b")" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
                                 <br />
@@ -192,10 +203,7 @@ else
                                 {
 
                                     <a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move" href="@Url.Content("~/forum/post/move/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @topic.TopicId)"><i class="fa fa-arrows"></i></a>
-                                    if (!topic.IsRead)
-                                    {
-                                        <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"><i class="fa fa-check-square-o"></i></button>
-                                    }
+                                   
                                     if (topic.IsPinned)
                                     {
                                         <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="UnPin" onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-thumb-tack fa-rotate-90"></i></button>
