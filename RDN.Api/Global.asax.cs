@@ -10,6 +10,7 @@ using RDN.Library.DatabaseInitializers;
 using RDN.Library.Cache.Singletons;
 using System.Configuration;
 using RDN.Library.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Api
 {
@@ -101,8 +102,6 @@ namespace RDN.Api
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
-            SiteSingleton.Instance.IsPayPalLive = (PaymentMode)Enum.Parse(typeof(PaymentMode), Library.Classes.Config.LibraryConfig.IsPayPalLive);
         }
         protected void Application_End()
         {
@@ -114,7 +113,7 @@ namespace RDN.Api
             {
                 
             }
-            else if(SiteSingleton.Instance.IsProduction)
+            else if(LibraryConfig.IsProduction)
             {
                 if (!Context.Request.IsSecureConnection)
                     Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));

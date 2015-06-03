@@ -38,6 +38,7 @@ using RDN.Portable.Classes.Payment.Classes;
 using RDN.Portable.Classes.League.Classes;
 using RDN.Portable.Classes.Controls.Calendar;
 using RDN.Library.Classes.Controls.Calendar;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Cache
 {
@@ -1211,7 +1212,7 @@ namespace RDN.Library.Cache
 
                             dataObject.LeagueMemberClasses = LeagueMemberClass.GetAllMemberClasses();
 
-                            if (SiteSingleton.Instance.IsProduction)
+                            if (LibraryConfig.IsProduction)
                             {
                                 StoreGateway sg = new StoreGateway();
                                 dataObject.ShopItems = sg.GetAllPublishedStoreItems();

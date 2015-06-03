@@ -1284,7 +1284,7 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
                 RegisterGlobalFilters(GlobalFilters.Filters);
                 RegisterRoutes(RouteTable.Routes);
                 
-                SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
+                
                 
                 SiteSingleton.Instance.SiteType = (SiteType)Enum.Parse(typeof(SiteType), Library.Classes.Config.LibraryConfig.SiteType);
 

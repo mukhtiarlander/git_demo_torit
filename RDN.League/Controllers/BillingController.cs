@@ -142,10 +142,12 @@ namespace RDN.League.Controllers
                     ts = now.AddMonths(12) - DateTime.UtcNow;
                     lengthOfDays = ts.Days;
                 }
-
+                var mode = PaymentMode.Test;
+                if (LibraryConfig.IsProduction)
+                    mode = PaymentMode.Live;
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, SiteSingleton.Instance.IsPayPalLive, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, mode, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {

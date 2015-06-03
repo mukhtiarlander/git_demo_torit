@@ -29,6 +29,7 @@ using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Federation.Enums;
 using RDN.Library.Cache.Singletons;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.AutomatedTask
 {
@@ -240,10 +241,13 @@ namespace RDN.Library.Classes.AutomatedTask
                     emailTask.HoursBetweenEachRunOfTask = HOURS_BETWEEN_MASS_ROLLIN_NEWS_PAYMENTS;
                     if (emailTask.LastRun.AddHours(HOURS_BETWEEN_MASS_ROLLIN_NEWS_PAYMENTS) < DateTime.UtcNow)
                     {
+                        var mode = PaymentMode.Test;
+                        if (LibraryConfig.IsProduction)
+                            mode = PaymentMode.Live;
 
                         Payment.PaymentGateway pg = new Payment.PaymentGateway();
                         pg.StartInvoiceWizard()
-                            .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", Payment.Enums.PaymentProvider.Paypal, SiteSingleton.Instance.IsPayPalLive , Payment.Enums.ChargeTypeEnum.RollinNewsWriterPayouts)
+                            .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", Payment.Enums.PaymentProvider.Paypal, mode, Payment.Enums.ChargeTypeEnum.RollinNewsWriterPayouts)
                             .FinalizeInvoice();
 
                     }

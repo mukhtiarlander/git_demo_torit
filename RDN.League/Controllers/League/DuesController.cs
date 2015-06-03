@@ -29,6 +29,7 @@ using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Classes.Controls.Dues.Classify;
 using RDN.Portable.Classes.Controls.Dues;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -755,10 +756,14 @@ namespace RDN.League.Controllers
                     var dues2 = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(Request.Form["DuesItemId"]), duesModel.DuesId, memberId);
                     if (dues2 != null)
                     {
+                        var mode = PaymentMode.Test;
+                        if (LibraryConfig.IsProduction)
+                            mode = PaymentMode.Live;
+
                         PaymentGateway pg = new PaymentGateway();
 
                         var f = pg.StartInvoiceWizard()
-                            .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, SiteSingleton.Instance.IsPayPalLive, ChargeTypeEnum.DuesItem)
+                            .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, mode, ChargeTypeEnum.DuesItem)
                             .SetInvoiceId(Guid.NewGuid())
                             .AddDuesItem(new Library.Classes.Payment.Classes.Invoice.InvoiceDuesItem
                             {

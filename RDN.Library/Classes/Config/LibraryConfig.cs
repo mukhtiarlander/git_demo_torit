@@ -293,13 +293,7 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["MemberName"];
             }
         }
-        public static string ConnectionStringName
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ConnectionStringName"];
-            }
-        }
+ 
 
         public static List<string> DatabaseConnectionStringNames
         {

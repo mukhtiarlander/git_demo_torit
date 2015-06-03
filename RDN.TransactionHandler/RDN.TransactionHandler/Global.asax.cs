@@ -40,9 +40,7 @@ namespace RDN.TransactionHandler
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            //ErrorDatabaseManager.AddException(new Exception("Transactions Just Started Up"), GetType());
-
-            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
+                        
         }
     }
 }

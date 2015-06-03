@@ -1,5 +1,6 @@
 ﻿using RDN.Library.Cache;
 using RDN.Library.Cache.Singletons;
+using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Dues;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Payment;
@@ -488,10 +489,14 @@ namespace RDN.Api.Controllers.League
                         var dues2 = DuesFactory.GetDuesCollectionItem(ob.DuesItemId, ob.DuesId, ob.CurrentMemberId);
                         if (dues2 != null)
                         {
+                            var mode = PaymentMode.Test;
+                            if (LibraryConfig.IsProduction)
+                                mode = PaymentMode.Live;
+
                             PaymentGateway pg = new PaymentGateway();
 
                             var f = pg.StartInvoiceWizard()
-                                .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, SiteSingleton.Instance.IsPayPalLive, ChargeTypeEnum.DuesItem)
+                                .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, mode, ChargeTypeEnum.DuesItem)
                                 .SetInvoiceId(Guid.NewGuid())
                                 .AddDuesItem(new Library.Classes.Payment.Classes.Invoice.InvoiceDuesItem
                                 {
