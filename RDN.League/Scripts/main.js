@@ -740,7 +740,7 @@ var Forum = new function () {
         {
             zeroColumn.append('<i class="fa fa-check-circle"></i>');
         }
-        row.append(zeroColumn);
+        row.append(zeroColumn); 
 
         var firstColumn = $(document.createElement('td'));
         firstColumn.attr('id', "forum-title-" + item.TopicId);
