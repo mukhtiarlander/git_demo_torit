@@ -16,16 +16,11 @@ namespace RDN.TransactionHandler
     /// </summary>
     public class IPNHandlers : IHttpHandler
     {
-        CustomConfigurationManager m = new CustomConfigurationManager();
+        CustomConfigurationManager cm = new CustomConfigurationManager();
         public void ProcessRequest(HttpContext context)
         {
             try
             {
-                
-                
-                RDN.Library.Classes.Payment.Paypal.PaypalPaymentFactory.PaypalMode mode = PaypalPaymentFactory.PaypalMode.test;
-                if (LibraryConfig.IsProduction)
-                    mode = PaypalPayment.PaypalMode.live;
 
                 string connectionStringToUse = LibraryConfig.DatabaseConnectionStringNames.FirstOrDefault();
 
@@ -39,7 +34,7 @@ namespace RDN.TransactionHandler
                     }
                 }
 
-                IPNHandler ipn = new IPNHandler(mode, HttpContext.Current);
+                IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current, connectionStringToUse);
                 ipn.CheckStatus();
                 ipn.InsertNewIPNNotification();
 

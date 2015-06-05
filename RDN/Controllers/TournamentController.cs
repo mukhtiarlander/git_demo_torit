@@ -18,6 +18,7 @@ using RDN.Utilities.Config;
 using RDN.Portable.Config;
 using System.IO;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Controllers
 {
@@ -99,7 +100,7 @@ namespace RDN.Controllers
                 }
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(to.Paywall.MerchantId, "USD", provider, PaymentMode.Live, ChargeTypeEnum.Paywall)
+                var f = pg.StartInvoiceWizard().Initalize(to.Paywall.MerchantId, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Paywall)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetPaywall(new InvoicePaywall
                     {

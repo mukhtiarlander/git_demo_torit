@@ -31,7 +31,7 @@ namespace RDN.Library.Classes.Payment.Classes.Invoice
         // Public note, visible to the user
         public string Note { get; set; }
 
-        public PaymentMode Mode { get; set; }
+        public bool IsLive { get; set; }
         /// <summary>
         /// if the user is logged in when buying the item, this is their id.
         /// </summary>

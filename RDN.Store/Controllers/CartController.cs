@@ -19,6 +19,7 @@ using RDN.Library.Classes.Payment.Money;
 using RDN.Library.Cache;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.ContactCard.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Store.Controllers
 {
@@ -61,7 +62,7 @@ namespace RDN.Store.Controllers
                     shipType = ShippingType.PickUp;
 
                 var invoice = pg.StartInvoiceWizard()
-                    .Initalize(checkout.MerchantId, checkout.Currency, paymentProvider, PaymentMode.Live, ChargeTypeEnum.InStorePurchase)
+                    .Initalize(checkout.MerchantId, checkout.Currency, paymentProvider, LibraryConfig.IsProduction, ChargeTypeEnum.InStorePurchase)
                     .SetShipping(checkout.TotalShipping, shipType)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetNotes(model.Notes)

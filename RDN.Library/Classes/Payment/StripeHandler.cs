@@ -13,6 +13,7 @@ using RDN.Utilities.Dates;
 using Stripe;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment
 {
@@ -33,7 +34,7 @@ namespace RDN.Library.Classes.Payment
 
                 PaymentGateway pg = new PaymentGateway();
                 var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD",
-PaymentProvider.Stripe, PaymentMode.Live, ChargeTypeEnum.SubscriptionUpdated)
+PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionUpdated)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetInvoiceStatus(InvoiceStatus.Subscription_Should_Be_Updated_On_Charge);
 
@@ -160,7 +161,7 @@ PaymentProvider.Stripe, PaymentMode.Live, ChargeTypeEnum.SubscriptionUpdated)
                 {
                     StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
                     StripeSubscriptionDb custDb = new StripeSubscriptionDb();
-                    
+
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_subscription_created;
                     custDb.CanceledAt = cust.CanceledAt;
                     custDb.EndedAt = cust.EndedAt;

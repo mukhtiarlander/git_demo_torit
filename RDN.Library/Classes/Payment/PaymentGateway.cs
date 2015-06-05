@@ -17,21 +17,23 @@ using RDN.Library.DataModels.PaymentGateway.Merchants;
 using Invoice = RDN.Library.Classes.Payment.Classes.Invoice.Invoice;
 using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Classes.Payment.Enums;
+using Common.Site.AppConfig;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment
 {
     public sealed class PaymentGateway
     {
-        string _connectionStringName;
-
+        string _configurationName;
+        CustomConfigurationManager _configManager = new CustomConfigurationManager();
         public PaymentGateway()
-        { 
-        
+        {
+
         }
 
-        public PaymentGateway(string connectionStringName)
+        public PaymentGateway(string configurationName)
         {
-            _connectionStringName = connectionStringName;
+            _configurationName = configurationName;
         }
 
         //ToDo: Delete old shopping cart when payment has been recieved? or when dispatched to google?. Shopping cart will have the same id as the invoice.
@@ -222,7 +224,9 @@ namespace RDN.Library.Classes.Payment
             var output = new DisplayInvoice();
             if (!ValidateInvoice(invoiceId)) return null;
 
-            var mc = new ManagementContext();
+            ManagementContext mc = new ManagementContext();
+            if (!String.IsNullOrEmpty(_configurationName))
+                mc = new ManagementContext(_configManager.GetSubElement(_configurationName, StaticConfig.ConnectionString).Value);
             var invoice = GetDatabaseInvoice(ref mc, invoiceId);
             if (invoice == null)
                 return null;
@@ -433,7 +437,7 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
-                var dc = new ManagementContext(_connectionStringName);
+                var dc = new ManagementContext(_configurationName);
                 var invoice = dc.Invoices.Where(x => x.InvoiceId == invoiceId).FirstOrDefault();
                 if (invoice != null)
                 {
@@ -458,7 +462,7 @@ namespace RDN.Library.Classes.Payment
         {
             return null;
         }
-     
+
         public Invoice GetLatestInvoiceSubscriptionForLeagueId(Guid leagueId)
         {
             try

@@ -489,14 +489,11 @@ namespace RDN.Api.Controllers.League
                         var dues2 = DuesFactory.GetDuesCollectionItem(ob.DuesItemId, ob.DuesId, ob.CurrentMemberId);
                         if (dues2 != null)
                         {
-                            var mode = PaymentMode.Test;
-                            if (LibraryConfig.IsProduction)
-                                mode = PaymentMode.Live;
-
+                            
                             PaymentGateway pg = new PaymentGateway();
 
                             var f = pg.StartInvoiceWizard()
-                                .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, mode, ChargeTypeEnum.DuesItem)
+                                .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, LibraryConfig.IsProduction, ChargeTypeEnum.DuesItem)
                                 .SetInvoiceId(Guid.NewGuid())
                                 .AddDuesItem(new Library.Classes.Payment.Classes.Invoice.InvoiceDuesItem
                                 {

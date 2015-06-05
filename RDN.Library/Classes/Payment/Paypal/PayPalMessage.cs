@@ -207,7 +207,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             get { return _invoice; }
             set { _invoice = value; }
         }
-        public string ConnectionName
+        public string ConfigurationName
         {
             get { return _connectionName; }
             set { _connectionName = value; }

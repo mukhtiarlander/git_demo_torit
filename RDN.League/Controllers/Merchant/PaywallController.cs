@@ -13,6 +13,7 @@ using RDN.Library.Classes.Payment.Paywall;
 using RDN.Library.Util;
 using RDN.Library.Util.Enum;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -48,7 +49,7 @@ namespace RDN.League.Controllers
                 bool isSuccess = false;
                 var sg = new Paywall();
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(invoice.Merchant.MerchantId, "USD", invoice.PaymentProvider, PaymentMode.Live, ChargeTypeEnum.Refund_Paywall)
+                var f = pg.StartInvoiceWizard().Initalize(invoice.Merchant.MerchantId, "USD", invoice.PaymentProvider, LibraryConfig.IsProduction, ChargeTypeEnum.Refund_Paywall)
                     .SetInvoiceId(invoice.InvoiceId)
                 .SetRefundAmount(invoice.RefundAmount)
                 .SetNotes(null, invoice.AdminNote);

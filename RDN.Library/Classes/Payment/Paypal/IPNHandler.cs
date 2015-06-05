@@ -18,13 +18,15 @@ using RDN.Portable.Config;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Library.Classes.Mobile;
 using RDN.Library.Classes.Mobile.Enums;
+using Common.Site.AppConfig;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment.Paypal
 {
     public class IPNHandler
     {
 
-
+        CustomConfigurationManager _configManager = new CustomConfigurationManager();
         public bool IsLive { get; set; }
         public string PostUrl { get; set; }
 
@@ -36,24 +38,24 @@ namespace RDN.Library.Classes.Payment.Paypal
 
         private PayPalMessage _message;
 
-        private string _connectionStringName { get; set; }
+        private string _configurationName { get; set; }
         /// <summary>
         /// valid strings are "TEST" for sandbox use 
         /// "LIVE" for production use
         /// </summary>
         /// <param name="mode"></param>
-        public IPNHandler(bool isLive, HttpContext context, string connectionString)
+        public IPNHandler(bool isLive, HttpContext context, string configurationName)
         {
             try
             {
                 IsLive = isLive;
                 PostUrl = PaypalPayment.GetBaseUrl(isLive);
                 _message = this.FillIPNProperties(context);
-                _connectionStringName = connectionString;
+                _configurationName = configurationName;
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), configurationName: configurationName);
             }
         }
 
@@ -75,7 +77,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             try
             {
-                ManagementContext db = new ManagementContext(_connectionStringName);
+                ManagementContext db = new ManagementContext(_configManager.GetSubElement(_configurationName, StaticConfig.ConnectionString).Value);
                 IPNNotification paypal = new IPNNotification();
 
                 try
@@ -90,7 +92,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 }
                 catch (Exception exception)
                 {
-                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString(), configurationName: _configurationName);
                 }
                 paypal.Business_Id = _message.Business;
                 paypal.Custom = _message.Custom;
@@ -167,7 +169,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString(), configurationName: _configurationName);
             }
         }
 
@@ -197,7 +199,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: this.Response);
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: this.Response, configurationName: _configurationName);
             }
         }
         private bool HandleResponseFromPaypal()
@@ -220,7 +222,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                         else if (!String.IsNullOrEmpty(_message.Invoice))
                             invoiceId = _message.Invoice;
                         else
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem", CompileReportString(), connectionStringName: _connectionStringName);
+                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem", CompileReportString(), configurationName: _configurationName);
 
                         switch (_message.PaymentStatus)
                         {
@@ -248,7 +250,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                                 FailedPaypalPayment(invoiceId);
                                 return true;
                             default:
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Status is Defaulted..??????", CompileReportString(), connectionStringName: _connectionStringName);
+                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Status is Defaulted..??????", CompileReportString(),  configurationName : _configurationName);
                                 return true;
                         }
                     //email buyer and me a reciept of order.
@@ -257,7 +259,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     //the Paypal Adpative payments API to handle the dues and store purchases.
                     case "INVALID":
                     default:
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Payment Problem", this.Response + " " + CompileReportString(), connectionStringName: _connectionStringName);
+                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Payment Problem", this.Response + " " + CompileReportString(), configurationName: _configurationName);
                         return true;
 
                 }
@@ -276,7 +278,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             {
                 var duesItem = invoice.DuesItems.FirstOrDefault();
 
-                PaymentGateway pg = new PaymentGateway(_connectionStringName);
+                PaymentGateway pg = new PaymentGateway(_configurationName);
                 pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Pending_Payment_From_Paypal);
 
                 //email people.
@@ -285,7 +287,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 WebClient client1 = new WebClient();
                 client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + duesItem.MemberPaidId));
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Pending", CompileReportString(), connectionStringName: _connectionStringName);
+                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Pending", CompileReportString(), configurationName: _configurationName);
                 var member = MemberCache.GetMemberDisplay(duesItem.MemberPaidId);
                 var league = MemberCache.GetLeagueOfMember(duesItem.MemberPaidId);
                 var settings = Dues.DuesFactory.GetDuesSettings(duesItem.DuesId);
@@ -304,11 +306,11 @@ namespace RDN.Library.Classes.Payment.Paypal
                                           };
 
                     //sends email to user for their payment.
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser, connectionStringName: _connectionStringName);
+                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser, connectionStringName: _configurationName);
                     if (league != null && !String.IsNullOrEmpty(league.Email))
                     {
                         //sends email to league for notification of their payment.
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague, connectionStringName: _connectionStringName);
+                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague, connectionStringName: _configurationName);
                     }
 
                     MobileNotificationFactory mnf = new MobileNotificationFactory();
@@ -412,7 +414,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             try
             {
-                PaymentGateway pg = new PaymentGateway(_connectionStringName);
+                PaymentGateway pg = new PaymentGateway(_configurationName);
                 var invoice = pg.GetDisplayInvoice(new Guid(invoiceId));
                 if (invoice != null)
                 {
@@ -461,7 +463,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             try
             {
-                PaymentGateway pg = new PaymentGateway(_connectionStringName);
+                PaymentGateway pg = new PaymentGateway(_configurationName);
                 var invoice = pg.GetDisplayInvoice(new Guid(invoiceId));
                 if (invoice != null)
                 {
@@ -509,7 +511,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         }
         private Classes.Display.DisplayInvoice FailedPaypalPayment(string invoiceId)
         {
-            PaymentGateway pg = new PaymentGateway(_connectionStringName);
+            PaymentGateway pg = new PaymentGateway(_configurationName);
 
             try
             {
@@ -650,7 +652,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     var messages = message.Invoice.Split(':');
                     message.Invoice = messages[0];
                     if (messages.Count() > 1)
-                        message.ConnectionName = messages[1];
+                        message.ConfigurationName = messages[1];
 
                 }
                 message.Tax = context.Request.Form["tax"];
@@ -694,7 +696,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                                 var messages = t.invoiceId.Split(':');
                                 t.invoiceId = messages[0];
                                 if (messages.Count() > 1)
-                                    t.connectionName = messages[1];
+                                    t.configurationName = messages[1];
                             }
 
                             t.status = context.Request.Form["transaction[" + i + "].status"];

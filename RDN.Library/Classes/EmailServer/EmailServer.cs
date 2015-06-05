@@ -196,18 +196,18 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="priority"></param>
-        public static void SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important, string connectionStringName = null)
+        public static void SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important, string configurationName = null)
         {
             try
             {
                 Dictionary<string, string> properties = new Dictionary<string, string>();
                 properties.Add("body", body);
-                EmailServerFactory.CreateNew().Initialize(connectionStringName).SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                EmailServerFactory.CreateNew().Initialize(configurationName).SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), configurationName: configurationName);
             }
         }
 

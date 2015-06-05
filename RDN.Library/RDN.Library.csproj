@@ -208,6 +208,7 @@
     <Compile Include="Classes\AutomatedTask\Enums\UserTaskFactoryType.cs" />
     <Compile Include="Classes\Billing\Classes\UpdateSubscription.cs" />
     <Compile Include="Classes\Config\LibraryConfig.cs" />
+    <Compile Include="Classes\Config\StaticConfig.cs" />
     <Compile Include="Classes\Controls\Calendar\CalendarEvent.cs" />
     <Compile Include="Classes\Controls\Calendar\CalendarSyncGoogle.cs" />
     <Compile Include="Classes\Controls\Calendar\Models\CalendarImport.cs" />
@@ -344,7 +345,6 @@
     <Compile Include="Classes\Payment\Classes\Invoice\InvoiceDuesItem.cs" />
     <Compile Include="Classes\Payment\Classes\Display\DisplayPaywall.cs" />
     <Compile Include="Classes\Payment\Enums\ChargeTypeEnum.cs" />
-    <Compile Include="Classes\Payment\Enums\PaymentMode.cs" />
     <Compile Include="Classes\Payment\Enums\Paypal\ActionTypEnum.cs" />
     <Compile Include="Classes\Payment\Enums\Paypal\FeesPayerEnum.cs" />
     <Compile Include="Classes\Payment\Enums\Paypal\PaymentTypeEnum.cs" />
@@ -785,6 +785,10 @@
     <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
       <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
       <Name>Common.EmailServer.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.Site\Common.Site.csproj">
+      <Project>{e0f7aafe-6666-4a19-947f-f3fe60381154}</Project>
+      <Name>Common.Site</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDN.Portable\RDN.Portable.csproj">
       <Project>{68721c49-c417-40de-a445-c4077d9469cb}</Project>

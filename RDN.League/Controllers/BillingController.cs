@@ -42,7 +42,7 @@ namespace RDN.League.Controllers
             {
                 SiteMessage message = new SiteMessage();
                 message.MessageType = SiteMessageType.Error;
-                message.Message = "Those features require a subscription to "+LibraryConfig.WebsiteShortName+". Please subscribe to Enable those features.";
+                message.Message = "Those features require a subscription to " + LibraryConfig.WebsiteShortName + ". Please subscribe to Enable those features.";
                 this.AddMessage(message);
             }
             else if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.sc.ToString())
@@ -142,12 +142,9 @@ namespace RDN.League.Controllers
                     ts = now.AddMonths(12) - DateTime.UtcNow;
                     lengthOfDays = ts.Days;
                 }
-                var mode = PaymentMode.Test;
-                if (LibraryConfig.IsProduction)
-                    mode = PaymentMode.Live;
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, mode, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
@@ -227,7 +224,7 @@ namespace RDN.League.Controllers
                 var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.LeagueId);
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", PaymentProvider.Stripe, PaymentMode.Live, ChargeTypeEnum.Cancel_Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
                    .SetInvoiceId(bi.InvoiceId)
                         .FinalizeInvoice();
 

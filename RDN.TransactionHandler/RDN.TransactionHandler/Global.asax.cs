@@ -32,6 +32,8 @@ namespace RDN.TransactionHandler
 
         }
 
+        
+
         protected void Application_Start()
         {
             Library.DatabaseInitializers.ManagementInitializer.Initialize(); // Remove the validation on the database. Meaning that we can update the database without having to update the payments
