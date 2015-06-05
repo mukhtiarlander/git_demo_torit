@@ -29,7 +29,7 @@ namespace RDN.Library.Classes.Error
         {
             AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorGroup, errorSeverity, parameters, additionalInformation));
         }
-        
+
 
         /// <summary>
         /// Stores the error object in the database
@@ -136,7 +136,7 @@ namespace RDN.Library.Classes.Error
             { AddException(except, except.GetType()); }
         }
 
-    
+
         public static List<Classes.Error> GetErrorObjects(int recordsToSkip, int numberOfRecordsToPull)
         {
             var output = new List<Classes.Error>();

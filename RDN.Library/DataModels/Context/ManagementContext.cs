@@ -309,11 +309,10 @@ namespace RDN.Library.DataModels.Context
         public ManagementContext()
             : base("RDN")
         {
-            //Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
         }
 
         public ManagementContext(string connectionStringName)
-            : base(connectionStringName)
+            : base(String.IsNullOrEmpty(connectionStringName) ? "RDN" : connectionStringName)
         {
         }
 

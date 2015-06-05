@@ -10,91 +10,31 @@ using RDN.Library.Classes.Payment.Enums;
 ///https://cms.paypal.com/mx/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_APPayAPI
 namespace RDN.Library.Classes.Payment.Paypal
 {
-    public class PaypalPaymentFactory
+    public class PaypalPayment
     {
         /// <summary>
         /// Compiles the paypal url so it can be response.Redirected to.
         /// </summary>
 
-        private PaypalMode _mode;
+        public string SellerEmailAddress { get; set; }
 
-        public PaypalMode Mode
-        {
-            get { return _mode; }
-            set { _mode = value; }
-        }
 
-        private string _sellerEmailAddress;
+        public string BuyerEmailAddress { get; set; }
 
-        public string SellerEmailAddress
-        {
-            get { return _sellerEmailAddress; }
-            set { _sellerEmailAddress = value; }
-        }
 
-        private string _buyerEmailAddress;
+        public string Code { get; set; }
 
-        public string BuyerEmailAddress
-        {
-            get { return _buyerEmailAddress; }
-            set { _buyerEmailAddress = value; }
-        }
+        public double Amount { get; set; }
 
-        private string _code;
+        public string ItemName { get; set; }
 
-        public string Code
-        {
-            get { return _code; }
-            set { _code = value; }
-        }
-        private double _amount;
+        public string InvoiceNumber { get; set; }
 
-        public double Amount
-        {
-            get { return _amount; }
-            set { _amount = value; }
-        }
-        private string _itemName;
+        public string ReturnUrl { get; set; }
 
-        public string ItemName
-        {
-            get { return _itemName; }
-            set { _itemName = value; }
-        }
-        private string _invoiceNumber;
+        public string CancelUrl { get; set; }
 
-        public string InvoiceNumber
-        {
-            get { return _invoiceNumber; }
-            set { _invoiceNumber = value; }
-        }
-        private string _returnUrl;
-
-        public string ReturnUrl
-        {
-            get { return _returnUrl; }
-            set { _returnUrl = value; }
-        }
-        private string _cancelUrl;
-
-        public string CancelUrl
-        {
-            get { return _cancelUrl; }
-            set { _cancelUrl = value; }
-        }
-        private string _logoUrl;
-
-        public string LogoUrl
-        {
-            get { return _logoUrl; }
-            set { _logoUrl = value; }
-        }
-
-        public enum PaypalMode
-        {
-            test,
-            live
-        }
+        public string LogoUrl { get; set; }
 
         public enum ReturnStatus
         {
@@ -106,70 +46,58 @@ namespace RDN.Library.Classes.Payment.Paypal
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static string GetBaseUrl(PaypalMode mode)
+        public static string GetBaseUrl(bool isLive)
         {
-            switch (mode)
-            {
-                case PaypalMode.test:
-                    return "https://www.sandbox.paypal.com/cgi-bin/webscr";
-                case PaypalMode.live:
-                    return "https://www.paypal.com/cgi-bin/webscr";
-                default:
-                    return "https://www.sandbox.paypal.com/cgi-bin/webscr";
-            }
+            if (isLive)
+                return "https://www.paypal.com/cgi-bin/webscr";
+            else
+                return "https://www.sandbox.paypal.com/cgi-bin/webscr";
         }
 
         /// <summary>
         /// Redirects and sends the compiled variables to paypal.
         /// </summary>
         /// <param name="mode"></param>
-        public string RedirectToPaypal()
+        public string RedirectToPaypal(bool isLive)
         {
-            return CompilePaypalUrl();
+            return CompilePaypalUrl(isLive);
         }
-        //public bool CheckForVerifiedEmail(string emailToVerify)
-        //{
-
-        //    PayPal.APIService ser = new PayPal.APIService();
-        //    PayPal.AdaptivePayments.AdaptivePaymentsService s = new PayPal.AdaptivePayments.AdaptivePaymentsService();
-        //    s.
-        //}
 
         /// <summary>
         /// Compiles the URL to paypal standard to get ready to send to paypal.
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>
-        private string CompilePaypalUrl()
+        private string CompilePaypalUrl(bool isLive)
         {
 
             StringBuilder url = new StringBuilder();
             try
             {
-                url.Append(GetBaseUrl(Mode) + "?" + "cmd=_xclick&business=" +
-                      HttpUtility.UrlEncode(_sellerEmailAddress));
+                url.Append(GetBaseUrl(isLive) + "?" + "cmd=_xclick&business=" +
+                      HttpUtility.UrlEncode(SellerEmailAddress));
 
-                url.AppendFormat("&currency_code={0}", HttpUtility.UrlEncode(_code.ToString()));
+                url.AppendFormat("&currency_code={0}", HttpUtility.UrlEncode(Code.ToString()));
 
-                if (_buyerEmailAddress != null && _buyerEmailAddress != "")
-                    url.AppendFormat("&email={0}", HttpUtility.UrlEncode(_buyerEmailAddress));
+                if (!String.IsNullOrEmpty(BuyerEmailAddress))
+                    url.AppendFormat("&email={0}", HttpUtility.UrlEncode(BuyerEmailAddress));
 
-                url.AppendFormat("&amount={0:f2}", _amount);
+                url.AppendFormat("&amount={0:f2}", Amount);
 
-                if (LogoUrl != null && LogoUrl != "")
+                if (!String.IsNullOrEmpty(LogoUrl))
                     url.AppendFormat("&image_url={0}", HttpUtility.UrlEncode(LogoUrl));
 
-                if (_itemName != null && _itemName != "")
-                    url.AppendFormat("&item_name={0}", HttpUtility.UrlEncode(_itemName));
+                if (!String.IsNullOrEmpty(ItemName))
+                    url.AppendFormat("&item_name={0}", HttpUtility.UrlEncode(ItemName));
 
-                if (_invoiceNumber != null && _invoiceNumber != "")
-                    url.AppendFormat("&invoice={0}", HttpUtility.UrlEncode(_invoiceNumber));
+                if (!String.IsNullOrEmpty(InvoiceNumber))
+                    url.AppendFormat("&invoice={0}", HttpUtility.UrlEncode(InvoiceNumber));
 
-                if (_returnUrl != null)
-                    url.AppendFormat("&return={0}", HttpUtility.UrlEncode(_returnUrl));
+                if (!String.IsNullOrEmpty(ReturnUrl))
+                    url.AppendFormat("&return={0}", HttpUtility.UrlEncode(ReturnUrl));
 
-                if (_cancelUrl != null)
-                    url.AppendFormat("&cancel_return={0}", HttpUtility.UrlEncode(_cancelUrl));
+                if (!String.IsNullOrEmpty(CancelUrl))
+                    url.AppendFormat("&cancel_return={0}", HttpUtility.UrlEncode(CancelUrl));
             }
             catch (Exception exception)
             {

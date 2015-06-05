@@ -20,9 +20,21 @@ namespace RDN.TransactionHandler
         {
             try
             {
-                RDN.Library.Classes.Payment.Paypal.PaypalPaymentFactory.PaypalMode mode = PaypalPaymentFactory.PaypalMode.test;
+                RDN.Library.Classes.Payment.Paypal.PaypalPayment.PaypalMode mode = PaypalPayment.PaypalMode.test;
                 if (LibraryConfig.IsProduction)
-                    mode = PaypalPaymentFactory.PaypalMode.live;
+                    mode = PaypalPayment.PaypalMode.live;
+
+                string connectionStringToUse = LibraryConfig.DatabaseConnectionStringNames.FirstOrDefault();
+
+                var connectionNameParam = context.Request.Params.Get("c");
+                if (!String.IsNullOrEmpty(connectionNameParam))
+                {
+                    var nameOfConnectionString = LibraryConfig.DatabaseConnectionStringNames.Where(x => x.ToLower() == connectionNameParam.ToLower()).FirstOrDefault();
+                    if (!String.IsNullOrEmpty(nameOfConnectionString))
+                    {
+                        connectionStringToUse = nameOfConnectionString;
+                    }
+                }
 
                 IPNHandler ipn = new IPNHandler(mode, HttpContext.Current);
                 ipn.CheckStatus();

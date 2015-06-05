@@ -1255,7 +1255,7 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
-                PaypalPaymentFactory sendingPayPal = new PaypalPaymentFactory();
+                PaypalPayment sendingPayPal = new PaypalPayment();
                 sendingPayPal.Amount = (double)invoice.Subscription.Price;
                 sendingPayPal.BuyerEmailAddress = invoice.InvoiceBilling.Email;
 
@@ -1263,14 +1263,14 @@ namespace RDN.Library.Classes.Payment
                 sendingPayPal.ItemName = invoice.Subscription.Description;
                 if (invoice.Mode == PaymentMode.Live)
                 {
-                    sendingPayPal.Mode = PaypalPaymentFactory.PaypalMode.live;
+                    sendingPayPal.Mode = PaypalPayment.PaypalMode.live;
                     sendingPayPal.ReturnUrl = ServerConfig.LEAGUE_SUBSCRIPTION_RECIEPT + invoice.InvoiceId.ToString().Replace("-", "");
                     sendingPayPal.SellerEmailAddress = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
                     sendingPayPal.CancelUrl = ServerConfig.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", "");
                 }
                 else if (invoice.Mode == PaymentMode.Test)
                 {
-                    sendingPayPal.Mode = PaypalPaymentFactory.PaypalMode.test;
+                    sendingPayPal.Mode = PaypalPayment.PaypalMode.test;
                     sendingPayPal.ReturnUrl = ServerConfig.LEAGUE_SUBSCRIPTION_RECIEPT_DEBUG + invoice.InvoiceId.ToString().Replace("-", "");
                     sendingPayPal.SellerEmailAddress = ServerConfig.PAYPAL_SELLER_DEBUG_ADDRESS;
                     sendingPayPal.CancelUrl = ServerConfig.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE_DEBUG + invoice.Subscription.InternalObject.ToString().Replace("-", "");
@@ -1353,9 +1353,9 @@ namespace RDN.Library.Classes.Payment
                         EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Paywall Wating to be Purchased", invoice.InvoiceId + " Amount:" + invoice.FinancialData.BasePriceForItems + " :" + merchant.PaypalEmail);
 
                         if (invoice.Mode == PaymentMode.Live)
-                            redirectUrl = PaypalPaymentFactory.GetBaseUrl(PaypalPaymentFactory.PaypalMode.live);
+                            redirectUrl = PaypalPayment.GetBaseUrl(PaypalPayment.PaypalMode.live);
                         else if (invoice.Mode == PaymentMode.Test)
-                            redirectUrl = PaypalPaymentFactory.GetBaseUrl(PaypalPaymentFactory.PaypalMode.test);
+                            redirectUrl = PaypalPayment.GetBaseUrl(PaypalPayment.PaypalMode.test);
 
                         redirectUrl += "?cmd=_ap-payment&paykey=" + resp.payKey;
                         keyResponseParams.Add("Pay key", resp.payKey);
@@ -1452,9 +1452,9 @@ namespace RDN.Library.Classes.Payment
                             EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Store Item Waiting To be Purchased", invoice.InvoiceId + " Amount:" + invoice.FinancialData.BasePriceForItems + ":" + merchant.PaypalEmail);
 
                             if (invoice.Mode == PaymentMode.Live)
-                                redirectUrl = PaypalPaymentFactory.GetBaseUrl(PaypalPaymentFactory.PaypalMode.live);
+                                redirectUrl = PaypalPayment.GetBaseUrl(PaypalPayment.PaypalMode.live);
                             else if (invoice.Mode == PaymentMode.Test)
-                                redirectUrl = PaypalPaymentFactory.GetBaseUrl(PaypalPaymentFactory.PaypalMode.test);
+                                redirectUrl = PaypalPayment.GetBaseUrl(PaypalPayment.PaypalMode.test);
 
                             redirectUrl += "?cmd=_ap-payment&paykey=" + resp.payKey;
                             keyResponseParams.Add("Pay key", resp.payKey);
@@ -1710,9 +1710,9 @@ namespace RDN.Library.Classes.Payment
                             //EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Dues Payment Waiting To be Finished", invoice.InvoiceId + " Amount:" + duesItem.PriceAfterFees + ":" + leagueSettings.PayPalEmailAddress);
 
                             if (invoice.Mode == PaymentMode.Live)
-                                redirectUrl = PaypalPaymentFactory.GetBaseUrl(PaypalPaymentFactory.PaypalMode.live);
+                                redirectUrl = PaypalPayment.GetBaseUrl(PaypalPayment.PaypalMode.live);
                             else if (invoice.Mode == PaymentMode.Test)
-                                redirectUrl = PaypalPaymentFactory.GetBaseUrl(PaypalPaymentFactory.PaypalMode.test);
+                                redirectUrl = PaypalPayment.GetBaseUrl(PaypalPayment.PaypalMode.test);
 
                             redirectUrl += "?cmd=_ap-payment&paykey=" + resp.payKey;
                             keyResponseParams.Add("Pay key", resp.payKey);
