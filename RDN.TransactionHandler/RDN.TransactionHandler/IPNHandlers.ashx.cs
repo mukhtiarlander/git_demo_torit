@@ -7,6 +7,7 @@ using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Payment.Paypal;
 using RDN.Utilities.Config;
 using RDN.Library.Classes.Config;
+using Common.Site.AppConfig;
 
 namespace RDN.TransactionHandler
 {
@@ -15,12 +16,14 @@ namespace RDN.TransactionHandler
     /// </summary>
     public class IPNHandlers : IHttpHandler
     {
-
+        CustomConfigurationManager m = new CustomConfigurationManager();
         public void ProcessRequest(HttpContext context)
         {
             try
             {
-                RDN.Library.Classes.Payment.Paypal.PaypalPayment.PaypalMode mode = PaypalPayment.PaypalMode.test;
+                
+                
+                RDN.Library.Classes.Payment.Paypal.PaypalPaymentFactory.PaypalMode mode = PaypalPaymentFactory.PaypalMode.test;
                 if (LibraryConfig.IsProduction)
                     mode = PaypalPayment.PaypalMode.live;
 
