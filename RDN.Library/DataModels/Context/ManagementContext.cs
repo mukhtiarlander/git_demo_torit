@@ -312,11 +312,24 @@ namespace RDN.Library.DataModels.Context
         }
 
         public ManagementContext(string connectionStringName)
-            : base(String.IsNullOrEmpty(connectionStringName) ? "RDN" : connectionStringName)
+            : base( connectionStringName)
         {
         }
+        protected static ManagementContext DataContext
+        {
+            get
+            {
+                if (System.Web.HttpContext.Current.Items["ManagementContext"] == null)
+                {
+                    if (System.Web.HttpContext.Current.Items["DatabaseConnectionName"] != null)
+                        System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext(System.Web.HttpContext.Current.Items["DatabaseConnectionName"].ToString());
+                    else
+                        System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext();
+                }
 
-
+                return (ManagementContext)System.Web.HttpContext.Current.Items["ModelDataContext"];
+            }
+        }
 
         // Automatically add the times the entity got created/modified
         public override int SaveChanges()
