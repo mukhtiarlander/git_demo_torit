@@ -51,7 +51,14 @@
                         <tr>
                            
                             <td class="vertical-middle">
+                            @if (Model.IsPollManager || Model.Polls[i].IsOpenToLeague)
+                            { 
+                                <a href="@Url.Content("~/poll/viewv2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">@Model.Polls[i].Question</a>
+                            }
+                            else
+                            {
                                 @Model.Polls[i].Question
+                            }
                             </td>
                             <td class="vertical-middle">
                                 @Model.Polls[i].Voted / @Model.Polls[i].NonVotes
