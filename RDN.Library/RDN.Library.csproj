@@ -67,9 +67,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.8.0\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
- <Reference Include="Google.GData.Client">
+    <Reference Include="Google.GData.Client">
       <HintPath>..\packages\Google.GData.Client.1.9.0.0\lib\Google.GData.Client.dll</HintPath>
-    </Reference>    <Reference Include="Hammock.ClientProfile">
+    </Reference>
+    <Reference Include="Hammock.ClientProfile">
       <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
@@ -183,7 +184,7 @@
   <ItemGroup>
     <Compile Include="Cache\CacheLock.cs" />
     <Compile Include="Cache\APICache.cs" />
-    <Compile Include="Cache\FederationCache.cs" />
+    <Compile Include="Cache\ApiFederationCacheManager.cs" />
     <Compile Include="Cache\Site\RNCache.cs" />
     <Compile Include="Cache\Site\Management\Controls\ForumTopicCache.cs" />
     <Compile Include="Cache\GameCache.cs" />

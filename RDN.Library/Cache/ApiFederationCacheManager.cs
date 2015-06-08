@@ -10,11 +10,11 @@ using RDN.Portable.Classes.Federation;
 
 namespace RDN.Library.Cache
 {
-    public class ApiFederationCache : CacheLock
+    public class ApiFederationCacheManager : CacheLock
     {
         List<MemberDisplayFederation> MembersOfFederation { get; set; }
         FederationDisplay Federation { get; set; }
-        public ApiFederationCache()
+        public ApiFederationCacheManager()
         {
             MembersOfFederation = new List<MemberDisplayFederation>();
         }
@@ -58,20 +58,20 @@ namespace RDN.Library.Cache
         /// <param name="memberId"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        private static ApiFederationCache GetCache(Guid federationId, System.Web.Caching.Cache cache)
+        private static ApiFederationCacheManager GetCache(Guid federationId, System.Web.Caching.Cache cache)
         {
             try
             {
-                ApiFederationCache dataObject = (ApiFederationCache)cache["FederationCache" + federationId];
+                ApiFederationCacheManager dataObject = (ApiFederationCacheManager)cache["FederationCache" + federationId];
                 if (dataObject == null)
                 {
                     lock (ThisLock)
                     {
-                        dataObject = (ApiFederationCache)cache["FederationCache" + federationId];
+                        dataObject = (ApiFederationCacheManager)cache["FederationCache" + federationId];
 
                         if (dataObject == null)
                         {
-                            dataObject = new ApiFederationCache();
+                            dataObject = new ApiFederationCacheManager();
                             dataObject.MembersOfFederation = RDN.Library.Classes.Federation.Federation.GetMembersOfFederation(federationId);
                             dataObject.Federation = Classes.Federation.Federation.GetFederationDisplay(federationId);
 
