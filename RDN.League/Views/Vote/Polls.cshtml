@@ -62,22 +62,19 @@
                             <td class="vertical-middle">
                                 @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(Model.Polls[i].Created)
                             </td>
-                            <td class="text-center">
+                            <td class="text-center vertical-middle">
                                 @if (!Model.Polls[i].IsClosed && Model.Polls[i].IsCurrentMemberAllowedToVote)
                                 {
                                     if (Model.Polls[i].DidCurrentMemberVoted == true)
                                     {
                                         <a class="btn btn-primary btn-sm" title="You Voted" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
-                                            <span class="fa-stack voted-mark">
-                                                <i class="fa fa-thumbs-up fa-stack-1x fa-lg"></i>
-                                                <i class="fa fa-check fa-stack-2x"></i>
-                                            </span>
+                                            <i class="fa fa-thumbs-o-up"></i>
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-primary btn-sm" title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
-                                            <i class="fa fa-thumbs-up"></i>
+                                        <a class="btn btn-default btn-sm" title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
+                                            <i class="fa fa-thumbs-o-up"></i>
                                         </a>
                                     }
                                 }
@@ -87,10 +84,7 @@
                                 }
                                 else
                                 {
-                                    <span class="fa-stack" title="Vote Not Allowed">
-                                        <i class="fa fa-thumbs-up fa-stack-1x text-primary"></i>
-                                        <i class="fa fa-ban fa-stack-2x" style="color:silver"></i>
-                                    </span> 
+                                    <i class="fa fa-thumbs-o-up text-muted" title="Vote Not Allowed"></i>
                                 }
                             </td>
                             <td class="vertical-middle">
