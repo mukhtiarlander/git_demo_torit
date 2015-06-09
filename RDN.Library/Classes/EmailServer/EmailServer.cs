@@ -202,7 +202,7 @@ namespace RDN.Library.Classes.EmailServer
             {
                 Dictionary<string, string> properties = new Dictionary<string, string>();
                 properties.Add("body", body);
-                EmailServerFactory.CreateNew().Initialize(configurationName).SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
             }
             catch (Exception exception)
@@ -226,7 +226,7 @@ namespace RDN.Library.Classes.EmailServer
             try
             {
 
-                EmailServerFactory.CreateNew().Initialize(connectionStringName).SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
             }
             catch (Exception exception)
