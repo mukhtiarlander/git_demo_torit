@@ -196,7 +196,7 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="priority"></param>
-        public static void SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important, string configurationName = null)
+        public static void SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important)
         {
             try
             {
@@ -207,7 +207,7 @@ namespace RDN.Library.Classes.EmailServer
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), configurationName: configurationName);
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
         }
 
@@ -220,7 +220,7 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="properties">Email properties. Each property is defined as a key/value item. A property can for instance be body/{value] and then that will be parsed into the layout at the place of the %body% tag</param>
         /// <param name="layout">The layout name. For available names, open the database and look inside the table RDN_EmailServer_EmailLayouts</param>
         /// <param name="priority"></param>
-        public static bool SendEmail(string from, string displayNameFrom, string to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important, string connectionStringName = null)
+        public static bool SendEmail(string from, string displayNameFrom, string to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important)
         {
 
             try

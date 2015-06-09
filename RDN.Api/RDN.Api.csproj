@@ -274,10 +274,12 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\Controls\ForumController.cs" />
     <Compile Include="Controllers\Controls\VoteController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\League\DuesController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Controllers\Member\MessageController.cs" />
+    <Compile Include="Controllers\PaypalIpnController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\LeagueController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -311,6 +313,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\Email\" />
+    <Folder Include="Views\PaypalIpn\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -27,9 +27,9 @@ namespace RDN.Library.Classes.Error
         /// <param name="errorSeverity">The severity of the error. Used for sorting on the error display webpage.</param>
         /// <param name="parameters">Parameters or variables that whose vaules should be saved. Easiest is to get a list from this class, var v = ErrorManager.GetEmptyErrorList(); and then add the data like this: v.Add( () => myImportantVariable ); Variables, arrays, lists and dictionaries work.</param>
         /// <param name="additionalInformation">Additional information that could be useful.</param>        
-        public static void AddException(Exception e, Type type, ErrorGroupEnum? errorGroup = null, ErrorSeverityEnum? errorSeverity = null, IList<Expression<Func<object>>> parameters = null, string additionalInformation = null, string configurationName = null)
+        public static void AddException(Exception e, Type type, ErrorGroupEnum? errorGroup = null, ErrorSeverityEnum? errorSeverity = null, IList<Expression<Func<object>>> parameters = null, string additionalInformation = null)
         {
-            AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorGroup, errorSeverity, parameters, additionalInformation), configurationName);
+            AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorGroup, errorSeverity, parameters, additionalInformation));
         }
 
 
@@ -37,16 +37,12 @@ namespace RDN.Library.Classes.Error
         /// Stores the error object in the database
         /// </summary>
         /// <param name="errorObject">Error object to store</param>
-        public static void AddException(ErrorObject errorObject, string configurationName = null)
+        public static void AddException(ErrorObject errorObject)
         {
             try
             {
                 CustomConfigurationManager _configManager = new CustomConfigurationManager();
-                ManagementContext dc;
-                if (!String.IsNullOrEmpty(configurationName))
-                    dc = new ManagementContext(_configManager.GetSubElement(configurationName, StaticConfig.ConnectionString).Value);
-                else
-                    dc = new ManagementContext();
+                ManagementContext dc = new ManagementContext();
 
                 var databaseError = new DataModels.Exception.Exception
                                         {

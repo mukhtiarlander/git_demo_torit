@@ -295,13 +295,6 @@ namespace RDN.Library.Classes.Config
         }
  
 
-        public static List<string> DatabaseConnectionStringNames
-        {
-            get
-            {
-                string conns = ConfigurationManager.AppSettings["DatabaseConnectionStringNames"];
-                return conns.Split(',').ToList();
-            }
-        }
+        
     }
 }

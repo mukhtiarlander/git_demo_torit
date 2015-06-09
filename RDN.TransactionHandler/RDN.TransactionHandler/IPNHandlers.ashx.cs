@@ -22,19 +22,9 @@ namespace RDN.TransactionHandler
             try
             {
 
-                string connectionStringToUse = LibraryConfig.DatabaseConnectionStringNames.FirstOrDefault();
 
-                var connectionNameParam = context.Request.Params.Get("c");
-                if (!String.IsNullOrEmpty(connectionNameParam))
-                {
-                    var nameOfConnectionString = LibraryConfig.DatabaseConnectionStringNames.Where(x => x.ToLower() == connectionNameParam.ToLower()).FirstOrDefault();
-                    if (!String.IsNullOrEmpty(nameOfConnectionString))
-                    {
-                        connectionStringToUse = nameOfConnectionString;
-                    }
-                }
+                IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
 
-                IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current, connectionStringToUse);
                 ipn.CheckStatus();
                 ipn.InsertNewIPNNotification();
 

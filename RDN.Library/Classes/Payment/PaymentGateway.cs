@@ -24,17 +24,11 @@ namespace RDN.Library.Classes.Payment
 {
     public sealed class PaymentGateway
     {
-        string _configurationName;
-        CustomConfigurationManager _configManager = new CustomConfigurationManager();
         public PaymentGateway()
         {
 
         }
 
-        public PaymentGateway(string configurationName)
-        {
-            _configurationName = configurationName;
-        }
 
         //ToDo: Delete old shopping cart when payment has been recieved? or when dispatched to google?. Shopping cart will have the same id as the invoice.
         // ToDo: WHEN DELETE OLD SHOP CART. Remember to reduce the number of items in stock.
@@ -225,8 +219,7 @@ namespace RDN.Library.Classes.Payment
             if (!ValidateInvoice(invoiceId)) return null;
 
             ManagementContext mc = new ManagementContext();
-            if (!String.IsNullOrEmpty(_configurationName))
-                mc = new ManagementContext(_configManager.GetSubElement(_configurationName, StaticConfig.ConnectionString).Value);
+            
             var invoice = GetDatabaseInvoice(ref mc, invoiceId);
             if (invoice == null)
                 return null;
@@ -437,7 +430,7 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
-                var dc = new ManagementContext(_configurationName);
+                var dc = new ManagementContext();
                 var invoice = dc.Invoices.Where(x => x.InvoiceId == invoiceId).FirstOrDefault();
                 if (invoice != null)
                 {

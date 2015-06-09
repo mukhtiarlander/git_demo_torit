@@ -288,6 +288,8 @@
     <Compile Include="Classes\League\Sponsor.cs" />
     <Compile Include="Classes\Mobile\Enums\NotificationTypeEnum.cs" />
     <Compile Include="Classes\Mobile\MobileNotificationFactory.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPN\PaypalStatus.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPN\ResponseType.cs" />
     <Compile Include="Classes\Payment\Striped\StripeResponse.cs" />
     <Compile Include="Classes\RN\Communication\Email.cs" />
     <Compile Include="Classes\RN\RSS\RSSFactory.cs" />
@@ -359,7 +361,7 @@
     <Compile Include="Classes\Payment\Money\CurrencyConverter.cs" />
     <Compile Include="Classes\Payment\Money\CurrencyExchange.cs" />
     <Compile Include="Classes\Payment\Money\ExchangeRateJson.cs" />
-    <Compile Include="Classes\Payment\Paypal\IPNHandler.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPN\IPNHandler.cs" />
     <Compile Include="Classes\Payment\Paypal\PaypalDbFactory.cs" />
     <Compile Include="Classes\Payment\Paypal\PaypalPaymentFactory.cs" />
     <Compile Include="Classes\Payment\Paypal\PayPalMessage.cs" />
