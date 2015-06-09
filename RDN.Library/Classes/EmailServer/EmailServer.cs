@@ -226,7 +226,7 @@ namespace RDN.Library.Classes.EmailServer
             try
             {
 
-                EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+             return    EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
             }
             catch (Exception exception)

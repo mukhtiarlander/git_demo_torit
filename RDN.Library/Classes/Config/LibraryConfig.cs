@@ -293,6 +293,14 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["MemberName"];
             }
         }
+
+        public static string ApiAuthenticationKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ApiAuthenticationKey"];
+            }
+        }
  
 
         

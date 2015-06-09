@@ -133,6 +133,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.WindowsPhone.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="ScheduleWidget">
       <HintPath>..\packages\ScheduleWidget.2.4.0\lib\NET40\ScheduleWidget.dll</HintPath>
     </Reference>
@@ -204,6 +207,8 @@
     <Compile Include="Cache\MemberCache.cs" />
     <Compile Include="Cache\Site\Management\ManagementCache.cs" />
     <Compile Include="Cache\Site\PublicSiteCache.cs" />
+    <Compile Include="Classes\Api\Email\EmailManagerApi.cs" />
+    <Compile Include="Classes\Api\RestRequestApi.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\IntroductoryEmailEnum.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\UserTaskFactoryType.cs" />
     <Compile Include="Classes\Billing\Classes\UpdateSubscription.cs" />
