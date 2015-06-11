@@ -493,8 +493,8 @@ namespace RDN.League.Controllers
             try
             {
                 var memberId = RDN.Library.Classes.Account.User.GetMemberId();
-
-                var topicId = Forum.CreateNewForumTopicAndPost(post.ForumId, post.ForumType, post.Subject, post.Message, memberId, post.GroupId, post.BroadcastMessage, post.PinMessage, post.LockMessage, post.ChosenCategory);
+                
+                var topicId = Forum.CreateNewForumTopicAndPost(post.ForumId, post.ForumType, post.Subject, post.Message, memberId, post.GroupId, post.BroadcastMessage, post.PinMessage, post.LockMessage, post.ChosenCategory, post.Mentions);
                 if (topicId > 0)
                     return Redirect(Url.Content("~/forum/post/view/" + post.ForumId.ToString().Replace("-", "") + "/" + topicId));
             }

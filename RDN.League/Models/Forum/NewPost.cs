@@ -31,7 +31,7 @@ namespace RDN.League.Models.Forum
         public long ChosenCategory { get; set; }
         public HttpPostedFileBase File { get; set; }
         public string Subject { get; set; }
-
+        public string Mentions { get; set; }
 
         [Required]
         [AllowHtml]

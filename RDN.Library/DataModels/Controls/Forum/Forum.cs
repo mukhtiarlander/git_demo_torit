@@ -25,6 +25,7 @@ namespace RDN.Library.DataModels.Forum
         public virtual ICollection<ForumCategories> Categories { get; set; }
         public virtual Federation.Federation FederationOwner { get; set; }
         public virtual League.League LeagueOwner { get; set; }
+      
         #endregion
 
         #region Contructor
