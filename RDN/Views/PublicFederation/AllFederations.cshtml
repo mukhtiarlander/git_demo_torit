@@ -1,13 +1,13 @@
 ﻿@using RDN.Utilities.Paging
 @model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Classes.Federation.FederationDisplay>>
 @{
-    ViewBag.Title = "All Roller Derby Federations";
+    ViewBag.Title = "All "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Federations";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
         <h2 class="page-header text-center">
-            @Model.Model.NumberOfRecords.ToString("N0") Roller Derby Federations World Wide
+            @Model.Model.NumberOfRecords.ToString("N0") @RDN.Library.Classes.Config.LibraryConfig.SportName Federations World Wide
         </h2>
         <div class="divider"></div>
         

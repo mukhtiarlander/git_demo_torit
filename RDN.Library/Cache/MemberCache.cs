@@ -26,6 +26,7 @@ using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Account.Enums.Settings;
 using RDN.Portable.Classes.Controls.Calendar;
 using RDN.Library.DataModels.Context;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Cache
 {
@@ -1363,7 +1364,7 @@ namespace RDN.Library.Cache
                         dataObject.IsAdmin = System.Web.Security.Roles.IsUserInRole("admin");
                         dataObject.OwnersOfFederation = RDN.Library.Classes.Federation.Federation.GetAllOwnedFederations(memberId);
 
-                        if (SiteSingleton.Instance.IsProduction)
+                        if (LibraryConfig.IsProduction)
                         {
                             dataObject.memberDisplay = RDN.Library.Classes.Account.User.GetMemberDisplay(memberId);
                         }

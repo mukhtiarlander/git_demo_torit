@@ -16,7 +16,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         private string _strRequest = "";
         private string _smtpHost, _fromEmail, _toEmail, _fromEmailPassword, _businessWebsite, _fromEmailUserName;
         private int _smtpPort;
-        string _txnID, _txnType, _paymentStatus, _receiverEmail, _itemName, _itemNumber, _quantity, _invoice, _custom,
+        string _txnID, _txnType, _paymentStatus, _receiverEmail, _itemName, _itemNumber, _quantity, _invoice, _connectionName, _custom,
  _paymentGross, _payerEmail, _pendingReason, _paymentDate, _paymentFee, _firstName, _lastName, _address,
  _city, _state, _zip, _country, _countryCode, _addressStatus, _payerStatus, _payerID, _paymentType, _notifyVersion,
  _verifySign, _response, _payerPhone, _payerBusinessName, _business, _receiverID, _memo, _tax, _qtyCartItems,
@@ -206,6 +206,11 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             get { return _invoice; }
             set { _invoice = value; }
+        }
+        public string ConfigurationName
+        {
+            get { return _connectionName; }
+            set { _connectionName = value; }
         }
 
         /// <summary>

@@ -6,6 +6,8 @@ using System.Web;
 using RDN.Library.DataModels.Context;
 using RDN.Utilities.Error;
 using RDN.Utilities.Config;
+using Common.Site.AppConfig;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Error
 {
@@ -29,7 +31,7 @@ namespace RDN.Library.Classes.Error
         {
             AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorGroup, errorSeverity, parameters, additionalInformation));
         }
-        
+
 
         /// <summary>
         /// Stores the error object in the database
@@ -39,7 +41,9 @@ namespace RDN.Library.Classes.Error
         {
             try
             {
-                var dc = new ManagementContext();
+                CustomConfigurationManager _configManager = new CustomConfigurationManager();
+                ManagementContext dc = new ManagementContext();
+
                 var databaseError = new DataModels.Exception.Exception
                                         {
                                             AdditionalInformation = errorObject.AdditionalInformation,
@@ -136,7 +140,7 @@ namespace RDN.Library.Classes.Error
             { AddException(except, except.GetType()); }
         }
 
-    
+
         public static List<Classes.Error> GetErrorObjects(int recordsToSkip, int numberOfRecordsToPull)
         {
             var output = new List<Classes.Error>();

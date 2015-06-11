@@ -11,6 +11,7 @@ using RDN.Library.Classes.Store.Classes;
 using RDN.Library.Classes.Store.Display;
 using RDN.Library.DataModels.Store;
 using CheckOut = RDN.Raspberry.Models.Store.CheckOut;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Raspberry.Controllers
 {
@@ -154,7 +155,7 @@ namespace RDN.Raspberry.Controllers
             var pg = new PaymentGateway();
 
             var invoice = pg.StartInvoiceWizard()
-                .Initalize(checkout.MerchantId, checkout.Currency, paymentProvider, PaymentMode.Live, ChargeTypeEnum.InvoiceItem)
+                .Initalize(checkout.MerchantId, checkout.Currency, paymentProvider, LibraryConfig.IsProduction, ChargeTypeEnum.InvoiceItem)
                 .SetShipping(checkout.TotalShipping, ShippingType.Postal)
                 .SetInvoiceId(checkout.ShoppingCart.ShoppingCartId);
 

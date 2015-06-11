@@ -42,6 +42,7 @@ using RDN.Portable.Classes.League.Classes;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Library.Classes.League;
 using RDN.Portable.Classes.Account.Enums;
+using RDN.Library.Classes.Config;
 
 
 
@@ -550,7 +551,7 @@ namespace RDN.League.Controllers
                     reportSheet.Name = "Roster"; //Setting Sheet's name
                     reportSheet.Cells.Style.Font.Size = 11; //Default font size for whole sheet
                     reportSheet.Cells.Style.Font.Name = "Calibri"; //Default Font name for whole sheet
-                    reportSheet.Cells[1, 1].Value = "Derby Name";
+                    reportSheet.Cells[1, 1].Value = RDN.Library.Classes.Config.LibraryConfig.MemberName;
                     reportSheet.Cells[1, 2].Value = "#";
                     reportSheet.Cells[1, 3].Value = "First Name";
                     reportSheet.Cells[1, 4].Value = "Last Name";
@@ -642,7 +643,7 @@ namespace RDN.League.Controllers
                             groupSheet.Name = RDN.Utilities.Strings.StringExt.ToExcelFriendly(group.GroupName); //Setting Sheet's name
                             groupSheet.Cells.Style.Font.Size = 11; //Default font size for whole sheet
                             groupSheet.Cells.Style.Font.Name = "Calibri"; //Default Font name for whole sheet
-                            groupSheet.Cells[1, 1].Value = "Derby Name";
+                            groupSheet.Cells[1, 1].Value = RDN.Library.Classes.Config.LibraryConfig.MemberName;
                             groupSheet.Cells[1, 2].Value = "Number";
                             groupSheet.Cells[1, 3].Value = "First Name";
                             groupSheet.Cells[1, 4].Value = "Last Name";
@@ -1333,7 +1334,7 @@ namespace RDN.League.Controllers
 
                 using (ExcelPackage p = new ExcelPackage())
                 {
-                    p.Workbook.Properties.Author = "RDNation";
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Date For Member with " + league.Name;
                     p.Workbook.Worksheets.Add("Dates For Members");
                     ExcelWorksheet ws = p.Workbook.Worksheets[1];
@@ -1350,7 +1351,7 @@ namespace RDN.League.Controllers
                     DataRow dr0 = dt.NewRow();
                     dr0[0] = "First Name";
                     dr0[1] = "Last Name";
-                    dr0[2] = "Derby Name";
+                    dr0[2] = RDN.Library.Classes.Config.LibraryConfig.MemberName;
                     dr0[3] = "Derby Number";
                     dr0[4] = "Skills Date";
                     dr0[5] = "Date of Birth";
@@ -1411,7 +1412,7 @@ namespace RDN.League.Controllers
 
                 using (ExcelPackage p = new ExcelPackage())
                 {
-                    p.Workbook.Properties.Author = "RDNation";
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Jobs For Member with " + league.Name;
                     p.Workbook.Worksheets.Add("Jobs For Members");
                     ExcelWorksheet ws = p.Workbook.Worksheets[1];
@@ -1482,7 +1483,7 @@ namespace RDN.League.Controllers
                 var members = RDN.Library.Classes.League.LeagueFactory.GetLeagueMembersDisplay(league.LeagueId);
                 using (ExcelPackage p = new ExcelPackage())
                 {
-                    p.Workbook.Properties.Author = "RDNation";
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Insurance For Member with " + league.Name;
                     p.Workbook.Worksheets.Add("Jobs For Members");
                     ExcelWorksheet ws = p.Workbook.Worksheets[1];

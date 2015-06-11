@@ -52,7 +52,7 @@ namespace RDN.Api.Controllers
         {
             try
             {
-
+                
                 return Json(SiteCache.GetMobileNotifications(), JsonRequestBehavior.AllowGet);
 
             }

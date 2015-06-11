@@ -1,11 +1,11 @@
 ﻿@model List<RDN.Library.Classes.Store.Display.DisplayStore>
 @{
-    ViewBag.Title = "Shops at RDNation";
+    ViewBag.Title = "Shops at " + @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName;
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
 
 <div class="backLinks">
-    <a href="@Url.Content("~/")">Home</a> > Shops at RDNation
+    <a href="@Url.Content("~/")">Home</a> > Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName
 </div>
 <div class="shopsList">
     @foreach (var shop in Model)

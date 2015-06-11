@@ -32,6 +32,8 @@ namespace RDN.TransactionHandler
 
         }
 
+        
+
         protected void Application_Start()
         {
             Library.DatabaseInitializers.ManagementInitializer.Initialize(); // Remove the validation on the database. Meaning that we can update the database without having to update the payments
@@ -40,9 +42,7 @@ namespace RDN.TransactionHandler
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            //ErrorDatabaseManager.AddException(new Exception("Transactions Just Started Up"), GetType());
-
-            SiteSingleton.Instance.IsProduction = Convert.ToBoolean(Library.Classes.Config.LibraryConfig.IsProduction);
+                        
         }
     }
 }

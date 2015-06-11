@@ -27,6 +27,8 @@
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -350,12 +352,83 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\AATemplateForAllEmails.txt" />
+    <Content Include="App_Data\AddedToANewGame.txt" />
+    <Content Include="App_Data\AutomatedStats.txt" />
+    <Content Include="App_Data\Blank.txt" />
+    <Content Include="App_Data\CalendarSendNewEvent.txt" />
+    <Content Include="App_Data\Default.txt" />
+    <Content Include="App_Data\DuesCollectingNotification.txt" />
+    <Content Include="App_Data\DuesCollectingNotificationBlank.txt" />
+    <Content Include="App_Data\DuesPaymentMadeForLeague.txt" />
+    <Content Include="App_Data\DuesPaymentMadeForUser.txt" />
+    <Content Include="App_Data\EmailUnFilledProfilesTask.txt" />
+    <Content Include="App_Data\FederationApproved.txt" />
+    <Content Include="App_Data\LeagueApproved.txt" />
+    <Content Include="App_Data\LeagueCreatedMemberProfile.txt" />
+    <Content Include="App_Data\LeagueRejected.txt" />
+    <Content Include="App_Data\LeagueSubscriptionFailedPayment.txt" />
     <Content Include="App_Data\LongQuestionsAndAnswersPoll.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\MarkdownSharp.dll" />
+    <Content Include="App_Data\MarkdownSharp.pdb" />
+    <Content Include="App_Data\MemberAddedToManageDerbyGame.txt" />
+    <Content Include="App_Data\MemberAddedToOwnershipGroupOfLeague.txt" />
+    <Content Include="App_Data\NewFederationAdmin.txt" />
+    <Content Include="App_Data\NewLeagueAdmin.txt" />
+    <Content Include="App_Data\OwnershipTakenOfLeague.txt" />
+    <Content Include="App_Data\PasswordChanged.txt" />
+    <Content Include="App_Data\PayPalEmailIsNotConfirmed.txt" />
+    <Content Include="App_Data\PayPalEmailIsRestricted.txt" />
+    <Content Include="App_Data\PaywallPaid.txt" />
+    <Content Include="App_Data\PaywallPaidMerchant.txt" />
+    <Content Include="App_Data\PaywallRefunded.txt" />
+    <Content Include="App_Data\PaywallRefundedMerchant.txt" />
     <Content Include="App_Data\PetPoll.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\PollNewPollCreated.txt" />
+    <Content Include="App_Data\RDNJobNewCreated.txt" />
+    <Content Include="App_Data\RDNSetupCalendarAndDues.txt" />
+    <Content Include="App_Data\RDNShopsReviewPurchaseMade.txt" />
+    <Content Include="App_Data\RDNWelcomeMessageInviteMembers.txt" />
+    <Content Include="App_Data\ReceiptForLeagueSubscription.txt" />
+    <Content Include="App_Data\RecoverLostPassword.txt" />
+    <Content Include="App_Data\RNAddedAsEditor.txt" />
+    <Content Include="App_Data\RNAddedAsTrustedEditor.txt" />
+    <Content Include="App_Data\RNAutomatedEmailForWriter.txt" />
+    <Content Include="App_Data\RNMemberLeagueOfTheWeek.txt" />
+    <Content Include="App_Data\RNMoneyAddedToAccount.txt" />
+    <Content Include="App_Data\RNNewPostPublished.txt" />
+    <Content Include="App_Data\RNPaymentJustCompleted.txt" />
+    <Content Include="App_Data\RNPaymentJustPaid.txt" />
+    <Content Include="App_Data\RNPaymentRequested.txt" />
+    <Content Include="App_Data\RNPostAwaitingApproval.txt" />
+    <Content Include="App_Data\RNWriterRegistered.txt" />
+    <Content Include="App_Data\SendEmailVerificationWithoutPassword.txt" />
+    <Content Include="App_Data\SendEmailVerificationWithPassword.txt" />
+    <Content Include="App_Data\SendForumBroadcastMessageToUserGroup.txt" />
+    <Content Include="App_Data\SendLatestConversationsThreadToUser.txt" />
+    <Content Include="App_Data\SendLatestForumTopicsToUser.txt" />
+    <Content Include="App_Data\SendMessageToUserFromOtherUser.txt" />
+    <Content Include="App_Data\ShopHasNoItems.txt" />
+    <Content Include="App_Data\ShopIsNotPublished.txt" />
+    <Content Include="App_Data\StoreItemExpiringSoon.txt" />
+    <Content Include="App_Data\StoreSendReceiptForOrder.txt" />
+    <Content Include="App_Data\StoreSendSellerAboutOrdersBought.txt" />
+    <Content Include="App_Data\StoreSendShippedItemsForOrder.txt" />
+    <Content Include="App_Data\SubscriptionCardWasDeclined.txt" />
+    <Content Include="App_Data\SubscriptionForLeagueExpiringAdmin.txt" />
+    <Content Include="App_Data\SubscriptionHasExpiredTask.txt" />
+    <Content Include="App_Data\SubscriptionIsAboutToRunOutTask.txt" />
+    <Content Include="App_Data\SubscriptionWasCancelled.txt" />
+    <Content Include="App_Data\SubscriptionWillAutoRenew.txt" />
+    <Content Include="App_Data\TextMessage.txt" />
+    <Content Include="App_Data\TextMessageNotVerified.txt" />
+    <Content Include="App_Data\TournamentMemberAddedToManage.txt" />
+    <Content Include="App_Data\UserAddedToLeagueGroup.txt" />
+    <Content Include="App_Data\UsernameChanged.txt" />
     <Content Include="app_offline1.htm" />
     <Content Include="browserconfig.xml" />
     <Content Include="Content\tinymce.mentions.css" />
@@ -1247,5 +1320,12 @@
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
 </Project>

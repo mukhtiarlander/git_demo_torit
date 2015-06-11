@@ -17,11 +17,19 @@ using RDN.Library.DataModels.PaymentGateway.Merchants;
 using Invoice = RDN.Library.Classes.Payment.Classes.Invoice.Invoice;
 using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Classes.Payment.Enums;
+using Common.Site.AppConfig;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment
 {
     public sealed class PaymentGateway
     {
+        public PaymentGateway()
+        {
+
+        }
+
+
         //ToDo: Delete old shopping cart when payment has been recieved? or when dispatched to google?. Shopping cart will have the same id as the invoice.
         // ToDo: WHEN DELETE OLD SHOP CART. Remember to reduce the number of items in stock.
         // ToDo: Cronjob to delete old shopping cards / old invoices that has expired
@@ -210,7 +218,8 @@ namespace RDN.Library.Classes.Payment
             var output = new DisplayInvoice();
             if (!ValidateInvoice(invoiceId)) return null;
 
-            var mc = new ManagementContext();
+            ManagementContext mc = new ManagementContext();
+            
             var invoice = GetDatabaseInvoice(ref mc, invoiceId);
             if (invoice == null)
                 return null;
@@ -446,7 +455,7 @@ namespace RDN.Library.Classes.Payment
         {
             return null;
         }
-     
+
         public Invoice GetLatestInvoiceSubscriptionForLeagueId(Guid leagueId)
         {
             try

@@ -10,6 +10,7 @@ using RDN.Portable.Config;
 using RDN.Library.Classes.Payment.Enums;
 using RDN.Library.Classes.Payment.Classes.Invoice;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Controllers
 {
@@ -21,14 +22,14 @@ namespace RDN.Controllers
         public ActionResult RNContent()
         {
             PaymentViewModel model = new PaymentViewModel();
-            
-            model.StripeKey= Library.Classes.Config.LibraryConfig.StripeApiPublicKey;
+
+            model.StripeKey = Library.Classes.Config.LibraryConfig.StripeApiPublicKey;
             return View(model);
         }
         [HttpPost]
         public ActionResult RNContent(PaymentViewModel model)
         {
-            var options = InvoiceFactory.CreateNew().Initalize(ServerConfig.RDNATION_STORE_ID, "GBP", PaymentProvider.Stripe, (PaymentMode)Enum.Parse(typeof(PaymentMode), Library.Classes.Config.LibraryConfig.PaymentMode), ChargeTypeEnum.Subscription)
+            var options = InvoiceFactory.CreateNew().Initalize(ServerConfig.RDNATION_STORE_ID, "GBP", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
              .SetStripeTokenId(HttpContext.Request.Form["stripeToken"].ToString())
             .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription

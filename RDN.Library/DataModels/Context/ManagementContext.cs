@@ -271,7 +271,7 @@ namespace RDN.Library.DataModels.Context
         public DbSet<MobileNotificationSettings> MobileSettings { get; set; }
 
         // **************** Social **************** \\
-        public DbSet<SocialAuthKeys> SocialAuthKeys{ get; set; }
+        public DbSet<SocialAuthKeys> SocialAuthKeys { get; set; }
 
         // **************** SiteHistory **************** \\
         public DbSet<FrontPageHistory> FrontPageHistory { get; set; }
@@ -309,14 +309,27 @@ namespace RDN.Library.DataModels.Context
         public ManagementContext()
             : base("RDN")
         {
-            //Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
         }
 
-    //    static ManagementContext()
-    //{
-    //    Database.SetInitializer<ManagementContext>(null); // must be turned off before mini profiler runs
-    //}
+        public ManagementContext(string connectionStringName)
+            : base( connectionStringName)
+        {
+        }
+        protected static ManagementContext DataContext
+        {
+            get
+            {
+                if (System.Web.HttpContext.Current.Items["ManagementContext"] == null)
+                {
+                    if (System.Web.HttpContext.Current.Items["DatabaseConnectionName"] != null)
+                        System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext(System.Web.HttpContext.Current.Items["DatabaseConnectionName"].ToString());
+                    else
+                        System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext();
+                }
 
+                return (ManagementContext)System.Web.HttpContext.Current.Items["ModelDataContext"];
+            }
+        }
 
         // Automatically add the times the entity got created/modified
         public override int SaveChanges()

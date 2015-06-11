@@ -29,6 +29,7 @@ using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Federation.Enums;
 using RDN.Library.Cache.Singletons;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.AutomatedTask
 {
@@ -199,7 +200,7 @@ namespace RDN.Library.Classes.AutomatedTask
                     emailTask.HoursBetweenEachRunOfTask = HOURS_BETWEEN_TEXTMESSAGE_CHECK;
                     if (emailTask.LastRun.AddHours(HOURS_BETWEEN_TEXTMESSAGE_CHECK) < DateTime.UtcNow)
                     {
-                        var emailData = new Dictionary<string, string> { { "body", "RDNation Text Messages Still Running" } };
+                        var emailData = new Dictionary<string, string> { { "body", @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName + " Text Messages Still Running" } };
 
                         EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, "AdminEmail", ServerConfig.TEXT_MESSAGE_EMAIL, ServerConfig.ADMIN_PHONE_NUMBER, emailData, EmailServerLayoutsEnum.TextMessage, Library.DataModels.EmailServer.Enums.EmailPriority.Important);
                     }
@@ -240,10 +241,11 @@ namespace RDN.Library.Classes.AutomatedTask
                     emailTask.HoursBetweenEachRunOfTask = HOURS_BETWEEN_MASS_ROLLIN_NEWS_PAYMENTS;
                     if (emailTask.LastRun.AddHours(HOURS_BETWEEN_MASS_ROLLIN_NEWS_PAYMENTS) < DateTime.UtcNow)
                     {
+                        var mode = LibraryConfig.IsProduction;
 
                         Payment.PaymentGateway pg = new Payment.PaymentGateway();
                         pg.StartInvoiceWizard()
-                            .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", Payment.Enums.PaymentProvider.Paypal, SiteSingleton.Instance.IsPayPalLive , Payment.Enums.ChargeTypeEnum.RollinNewsWriterPayouts)
+                            .Initalize(RollinNewsConfig.MERCHANT_ID, "USD", Payment.Enums.PaymentProvider.Paypal, mode, Payment.Enums.ChargeTypeEnum.RollinNewsWriterPayouts)
                             .FinalizeInvoice();
 
                     }
@@ -310,7 +312,7 @@ namespace RDN.Library.Classes.AutomatedTask
                         { "publicProfile", "https://rdnation.com/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "") }, 
                         { "editProfileLink", "https://league.rdnation.com/member/edit" } };
 
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Roller Derby Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
+                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your " + RDN.Library.Classes.Config.LibraryConfig.SportName + " Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
                                 emailsSent += 1;
                             }
                             catch (Exception exception)

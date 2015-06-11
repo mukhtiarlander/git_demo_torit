@@ -12,6 +12,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         public string receiver { get; set; }
         public string paymentType { get; set; }
         public string invoiceId { get; set; }
+        public string configurationName { get; set; }
         public string amount { get; set; }
         public string status { get; set; }
         public string id { get; set; }

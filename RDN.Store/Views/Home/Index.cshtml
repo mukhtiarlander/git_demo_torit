@@ -1,7 +1,7 @@
 ﻿@using RDN.Store.Models.Utilities.Paging
 @model RDN.Store.Models.OutModel.GenericSingleModel<RDN.Store.Models.Utilities.SimpleModPager<RDN.Library.Classes.Store.Classes.StoreItemJson>>
 @{
-    ViewBag.Title = "Roller Derby Online Store";
+    ViewBag.Title = @RDN.Library.Classes.Config.LibraryConfig.SportName+" Online Store";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div>

@@ -22,6 +22,7 @@ using RDN.Library.Util;
 using RDN.Portable.Config;
 using RDN.Library.Cache.Singletons;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -41,7 +42,7 @@ namespace RDN.League.Controllers
             {
                 SiteMessage message = new SiteMessage();
                 message.MessageType = SiteMessageType.Error;
-                message.Message = "Those features require a subscription to RDNation. Please subscribe to Enable those features.";
+                message.Message = "Those features require a subscription to " + LibraryConfig.WebsiteShortName + ". Please subscribe to Enable those features.";
                 this.AddMessage(message);
             }
             else if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.sc.ToString())
@@ -75,8 +76,8 @@ namespace RDN.League.Controllers
                 add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
                 add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
 
-               // add.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_DEBUG_KEY + "');";
-                add.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
+
             }
             catch (Exception exception)
             {
@@ -142,9 +143,8 @@ namespace RDN.League.Controllers
                     lengthOfDays = ts.Days;
                 }
 
-
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, SiteSingleton.Instance.IsPayPalLive, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
@@ -224,7 +224,7 @@ namespace RDN.League.Controllers
                 var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.LeagueId);
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", PaymentProvider.Stripe, PaymentMode.Live, ChargeTypeEnum.Cancel_Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
                    .SetInvoiceId(bi.InvoiceId)
                         .FinalizeInvoice();
 

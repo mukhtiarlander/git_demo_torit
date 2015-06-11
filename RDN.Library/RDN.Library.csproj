@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>2b3a0f38</NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,6 +133,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PushSharp.2.2.1.0\lib\net40\PushSharp.WindowsPhone.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="ScheduleWidget">
       <HintPath>..\packages\ScheduleWidget.2.4.0\lib\NET40\ScheduleWidget.dll</HintPath>
     </Reference>
@@ -202,10 +207,13 @@
     <Compile Include="Cache\MemberCache.cs" />
     <Compile Include="Cache\Site\Management\ManagementCache.cs" />
     <Compile Include="Cache\Site\PublicSiteCache.cs" />
+    <Compile Include="Classes\Api\Email\EmailManagerApi.cs" />
+    <Compile Include="Classes\Api\RestRequestApi.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\IntroductoryEmailEnum.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\UserTaskFactoryType.cs" />
     <Compile Include="Classes\Billing\Classes\UpdateSubscription.cs" />
     <Compile Include="Classes\Config\LibraryConfig.cs" />
+    <Compile Include="Classes\Config\StaticConfig.cs" />
     <Compile Include="Classes\Controls\Calendar\CalendarEvent.cs" />
     <Compile Include="Classes\Controls\Calendar\CalendarSyncGoogle.cs" />
     <Compile Include="Classes\Controls\Calendar\Models\CalendarImport.cs" />
@@ -285,6 +293,9 @@
     <Compile Include="Classes\League\Sponsor.cs" />
     <Compile Include="Classes\Mobile\Enums\NotificationTypeEnum.cs" />
     <Compile Include="Classes\Mobile\MobileNotificationFactory.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPN\PaypalStatus.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPN\ResponseType.cs" />
+    <Compile Include="Classes\Payment\Striped\StripeResponse.cs" />
     <Compile Include="Classes\RN\Communication\Email.cs" />
     <Compile Include="Classes\RN\RSS\RSSFactory.cs" />
     <Compile Include="Classes\Site\Enums\SiteType.cs" />
@@ -341,7 +352,6 @@
     <Compile Include="Classes\Payment\Classes\Invoice\InvoiceDuesItem.cs" />
     <Compile Include="Classes\Payment\Classes\Display\DisplayPaywall.cs" />
     <Compile Include="Classes\Payment\Enums\ChargeTypeEnum.cs" />
-    <Compile Include="Classes\Payment\Enums\PaymentMode.cs" />
     <Compile Include="Classes\Payment\Enums\Paypal\ActionTypEnum.cs" />
     <Compile Include="Classes\Payment\Enums\Paypal\FeesPayerEnum.cs" />
     <Compile Include="Classes\Payment\Enums\Paypal\PaymentTypeEnum.cs" />
@@ -356,7 +366,7 @@
     <Compile Include="Classes\Payment\Money\CurrencyConverter.cs" />
     <Compile Include="Classes\Payment\Money\CurrencyExchange.cs" />
     <Compile Include="Classes\Payment\Money\ExchangeRateJson.cs" />
-    <Compile Include="Classes\Payment\Paypal\IPNHandler.cs" />
+    <Compile Include="Classes\Payment\Paypal\IPN\IPNHandler.cs" />
     <Compile Include="Classes\Payment\Paypal\PaypalDbFactory.cs" />
     <Compile Include="Classes\Payment\Paypal\PaypalPaymentFactory.cs" />
     <Compile Include="Classes\Payment\Paypal\PayPalMessage.cs" />
@@ -784,6 +794,10 @@
       <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
       <Name>Common.EmailServer.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common.Site\Common.Site.csproj">
+      <Project>{e0f7aafe-6666-4a19-947f-f3fe60381154}</Project>
+      <Name>Common.Site</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RDN.Portable\RDN.Portable.csproj">
       <Project>{68721c49-c417-40de-a445-c4077d9469cb}</Project>
       <Name>RDN.Portable</Name>
@@ -821,7 +835,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
