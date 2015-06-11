@@ -954,7 +954,7 @@ namespace RDN.Library.Classes.Forum
         /// <param name="message"></param>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        public static long CreateNewForumTopicAndPost(Guid forumId, ForumOwnerTypeEnum forumType, string subject, string message, Guid memberId, long groupId, bool emailGroupAboutPost, bool pinMessage, bool lockMessage, long chosenCategory)
+        public static long CreateNewForumTopicAndPost(Guid forumId, ForumOwnerTypeEnum forumType, string subject, string message, Guid memberId, long groupId, bool emailGroupAboutPost, bool pinMessage, bool lockMessage, long chosenCategory,string members)
         {
             try
             {
@@ -962,9 +962,25 @@ namespace RDN.Library.Classes.Forum
                 var forum = dc.Forums.Where(x => x.ForumId == forumId).FirstOrDefault();
                 if (forum != null)
                 {
+                   
+
                     var member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
                     member.TotalForumPosts = member.TotalForumPosts + 1;
                     DataModels.Forum.ForumMessage mess = new DataModels.Forum.ForumMessage();
+                    string[] mentionedids = {};
+                    if(members != null)
+                        mentionedids = members.Split(',');
+                    foreach (string id in mentionedids)
+                    {
+                        if (id.Trim() != "")
+                        {
+                            var mbr = Account.User.GetMemberWithMemberId(new Guid(id));
+                            ForumMessageMention mention = new ForumMessageMention();
+                            mention.Member = mbr;
+                            mess.Mentions.Add(mention);
+                        }
+                    }
+
                     mess.Member = member;
                     if (!String.IsNullOrEmpty(message))
                     {
@@ -977,6 +993,7 @@ namespace RDN.Library.Classes.Forum
                     else
                         mess.MessagePlain = message;
                     mess.LastModified = DateTime.UtcNow;
+                    
 
                     RDN.Library.DataModels.Forum.ForumTopic topic = new DataModels.Forum.ForumTopic();
                     topic.CreatedByMember = member;

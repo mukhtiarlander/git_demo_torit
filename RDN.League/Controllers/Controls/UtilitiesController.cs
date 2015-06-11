@@ -223,7 +223,25 @@ namespace RDN.League.Controllers
                                 }).Take(5).ToList();
             return Json(new_members, JsonRequestBehavior.AllowGet);
         }
-
+        public ActionResult SearchNamesForMention(string q, string messageGroupId)
+        {
+            List<MemberJson> namesFound = new List<MemberJson>();
+            var members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
+            var searchLeague = (from xx in members
+                                where (xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))
+                                || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
+                                || (xx.LastName != null && xx.LastName.ToLower().Contains(q))
+                                select new MemberJson
+                                {
+                                    picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
+                                    name = xx.DerbyName,
+                                    id = xx.MemberId
+                                }).Take(10).ToList();
+            namesFound.AddRange(searchLeague);
+            namesFound.AddRange(RDN.Library.Classes.Account.User.SearchDerbyNamesJson(q, 10));
+            namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();
+            return Json(namesFound, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult SearchLeagues(string term)
         {
             var namesFound = RDN.Library.Classes.League.LeagueFactory.SearchForLeagueName(term, 10);
