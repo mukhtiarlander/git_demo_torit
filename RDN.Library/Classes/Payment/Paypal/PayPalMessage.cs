@@ -476,6 +476,74 @@ namespace RDN.Library.Classes.Payment.Paypal
         public string reverse_all_parallel_payments_on_error { get; set; }
         public string payment_request_date { get; set; }
         public string Status { get; set; }
+        public string PostUrl { get; set; }
+
+        /// <summary>
+        /// This is the reponse back from the http post back to PayPal.
+        /// Possible values are "VERIFIED" or "INVALID"
+        /// </summary>
+        public string Response { get; set; }
+
+
+        public string ToString()
+        {
+
+            string emailBody = "<br />"
+              + "Transaction ID: " + TXN_ID + "<br />"
+              + "Transaction Type:" + TXN_Type + "<br />"
+              + "Pay Key:" + PayKey + "<br />"
+              + "Payment Type: " + PaymentType + "<br />"
+              + "Payment Status: " + PaymentStatus + "<br />"
+              + "Pending Reason: " + PendingReason + "<br />"
+              + "Payment Date: " + PaymentDate + "<br />"
+              + "Receiver Email: " + ReceiverEmail + "<br />"
+              + "Invoice: " + Invoice + "<br />"
+              + "Item Number: " + ItemNumber + "<br />"
+              + "Item Name: " + ItemName + "<br />"
+              + "Quantity: " + Quantity + "<br />"
+              + "Custom: " + Custom + "<br />"
+              + "Payment Gross: " + PaymentGross + "<br />"
+              + "Payment Fee: " + PaymentFee + "<br />"
+              + "Payer Email: " + PayerEmail + "<br />"
+              + "First Name: " + PayerFirstName + "<br />"
+              + "Last Name: " + PayerLastName + "<br />"
+              + "Street Address: " + PayerAddress + "<br />"
+              + "City: " + PayerCity + "<br />"
+              + "State: " + PayerState + "<br />"
+              + "Zip Code: " + PayerZipCode + "<br />"
+              + "Country: " + PayerCountry + "<br />"
+              + "Address Status: " + PayerAddressStatus + "<br />"
+              + "Payer Status: " + PayerStatus + "<br />"
+              + "Verify Sign: " + VerifySign + "<br />"
+              + "Notify Version: " + NotifyVersion + "<br />"
+            + "log_default_shipping_address_in_transaction: " + log_default_shipping_address_in_transaction + "<br />"
+            + "action_type: " + action_type + "<br />"
+            + "ipn_notification_url: " + ipn_notification_url + "<br />"
+            + "sender_email: " + sender_email + "<br />"
+            + "charset: " + charset + "<br />"
+            + "cancel_url: " + cancel_url + "<br />"
+            + "fees_payer: " + fees_payer + "<br />"
+            + "return_url: " + return_url + "<br />"
+            + "reverse_all_parallel_payments_on_error: " + reverse_all_parallel_payments_on_error + "<br />"
+            + "payment_request_date: " + payment_request_date + "<br />";
+
+            foreach (var item in Transactions)
+            {
+                emailBody += "is_primary_receiver: " + item.is_primary_receiver + "<br />"
+                   + "id_for_sender_txn: " + item.id_for_sender_txn + "<br />"
+                   + "receiver: " + item.receiver + "<br />"
+                   + "paymentType: " + item.paymentType + "<br />"
+                   + "amount: " + item.amount + "<br />"
+                   + "invoiceId: " + item.invoiceId + "<br />"
+                   + "id: " + item.id + "<br />"
+                   + "status_for_sender_txn: " + item.status_for_sender_txn + "<br />"
+                   + "pending_reason: " + item.pending_reason + "<br />";
+            }
+
+            return emailBody;
+
+        }
+
 
     }
 }

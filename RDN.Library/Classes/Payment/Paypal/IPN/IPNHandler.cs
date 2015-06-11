@@ -52,8 +52,9 @@ namespace RDN.Library.Classes.Payment.Paypal
                 IsLive = isLive;
                 PostUrl = PaypalPayment.GetBaseUrl(isLive);
                 PaypalMessage = this.FillIPNProperties(context);
+
                 _configManager = new CustomConfigurationManager(PaypalMessage.ConfigurationName);
-                _emailManager = new EmailManagerApi(_configManager.GetSubElement("BaseApiUrl").Value, _configManager.GetSubElement("ApiAuthenticationKey").Value);
+                _emailManager = new EmailManagerApi(_configManager.GetSubElement(StaticConfig.BaseApiUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
             }
             catch (Exception exception)
             {
@@ -61,105 +62,105 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
         }
 
-        public void InsertNewIPNNotification()
-        {
-            try
-            {
-                ManagementContext db = new ManagementContext();
-                IPNNotification paypal = new IPNNotification();
+        //public void InsertNewIPNNotification()
+        //{
+        //    try
+        //    {
+        //        ManagementContext db = new ManagementContext();
+        //        IPNNotification paypal = new IPNNotification();
 
-                try
-                {
-                    if (PaypalMessage.Invoice != null)
-                    {
-                        if (PaypalMessage.Invoice.Contains(':'))
-                            PaypalMessage.Invoice = PaypalMessage.Invoice.Split(':').First();
-                        paypal.InvoiceId = new Guid(PaypalMessage.Invoice);
-                    }
+        //        try
+        //        {
+        //            if (PaypalMessage.Invoice != null)
+        //            {
+        //                if (PaypalMessage.Invoice.Contains(':'))
+        //                    PaypalMessage.Invoice = PaypalMessage.Invoice.Split(':').First();
+        //                paypal.InvoiceId = new Guid(PaypalMessage.Invoice);
+        //            }
 
-                }
-                catch (Exception exception)
-                {
-                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
-                }
-                paypal.Business_Id = PaypalMessage.Business;
-                paypal.Custom = PaypalMessage.Custom;
-                paypal.DateTime_Received = DateTime.UtcNow.ToString();
-                paypal.Item_Name = PaypalMessage.ItemName;
-                paypal.Item_Number = PaypalMessage.ItemNumber;
-                paypal.Memo = PaypalMessage.Memo;
-                paypal.Notify_Version = PaypalMessage.NotifyVersion;
-                paypal.Payer_Address = PaypalMessage.PayerAddress;
-                paypal.Payer_Address_Status = PaypalMessage.PayerAddressStatus;
-                paypal.Payer_Business_Name = PaypalMessage.PayerBusinessName;
-                paypal.Payer_City = PaypalMessage.PayerCity;
-                paypal.Payer_Country = PaypalMessage.PayerCountry;
-                paypal.Pay_Key = PaypalMessage.PayKey;
-                paypal.Payer_Country_Code = PaypalMessage.PayerCountryCode;
-                paypal.Payer_Email = PaypalMessage.PayerEmail;
-                paypal.Payer_First_Name = PaypalMessage.PayerFirstName;
-                paypal.Payer_Id = PaypalMessage.PayerID;
-                paypal.Payer_Last_Name = PaypalMessage.PayerLastName;
-                paypal.Payer_Phone = PaypalMessage.PayerPhone;
-                paypal.Payer_State = PaypalMessage.PayerState;
-                paypal.Payer_Status = PaypalMessage.PayerStatus;
-                paypal.Payer_Zip = PaypalMessage.PayerZipCode;
-                paypal.Payment_Date = PaypalMessage.PaymentDate;
-                paypal.Payment_Gross = PaypalMessage.PaymentGross;
-                paypal.Payment_Status = PaypalMessage.PaymentStatus;
-                paypal.Status = PaypalMessage.Status;
-                paypal.Payment_Type = PaypalMessage.PaymentType;
-                paypal.Paypal_Transaction_TXN_Id = PaypalMessage.TXN_ID;
-                paypal.Paypals_Payment_Fee = PaypalMessage.PaymentFee;
-                paypal.Pending_Reason = PaypalMessage.PendingReason;
-                paypal.Post_Url = this.PostUrl;
-                paypal.Quantity = PaypalMessage.Quantity;
-                paypal.Quantity_Cart_Items = PaypalMessage.QuantityCartItems;
-                paypal.Receiver_Email = PaypalMessage.ReceiverEmail;
-                paypal.Receiver_Id = PaypalMessage.ReceiverID;
-                paypal.Request_Length = PaypalMessage.RequestLength;
-                paypal.Response = this.Response;
-                paypal.Shipping_Method = PaypalMessage.ShippingMethod;
-                paypal.Tax = PaypalMessage.Tax;
-                paypal.To_Email = PaypalMessage.ToEmail;
-                paypal.TXN_Type = PaypalMessage.TXN_Type;
-                paypal.Verify_Sign = PaypalMessage.VerifySign;
-                paypal.log_default_shipping_address_in_transaction = PaypalMessage.log_default_shipping_address_in_transaction;
-                paypal.action_type = PaypalMessage.action_type;
-                paypal.ipn_notification_url = PaypalMessage.ipn_notification_url;
-                paypal.transaction_type = PaypalMessage.transaction_type;
-                paypal.charset = PaypalMessage.charset;
-                paypal.sender_email = PaypalMessage.sender_email;
-                paypal.cancel_url = PaypalMessage.cancel_url;
-                paypal.fees_payer = PaypalMessage.fees_payer;
-                paypal.return_url = PaypalMessage.return_url;
-                paypal.reverse_all_parallel_payments_on_error = PaypalMessage.reverse_all_parallel_payments_on_error;
-                paypal.payment_request_date = PaypalMessage.payment_request_date;
+        //        }
+        //        catch (Exception exception)
+        //        {
+        //            ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
+        //        }
+        //        paypal.Business_Id = PaypalMessage.Business;
+        //        paypal.Custom = PaypalMessage.Custom;
+        //        paypal.DateTime_Received = DateTime.UtcNow.ToString();
+        //        paypal.Item_Name = PaypalMessage.ItemName;
+        //        paypal.Item_Number = PaypalMessage.ItemNumber;
+        //        paypal.Memo = PaypalMessage.Memo;
+        //        paypal.Notify_Version = PaypalMessage.NotifyVersion;
+        //        paypal.Payer_Address = PaypalMessage.PayerAddress;
+        //        paypal.Payer_Address_Status = PaypalMessage.PayerAddressStatus;
+        //        paypal.Payer_Business_Name = PaypalMessage.PayerBusinessName;
+        //        paypal.Payer_City = PaypalMessage.PayerCity;
+        //        paypal.Payer_Country = PaypalMessage.PayerCountry;
+        //        paypal.Pay_Key = PaypalMessage.PayKey;
+        //        paypal.Payer_Country_Code = PaypalMessage.PayerCountryCode;
+        //        paypal.Payer_Email = PaypalMessage.PayerEmail;
+        //        paypal.Payer_First_Name = PaypalMessage.PayerFirstName;
+        //        paypal.Payer_Id = PaypalMessage.PayerID;
+        //        paypal.Payer_Last_Name = PaypalMessage.PayerLastName;
+        //        paypal.Payer_Phone = PaypalMessage.PayerPhone;
+        //        paypal.Payer_State = PaypalMessage.PayerState;
+        //        paypal.Payer_Status = PaypalMessage.PayerStatus;
+        //        paypal.Payer_Zip = PaypalMessage.PayerZipCode;
+        //        paypal.Payment_Date = PaypalMessage.PaymentDate;
+        //        paypal.Payment_Gross = PaypalMessage.PaymentGross;
+        //        paypal.Payment_Status = PaypalMessage.PaymentStatus;
+        //        paypal.Status = PaypalMessage.Status;
+        //        paypal.Payment_Type = PaypalMessage.PaymentType;
+        //        paypal.Paypal_Transaction_TXN_Id = PaypalMessage.TXN_ID;
+        //        paypal.Paypals_Payment_Fee = PaypalMessage.PaymentFee;
+        //        paypal.Pending_Reason = PaypalMessage.PendingReason;
+        //        paypal.Post_Url = this.PostUrl;
+        //        paypal.Quantity = PaypalMessage.Quantity;
+        //        paypal.Quantity_Cart_Items = PaypalMessage.QuantityCartItems;
+        //        paypal.Receiver_Email = PaypalMessage.ReceiverEmail;
+        //        paypal.Receiver_Id = PaypalMessage.ReceiverID;
+        //        paypal.Request_Length = PaypalMessage.RequestLength;
+        //        paypal.Response = this.Response;
+        //        paypal.Shipping_Method = PaypalMessage.ShippingMethod;
+        //        paypal.Tax = PaypalMessage.Tax;
+        //        paypal.To_Email = PaypalMessage.ToEmail;
+        //        paypal.TXN_Type = PaypalMessage.TXN_Type;
+        //        paypal.Verify_Sign = PaypalMessage.VerifySign;
+        //        paypal.log_default_shipping_address_in_transaction = PaypalMessage.log_default_shipping_address_in_transaction;
+        //        paypal.action_type = PaypalMessage.action_type;
+        //        paypal.ipn_notification_url = PaypalMessage.ipn_notification_url;
+        //        paypal.transaction_type = PaypalMessage.transaction_type;
+        //        paypal.charset = PaypalMessage.charset;
+        //        paypal.sender_email = PaypalMessage.sender_email;
+        //        paypal.cancel_url = PaypalMessage.cancel_url;
+        //        paypal.fees_payer = PaypalMessage.fees_payer;
+        //        paypal.return_url = PaypalMessage.return_url;
+        //        paypal.reverse_all_parallel_payments_on_error = PaypalMessage.reverse_all_parallel_payments_on_error;
+        //        paypal.payment_request_date = PaypalMessage.payment_request_date;
 
-                foreach (var t in PaypalMessage.Transactions)
-                {
-                    IPNNotificationTransaction tr = new IPNNotificationTransaction();
-                    tr.is_primary_receiver = t.is_primary_receiver;
-                    tr.id_for_sender_txn = t.id_for_sender_txn;
-                    tr.receiver = t.receiver;
-                    tr.paymentType = t.paymentType;
-                    tr.invoiceId = t.invoiceId;
-                    tr.amount = t.amount;
-                    tr.status = t.status;
-                    tr.id = t.id;
-                    tr.status_for_sender_txn = t.status_for_sender_txn;
-                    tr.pending_reason = t.pending_reason;
-                    paypal.Transactions.Add(tr);
-                }
+        //        foreach (var t in PaypalMessage.Transactions)
+        //        {
+        //            IPNNotificationTransaction tr = new IPNNotificationTransaction();
+        //            tr.is_primary_receiver = t.is_primary_receiver;
+        //            tr.id_for_sender_txn = t.id_for_sender_txn;
+        //            tr.receiver = t.receiver;
+        //            tr.paymentType = t.paymentType;
+        //            tr.invoiceId = t.invoiceId;
+        //            tr.amount = t.amount;
+        //            tr.status = t.status;
+        //            tr.id = t.id;
+        //            tr.status_for_sender_txn = t.status_for_sender_txn;
+        //            tr.pending_reason = t.pending_reason;
+        //            paypal.Transactions.Add(tr);
+        //        }
 
-                db.PaypalIPN.Add(paypal);
-                db.SaveChanges();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
-            }
-        }
+        //        db.PaypalIPN.Add(paypal);
+        //        db.SaveChanges();
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
+        //    }
+        //}
 
         /// <summary>
         /// message checks the status of the order and notifies you via email the status.
@@ -211,7 +212,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                         else if (!String.IsNullOrEmpty(PaypalMessage.Invoice))
                             invoiceId = PaypalMessage.Invoice;
                         else
-                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem", CompileReportString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem",PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
                         switch (PaypalMessage.PaymentStatus)
                         {
@@ -239,7 +240,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                                 FailedPaypalPayment(invoiceId);
                                 return true;
                             default:
-                                _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Status is Defaulted..??????", CompileReportString());
+                                _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Status is Defaulted..??????", PaypalMessage.ToString());
                                 return true;
                         }
                     //email buyer and me a reciept of order.
@@ -248,7 +249,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     //the Paypal Adpative payments API to handle the dues and store purchases.
                     case "INVALID":
                     default:
-                         _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Payment Problem", this.Response + " " + CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Payment Problem", this.Response + " " + PaypalMessage.ToString());
                         return true;
 
                 }
@@ -256,7 +257,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
             }
             return false;
         }
@@ -276,7 +277,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 WebClient client1 = new WebClient();
                 client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + duesItem.MemberPaidId));
 
-               _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Pending", CompileReportString());
+                _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Pending", PaypalMessage.ToString());
                 var member = MemberCache.GetMemberDisplay(duesItem.MemberPaidId);
                 var league = MemberCache.GetLeagueOfMember(duesItem.MemberPaidId);
                 var settings = Dues.DuesFactory.GetDuesSettings(duesItem.DuesId);
@@ -317,7 +318,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
             }
         }
 
@@ -328,7 +329,7 @@ namespace RDN.Library.Classes.Payment.Paypal
         /// <param name="reportInformation"></param>
         /// <param name="customerId"></param>
         /// <returns></returns>
-        public  bool HandleDuesPayments(DisplayInvoice invoice, string reportInformation, string customerId = null)
+        public bool HandleDuesPayments(DisplayInvoice invoice, string reportInformation, string customerId = null)
         {
             try
             {
@@ -409,7 +410,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 {
                     if (invoice.Subscription != null)
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Complete!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Complete!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + PaypalMessage.ToString());
 
                         RDN.Library.Classes.League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, false, invoice.Subscription.InternalObject);
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Payment_Successful, PaypalMessage.PayKey);
@@ -420,31 +421,31 @@ namespace RDN.Library.Classes.Payment.Paypal
                     }
                     else if (invoice.Paywall != null)
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Complete!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Complete!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + PaypalMessage.ToString());
 
 
                         Paywall.Paywall pw = new Paywall.Paywall();
                         pw.HandlePaywallPayments(invoice, null, PaypalMessage.PayKey);
                     }
                     else if (invoice.DuesItems.Count > 0)
-                        HandleDuesPayments(invoice, CompileReportString(), PaypalMessage.PayKey);
+                        HandleDuesPayments(invoice, PaypalMessage.ToString(), PaypalMessage.PayKey);
                     else if (invoice.InvoiceItems.Count > 0)
                     {
                         StoreGateway sg = new StoreGateway();
-                        sg.HandleStoreItemPayments(invoice, CompileReportString(), PaypalMessage.PayKey);
+                        sg.HandleStoreItemPayments(invoice, PaypalMessage.ToString(), PaypalMessage.PayKey);
                     }
                     else
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Haven't Found Items for the invoice", CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Haven't Found Items for the invoice", PaypalMessage.ToString());
                 }
                 else
                 {
-                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", CompileReportString());
+                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", PaypalMessage.ToString());
                 }
                 return invoice;
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
             }
             return null;
         }
@@ -462,7 +463,7 @@ namespace RDN.Library.Classes.Payment.Paypal
 
                         RDN.Library.Classes.League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, false, invoice.Subscription.InternalObject);
 
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + PaypalMessage.ToString());
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Pending_Payment_From_Paypal);
                         WebClient client = new WebClient();
                         client.DownloadDataAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + invoice.Subscription.InternalObject));
@@ -471,7 +472,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     }
                     else if (invoice.Paywall != null)
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + PaypalMessage.ToString());
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Pending_Payment_From_Paypal);
                     }
                     else if (invoice.DuesItems.Count > 0)
@@ -479,22 +480,22 @@ namespace RDN.Library.Classes.Payment.Paypal
                     else if (invoice.InvoiceItems.Count > 0)
                     {
                         StoreGateway sg = new StoreGateway();
-                        sg.HandleStoreItemPaymentPending(invoice, CompileReportString());
+                        sg.HandleStoreItemPaymentPending(invoice, PaypalMessage.ToString());
                     }
                     else
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Subscription", CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Subscription", PaypalMessage.ToString());
                     }
                 }
                 else
                 {
-                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", CompileReportString());
+                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", PaypalMessage.ToString());
                 }
                 return invoice;
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
             }
             return null;
         }
@@ -509,7 +510,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 {
                     if (invoice.Subscription != null)
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Payment Failed", CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Payment Failed", PaypalMessage.ToString());
 
                         InvoiceFactory.EmailLeagueAboutFailedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, invoice.Subscription.Price, invoice.Subscription.ValidUntil, invoice.InvoiceBilling.Email);
 
@@ -520,93 +521,29 @@ namespace RDN.Library.Classes.Payment.Paypal
                     }
                     else if (invoice.Paywall != null)
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Paywall Payment Failed", CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Paywall Payment Failed", PaypalMessage.ToString());
 
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Failed);
                     }
                     else
                     {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal:Failed Payment", CompileReportString());
+                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal:Failed Payment", PaypalMessage.ToString());
                     }
                 }
                 else
                 {
-                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", CompileReportString());
+                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", PaypalMessage.ToString());
                 }
                 return invoice;
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
             }
             return null;
         }
 
-        private string CompileReportString()
-        {
-            try
-            {
-                string emailBody = "<br />"
-                  + "Transaction ID: " + PaypalMessage.TXN_ID + "<br />"
-                  + "Transaction Type:" + PaypalMessage.TXN_Type + "<br />"
-                  + "Pay Key:" + PaypalMessage.PayKey + "<br />"
-                  + "Payment Type: " + PaypalMessage.PaymentType + "<br />"
-                  + "Payment Status: " + PaypalMessage.PaymentStatus + "<br />"
-                  + "Pending Reason: " + PaypalMessage.PendingReason + "<br />"
-                  + "Payment Date: " + PaypalMessage.PaymentDate + "<br />"
-                  + "Receiver Email: " + PaypalMessage.ReceiverEmail + "<br />"
-                  + "Invoice: " + PaypalMessage.Invoice + "<br />"
-                  + "Item Number: " + PaypalMessage.ItemNumber + "<br />"
-                  + "Item Name: " + PaypalMessage.ItemName + "<br />"
-                  + "Quantity: " + PaypalMessage.Quantity + "<br />"
-                  + "Custom: " + PaypalMessage.Custom + "<br />"
-                  + "Payment Gross: " + PaypalMessage.PaymentGross + "<br />"
-                  + "Payment Fee: " + PaypalMessage.PaymentFee + "<br />"
-                  + "Payer Email: " + PaypalMessage.PayerEmail + "<br />"
-                  + "First Name: " + PaypalMessage.PayerFirstName + "<br />"
-                  + "Last Name: " + PaypalMessage.PayerLastName + "<br />"
-                  + "Street Address: " + PaypalMessage.PayerAddress + "<br />"
-                  + "City: " + PaypalMessage.PayerCity + "<br />"
-                  + "State: " + PaypalMessage.PayerState + "<br />"
-                  + "Zip Code: " + PaypalMessage.PayerZipCode + "<br />"
-                  + "Country: " + PaypalMessage.PayerCountry + "<br />"
-                  + "Address Status: " + PaypalMessage.PayerAddressStatus + "<br />"
-                  + "Payer Status: " + PaypalMessage.PayerStatus + "<br />"
-                  + "Verify Sign: " + PaypalMessage.VerifySign + "<br />"
-                  + "Notify Version: " + PaypalMessage.NotifyVersion + "<br />"
-                + "log_default_shipping_address_in_transaction: " + PaypalMessage.log_default_shipping_address_in_transaction + "<br />"
-                + "action_type: " + PaypalMessage.action_type + "<br />"
-                + "ipn_notification_url: " + PaypalMessage.ipn_notification_url + "<br />"
-                + "sender_email: " + PaypalMessage.sender_email + "<br />"
-                + "charset: " + PaypalMessage.charset + "<br />"
-                + "cancel_url: " + PaypalMessage.cancel_url + "<br />"
-                + "fees_payer: " + PaypalMessage.fees_payer + "<br />"
-                + "return_url: " + PaypalMessage.return_url + "<br />"
-                + "reverse_all_parallel_payments_on_error: " + PaypalMessage.reverse_all_parallel_payments_on_error + "<br />"
-                + "payment_request_date: " + PaypalMessage.payment_request_date + "<br />";
-
-                foreach (var item in PaypalMessage.Transactions)
-                {
-                    emailBody += "is_primary_receiver: " + item.is_primary_receiver + "<br />"
-                       + "id_for_sender_txn: " + item.id_for_sender_txn + "<br />"
-                       + "receiver: " + item.receiver + "<br />"
-                       + "paymentType: " + item.paymentType + "<br />"
-                       + "amount: " + item.amount + "<br />"
-                       + "invoiceId: " + item.invoiceId + "<br />"
-                       + "id: " + item.id + "<br />"
-                       + "status_for_sender_txn: " + item.status_for_sender_txn + "<br />"
-                       + "pending_reason: " + item.pending_reason + "<br />";
-                }
-
-                return emailBody;
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return String.Empty;
-        }
-
+   
         private PayPalMessage FillIPNProperties(HttpContext context)
         {
             PayPalMessage message = new PayPalMessage();
@@ -701,7 +638,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: CompileReportString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
             }
             return message;
         }

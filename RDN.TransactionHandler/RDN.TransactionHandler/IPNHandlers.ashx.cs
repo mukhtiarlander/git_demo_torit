@@ -24,12 +24,11 @@ namespace RDN.TransactionHandler
         {
             try
             {
-                var _configManager = new CustomConfigurationManager("RDN");
-                var _emailManager = new EmailManagerApi(_configManager.GetSubElement("ApiBaseUrl").Value, _configManager.GetSubElement("ApiAuthenticationKey").Value);
-                _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem", "asdf", Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                
+
+                IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
 
 
-                //IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
 
                 //ipn.CheckStatus();
                 //ipn.InsertNewIPNNotification();
