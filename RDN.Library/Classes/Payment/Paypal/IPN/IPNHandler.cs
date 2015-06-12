@@ -21,6 +21,7 @@ using RDN.Library.Classes.Mobile.Enums;
 using Common.Site.AppConfig;
 using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Email;
+using RDN.Library.Classes.Api.Paypal;
 
 namespace RDN.Library.Classes.Payment.Paypal
 {
@@ -40,6 +41,7 @@ namespace RDN.Library.Classes.Payment.Paypal
 
         CustomConfigurationManager _configManager;
         EmailManagerApi _emailManager;
+        PaypalManagerApi _paypalManager;
         /// <summary>
         /// valid strings are "TEST" for sandbox use 
         /// "LIVE" for production use
@@ -55,11 +57,17 @@ namespace RDN.Library.Classes.Payment.Paypal
 
                 _configManager = new CustomConfigurationManager(PaypalMessage.ConfigurationName);
                 _emailManager = new EmailManagerApi(_configManager.GetSubElement(StaticConfig.BaseApiUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
+                _paypalManager = new PaypalManagerApi(_configManager.GetSubElement(StaticConfig.BaseApiUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
+        }
+
+        public void SendIPNNotificationToApi()
+        {
+            _paypalManager.InsertIPNNotification(PaypalMessage);
         }
 
         //public void InsertNewIPNNotification()
@@ -194,9 +202,6 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             try
             {
-                CustomConfigurationManager customConfig = new CustomConfigurationManager();
-                if (!String.IsNullOrEmpty(PaypalMessage.ConfigurationName))
-                    customConfig.GetElement(PaypalMessage.ConfigurationName);
 
                 //we use the adaptive payment API to handle dues and payments throught the store
                 //verified items come from the subscriptions handler
@@ -212,12 +217,12 @@ namespace RDN.Library.Classes.Payment.Paypal
                         else if (!String.IsNullOrEmpty(PaypalMessage.Invoice))
                             invoiceId = PaypalMessage.Invoice;
                         else
-                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem",PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Can't Find Invoice ID Problem", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
                         switch (PaypalMessage.PaymentStatus)
                         {
                             case "Completed":
-                                CompletePaypalPayment(invoiceId);
+                                _paypalManager.CompletePaypalPaymentAsync(new Guid(invoiceId), PaypalMessage);
                                 return true;
                             case "Pending":
                                 switch (PaypalMessage.PendingReason)
@@ -322,133 +327,8 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="invoice"></param>
-        /// <param name="reportInformation"></param>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        public bool HandleDuesPayments(DisplayInvoice invoice, string reportInformation, string customerId = null)
-        {
-            try
-            {
-                var duesItem = invoice.DuesItems.FirstOrDefault();
-                bool success = Dues.DuesFactory.PayDuesAmount(duesItem.DuesItemId, duesItem.DuesId, (double)duesItem.BasePrice, duesItem.MemberPaidId, "Paid Via Paypal, Invoice:" + invoice.InvoiceId.ToString().Replace("-", ""));
-                PaymentGateway pg = new PaymentGateway();
-                pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Payment_Successful, customerId);
-                if (success)
-                {
-                    //email people.
-                    WebClient client = new WebClient();
-                    WebClient client1 = new WebClient();
-                    client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE + duesItem.MemberPaidId));
-                    client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + duesItem.MemberPaidId));
-
-                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Made", reportInformation);
-                    var member = MemberCache.GetMemberDisplay(duesItem.MemberPaidId);
-                    var league = MemberCache.GetLeagueOfMember(duesItem.MemberPaidId);
-                    var settings = Dues.DuesFactory.GetDuesSettings(duesItem.DuesId);
-                    if (settings != null && member != null)
-                    {
-                        var emailData = new Dictionary<string, string>
-                                        {
-                                            { "memberName",  member.DerbyName },
-                                            { "leagueName", settings.LeagueOwnerName   },
-                                            { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
-                                            { "amountPaid", duesItem.PriceAfterFees.ToString("N2") },
-                                            { "baseAmountPaid",duesItem.BasePrice.ToString("N2")  },
-                                            { "monthOfDuesPayment",duesItem.PaidForDate.ToShortDateString()},
-                                            { "emailForPaypal", settings.PayPalEmailAddress},
-                                            { "statusOfPayment",RDN.Portable.Util.Enums.EnumExt.ToFreindlyName( InvoiceStatus.Pending_Payment_From_Paypal)}
-                                          };
-
-                        //sends email to user for their payment.
-                        if (!String.IsNullOrEmpty(member.UserName))
-                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser.ToString());
-                        else if (!String.IsNullOrEmpty(member.Email))
-                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser.ToString());
-
-                        if (league != null && !String.IsNullOrEmpty(league.Email))
-                        {
-                            //sends email to league for notification of their payment.
-                            _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague.ToString());
-                        }
-
-                        MobileNotificationFactory mnf = new MobileNotificationFactory();
-                        mnf.Initialize("Dues Payment Made", "Receipt For Payment", NotificationTypeEnum.DuesPaymentReceipt)
-                            .AddId(invoice.InvoiceId)
-                            .AddMember(duesItem.MemberPaidId)
-                            .SendNotifications();
-                    }
-                    else
-                    {
-                        throw new Exception("Settings or Member was null.  Can't send Receipts." + invoice.InvoiceId);
-                    }
-                }
-                else
-                {
-                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Dues Updates Were not successful", reportInformation);
-                }
-                return true;
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: reportInformation);
-            }
-            return false;
-        }
 
 
-        private Classes.Display.DisplayInvoice CompletePaypalPayment(string invoiceId)
-        {
-            try
-            {
-                PaymentGateway pg = new PaymentGateway();
-                var invoice = pg.GetDisplayInvoice(new Guid(invoiceId));
-                if (invoice != null)
-                {
-                    if (invoice.Subscription != null)
-                    {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Complete!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + PaypalMessage.ToString());
-
-                        RDN.Library.Classes.League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, false, invoice.Subscription.InternalObject);
-                        pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Payment_Successful, PaypalMessage.PayKey);
-                        WebClient client = new WebClient();
-                        client.DownloadDataAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + invoice.Subscription.InternalObject));
-                        WebClient client1 = new WebClient();
-                        client1.DownloadDataAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE_API + invoice.Subscription.InternalObject));
-                    }
-                    else if (invoice.Paywall != null)
-                    {
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Complete!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + PaypalMessage.ToString());
-
-
-                        Paywall.Paywall pw = new Paywall.Paywall();
-                        pw.HandlePaywallPayments(invoice, null, PaypalMessage.PayKey);
-                    }
-                    else if (invoice.DuesItems.Count > 0)
-                        HandleDuesPayments(invoice, PaypalMessage.ToString(), PaypalMessage.PayKey);
-                    else if (invoice.InvoiceItems.Count > 0)
-                    {
-                        StoreGateway sg = new StoreGateway();
-                        sg.HandleStoreItemPayments(invoice, PaypalMessage.ToString(), PaypalMessage.PayKey);
-                    }
-                    else
-                        _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Haven't Found Items for the invoice", PaypalMessage.ToString());
-                }
-                else
-                {
-                    _emailManager.SendEmailAsync(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", PaypalMessage.ToString());
-                }
-                return invoice;
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: PaypalMessage.ToString());
-            }
-            return null;
-        }
         private Classes.Display.DisplayInvoice PendingPaypalPayment(string invoiceId)
         {
             try
@@ -543,12 +423,14 @@ namespace RDN.Library.Classes.Payment.Paypal
             return null;
         }
 
-   
+
         private PayPalMessage FillIPNProperties(HttpContext context)
         {
             PayPalMessage message = new PayPalMessage();
             try
             {
+                message.PostUrl = this.PostUrl;
+                message.Response = this.Response;
                 message.RequestLength = context.Request.Form.ToString();
                 message.PayerCity = context.Request.Form["address_city"];
                 message.PayerCountry = context.Request.Form["address_country"];

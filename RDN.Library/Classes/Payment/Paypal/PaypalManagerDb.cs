@@ -1,11 +1,18 @@
-﻿using RDN.Library.Classes.Error;
+﻿using RDN.Library.Cache;
+using RDN.Library.Classes.Error;
+using RDN.Library.Classes.Mobile;
+using RDN.Library.Classes.Mobile.Enums;
+using RDN.Library.Classes.Payment.Classes.Display;
 using RDN.Library.Classes.Payment.Enums;
+using RDN.Library.Classes.Store;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.PaymentGateway.Paypal;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Portable.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace RDN.Library.Classes.Payment.Paypal
@@ -18,6 +25,127 @@ namespace RDN.Library.Classes.Payment.Paypal
             var status = (byte)InvoiceStatus.Not_Started;
             var invoices = dc.Invoices.Where(x => x.InvoiceStatus == status).ToList();
         }
+
+        private Classes.Display.DisplayInvoice CompletePaypalPayment(string invoiceId, PayPalMessage paypalMessage)
+        {
+            try
+            {
+                PaymentGateway pg = new PaymentGateway();
+                var invoice = pg.GetDisplayInvoice(new Guid(invoiceId));
+                if (invoice != null)
+                {
+                    if (invoice.Subscription != null)
+                    {
+                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Complete!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + paypalMessage.ToString());
+
+                        RDN.Library.Classes.League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, false, invoice.Subscription.InternalObject);
+                        pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Payment_Successful, paypalMessage.PayKey);
+                        WebClient client = new WebClient();
+                        client.DownloadDataAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + invoice.Subscription.InternalObject));
+                        WebClient client1 = new WebClient();
+                        client1.DownloadDataAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE_API + invoice.Subscription.InternalObject));
+                    }
+                    else if (invoice.Paywall != null)
+                    {
+                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Complete!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + paypalMessage.ToString());
+
+
+                        Paywall.Paywall pw = new Paywall.Paywall();
+                        pw.HandlePaywallPayments(invoice, null, paypalMessage.PayKey);
+                    }
+                    else if (invoice.DuesItems.Count > 0)
+                        HandleDuesPayments(invoice, paypalMessage.ToString(), paypalMessage.PayKey);
+                    else if (invoice.InvoiceItems.Count > 0)
+                    {
+                        StoreGateway sg = new StoreGateway();
+                        sg.HandleStoreItemPayments(invoice, paypalMessage.ToString(), paypalMessage.PayKey);
+                    }
+                    else
+                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Haven't Found Items for the invoice", paypalMessage.ToString());
+                }
+                else
+                {
+                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", paypalMessage.ToString());
+                }
+                return invoice;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: paypalMessage.ToString());
+            }
+            return null;
+        }
+
+        public bool HandleDuesPayments(DisplayInvoice invoice, string reportInformation, string customerId = null)
+        {
+            try
+            {
+                var duesItem = invoice.DuesItems.FirstOrDefault();
+                bool success = Dues.DuesFactory.PayDuesAmount(duesItem.DuesItemId, duesItem.DuesId, (double)duesItem.BasePrice, duesItem.MemberPaidId, "Paid Via Paypal, Invoice:" + invoice.InvoiceId.ToString().Replace("-", ""));
+                PaymentGateway pg = new PaymentGateway();
+                pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Payment_Successful, customerId);
+                if (success)
+                {
+                    //email people.
+                    WebClient client = new WebClient();
+                    WebClient client1 = new WebClient();
+                    client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE + duesItem.MemberPaidId));
+                    client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + duesItem.MemberPaidId));
+
+                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Made", reportInformation);
+                    var member = MemberCache.GetMemberDisplay(duesItem.MemberPaidId);
+                    var league = MemberCache.GetLeagueOfMember(duesItem.MemberPaidId);
+                    var settings = Dues.DuesFactory.GetDuesSettings(duesItem.DuesId);
+                    if (settings != null && member != null)
+                    {
+                        var emailData = new Dictionary<string, string>
+                                        {
+                                            { "memberName",  member.DerbyName },
+                                            { "leagueName", settings.LeagueOwnerName   },
+                                            { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
+                                            { "amountPaid", duesItem.PriceAfterFees.ToString("N2") },
+                                            { "baseAmountPaid",duesItem.BasePrice.ToString("N2")  },
+                                            { "monthOfDuesPayment",duesItem.PaidForDate.ToShortDateString()},
+                                            { "emailForPaypal", settings.PayPalEmailAddress},
+                                            { "statusOfPayment",RDN.Portable.Util.Enums.EnumExt.ToFreindlyName( InvoiceStatus.Pending_Payment_From_Paypal)}
+                                          };
+
+                        //sends email to user for their payment.
+                        if (!String.IsNullOrEmpty(member.UserName))
+                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
+                        else if (!String.IsNullOrEmpty(member.Email))
+                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
+
+                        if (league != null && !String.IsNullOrEmpty(league.Email))
+                        {
+                            //sends email to league for notification of their payment.
+                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
+                        }
+
+                        MobileNotificationFactory mnf = new MobileNotificationFactory();
+                        mnf.Initialize("Dues Payment Made", "Receipt For Payment", NotificationTypeEnum.DuesPaymentReceipt)
+                            .AddId(invoice.InvoiceId)
+                            .AddMember(duesItem.MemberPaidId)
+                            .SendNotifications();
+                    }
+                    else
+                    {
+                        throw new Exception("Settings or Member was null.  Can't send Receipts." + invoice.InvoiceId);
+                    }
+                }
+                else
+                {
+                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Dues Updates Were not successful", reportInformation);
+                }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: reportInformation);
+            }
+            return false;
+        }
+
 
         public static bool InsertIpnNotification(PayPalMessage paypalMessage)
         {

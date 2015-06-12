@@ -24,15 +24,12 @@ namespace RDN.TransactionHandler
         {
             try
             {
-                
+
 
                 IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
 
-
-
                 //ipn.CheckStatus();
-                //ipn.InsertNewIPNNotification();
-
+                ipn.SendIPNNotificationToApi();
             }
             catch (Exception exception)
             {
