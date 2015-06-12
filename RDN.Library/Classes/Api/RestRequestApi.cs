@@ -18,13 +18,18 @@ namespace RDN.Library.Classes.Api
         }
 
 
-        public  Task<T> ExecuteJsonRequestAsync<T>(string resource, RestSharp.Method httpMethod, object body = null) where T : new()
+        public Task<T> ExecuteJsonRequestAsync<T>(string resource, RestSharp.Method httpMethod, object body = null, Dictionary<string, object> parameters = null) where T : new()
         {
             RestClient client = new RestClient(this.BaseUrl);
             RestRequest req = new RestRequest(resource, httpMethod);
             req.RequestFormat = DataFormat.Json;
             // Add all parameters (and body, if applicable) to the request
             req.AddHeader("api_key", this.ApiKey);
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                    req.AddParameter(param.Key, param.Value);
+            }
             req.AddBody(body);
 
             var tcs = new TaskCompletionSource<T>();

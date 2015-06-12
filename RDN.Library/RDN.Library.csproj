@@ -208,6 +208,7 @@
     <Compile Include="Cache\Site\Management\ManagementCache.cs" />
     <Compile Include="Cache\Site\PublicSiteCache.cs" />
     <Compile Include="Classes\Api\Email\EmailManagerApi.cs" />
+    <Compile Include="Classes\Api\Paypal\PaypalManagerApi.cs" />
     <Compile Include="Classes\Api\RestRequestApi.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\IntroductoryEmailEnum.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\UserTaskFactoryType.cs" />
@@ -780,7 +781,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\Api\Paypal\" />
     <Folder Include="Classes\Controls\Dues\Classes\" />
     <Folder Include="Classes\Error\Enum\" />
     <Folder Include="Classes\Game\RN\" />

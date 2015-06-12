@@ -10,9 +10,17 @@ using System.Web.Mvc;
 
 namespace RDN.Api.Controllers
 {
-    public class PaypalIpnController : BaseController
+    public class PaypalController : BaseController
     {
-        public ActionResult InsertNewIPNNotification(PayPalMessage message)
+        public ActionResult InsertIPNNotification(PayPalMessage message)
+        {
+            if (!IsAuthenticated)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.InsertIpnNotification(message) });
+        }
+
+        public ActionResult CompletePaypalPayment(Guid invoiceId, PayPalMessage message)
         {
             if (!IsAuthenticated)
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
