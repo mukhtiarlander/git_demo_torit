@@ -78,7 +78,7 @@ namespace RDN.Api.Controllers.Controls
                     var mem = MemberCache.GetMemberDisplay(new Guid(ob.MemberId));
                     if (new Guid(ob.UserId) == mem.UserId)
                     {
-                        var topicId = Forum.CreateNewForumTopicAndPost(ob.ForumId, (ForumOwnerTypeEnum)Enum.Parse(typeof(ForumOwnerTypeEnum), ob.ForumType), ob.TopicTitle, ob.Text, new Guid(ob.MemberId), ob.GroupId, ob.BroadcastMessage, ob.PinMessage, ob.LockMessage, ob.CategoryId);
+                        var topicId = Forum.CreateNewForumTopicAndPost(ob.ForumId, (ForumOwnerTypeEnum)Enum.Parse(typeof(ForumOwnerTypeEnum), ob.ForumType), ob.TopicTitle, ob.Text, new Guid(ob.MemberId), ob.GroupId, ob.BroadcastMessage, ob.PinMessage, ob.LockMessage, ob.CategoryId, new List<Guid>());
                         if (topicId > 0)
                             return Json(new AddForumTopicModel() { IsSuccessful = true }, JsonRequestBehavior.AllowGet);
                     }
