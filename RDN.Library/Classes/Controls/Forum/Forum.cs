@@ -505,7 +505,7 @@ namespace RDN.Library.Classes.Forum
                 top.TopicId = topicId;
                 top.TopicTitle = topic.TopicTitle;
                 top.ViewCount = topic.ViewCount;
-                top.Created = topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone,0,0);
+                top.Created = topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0);
                 top.GroupId = topic.GroupId;
                 foreach (var watcher in topic.TopicWatchList)
                 {
@@ -538,7 +538,7 @@ namespace RDN.Library.Classes.Forum
                 {
                     top.Messages.Add(DisplayMessage(message));
                 }
-                
+
                 foreach (var inbox in topic.TopicsInbox)
                 {
                     try
@@ -954,7 +954,7 @@ namespace RDN.Library.Classes.Forum
         /// <param name="message"></param>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        public static long CreateNewForumTopicAndPost(Guid forumId, ForumOwnerTypeEnum forumType, string subject, string message, Guid memberId, long groupId, bool emailGroupAboutPost, bool pinMessage, bool lockMessage, long chosenCategory,string members)
+        public static long CreateNewForumTopicAndPost(Guid forumId, ForumOwnerTypeEnum forumType, string subject, string message, Guid memberId, long groupId, bool emailGroupAboutPost, bool pinMessage, bool lockMessage, long chosenCategory, List<Guid> membersBeingMentioned)
         {
             try
             {
@@ -962,23 +962,14 @@ namespace RDN.Library.Classes.Forum
                 var forum = dc.Forums.Where(x => x.ForumId == forumId).FirstOrDefault();
                 if (forum != null)
                 {
-                   
-
                     var member = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
                     member.TotalForumPosts = member.TotalForumPosts + 1;
                     DataModels.Forum.ForumMessage mess = new DataModels.Forum.ForumMessage();
-                    string[] mentionedids = {};
-                    if(members != null)
-                        mentionedids = members.Split(',');
-                    foreach (string id in mentionedids)
+                    foreach (Guid id in membersBeingMentioned)
                     {
-                        if (id.Trim() != "")
-                        {
-                            var mbr = Account.User.GetMemberWithMemberId(new Guid(id));
-                            ForumMessageMention mention = new ForumMessageMention();
-                            mention.Member = mbr;
-                            mess.Mentions.Add(mention);
-                        }
+                        ForumMessageMention mention = new ForumMessageMention();
+                        mention.Member = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
+                        mess.Mentions.Add(mention);
                     }
 
                     mess.Member = member;
@@ -993,7 +984,7 @@ namespace RDN.Library.Classes.Forum
                     else
                         mess.MessagePlain = message;
                     mess.LastModified = DateTime.UtcNow;
-                    
+
 
                     RDN.Library.DataModels.Forum.ForumTopic topic = new DataModels.Forum.ForumTopic();
                     topic.CreatedByMember = member;
@@ -1282,7 +1273,7 @@ namespace RDN.Library.Classes.Forum
                                 top.ForumId = forumId;
                                 top.IsArchived = isArchived;
                                 top.LastModified = message.LastModified.GetValueOrDefault();
-                                top.Created = message.Created + new TimeSpan(message.Forum.LeagueOwner.TimeZone,0,0);
+                                top.Created = message.Created + new TimeSpan(message.Forum.LeagueOwner.TimeZone, 0, 0);
                                 top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.Created + new TimeSpan(message.Forum.LeagueOwner.TimeZone, 0, 0));
                                 top.CreatedByMember = new MemberDisplayBasic();
                                 top.CreatedByMember.DerbyName = message.CreatedByMember.DerbyName;
@@ -1335,7 +1326,7 @@ namespace RDN.Library.Classes.Forum
                             top.ForumId = forumId;
                             top.IsArchived = isArchived;
                             top.LastModified = message.LastModified.GetValueOrDefault();
-                            top.Created = message.Created + new TimeSpan(message.Forum.LeagueOwner.TimeZone,0,0);
+                            top.Created = message.Created + new TimeSpan(message.Forum.LeagueOwner.TimeZone, 0, 0);
                             top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.Created + new TimeSpan(message.Forum.LeagueOwner.TimeZone, 0, 0));
                             top.CreatedByMember = new MemberDisplayBasic();
                             top.CreatedByMember.DerbyName = message.CreatedByMember.DerbyName;
@@ -1432,8 +1423,8 @@ namespace RDN.Library.Classes.Forum
                             }
                             top.ForumId = forumId;
                             top.LastModified = message.topic.LastModified.GetValueOrDefault();
-                            top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0);
-                            top.CreatedHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0));
+                            top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0);
+                            top.CreatedHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0));
                             top.CreatedByMember = new MemberDisplayBasic();
                             top.CreatedByMember.DerbyName = message.topic.CreatedByMember.DerbyName;
                             top.CreatedByMember.DerbyNameUrl = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.topic.CreatedByMember.DerbyName);
@@ -1529,8 +1520,8 @@ namespace RDN.Library.Classes.Forum
                                 top.CategoryId = message.topic.Category.CategoryId;
                             }
                             top.ForumId = forumId;
-                            top.LastModified = (message.topic.LastModified+ new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault();
-                            top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0);
+                            top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault();
+                            top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0);
                             top.CreatedHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0));
                             top.CreatedByMember = new MemberDisplayBasic();
                             top.CreatedByMember.DerbyName = message.topic.CreatedByMember.DerbyName;
@@ -1540,9 +1531,9 @@ namespace RDN.Library.Classes.Forum
                             top.LastPostByMember.DerbyName = message.topic.LastPostByMember.DerbyName;
                             top.LastPostByMember.MemberId = message.topic.LastPostByMember.MemberId;
                             if (message.topic.LastPostDateTime != null)
-                                top.LastPostHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime((message.topic.LastPostDateTime + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault());
+                                top.LastPostHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime((message.topic.LastPostDateTime + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault());
                             else
-                                top.LastPostHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime((message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault());
+                                top.LastPostHuman = RDN.Portable.Util.DateTimes.DateTimeExt.RelativeDateTime((message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault());
                             top.LastPostByMember.DerbyNameUrl = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.topic.LastPostByMember.DerbyName);
                             top.TopicId = message.topic.TopicId;
                             top.GroupId = message.topic.GroupId;
@@ -1578,7 +1569,7 @@ namespace RDN.Library.Classes.Forum
                                 top.CategoryId = message.topic.Category.CategoryId;
                             }
                             top.ForumId = forumId;
-                            top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault();
+                            top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault();
                             top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0);
                             top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0));
                             top.CreatedByMember = new MemberDisplayBasic();
@@ -1590,9 +1581,9 @@ namespace RDN.Library.Classes.Forum
                             top.LastPostByMember.MemberId = message.topic.LastPostByMember.MemberId;
                             top.LastPostByMember.DerbyNameUrl = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.topic.LastPostByMember.DerbyName);
                             if (message.topic.LastPostDateTime != null)
-                                top.LastPostHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime((message.topic.LastPostDateTime+ new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault());
+                                top.LastPostHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime((message.topic.LastPostDateTime + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault());
                             else
-                                top.LastPostHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime((message.topic.LastModified+ new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault());
+                                top.LastPostHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime((message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault());
 
                             top.TopicId = message.topic.TopicId;
                             top.GroupId = message.topic.GroupId;
@@ -1665,8 +1656,8 @@ namespace RDN.Library.Classes.Forum
                                 top.CategoryId = message.topic.Category.CategoryId;
                             }
                             top.ForumId = forumId;
-                            top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0)).GetValueOrDefault();
-                            top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone,0,0);
+                            top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault();
+                            top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0);
                             top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0));
                             top.CreatedByMember = new MemberDisplayBasic();
                             top.CreatedByMember.DerbyName = message.topic.CreatedByMember.DerbyName;
@@ -1733,7 +1724,7 @@ namespace RDN.Library.Classes.Forum
                               Categories = xx.Categories.OrderBy(x => x.NameOfCategory),
                               TimeZone = xx.LeagueOwner.TimeZone
                           }).FirstOrDefault();
-                forum.Created = db.Created + new TimeSpan(db.TimeZone,0,0);
+                forum.Created = db.Created + new TimeSpan(db.TimeZone, 0, 0);
                 forum.ForumId = db.ForumId;
                 forum.ForumName = db.ForumName;
 
@@ -1877,7 +1868,7 @@ namespace RDN.Library.Classes.Forum
                               Categories = xx.Categories.OrderBy(x => x.NameOfCategory),
                               TimeZone = xx.LeagueOwner.TimeZone
                           }).FirstOrDefault();
-                forum.Created = db.Created + new TimeSpan(db.TimeZone,0,0);
+                forum.Created = db.Created + new TimeSpan(db.TimeZone, 0, 0);
                 forum.ForumId = db.ForumId;
                 forum.ForumName = db.ForumName;
 
@@ -2021,7 +2012,7 @@ namespace RDN.Library.Classes.Forum
                               Categories = xx.Categories.OrderBy(x => x.NameOfCategory),
                               TimeZone = xx.LeagueOwner.TimeZone
                           }).FirstOrDefault();
-                forum.Created = db.Created + new TimeSpan(db.TimeZone,0,0);
+                forum.Created = db.Created + new TimeSpan(db.TimeZone, 0, 0);
                 forum.ForumId = db.ForumId;
                 forum.ForumName = db.ForumName;
 
@@ -2156,7 +2147,7 @@ namespace RDN.Library.Classes.Forum
             top.LastModifiedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(top.LastModified + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0));
             top.Created = topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0);
             top.IsArchived = topic.IsArchived;
-            top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone,0,0));
+            top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0));
             if (topic.LastPostDateTime == null)
                 top.LastPostHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastModified.GetValueOrDefault());
             else
