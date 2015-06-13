@@ -41,7 +41,7 @@ namespace RDN.Library.Classes.Payment.Paypal
 
                         RDN.Library.Classes.League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, false, invoice.Subscription.InternalObject);
 
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + paypalMessage.ToString());
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: New Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price + paypalMessage.ToString());
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Pending_Payment_From_Paypal);
                         WebClient client = new WebClient();
                         client.DownloadDataAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + invoice.Subscription.InternalObject));
@@ -50,7 +50,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     }
                     else if (invoice.Paywall != null)
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: New Paywall Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + paypalMessage.ToString());
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: New Paywall Payment Pending!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + paypalMessage.ToString());
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Pending_Payment_From_Paypal);
                     }
                     else if (invoice.DuesItems.Count > 0)
@@ -62,12 +62,12 @@ namespace RDN.Library.Classes.Payment.Paypal
                     }
                     else
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Subscription", paypalMessage.ToString());
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Couldn't Find Subscription", paypalMessage.ToString());
                     }
                 }
                 else
                 {
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", paypalMessage.ToString());
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Couldn't Find Invoice", paypalMessage.ToString());
                 }
                 return true;
             }
@@ -93,7 +93,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 WebClient client1 = new WebClient();
                 client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + duesItem.MemberPaidId));
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Dues Payment Pending", paypalMessage.ToString());
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Dues Payment Pending", paypalMessage.ToString());
                 var member = MemberCache.GetMemberDisplay(duesItem.MemberPaidId);
                 var league = MemberCache.GetLeagueOfMember(duesItem.MemberPaidId);
                 var settings = Dues.DuesFactory.GetDuesSettings(duesItem.DuesId);
@@ -112,11 +112,11 @@ namespace RDN.Library.Classes.Payment.Paypal
                                           };
 
                     //sends email to user for their payment.
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail,LibraryConfig.DefaultEmailFromName, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
                     if (league != null && !String.IsNullOrEmpty(league.Email))
                     {
                         //sends email to league for notification of their payment.
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
                     }
 
                     MobileNotificationFactory mnf = new MobileNotificationFactory();
@@ -269,7 +269,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                 {
                     if (invoice.Subscription != null)
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Payment Failed", paypalMessage.ToString());
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Payment Failed", paypalMessage.ToString());
 
                         InvoiceFactory.EmailLeagueAboutFailedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, invoice.Subscription.Price, invoice.Subscription.ValidUntil, invoice.InvoiceBilling.Email);
 
@@ -280,18 +280,18 @@ namespace RDN.Library.Classes.Payment.Paypal
                     }
                     else if (invoice.Paywall != null)
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Paywall Payment Failed", paypalMessage.ToString());
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Paywall Payment Failed", paypalMessage.ToString());
 
                         pg.SetInvoiceStatus(invoice.InvoiceId, InvoiceStatus.Failed);
                     }
                     else
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal:Failed Payment", paypalMessage.ToString());
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName,LibraryConfig.DefaultAdminEmailAdmin, "Paypal:Failed Payment", paypalMessage.ToString());
                     }
                 }
                 else
                 {
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal: Couldn't Find Invoice", paypalMessage.ToString());
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Couldn't Find Invoice", paypalMessage.ToString());
                 }
                 return true;
             }
