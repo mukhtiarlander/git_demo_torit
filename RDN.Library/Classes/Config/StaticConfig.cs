@@ -11,7 +11,7 @@ namespace RDN.Library.Classes.Config
        public static string ConnectionString = "ConnectionString";
 
 
-       public const string BaseApiUrl = "BaseApiUrl";
+       public const string ApiBaseUrl = "ApiBaseUrl";
        public const string ApiAuthenticationKey = "ApiAuthenticationKey";
     }
 }

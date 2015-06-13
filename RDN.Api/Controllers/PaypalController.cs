@@ -36,14 +36,7 @@ namespace RDN.Api.Controllers
             return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(invoiceId, message) });
         }
 
-        //public ActionResult HandleDuesPaymentPending(Guid invoiceId, PayPalMessage message)
-        //{
-        //    if (!IsAuthenticated)
-        //        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-
-        //    return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.HandleDuesPaymentPending(invoiceId, message) });
-        //}
-
+        
         public ActionResult FailedPayment(Guid invoiceId, PayPalMessage message)
         {
             if (!IsAuthenticated)

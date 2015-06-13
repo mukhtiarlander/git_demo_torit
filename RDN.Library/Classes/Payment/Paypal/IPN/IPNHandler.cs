@@ -56,8 +56,8 @@ namespace RDN.Library.Classes.Payment.Paypal
                 PaypalMessage = this.FillIPNProperties(context);
 
                 _configManager = new CustomConfigurationManager(PaypalMessage.ConfigurationName);
-                _emailManager = new EmailManagerApi(_configManager.GetSubElement(StaticConfig.BaseApiUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
-                _paypalManager = new PaypalManagerApi(_configManager.GetSubElement(StaticConfig.BaseApiUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
+                _emailManager = new EmailManagerApi(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
+                _paypalManager = new PaypalManagerApi(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
             }
             catch (Exception exception)
             {
@@ -222,7 +222,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                         switch (PaypalMessage.PaymentStatus)
                         {
                             case "Completed":
-                                _paypalManager.CompletePaypalPaymentAsync(new Guid(invoiceId), PaypalMessage);
+                                _paypalManager.CompletePaymentAsync(new Guid(invoiceId), PaypalMessage);
                                 return true;
                             case "Pending":
                                 switch (PaypalMessage.PendingReason)
@@ -237,12 +237,12 @@ namespace RDN.Library.Classes.Payment.Paypal
                                     case "verify":
                                     case "other":
                                     default:
-                                        //PendingPaypalPayment(invoiceId);
+                                        _paypalManager.PendingPaymentAsync(new Guid(invoiceId), PaypalMessage);
                                         return true;
                                 }
                             case "Failed":
                             case "Denied":
-                                //FailedPaypalPayment(invoiceId);
+                                _paypalManager.FailedPaymentAsync(new Guid(invoiceId), PaypalMessage);
                                 return true;
                             default:
                                 _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Status is Defaulted..??????", PaypalMessage.ToString());
