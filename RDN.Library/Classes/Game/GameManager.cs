@@ -17,6 +17,7 @@ using RDN.Portable.Config;
 using Scoreboard.Library.ViewModel.Members;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Federation;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Game
 {
@@ -119,7 +120,7 @@ namespace RDN.Library.Classes.Game
                                             { "gamename", game.GameName},
                                             { "link", "http://rdnation.com/roller-derby-game/" + game.GameId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name)  }
                                         };
-                                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, userAccount.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To A Derby Game", emailData, EmailServer.EmailServerLayoutsEnum.AddedToANewGame);
+                                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, userAccount.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To A Derby Game", emailData, EmailServer.EmailServerLayoutsEnum.AddedToANewGame);
                                         }
                                     }
                                 }
@@ -245,10 +246,10 @@ namespace RDN.Library.Classes.Game
                         { "gameName", gameDb.GameName}, 
                         { "link", "http://league.rdnation.com/game/manage/"+ gameDb.IdForOnlineManagementUse.ToString().Replace("-","") +"/"+ gameDb.GameId.ToString().Replace("-","") } };
 
-            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, emailToSendTo, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To Manage Bout", emailData, layout: EmailServer.EmailServerLayoutsEnum.MemberAddedToManageDerbyGame, priority: EmailPriority.Normal);
+            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emailToSendTo, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To Manage Bout", emailData, layout: EmailServer.EmailServerLayoutsEnum.MemberAddedToManageDerbyGame, priority: EmailPriority.Normal);
         }
 
-        /// <summary>
+        /// <summary>   
         /// gets the number of games owned by the member.
         /// </summary>
         /// <param name="memberId"></param>

@@ -1,4 +1,5 @@
 ﻿using RDN.Library.Cache;
+using RDN.Library.Classes.Config;
 using RDN.Library.Classes.EmailServer;
 using RDN.Library.Classes.RN.Funds.Monthly;
 using RDN.Library.DataModels.EmailServer.Enums;
@@ -153,7 +154,7 @@ namespace RDN.Library.Classes.RN.Funds
                     else
                         emailData.Add("name", member.Firstname + " " + member.LastName);
                     EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, member.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
-                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
+                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
                 }
             }
 

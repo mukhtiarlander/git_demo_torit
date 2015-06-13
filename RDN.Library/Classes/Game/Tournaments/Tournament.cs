@@ -29,6 +29,7 @@ using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.ContactCard.Enums;
 using RDN.Portable.Classes.Games.Tournament;
+using RDN.Library.Classes.Config;
 //using SvgNet.SvgGdi;
 
 namespace RDN.Library.Classes.Game
@@ -989,7 +990,7 @@ namespace RDN.Library.Classes.Game
                         { "gameName",tournament.TournamentName}, 
                         { "link",ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/tournament/view/"+ tournament.PrivateTournamentId.ToString().Replace("-","") +"/"+tournament.TournamentId.ToString().Replace("-","") } };
 
-            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, emailToSendTo, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To Manage Tournament", emailData, layout: EmailServer.EmailServerLayoutsEnum.TournamentMemberAddedToManage);
+            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emailToSendTo, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To Manage Tournament", emailData, layout: EmailServer.EmailServerLayoutsEnum.TournamentMemberAddedToManage);
         }
 
         public static bool UpdateTournament(Tournament tourn)

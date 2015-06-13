@@ -19,6 +19,7 @@ using RDN.Portable.Classes.Controls.Message.Enums;
 using RDN.Library.Classes.Mobile;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Library.DataModels.Messages;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Messages
 {
@@ -423,12 +424,12 @@ namespace RDN.Library.Classes.Messages
                             if (tempMem.IsCarrierVerified)
                             {
                                 if (!String.IsNullOrEmpty(tempMem.PhoneNumber))
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.TEXT_MESSAGE_EMAIL, tempMem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, LibraryConfig.TextMessageEmail, tempMem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage);
                             }
                             else
                             {
                                 if (!String.IsNullOrEmpty(tempMem.UserName))
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, tempMem.UserName, "Text Message From " + ownerName, emailData, EmailServer.EmailServerLayoutsEnum.TextMessageNotVerified);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, tempMem.UserName, "Text Message From " + ownerName, emailData, EmailServer.EmailServerLayoutsEnum.TextMessageNotVerified);
                             }
                         }
                     }
@@ -533,7 +534,7 @@ namespace RDN.Library.Classes.Messages
                             if (user != null)
                             {
                                 inbox.UserNotifiedViaEmail = true;
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Message From " + ownerName, emailData, EmailServer.EmailServerLayoutsEnum.SendMessageToUserFromOtherUser);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Message From " + ownerName, emailData, EmailServer.EmailServerLayoutsEnum.SendMessageToUserFromOtherUser);
                             }
 
                         }

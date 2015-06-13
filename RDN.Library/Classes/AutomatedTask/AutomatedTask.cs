@@ -50,7 +50,7 @@ namespace RDN.Library.Classes.AutomatedTask
                         { "publicProfile", "http://rdnation.com/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  }, 
                         { "editProfileLink", "http://rdnation.com/login?returnSite=league&ReturnUrl=%2fmember%2fedit" } };
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, "spoiledtechie@gmail.com", "Your Profile Is Still Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, "spoiledtechie@gmail.com", "Your Profile Is Still Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
             }
             catch (Exception exception)
             {
@@ -202,7 +202,7 @@ namespace RDN.Library.Classes.AutomatedTask
                     {
                         var emailData = new Dictionary<string, string> { { "body", @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName + " Text Messages Still Running" } };
 
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, "AdminEmail", ServerConfig.TEXT_MESSAGE_EMAIL, ServerConfig.ADMIN_PHONE_NUMBER, emailData, EmailServerLayoutsEnum.TextMessage, Library.DataModels.EmailServer.Enums.EmailPriority.Important);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, "AdminEmail", LibraryConfig.TextMessageEmail, LibraryConfig.AdminPhoneNumber, emailData, EmailServerLayoutsEnum.TextMessage, Library.DataModels.EmailServer.Enums.EmailPriority.Important);
                     }
                     dc.SaveChanges();
                 }
@@ -312,7 +312,7 @@ namespace RDN.Library.Classes.AutomatedTask
                         { "publicProfile", "https://rdnation.com/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "") }, 
                         { "editProfileLink", "https://league.rdnation.com/member/edit" } };
 
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your " + RDN.Library.Classes.Config.LibraryConfig.SportName + " Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your " + RDN.Library.Classes.Config.LibraryConfig.SportName + " Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
                                 emailsSent += 1;
                             }
                             catch (Exception exception)
@@ -537,8 +537,8 @@ namespace RDN.Library.Classes.AutomatedTask
                                             { "nameOfItem",message.Items.FirstOrDefault().Name }
                                         };
 
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Review Your Purchase", emailData, EmailServer.EmailServerLayoutsEnum.RDNShopsReviewPurchaseMade);
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Review Your Purchase", emailData, EmailServer.EmailServerLayoutsEnum.RDNShopsReviewPurchaseMade);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Review Your Purchase", emailData, EmailServer.EmailServerLayoutsEnum.RDNShopsReviewPurchaseMade);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Review Your Purchase", emailData, EmailServer.EmailServerLayoutsEnum.RDNShopsReviewPurchaseMade);
                                 }
                             }
                             catch (Exception exception)
@@ -610,7 +610,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                             { "derbyname",mem.DerbyName}, 
                                         };
                                                 emailsSent += 1;
-                                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Getting Started", emailData, EmailServer.EmailServerLayoutsEnum.RDNWelcomeMessageInviteMembers);
+                                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Getting Started", emailData, EmailServer.EmailServerLayoutsEnum.RDNWelcomeMessageInviteMembers);
                                             }
                                         }
                                         catch (Exception exception)
@@ -731,7 +731,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                             { "viewConversationLink",ServerConfig.VIEW_MESSAGES_INBOX_MEMBER + mem.MemberId.ToString().Replace("-","") }
                                         };
 
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Messages", emailData, EmailServer.EmailServerLayoutsEnum.SendLatestConversationsThreadToUser);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Messages", emailData, EmailServer.EmailServerLayoutsEnum.SendLatestConversationsThreadToUser);
                                 emailsSent += 1;
                             }
                             catch (Exception exception)
@@ -856,7 +856,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                             { "viewConversationLink", ServerConfig.LEAGUE_FORUM_URL + message.boxes.FirstOrDefault().Topic.Forum.ForumId.ToString().Replace("-", "") }
                                         };
                                             emailsSent += 1;
-                                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Forum Topics", emailData, EmailServer.EmailServerLayoutsEnum.SendLatestForumTopicsToUser);
+                                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Forum Topics", emailData, EmailServer.EmailServerLayoutsEnum.SendLatestForumTopicsToUser);
                                         }
                                     }
                                 }
@@ -969,12 +969,12 @@ namespace RDN.Library.Classes.AutomatedTask
                                                 if (!String.IsNullOrEmpty(fee.EmailResponse))
                                                 {
                                                     emailData.Add("blanktext", emailFromDuesSettings);
-                                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                                                     emailsSent += 1;
                                                 }
                                                 else
                                                 {
-                                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                                                     emailsSent += 1;
                                                 }
                                             }
@@ -1103,7 +1103,7 @@ namespace RDN.Library.Classes.AutomatedTask
                           { "CurrencyUpdated",task.CurrencyUpdated.ToString() },
                         };
 
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Automation Still Working", emailData, layout: EmailServer.EmailServerLayoutsEnum.AutomatedStats, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Automation Still Working", emailData, layout: EmailServer.EmailServerLayoutsEnum.AutomatedStats, priority: EmailPriority.Normal);
                         }
                         catch (Exception exception)
                         {
@@ -1184,7 +1184,7 @@ namespace RDN.Library.Classes.AutomatedTask
                           { "monthOfEachFee", "four" },
                                                 };
 
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Shop Item Expiring Soon", emailData, layout: EmailServer.EmailServerLayoutsEnum.StoreItemExpiringSoon, priority: EmailPriority.Normal);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Shop Item Expiring Soon", emailData, layout: EmailServer.EmailServerLayoutsEnum.StoreItemExpiringSoon, priority: EmailPriority.Normal);
                                         emailsSent += 1;
                                     }
                                     item.NotifiedOfExpiration = true;
@@ -1264,7 +1264,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                                  { "link",  ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION}, 
                                                 };
 
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Shop Isn't Published", emailData, layout: EmailServer.EmailServerLayoutsEnum.ShopIsNotPublished, priority: EmailPriority.Normal);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Shop Isn't Published", emailData, layout: EmailServer.EmailServerLayoutsEnum.ShopIsNotPublished, priority: EmailPriority.Normal);
                                         emailsSent += 1;
                                     }
                                 }
@@ -1342,7 +1342,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                                  { "itemsCount",  AmountOfItemsNotPublished.ToString() }
                                                 };
 
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Shop Isn't Full", emailData, layout: EmailServer.EmailServerLayoutsEnum.ShopHasNoItems, priority: EmailPriority.Normal);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Shop Isn't Full", emailData, layout: EmailServer.EmailServerLayoutsEnum.ShopHasNoItems, priority: EmailPriority.Normal);
                                         emailsSent += 1;
                                     }
                                 }

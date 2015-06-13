@@ -6,12 +6,12 @@
     <title>
         @if (ViewBag.Title == null)
         {
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT;
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault;
         }
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault
         }
     </title>
 

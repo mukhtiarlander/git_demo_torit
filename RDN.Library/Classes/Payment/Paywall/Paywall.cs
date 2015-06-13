@@ -12,6 +12,7 @@ using RDN.Library.DataModels.Context;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Payment.Paywall
 {
@@ -171,13 +172,13 @@ namespace RDN.Library.Classes.Payment.Paywall
                                                                                         { "sellerEmail", invoice.Merchant.OrderPayedNotificationEmail},
                                             { "paywallPassword",invoice.Paywall.PaywallPassword},
                                             { "paywallLocation", "<a href='"+invoice.Paywall.PaywallLocation+"'>Go See What you Paid For!</a>"},
-                                                { "emailRDNation", "<a href='mailto:"+ServerConfig.DEFAULT_INFO_EMAIL+"'>"+ ServerConfig.DEFAULT_INFO_EMAIL+"</a>"}                                                                                      };
+                                                { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
 
                 //sends email to user for their payment.
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaid);
-                if (invoice.Merchant.OrderPayedNotificationEmail != ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN)
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaid);
+                if (invoice.Merchant.OrderPayedNotificationEmail != LibraryConfig.DefaultAdminEmailAdmin)
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
             }
             catch (Exception exception)
             {
@@ -202,14 +203,14 @@ namespace RDN.Library.Classes.Payment.Paywall
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ invoice.RefundAmount.ToString("N2") },
                                             { "receiptLink", "<a href='"+ServerConfig.WEBSITE_DEFAULT_LOCATION+"/streaming/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
-                                            { "emailRDNation", "<a href='mailto:"+ServerConfig.DEFAULT_INFO_EMAIL+"'>"+ ServerConfig.DEFAULT_INFO_EMAIL+"</a>"}                                                                                      };
+                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
 
                 //sends email to user for their payment.
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Refund for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefunded);
-                if (invoice.Merchant.OrderPayedNotificationEmail != ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN)
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Refund for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefunded);
+                if (invoice.Merchant.OrderPayedNotificationEmail != LibraryConfig.DefaultAdminEmailAdmin)
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_INFO_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
             }
             catch (Exception exception)
             {

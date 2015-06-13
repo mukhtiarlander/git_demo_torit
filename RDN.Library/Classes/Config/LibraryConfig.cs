@@ -301,7 +301,115 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["ApiAuthenticationKey"];
             }
         }
- 
+
+        public static string DefaultInfoEmail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultInfoEmail"];
+            }
+        }
+
+        public static string DefaultAdminEmailAdmin
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultAdminEmailAdmin"];
+            }
+        }
+
+        public static string DefaultPhoneNumber
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultPhoneNumber"];
+            }
+        }
+
+        public static string DefaultKrisWorlidgeEmailAdmin
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultKrisWorlidgeEmailAdmin"];
+            }
+        }
+
+        public static string DefaultEmailFromName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultEmailFromName"];
+            }
+        }
+        
+        public static string DefaultEmailMessage
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultEmailMessages"];
+            }
+        }
+
+        public static string TextMessageEmail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["TextMessageEmail"];
+            }
+        }
+        public static string AdminPhoneNumber
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AdminPhoneNumber"];
+            }
+        }
+        public static string WebsiteTitleDefault
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WebsiteTitleDefault"];
+            }
+        }
+
+        public static string WebsiteSloganDefault
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WebsiteSloganDefault"];
+            }
+        }
+
+        public static string WebsiteTitleDefaultStore
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WebsiteTitleDefaultStore"];
+            }
+        }
+        public static string LogoURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["LogoURL"];
+            }
+        }
+
+        public static string PaypalIPNHandler
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["PaypalIPNHandler"];
+            }
+        }
+
+        public static string PaypalIPNHandlerDebug
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["PaypalIPNHandlerDebug"];
+            }
+        }
 
         
     }

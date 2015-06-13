@@ -16,12 +16,12 @@
     <title>
         @if (ViewBag.Title == null)
         {
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT;
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault;
         }
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT 
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault 
         }
     </title>
     @System.Web.Optimization.Styles.Render("~/Content/css")
@@ -69,7 +69,7 @@
            @RDN.Library.Classes.Config.LibraryConfig.WebsiteName
         </div>
         <div class="hDescription">
-            @RDN.Portable.Config.ServerConfig.WEBSITE_SLOGAN_DEFAULT
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteSloganDefault
         </div>
           @if (DateTime.UtcNow < new DateTime(2014, 1, 1)) { 
         <div class="smallAd"><a target="_blank" href="https://www.2n1skateshoppe.com/"><img height="90px" src="@Url.Content("~/Content/ads/2n1.png")" /></a></div>

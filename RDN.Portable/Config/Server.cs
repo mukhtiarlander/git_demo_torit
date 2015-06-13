@@ -10,30 +10,17 @@ namespace RDN.Portable.Config
         /// <summary>
         /// default email for admins
         /// </summary>
-        public static string DEFAULT_EMAIL = "info@rdnation.com";
-        public static string DEFAULT_ADMIN_EMAIL_ADMIN = "admin@rdnation.com";
-        public static readonly long DEFAULT_PHONE_NUMBER = 3862904108;
-        public static string DEFAULT_KRIS_WORLIDGE_EMAIL_ADMIN = "kris@rdnation.com";
+        
         public static Guid DEFAULT_SCOTTS_USER_ID = new Guid("C59EF7B7-CBDD-4663-B22A-5C7C11E2934F");
         public static Guid DEFAULT_JAMIES_USER_ID = new Guid("9C73F101-1F00-46AA-BD29-4B836F4E426C");
         public static Guid DEFAULT_SCOTTS_USER_ID_DEBUG = new Guid("737f127f-8d4f-4167-9d85-9ddc0cd8f708");
         public static Guid DEFAULT_ADMIN_USER_ID = new Guid("885E1E16-0F8E-44A8-BB36-4FCE12EF6360");
         public static Guid DEFAULT_ADMIN_USER_ID_DEBUG = new Guid("885E1E16-0F8E-44A8-BB36-4FCE12EF6360");
 
-        public static string DEFAULT_EMAIL_FROM_NAME = "RDNation";
-
-        public static readonly string DEFAULT_INFO_EMAIL = "info@rdnation.com";
-        public static readonly string DEFAULT_EMAIL_MESSAGES = "messages@rdnation.com";
-        public static readonly string TEXT_MESSAGE_EMAIL = "rdnationsms@gmail.com";
         public static readonly int CSS_VERSION = 25;
         public static readonly int JS_VERSION = CSS_VERSION;
-        public static readonly string ADMIN_PHONE_NUMBER = "3862904108";
+        
         public static readonly Guid DEFAULT_RDN_FORUM_ID = new Guid("8059734d-511c-4511-8770-ee595c10bef5");
-
-
-        public static readonly string WEBSITE_TITLE_DEFAULT = "Roller Derby Nation - a smarter way to derby";
-        public static readonly string WEBSITE_SLOGAN_DEFAULT = "a smarter way to derby";
-        public static readonly string WEBSITE_TITLE_DEFAULT_STORE = "Buy & Sell Roller Derby Gear - Roller Derby Nation";
 
         public static readonly string ERROR_SUBMIT_URL_DEBUG = "http://localhost:52509/error/submit";
         public static readonly string ERROR_SUBMIT_URL_DEBUG_ANDROID = "http://10.0.2.2:52509/error/submit";
@@ -56,7 +43,7 @@ namespace RDN.Portable.Config
         public static readonly string WEBSITE_LOST_PASSWORD_RECOVER = "https://rdnation.com/recover";
         public static readonly string WIKI_URL = "http://wiki.rdnation.com/";
         public static readonly string WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT = "http://wiki.rdnation.com/Verified_Paypal_Account";
-        public static readonly string LOGO_URL = "https://rdnation.com/Content/Rollerball_pink_s100.png";
+       
         public static readonly string WEBSITE_CLEAR_TOURNAMENT_CACHE = "https://rdnation.com/utilities/ClearTournamentCache";
         public static readonly string WEBSITE_CLEAR_TOURNAMENT_CACHE_API = "https://api.rdnation.com/tournament/ClearTournamentCache";
         /// <summary>
@@ -95,10 +82,7 @@ namespace RDN.Portable.Config
         //public static string SAVE_LOGOS_FOLDER = @"C:\WebSites\codingforcharity.org\rdnation\logos\";
 
         public static Guid RDNATION_STORE_ID = new Guid("7b0c3da2-b58a-4b1a-b9a2-92d253ce0100");
-
-
-        public static readonly string PAYPAL_IPN_HANDLER = "https://transactions.rdnation.com/ipnhandlers.ashx";
-        public static readonly string PAYPAL_IPN_HANDLER_DEBUG = "https://transactionstest.rdnation.com/ipnhandlers.ashx";
+        
         public static readonly string LEAGUE_SUBSCRIPTION_SERVICES_URL = "https://rdnation.com/pricing";
         public static readonly string LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/billing/league/";
         public static readonly string LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/billing/league/addsubscription/";
