@@ -345,8 +345,9 @@ namespace RDN.Library.Classes.Account
             }
             return false;
         }
-        public static bool ChangeUserPassword(Guid userId, string oldPassword, string newPassword)
+        public static bool ChangeUserPassword(Guid userId, string oldPassword, string newPassword, out string errorMessage)
         {
+            errorMessage = "";
             try
             {
                 var user = Membership.GetUser((object)userId);
@@ -357,10 +358,26 @@ namespace RDN.Library.Classes.Account
                     SendEmailForPasswordChanged(user.Email, tempUser.DerbyName);
                 }
                 return changed;
-            }
+            }            
             catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            {                
+                if (exception.Message.Contains("cannot be null"))
+                {
+                    errorMessage = "Please fill all the fields";
+                }
+                else if (exception.Message.Contains("cannot be empty"))
+                {
+                    errorMessage = "Please fill all the fields";
+                }
+                else if (exception.Message.Contains("length of parameter"))
+                {
+                    errorMessage = "The new password must have at least 4 characters";
+                }
+                else
+                {
+                    errorMessage = exception.Message;
+                    ErrorDatabaseManager.AddException(exception, exception.GetType());
+                }
             }
             return false;
         }
