@@ -105,7 +105,7 @@
         $("#NewTextMessageMembersPopup").modal('show');
     };
     this.ShowAddMemberPopup = function (group_id, url) {
-        $("#panel-members").on('shown.bs.popover', function () {
+        $("#btn_add_member").on('shown.bs.popover', function () {
             $(".js-data-example-ajax").select2({
                 ajax: {
                     url: url,
@@ -132,17 +132,15 @@
                 minimumInputLength: 1,
                 templateResult: formatRepo, // omitted for brevity, see the source of this page
                 templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-            }).select2("open"); 
+            }).select2("open");
+            $("#add_member_ddl_area").css("visibility", "initial");
         }).popover(
           {
               html: true,
               content: '<select id="ddlMembersList" class="js-data-example-ajax w200" multiple="multiple"></select>',
-              template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Messages.SaveMembersToMessage(' + group_id + ')"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Messages.HideAddMemberPopup()">Close</button></div></div>',
+              template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div id="add_member_ddl_area" class="popover-content" style="height:53px;overflow:hidden;visibility:hidden"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Messages.SaveMembersToMessage(' + group_id + ')"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Messages.HideAddMemberPopup()">Close</button></div></div>',
               title: "<i class='fa fa-plus-circle'></i> Add Member"
           });
-
-
-
     };
     function formatRepo(repo) {
 
@@ -167,6 +165,8 @@
             data: 'memberids=' + $("#ddlMembersList").val() + '&groupId=' + GroupMessageId,
             success: function (result) {
                 $("#panel-members").popover('hide');
+                $("#btn_add_member").popover('hide');
+                
                 if (result == true) {
                     var selected_members = $("#ddlMembersList").select2('data');
                     for (var i = 0; i < selected_members.length; i++) {
@@ -186,5 +186,6 @@
     };
     this.HideAddMemberPopup = function () {
         $("#panel-members").popover('hide');
+        $("#btn_add_member").popover('hide');
     }
 }
