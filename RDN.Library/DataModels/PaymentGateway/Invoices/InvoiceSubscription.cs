@@ -24,17 +24,19 @@ namespace RDN.Library.DataModels.PaymentGateway.Invoices
         public string DescriptionRecurring { get; set; }
         [MaxLength(255)]
         public string ArticleNumber { get; set; }
+
+        public string PlanId { get; set; }
         [Required]
         public decimal Price { get; set; }
         // Specifies the number of days that this is valid upon payment / recurring payment
-        [Required]        
+        [Required]
         public int SubscriptionPeriodLengthInDays { get; set; }
         // Checked to see if this is valid
         public DateTime ValidUntil { get; set; }
         // Recurring billing in days, see enum in classes->payment->enums   
         [Required]
         public byte SubscriptionPeriod { get; set; }
-        
+
         // Reference to the invoice
         [Required]
         public virtual Invoice Invoice { get; set; }

@@ -327,7 +327,7 @@ namespace RDN.Library.Classes.Store
                 if (merc != null && !String.IsNullOrEmpty(response.AccessToken))
                 {
                     merc.StripeConnectToken = response.AccessToken;
-                    merc.StripePublishableKey = response.PublishableKey;
+                    merc.StripePublishableKey = response.StripePublishableKey;
                     merc.StripeRefreshToken = response.RefreshToken;
                     merc.StripeUserId = response.StripeUserId;
                     merc.StripeTokenType = response.TokenType;

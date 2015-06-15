@@ -30,7 +30,6 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
-                //{ "id": "evt_1Myn3gX10D21o6", "created": 1361989292, "livemode": true, "type": "customer.subscription.updated", "data": { "object": { "plan": { "interval": "month", "name": "Monthly_Plan", "amount": 1599, "currency": "usd", "id": "Monthly_Plan", "object": "plan", "livemode": true, "interval_count": 1, "trial_period_days": null }, "object": "subscription", "start": 1359310832, "status": "active", "customer": "cus_1BMmWWvjng8Mug", "cancel_at_period_end": false, "current_period_start": 1361989232, "current_period_end": 1364408432, "ended_at": null, "trial_start": null, "trial_end": null, "canceled_at": null, "quantity": 1 }, "previous_attributes": { "current_period_start": 1359310832, "current_period_end": 1361989232 } }, "object": "event", "pending_webhooks": 1 } 
 
                 PaymentGateway pg = new PaymentGateway();
                 var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD",
@@ -46,8 +45,16 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 even.LiveMode = se.LiveMode.GetValueOrDefault();
                 if (se.Data != null)
                 {
+                    string connectionStringName = string.Empty;
                     StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
-                    //StripeSubscription cust = (StripeSubscription)se.Data.Object;
+                    if (cust.Metadata != null)
+                    {
+                        if (cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                        {
+                            dc = new ManagementContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                            connectionStringName = cust.Metadata[InvoiceFactory.ConnectionStringName];
+                        }
+                    }
                     StripeSubscriptionDb custDb = new StripeSubscriptionDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_subscription_created;
                     custDb.CanceledAt = cust.CanceledAt;
@@ -64,7 +71,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         if (custDb.StripePlan == null)
                         {
                             StripePlanDb pl = new StripePlanDb();
-                            pl.AmountInCents = cust.StripePlan.AmountInCents;
+                            pl.AmountInCents = cust.StripePlan.Amount;
                             pl.Currency = cust.StripePlan.Currency;
                             pl.Id = cust.StripePlan.Id;
                             pl.Interval = cust.StripePlan.Interval;
@@ -106,7 +113,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         lengthOfDays = ts.Days;
                     }
                     //getting league Id here and subscriptionDate
-                    var invoiceFromPast = pg.GetDisplayInvoiceWithStripeCustomerId(cust.CustomerId);
+                    var invoiceFromPast = pg.GetDisplayInvoiceWithStripeCustomerId(cust.CustomerId, connectionStringName);
                     Guid leagueId = new Guid();
                     if (invoiceFromPast.Subscription != null)
                     {
@@ -120,12 +127,13 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         Name = "RDN Member portal",
                         NameRecurring = "RDN Member portal recurring",
                         DigitalPurchaseText = "You have now access to RDN League portal",
-                        Price = Convert.ToDecimal(cust.StripePlan.AmountInCents) / Convert.ToDecimal(100),
+                        Price = Convert.ToDecimal(cust.StripePlan.Amount) / Convert.ToDecimal(100),
                         SubscriptionPeriodStripe = period,
                         SubscriptionPeriodLengthInDays = lengthOfDays,
                         //league id is the ownerId
                         InternalObject = leagueId
                     });
+                    f.SetConnectionStringName(connectionStringName);
 
                     custDb.TrialEnd = cust.TrialEnd;
                     custDb.TrialStart = cust.TrialStart;
@@ -160,8 +168,13 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 if (se.Data != null)
                 {
                     StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
-                    StripeSubscriptionDb custDb = new StripeSubscriptionDb();
+                    if (cust.Metadata != null)
+                    {
+                        if (cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                            dc = new ManagementContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                    }
 
+                    StripeSubscriptionDb custDb = new StripeSubscriptionDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_subscription_created;
                     custDb.CanceledAt = cust.CanceledAt;
                     custDb.EndedAt = cust.EndedAt;
@@ -177,7 +190,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         if (custDb.StripePlan == null)
                         {
                             StripePlanDb pl = new StripePlanDb();
-                            pl.AmountInCents = cust.StripePlan.AmountInCents;
+                            pl.AmountInCents = cust.StripePlan.Amount;
                             pl.Currency = cust.StripePlan.Currency;
                             pl.Id = cust.StripePlan.Id;
                             pl.Interval = cust.StripePlan.Interval;
@@ -218,18 +231,22 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 even.LiveMode = se.LiveMode.GetValueOrDefault();
                 if (se.Data != null)
                 {
-                    //StripeInvoice inv = (StripeInvoice)se.Data.Object;
                     StripeInvoice inv = Stripe.Mapper<StripeInvoice>.MapFromJson(se.Data.Object.ToString());
+                    if (inv.Metadata != null)
+                    {
+                        if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                    }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.invoice_created;
-                    nnv.AmountDueInCents = inv.AmountDueInCents;
+                    nnv.AmountDueInCents = inv.AmountDue;
                     nnv.AttemptCount = inv.AttemptCount;
                     nnv.Attempted = inv.Attempted;
                     nnv.ChargeId = inv.ChargeId;
                     nnv.Closed = inv.Closed;
                     nnv.Customer = dc.StripeCustomers.Where(x => x.Id == inv.CustomerId).FirstOrDefault();
                     nnv.Date = inv.Date;
-                    nnv.EndingBalanceInCents = inv.EndingBalanceInCents;
+                    nnv.EndingBalanceInCents = inv.EndingBalance;
                     nnv.Id = inv.Id;
                     nnv.LiveMode = inv.LiveMode;
                     nnv.NextPaymentAttempt = inv.NextPaymentAttempt;
@@ -237,18 +254,10 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     nnv.Paid = inv.Paid;
                     nnv.PeriodEnd = inv.PeriodEnd;
                     nnv.PeriodStart = inv.PeriodStart;
-                    nnv.StartingBalanceInCents = inv.StartingBalanceInCents;
-                    nnv.SubtotalInCents = inv.SubtotalInCents;
-                    nnv.TotalInCents = inv.TotalInCents;
+                    nnv.StartingBalanceInCents = inv.StartingBalance;
+                    nnv.SubtotalInCents = inv.Subtotal;
+                    nnv.TotalInCents = inv.Total;
                     even.Invoice = nnv;
-                    //commented out because the version upgraded to 2.7 from 2.2
-                    //if (inv.StripeInvoiceLines != null && inv.StripeInvoiceLines.StripeInvoiceSubscriptions != null)
-                    //{
-                    //    foreach (var sub in inv.StripeInvoiceLines.StripeInvoiceSubscriptions)
-                    //    {
-                    //        nnv.SubscriptionPlan = dc.StripePlans.Where(x => x.Id == sub.StripePlan.Id).FirstOrDefault();
-                    //    }
-                    //}
 
                     dc.StripeInvoices.Add(nnv);
                 }
@@ -298,18 +307,22 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 even.LiveMode = se.LiveMode.GetValueOrDefault();
                 if (se.Data != null)
                 {
-                    //StripeCharge inv = (StripeCharge)se.Data.Object;
                     StripeCharge inv = Stripe.Mapper<StripeCharge>.MapFromJson(se.Data.Object.ToString());
+                    if (inv.Metadata != null)
+                    {
+                        if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                    }
                     StripeChargeDb nnv = new StripeChargeDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.charge_failed;
-                    nnv.AmountInCents = inv.AmountInCents;
-                    nnv.AmountInCentsRefunded = inv.AmountInCentsRefunded;
+                    nnv.AmountInCents = inv.Amount;
+                    nnv.AmountInCentsRefunded = inv.AmountRefunded;
                     nnv.Currency = inv.Currency;
                     nnv.Customer = dc.StripeCustomers.Where(x => x.Id == inv.CustomerId).FirstOrDefault();
                     nnv.Description = inv.Description;
                     nnv.FailureMessage = inv.FailureMessage;
 
-                    nnv.FeeInCents = inv.FeeInCents;
+                    //nnv.FeeInCents = inv.FeeInCents;
                     nnv.Id = inv.Id;
                     nnv.Invoice = dc.StripeInvoices.Where(x => x.Id == inv.InvoiceId).FirstOrDefault();
                     nnv.LiveMode = inv.LiveMode;
@@ -356,8 +369,11 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         invoice.InvoiceStatusUpdated = DateTime.UtcNow;
                         invoice.Merchant = invoice.Merchant;
 
-                        var customerService = new StripeCustomerService();
-                        StripeSubscription subscription = customerService.CancelSubscription(inv.CustomerId, true);
+                        //var customerService = new StripeCustomerService();
+                        //StripeSubscription subscription = customerService.CancelSubscription(inv.CustomerId, true);
+                        var subscriptionService = new StripeSubscriptionService();
+                        subscriptionService.Cancel(inv.CustomerId, invoice.Subscription.PlanId);
+
 
                         EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, ServerConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmailAdmin);
                     }
@@ -387,28 +403,32 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 even.LiveMode = se.LiveMode.GetValueOrDefault();
                 if (se.Data != null)
                 {
-                    //StripeCharge inv = (StripeCharge)se.Data.Object;
                     StripeCharge inv = Stripe.Mapper<StripeCharge>.MapFromJson(se.Data.Object.ToString());
+                    if (inv.Metadata != null)
+                    {
+                        if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                    }
                     StripeChargeDb nnv = new StripeChargeDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.charge_succeeded;
-                    nnv.AmountInCents = inv.AmountInCents;
-                    nnv.AmountInCentsRefunded = inv.AmountInCentsRefunded;
+                    nnv.AmountInCents = inv.Amount;
+                    nnv.AmountInCentsRefunded = inv.AmountRefunded;
                     nnv.Currency = inv.Currency;
                     nnv.Customer = dc.StripeCustomers.Where(x => x.Id == inv.CustomerId).FirstOrDefault();
                     nnv.Description = inv.Description;
                     nnv.FailureMessage = inv.FailureMessage;
-                    foreach (var fee in inv.FeeDetails)
-                    {
-                        StripeFeeDb f = new StripeFeeDb();
-                        f.AmountInCents = fee.AmountInCents;
-                        f.Application = fee.Application;
-                        f.Currency = fee.Currency;
-                        f.Description = fee.Description;
-                        f.type = fee.type;
-                        nnv.FeeDetails.Add(f);
-                    }
+                    //foreach (var fee in inv.FeeDetails)
+                    //{
+                    //    StripeFeeDb f = new StripeFeeDb();
+                    //    f.AmountInCents = fee.AmountInCents;
+                    //    f.Application = fee.Application;
+                    //    f.Currency = fee.Currency;
+                    //    f.Description = fee.Description;
+                    //    f.type = fee.type;
+                    //    nnv.FeeDetails.Add(f);
+                    //}
 
-                    nnv.FeeInCents = inv.FeeInCents;
+                    //nnv.FeeInCents = inv.FeeInCents;
                     nnv.Id = inv.Id;
                     nnv.Invoice = dc.StripeInvoices.Where(x => x.Id == inv.InvoiceId).FirstOrDefault();
                     nnv.LiveMode = inv.LiveMode;
@@ -438,14 +458,14 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         {
                             //update league subscription
                             League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, true, invoice.Subscription.InternalObject);
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.AmountInCents + ":" + inv.ToString() + json);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                         }
 
                         invoice.InvoicePaid = true;
                         invoice.InvoiceStatus = (byte)InvoiceStatus.Payment_Successful;
                         invoice.InvoiceStatusUpdated = DateTime.UtcNow;
                         invoice.Merchant = invoice.Merchant;
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.AmountInCents + ":" + inv.ToString() + json);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                     }
 
                 }
@@ -474,10 +494,14 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 if (se.Data != null)
                 {
                     StripeInvoice inv = Stripe.Mapper<StripeInvoice>.MapFromJson(se.Data.Object.ToString());
-                    //StripeInvoice inv = (StripeInvoice)se.Data.Object;
+                    if (inv.Metadata != null)
+                    {
+                        if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                    }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.invoice_created;
-                    nnv.AmountDueInCents = inv.AmountDueInCents;
+                    nnv.AmountDueInCents = inv.AmountDue;
                     nnv.AttemptCount = inv.AttemptCount;
                     nnv.Attempted = inv.Attempted;
                     //nnv.ChargeId = dc.StripeCharges.Where(x => x.Id == inv.ChargeId).FirstOrDefault();
@@ -486,7 +510,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
 
                     nnv.Customer = dc.StripeCustomers.Where(x => x.Id == inv.CustomerId).FirstOrDefault();
                     nnv.Date = inv.Date;
-                    nnv.EndingBalanceInCents = inv.EndingBalanceInCents;
+                    nnv.EndingBalanceInCents = inv.EndingBalance;
                     nnv.Id = inv.Id;
                     nnv.LiveMode = inv.LiveMode;
                     nnv.NextPaymentAttempt = inv.NextPaymentAttempt;
@@ -494,9 +518,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     nnv.Paid = inv.Paid;
                     nnv.PeriodEnd = inv.PeriodEnd;
                     nnv.PeriodStart = inv.PeriodStart;
-                    nnv.StartingBalanceInCents = inv.StartingBalanceInCents;
-                    nnv.SubtotalInCents = inv.SubtotalInCents;
-                    nnv.TotalInCents = inv.TotalInCents;
+                    nnv.StartingBalanceInCents = inv.StartingBalance;
+                    nnv.SubtotalInCents = inv.Subtotal;
+                    nnv.TotalInCents = inv.Total;
                     even.Invoice = dc.StripeInvoices.Where(x => x.Id == nnv.Id).FirstOrDefault();
                     dc.StripeInvoices.Add(nnv);
                 }
@@ -516,14 +540,21 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
         {
             try
             {
-                var dc = new ManagementContext();
+                ManagementContext dc = new ManagementContext();
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
+
                 even.LiveMode = se.LiveMode.GetValueOrDefault();
                 if (se.Data != null)
                 {
                     StripeCustomer cust = Stripe.Mapper<StripeCustomer>.MapFromJson(se.Data.Object.ToString());
+                    if (cust.Metadata != null)
+                    {
+                        if (cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                            dc = new ManagementContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                    }
+
                     StripeCustomerDb custDb = new StripeCustomerDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_created;
                     custDb.CreatedByStripe = cust.Created;
@@ -572,7 +603,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 card.ExpirationYear = car.ExpirationYear;
                 card.Fingerprint = car.Fingerprint;
                 card.Last4 = car.Last4;
-                card.Type = car.Type;
+                card.Type = car.Brand;
                 card.Name = car.Name;
             }
             catch (Exception exception)
