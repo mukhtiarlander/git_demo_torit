@@ -24,6 +24,7 @@ using RDN.Portable.Classes.Account.Enums.Settings;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Communications.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Insurance;
 
 namespace RDN.League.Controllers
 {
@@ -330,7 +331,40 @@ namespace RDN.League.Controllers
                 edit.StartedSkating = member.StartedSkating;
                 edit.StoppedSkating = member.StoppedSkating;
                 edit.InsuranceNumbers = member.InsuranceNumbers;
-                
+
+                if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
+                {
+                    if (edit.InsuranceNumbers.Where(x => x.Type == InsuranceType.CRDI).FirstOrDefault() == null)
+                    {
+                        edit.InsuranceNumbers.Add(new InsuranceNumber()
+                        {
+                            Type = InsuranceType.CRDI
+                        });
+                    }
+                    if (edit.InsuranceNumbers.Where(x => x.Type == InsuranceType.USARS).FirstOrDefault() == null)
+                    {
+                        edit.InsuranceNumbers.Add(new InsuranceNumber()
+                        {
+                            Type = InsuranceType.USARS
+                        });
+                    }
+                    if (edit.InsuranceNumbers.Where(x => x.Type == InsuranceType.WFTDA).FirstOrDefault() == null)
+                    {
+                        edit.InsuranceNumbers.Add(new InsuranceNumber()
+                        {
+                            Type = InsuranceType.WFTDA
+                        });
+                    }
+                }
+                if (edit.InsuranceNumbers.Where(x => x.Type == InsuranceType.Other).FirstOrDefault() == null)
+                {
+                    edit.InsuranceNumbers.Add(new InsuranceNumber()
+                    {
+                        Type = InsuranceType.Other
+                    });
+                }
+
+
                 foreach (var fed in member.FederationsApartOf)
                 {
                     FederationDisplay fe = new FederationDisplay();
@@ -413,7 +447,6 @@ namespace RDN.League.Controllers
                     edit.StartedSkating = member.StartedSkating;
                 if (member.StoppedSkating != null && member.StoppedSkating > DateTime.Now.AddYears(-100))
                     edit.StoppedSkating = member.StoppedSkating;
-                edit.InsuranceNumbers = member.InsuranceNumbers;
                 edit.IsProfileRemovedFromPublicView = member.IsProfileRemovedFromPublicView;
                 if (!String.IsNullOrEmpty(member.Firstname))
                     edit.Firstname = member.Firstname.Trim();
@@ -436,6 +469,27 @@ namespace RDN.League.Controllers
                 edit.City = member.City;
                 edit.State = member.State;
                 edit.ZipCode = member.ZipCode;
+                edit.InsuranceNumbers.Clear();
+                var values = Enum.GetValues(typeof(InsuranceType));
+                foreach (var insurance in values)
+                {
+                    if (!String.IsNullOrEmpty(Request.Form["insuranceNumber_" + insurance]))
+                    {
+                        var insuranceType = (InsuranceType)Enum.Parse(typeof(InsuranceType), insurance.ToString());
+                        var number = new InsuranceNumber()
+                        {
+                            Type = insuranceType,
+                            Number = Request.Form["insuranceNumber_" + insurance]
+                        };
+
+                        DateTime expires = new DateTime();
+                        if (DateTime.TryParse(Request.Form["insuranceNumberExpires_" + insurance], out expires))
+                            number.Expires = expires;
+
+                        edit.InsuranceNumbers.Add(number);
+                    }
+                }
+
 
                 ViewData["genderSelectList"] = member.Gender.ToSelectList();
                 var countries = RDN.Library.Classes.Location.LocationFactory.GetCountries();
@@ -510,7 +564,7 @@ namespace RDN.League.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Json(new { success = false}, JsonRequestBehavior.AllowGet);
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
 
         [LeagueAuthorize(EmailVerification = true, IsInLeague = false)]
