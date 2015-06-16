@@ -31,7 +31,7 @@
                     }
                 </h3>
             </div>
-            <div id="messagesAdd" class="panel-body  scroll-y">
+            <div id="messagesAdd" style="min-height:150px;" class="panel-body  scroll-y">
                 @foreach (var message in Model.Messages.OrderBy(x => x.MessageCreated))
                 {
 

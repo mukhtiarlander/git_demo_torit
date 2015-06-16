@@ -173,7 +173,10 @@ namespace RDN.League.Controllers
                 model.OwnerId = new Guid(id);
                 model.SendEmailForMessage = true;
                 if (model.OwnerType == GroupOwnerTypeEnum.member)
+                {
                     model.Recipients = Messages.GetConnectedMembersOfMember(new Guid(id));
+                    model.Groups = MemberCache.GetGroupsApartOf(new Guid(id));
+                }
                 else if (model.OwnerType == GroupOwnerTypeEnum.shop)
                 {
                     model.Recipients = Messages.GetConnectedShopRecipient(new Guid(id));
@@ -191,7 +194,7 @@ namespace RDN.League.Controllers
                     var mem = MemberCache.GetMemberDisplay(model.OwnerId);
                     model.Recipients = new List<MemberDisplayBasic>();
                     model.Recipients.Add(mem);
-                    
+
                 }
                 else if (model.OwnerType == GroupOwnerTypeEnum.officiating)
                 {
@@ -216,7 +219,9 @@ namespace RDN.League.Controllers
                     model.Title = "Public Event: ";
                 }
                 else
+                {
                     model.Recipients = Messages.GetConnectedMembersOfGroup(new Guid(id));
+                }
             }
             catch (Exception exception)
             {
@@ -237,7 +242,10 @@ namespace RDN.League.Controllers
                 var mem = MemberCache.GetMemberDisplay(memId);
                 model.IsCarrierVerified = mem.IsCarrierVerified;
                 if (model.OwnerType == GroupOwnerTypeEnum.member)
+                {
                     model.Recipients = Messages.GetConnectedMembersOfMember(new Guid(id));
+                    model.Groups = MemberCache.GetGroupsApartOf(new Guid(id));
+                }
                 else
                     model.Recipients = Messages.GetConnectedMembersOfGroup(new Guid(id));
             }
@@ -263,35 +271,18 @@ namespace RDN.League.Controllers
 
                 mess.Title = model.Title;
                 mess.SendEmailForMessage = model.SendEmailForMessage;
-                //mess.ToMemberIds = model.ToMemberIds;
-                //mess.ToMemberNames = model.ToMemberNames;
                 mess.OwnerType = model.OwnerType;
 
                 if (!String.IsNullOrEmpty(model.ToMemberIds))
                 {
                     foreach (string guid in model.ToMemberIds.Split(','))
                     {
-                        Guid temp = new Guid();
-                        if (Guid.TryParse(guid, out temp))
-                            listOfGuids.Add(temp);
-                    }
-                }
-                if (!String.IsNullOrEmpty(model.ToGroupIds))
-                {
-                    foreach (string guid in model.ToGroupIds.Split(','))
-                    {
-                        long temp = new long();
-                        if (Int64.TryParse(guid, out temp))
-                            listOfGroupIds.Add(temp);
-                    }
-                }
-                if (!String.IsNullOrEmpty(model.ToMemberNames))
-                {
-                    foreach (string guid in model.ToMemberNames.Split(','))
-                    {
-                        Guid temp = new Guid();
-                        if (Guid.TryParse(guid, out temp))
-                            listOfGuids.Add(temp);
+                        long groupId = new long();
+                        Guid memberId = new Guid();
+                        if (Guid.TryParse(guid, out memberId))
+                            listOfGuids.Add(memberId);
+                        else if (Int64.TryParse(guid, out groupId))
+                            listOfGroupIds.Add(groupId);
                     }
                 }
 
@@ -337,31 +328,15 @@ namespace RDN.League.Controllers
                 {
                     foreach (string guid in model.ToMemberIds.Split(','))
                     {
-                        Guid temp = new Guid();
-                        bool didWork = Guid.TryParse(guid, out temp);
-                        if (didWork)
-                            listOfGuids.Add(temp);
+                        long groupId = new long();
+                        Guid memberId = new Guid();
+                        if (Guid.TryParse(guid, out memberId))
+                            listOfGuids.Add(memberId);
+                        else if (Int64.TryParse(guid, out groupId))
+                            listOfGroupIds.Add(groupId);
                     }
                 }
-                if (!String.IsNullOrEmpty(model.ToMemberNames))
-                {
-                    foreach (string guid in model.ToMemberNames.Split(','))
-                    {
-                        Guid temp = new Guid();
-                        bool didWork = Guid.TryParse(guid, out temp);
-                        if (didWork)
-                            listOfGuids.Add(temp);
-                    }
-                }
-                if (!String.IsNullOrEmpty(model.ToGroupIds))
-                {
-                    foreach (string guid in model.ToGroupIds.Split(','))
-                    {
-                        long temp = new long();
-                        if (Int64.TryParse(guid, out temp))
-                            listOfGroupIds.Add(temp);
-                    }
-                }
+
 
                 listOfGuids = listOfGuids.Distinct().ToList();
                 foreach (var guid in listOfGuids)
@@ -402,7 +377,7 @@ namespace RDN.League.Controllers
                 }
             }
 
-           return Json(Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid)));
+            return Json(Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid)));
 
 
         }

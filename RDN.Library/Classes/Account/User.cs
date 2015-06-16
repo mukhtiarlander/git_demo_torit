@@ -211,11 +211,13 @@ namespace RDN.Library.Classes.Account
         {
             var dc = new ManagementContext();
             var name = (from xx in dc.Members
-                        where xx.DerbyName.ToLower().Contains(q)
+                        where xx.DerbyName.ToLower().Contains(q) || xx.Firstname.Contains(q) || xx.Lastname.Contains(q)
                         select new MemberJson
                         {
                             name = xx.DerbyName,
-                            id = xx.MemberId
+                            realname = (xx.Firstname + " " + xx.Lastname).Trim(),
+                            id = xx.MemberId,
+                            picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrlThumb : "",
                         }).Take(limit).ToList();
 
             return name;
@@ -358,9 +360,9 @@ namespace RDN.Library.Classes.Account
                     SendEmailForPasswordChanged(user.Email, tempUser.DerbyName);
                 }
                 return changed;
-            }            
+            }
             catch (Exception exception)
-            {                
+            {
                 if (exception.Message.Contains("cannot be null"))
                 {
                     errorMessage = "Please fill all the fields";
@@ -2136,7 +2138,7 @@ namespace RDN.Library.Classes.Account
                     }
                 }
 
-foreach (var league in mem.Leagues)
+                foreach (var league in mem.Leagues)
                 {
                     var leagueMember = dc.LeagueMembers.Where(x => x.League.LeagueId == league.LeagueId && x.Member.MemberId == mem.MemberId).FirstOrDefault();
                     if (leagueMember != null)
@@ -2779,7 +2781,7 @@ foreach (var league in mem.Leagues)
             {
                 try
                 {
-                    mem.InsuranceNumbers.Add(new InsuranceNumber() { Expires= numb.Expires, Number = numb.InsuranceNumber, Type = (InsuranceType)numb.InsuranceType });
+                    mem.InsuranceNumbers.Add(new InsuranceNumber() { Expires = numb.Expires, Number = numb.InsuranceNumber, Type = (InsuranceType)numb.InsuranceType });
                 }
                 catch (Exception exception)
                 {

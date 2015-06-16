@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.8.0\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="Geocoding, Version=3.3.0.0, Culture=neutral, PublicKeyToken=7c714700b88674c7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Geocoding.net.3.3.0\lib\net40\Geocoding.dll</HintPath>
+    </Reference>
     <Reference Include="Google.GData.Client">
       <HintPath>..\packages\Google.GData.Client.1.9.0.0\lib\Google.GData.Client.dll</HintPath>
     </Reference>
@@ -239,7 +242,7 @@
     <Compile Include="Classes\Controls\Calendar\Reports\MembersReport.cs" />
     <Compile Include="Classes\Controls\Dues\FeeClassificationFactory.cs" />
     <Compile Include="Classes\Controls\Forum\ForumMessageMention.cs" />
-    <Compile Include="Classes\Controls\Forum\ForumNotificationFactory.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumNotificationManager.cs" />
     <Compile Include="Classes\Controls\Forum\ForumTopicWatchList.cs" />
     <Compile Include="Classes\Controls\Voting\VotingFactory.cs" />
     <Compile Include="Classes\Display\Colors\ColorDisplay.cs" />
@@ -270,6 +273,7 @@
     <Compile Include="Classes\Error\ErrorManagerWeb.cs" />
     <Compile Include="Classes\Game\GameFactory.cs" />
     <Compile Include="Classes\Insurance\InsuranceManager.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroupFactory.cs" />
     <Compile Include="Classes\League\ItemInfoDA.cs" />
     <Compile Include="Classes\League\JobBoard.cs" />
     <Compile Include="Classes\League\Organization.cs" />
@@ -277,6 +281,7 @@
     <Compile Include="Classes\League\Reports\MembersReportContactEnum.cs" />
     <Compile Include="Classes\League\TaskList\TaskDA.cs" />
     <Compile Include="Classes\League\TaskList\TaskListDA.cs" />
+    <Compile Include="Classes\Location\GeocodingManager.cs" />
     <Compile Include="Classes\Officials\RequestDA.cs" />
     <Compile Include="Classes\League\Sponsor.cs" />
     <Compile Include="Classes\Mobile\Enums\NotificationTypeEnum.cs" />
@@ -318,7 +323,6 @@
     <Compile Include="Classes\League\Classes\Json\LeagueJsonAutoComplete.cs" />
     <Compile Include="Classes\League\Classes\LeagueDocument.cs" />
     <Compile Include="Classes\League\Classes\LeagueFolder.cs" />
-    <Compile Include="Classes\League\Classes\LeagueGroup.cs" />
     <Compile Include="Classes\League\Classes\LeagueMemberClass.cs" />
     <Compile Include="Classes\League\Enums\LeaguePhotoTypeEnum.cs" />
     <Compile Include="Classes\League\Reports\LeagueReportBuilder.cs" />
@@ -330,7 +334,6 @@
     <Compile Include="Classes\Communications\Messages\Messages.cs" />
     <Compile Include="Classes\Communications\Messages\MessagesCache.cs" />
     <Compile Include="Classes\Location\LocationOwnerType.cs" />
-    <Compile Include="Classes\Location\OpenStreetMap.cs" />
     <Compile Include="Classes\Location\TimeZone.cs" />
     <Compile Include="Classes\Mobile\MobileNotification.cs" />
     <Compile Include="Classes\Mobile\PushSharp.cs" />
@@ -757,7 +760,9 @@
       <DependentUpon>AspNetMembership.edmx</DependentUpon>
       <LastGenOutput>AspNetMembership.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>

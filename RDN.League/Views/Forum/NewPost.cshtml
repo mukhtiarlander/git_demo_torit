@@ -21,7 +21,7 @@
                 <h3 class="margin-top-10"><i class="fa fa-file-o"></i> @Model.GroupName, Post New Message</h3>
             </div>
 
-            @using (Html.BeginForm("NewPost", "Forum", FormMethod.Post, new { @id = "NewPost", onsubmit="GetMentionedMembers()" }))
+            @using (Html.BeginForm("NewPost", "Forum", FormMethod.Post, new { @id = "NewPost", onsubmit="Forum.GetMentionedMembers()" }))
             {
                 <div class="panel-body">
                     <div class="form-label">
@@ -43,8 +43,7 @@
                         @Html.TextArea("Message", string.Empty, new
                         {
                             id = "wmd-input",
-                            style = "width:100%",
-                            @class = "mention"
+                            style = "width:100%"
                         })
                         @Html.HiddenFor(x => x.Mentions, new { @id = "mentioned_members_ids"})
                     </div>
@@ -81,23 +80,11 @@
             Subject: "required"
         }
     });
-
     $(document).ready(function () {
         $("#Subject").focus();
-        Forum.SetupNewForumPost();
+        Forum.SetupPost("Forum", '@Model.ForumId', '@Model.ForumType', '@Model.TopicId', '@Model.GroupId');
 
     });
 
-    function GetMentionedMembers()
-    {
-        var members = [];
-        $("#wmd-input_ifr").contents().find(".mentioned_name").each(function () {
-            $("#mentioned_members_ids").val($("#mentioned_members_ids").val() + $(this).attr('id') + ",");
-            members.push({
-                id: $(this).attr('id'),
-                name: $(this).html()
-            });
-        });
-
-    }
+   
 </script>

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Geocoding;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.ContactCard;
 using RDN.Library.DataModels.Location;
 using RDN.Library.Classes.Account.Enums;
 using RDN.Library.Classes.Error;
 using RDN.Portable.Classes.Geo;
+using Address = RDN.Library.DataModels.ContactCard.Address;
 
 namespace RDN.Library.Classes.Location
 {
     public class LocationFactory
     {
+      
         public static void UpdateLocations()
         {
             var dc = new ManagementContext();
@@ -21,7 +24,7 @@ namespace RDN.Library.Classes.Location
             {
                 try
                 {
-                    var coords = OpenStreetMap.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : String.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : String.Empty);
                     if (coords != null)
                     {
                         add.Coords = new System.Device.Location.GeoCoordinate();
@@ -136,12 +139,12 @@ namespace RDN.Library.Classes.Location
                 if (ownerType == LocationOwnerType.calendar)
                 {
                     var cal = dc.Calendar.Where(x => x.CalendarId == idOfOwner).FirstOrDefault();
-                    cal.Locations.Add(location);
+                    if (cal != null) cal.Locations.Add(location);
                 }
                 else if (ownerType == LocationOwnerType.shop)
                 {
                     var shop = dc.Merchants.Where(x => x.PrivateManagerId == idOfOwner).FirstOrDefault();
-                    shop.Locations.Add(location);
+                    if (shop != null) shop.Locations.Add(location);
                 }
                 location.LocationName = name;
                 location.Contact = new DataModels.ContactCard.ContactCard();
@@ -152,7 +155,7 @@ namespace RDN.Library.Classes.Location
                 a.Country = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
                 a.StateRaw = state;
                 a.ContactCard = location.Contact;
-                var coords = OpenStreetMap.FindLatLongOfAddress(a.Address1, a.Address2, a.Zip, a.CityRaw, a.StateRaw, a.Country != null ? a.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(a.Address1, a.Address2, a.Zip, a.CityRaw, a.StateRaw, a.Country != null ? a.Country.Name : string.Empty);
                 a.Coords = new System.Device.Location.GeoCoordinate();
                 if (coords != null)
                 {
@@ -225,7 +228,7 @@ namespace RDN.Library.Classes.Location
                    a.Country = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
                    a.StateRaw = state;
                    a.ContactCard = location.Contact;
-                    var coords = OpenStreetMap.FindLatLongOfAddress(address1, address2, zip, city, state, a.Country != null ? a.Country.Name : string.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(address1, address2, zip, city, state, a.Country != null ? a.Country.Name : string.Empty);
                    a.Coords = new System.Device.Location.GeoCoordinate();
                     if (coords != null)
                     {

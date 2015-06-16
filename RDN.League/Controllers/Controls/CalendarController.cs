@@ -53,7 +53,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author =LibraryConfig.WebsiteShortName;
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Event Roster " + calEventTemp.Name + " - " + calEventTemp.StartDate.ToString("yyyy-M-d");
 
                     //we create the first sheet.
@@ -786,7 +786,7 @@ namespace RDN.League.Controllers
                 {
                     post.Locations = new SelectList(locs, "LocationId", "LocationName");
                 }
-                post.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
+                if (AllowSelfCheckin != null) post.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
                 post.StartDate = DateTime.Now;
                 post.EndDate = DateTime.Now;
                 var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
@@ -1079,7 +1079,7 @@ namespace RDN.League.Controllers
             {
                 SiteMessage message = new SiteMessage();
                 message.MessageType = SiteMessageType.Warning;
-                message.Message = "Event wasn't deleted, please contact " + LibraryConfig.DefaultInfoEmail+ ".";
+                message.Message = "Event wasn't deleted, please contact " + LibraryConfig.DefaultInfoEmail + ".";
                 this.AddMessage(message);
             }
             if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.sww.ToString())
@@ -1273,7 +1273,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author =LibraryConfig.WebsiteShortName;
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Calendar Report For " + cal.EntityName;
 
                     //we create the first sheet.
@@ -1305,8 +1305,16 @@ namespace RDN.League.Controllers
                             }
                             catch
                             {
-                                ws = p.Workbook.Worksheets.Add(StringExt.ToExcelFriendly(memberName + "-1"));
-                                ws.Name = StringExt.ToExcelFriendly(memberName + "-1"); //Setting Sheet's name
+                                try
+                                {
+                                    ws = p.Workbook.Worksheets.Add(StringExt.ToExcelFriendly(memberName + "-1"));
+                                    ws.Name = StringExt.ToExcelFriendly(memberName + "-1"); //Setting Sheet's name
+                                }
+                                catch
+                                {
+                                    ws = p.Workbook.Worksheets.Add(StringExt.ToExcelFriendly(memberName + "-2"));
+                                    ws.Name = StringExt.ToExcelFriendly(memberName + "-2");
+                                }
                             }
                             ws.Cells.Style.Font.Size = 11; //Default font size for whole sheet
                             ws.Cells.Style.Font.Name = "Calibri"; //Default Font name for whole sheet

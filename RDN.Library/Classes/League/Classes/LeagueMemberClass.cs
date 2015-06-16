@@ -17,7 +17,7 @@ namespace RDN.Library.Classes.League.Classes
             try
             {
                 var dc = new ManagementContext();
-                var cl = (from xx in dc.LeagueMemberClasses
+               var cl = (from xx in dc.LeagueMemberClasses
                           select new LeagueMemberClass
                           {
                               IdOfClass = xx.ClassId,
