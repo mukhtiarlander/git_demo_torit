@@ -195,7 +195,7 @@ namespace RDN.League.Controllers
                     }
                 }
 
-                var calEvent = CalendarEventFactory.UpdateEvent(eventUpdated.CalendarId, eventUpdated.CalendarItemId, Convert.ToDateTime(eventUpdated.StartDateDisplay), Convert.ToDateTime(eventUpdated.EndDateDisplay), new Guid(eventUpdated.SelectedLocationId), eventUpdated.Name, eventUpdated.Link, eventUpdated.Notes, eventUpdated.AllowSelfCheckIn, Convert.ToInt64(eventUpdated.SelectedEventTypeId), eventUpdated.TicketUrl, eventUpdated.ColorTempSelected, eventUpdated.IsPublicEvent, listOfGroupIds);
+                var calEvent = CalendarEventFactory.UpdateEvent(eventUpdated.CalendarId, eventUpdated.CalendarItemId, Convert.ToDateTime(eventUpdated.StartDateDisplay, new System.Globalization.CultureInfo("en-US")), Convert.ToDateTime(eventUpdated.EndDateDisplay, new System.Globalization.CultureInfo("en-US")), new Guid(eventUpdated.SelectedLocationId), eventUpdated.Name, eventUpdated.Link, eventUpdated.Notes, eventUpdated.AllowSelfCheckIn, Convert.ToInt64(eventUpdated.SelectedEventTypeId), eventUpdated.TicketUrl, eventUpdated.ColorTempSelected, eventUpdated.IsPublicEvent, listOfGroupIds);
                 if (MemberCache.GetCalendarDefaultView(RDN.Library.Classes.Account.User.GetUserId()) == CalendarDefaultViewEnum.List_View)
                     return Redirect(Url.Content("~/calendar/" + eventUpdated.CalendarType + "/" + eventUpdated.CalendarId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.re));
                 else
