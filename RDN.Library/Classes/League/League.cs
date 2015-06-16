@@ -281,7 +281,7 @@ namespace RDN.Library.Classes.League
         {
             try
             {
-                var dc = new ManagementContext();
+                var dc = ManagementContext.DataContext;
                 var dbLeague = dc.Leagues.Where(x => x.LeagueId == leagueId).FirstOrDefault();
                 dbLeague.SubscriptionPeriodEnds = dateToSet;
                 dbLeague.SubscriptionWillAutoRenew = doesSubscriptionAutoRenew;
@@ -645,7 +645,7 @@ namespace RDN.Library.Classes.League
         {
             try
             {
-                var dc = new ManagementContext();
+                var dc = ManagementContext.DataContext;
                 var league = dc.Leagues.Include("Groups").Include("Federations").Include("Owners").Include("Teams").Include("Members").Include("Members.SkaterClass").Include("ContactCard").Include("Contacts").Where(x => x.LeagueId == leagueId).FirstOrDefault();
 
                 if (league == null)
@@ -771,7 +771,7 @@ namespace RDN.Library.Classes.League
                 {
                     Portable.Classes.Location.TimeZone tz = new Portable.Classes.Location.TimeZone();
                     tz.ZoneId = league.TimeZoneSelection.ZoneId;
-                    tz.Location= league.TimeZoneSelection.Location;
+                    tz.Location = league.TimeZoneSelection.Location;
                     tz.GMTOffset = league.TimeZoneSelection.GMTOffset;
                     tz.GMT = league.TimeZoneSelection.GMT;
                     leagueTemp.TimeZoneSelection = tz;
@@ -1260,7 +1260,7 @@ namespace RDN.Library.Classes.League
                     {
                         var leagueObj = new LeagueJsonDataTable { LeagueName = league.Name }; //, LogoPath = league.LogoPath
 
-                        leagueObj.LeagueUrl =RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
+                        leagueObj.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
                         leagueObj.LeagueId = league.LeagueId.ToString().Replace("-", "");
                         leagueObj.Membercount = league.Members.Count;
                         leagueObj.DateFounded = league.Founded.GetValueOrDefault();
@@ -2649,7 +2649,7 @@ namespace RDN.Library.Classes.League
 
             leagues.LeagueJoinCode = Guid.NewGuid();
             int c = dc.SaveChanges();
-            return c>0;
+            return c > 0;
         }
     }
 }

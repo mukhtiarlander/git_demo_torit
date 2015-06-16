@@ -14,11 +14,14 @@ using Stripe;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Library.Classes.Api.Email;
+using Common.Site.AppConfig;
 
 namespace RDN.Library.Classes.Payment
 {
     public class StripeHandler
     {
+
         /// <summary>
         /// no need to do anything here just yet.
         /// I think when leagues start changing their subscriptions, we will need to update this code to change the plan
@@ -299,7 +302,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
         {
             try
             {
-
+                EmailManagerApi email = null;
                 var dc = new ManagementContext();
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
@@ -311,7 +314,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     if (inv.Metadata != null)
                     {
                         if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
-                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        {
+                            ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            dc = ManagementContext.DataContext;
+                            CustomConfigurationManager config = new CustomConfigurationManager(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            email = new EmailManagerApi(config.GetSubElement(StaticConfig.ApiBaseUrl).Value, config.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
+                        }
                     }
                     StripeChargeDb nnv = new StripeChargeDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.charge_failed;
@@ -345,7 +353,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                                    where xx.InvoicePaid == false
                                    select xx).OrderByDescending(x => x.Created).FirstOrDefault();
                     if (invoice == null)
+                    {
+                        if(email==null)
                         EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed, CHARGE FAILED", inv.CustomerId + " " + inv.ToString() + json);
+                        else
+                           email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed, CHARGE FAILED", inv.CustomerId + " " + inv.ToString() + json);
+                    }
                     else
                     {
                         if (invoice.InvoiceStatus == (byte)InvoiceStatus.Subscription_Should_Be_Updated_On_Charge)
@@ -395,7 +408,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
         {
             try
             {
-
+                EmailManagerApi email = null;
                 var dc = new ManagementContext();
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
@@ -407,7 +420,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     if (inv.Metadata != null)
                     {
                         if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
-                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        {
+                            ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            dc = ManagementContext.DataContext;
+                            CustomConfigurationManager config = new CustomConfigurationManager(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            email = new EmailManagerApi(config.GetSubElement(StaticConfig.ApiBaseUrl).Value, config.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
+                        }
                     }
                     StripeChargeDb nnv = new StripeChargeDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.charge_succeeded;
@@ -451,21 +469,33 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                                    where xx.InvoicePaid == false
                                    select xx).OrderByDescending(x => x.Created).FirstOrDefault();
                     if (invoice == null)
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                    {
+                        if (email == null)
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                        else
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                    }
                     else
                     {
                         if (invoice.InvoiceStatus == (byte)InvoiceStatus.Subscription_Should_Be_Updated_On_Charge)
                         {
                             //update league subscription
                             League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, true, invoice.Subscription.InternalObject);
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                            if (email == null)
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                            else
+                                email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                         }
 
                         invoice.InvoicePaid = true;
                         invoice.InvoiceStatus = (byte)InvoiceStatus.Payment_Successful;
                         invoice.InvoiceStatusUpdated = DateTime.UtcNow;
                         invoice.Merchant = invoice.Merchant;
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                        if (email == null)
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                        else
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+
                     }
 
                 }
@@ -497,7 +527,10 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     if (inv.Metadata != null)
                     {
                         if (inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
-                            dc = new ManagementContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        {
+                            ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            dc = ManagementContext.DataContext;
+                        }
                     }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.invoice_created;
@@ -552,7 +585,10 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     if (cust.Metadata != null)
                     {
                         if (cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
-                            dc = new ManagementContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                        {
+                            ManagementContext.SetDataContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                            dc = ManagementContext.DataContext;
+                        }
                     }
 
                     StripeCustomerDb custDb = new StripeCustomerDb();
