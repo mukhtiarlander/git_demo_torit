@@ -233,16 +233,16 @@
                                         case MimeType.doc:
                                         case MimeType.rtf:
                                         case MimeType.dotx:
-                                        <i class="fa fa-file-word-o fa-lg"></i>
+                                            <i class="fa fa-file-word-o fa-lg"></i>
                                             break;
                                         case MimeType.csv:
-                                        <i class="fa fa-file-excel-o fa-lg"></i>
+                                            <i class="fa fa-file-excel-o fa-lg"></i>
                                             break;
                                         case MimeType.odf:
-                                        <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/odf.png")" />
+                                            <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/odf.png")" />
                                             break;
                                         case MimeType.ods:
-                                        <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ods.png")" />
+                                            <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ods.png")" />
                                             break;
                                         case MimeType.png:
                                         case MimeType.tif:
@@ -250,57 +250,61 @@
                                         case MimeType.bmp:
                                         case MimeType.jpeg:
                                         case MimeType.gif:
-                                        <i class="fa fa-file-image-o fa-lg"></i>
+                                            <i class="fa fa-file-image-o fa-lg"></i>
                                             break;
                                         case MimeType.txt:
-                                        <i class="fa fa-file-text-o fa-lg"></i>
+                                            <i class="fa fa-file-text-o fa-lg"></i>
                                             break;
                                         case MimeType.ai:
-                                        <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ai.png")" />
+                                            <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ai.png")" />
                                             break;
                                         case MimeType.pdf:
-                                        <i class="fa fa-file-pdf-o fa-lg"></i>
+                                            <i class="fa fa-file-pdf-o fa-lg"></i>
                                             break;
                                         case MimeType.zip:
-                                        <i class="fa fa-file-zip-o fa-lg"></i>
+                                            <i class="fa fa-file-zip-o fa-lg"></i>
                                             break;
                                         case MimeType.xml:
-                                        <i class="fa fa-file-code-o fa-lg"></i>
+                                                <i class="fa fa-file-code-o fa-lg"></i>
                                             break;
                                         case MimeType.ppt:
                                         case MimeType.odp:
-                                        <i class="fa fa-file-powerpoint-o fa-lg"></i>
+                                            <i class="fa fa-file-powerpoint-o fa-lg"></i>
                                             break;
                                         case MimeType.svg:
-                                        <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/svg.png")" />
+                                            <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/svg.png")" />
                                             break;
                                         case MimeType.html:
-                                        <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/html.png")" />
+                                            <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/html.png")" />
                                             break;
                                         case MimeType.pages:
-                                        <i class="fa fa-newspaper-o fa-lg"></i>
+                                            <i class="fa fa-newspaper-o fa-lg"></i>
                                             break;
                                         case MimeType.mht:
-                                        <i class="fa fa-file-o fa-lg"></i>
+                                            <i class="fa fa-file-o fa-lg"></i>
                                             break;
                                         case MimeType.mp3:
-                                        <i class="fa fa-file-audio-o fa-lg"></i>
+                                            <i class="fa fa-file-audio-o fa-lg"></i>
                                             break;
                                         case MimeType.wmv:
-                                        <i class="fa fa-film fa-lg"></i>
+                                            <i class="fa fa-film fa-lg"></i>
                                             break;
                                         case MimeType.ps:
                                         <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ps.png")" />
                                             break;
                                         case MimeType.wps:
-                                        <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/wps.png")" />
+                                            <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/wps.png")" />
                                             break;
                                         case MimeType.xps:
                                             <i class="fa fa-file-excel-o fa-lg"></i>
                                             break;
+                                        case MimeType.gform:
+                                            <span class="fa-stack">
+                                                <i class="fa fa-file-o fa-stack-2x font19 width-initial"></i>
+                                                <i class="fa fa-google fa-stack-1x font11 margin-left-3 width-initial"></i>
+                                            </span>
+                                            break;
                                     }
-
-
                                 </td>
                                 <td id="rn-@doc.OwnerDocId" class="vertical-middle">
                                     <a href="@Url.Content("~/document/download/" + doc.DocumentId.ToString().Replace("-", ""))">@doc.DocumentName</a>
