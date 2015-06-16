@@ -411,6 +411,317 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string DEFAULT_SCOTTS_USER_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_SCOTTS_USER_ID"];
+            }
+        }
+        public static string DEFAULT_JAMIES_USER_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_JAMIES_USER_ID"];
+            }
+        }
+        public static string DEFAULT_ADMIN_USER_ID 
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_ADMIN_USER_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID 
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static string WEBSITE_PING_LOCATION
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WEBSITE_PING_LOCATION"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+
+
         
     }
 }

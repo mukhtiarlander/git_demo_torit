@@ -121,11 +121,6 @@ namespace RDN.Library.Classes.Payment
             return this;
         }
 
-        public InvoiceFactory SetConnectionStringName(string connectionStringName)
-        {
-            invoice.DatabaseConnectionStringName = connectionStringName;
-            return this;
-        }
         public InvoiceFactory SetInvoiceStatus(InvoiceStatus status)
         {
             invoice.InvoiceStatus = status;
@@ -858,9 +853,7 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
-                var mc = new ManagementContext();
-                if (!String.IsNullOrEmpty(invoice.DatabaseConnectionStringName))
-                    mc = new ManagementContext(invoice.DatabaseConnectionStringName);
+                var mc = ManagementContext.DataContext;
 
                 // Create a new invoice db object
                 var dbinvoice = new DataModels.PaymentGateway.Invoices.Invoice();

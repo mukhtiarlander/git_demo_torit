@@ -16,7 +16,7 @@ namespace Scoreboard.Library.Network
             Ping ping = new Ping();
             try
             {
-                PingReply pingStatus = ping.Send(ServerConfig.WEBSITE_PING_LOCATION);
+                PingReply pingStatus = ping.Send(ScoreboardConfig.WEBSITE_PING_LOCATION);
                 return pingStatus.Status == IPStatus.Success;
             }
             catch

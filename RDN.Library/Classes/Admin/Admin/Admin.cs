@@ -31,11 +31,13 @@ namespace RDN.Library.Classes.Admin.Admin
     {
         public static bool SaveNextAdminMessage(string message)
         {
-            return EmailServerFactory.CreateNew().SaveNextAdminMessage(message);
+            EmailServerManager email = new EmailServerManager();
+            return email.SaveNextAdminMessage(message);
         }
         public static List<Common.EmailServer.Library.Database.Emails.AdminEmailMessage> GetLastAdminEmailMessages(int count)
         {
-            return EmailServerFactory.CreateNew().GetLastAdminEmailMessages(count);
+            EmailServerManager email = new EmailServerManager();
+            return email.GetLastAdminEmailMessages(count);
         }
 
         public static int GetContactLeagueCount()

@@ -35,7 +35,7 @@ namespace RDN.TransactionHandler
         {
             try
             {
-                
+
 
                 Random rand = new Random();
                 var filename = "stripe-json " + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + "-" + rand.Next(100) + ".txt";
@@ -74,9 +74,8 @@ namespace RDN.TransactionHandler
                     case "customer.subscription.updated":
                         StripeHandler.SubscriptionUpdated(stripeEvent, json);
                         break;
-
                     default:
-                   EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "New Stripe Type Found", json);
+                        EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "New Stripe Type Found", json);
                         break;
                 }
             }

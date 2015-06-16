@@ -202,13 +202,11 @@ namespace RDN.Library.Classes.Payment
             return invoices;
         }
 
-        public DisplayInvoice GetDisplayInvoiceWithStripeCustomerId(string customerId, string connectionStringName)
+        public DisplayInvoice GetDisplayInvoiceWithStripeCustomerId(string customerId)
         {
             var output = new DisplayInvoice();
 
-            var mc = new ManagementContext();
-            if (!String.IsNullOrEmpty(connectionStringName))
-                mc = new ManagementContext(connectionStringName);
+            var mc = ManagementContext.DataContext;
 
             var invoice = GetDatabaseInvoice(ref mc, customerId);
             if (invoice == null)
