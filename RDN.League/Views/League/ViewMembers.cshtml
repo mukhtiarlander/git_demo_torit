@@ -52,7 +52,7 @@
         @Html.Partial("Menus/LeagueViewMembers")
     </div>
     <div class="panel-body">
-        @if (Model.Model.Items.Count < 10)
+        @if (Model.Model.Items.Count <= 10)
         {
             <div>
                 <span class="b">League Join Code</span> - <span>'@ViewBag.JoinCode'</span> - You
@@ -170,7 +170,7 @@
         </table>
     </div>
     <div class="panel-footer">
-        @if (Model.Model.Items.Count > 10)
+        @if (Model.Model.Items.Count >= 10)
         {
             <div>
                 <span class="b">League Join Code</span> - <span>'@ViewBag.JoinCode'</span> <a onclick="return confirm('Really Want To Refresh?')" class="btn btn-xs btn-default" href="JavaScript:joinCode()" title="Refresh To Generate New Join Code?"><i class="fa fa-refresh"></i> Refresh</a> 
