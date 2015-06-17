@@ -1305,7 +1305,7 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
             Exception exc = Server.GetLastError();
             ErrorDatabaseManager.AddException(exc, GetType());
             Server.ClearError();
-            Response.Redirect(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.sww);
+            Response.Redirect(LibraryConfig.InternalSite + "?u=" + SiteMessagesEnum.sww);
         }
     }
 }

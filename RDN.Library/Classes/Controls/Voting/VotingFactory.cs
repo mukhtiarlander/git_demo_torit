@@ -137,7 +137,7 @@ namespace RDN.Library.Classes.Controls.Voting
                                         {
                                             { "derbyname",derbyName}, 
                                             { "FromUserName", createdByMemberName }, 
-                                                                                        { "viewPollLink",                                               ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/poll/votev2/"+leagueId.ToString().Replace("-","") +"/" +pollId}
+                                                                                        { "viewPollLink",                                               LibraryConfig.InternalSite +"/poll/votev2/"+leagueId.ToString().Replace("-","") +"/" +pollId}
                                         };
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)

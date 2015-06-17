@@ -760,7 +760,7 @@ namespace RDN.League.Controllers
                         PaymentGateway pg = new PaymentGateway();
 
                         var f = pg.StartInvoiceWizard()
-                            .Initalize(ServerConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, LibraryConfig.IsProduction, ChargeTypeEnum.DuesItem)
+                            .Initalize(LibraryConfig.RDNATION_STORE_ID, dues2.Currency, PaymentProvider.Paypal, LibraryConfig.IsProduction, ChargeTypeEnum.DuesItem)
                             .SetInvoiceId(Guid.NewGuid())
                             .AddDuesItem(new Library.Classes.Payment.Classes.Invoice.InvoiceDuesItem
                             {

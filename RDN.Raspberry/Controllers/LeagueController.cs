@@ -98,9 +98,9 @@ namespace RDN.Raspberry.Controllers
             try
             {
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE + memberId.ToString()));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE + memberId.ToString()));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + memberId.ToString()));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API + memberId.ToString()));
             }
             catch (Exception exception)
             {
@@ -124,9 +124,9 @@ namespace RDN.Raspberry.Controllers
             try
             {
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE + mod.Id2));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE + mod.Id2));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + mod.Id2));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API + mod.Id2));
             }
             catch (Exception exception)
             {
@@ -186,9 +186,9 @@ namespace RDN.Raspberry.Controllers
             {
                 Library.Classes.League.LeagueFactory.UpdateLeagueSubscriptionPeriod(Convert.ToDateTime(dt), leagueId);
                 WebClient client = new WebClient();
-                client.DownloadData(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + leagueId);
-                client.DownloadData(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + leagueId));
-                client.DownloadData(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE_API + leagueId));
+                client.DownloadData(LibraryConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + leagueId);
+                client.DownloadData(new Uri(LibraryConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE + leagueId));
+                client.DownloadData(new Uri(LibraryConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE_API + leagueId));
             }
             catch (Exception e)
             {

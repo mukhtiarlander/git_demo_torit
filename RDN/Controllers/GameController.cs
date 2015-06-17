@@ -85,7 +85,7 @@ namespace RDN.Controllers
                         Price = price,
                         InternalObject = game.Game.GameId,
                         MemberPaidId = memId,
-                        PaywallLocation = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-game/" + game.Game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team1.TeamName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team2.TeamName)
+                        PaywallLocation = LibraryConfig.PublicSite + "/roller-derby-game/" + game.Game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team1.TeamName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team2.TeamName)
                     })
                     .SetInvoiceContactData(new InvoiceContactInfo
                     {
@@ -100,7 +100,7 @@ namespace RDN.Controllers
 
                 //succesfully charged.
                 if (response.Status == InvoiceStatus.Payment_Successful)
-                    return Redirect(ServerConfig.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
+                    return Redirect(LibraryConfig.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
                 else if (response.Status == InvoiceStatus.Pending_Payment_From_Paypal)
                     return Redirect(response.RedirectLink);
             }
@@ -153,7 +153,7 @@ namespace RDN.Controllers
                 if (!String.IsNullOrEmpty(game.Paywall.StripePublishableKey))
                     game.StripeKey = "Stripe.setPublishableKey('" + game.Paywall.StripePublishableKey + "');";
                 else
-                    game.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                    game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
                 if (game != null)
                     return View(game);
             }
@@ -192,7 +192,7 @@ namespace RDN.Controllers
                 }
 
                 ViewData["merchantId"] = game.Game.SelectedShop;
-                game.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
                 if (game != null)
                     return View(game);
             }

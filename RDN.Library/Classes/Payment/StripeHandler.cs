@@ -35,7 +35,7 @@ namespace RDN.Library.Classes.Payment
             {
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD",
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.RDNATION_STORE_ID, "USD",
 PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionUpdated)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetInvoiceStatus(InvoiceStatus.Subscription_Should_Be_Updated_On_Charge);
@@ -149,7 +149,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
 
                 f.FinalizeInvoice();
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Subscription About to be charged!!", json, databaseConnectionName: connectionStringName);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: New Subscription About to be charged!!", json, databaseConnectionName: connectionStringName);
                 return true;
             }
             catch (Exception exception)
@@ -351,9 +351,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     if (invoice == null)
                     {
                         if (email == null)
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed, CHARGE FAILED", inv.CustomerId + " " + inv.ToString() + json);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Invoice Not Found, Can't Be Confirmed, CHARGE FAILED", inv.CustomerId + " " + inv.ToString() + json);
                         else
-                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed, CHARGE FAILED", inv.CustomerId + " " + inv.ToString() + json);
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Invoice Not Found, Can't Be Confirmed, CHARGE FAILED", inv.CustomerId + " " + inv.ToString() + json);
                     }
                     else
                     {
@@ -377,9 +377,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         subscriptionService.Cancel(inv.CustomerId, invoice.Subscription.PlanId);
 
                         if (inv.Metadata != null && inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
-                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, ServerConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmailAdmin, inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, LibraryConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmail, inv.Metadata[InvoiceFactory.ConnectionStringName]);
                         else
-                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, ServerConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmailAdmin, inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, LibraryConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmail, inv.Metadata[InvoiceFactory.ConnectionStringName]);
                     }
 
                 }
@@ -459,9 +459,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     if (invoice == null)
                     {
                         if (email == null)
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
                         else
-                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
                     }
                     else
                     {
@@ -470,9 +470,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                             //update league subscription
                             League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, true, invoice.Subscription.InternalObject);
                             if (email == null)
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                             else
-                                email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                                email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                         }
 
                         invoice.InvoicePaid = true;
@@ -480,9 +480,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         invoice.InvoiceStatusUpdated = DateTime.UtcNow;
                         invoice.Merchant = invoice.Merchant;
                         if (email == null)
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                         else
-                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                     }
                 }
                 dc.StripeEvents.Add(even);

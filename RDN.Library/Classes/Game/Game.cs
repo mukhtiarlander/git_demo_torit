@@ -22,6 +22,7 @@ using RDN.Portable.Config;
 using RDN.Portable.Models.Json.Games;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Federation;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Game
 {
@@ -242,7 +243,7 @@ namespace RDN.Library.Classes.Game
                     g.Team1Name = game.Team1.TeamName;
                     g.Team1Score = game.CurrentTeam1Score;
                     g.Team2Score = game.CurrentTeam2Score;
-                    g.GameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_PAST_GAMES + "/" + g.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team2Name);
+                    g.GameUrl = LibraryConfig.PublicSite_FOR_PAST_GAMES + "/" + g.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team2Name);
                     g.HasGameEnded = game.HasGameEnded;
                     if (!g.HasGameEnded)
                     {
@@ -514,7 +515,7 @@ namespace RDN.Library.Classes.Game
         {
             try
             {
-                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_ADVERTISEMENTS_FOLDER);
+                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_ADVERTISEMENTS_FOLDER);
                 if (!dir.Exists)
                     dir.Create();
 
@@ -522,8 +523,8 @@ namespace RDN.Library.Classes.Game
 
                 string extension = Path.GetExtension(file.FileName);
                 string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                string logoFile = Path.Combine(ServerConfig.SAVE_ADVERTISEMENTS_FOLDER, fileName + dtSaved + extension);
-                string logoUrl = Path.Combine(ServerConfig.SAVE_ADVERTISEMENTS_WEBSITE_FOLDER, fileName + dtSaved + extension);
+                string logoFile = Path.Combine(LibraryConfig.SAVE_ADVERTISEMENTS_FOLDER, fileName + dtSaved + extension);
+                string logoUrl = Path.Combine(LibraryConfig.SAVE_ADVERTISEMENTS_WEBSITE_FOLDER, fileName + dtSaved + extension);
                 file.SaveAs(logoFile);
 
 

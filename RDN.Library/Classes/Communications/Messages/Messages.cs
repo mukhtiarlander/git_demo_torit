@@ -386,7 +386,7 @@ namespace RDN.Library.Classes.Messages
         {
             try
             {
-                string conversationLink = ServerConfig.VIEW_MESSAGE_CONVERSATION;
+                string conversationLink = LibraryConfig.VIEW_MESSAGE_CONVERSATION;
                 var member = MemberCache.GetMemberDisplay(con.MemberId);
                 string ownerName = String.Empty;
                 ownerName = member.DerbyName;
@@ -418,7 +418,7 @@ namespace RDN.Library.Classes.Messages
                                                                            { "name",tempMem.DerbyName},
                                                                            { "fromName",ownerName},
                                             { "body",ownerName+":"+ con.Message},
-                                            { "setupLink",ServerConfig.MEMBER_SETTINGS_URL},
+                                            { "setupLink",LibraryConfig.MEMBER_SETTINGS_URL},
 
                                         };
                             if (tempMem.IsCarrierVerified)
@@ -452,7 +452,7 @@ namespace RDN.Library.Classes.Messages
         {
             try
             {
-                string conversationLink = ServerConfig.VIEW_MESSAGE_CONVERSATION;
+                string conversationLink = LibraryConfig.VIEW_MESSAGE_CONVERSATION;
                 var dc = new ManagementContext();
                 DataModels.Messages.Message m = new DataModels.Messages.Message();
                 m.FromUser = dc.Members.Where(x => x.MemberId == con.MemberId).FirstOrDefault();

@@ -94,7 +94,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Portable.Config.ServerConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
+                                <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Library.Classes.Config.LibraryConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
                                     <i class="fa fa-link"></i> Forum
                                 </a>
                             </li>
@@ -470,7 +470,7 @@
                             <li><a href="@Url.Content("~/member/username")"><i class="fa fa-envelope"></i> Change Email</a></li>
                             <li><a href="@Url.Content("~/account/logout")"><i class="fa fa-sign-out"></i> Logout</a></li>
                             <li>
-                                <a href="@RDN.Portable.Config.ServerConfig.WIKI_URL" title="Help" target="_blank">
+                                <a href="@RDN.Library.Classes.Config.LibraryConfig.WIKI_URL" title="Help" target="_blank">
                                     <i class="fa fa-question-circle"></i> Help
                                 </a>
                             </li>
@@ -503,7 +503,7 @@
             {
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail" style="background-color:#5B6A77; border-color:#8B9AA7">
-                        <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                             @if (item.Photos.Count > 0 && item.Photos[0] != null)
                             {
                                 <img src="@item.Photos[0].ImageUrl" style=" max-width:160px;max-height:160px; " alt="@item.Photos[0].Alt" />
@@ -517,15 +517,15 @@
                             </p>
                             <h4 style="color:#ddd">@item.NameTrimmed</h4>
                             <p>
-                                <a style="color:#313940" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                                <a style="color:#313940" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
                             </p>
-                            <a class="btn btn-info btn-sm" href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">Buy</a>
+                            <a class="btn btn-info btn-sm" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">Buy</a>
                         </div>
                     </div>
                 </div>
             }
         </div>
-        <a class="btn btn-info btn-lg margin-bottom-10" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION "><i class="fa fa-shopping-cart"></i> Shops at RDNation</a>
+        <a class="btn btn-info btn-lg margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION "><i class="fa fa-shopping-cart"></i> Shops at RDNation</a>
         <div class="white padding-bottom-10">
             Questions, Comments or Concerns? Feel Free to Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>
         </div>

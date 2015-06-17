@@ -113,7 +113,7 @@ namespace RDN.Controllers
                         Price = price,
                         InternalObject = to.Id,
                         MemberPaidId = memId,
-                        PaywallLocation = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-tournament/" + to.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(to.Name)
+                        PaywallLocation = LibraryConfig.PublicSite + "/roller-derby-tournament/" + to.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(to.Name)
                     })
                     .SetInvoiceContactData(new InvoiceContactInfo
                     {
@@ -128,7 +128,7 @@ namespace RDN.Controllers
 
                 //succesfully charged.
                 if (response.Status == InvoiceStatus.Payment_Successful)
-                    return Redirect(ServerConfig.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
+                    return Redirect(LibraryConfig.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
                 else if (response.Status == InvoiceStatus.Pending_Payment_From_Paypal)
                     return Redirect(response.RedirectLink);
 
@@ -160,7 +160,7 @@ namespace RDN.Controllers
                 if (!String.IsNullOrEmpty(tourny.Paywall.StripePublishableKey))
                     tourny.StripeKey = "Stripe.setPublishableKey('" + tourny.Paywall.StripePublishableKey + "');";
                 else
-                    tourny.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                    tourny.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
                 ViewData["merchantId"] = tourny.SelectedShop;
                 tourny.PensAbbre = (from Scoreboard.Library.Static.Enums.PenaltiesEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesEnum))
                                     select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Abbre = Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(d) });
@@ -197,7 +197,7 @@ namespace RDN.Controllers
                 }
 
 
-                tourny.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                tourny.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
                 return View(tourn);
             }
             catch (Exception exception)

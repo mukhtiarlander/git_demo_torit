@@ -68,8 +68,8 @@ namespace RDN.Library.Classes.Controls.Forum
                                             { "derbyname",derbyName}, 
                                             { "FromUserName", DerbyNameSendingPost}, 
                                             { "messageBody",fullMessage + PlainMessage},
-                                            { "viewConversationLink",                                               ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/forum/post/view/" + ForumId.ToString().Replace("-","") +"/"+ TopicId},
-                                            { "notificationSettings",                                               ServerConfig.WEBSITE_MEMBER_SETTINGS}
+                                            { "viewConversationLink",                                               LibraryConfig.InternalSite +"/forum/post/view/" + ForumId.ToString().Replace("-","") +"/"+ TopicId},
+                                            { "notificationSettings",                                               LibraryConfig.WEBSITE_MEMBER_SETTINGS}
                                         };
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)

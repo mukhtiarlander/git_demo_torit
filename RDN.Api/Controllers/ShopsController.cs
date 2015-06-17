@@ -56,7 +56,7 @@ namespace RDN.Api.Controllers
                 j.SoldById = names[i].Store.MerchantId.ToString().Replace("-", "");
                 j.StoreItemId = names[i].StoreItemId;
                 j.Views = names[i].Views;
-                j.RDNUrl = ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
+                j.RDNUrl = LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
                 shop.Items.Add(j);
             }
 
@@ -100,7 +100,7 @@ namespace RDN.Api.Controllers
                 j.SoldById = names[i].Store.MerchantId.ToString().Replace("-", "");
                 j.StoreItemId = names[i].StoreItemId;
                 j.Views = names[i].Views;
-                j.RDNUrl = ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
+                j.RDNUrl = LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
                 shop.Items.Add(j);
             }
 

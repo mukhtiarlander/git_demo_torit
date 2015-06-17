@@ -75,9 +75,9 @@ namespace RDN.Raspberry.Controllers
                 //we clear it by hitting a URL setup to clear the cache.
                 WebClient client = new WebClient();
                 
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE +memberId.ToString()));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE +memberId.ToString()));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API +memberId.ToString()));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API +memberId.ToString()));
             }
             else if (Guid.TryParse(model.ItemToDelete, out fedId))
             {

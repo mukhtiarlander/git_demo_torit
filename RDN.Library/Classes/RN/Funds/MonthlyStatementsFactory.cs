@@ -77,7 +77,7 @@ namespace RDN.Library.Classes.RN.Funds
 
             //removes SpoiledTechies Posts cause he doesn't want to get paid.
             //removes posts that aren't allowed to pay, mainly sponsors.
-            var allPosts = PostsToPay.Where(x => x.DisablePaymentsForPost == false).Where(x => x.AuthorUserId == ServerConfig.DEFAULT_JAMIES_USER_ID || x.AuthorUserId ==  ServerConfig.DEFAULT_SCOTTS_USER_ID || x.AuthorUserId == ServerConfig.DEFAULT_ADMIN_USER_ID).ToList();
+            var allPosts = PostsToPay.Where(x => x.DisablePaymentsForPost == false).Where(x => x.AuthorUserId == LibraryConfig.DEFAULT_JAMIES_USER_ID || x.AuthorUserId == LibraryConfig.DEFAULT_SCOTTS_USER_ID || x.AuthorUserId == LibraryConfig.DEFAULT_ADMIN_USER_ID).ToList();
             foreach (var post in allPosts)
             {
                 PostsToPay.Remove(post);
@@ -154,7 +154,7 @@ namespace RDN.Library.Classes.RN.Funds
                     else
                         emailData.Add("name", member.Firstname + " " + member.LastName);
                     EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, member.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
-                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
+                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
                 }
             }
 

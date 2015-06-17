@@ -1305,7 +1305,7 @@ namespace RDN.Library.Cache
             try
             {
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + memberId));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API + memberId));
             }
             catch (Exception exception)
             {
@@ -1317,7 +1317,7 @@ namespace RDN.Library.Cache
             try
             {
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE_API + leagueId));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_LEAGUE_MEMBER_CACHE_API + leagueId));
             }
             catch (Exception exception)
             {
@@ -1330,9 +1330,9 @@ namespace RDN.Library.Cache
             try
             {
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE + memberId));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE + memberId));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + memberId));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API + memberId));
             }
             catch (Exception exception)
             {

@@ -44,8 +44,8 @@ namespace RDN.Api.Controllers
                 if (Guid.TryParse(id, out gameId))
                 {
                     var tourn = SiteCache.GetTournament(gameId);
-                    tourn.RenderUrl = RDN.Portable.Config.ServerConfig.WEBSITE_TOURNAMENT_RENDER_URL + tourn.Id.ToString().Replace("-", "");
-                    tourn.RenderPerformanceUrl = RDN.Portable.Config.ServerConfig.WEBSITE_TOURNAMENT_RENDER_PERFORMANCE_URL + tourn.Id.ToString().Replace("-", "");
+                    tourn.RenderUrl = RDN.Library.Classes.Config.LibraryConfig.WEBSITE_TOURNAMENT_RENDER_URL + tourn.Id.ToString().Replace("-", "");
+                    tourn.RenderPerformanceUrl = RDN.Library.Classes.Config.LibraryConfig.WEBSITE_TOURNAMENT_RENDER_PERFORMANCE_URL + tourn.Id.ToString().Replace("-", "");
                     return Json(new { Tournament = new TournamentJson(tourn) }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -117,7 +117,7 @@ namespace RDN.Api.Controllers
                     g.Team1Name = game.Team1.TeamName;
                     g.Team1Score = game.CurrentTeam1Score;
                     g.Team2Score = game.CurrentTeam2Score;
-                    g.GameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_PAST_GAMES + "/" + g.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team2Name);
+                    g.GameUrl = LibraryConfig.PublicSite_FOR_PAST_GAMES + "/" + g.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(g.Team2Name);
                     g.HasGameEnded = game.HasGameEnded;
                     if (!g.HasGameEnded)
                     {

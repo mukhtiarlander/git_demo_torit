@@ -398,7 +398,7 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
                 Exception exc = Server.GetLastError();
                 ErrorDatabaseManager.AddException(exc, GetType(), additionalInformation: "Application Error");
             }
-            Response.Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+            Response.Redirect(LibraryConfig.PublicSite);
         }
         protected void Application_BeginRequest()
         {

@@ -33,7 +33,7 @@ namespace RDN.League.Models.Filters
 
                 if (!isOwner)
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite);
                     return;
                 }
             }
@@ -43,7 +43,7 @@ namespace RDN.League.Models.Filters
 
                 if (!isOwner)
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite);
                     return;
                 }
             }

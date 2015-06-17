@@ -217,7 +217,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                         else if (!String.IsNullOrEmpty(PaypalMessage.Invoice))
                             invoiceId = PaypalMessage.Invoice;
                         else
-                            _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Can't Find Invoice ID Problem", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                            _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Can't Find Invoice ID Problem", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
                         switch (PaypalMessage.PaymentStatus)
                         {
@@ -245,7 +245,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                                 _paypalManager.FailedPaymentAsync(new Guid(invoiceId), PaypalMessage);
                                 return true;
                             default:
-                                _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Status is Defaulted..??????", PaypalMessage.ToString());
+                                _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Status is Defaulted..??????", PaypalMessage.ToString());
                                 return true;
                         }
                     //email buyer and me a reciept of order.
@@ -254,7 +254,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     //the Paypal Adpative payments API to handle the dues and store purchases.
                     case "INVALID":
                     default:
-                        _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal: Can't Find Payment Problem", this.Response + " " + PaypalMessage.ToString());
+                        _emailManager.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Can't Find Payment Problem", this.Response + " " + PaypalMessage.ToString());
                         return true;
 
                 }

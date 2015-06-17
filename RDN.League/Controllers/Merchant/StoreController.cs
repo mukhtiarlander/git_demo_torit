@@ -161,7 +161,7 @@ namespace RDN.League.Controllers
                 ViewBag.IsSuccessful = false;
                 var sg = new StoreGateway();
                 var realStore = sg.GetStoreSettings(storeId, privId);
-                string stripe = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + ServerConfig.STRIPE_CONNECT_LIVE_KEY + "&scope=read_write&state=" + StripeStateReturnCodeEnum.store + "-" + privId.ToString().Replace("-", "");
+                string stripe = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + LibraryConfig.STRIPE_CONNECT_LIVE_KEY + "&scope=read_write&state=" + StripeStateReturnCodeEnum.store + "-" + privId.ToString().Replace("-", "");
                 
 
 

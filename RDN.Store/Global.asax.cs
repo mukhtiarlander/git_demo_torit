@@ -167,7 +167,7 @@ new { controller = "Home", action = "Review" } // Parameter defaults
             Exception exc = Server.GetLastError();
             ErrorDatabaseManager.AddException(exc, GetType());
             Server.ClearError();
-            Response.Redirect(ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.sww);
+            Response.Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.sww);
         }
         protected void Application_BeginRequest()
         {

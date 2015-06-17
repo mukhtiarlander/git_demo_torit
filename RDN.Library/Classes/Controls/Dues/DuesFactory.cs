@@ -344,7 +344,7 @@ namespace RDN.Library.Classes.Dues
         {
             string paymentOnlineText = @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName+" allows members to pay their dues online to their league.  This feature isn't currently enabled for your league, but your managers can enable this feature through the <b>dues management portal settings</b>.";
             if (acceptPaymetsOnline)
-                paymentOnlineText = "You can <a href='" + ServerConfig.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
+                paymentOnlineText = "You can <a href='" + LibraryConfig.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
             return paymentOnlineText;
         }
 

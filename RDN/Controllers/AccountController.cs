@@ -48,7 +48,7 @@ namespace RDN.Controllers
                     else
                         Session["UserId"] = (Guid)member.ProviderUserKey;
 
-                    return Redirect(ServerConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
+                    return Redirect(LibraryConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
                 }
 
                 ModelState.AddModelError("", "The user name or password provided is incorrect.");
@@ -97,7 +97,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, GetType());
             }
-            return Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+            return Redirect(LibraryConfig.PublicSite);
         }
 
 

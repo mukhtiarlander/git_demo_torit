@@ -71,13 +71,13 @@ namespace RDN.Api.Controllers
                         {
                             try
                             {
-                                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_FEEDBACK_FOLDER);
+                                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_FEEDBACK_FOLDER);
                                 if (!dir.Exists)
                                     dir.Create();
-                                string compressedFile = Path.Combine(ServerConfig.SAVE_FEEDBACK_FOLDER, Path.GetFileName(file.FileName));
+                                string compressedFile = Path.Combine(LibraryConfig.SAVE_FEEDBACK_FOLDER, Path.GetFileName(file.FileName));
                                 file.SaveAs(compressedFile);
                                 string encryptedFile = Compression.Decompress(new FileInfo(compressedFile));
-                                string finalFile = Path.Combine(ServerConfig.SAVE_FEEDBACK_FOLDER, "feedback" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
+                                string finalFile = Path.Combine(LibraryConfig.SAVE_FEEDBACK_FOLDER, "feedback" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
                                 Encryption.DecryptFiletoFile(encryptedFile, finalFile);
 
                                 FileStream f = new FileStream(finalFile, FileMode.Open, FileAccess.Read);
@@ -101,8 +101,8 @@ namespace RDN.Api.Controllers
                             {
                                 Library.Classes.Error.ErrorDatabaseManager.AddException(e, e.GetType(), ErrorGroupEnum.Database);
                                 //ErrorServerViewModel.commitScoreboardException(er, String.Empty);
-                                string filePath = Path.Combine(ServerConfig.SAVE_ERRORS_FOLDER, Path.GetFileName(file.FileName));
-                                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_ERRORS_FOLDER);
+                                string filePath = Path.Combine(LibraryConfig.SAVE_ERRORS_FOLDER, Path.GetFileName(file.FileName));
+                                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_ERRORS_FOLDER);
                                 if (!dir.Exists)
                                     dir.Create();
                                 file.SaveAs(filePath);
@@ -211,13 +211,13 @@ namespace RDN.Api.Controllers
                         {
                             try
                             {
-                                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_LIVE_GAMES_FOLDER);
+                                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_LIVE_GAMES_FOLDER);
                                 if (!dir.Exists)
                                     dir.Create();
-                                string compressedFile = Path.Combine(ServerConfig.SAVE_LIVE_GAMES_FOLDER, Path.GetFileName(file.FileName));
+                                string compressedFile = Path.Combine(LibraryConfig.SAVE_LIVE_GAMES_FOLDER, Path.GetFileName(file.FileName));
                                 file.SaveAs(compressedFile);
                                 string encryptedFile = Compression.Decompress(new FileInfo(compressedFile));
-                                string finalFile = Path.Combine(ServerConfig.SAVE_LIVE_GAMES_FOLDER, "LiveGame" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
+                                string finalFile = Path.Combine(LibraryConfig.SAVE_LIVE_GAMES_FOLDER, "LiveGame" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
                                 Encryption.DecryptFiletoFile(encryptedFile, finalFile);
                                 additionalErrorInfo += finalFile + ";";
                                 //the decryptiong didnt work.
@@ -277,8 +277,8 @@ namespace RDN.Api.Controllers
                             catch (Exception e)
                             {
                                 Library.Classes.Error.ErrorDatabaseManager.AddException(e, e.GetType(), ErrorGroupEnum.Database, additionalInformation: additionalErrorInfo);
-                                string filePath = Path.Combine(ServerConfig.SAVE_LIVE_GAMES_FOLDER, Path.GetFileName(file.FileName));
-                                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_LIVE_GAMES_FOLDER);
+                                string filePath = Path.Combine(LibraryConfig.SAVE_LIVE_GAMES_FOLDER, Path.GetFileName(file.FileName));
+                                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_LIVE_GAMES_FOLDER);
                                 if (!dir.Exists)
                                     dir.Create();
                                 file.SaveAs(filePath);
@@ -317,13 +317,13 @@ namespace RDN.Api.Controllers
                         {
                             try
                             {
-                                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_OLD_GAMES_FOLDER);
+                                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_OLD_GAMES_FOLDER);
                                 if (!dir.Exists)
                                     dir.Create();
-                                string compressedFile = Path.Combine(ServerConfig.SAVE_OLD_GAMES_FOLDER, Path.GetFileName(file.FileName));
+                                string compressedFile = Path.Combine(LibraryConfig.SAVE_OLD_GAMES_FOLDER, Path.GetFileName(file.FileName));
                                 file.SaveAs(compressedFile);
                                 string encryptedFile = Compression.Decompress(new FileInfo(compressedFile));
-                                string finalFile = Path.Combine(ServerConfig.SAVE_OLD_GAMES_FOLDER, "CompletedGame" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
+                                string finalFile = Path.Combine(LibraryConfig.SAVE_OLD_GAMES_FOLDER, "CompletedGame" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
                                 Encryption.DecryptFiletoFile(encryptedFile, finalFile);
 
                                 var game = GameViewModel.deserializeGame(finalFile);
@@ -358,8 +358,8 @@ namespace RDN.Api.Controllers
                             catch (Exception e)
                             {
                                 Library.Classes.Error.ErrorDatabaseManager.AddException(e, e.GetType(), ErrorGroupEnum.Database);
-                                string filePath = Path.Combine(ServerConfig.SAVE_OLD_GAMES_FOLDER, Path.GetFileName(file.FileName));
-                                DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_OLD_GAMES_FOLDER);
+                                string filePath = Path.Combine(LibraryConfig.SAVE_OLD_GAMES_FOLDER, Path.GetFileName(file.FileName));
+                                DirectoryInfo dir = new DirectoryInfo(LibraryConfig.SAVE_OLD_GAMES_FOLDER);
                                 if (!dir.Exists)
                                     dir.Create();
                                 file.SaveAs(filePath);

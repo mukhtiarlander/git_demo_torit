@@ -537,7 +537,7 @@ namespace RDN.Library.Classes.Account
         {
             try
             {
-                string link = ServerConfig.WEBSITE_VALIDATE_DERBY_NAME + memberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(derbyName);
+                string link = LibraryConfig.WEBSITE_VALIDATE_DERBY_NAME + memberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(derbyName);
                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", derbyName }, 
                         { "leaguename", leagueName}, 
@@ -992,7 +992,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName }, 
                                             { "email", email }, 
                                             { "code", emailVerificationCode.ToString() },
-                                            { "validationurl", ServerConfig.WEBSITE_LOST_PASSWORD_RESET_LOCATION }
+                                            { "validationurl", LibraryConfig.WEBSITE_LOST_PASSWORD_RESET_LOCATION }
                                         };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Recover Password", emailData, EmailServer.EmailServerLayoutsEnum.RecoverLostPassword);
@@ -1045,7 +1045,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName }, 
                                             { "email", email }, 
                                             { "code", emailVerificationCode.ToString() },
-                                            { "validationurl", ServerConfig.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") }
+                                            { "validationurl", LibraryConfig.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") }
                                         };
                     return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
                 }
@@ -1056,7 +1056,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName }, 
                                             { "email", email }, 
                                             { "code", emailVerificationCode.ToString().Replace("-","") },
-                                            { "validationurl", ServerConfig.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") },
+                                            { "validationurl", LibraryConfig.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") },
                                             { "password", password }
                                         };
                     return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
@@ -1528,7 +1528,7 @@ namespace RDN.Library.Classes.Account
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Male.ToString();
             }
-            m.DerbyNameUrl =RDN.Library.Classes.Config.LibraryConfig.MemberPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "");
+            m.DerbyNameUrl = RDN.Library.Classes.Config.LibraryConfig.MemberPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "");
             m.DerbyName = mem.DerbyName;
             m.DerbyNumber = mem.PlayerNumber;
             m.MemberId = mem.MemberId.ToString().Replace("-", "");
@@ -1546,7 +1546,7 @@ namespace RDN.Library.Classes.Account
             var leag = mem.Leagues.Where(x => x.League.LeagueId == mem.CurrentLeagueId).FirstOrDefault();
             if (leag != null)
             {
-                m.LeagueUrl =RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
+                m.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
                 m.LeagueName = leag.League.Name;
                 m.LeagueId = leag.League.LeagueId.ToString().Replace("-", "");
                 if (leag.League.Logo != null)
@@ -2413,7 +2413,7 @@ namespace RDN.Library.Classes.Account
                 mem.IsRetired = member.Retired;
                 mem.Firstname = member.Firstname;
                 mem.DerbyName = member.DerbyName;
-                mem.DerbyNameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
+                mem.DerbyNameUrl = LibraryConfig.PublicSite + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
                 mem.MemberId = memberId;
                 mem.UserId = member.AspNetUserId;
                 mem.DayJob = member.DayJob;
@@ -2537,7 +2537,7 @@ namespace RDN.Library.Classes.Account
                         l.SkillsTestDate = league.SkillsTestDate;
                         l.HasLeftLeague = league.HasLeftLeague;
                         l.NotesAboutMember = league.Notes;
-                        l.NameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(l.Name) + "/" + l.LeagueId.ToString().Replace("-", "");
+                        l.NameUrl = LibraryConfig.PublicSite_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(l.Name) + "/" + l.LeagueId.ToString().Replace("-", "");
                         l.LeagueOwnersEnum = (LeagueOwnersEnum)league.LeagueOwnersEnums;
                         if (l.LeagueId == mem.CurrentLeagueId)
                         {

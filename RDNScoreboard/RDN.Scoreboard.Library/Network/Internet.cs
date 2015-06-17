@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Net;
 using System.Net.NetworkInformation;
 using RDN.Portable.Config;
+using RDN.Utilities.Config;
 
 namespace Scoreboard.Library.Network
 {
@@ -16,7 +17,7 @@ namespace Scoreboard.Library.Network
             Ping ping = new Ping();
             try
             {
-                PingReply pingStatus = ping.Send(ScoreboardConfig.WEBSITE_PING_LOCATION);
+                PingReply pingStatus = ping.Send(ScoreboardConfig.API_URL);
                 return pingStatus.Status == IPStatus.Success;
             }
             catch

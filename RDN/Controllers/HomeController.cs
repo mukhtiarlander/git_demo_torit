@@ -394,21 +394,21 @@ namespace RDN.Controllers
                     if (site == "store")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + url);
+                            return Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + url);
                         else if (!String.IsNullOrEmpty(site))
-                            return Redirect(ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION);
+                            return Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION);
                     }
                     else if (site == "rollinNews")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION + url);
+                            return Redirect(RollinNewsConfig.PublicSite + url);
                         else if (!String.IsNullOrEmpty(site))
-                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION);
+                            return Redirect(RollinNewsConfig.PublicSite);
 
                     }
 
                 }
-                return Redirect(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                return Redirect(LibraryConfig.InternalSite);
             }
             catch (Exception e)
             {
@@ -492,7 +492,7 @@ namespace RDN.Controllers
                             }
                             if (returnSite == "shops")
                             {
-                                url = ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION;
+                                url = LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
                                 return Redirect(url);
@@ -545,7 +545,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(e, GetType());
             }
-            return Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+            return Redirect(LibraryConfig.PublicSite);
         }
 
         public ActionResult SiteMap()
@@ -566,7 +566,7 @@ namespace RDN.Controllers
                     for (int i = 0; i < sitemap + 1; i++)
                     {
                         writer.WriteStartElement("sitemap");
-                        writer.WriteElementString("loc", ServerConfig.WEBSITE_DEFAULT_LOCATION + "/sitemaps?p=" + i);
+                        writer.WriteElementString("loc", LibraryConfig.PublicSite + "/sitemaps?p=" + i);
                         writer.WriteElementString("lastmod", DateTime.UtcNow.ToString("yyyy-MM-dd"));
                         writer.WriteEndElement(); // url
                     }
@@ -625,9 +625,9 @@ namespace RDN.Controllers
                 if (actionName.Contains("yaf_"))
                     Response.Redirect("http://zebras.rdnation.com/" + actionName);
                 else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki.rdnation.com"))
-                    Response.Redirect(ServerConfig.WIKI_URL);
+                    Response.Redirect(LibraryConfig.WIKI_URL);
                 else
-                    Response.Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+                    Response.Redirect(LibraryConfig.PublicSite);
             }
             catch (Exception e)
             {

@@ -96,7 +96,7 @@
                     <td class="b vLT2D">Contact Seller:
                     </td>
                     <td>
-                        <a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION/messages/new/shop/@Model.Merchant.MerchantId.ToString().Replace("-", "")">Contact @Model.Merchant.ShopName</a>
+                        <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite/messages/new/shop/@Model.Merchant.MerchantId.ToString().Replace("-", "")">Contact @Model.Merchant.ShopName</a>
                     </td>
                 </tr>
 
@@ -164,7 +164,7 @@
                                 @foreach (var item in Model.InvoiceItems)
                                 { 
                                     <tr>
-                                        <td><a target="_blank" href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
+                                        <td><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
                                         <td>@item.Quantity</td>
                                         <td>@item.Price @Model.Currency</td>
                                         <td>@item.TotalShipping @Model.Currency</td>

@@ -938,7 +938,7 @@ namespace RDN.Library.Cache
                                 c.Team1LogoUrl = games[i].Team1LogoUrl;
                                 c.Team2LogoUrl = games[i].Team2LogoUrl;
                                 c.HasGameEnded = games[i].HasGameEnded;
-                                c.GameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_PAST_GAMES + "/" + c.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team2Name);
+                                c.GameUrl = LibraryConfig.PublicSite_FOR_PAST_GAMES + "/" + c.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team2Name);
                                 cached.PastGames.Add(c);
                             }
                         }

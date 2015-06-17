@@ -48,7 +48,7 @@ namespace RDN.Store.Controllers
         //            else
         //                Session["UserId"] = (Guid)member.ProviderUserKey;
 
-        //            return Redirect(ServerConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
+        //            return Redirect(LibraryConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
         //        }
 
         //        ModelState.AddModelError("", "The user name or password provided is incorrect.");
@@ -74,7 +74,7 @@ namespace RDN.Store.Controllers
             cookie2.Expires = DateTime.Now.AddYears(-1);
             Response.Cookies.Add(cookie2);
 
-            return Redirect(ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION);
+            return Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION);
         }
 
 

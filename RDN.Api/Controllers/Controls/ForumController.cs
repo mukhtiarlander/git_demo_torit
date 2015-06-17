@@ -28,7 +28,7 @@ namespace RDN.Api.Controllers.Controls
                 RDN.Library.Classes.Forum.Forum.WatchTopicToggle(new Guid(fid), Convert.ToInt64(tid), mem.MemberId);
                 ForumTopicCache.ClearTopicCache(new Guid(fid), Convert.ToInt64(tid));
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + fid + "&topicId=" + tid));
+                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + fid + "&topicId=" + tid));
             }
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
@@ -52,7 +52,7 @@ namespace RDN.Api.Controllers.Controls
                         Forum.ReplyToPost(ob.ForumId, ob.TopicId, ob.Text, new Guid(ob.MemberId), ob.BroadcastMessage);
                         ForumTopicCache.ClearTopicCache(ob.ForumId, ob.TopicId);
                         WebClient client = new WebClient();
-                        client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + ob.ForumId + "&topicId=" + ob.TopicId));
+                        client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + ob.ForumId + "&topicId=" + ob.TopicId));
 
                         return Json(new AddForumTopicModel() { IsSuccessful = true }, JsonRequestBehavior.AllowGet);
                     }

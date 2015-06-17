@@ -567,7 +567,7 @@ namespace RDN.Library.Classes.Federation
 
                 // 
 
-                //Util.Email.SendEmail(false, ServerConfig.DEFAULT_ADMIN_EMAIL, "New Federation Created - RDNation.com", message);
+                //Util.Email.SendEmail(false, LibraryConfig.DEFAULT_ADMIN_EMAIL, "New Federation Created - RDNation.com", message);
             }
             catch (Exception exception)
             {
@@ -600,7 +600,7 @@ namespace RDN.Library.Classes.Federation
                 //The name of your Federation is: {1}<br/><br/>
                 //Let us show you what your federation can now do at <a href='{2}'>{2}</a>.<br/><br/>
                 //Thanks for choosing and bruising with RDNation.com.  If you have any questions, feel free to contact us at {3}.<br/><br/>
-                //Veggie Delight and RDNation's Team.", memberName, federationName, FederationConfig.LINK_FOR_APPROVED_FEDERATION_OWNERS, ServerConfig.DEFAULT_ADMIN_EMAIL);
+                //Veggie Delight and RDNation's Team.", memberName, federationName, FederationConfig.LINK_FOR_APPROVED_FEDERATION_OWNERS, LibraryConfig.DEFAULT_ADMIN_EMAIL);
 
                 //Util.Email.SendEmail(false, federationEmail, federationName + " ", message);  
             }

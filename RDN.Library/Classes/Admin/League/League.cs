@@ -399,9 +399,9 @@ namespace RDN.Library.Classes.Admin.League
                 try
                 {
                     WebClient client = new WebClient();
-                    client.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE + pendingLeague.Creator.MemberId.ToString()));
+                    client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE + pendingLeague.Creator.MemberId.ToString()));
                     WebClient client1 = new WebClient();
-                    client1.DownloadStringAsync(new Uri(ServerConfig.URL_TO_CLEAR_MEMBER_CACHE_API + pendingLeague.Creator.MemberId.ToString()));
+                    client1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API + pendingLeague.Creator.MemberId.ToString()));
                 }
                 catch (Exception exception)
                 {
