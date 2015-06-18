@@ -312,10 +312,16 @@ namespace RDN.Library.DataModels.Context
         }
 
         public ManagementContext(string connectionStringName)
-            : base( connectionStringName)
+            : base(connectionStringName)
         {
         }
-        protected static ManagementContext DataContext
+
+        public static void SetDataContext(string databaseConnectionName)
+        {
+            System.Web.HttpContext.Current.Items["DatabaseConnectionName"] = databaseConnectionName;
+        }
+
+        public static ManagementContext DataContext
         {
             get
             {
@@ -327,7 +333,7 @@ namespace RDN.Library.DataModels.Context
                         System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext();
                 }
 
-                return (ManagementContext)System.Web.HttpContext.Current.Items["ModelDataContext"];
+                return (ManagementContext)System.Web.HttpContext.Current.Items["ManagementContext"];
             }
         }
 

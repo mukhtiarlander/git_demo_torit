@@ -24,13 +24,14 @@ namespace RDN.Library.Classes.Payment.Classes.Invoice
         public PaymentProvider PaymentProvider { get; set; }
         public string PaymentProviderCustomerId { get; set; }
         public string PaymentProviderRefundedId { get; set; }
+        public string PaymentProviderChargeId { get; set; }
         // Current status of the invoice        
         public InvoiceStatus InvoiceStatus { get; set; }
         // Note, only visible in the admin section of RDN
         public string AdminNote { get; set; }
         // Public note, visible to the user
         public string Note { get; set; }
-
+        public string DatabaseConnectionStringName { get; set; }
         public bool IsLive { get; set; }
         /// <summary>
         /// if the user is logged in when buying the item, this is their id.

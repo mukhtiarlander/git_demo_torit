@@ -21,7 +21,7 @@ namespace RDN.Library.DataModels.PaymentGateway.Invoices
         // InvoicePayment provider, stripe, google, paypal etc.  
         [Required]
         public byte PaymentProvider { get; set; }
-
+        public string PaymentProviderChargeId { get; set; }
         public string PaymentProviderCustomerId { get; set; }
         public Guid UserId { get; set; }
         public Guid ShoppingCartId { get; set; }
