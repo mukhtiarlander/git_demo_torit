@@ -33,6 +33,7 @@ using RDN.Library.Classes.Payment.Paywall;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Federation;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
