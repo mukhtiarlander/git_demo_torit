@@ -2097,11 +2097,18 @@ function SendEmailPollNotification(leId, pollId) {
     var sent = $("#emailPollLink");
     $.getJSON("/vote/SendEmailReminderAboutPoll", { lId: leId, pId: pollId }, function (result) {
         if (result.isSuccess === true) {
-            sent.html("Email Reminders Sent");
-        }
-        else {
-
-        }
+                $('.bottom-right').notify({
+                    message: { text: 'Notifications Sent. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "success"
+                }).show();
+            } else {
+                $('.bottom-right').notify({
+                    message: { text: 'Something Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "danger"
+                }).show();
+            }      
     });
     to.remove();
 }
