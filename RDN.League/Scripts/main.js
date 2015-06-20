@@ -2552,7 +2552,7 @@ var Messages = new function () {
         $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
-                    gList.append("<li class='group-icon' style='list-style: none;'><label><i  class='fa fa-group'></i>&nbsp;<input style='position: absolute;left: 0;margin-left: 0;opacity: 0;z-index: 2;cursor: pointer;height: 1em;width: 1em;top: 0;' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                    gList.append("<li class='group-icon' style='list-style: none;'><label style='cursor: pointer !important'><i  class='fa fa-group'></i>&nbsp;<input style='position: absolute;left: 0;margin-left: 0;opacity: 0;z-index: 2;cursor: pointer !important;height: 1em;width: 1em;top: 0;' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
                 });
             }
         }).error(function () {
