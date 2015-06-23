@@ -17,6 +17,7 @@ using RDN.Portable.Classes.League;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.League.Classes;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.League.Classes
 {
@@ -298,7 +299,7 @@ namespace RDN.Library.Classes.League.Classes
                         { "link", ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION} };
 
                 //clear members cache for each member.
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To New Group", emailData, layout: EmailServerLayoutsEnum.UserAddedToLeagueGroup, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To New Group", emailData, layout: EmailServerLayoutsEnum.UserAddedToLeagueGroup, priority: EmailPriority.Normal);
             }
             MemberCache.Clear(memberId);
             MemberCache.ClearApiCache(memberId);

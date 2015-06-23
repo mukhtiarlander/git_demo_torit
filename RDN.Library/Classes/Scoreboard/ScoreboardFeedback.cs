@@ -8,6 +8,7 @@ using RDN.Library.DataModels.Scoreboard;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Utilities.Enums;
+using RDN.Library.Classes.Config;
 
 
 namespace RDN.Library.Classes.Scoreboard
@@ -50,7 +51,7 @@ namespace RDN.Library.Classes.Scoreboard
 
 
                 var emailData = new Dictionary<string, string> { { "body", body } };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_INFO_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
             }
             catch (Exception exception)
             {
@@ -81,7 +82,7 @@ namespace RDN.Library.Classes.Scoreboard
 
 
                 var emailData = new Dictionary<string, string> { { "body", body } };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_INFO_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
             }
             catch (Exception exception)
             {

@@ -2097,11 +2097,18 @@ function SendEmailPollNotification(leId, pollId) {
     var sent = $("#emailPollLink");
     $.getJSON("/vote/SendEmailReminderAboutPoll", { lId: leId, pId: pollId }, function (result) {
         if (result.isSuccess === true) {
-            sent.html("Email Reminders Sent");
-        }
-        else {
-
-        }
+                $('.bottom-right').notify({
+                    message: { text: 'Notifications Sent. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "success"
+                }).show();
+            } else {
+                $('.bottom-right').notify({
+                    message: { text: 'Something Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "danger"
+                }).show();
+            }      
     });
     to.remove();
 }
@@ -2545,7 +2552,7 @@ var Messages = new function () {
         $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
-                    gList.append("<li class='group-icon' style='list-style: none;'><label><i  class='fa fa-group'></i>&nbsp;<input style='position: absolute;left: 0;margin-left: 0;opacity: 0;z-index: 2;cursor: pointer;height: 1em;width: 1em;top: 0;' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
+                    gList.append("<li class='group-icon' style='list-style: none;'><label style='cursor: pointer !important'><i  class='fa fa-group'></i>&nbsp;<input style='position: absolute;left: 0;margin-left: 0;opacity: 0;z-index: 2;cursor: pointer !important;height: 1em;width: 1em;top: 0;' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
                 });
             }
         }).error(function () {

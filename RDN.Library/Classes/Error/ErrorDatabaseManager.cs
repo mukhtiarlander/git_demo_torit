@@ -41,8 +41,7 @@ namespace RDN.Library.Classes.Error
         {
             try
             {
-                CustomConfigurationManager _configManager = new CustomConfigurationManager();
-                ManagementContext dc = new ManagementContext();
+                ManagementContext dc = ManagementContext.DataContext;
 
                 var databaseError = new DataModels.Exception.Exception
                                         {

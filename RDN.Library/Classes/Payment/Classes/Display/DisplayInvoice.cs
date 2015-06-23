@@ -29,6 +29,10 @@ namespace RDN.Library.Classes.Payment.Classes.Display
         // Shipping
         public decimal ShippingCost { get; set; }
         public string CustomerId { get; set; }
+        /// <summary>
+        /// stripe requires we use a charge id.
+        /// </summary>
+        public string PaymentProviderChargeId { get; set; }
         public bool CanRefundCustomer { get; set; }
 
         // Currency

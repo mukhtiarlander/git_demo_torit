@@ -50,6 +50,8 @@ namespace RDN.Library.Classes.Payment
         //stripe takes the fees from the seller, so we charge 22.1%.
         private static readonly decimal _RDNationPaywallFeesPercentageStripe = .221M;
 
+        public const string ConnectionStringName = "ConnectionStringName";
+
         private Invoice invoice = null;
 
         InvoiceFactory() { }
@@ -116,6 +118,12 @@ namespace RDN.Library.Classes.Payment
         public InvoiceFactory SetPaymentProviderId(string paymentProviderId)
         {
             invoice.PaymentProviderCustomerId = paymentProviderId;
+            return this;
+        }
+
+        public InvoiceFactory SetConnectionStringName(string connectionStringName)
+        {
+            invoice.DatabaseConnectionStringName = connectionStringName;
             return this;
         }
         public InvoiceFactory SetInvoiceStatus(InvoiceStatus status)
@@ -509,7 +517,7 @@ namespace RDN.Library.Classes.Payment
                 if (response != null)
                 {
                     // Try to save the data to our database
-                    if (response.AmountInCentsRefunded.HasValue && response.AmountInCentsRefunded.Value > 0)
+                    if (response.Amount > 0)
                     {
                         PaymentGateway pg = new PaymentGateway();
                         var voice = pg.GetDisplayInvoice(invoice.InvoiceId);
@@ -633,8 +641,8 @@ namespace RDN.Library.Classes.Payment
                                             { "invoiceId",invoice.InvoiceId.ToString().Replace("-","") },
                                             { "Paid",invoice.FinancialData.TotalIncludingTax.ToString("N2")}
                                         };
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.Default);
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_KRIS_WORLIDGE_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.Default);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.Default);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultKrisWorlidgeEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.Default);
 
                     }
                     else
@@ -721,8 +729,8 @@ namespace RDN.Library.Classes.Payment
                                             { "invoiceId",invoice.InvoiceId.ToString().Replace("-","") },
                                             { "Paid",invoice.FinancialData.TotalIncludingTax.ToString("N2")}
                                         };
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For RN Subscription", emailData, EmailServer.EmailServerLayoutsEnum.Default);
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_KRIS_WORLIDGE_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.Default);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For RN Subscription", emailData, EmailServer.EmailServerLayoutsEnum.Default);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultKrisWorlidgeEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.Default);
 
                             }
                         }
@@ -788,11 +796,11 @@ namespace RDN.Library.Classes.Payment
                                             { "invoiceId", invoiceId.ToString().Replace("-","") },
                                             { "expires", validUntil.ToShortDateString()}
                                         };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription was Canceled", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWasCancelled);
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription was Canceled", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWasCancelled);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription was Canceled", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWasCancelled);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription was Canceled", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWasCancelled);
                 if (league.Email != secondEmail && !String.IsNullOrEmpty(secondEmail))
                 {
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription was Canceled", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWasCancelled);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription was Canceled", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWasCancelled);
                 }
             }
             catch (Exception exception)
@@ -813,10 +821,10 @@ namespace RDN.Library.Classes.Payment
                                             { "amountPaid", price.ToString("N2")},
                                             { "expires", validUntil.ToShortDateString()}
                                         };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.ReceiptForLeagueSubscription);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.ReceiptForLeagueSubscription);
                 if (league.Email != secondEmail && !String.IsNullOrEmpty(secondEmail))
                 {
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.ReceiptForLeagueSubscription);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.ReceiptForLeagueSubscription);
                 }
             }
             catch (Exception exception)
@@ -832,12 +840,12 @@ namespace RDN.Library.Classes.Payment
                 var league = League.LeagueFactory.GetLeague(leagueId);
                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "emailAddress",ServerConfig.DEFAULT_EMAIL}
+                                            { "emailAddress",LibraryConfig.DefaultInfoEmail}
                                         };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Failed Payment", emailData, EmailServer.EmailServerLayoutsEnum.LeagueSubscriptionFailedPayment);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Failed Payment", emailData, EmailServer.EmailServerLayoutsEnum.LeagueSubscriptionFailedPayment);
                 if (league.Email != secondEmail && !String.IsNullOrEmpty(secondEmail))
                 {
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Failed Payment", emailData, EmailServer.EmailServerLayoutsEnum.LeagueSubscriptionFailedPayment);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Failed Payment", emailData, EmailServer.EmailServerLayoutsEnum.LeagueSubscriptionFailedPayment);
                 }
             }
             catch (Exception exception)
@@ -846,14 +854,13 @@ namespace RDN.Library.Classes.Payment
             }
         }
 
-
-
-
         private bool AddInvoiceToDatabase()
         {
             try
             {
                 var mc = new ManagementContext();
+                if (!String.IsNullOrEmpty(invoice.DatabaseConnectionStringName))
+                    mc = new ManagementContext(invoice.DatabaseConnectionStringName);
 
                 // Create a new invoice db object
                 var dbinvoice = new DataModels.PaymentGateway.Invoices.Invoice();
@@ -861,6 +868,7 @@ namespace RDN.Library.Classes.Payment
                 dbinvoice.InvoiceId = invoice.InvoiceId;
                 dbinvoice.PaymentProvider = (byte)invoice.PaymentProvider;
                 dbinvoice.PaymentProviderCustomerId = invoice.PaymentProviderCustomerId;
+                dbinvoice.PaymentProviderChargeId = invoice.PaymentProviderChargeId;
                 dbinvoice.InvoiceStatus = (byte)invoice.InvoiceStatus;
                 dbinvoice.InvoiceStatusUpdated = DateTime.Now;
                 dbinvoice.AdminNote = invoice.AdminNote;
@@ -910,6 +918,7 @@ namespace RDN.Library.Classes.Payment
                 {
                     var subscription = new DataModels.PaymentGateway.Invoices.InvoiceSubscription();
                     subscription.ArticleNumber = invoice.Subscription.ArticleNumber;
+                    subscription.PlanId = invoice.Subscription.PlanId;
                     subscription.Description = invoice.Subscription.Description;
                     subscription.DescriptionRecurring = invoice.Subscription.DescriptionRecurring;
                     subscription.DigitalPurchaseText = invoice.Subscription.DigitalPurchaseText;
@@ -1042,19 +1051,19 @@ namespace RDN.Library.Classes.Payment
             try
             {
                 var myCustomer = new StripeCustomerCreateOptions();
+                myCustomer.Card = new StripeCreditCardOptions();
                 if (invoice.InvoiceBilling != null)
                 {
-                    myCustomer.CardAddressCity = invoice.InvoiceBilling.City;
-                    myCustomer.CardAddressCountry = invoice.InvoiceBilling.Country;
-                    myCustomer.CardAddressLine1 = invoice.InvoiceBilling.Street;
-                    myCustomer.CardAddressState = invoice.InvoiceBilling.State;
-                    myCustomer.CardAddressZip = invoice.InvoiceBilling.Zip;
+                    myCustomer.Card.CardAddressCity = invoice.InvoiceBilling.City;
+                    myCustomer.Card.CardAddressCountry = invoice.InvoiceBilling.Country;
+                    myCustomer.Card.CardAddressLine1 = invoice.InvoiceBilling.Street;
+                    myCustomer.Card.CardAddressState = invoice.InvoiceBilling.State;
+                    myCustomer.Card.CardAddressZip = invoice.InvoiceBilling.Zip;
                     myCustomer.Email = invoice.InvoiceBilling.Email;
-                    myCustomer.Description = LibraryConfig.ConnectionStringName;
                 }
                 if (invoice.Subscription != null)
                 {
-                    myCustomer.TokenId = invoice.Subscription.ArticleNumber;
+                    myCustomer.Card.TokenId = invoice.Subscription.ArticleNumber;
                     if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Monthly)
                     {
                         myCustomer.PlanId = StripePlanNames.Monthly_Plan.ToString();
@@ -1079,10 +1088,15 @@ namespace RDN.Library.Classes.Payment
                 //creates the customer
                 //adds the subscription
                 //charges the customer.
+                myCustomer.Metadata = new Dictionary<string, string>();
+                myCustomer.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+
                 var customerService = new StripeCustomerService();
                 StripeCustomer stripeCustomer = customerService.Create(myCustomer);
                 invoice.PaymentProviderCustomerId = stripeCustomer.Id;
-
+                if (invoice.Subscription == null)
+                    invoice.Subscription = new InvoiceSubscription();
+                invoice.Subscription.PlanId = myCustomer.PlanId;
                 return stripeCustomer;
             }
             catch (Exception exception)
@@ -1109,8 +1123,11 @@ namespace RDN.Library.Classes.Payment
                     invoice.PaymentProvider = invoice.PaymentProvider;
                     invoice.BasePriceForItems = invoice.BasePriceForItems;
                     invoice.Merchant = invoice.Merchant;
-                    var customerService = new StripeCustomerService();
-                    StripeSubscription subscription = customerService.CancelSubscription(invoice.PaymentProviderCustomerId);
+
+                    //var customerService = new StripeCustomerService();
+                    var subscriptionService = new StripeSubscriptionService();
+                    subscriptionService.Cancel(invoice.PaymentProviderCustomerId, invoice.Subscription.PlanId);
+                    //StripeSubscription subscription = customerService.CancelSubscription(invoice.PaymentProviderCustomerId);
                     int c = dc.SaveChanges();
                     return c > 0;
                 }
@@ -1130,19 +1147,25 @@ namespace RDN.Library.Classes.Payment
             CreateInvoiceReturn output = new CreateInvoiceReturn();
 
             var myCustomer = new StripeCustomerCreateOptions();
+            myCustomer.Card = new StripeCreditCardOptions();
             if (invoice.InvoiceBilling != null)
             {
-                myCustomer.CardAddressCity = invoice.InvoiceBilling.City;
-                myCustomer.CardAddressCountry = invoice.InvoiceBilling.Country;
-                myCustomer.CardAddressLine1 = invoice.InvoiceBilling.Street;
-                myCustomer.CardAddressState = invoice.InvoiceBilling.State;
-                myCustomer.CardAddressZip = invoice.InvoiceBilling.Zip;
+
+                myCustomer.Card.CardAddressCity = invoice.InvoiceBilling.City;
+                myCustomer.Card.CardAddressCountry = invoice.InvoiceBilling.Country;
+                myCustomer.Card.CardAddressLine1 = invoice.InvoiceBilling.Street;
+                myCustomer.Card.CardAddressState = invoice.InvoiceBilling.State;
+                myCustomer.Card.CardAddressZip = invoice.InvoiceBilling.Zip;
                 myCustomer.Email = invoice.InvoiceBilling.Email;
             }
 
-            myCustomer.TokenId = invoice.StripeToken;
+            myCustomer.Card.TokenId = invoice.StripeToken;
 
             var myCharge = new StripeChargeCreateOptions();
+            myCustomer.Metadata = new Dictionary<string, string>();
+            myCustomer.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+            myCharge.Metadata = new Dictionary<string, string>();
+            myCharge.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
 
             var customerService = new StripeCustomerService();
 
@@ -1150,7 +1173,7 @@ namespace RDN.Library.Classes.Payment
 
             // always set these properties
             //need to convert to cents because thats what stripe uses.
-            myCharge.AmountInCents = (int)(invoice.FinancialData.TotalIncludingTax * 100);
+            myCharge.Amount = (int)(invoice.FinancialData.TotalIncludingTax * 100);
             myCharge.Currency = invoice.Currency.ToString();
 
             // set this if you want to
@@ -1161,6 +1184,7 @@ namespace RDN.Library.Classes.Payment
             myCharge.Capture = true;
 
             var chargeService = new StripeChargeService();
+
             StripeCharge stripeCharge = chargeService.Create(myCharge);
 
             output.InvoiceId = invoice.InvoiceId;
@@ -1179,16 +1203,23 @@ namespace RDN.Library.Classes.Payment
                 int amountInCentsTotalPayment = Convert.ToInt32((invoice.FinancialData.BasePriceForItems + invoice.FinancialData.ShippingCost) * 100);
                 int RDNationsCut = Convert.ToInt32(amountInCentsTotalPayment - (invoice.FinancialData.PriceSubtractingRDNationFees * 100));
                 var stripeService = new StripeChargeService(merchant.StripeConnectToken); //The token returned from the above method
-                var stripeChargeOption = new StripeChargeCreateOptions() { AmountInCents = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.ShopName, TokenId = invoice.StripeToken, ApplicationFeeInCents = RDNationsCut };
+                var stripeChargeOption = new StripeChargeCreateOptions() { Amount = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.ShopName };
+
+                stripeChargeOption.Card = new StripeCreditCardOptions();
+                stripeChargeOption.Card.TokenId = invoice.StripeToken;
+                stripeChargeOption.ApplicationFee = RDNationsCut;
 
                 if (invoice.InvoiceBilling != null)
                 {
-                    stripeChargeOption.CardAddressCity = invoice.InvoiceBilling.City;
-                    stripeChargeOption.CardAddressCountry = invoice.InvoiceBilling.Country;
-                    stripeChargeOption.CardAddressLine1 = invoice.InvoiceBilling.Street;
-                    stripeChargeOption.CardAddressState = invoice.InvoiceBilling.State;
-                    stripeChargeOption.CardAddressZip = invoice.InvoiceBilling.Zip;
+                    stripeChargeOption.Card.CardAddressCity = invoice.InvoiceBilling.City;
+                    stripeChargeOption.Card.CardAddressCountry = invoice.InvoiceBilling.Country;
+                    stripeChargeOption.Card.CardAddressLine1 = invoice.InvoiceBilling.Street;
+                    stripeChargeOption.Card.CardAddressState = invoice.InvoiceBilling.State;
+                    stripeChargeOption.Card.CardAddressZip = invoice.InvoiceBilling.Zip;
                 }
+                stripeChargeOption.Metadata = new Dictionary<string, string>();
+                stripeChargeOption.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+
                 var response = stripeService.Create(stripeChargeOption);
                 invoice.PaymentProviderCustomerId = response.Id;
 
@@ -1210,7 +1241,14 @@ namespace RDN.Library.Classes.Payment
                 int amountInCentsTotalPayment = Convert.ToInt32((invoice.FinancialData.BasePriceForItems) * 100);
                 int RDNationsCut = Convert.ToInt32(amountInCentsTotalPayment - (invoice.FinancialData.PriceSubtractingRDNationFees * 100));
                 var stripeService = new StripeChargeService(merchant.StripeConnectToken); //The token returned from the above method
-                var stripeChargeOption = new StripeChargeCreateOptions() { AmountInCents = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.OwnerName, TokenId = invoice.StripeToken, ApplicationFeeInCents = RDNationsCut };
+                var stripeChargeOption = new StripeChargeCreateOptions() { Amount = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.OwnerName };
+
+                stripeChargeOption.Card = new StripeCreditCardOptions();
+                stripeChargeOption.Card.TokenId = invoice.StripeToken;
+                stripeChargeOption.ApplicationFee = RDNationsCut;
+
+                stripeChargeOption.Metadata = new Dictionary<string, string>();
+                stripeChargeOption.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
 
                 var response = stripeService.Create(stripeChargeOption);
                 invoice.PaymentProviderCustomerId = response.Id;
@@ -1224,7 +1262,7 @@ namespace RDN.Library.Classes.Payment
             }
             return null;
         }
-        private StripeCharge PerformStripeRefund()
+        private StripeRefund PerformStripeRefund()
         {
             try
             {
@@ -1232,8 +1270,15 @@ namespace RDN.Library.Classes.Payment
                 var merchant = pg.GetMerchant(invoice.MerchantId);
                 var voice = pg.GetDisplayInvoice(invoice.InvoiceId);
                 int amountInCentsTotalRefund = Convert.ToInt32((invoice.FinancialData.RefundAmount) * 100);
-                var chargeService = new StripeChargeService(merchant.StripeConnectToken);
-                StripeCharge stripeCharge = chargeService.Refund(voice.CustomerId, amountInCentsTotalRefund);
+
+                StripeRefundService chargeService = new StripeRefundService(merchant.StripeConnectToken);
+                StripeRefundCreateOptions options = new StripeRefundCreateOptions();
+                options.Amount = amountInCentsTotalRefund;
+                options.Metadata = new Dictionary<string, string>();
+                options.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+
+                StripeRefund stripeCharge = chargeService.Create(voice.PaymentProviderChargeId, options);
+
                 invoice.PaymentProviderRefundedId = stripeCharge.Id;
 
                 return stripeCharge;
@@ -1265,7 +1310,7 @@ namespace RDN.Library.Classes.Payment
                 {
 
                     sendingPayPal.ReturnUrl = ServerConfig.LEAGUE_SUBSCRIPTION_RECIEPT + invoice.InvoiceId.ToString().Replace("-", "");
-                    sendingPayPal.SellerEmailAddress = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
+                    sendingPayPal.SellerEmailAddress = LibraryConfig.DefaultAdminEmailAdmin;
                     sendingPayPal.CancelUrl = ServerConfig.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", "");
                 }
                 else
@@ -1277,9 +1322,9 @@ namespace RDN.Library.Classes.Payment
                 }
 
                 sendingPayPal.InvoiceNumber = invoice.InvoiceId.ToString();
-                sendingPayPal.LogoUrl = ServerConfig.LOGO_URL;
+                sendingPayPal.LogoUrl = LibraryConfig.LogoURL;
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Payment Sent To Paypal", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal Payment Sent To Paypal", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price);
 
                 return sendingPayPal.RedirectToPaypal(invoice.IsLive);
             }
@@ -1303,18 +1348,18 @@ namespace RDN.Library.Classes.Payment
                     //RDNation as a reciever
                     Receiver recRDNation = new Receiver(invoice.FinancialData.BasePriceForItems);
                     if (invoice.IsLive)
-                        recRDNation.email = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
+                        recRDNation.email = LibraryConfig.DefaultAdminEmailAdmin;
                     else
                         recRDNation.email = ServerConfig.PAYPAL_SELLER_DEBUG_ADDRESS;
                     //make sure RDNation can be paid.
-                    if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
+                    if (LibraryConfig.DefaultAdminEmailAdmin != merchant.PaypalEmail)
                         recRDNation.primary = true;
 
                     recRDNation.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": " + invoice.Paywall.Description;
                     recRDNation.paymentType = PaymentTypeEnum.SERVICE.ToString();
                     receiverList.receiver.Add(recRDNation);
                     //no need to add a second receiver if the seller is RDNation
-                    if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
+                    if (LibraryConfig.DefaultAdminEmailAdmin != merchant.PaypalEmail)
                     {
                         Receiver recLeague = new Receiver(invoice.FinancialData.PriceSubtractingRDNationFees);
                         recLeague.amount = invoice.FinancialData.PriceSubtractingRDNationFees;
@@ -1330,15 +1375,15 @@ namespace RDN.Library.Classes.Payment
                     }
                     PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), invoice.Paywall.PaywallLocation, Currency.USD.ToString(), receiverList, ServerConfig.PAYWALL_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
                     //no need to note primary if RDNation is the seller.
-                    if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
+                    if (LibraryConfig.DefaultAdminEmailAdmin != merchant.PaypalEmail)
                         req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
 
                     req.memo = invoice.Paywall.Description;
                     req.reverseAllParallelPaymentsOnError = false;
                     if (invoice.IsLive)
-                        req.ipnNotificationUrl = ServerConfig.PAYPAL_IPN_HANDLER;
+                        req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
                     else
-                        req.ipnNotificationUrl = ServerConfig.PAYPAL_IPN_HANDLER_DEBUG;
+                        req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandlerDebug;
 
                     // All set. Fire the request            
                     AdaptivePaymentsService service = new AdaptivePaymentsService();
@@ -1350,7 +1395,7 @@ namespace RDN.Library.Classes.Payment
                     if (!(resp.responseEnvelope.ack == AckCode.FAILURE) &&
                         !(resp.responseEnvelope.ack == AckCode.FAILUREWITHWARNING))
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Paywall Wating to be Purchased", invoice.InvoiceId + " Amount:" + invoice.FinancialData.BasePriceForItems + " :" + merchant.PaypalEmail);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal Paywall Wating to be Purchased", invoice.InvoiceId + " Amount:" + invoice.FinancialData.BasePriceForItems + " :" + merchant.PaypalEmail);
 
                         redirectUrl = PaypalPayment.GetBaseUrl(invoice.IsLive);
 
@@ -1400,17 +1445,17 @@ namespace RDN.Library.Classes.Payment
                         //RDNation as a reciever
                         Receiver recRDNation = new Receiver(invoice.FinancialData.BasePriceForItems + invoice.FinancialData.ShippingCost);
                         if (invoice.IsLive)
-                            recRDNation.email = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
+                            recRDNation.email = LibraryConfig.DefaultAdminEmailAdmin;
                         else
                             recRDNation.email = ServerConfig.PAYPAL_SELLER_DEBUG_ADDRESS;
-                        if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
+                        if (LibraryConfig.DefaultAdminEmailAdmin != merchant.PaypalEmail)
                             recRDNation.primary = true;
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
                         recRDNation.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": Payment to " + merchant.ShopName;
                         recRDNation.paymentType = PaymentTypeEnum.GOODS.ToString();
                         receiverList.receiver.Add(recRDNation);
-                        if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
+                        if (LibraryConfig.DefaultAdminEmailAdmin != merchant.PaypalEmail)
                         {
                             Receiver recLeague = new Receiver(invoice.FinancialData.PriceSubtractingRDNationFees);
                             recLeague.amount = invoice.FinancialData.PriceSubtractingRDNationFees;
@@ -1427,14 +1472,14 @@ namespace RDN.Library.Classes.Payment
                         }
 
                         PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), ServerConfig.STORE_MERCHANT_CART_URL + merchant.MerchantId.ToString().Replace("-", ""), invoice.Currency, receiverList, ServerConfig.STORE_MERCHANT_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
-                        if (ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN != merchant.PaypalEmail)
+                        if (LibraryConfig.DefaultAdminEmailAdmin != merchant.PaypalEmail)
                             req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
                         req.memo = "Payment to " + merchant.ShopName + ": " + invoice.InvoiceId.ToString().Replace("-", "");
                         req.reverseAllParallelPaymentsOnError = false;
                         if (invoice.IsLive)
-                            req.ipnNotificationUrl = ServerConfig.PAYPAL_IPN_HANDLER;
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
                         else
-                            req.ipnNotificationUrl = ServerConfig.PAYPAL_IPN_HANDLER_DEBUG;
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandlerDebug;
 
                         // All set. Fire the request            
                         AdaptivePaymentsService service = new AdaptivePaymentsService();
@@ -1446,7 +1491,7 @@ namespace RDN.Library.Classes.Payment
                         if (!(resp.responseEnvelope.ack == AckCode.FAILURE) &&
                             !(resp.responseEnvelope.ack == AckCode.FAILUREWITHWARNING))
                         {
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Store Item Waiting To be Purchased", invoice.InvoiceId + " Amount:" + invoice.FinancialData.BasePriceForItems + ":" + merchant.PaypalEmail);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal Store Item Waiting To be Purchased", invoice.InvoiceId + " Amount:" + invoice.FinancialData.BasePriceForItems + ":" + merchant.PaypalEmail);
 
                             redirectUrl = PaypalPayment.GetBaseUrl(invoice.IsLive);
 
@@ -1587,7 +1632,7 @@ namespace RDN.Library.Classes.Payment
                     }
                     var emailDataComplete = new Dictionary<string, string> { { "totalPaid", tempFundsBeingPaid.Sum(x=>x.AmountToDeductFromTotal).ToString("N2") },
                     {"totalUsersPaid", tempFundsBeingPaid.Count.ToString()}};
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " Mass Pay Completed!", emailDataComplete, EmailServer.EmailServerLayoutsEnum.RNPaymentJustCompleted);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultAdminEmailAdmin, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " Mass Pay Completed!", emailDataComplete, EmailServer.EmailServerLayoutsEnum.RNPaymentJustCompleted);
 
                     for (int i = 0; i < invoices.Count; i++)
                     {
@@ -1629,7 +1674,7 @@ namespace RDN.Library.Classes.Payment
                 output.Status = InvoiceStatus.Paypal_Email_Not_Confirmed;
 
                 var emailData = new Dictionary<string, string> { { "body", sb.ToString() } };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, " Mass Pay Problem", emailData, EmailServer.EmailServerLayoutsEnum.Blank);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, " Mass Pay Problem", emailData, EmailServer.EmailServerLayoutsEnum.Blank);
             }
             else
             {
@@ -1654,7 +1699,7 @@ namespace RDN.Library.Classes.Payment
                         //RDNation as a reciever
                         Receiver recRDNation = new Receiver(duesItem.PriceAfterFees);
                         if (invoice.IsLive)
-                            recRDNation.email = ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN;
+                            recRDNation.email = LibraryConfig.DefaultAdminEmailAdmin;
                         else
                             recRDNation.email = ServerConfig.PAYPAL_SELLER_DEBUG_ADDRESS;
                         recRDNation.primary = true;
@@ -1685,9 +1730,9 @@ namespace RDN.Library.Classes.Payment
                         req.reverseAllParallelPaymentsOnError = false;
                         req.trackingId = invoice.InvoiceId.ToString().Replace("-", "");
                         if (invoice.IsLive)
-                            req.ipnNotificationUrl = ServerConfig.PAYPAL_IPN_HANDLER;
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
                         else
-                            req.ipnNotificationUrl = ServerConfig.PAYPAL_IPN_HANDLER_DEBUG;
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandlerDebug;
 
                         // All set. Fire the request            
                         AdaptivePaymentsService service = new AdaptivePaymentsService();
@@ -1701,7 +1746,7 @@ namespace RDN.Library.Classes.Payment
                         if (!(resp.responseEnvelope.ack == AckCode.FAILURE) &&
                             !(resp.responseEnvelope.ack == AckCode.FAILUREWITHWARNING))
                         {
-                            //EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "Paypal Dues Payment Waiting To be Finished", invoice.InvoiceId + " Amount:" + duesItem.PriceAfterFees + ":" + leagueSettings.PayPalEmailAddress);
+                            //EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "Paypal Dues Payment Waiting To be Finished", invoice.InvoiceId + " Amount:" + duesItem.PriceAfterFees + ":" + leagueSettings.PayPalEmailAddress);
 
                             redirectUrl = PaypalPayment.GetBaseUrl(invoice.IsLive);
 
@@ -1721,7 +1766,7 @@ namespace RDN.Library.Classes.Payment
                         }
                         else
                         {
-                            if (resp.error.FirstOrDefault().message.Contains(ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN + " is restricted"))
+                            if (resp.error.FirstOrDefault().message.Contains(LibraryConfig.DefaultAdminEmailAdmin + " is restricted"))
                             {
                                 output.Status = InvoiceStatus.Paypal_Email_Not_Confirmed;
 
@@ -1732,7 +1777,7 @@ namespace RDN.Library.Classes.Payment
                                             { "duesSettingsLink", ServerConfig.LEAGUE_DUES_SETTINGS_URL +leagueSettings.LeagueOwnerId.ToString().Replace("-", "") + "/" + leagueSettings.DuesId.ToString().Replace("-", "")}
                                                                                     };
 
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
 
                             }
                             //paypal account hasn't been confirmed by the league.
@@ -1751,26 +1796,26 @@ namespace RDN.Library.Classes.Payment
                                 if (resp.error.FirstOrDefault().message.Contains("isn't confirmed by PayPal"))
                                 {
                                     if (!String.IsNullOrEmpty(leagueSettings.PayPalEmailAddress))
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, leagueSettings.PayPalEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Isn't Confirmed", emailData, EmailServer.EmailServerLayoutsEnum.PayPalEmailIsNotConfirmed);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, leagueSettings.PayPalEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Isn't Confirmed", emailData, EmailServer.EmailServerLayoutsEnum.PayPalEmailIsNotConfirmed);
                                     if (!String.IsNullOrEmpty(leagueSettings.LeagueEmailAddress))
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, leagueSettings.LeagueEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Isn't Confirmed", emailData, EmailServer.EmailServerLayoutsEnum.PayPalEmailIsNotConfirmed);
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Isn't Confirmed: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PayPalEmailIsNotConfirmed);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, leagueSettings.LeagueEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Isn't Confirmed", emailData, EmailServer.EmailServerLayoutsEnum.PayPalEmailIsNotConfirmed);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Isn't Confirmed: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PayPalEmailIsNotConfirmed);
                                 }
                                 if (resp.error.FirstOrDefault().message.Contains("is restricted"))
                                 {
                                     if (!String.IsNullOrEmpty(leagueSettings.PayPalEmailAddress))
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, leagueSettings.PayPalEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, leagueSettings.PayPalEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
                                     if (!String.IsNullOrEmpty(leagueSettings.LeagueEmailAddress))
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, leagueSettings.LeagueEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, leagueSettings.LeagueEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
                                 }
                                 if (resp.error.FirstOrDefault().message.Contains("specified to identify a receiver"))
                                 {
                                     if (!String.IsNullOrEmpty(leagueSettings.PayPalEmailAddress))
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, leagueSettings.PayPalEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Not Specified", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, leagueSettings.PayPalEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Not Specified", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
                                     if (!String.IsNullOrEmpty(leagueSettings.LeagueEmailAddress))
-                                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, leagueSettings.LeagueEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Not Specified", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Not Specified: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, leagueSettings.LeagueEmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Not Specified", emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Not Specified: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
                                 }
                                 Dues.DuesFactory.DisablePaypalDuesAccountForLeague(leagueSettings.DuesId);
 
@@ -1809,7 +1854,7 @@ namespace RDN.Library.Classes.Payment
                                             { "amountForPaymentAfterFee", invoice.FinancialData.BasePriceForItems.ToString()},
                                         };
 
-                EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.RNPaymentRequested);
+                EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.RNPaymentRequested);
                 EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, RollinNewsConfig.DEFAULT_MRX_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.RNPaymentRequested);
 
                 invoice.InvoiceStatus = InvoiceStatus.Payment_Awaiting_For_Mass_Payout;
@@ -1824,10 +1869,5 @@ namespace RDN.Library.Classes.Payment
 
 
 
-        private class GoogleCheckoutReturn
-        {
-            public string Error { get; set; }
-            public string RedirectLink { get; set; }
-        }
     }
 }

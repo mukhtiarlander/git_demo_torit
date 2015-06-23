@@ -184,7 +184,7 @@ namespace RDN.Controllers
                         if (changed == true)
                             model.ConfirmationMessage = "Your Password Has Been Changed.";
                         else
-                            model.ConfirmationMessage = "Your Password Has NOT Been Changed. If this problem persists, please email " + ServerConfig.DEFAULT_INFO_EMAIL;
+                            model.ConfirmationMessage = "Your Password Has NOT Been Changed. If this problem persists, please email " + LibraryConfig.DefaultInfoEmail;
                         return View(model);
                     }
                 }
@@ -484,8 +484,8 @@ namespace RDN.Controllers
                         {
                             string url;
                             if (returnSite == "league")
-                            {
-                                url = "https://league.rdnation.com";
+                            {                                
+                                url = LibraryConfig.InternalSite;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
                                 return Redirect(url);
@@ -509,7 +509,7 @@ namespace RDN.Controllers
                         {
                             return Redirect(returnUrl);
                         }
-                        return Redirect("https://league.rdnation.com");
+                        return Redirect(LibraryConfig.InternalSite);
                     }
 
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");

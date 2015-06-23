@@ -14,6 +14,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Classes.Controls.Dues;
 using RDN.Portable.Classes.Controls.Dues.Classify;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Dues
 {
@@ -264,11 +265,11 @@ namespace RDN.Library.Classes.Dues
                                 if (!String.IsNullOrEmpty(dues.EmailResponse))
                                 {
                                     emailData.Add("blanktext", dues.EmailResponse);
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                                 }
                                 else
                                 {
-                                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                                 }
                             }
                         }
@@ -322,11 +323,11 @@ namespace RDN.Library.Classes.Dues
                         if (!String.IsNullOrEmpty(item.EmailResponse))
                         {
                             emailData.Add("blanktext", item.EmailResponse);
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                         }
                         else
                         {
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                         }
 
                     }
@@ -384,11 +385,11 @@ namespace RDN.Library.Classes.Dues
                         if (!String.IsNullOrEmpty(dues.DuesEmailText))
                         {
                             emailData.Add("blanktext", dues.DuesEmailText);
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                         }
                         else
                         {
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                         }
                         return true;
                     }

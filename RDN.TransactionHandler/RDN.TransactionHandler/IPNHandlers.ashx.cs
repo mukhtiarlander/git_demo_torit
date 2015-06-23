@@ -28,7 +28,7 @@ namespace RDN.TransactionHandler
 
                 IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
 
-                //ipn.CheckStatus();
+                ipn.CheckStatus();
                 ipn.SendIPNNotificationToApi();
             }
             catch (Exception exception)

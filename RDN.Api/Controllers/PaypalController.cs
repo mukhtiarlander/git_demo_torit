@@ -20,12 +20,29 @@ namespace RDN.Api.Controllers
             return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.InsertIpnNotification(message) });
         }
 
-        public ActionResult CompletePaypalPayment(Guid invoiceId, PayPalMessage message)
+        public ActionResult CompletePayment(Guid invoiceId, PayPalMessage message)
         {
             if (!IsAuthenticated)
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-            return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.InsertIpnNotification(message) });
+            return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.CompletePayment(invoiceId, message) });
+        }
+
+        public ActionResult PendingPayment(Guid invoiceId, PayPalMessage message)
+        {
+            if (!IsAuthenticated)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(invoiceId, message) });
+        }
+
+        
+        public ActionResult FailedPayment(Guid invoiceId, PayPalMessage message)
+        {
+            if (!IsAuthenticated)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.FailedPayment(invoiceId, message) });
         }
     }
 }

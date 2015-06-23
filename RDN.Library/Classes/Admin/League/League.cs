@@ -16,6 +16,7 @@ using RDN.Library.Classes.Location;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Forum.Enums;
 using RDN.Portable.Classes.League.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Admin.League
 {
@@ -256,7 +257,7 @@ namespace RDN.Library.Classes.Admin.League
                 emailData.Add("name", pendingLeague.Creator.Firstname);
                 emailData.Add("derbyname", pendingLeague.Creator.DerbyName);
                 emailData.Add("leaguename", pendingLeague.LeagueName);
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, defaultEmail.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
             }
 
             // ToDo: To be removed
@@ -392,7 +393,7 @@ namespace RDN.Library.Classes.Admin.League
                     emailData.Add("name", pendingLeague.Creator.Firstname);
                     emailData.Add("derbyname", pendingLeague.Creator.DerbyName);
                     emailData.Add("leaguename", pendingLeague.LeagueName);
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, defaultEmail.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
                 }
 
                 try
@@ -436,7 +437,7 @@ namespace RDN.Library.Classes.Admin.League
             //    emailData.Add("derbyname", pendingLeague.Creator.DerbyName);
             //    emailData.Add("leaguename", pendingLeague.LeagueName);
             //    emailData.Add("rejectmessage", rejectMessage);
-            //    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, defaultEmail.EmailAddress, "Your league was rejected at RDNation.com", emailData, EmailServer.EmailServerLayoutsEnum.LeagueRejected);
+            //    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, "Your league was rejected at RDNation.com", emailData, EmailServer.EmailServerLayoutsEnum.LeagueRejected);
             //}
 
 

@@ -16,23 +16,22 @@
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-envelope-o"></i> Send New Text Message</h3>
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-envelope-o"></i> Send New Text Message </h3>
             </div>
             @using (Html.BeginForm("CreateNewTextMessage", "Message", FormMethod.Post))
             {
-                <div class="panel-body">
+                <div class="panel-body">                   
                     <div class="row">
-                        <div class="col-xs-12 margin-bottom-10">
-                            <div class="btn-group" role="group" aria-label="...">
-                                <div class="btn-group" role="group">
-                                    <a class="btn btn-sm btn-default" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.member + "/" + RDN.Library.Classes.Account.User.GetMemberId().ToString().Replace("-", ""))">View All Members</a>
-                                </div>
-                                @if (MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()) != new Guid())
+                        <div class="col-xs-12">                            
+                            <div class="alert">
+                                You can send a Text Message to those people you are connected with through @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName. Text Messages are NOT saved within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName nor can anyone reply to them. If someones phone number isn't verified with RDNation, they will be sent an email instead.
+                                @if (!Model.IsCarrierVerified)
                                 {
-                                    <div class="btn-group" role="group"><a class="btn  btn-sm btn-default" href="@Url.Content("~/textmessages/new/" + RDN.Portable.Classes.Controls.Message.Enums.GroupOwnerTypeEnum.League + "/" + MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">League Members</a></div>
+                                    <span><a href="@Url.Content("~/member/settings")">Verify Your Phone Number Now</a></span>
                                 }
                             </div>
                         </div>
+                    </div>
                         <div class="col-xs-12 font16">
                             <label class="form-label margin-top-10">
                                 To Selected
@@ -81,21 +80,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                       
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <p>This list is people you are connected to within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName.</p>
-                            <div class="alert alert-info">
-                                You can send a Text Message to those people you are connected with through @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName. Text Messages are NOT saved within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName nor can anyone reply to them. If someones phone number isn't verified with RDNation, they will be sent an email instead.
-                                @if (!Model.IsCarrierVerified)
-                                {
-                                    <span><a href="@Url.Content("~/member/settings")">Verify Your Phone Number Now</a></span>
-                                }
-                            </div>
-                        </div>
-                    </div>
+                        </div>                       
+                  
+
+                   
+                   
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-label margin-bottom-5">To Additional  <button type="button" onclick="Messages.ExpandGroupMemberList()" class="btn btn-sm btn-default"><i class="fa fa-arrow-circle-o-down fa-lg"></i></button></div>

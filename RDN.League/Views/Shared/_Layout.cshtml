@@ -38,12 +38,12 @@
         @if (ViewBag.Title == null)
         {
             @Html.Raw("Management - ")
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault
         }
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault
         }
     </title>
     <script type="text/javascript">

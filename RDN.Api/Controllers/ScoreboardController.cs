@@ -15,6 +15,7 @@ using RDN.Portable.Config;
 using RDN.Portable.Settings.Enums;
 using RDN.Library.Cache;
 using System.Threading.Tasks;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Api.Controllers
 {
@@ -285,7 +286,7 @@ namespace RDN.Api.Controllers
                         }
                     }
 
-                    return Json(new { result = true, url = "http://league.rdnation.com/game/manage/" + privatePassCode.ToString().Replace("-", "") + "/" + publicGameId.ToString().Replace("-", ""), IsGameOnline = isGameOnline }, JsonRequestBehavior.AllowGet);
+                    return Json(new { result = true, url = LibraryConfig.InternalSite +"/game/manage/" + privatePassCode.ToString().Replace("-", "") + "/" + publicGameId.ToString().Replace("-", ""), IsGameOnline = isGameOnline }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

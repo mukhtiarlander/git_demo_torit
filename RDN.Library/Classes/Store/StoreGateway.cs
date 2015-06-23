@@ -24,6 +24,7 @@ using RDN.Portable.Classes.Store.Enums;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.Colors;
+using RDN.Library.Classes.Config;
 
 
 
@@ -326,7 +327,7 @@ namespace RDN.Library.Classes.Store
                 if (merc != null && !String.IsNullOrEmpty(response.AccessToken))
                 {
                     merc.StripeConnectToken = response.AccessToken;
-                    merc.StripePublishableKey = response.PublishableKey;
+                    merc.StripePublishableKey = response.StripePublishableKey;
                     merc.StripeRefreshToken = response.RefreshToken;
                     merc.StripeUserId = response.StripeUserId;
                     merc.StripeTokenType = response.TokenType;
@@ -419,17 +420,17 @@ namespace RDN.Library.Classes.Store
                                             { "sellersAddress",sellersAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
                                             { "notesForPayment", invoice.Note},
-                                            { "emailRDNation", "<a href='mailto:"+ServerConfig.DEFAULT_INFO_EMAIL+"'>"+ ServerConfig.DEFAULT_INFO_EMAIL+"</a>"}                                            
+                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
                                           };
 
                 //sends email to user for their payment.
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Merchant.ShopName, emailData, EmailServer.EmailServerLayoutsEnum.StoreSendReceiptForOrder);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Merchant.ShopName, emailData, EmailServer.EmailServerLayoutsEnum.StoreSendReceiptForOrder);
 
                 //sends email to the seller
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
 
                 //sends email to the seller
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
             }
             catch (Exception exception)
             {
@@ -483,11 +484,11 @@ namespace RDN.Library.Classes.Store
                                             { "shippingAddress",shippingAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
                                             { "notesForPayment", invoice.Note},
-                                            { "emailRDNation", "<a href='mailto:"+ServerConfig.DEFAULT_INFO_EMAIL+"'>"+ ServerConfig.DEFAULT_INFO_EMAIL+"</a>"}                                            
+                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
                                           };
 
                 //sends email to user for their payment.
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Items Have Shipped", emailData, EmailServer.EmailServerLayoutsEnum.StoreSendShippedItemsForOrder);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Items Have Shipped", emailData, EmailServer.EmailServerLayoutsEnum.StoreSendShippedItemsForOrder);
             }
             catch (Exception exception)
             {

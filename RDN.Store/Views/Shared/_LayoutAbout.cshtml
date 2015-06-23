@@ -5,12 +5,12 @@
     <title>
         @if (ViewBag.Title == null)
         {
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT_STORE;
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefaultStore;
         }
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT_STORE 
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefaultStore
         }
     </title>
     <link href="@Url.Content("~/Content/Site.css?v=" + RDN.Portable.Config.ServerConfig.CSS_VERSION)" rel="stylesheet" type="text/css" />
@@ -64,7 +64,7 @@
             @RDN.Library.Classes.Config.LibraryConfig.WebsiteName
         </div>
         <div class="hDescription">
-            @RDN.Portable.Config.ServerConfig.WEBSITE_SLOGAN_DEFAULT
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteSloganDefault
         </div>
         
         <div class="hLogo">

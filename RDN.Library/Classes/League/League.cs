@@ -47,6 +47,7 @@ using RDN.Portable.Classes.Team;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Colors;
 using System.Configuration;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.League
 {
@@ -166,7 +167,7 @@ namespace RDN.Library.Classes.League
                         {
                             if (email != String.Empty)
                             {
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Has Expired", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionHasExpiredTask);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Has Expired", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionHasExpiredTask);
                                 emailsSent += 1;
                             }
                         }
@@ -187,7 +188,7 @@ namespace RDN.Library.Classes.League
                         {
                             if (email != String.Empty)
                             {
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Will AutoRenew", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWillAutoRenew);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " League Subscription Will AutoRenew", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionWillAutoRenew);
                                 emailsSent += 1;
                             }
                         }
@@ -207,7 +208,7 @@ namespace RDN.Library.Classes.League
                         {
                             if (email != String.Empty)
                             {
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionIsAboutToRunOutTask);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionIsAboutToRunOutTask);
                                 emailsSent += 1;
                             }
                         }
@@ -221,8 +222,8 @@ namespace RDN.Library.Classes.League
                                             {"link", ServerConfig.LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN}
                                         };
 
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_KRIS_WORLIDGE_EMAIL_ADMIN, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultKrisWorlidgeEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
 
                     }
 
@@ -241,7 +242,7 @@ namespace RDN.Library.Classes.League
             if (league.ContactCard != null && league.ContactCard.Emails != null && league.ContactCard.Emails.FirstOrDefault() != null)
             {
                 string email = league.ContactCard.Emails.Where(x => x.IsDefault == true).FirstOrDefault().EmailAddress;
-                if (email != ServerConfig.DEFAULT_EMAIL)
+                if (email != LibraryConfig.DefaultInfoEmail)
                     return email;
             }
             return String.Empty;
@@ -252,7 +253,7 @@ namespace RDN.Library.Classes.League
             if (league.ContactCard.Emails.FirstOrDefault() != null)
             {
                 string email = league.ContactCard.Emails.Where(x => x.IsDefault == true).FirstOrDefault().EmailAddress;
-                if (email != ServerConfig.DEFAULT_EMAIL)
+                if (email != LibraryConfig.DefaultInfoEmail)
                     emails.Add(email);
                 var owners = GetLeagueOwners(league.LeagueId);
                 foreach (var owner in owners)
@@ -280,7 +281,7 @@ namespace RDN.Library.Classes.League
         {
             try
             {
-                var dc = new ManagementContext();
+                var dc = ManagementContext.DataContext;
                 var dbLeague = dc.Leagues.Where(x => x.LeagueId == leagueId).FirstOrDefault();
                 dbLeague.SubscriptionPeriodEnds = dateToSet;
                 dbLeague.SubscriptionWillAutoRenew = doesSubscriptionAutoRenew;
@@ -618,7 +619,7 @@ namespace RDN.Library.Classes.League
                     {
                         var emailData = new Dictionary<string, string> { { "body", mem.DerbyName + " just connected to your league with the join code. They have been updated in your list of members." } };
 
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, owner.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + mem.DerbyName + " joined your league", emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, owner.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + mem.DerbyName + " joined your league", emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank);
                     }
                     catch (Exception exception)
                     {
@@ -644,7 +645,7 @@ namespace RDN.Library.Classes.League
         {
             try
             {
-                var dc = new ManagementContext();
+                var dc = ManagementContext.DataContext;
                 var league = dc.Leagues.Include("Groups").Include("Federations").Include("Owners").Include("Teams").Include("Members").Include("Members.SkaterClass").Include("ContactCard").Include("Contacts").Where(x => x.LeagueId == leagueId).FirstOrDefault();
 
                 if (league == null)
@@ -770,7 +771,7 @@ namespace RDN.Library.Classes.League
                 {
                     Portable.Classes.Location.TimeZone tz = new Portable.Classes.Location.TimeZone();
                     tz.ZoneId = league.TimeZoneSelection.ZoneId;
-                    tz.Location= league.TimeZoneSelection.Location;
+                    tz.Location = league.TimeZoneSelection.Location;
                     tz.GMTOffset = league.TimeZoneSelection.GMTOffset;
                     tz.GMT = league.TimeZoneSelection.GMT;
                     leagueTemp.TimeZoneSelection = tz;
@@ -1259,7 +1260,7 @@ namespace RDN.Library.Classes.League
                     {
                         var leagueObj = new LeagueJsonDataTable { LeagueName = league.Name }; //, LogoPath = league.LogoPath
 
-                        leagueObj.LeagueUrl =RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
+                        leagueObj.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", "");
                         leagueObj.LeagueId = league.LeagueId.ToString().Replace("-", "");
                         leagueObj.Membercount = league.Members.Count;
                         leagueObj.DateFounded = league.Founded.GetValueOrDefault();
@@ -1600,7 +1601,7 @@ namespace RDN.Library.Classes.League
                                     {"name", leagueName}
                                 };
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_INFO_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has been created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewLeagueAdmin);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has been created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewLeagueAdmin);
 
                 // ToDo: To be removed
                 //Util.Email.SendEmail(false, ServerConfig.DEFAULT_ADMIN_EMAIL, "ContactLeague creation", "A new league has been created a needs to be verified, league name: " + leagueName);
@@ -1703,7 +1704,7 @@ namespace RDN.Library.Classes.League
                                     {"name", leagueName}
                                 };
 
-            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_INFO_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has been created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewLeagueAdmin);
+            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has been created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewLeagueAdmin);
 
 
             // ToDo: To be removed
@@ -2025,7 +2026,7 @@ namespace RDN.Library.Classes.League
                         { "leagueName", leagueMember.League.Name},
                         { "ownerType", RDN.Utilities.Enums.EnumExt.ToFreindlyName( ownerType) } };
 
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, mem.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To The Management Team", emailData, layout: EmailServer.EmailServerLayoutsEnum.MemberAddedToOwnershipGroupOfLeague, priority: EmailPriority.Normal);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, mem.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To The Management Team", emailData, layout: EmailServer.EmailServerLayoutsEnum.MemberAddedToOwnershipGroupOfLeague, priority: EmailPriority.Normal);
                 }
 
                 return c > 0;
@@ -2483,7 +2484,7 @@ namespace RDN.Library.Classes.League
                                             { "memberId", member.MemberId.ToString() },
                                             { "memberName", member.DerbyName}
                                           };
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_INFO_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has found its owner", emailData, layout: EmailServer.EmailServerLayoutsEnum.OwnershipTakenOfLeague);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has found its owner", emailData, layout: EmailServer.EmailServerLayoutsEnum.OwnershipTakenOfLeague);
 
 
                 dc.SaveChanges();
@@ -2648,7 +2649,7 @@ namespace RDN.Library.Classes.League
 
             leagues.LeagueJoinCode = Guid.NewGuid();
             int c = dc.SaveChanges();
-            return c>0;
+            return c > 0;
         }
     }
 }

@@ -11,6 +11,8 @@ using RDN.Utilities.Config;
 using RDN.Utilities.Enums;
 using Stripe;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
+using RDN.Library.Classes.Api.Email;
 
 namespace RDN.TransactionHandler
 {
@@ -20,6 +22,7 @@ namespace RDN.TransactionHandler
     public class StripeEventHandler : IHttpHandler
     {
 
+        EmailManagerApi _api;
         public bool IsReusable
         {
             get { return true; }
@@ -32,6 +35,8 @@ namespace RDN.TransactionHandler
         {
             try
             {
+                
+
                 Random rand = new Random();
                 var filename = "stripe-json " + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + "-" + rand.Next(100) + ".txt";
                 FileInfo file = new FileInfo(path + filename);
@@ -71,7 +76,7 @@ namespace RDN.TransactionHandler
                         break;
 
                     default:
-                        EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_ADMIN_EMAIL_ADMIN, "New Stripe Type Found", json);
+                   EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "New Stripe Type Found", json);
                         break;
                 }
             }

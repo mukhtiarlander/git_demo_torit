@@ -1,5 +1,6 @@
 ﻿using RDN.Library.Cache;
 using RDN.Library.Classes.Account.Classes;
+using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Mobile;
 using RDN.Library.DataModels.Context;
@@ -141,7 +142,7 @@ namespace RDN.Library.Classes.Controls.Voting
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Poll Created", emailData, EmailServer.EmailServerLayoutsEnum.PollNewPollCreated);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Poll Created", emailData, EmailServer.EmailServerLayoutsEnum.PollNewPollCreated);
                     }
                 }
             }

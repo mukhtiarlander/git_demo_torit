@@ -13,6 +13,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Account.Enums.Settings;
 using RDN.Portable.Classes.Account.Enums;
 using RDN.Portable.Classes.Communications.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Account.Classes
 {
@@ -300,7 +301,7 @@ namespace RDN.Library.Classes.Account.Classes
 
                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, "RDNation", ServerConfig.TEXT_MESSAGE_EMAIL, mem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage, DataModels.EmailServer.Enums.EmailPriority.Important);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.WebsiteShortName, LibraryConfig.TextMessageEmail, mem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage, DataModels.EmailServer.Enums.EmailPriority.Important);
                 var dc = new ManagementContext();
                 var memDb = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();
 
@@ -327,7 +328,7 @@ namespace RDN.Library.Classes.Account.Classes
 
                     var emailData = new Dictionary<string, string> { { "body", body } };
 
-                    EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName, ServerConfig.TEXT_MESSAGE_EMAIL, mem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage, DataModels.EmailServer.Enums.EmailPriority.Important);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName, LibraryConfig.TextMessageEmail, mem.PhoneNumber, emailData, EmailServer.EmailServerLayoutsEnum.TextMessage, DataModels.EmailServer.Enums.EmailPriority.Important);
 
                     var dc = new ManagementContext();
                     var memDb = dc.Members.Where(x => x.MemberId == memberId).FirstOrDefault();

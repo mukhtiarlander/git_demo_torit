@@ -5,7 +5,7 @@ using RDN.Library.DataModels.Base;
 
 namespace RDN.Library.Classes.Payment.Classes.Invoice
 {
-    public class InvoiceSubscription 
+    public class InvoiceSubscription
     {
         public static readonly int NUMBER_OF_DAYS_FOR_TRIAL_SUBSCRIPTION = 45;
 
@@ -16,6 +16,7 @@ namespace RDN.Library.Classes.Payment.Classes.Invoice
         public string NameRecurring { get; set; }
         public string DescriptionRecurring { get; set; }
         public string ArticleNumber { get; set; }
+        public string PlanId { get; set; }
         public decimal Price { get; set; }
         /// <summary>
         /// The number of days their subscription is prolonged. Add 31 for 1 month.

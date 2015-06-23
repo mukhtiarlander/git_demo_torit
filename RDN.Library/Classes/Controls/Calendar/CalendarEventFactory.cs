@@ -32,6 +32,7 @@ using RDN.Portable.Classes.ContactCard;
 using RDN.Library.Classes.Controls.Calendar;
 using RDN.Library.Classes.Mobile;
 using System.Configuration;
+using RDN.Library.Classes.Config;
 namespace RDN.Library.Classes.Calendar
 {
     public class CalendarEventFactory
@@ -1282,7 +1283,7 @@ namespace RDN.Library.Classes.Calendar
                         var user = System.Web.Security.Membership.GetUser((object)toUserId);
                         if (user != null)
                         {
-                            EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
                         }
                     }
                     else if (calEventReoccur != null)
@@ -1318,7 +1319,7 @@ namespace RDN.Library.Classes.Calendar
                             var user = System.Web.Security.Membership.GetUser((object)toUserId);
                             if (user != null)
                             {
-                                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
                             }
                         }
                         catch (Exception exception)

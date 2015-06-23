@@ -16,7 +16,9 @@ namespace RDN.Library.Classes.Api.Paypal
     {
         RestRequestApi _api;
         const string InsertIPNNotificationUrl = "Paypal/InsertIPNNotification";
-        const string CompletePaypalPaymentUrl = "Paypal/CompletePaypalPayment";
+        const string CompletePaymentUrl = "Paypal/CompletePayment";
+        const string PendingPaymentUrl = "Paypal/PendingPayment";
+        const string FailedPaymentUrl = "Paypal/FailedPayment";
         string _baseUrl { get; set; }
         public PaypalManagerApi(string baseUrl, string apiKey)
         {
@@ -29,11 +31,24 @@ namespace RDN.Library.Classes.Api.Paypal
             return _api.ExecuteJsonRequestAsync<GenericResponse>(InsertIPNNotificationUrl, Method.POST, message);
         }
 
-        public Task<GenericResponse> CompletePaypalPaymentAsync(Guid invoiceId, PayPalMessage message)
+        public Task<GenericResponse> CompletePaymentAsync(Guid invoiceId, PayPalMessage message)
         {
             var dict = new Dictionary<string, object>();
             dict.Add("invoiceId", invoiceId.ToString());
-            return _api.ExecuteJsonRequestAsync<GenericResponse>(CompletePaypalPaymentUrl, Method.POST, message, dict);
+            return _api.ExecuteJsonRequestAsync<GenericResponse>(CompletePaymentUrl, Method.POST, message, dict);
+        }
+
+        public Task<GenericResponse> PendingPaymentAsync(Guid invoiceId, PayPalMessage message)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("invoiceId", invoiceId.ToString());
+            return _api.ExecuteJsonRequestAsync<GenericResponse>(PendingPaymentUrl, Method.POST, message, dict);
+        }
+        public Task<GenericResponse> FailedPaymentAsync(Guid invoiceId, PayPalMessage message)
+        {
+            var dict = new Dictionary<string, object>();
+            dict.Add("invoiceId", invoiceId.ToString());
+            return _api.ExecuteJsonRequestAsync<GenericResponse>(FailedPaymentUrl, Method.POST, message, dict);
         }
 
 

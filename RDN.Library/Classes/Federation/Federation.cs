@@ -17,6 +17,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Forum.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Federation
 {
@@ -289,7 +290,7 @@ namespace RDN.Library.Classes.Federation
                     //sends and email to the approved user.
                     SendEmailAboutFederationApproved(federation.Name, owner.Member.DerbyName, federation.ContactCard.Emails.FirstOrDefault().EmailAddress);
                     //sends and email to us just so we know when we clicked the approval button, an email got sent.
-                    SendEmailAboutFederationApproved(federation.Name, "Boss", ServerConfig.DEFAULT_INFO_EMAIL);
+                    SendEmailAboutFederationApproved(federation.Name, "Boss", LibraryConfig.DefaultInfoEmail);
                     return owner.Member.MemberId;
                 }
             }
@@ -551,7 +552,7 @@ namespace RDN.Library.Classes.Federation
                                         {"link", FederationConfig.ADMIN_APPROVAL_LINK_FOR_NEW_FED}
                                     };
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, ServerConfig.DEFAULT_INFO_EMAIL, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Federation Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewFederationAdmin);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Federation Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewFederationAdmin);
 
 
                 // ToDo: To be removed
@@ -588,10 +589,10 @@ namespace RDN.Library.Classes.Federation
                                         {"membername", memberName},
                                         {"federationname", federationName},
                                         {"federationlink", FederationConfig.LINK_FOR_APPROVED_FEDERATION_OWNERS},
-                                        {"contactemail", ServerConfig.DEFAULT_INFO_EMAIL}
+                                        {"contactemail", LibraryConfig.DefaultInfoEmail}
                                     };
 
-                EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, federationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Federation Approved", emailData, layout: EmailServer.EmailServerLayoutsEnum.FederationApproved);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, federationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Federation Approved", emailData, layout: EmailServer.EmailServerLayoutsEnum.FederationApproved);
 
                 // ToDo: To be removed
                 //                var message = string.Format(@"{0},<br/><br/> Your Federation '{1}' has just been approved by and RDNation.com!<br/><br/>

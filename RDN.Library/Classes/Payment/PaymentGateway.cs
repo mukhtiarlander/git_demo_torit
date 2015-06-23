@@ -202,11 +202,14 @@ namespace RDN.Library.Classes.Payment
             return invoices;
         }
 
-        public DisplayInvoice GetDisplayInvoiceWithStripeCustomerId(string customerId)
+        public DisplayInvoice GetDisplayInvoiceWithStripeCustomerId(string customerId, string connectionStringName)
         {
             var output = new DisplayInvoice();
 
             var mc = new ManagementContext();
+            if (!String.IsNullOrEmpty(connectionStringName))
+                mc = new ManagementContext(connectionStringName);
+
             var invoice = GetDatabaseInvoice(ref mc, customerId);
             if (invoice == null)
                 return null;
@@ -219,7 +222,7 @@ namespace RDN.Library.Classes.Payment
             if (!ValidateInvoice(invoiceId)) return null;
 
             ManagementContext mc = new ManagementContext();
-            
+
             var invoice = GetDatabaseInvoice(ref mc, invoiceId);
             if (invoice == null)
                 return null;
@@ -269,6 +272,7 @@ namespace RDN.Library.Classes.Payment
                 output.UserId = invoice.UserId;
                 output.ShoppingCartId = invoice.ShoppingCartId;
                 output.CustomerId = invoice.PaymentProviderCustomerId;
+                output.PaymentProviderChargeId = invoice.PaymentProviderChargeId;
                 if (invoice.Merchant != null)
                 {
                     output.Merchant.MerchantId = invoice.Merchant.MerchantId;

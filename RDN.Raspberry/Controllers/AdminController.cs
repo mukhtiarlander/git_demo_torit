@@ -16,6 +16,7 @@ using RDN.Utilities.Config;
 using RDN.Library.Classes.Error;
 using RDN.Utilities.Error;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
 
 
 
@@ -228,7 +229,7 @@ namespace RDN.Raspberry.Controllers
 
                 var emailData = xml.Root.Elements().ToDictionary(xNode => xNode.Name.LocalName, xNode => xNode.Value);
 
-                EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL, ServerConfig.DEFAULT_EMAIL_FROM_NAME, content.Email, "Email layout test - RDNation.com", emailData, (EmailServerLayoutsEnum)Enum.Parse(typeof(EmailServerLayoutsEnum), content.LayoutId));
+                EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, content.Email, "Email layout test - RDNation.com", emailData, (EmailServerLayoutsEnum)Enum.Parse(typeof(EmailServerLayoutsEnum), content.LayoutId));
                 content.Sent = true;
             }
             catch (Exception e)

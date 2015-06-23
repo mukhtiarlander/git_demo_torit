@@ -1,4 +1,5 @@
 ﻿using RDN.Library.Cache;
+using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Error;
 using RDN.Library.DataModels.Context;
 using RDN.Portable.Config;
@@ -84,7 +85,7 @@ namespace RDN.Library.Classes.League
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)
                     {
-                        EmailServer.EmailServer.SendEmail(ServerConfig.DEFAULT_EMAIL_MESSAGES, ServerConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Job Created: " + jobName, emailData, EmailServer.EmailServerLayoutsEnum.RDNJobNewCreated);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Job Created: " + jobName, emailData, EmailServer.EmailServerLayoutsEnum.RDNJobNewCreated);
                     }
                 }
             }

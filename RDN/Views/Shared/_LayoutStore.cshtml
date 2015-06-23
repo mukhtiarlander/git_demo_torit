@@ -6,12 +6,12 @@
     <title>
         @if (ViewBag.Title == null)
         {
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT;
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault;
         }
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Portable.Config.ServerConfig.WEBSITE_TITLE_DEFAULT 
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault 
         }
     </title>
 @System.Web.Optimization.Styles.Render("~/Content/css")
@@ -57,7 +57,7 @@
         <div class="hTitle">
             @RDN.Library.Classes.Config.LibraryConfig.WebsiteName</div>
         <div class="hDescription">
-            @RDN.Portable.Config.ServerConfig.WEBSITE_SLOGAN_DEFAULT</div>
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteSloganDefault</div>
         <div class="hLogo">
             <a href="@Url.Content("~/")">
                 <img class="hLogoImg" src="@Url.Content("~/Content/Rollerball_pink_s100.png")" /></a></div>
