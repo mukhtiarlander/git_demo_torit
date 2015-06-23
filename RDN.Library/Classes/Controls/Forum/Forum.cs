@@ -571,6 +571,7 @@ namespace RDN.Library.Classes.Forum
         {
             try
             {
+                var dc = new ManagementContext();
                 ForumMessage me = new ForumMessage();
                 me.TopicId = message.Topic.TopicId;
                 me.ForumId = message.Topic.Forum.ForumId;
@@ -583,6 +584,16 @@ namespace RDN.Library.Classes.Forum
                     me.Member.Gender = GenderEnum.Male;
                 else
                     me.Member.Gender = GenderEnum.None;
+
+                List<ForumMessageMention> men = new List<ForumMessageMention>();
+                List<Guid> membersids = dc.ForumMessages.Include("Mentions").Include("Mentions.Members").Where(x => x.Topic.Forum.ForumId == message.Topic.Forum.ForumId && x.Topic.TopicId == message.Topic.TopicId).First().Mentions.Select(s => s.Member.MemberId).ToList();
+                foreach (var MemberId in membersids)
+                {
+                    ForumMessageMention m = new ForumMessageMention();
+                    m.memberid = MemberId;
+                    men.Add(m);
+                }
+                me.mentions = men;
 
                 if (message.Member.Photos.Count > 0)
                 {
@@ -967,7 +978,7 @@ namespace RDN.Library.Classes.Forum
                     DataModels.Forum.ForumMessage mess = new DataModels.Forum.ForumMessage();
                     foreach (Guid id in membersBeingMentioned)
                     {
-                        ForumMessageMention mention = new ForumMessageMention();
+                        DataModels.Forum.ForumMessageMention mention = new DataModels.Forum.ForumMessageMention();
                         mention.Member = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
                         mess.Mentions.Add(mention);
                     }
