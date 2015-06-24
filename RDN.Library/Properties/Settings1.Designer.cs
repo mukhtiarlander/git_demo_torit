@@ -26,9 +26,9 @@ namespace RDN.Library.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=D:\\Personal\\RDNation\\Database\\Sports" +
-            "1.mdf;Integrated Security=True;Persist Security Info=True;User ID=transferStuff;" +
-            "Connect Timeout=30;MultipleActiveResultSets=true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\FL\\Scott Pio\\RDNation\\RDNation\\Da" +
+            "tabase\\Sports1.mdf;Integrated Security=True;Persist Security Info=True;User ID=t" +
+            "ransferStuff;Connect Timeout=30;MultipleActiveResultSets=true")]
         public string SportsConnectionString {
             get {
                 return ((string)(this["SportsConnectionString"]));
@@ -38,9 +38,9 @@ namespace RDN.Library.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=D:\\Personal\\RDNation\\Database\\Sports" +
-            "1.mdf;Integrated Security=True;Persist Security Info=True;User ID=transferStuff;" +
-            "Connect Timeout=30;MultipleActiveResultSets=true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\FL\\Scott Pio\\RDNation\\RDNation\\Da" +
+            "tabase\\Sports1.mdf;Integrated Security=True;Persist Security Info=True;User ID=t" +
+            "ransferStuff;Connect Timeout=30;MultipleActiveResultSets=true")]
         public string SportsConnectionString1 {
             get {
                 return ((string)(this["SportsConnectionString1"]));
