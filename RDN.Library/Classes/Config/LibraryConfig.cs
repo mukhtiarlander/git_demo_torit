@@ -602,48 +602,48 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["PAYWALL_RECEIPT_URL"];
             }
         }
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
+        public static string SAVE_OLD_GAMES_FOLDER
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SAVE_OLD_GAMES_FOLDER"];
+            }
+        }
+        public static string URL_TO_CLEAR_LIVE_GAME_CACHE
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["URL_TO_CLEAR_LIVE_GAME_CACHE"];
+            }
+        }
+        public static string WEBSITE_CLEAR_TOURNAMENT_CACHE_API
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WEBSITE_CLEAR_TOURNAMENT_CACHE_API"];
+            }
+        }
+        public static string SAVE_FEEDBACK_FOLDER
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+        public static string SAVE_ERRORS_FOLDER
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SAVE_ERRORS_FOLDER"];
+            }
+        }
+        public static string SAVE_LIVE_GAMES_FOLDER
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SAVE_LIVE_GAMES_FOLDER"];
+            }
+        }
         //public static string DEFAULT_RDN_FORUM_ID
         //{
         //    get
