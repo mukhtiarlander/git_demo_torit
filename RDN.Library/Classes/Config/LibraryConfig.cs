@@ -573,13 +573,7 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["GAME_URL_FOR_RDNATION"];
             }
         }
-        public static string LEAGUE_SUBSCRIPTION_SERVICES_URL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LEAGUE_SUBSCRIPTION_SERVICES_URL"];
-            }
-        }
+        
         public static string LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE
         {
             get

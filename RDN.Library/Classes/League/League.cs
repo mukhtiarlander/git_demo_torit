@@ -48,6 +48,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Colors;
 using System.Configuration;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.League
 {
@@ -160,7 +161,7 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "infomormationalVideo", LibraryConfig.BaseSiteUrl + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
                                             { "leagueSubscriptionLink", LibraryConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
@@ -181,7 +182,7 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
                                             { "leagueSubscriptionLink", LibraryConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)

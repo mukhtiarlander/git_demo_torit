@@ -107,7 +107,7 @@ namespace RDN.Portable.Config
 
         public static Guid RDNATION_STORE_ID = new Guid("7b0c3da2-b58a-4b1a-b9a2-92d253ce0100");
 
-        public static readonly string LEAGUE_SUBSCRIPTION_SERVICES_URL = "https://rdnation.com/pricing";
+        
         public static readonly string LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/billing/league/";
         public static readonly string LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/billing/league/addsubscription/";
         public static readonly string LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE = WEBSITE_INTERNAL_DEFAULT_LOCATION + "/billing/league/update/";

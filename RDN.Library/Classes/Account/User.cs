@@ -1518,7 +1518,7 @@ namespace RDN.Library.Classes.Account
             }
             else if (mem.Gender == (int)GenderEnum.Female)
             {
-                m.photoUrl = LibraryConfig.PublicSite + "content/roller-girl.jpg";
+                m.photoUrl = LibraryConfig.PublicSite + "/content/roller-girl.jpg";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Female.ToString();
             }
