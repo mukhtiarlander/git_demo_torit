@@ -33,6 +33,7 @@ using RDN.Library.Classes.Controls.Calendar;
 using RDN.Library.Classes.Mobile;
 using System.Configuration;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 namespace RDN.Library.Classes.Calendar
 {
     public class CalendarEventFactory
@@ -518,7 +519,7 @@ namespace RDN.Library.Classes.Calendar
                 ev.StartDateReoccurringDisplay = e.StartReocurring.ToShortDateString() + " " + e.StartReocurring.ToShortTimeString();
                 ev.EventReoccurring = aEvent;
                 ev.TicketUrl = e.TicketUrl;
-                ev.RDNationLink = LibraryConfig.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
+                ev.RDNationLink = LibraryConfig.PublicSite  + UrlManager.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
 
                 foreach (var owner in e.LeagueOwners)
                 {
@@ -1096,7 +1097,7 @@ namespace RDN.Library.Classes.Calendar
                 ev.AllowSelfCheckIn = e.AllowSelfCheckIn;
                 ev.CalendarItemId = e.CalendarItemId;
                 ev.CalendarId = calendarId;
-                ev.RDNationLink = LibraryConfig.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
+                ev.RDNationLink = LibraryConfig.PublicSite + UrlManager.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
                 if (!ev.IsInUTCTime)
                 {
                     ev.EndDate = e.EndDate;

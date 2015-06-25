@@ -7,6 +7,7 @@ using RDN.Library.Cache;
 using RDN.Library.Classes.Federation.Enums;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Models.Filters
 {

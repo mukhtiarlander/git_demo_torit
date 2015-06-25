@@ -394,16 +394,16 @@ namespace RDN.Controllers
                     if (site == "store")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + url);
+                            return Redirect(LibraryConfig.ShopSite + url);
                         else if (!String.IsNullOrEmpty(site))
-                            return Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION);
+                            return Redirect(LibraryConfig.ShopSite);
                     }
                     else if (site == "rollinNews")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(RollinNewsConfig.PublicSite + url);
+                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION+ url);
                         else if (!String.IsNullOrEmpty(site))
-                            return Redirect(RollinNewsConfig.PublicSite);
+                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION);
 
                     }
 
@@ -492,7 +492,7 @@ namespace RDN.Controllers
                             }
                             if (returnSite == "shops")
                             {
-                                url = LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION;
+                                url = LibraryConfig.ShopSite;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
                                 return Redirect(url);
@@ -625,7 +625,7 @@ namespace RDN.Controllers
                 if (actionName.Contains("yaf_"))
                     Response.Redirect("http://zebras.rdnation.com/" + actionName);
                 else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki.rdnation.com"))
-                    Response.Redirect(LibraryConfig.WIKI_URL);
+                    Response.Redirect(LibraryConfig.WikiSite);
                 else
                     Response.Redirect(LibraryConfig.PublicSite);
             }

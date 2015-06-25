@@ -208,7 +208,7 @@ namespace RDN.League.Controllers
             //#if DEBUG
             //                add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_DEBUG_KEY + "');";
             //#else
-            add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
+            add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
             //#endif
             return View(add);
         }
@@ -287,11 +287,8 @@ namespace RDN.League.Controllers
 
             var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(new Guid(leagueId));
 
-            //#if DEBUG
-            //            bi.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_DEBUG_KEY + "');";
-            //#else
-            bi.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
-            //#endif
+            bi.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
+            
 
             return View(bi);
         }

@@ -15,6 +15,7 @@ using System.Configuration;
 using StackExchange.Profiling.EntityFramework6;
 using System.Web.Optimization;
 using System.Data.Entity;
+using RDN.Library.Classes.Config;
 
 namespace RDN
 {

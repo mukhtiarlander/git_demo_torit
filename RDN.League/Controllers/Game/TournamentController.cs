@@ -20,6 +20,8 @@ using System.Net;
 using RDN.Portable.Config;
 using RDN.Library.Classes.Account.Classes;
 using RDN.Portable.Classes.Account.Classes;
+using RDN.Portable.Classes.Url;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -193,9 +195,9 @@ namespace RDN.League.Controllers
 
                 Tournament.UpdateTournament(tourny);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Redirect(Url.Content("~/tournament/view/" + tourny.PrivateKey.ToString().Replace("-", "") + "/" + tourny.Id.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.s));
             }
             catch (Exception exception)
@@ -217,9 +219,9 @@ namespace RDN.League.Controllers
 
                 Tournament.AddTeamsToTournament(new Guid(tournId), list);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite+ UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -239,9 +241,9 @@ namespace RDN.League.Controllers
                 {
                     Guid teamId = Tournament.AddTeamToTournament(new Guid(tournId), team, Convert.ToInt32(rating), Convert.ToInt32(pool));
                     WebClient client = new WebClient();
-                    client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                    client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                     WebClient client1 = new WebClient();
-                    client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                    client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                     if (teamId != new Guid())
                         return Json(new { isSuccess = true, id = teamId }, JsonRequestBehavior.AllowGet);
                 }
@@ -299,9 +301,9 @@ namespace RDN.League.Controllers
 
                 bool succ = Tournament.StartNextRound(new Guid(tournId), true);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -320,9 +322,9 @@ namespace RDN.League.Controllers
 
                 bool succ = Tournament.RollBackRound(new Guid(tournId), true);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -341,9 +343,9 @@ namespace RDN.League.Controllers
 
                 bool succ = Tournament.StartNextRound(new Guid(tournId), false);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -362,9 +364,9 @@ namespace RDN.League.Controllers
 
                 bool succ = Tournament.RollBackRound(new Guid(tournId), false);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -400,9 +402,9 @@ namespace RDN.League.Controllers
 
                 bool succ = Tournament.SavePairing(new Guid(tournId), Convert.ToInt64(pairingId), gId, t1Id, t2Id, t1S, t2S, trackNumber, tt);
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -422,9 +424,9 @@ namespace RDN.League.Controllers
 
                 bool succ = Tournament.PublishTournament(new Guid(tournId));
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -442,9 +444,9 @@ namespace RDN.League.Controllers
             {
                 bool succ = Tournament.PublishTournamentBrackets(new Guid(tournId));
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE));
+                client.DownloadStringAsync(new Uri(LibraryConfig.PublicSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE));
                 WebClient client1 = new WebClient();
-                client1.DownloadStringAsync(new Uri(LibraryConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
+                client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API));
                 return Json(new { isSuccess = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)

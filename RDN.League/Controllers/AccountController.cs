@@ -11,6 +11,8 @@ using RDN.League.Models.Account;
 using RDN.Utilities.Config;
 using RDN.Library.Classes.Error;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.League.Controllers
 {
@@ -28,7 +30,7 @@ namespace RDN.League.Controllers
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                return Redirect(LibraryConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
+                return Redirect(LibraryConfig.PublicSite + UrlManager.WEBSITE_DEFAULT_LOGIN_LOCATION);
             }
             return RedirectToAction("Index", "Home");
         }

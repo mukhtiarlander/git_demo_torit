@@ -264,7 +264,7 @@ namespace RDN.Store.Controllers
                 if (!String.IsNullOrEmpty(checkout.StripePublishableKey))
                     checkoutObject.StripeKey = "Stripe.setPublishableKey('" + checkout.StripePublishableKey + "');";
                 else
-                    checkoutObject.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
+                    checkoutObject.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
                 //#endif
             }
             catch (Exception exception)

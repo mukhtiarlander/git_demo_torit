@@ -7,6 +7,8 @@ using RDN.Utilities.Config;
 using RDN.Library.Cache;
 using RDN.Portable.Config;
 using RDN.Library.Util.Enum;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.League.Models.Filters
 {
@@ -28,7 +30,7 @@ namespace RDN.League.Models.Filters
         public bool HasPaidSubscription { get; set; }
         public bool IsGroupModerator { get; set; }
         public bool IsInventoryTracker { get; set; }
-        public bool IsSponsorship{ get; set; }
+        public bool IsSponsorship { get; set; }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -52,7 +54,7 @@ namespace RDN.League.Models.Filters
                 var isEmailVerified = IsEmailValidated(ref filterContext);
                 if (!isEmailVerified)
                 {
-                    filterContext.Result = new RedirectResult(LibraryConfig.WEBSITE_VERIFY_EMAIL_LOGGED_IN_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite + UrlManager.WEBSITE_VERIFY_EMAIL_LOGGED_IN_LOCATION);
                     return;
                 }
             }
@@ -71,7 +73,7 @@ namespace RDN.League.Models.Filters
                 bool isPaid = MemberCache.CheckIsLeagueSubscriptionPaid(memberId);
                 if (!isPaid)
                 {
-                    filterContext.Result = new RedirectResult(LibraryConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + MemberCache.GetLeagueIdOfMember(memberId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + MemberCache.GetLeagueIdOfMember(memberId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp);
                     return;
                 }
             }

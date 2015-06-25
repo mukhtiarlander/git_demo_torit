@@ -23,6 +23,7 @@ using RDN.Library.Classes.Colors;
 using RDN.Portable.Classes.Colors;
 using RDN.Portable.Classes.Account.Classes;
 using System.Configuration;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Api.Controllers
 {

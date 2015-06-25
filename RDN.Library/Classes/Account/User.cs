@@ -45,6 +45,7 @@ using RDN.Portable.Classes.Games.Scoreboard;
 using RDN.Portable.Classes.Games.Scoreboard.Game;
 using System.Configuration;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.Account
 {
@@ -537,7 +538,7 @@ namespace RDN.Library.Classes.Account
         {
             try
             {
-                string link = LibraryConfig.WEBSITE_VALIDATE_DERBY_NAME + memberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(derbyName);
+                string link = LibraryConfig.PublicSite + UrlManager.WEBSITE_VALIDATE_DERBY_NAME + memberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(derbyName);
                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", derbyName }, 
                         { "leaguename", leagueName}, 
@@ -992,7 +993,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName }, 
                                             { "email", email }, 
                                             { "code", emailVerificationCode.ToString() },
-                                            { "validationurl", LibraryConfig.WEBSITE_LOST_PASSWORD_RESET_LOCATION }
+                                            { "validationurl", LibraryConfig.PublicSite + UrlManager.WEBSITE_LOST_PASSWORD_RESET_LOCATION }
                                         };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Recover Password", emailData, EmailServer.EmailServerLayoutsEnum.RecoverLostPassword);
@@ -1045,7 +1046,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName }, 
                                             { "email", email }, 
                                             { "code", emailVerificationCode.ToString() },
-                                            { "validationurl", LibraryConfig.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") }
+                                            { "validationurl", LibraryConfig.InternalSite + UrlManager.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") }
                                         };
                     return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
                 }
@@ -1056,7 +1057,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName }, 
                                             { "email", email }, 
                                             { "code", emailVerificationCode.ToString().Replace("-","") },
-                                            { "validationurl", LibraryConfig.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") },
+                                            { "validationurl", LibraryConfig.InternalSite + UrlManager.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") },
                                             { "password", password }
                                         };
                     return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
@@ -2537,7 +2538,7 @@ namespace RDN.Library.Classes.Account
                         l.SkillsTestDate = league.SkillsTestDate;
                         l.HasLeftLeague = league.HasLeftLeague;
                         l.NotesAboutMember = league.Notes;
-                        l.NameUrl = LibraryConfig.PublicSite_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(l.Name) + "/" + l.LeagueId.ToString().Replace("-", "");
+                        l.NameUrl = LibraryConfig.PublicSite + UrlManager.PublicSite_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(l.Name) + "/" + l.LeagueId.ToString().Replace("-", "");
                         l.LeagueOwnersEnum = (LeagueOwnersEnum)league.LeagueOwnersEnums;
                         if (l.LeagueId == mem.CurrentLeagueId)
                         {

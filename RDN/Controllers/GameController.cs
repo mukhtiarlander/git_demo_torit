@@ -27,6 +27,7 @@ using RDN.Library.Cache.Singletons;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Controllers
 {
@@ -100,7 +101,7 @@ namespace RDN.Controllers
 
                 //succesfully charged.
                 if (response.Status == InvoiceStatus.Payment_Successful)
-                    return Redirect(LibraryConfig.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
+                    return Redirect(LibraryConfig.PublicSite+ UrlManager .PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
                 else if (response.Status == InvoiceStatus.Pending_Payment_From_Paypal)
                     return Redirect(response.RedirectLink);
             }
@@ -153,7 +154,7 @@ namespace RDN.Controllers
                 if (!String.IsNullOrEmpty(game.Paywall.StripePublishableKey))
                     game.StripeKey = "Stripe.setPublishableKey('" + game.Paywall.StripePublishableKey + "');";
                 else
-                    game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
+                    game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey+ "');";
                 if (game != null)
                     return View(game);
             }
@@ -192,7 +193,7 @@ namespace RDN.Controllers
                 }
 
                 ViewData["merchantId"] = game.Game.SelectedShop;
-                game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
+                game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
                 if (game != null)
                     return View(game);
             }

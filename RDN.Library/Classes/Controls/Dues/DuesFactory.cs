@@ -15,6 +15,7 @@ using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Classes.Controls.Dues;
 using RDN.Portable.Classes.Controls.Dues.Classify;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.Dues
 {
@@ -342,9 +343,9 @@ namespace RDN.Library.Classes.Dues
         }
         public static string GeneratePaymentOnlineText(bool acceptPaymetsOnline, Guid ownerId)
         {
-            string paymentOnlineText = @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName+" allows members to pay their dues online to their league.  This feature isn't currently enabled for your league, but your managers can enable this feature through the <b>dues management portal settings</b>.";
+            string paymentOnlineText = @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName + " allows members to pay their dues online to their league.  This feature isn't currently enabled for your league, but your managers can enable this feature through the <b>dues management portal settings</b>.";
             if (acceptPaymetsOnline)
-                paymentOnlineText = "You can <a href='" + LibraryConfig.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
+                paymentOnlineText = "You can <a href='" + LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
             return paymentOnlineText;
         }
 
@@ -560,7 +561,7 @@ namespace RDN.Library.Classes.Dues
                         col.IsPaidInFull = false;
                         col.WasClearedByUser = true;
                         //if (col.FeeCollected == 0.0)
-                            //dues.FeesCollected.Remove(col);
+                        //dues.FeesCollected.Remove(col);
                     }
                     if (feeCollected.Count == 0)
                     {

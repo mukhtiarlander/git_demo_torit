@@ -19,6 +19,7 @@ using RDN.Portable.Config;
 using System.IO;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Controllers
 {
@@ -128,7 +129,7 @@ namespace RDN.Controllers
 
                 //succesfully charged.
                 if (response.Status == InvoiceStatus.Payment_Successful)
-                    return Redirect(LibraryConfig.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
+                    return Redirect(LibraryConfig.PublicSite + UrlManager.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
                 else if (response.Status == InvoiceStatus.Pending_Payment_From_Paypal)
                     return Redirect(response.RedirectLink);
 
@@ -160,7 +161,7 @@ namespace RDN.Controllers
                 if (!String.IsNullOrEmpty(tourny.Paywall.StripePublishableKey))
                     tourny.StripeKey = "Stripe.setPublishableKey('" + tourny.Paywall.StripePublishableKey + "');";
                 else
-                    tourny.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
+                    tourny.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
                 ViewData["merchantId"] = tourny.SelectedShop;
                 tourny.PensAbbre = (from Scoreboard.Library.Static.Enums.PenaltiesEnum d in Enum.GetValues(typeof(Scoreboard.Library.Static.Enums.PenaltiesEnum))
                                     select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Abbre = Scoreboard.Library.ViewModel.PenaltyViewModel.ToAbbreviation(d) });
@@ -197,7 +198,7 @@ namespace RDN.Controllers
                 }
 
 
-                tourny.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_LIVE_KEY + "');";
+                tourny.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiKey + "');";
                 return View(tourn);
             }
             catch (Exception exception)

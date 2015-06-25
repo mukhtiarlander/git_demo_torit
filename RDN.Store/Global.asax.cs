@@ -16,6 +16,7 @@ using System.Configuration;
 using StackExchange.Profiling.EntityFramework6;
 using RDN.Shops;
 using System.Web.Optimization;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Store
 {
@@ -167,7 +168,7 @@ new { controller = "Home", action = "Review" } // Parameter defaults
             Exception exc = Server.GetLastError();
             ErrorDatabaseManager.AddException(exc, GetType());
             Server.ClearError();
-            Response.Redirect(LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.sww);
+            Response.Redirect(LibraryConfig.ShopSite+ "?u=" + SiteMessagesEnum.sww);
         }
         protected void Application_BeginRequest()
         {

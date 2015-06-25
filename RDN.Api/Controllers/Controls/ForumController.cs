@@ -1,10 +1,12 @@
 ﻿using RDN.Library.Cache;
+using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Forum;
 using RDN.Library.Util.Enum;
 using RDN.Portable.Account;
 using RDN.Portable.Classes.Controls.Forum;
 using RDN.Portable.Classes.Forum.Enums;
+using RDN.Portable.Classes.Url;
 using RDN.Portable.Config;
 using RDN.Portable.Network;
 using RDN.Utilities.Strings;
@@ -28,7 +30,7 @@ namespace RDN.Api.Controllers.Controls
                 RDN.Library.Classes.Forum.Forum.WatchTopicToggle(new Guid(fid), Convert.ToInt64(tid), mem.MemberId);
                 ForumTopicCache.ClearTopicCache(new Guid(fid), Convert.ToInt64(tid));
                 WebClient client = new WebClient();
-                client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + fid + "&topicId=" + tid));
+                client.DownloadStringAsync(new Uri(LibraryConfig.InternalSite+ UrlManager.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + fid + "&topicId=" + tid));
             }
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
@@ -52,7 +54,7 @@ namespace RDN.Api.Controllers.Controls
                         Forum.ReplyToPost(ob.ForumId, ob.TopicId, ob.Text, new Guid(ob.MemberId), ob.BroadcastMessage);
                         ForumTopicCache.ClearTopicCache(ob.ForumId, ob.TopicId);
                         WebClient client = new WebClient();
-                        client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + ob.ForumId + "&topicId=" + ob.TopicId));
+                        client.DownloadStringAsync(new Uri(LibraryConfig.InternalSite  + UrlManager.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + ob.ForumId + "&topicId=" + ob.TopicId));
 
                         return Json(new AddForumTopicModel() { IsSuccessful = true }, JsonRequestBehavior.AllowGet);
                     }

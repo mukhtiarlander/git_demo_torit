@@ -17,6 +17,7 @@ using RDN.Portable.Config;
 using RDN.Portable.Classes.Forum.Enums;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.Admin.League
 {
@@ -399,9 +400,9 @@ namespace RDN.Library.Classes.Admin.League
                 try
                 {
                     WebClient client = new WebClient();
-                    client.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE + pendingLeague.Creator.MemberId.ToString()));
+                    client.DownloadStringAsync(new Uri(LibraryConfig.InternalSite + UrlManager.URL_TO_CLEAR_MEMBER_CACHE + pendingLeague.Creator.MemberId.ToString()));
                     WebClient client1 = new WebClient();
-                    client1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_MEMBER_CACHE_API + pendingLeague.Creator.MemberId.ToString()));
+                    client1.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.URL_TO_CLEAR_MEMBER_CACHE_API + pendingLeague.Creator.MemberId.ToString()));
                 }
                 catch (Exception exception)
                 {

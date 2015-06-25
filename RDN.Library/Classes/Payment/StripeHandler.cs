@@ -16,6 +16,7 @@ using RDN.Portable.Classes.Payment.Enums;
 using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Email;
 using Common.Site.AppConfig;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.Payment
 {
@@ -377,9 +378,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         subscriptionService.Cancel(inv.CustomerId, invoice.Subscription.PlanId);
 
                         if (inv.Metadata != null && inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
-                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, LibraryConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmail, inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmail, inv.Metadata[InvoiceFactory.ConnectionStringName]);
                         else
-                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, LibraryConfig.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmail, inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                            EmailLeagueAboutCardDeclinedSubscription(invoice.Subscription.InternalObject, invoice.InvoiceId, nnv.FailureMessage, LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), LibraryConfig.DefaultAdminEmail, inv.Metadata[InvoiceFactory.ConnectionStringName]);
                     }
 
                 }

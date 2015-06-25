@@ -25,6 +25,7 @@ using RDN.Portable.Classes.Payment.Enums;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.Colors;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 
 
@@ -359,7 +360,7 @@ namespace RDN.Library.Classes.Store
                 {
                     itemsSold.Append("<li>");
                     //http://localhost:8847/roller-derby-item/Name-of-ITem-PicturesName-of-ITem-Pictures/12
-                    itemsSold.Append("<a href='" + LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
+                    itemsSold.Append("<a href='" +  LibraryConfig.ShopSite+ "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
                     itemsSold.Append(" - " + item.Description);
                     itemsSold.Append("</li>");
                 }
@@ -411,10 +412,10 @@ namespace RDN.Library.Classes.Store
                 var emailData = new Dictionary<string, string>
                                         {
                                             { "memberName",  invoice.InvoiceBilling.FirstName +" "+ invoice.InvoiceBilling.LastName},
-                                            { "shopName", "<a href='"+LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION+"/roller-derby-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
+                                            { "shopName", "<a href='"+LibraryConfig.ShopSite+"/roller-derby-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ (invoice.TotalIncludingTax + invoice.ShippingCost).ToString("N2") },
-                                            { "receiptLink", "<a href='"+LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION+"/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
+                                            { "receiptLink", "<a href='"+LibraryConfig.ShopSite+"/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
                                             { "merchantLink", "<a href='"+LibraryConfig.InternalSite+"/store/orders/"+invoice.Merchant.PrivateManagerId.ToString().Replace("-","")+"/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"'>View the Order</a>"},
                                             { "shippingAddress",shippingAddress.ToString()},
                                             { "sellersAddress",sellersAddress.ToString()},
@@ -448,7 +449,7 @@ namespace RDN.Library.Classes.Store
                 {
                     itemsSold.Append("<li>");
                     //http://localhost:8847/roller-derby-item/Name-of-ITem-PicturesName-of-ITem-Pictures/12
-                    itemsSold.Append("<a href='" + LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
+                    itemsSold.Append("<a href='" + LibraryConfig.ShopSite + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
                     itemsSold.Append(" - " + item.Description);
                     itemsSold.Append("</li>");
                 }
@@ -476,10 +477,10 @@ namespace RDN.Library.Classes.Store
                 var emailData = new Dictionary<string, string>
                                         {
                                             { "memberName",  invoice.InvoiceBilling.FirstName +" "+ invoice.InvoiceBilling.LastName},
-                                            { "shopName", "<a href='"+LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION+"/roller-derby-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
+                                            { "shopName", "<a href='"+LibraryConfig.ShopSite+"/roller-derby-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ (invoice.TotalIncludingTax + invoice.ShippingCost).ToString("N2") },
-                                            { "receiptLink", "<a href='"+LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION+"/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
+                                            { "receiptLink", "<a href='"+LibraryConfig.ShopSite+"/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
                                             { "merchantLink", "<a href='"+LibraryConfig.InternalSite+"/store/orders/"+invoice.Merchant.PrivateManagerId.ToString().Replace("-","")+"/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"'>View the Order</a>"},
                                             { "shippingAddress",shippingAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
@@ -968,7 +969,7 @@ namespace RDN.Library.Classes.Store
 
                 if (merchant != null)
                 {
-                    return LibraryConfig.STORE_MERCHANT_SHOP_URL + merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(merchant.ShopName);
+                    return LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_SHOP_URL + merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(merchant.ShopName);
                 }
             }
             catch (Exception exception)

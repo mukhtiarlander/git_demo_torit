@@ -9,6 +9,8 @@ using RDN.Library.Classes.Account.Enums;
 using RDN.Library.Classes.Error;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Controllers
 {
@@ -48,7 +50,7 @@ namespace RDN.Controllers
                     else
                         Session["UserId"] = (Guid)member.ProviderUserKey;
 
-                    return Redirect(LibraryConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
+                    return Redirect(LibraryConfig.PublicSite + UrlManager.WEBSITE_DEFAULT_LOGIN_LOCATION);
                 }
 
                 ModelState.AddModelError("", "The user name or password provided is incorrect.");

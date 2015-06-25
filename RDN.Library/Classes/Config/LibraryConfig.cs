@@ -94,6 +94,22 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string ApiSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ApiSite"];
+            }
+        }
+
+        public static string AdminSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AdminSite"];
+            }
+        }
+
         public static string SiteType
         {
             get
@@ -107,6 +123,13 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["StripeApiPublicKey"];
+            }
+        }
+        public static string StripeConnectKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["StripeConnectKey"];
             }
         }
 
@@ -230,11 +253,11 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string ShopUrl
+        public static string ShopSite
         {
             get
             {
-                return ConfigurationManager.AppSettings["ShopUrl"];
+                return ConfigurationManager.AppSettings["ShopSite"];
             }
         }
 
@@ -246,13 +269,15 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string BaseSiteUrl
+
+        public static string LogoUrl
         {
             get
             {
-                return ConfigurationManager.AppSettings["BaseSiteUrl"];
+                return ConfigurationManager.AppSettings["LogoUrl"];
             }
         }
+
 
         public static string SiteEmail
         {
@@ -387,13 +412,13 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["WebsiteTitleDefaultStore"];
             }
         }
-        public static string LogoURL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LogoURL"];
-            }
-        }
+        //public static string LogoURL
+        //{
+        //    get
+        //    {
+        //        return ConfigurationManager.AppSettings["LogoURL"];
+        //    }
+        //}
 
         public static string PaypalIPNHandler
         {
@@ -461,55 +486,7 @@ namespace RDN.Library.Classes.Config
                 return new Guid(ConfigurationManager.AppSettings["RDNATION_STORE_ID"]);
             }
         }
-        public static string LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LEAGUE_SUBSCRIPTION_UPDATESUBSUBSCRIBE"];
-            }
-        }
-        public static string LEAGUE_DUES_MANAGEMENT_URL
-        {
-            get
-            {
-                return LeagueUrl + ConfigurationManager.AppSettings["LEAGUE_DUES_MANAGEMENT_URL"];
-            }
-        }
-        public static string WEBSITE_VALIDATE_DERBY_NAME
-        {
-            get
-            {
-                return PublicSite + ConfigurationManager.AppSettings["WEBSITE_VALIDATE_DERBY_NAME"];
-            }
-        }
-        public static string WikiUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WikiUrl"];
-            }
-        }
-        public static string WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT
-        {
-            get
-            {
-                return WikiUrl + ConfigurationManager.AppSettings["WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT"];
-            }
-        }
-        public static string LEAGUE_DUES_RECEIPT_URL
-        {
-            get
-            {
-                return InternalSite + ConfigurationManager.AppSettings["LEAGUE_DUES_RECEIPT_URL"];
-            }
-        }
-        public static string LEAGUE_DUES_SETTINGS_URL
-        {
-            get
-            {
-                return InternalSite + ConfigurationManager.AppSettings["LEAGUE_DUES_SETTINGS_URL"];
-            }
-        }
+        
         public static string CSS_VERSION
         {
             get
@@ -517,48 +494,9 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["CSS_VERSION"];
             }
         }
-        public static string WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION"];
-            }
-        }
-        public static string VIEW_MESSAGE_CONVERSATION
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["VIEW_MESSAGE_CONVERSATION"];
-            }
-        }
-        public static string VIEW_MESSAGES_INBOX_MEMBER
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["VIEW_MESSAGES_INBOX_MEMBER"];
-            }
-        }
-        public static string WEBSITE_EVENT_URL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WEBSITE_EVENT_URL"];
-            }
-        }
-        public static string LEAGUE_FORUM_POSTS_URL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LEAGUE_FORUM_POSTS_URL"];
-            }
-        }
-        public static string LEAGUE_FORUM_URL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LEAGUE_FORUM_URL"];
-            }
-        }
+        
+        
+        
         public static string JS_VERSION
         {
             get
@@ -566,161 +504,35 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["JS_VERSION"];
             }
         }
-        public static string GAME_URL_FOR_RDNATION
+        
+        public static string WikiSite
         {
             get
             {
-                return ConfigurationManager.AppSettings["GAME_URL_FOR_RDNATION"];
+                return ConfigurationManager.AppSettings["WikiSite"];
             }
         }
         
-        public static string LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE
+        
+        
+        /// <summary>
+        /// website data folder
+        /// </summary>
+        public static string DataFolder
         {
             get
             {
-                return ConfigurationManager.AppSettings["LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE"];
+                return ConfigurationManager.AppSettings["DataFolder"];
             }
         }
-        public static string LEAGUE_SUBSCRIPTION_RECIEPT
+        public static string ImageFolder
         {
             get
             {
-                return ConfigurationManager.AppSettings["LEAGUE_SUBSCRIPTION_RECIEPT"];
+                return ConfigurationManager.AppSettings["ImageFolder"];
             }
         }
-        public static string LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN"];
-            }
-        }
-        public static string PAYWALL_RECEIPT_URL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["PAYWALL_RECEIPT_URL"];
-            }
-        }
-        public static string SAVE_OLD_GAMES_FOLDER
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SAVE_OLD_GAMES_FOLDER"];
-            }
-        }
-        public static string URL_TO_CLEAR_LIVE_GAME_CACHE
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["URL_TO_CLEAR_LIVE_GAME_CACHE"];
-            }
-        }
-        public static string WEBSITE_CLEAR_TOURNAMENT_CACHE_API
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WEBSITE_CLEAR_TOURNAMENT_CACHE_API"];
-            }
-        }
-        public static string SAVE_FEEDBACK_FOLDER
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-            }
-        }
-        public static string SAVE_ERRORS_FOLDER
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SAVE_ERRORS_FOLDER"];
-            }
-        }
-        public static string SAVE_LIVE_GAMES_FOLDER
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SAVE_LIVE_GAMES_FOLDER"];
-            }
-        }
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
-        //public static string DEFAULT_RDN_FORUM_ID
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
-        //    }
-        //}
+       
 
 
 

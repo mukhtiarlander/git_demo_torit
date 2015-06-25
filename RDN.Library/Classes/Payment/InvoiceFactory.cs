@@ -26,6 +26,7 @@ using RDN.Library.Classes.RN.Funds;
 using RDN.Portable.Classes.Payment.Classes;
 using RDN.Portable.Classes.Payment.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.Payment
 {
@@ -1299,12 +1300,12 @@ namespace RDN.Library.Classes.Payment
 
                 sendingPayPal.Code = invoice.Currency;
                 sendingPayPal.ItemName = invoice.Subscription.Description;
-                sendingPayPal.ReturnUrl = LibraryConfig.LEAGUE_SUBSCRIPTION_RECIEPT + invoice.InvoiceId.ToString().Replace("-", "");
+                sendingPayPal.ReturnUrl = LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RECIEPT + invoice.InvoiceId.ToString().Replace("-", "");
                 sendingPayPal.SellerEmailAddress = LibraryConfig.DefaultAdminEmail;
-                sendingPayPal.CancelUrl = LibraryConfig.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", "");
+                sendingPayPal.CancelUrl = LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", "");
 
                 sendingPayPal.InvoiceNumber = invoice.InvoiceId.ToString();
-                sendingPayPal.LogoUrl = LibraryConfig.LogoURL;
+                sendingPayPal.LogoUrl =  LibraryConfig.LogoUrl;
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal Payment Sent To Paypal", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price);
 
@@ -1353,7 +1354,7 @@ namespace RDN.Library.Classes.Payment
                         recLeague.paymentType = PaymentTypeEnum.GOODS.ToString();
                         receiverList.receiver.Add(recLeague);
                     }
-                    PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), invoice.Paywall.PaywallLocation, Currency.USD.ToString(), receiverList, LibraryConfig.PAYWALL_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
+                    PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), invoice.Paywall.PaywallLocation, Currency.USD.ToString(), receiverList, LibraryConfig.PublicSite + UrlManager.PAYWALL_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
                     //no need to note primary if RDNation is the seller.
                     if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
                         req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
@@ -1448,7 +1449,7 @@ namespace RDN.Library.Classes.Payment
                             receiverList.receiver.Add(recLeague);
                         }
 
-                        PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), LibraryConfig.STORE_MERCHANT_CART_URL + merchant.MerchantId.ToString().Replace("-", ""), invoice.Currency, receiverList, LibraryConfig.STORE_MERCHANT_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
+                        PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_CART_URL + merchant.MerchantId.ToString().Replace("-", ""), invoice.Currency, receiverList, LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
                         if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
                             req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
                         req.memo = "Payment to " + merchant.ShopName + ": " + invoice.InvoiceId.ToString().Replace("-", "");
@@ -1699,7 +1700,7 @@ namespace RDN.Library.Classes.Payment
                         recLeague.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recLeague);
 
-                        PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), LibraryConfig.LEAGUE_DUES_MANAGEMENT_URL + leagueSettings.LeagueOwnerId.ToString().Replace("-", ""), invoice.Currency, receiverList, LibraryConfig.LEAGUE_DUES_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
+                        PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_MANAGEMENT_URL + leagueSettings.LeagueOwnerId.ToString().Replace("-", ""), invoice.Currency, receiverList, LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
                         req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
                         req.memo = "Dues payment for " + leagueSettings.LeagueOwnerName + " from " + memberPaying.DerbyName + " for " + duesItem.PaidForDate.ToShortDateString();
                         req.reverseAllParallelPaymentsOnError = false;
@@ -1747,9 +1748,9 @@ namespace RDN.Library.Classes.Payment
 
                                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "confirmPaypalAccountLink", LibraryConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT},
+                                            { "confirmPaypalAccountLink", LibraryConfig.WikiSite + UrlManager.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT},
                                             { "paypalEmailAccount", leagueSettings.PayPalEmailAddress},
-                                            { "duesSettingsLink",LibraryConfig.LEAGUE_DUES_SETTINGS_URL +leagueSettings.LeagueOwnerId.ToString().Replace("-", "") + "/" + leagueSettings.DuesId.ToString().Replace("-", "")}
+                                            { "duesSettingsLink",LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_SETTINGS_URL +leagueSettings.LeagueOwnerId.ToString().Replace("-", "") + "/" + leagueSettings.DuesId.ToString().Replace("-", "")}
                                                                                     };
 
                                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paypal Email Is Restricted: " + resp.error.FirstOrDefault().message, emailData, EmailServer.EmailServerLayoutsEnum.PaypalEmailIsRestricted);
@@ -1764,9 +1765,9 @@ namespace RDN.Library.Classes.Payment
 
                                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "confirmPaypalAccountLink",LibraryConfig.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT},
+                                            { "confirmPaypalAccountLink",LibraryConfig.WikiSite + UrlManager.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT},
                                             { "paypalEmailAccount", leagueSettings.PayPalEmailAddress},
-                                            { "duesSettingsLink", LibraryConfig.LEAGUE_DUES_SETTINGS_URL +leagueSettings.LeagueOwnerId.ToString().Replace("-", "") + "/" + leagueSettings.DuesId.ToString().Replace("-", "")}
+                                            { "duesSettingsLink", LibraryConfig .InternalSite + UrlManager.LEAGUE_DUES_SETTINGS_URL +leagueSettings.LeagueOwnerId.ToString().Replace("-", "") + "/" + leagueSettings.DuesId.ToString().Replace("-", "")}
                                                                                     };
                                 if (resp.error.FirstOrDefault().message.Contains("isn't confirmed by PayPal"))
                                 {

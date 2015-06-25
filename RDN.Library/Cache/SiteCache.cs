@@ -39,6 +39,7 @@ using RDN.Portable.Classes.League.Classes;
 using RDN.Portable.Classes.Controls.Calendar;
 using RDN.Library.Classes.Controls.Calendar;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Cache
 {
@@ -938,7 +939,7 @@ namespace RDN.Library.Cache
                                 c.Team1LogoUrl = games[i].Team1LogoUrl;
                                 c.Team2LogoUrl = games[i].Team2LogoUrl;
                                 c.HasGameEnded = games[i].HasGameEnded;
-                                c.GameUrl = LibraryConfig.PublicSite_FOR_PAST_GAMES + "/" + c.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team2Name);
+                                c.GameUrl = LibraryConfig.PublicSite + UrlManager.PublicSite_FOR_PAST_GAMES + "/" + c.GameId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(games[i].Team2Name);
                                 cached.PastGames.Add(c);
                             }
                         }

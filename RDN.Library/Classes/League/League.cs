@@ -161,8 +161,8 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.BaseSiteUrl + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
-                                            { "leagueSubscriptionLink", LibraryConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "leagueSubscriptionLink", LibraryConfig.InternalSite+ UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
                         {
@@ -183,7 +183,7 @@ namespace RDN.Library.Classes.League
                                         {
                                             { "days", daysToExpire.ToString() }, 
                                             { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
-                                            { "leagueSubscriptionLink", LibraryConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
+                                            { "leagueSubscriptionLink",  LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
                         {
@@ -202,8 +202,8 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
-                                            { "leagueSubscriptionLink", LibraryConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "leagueSubscriptionLink", LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                         };
                         foreach (var email in emails)
                         {
@@ -220,7 +220,7 @@ namespace RDN.Library.Classes.League
                                             { "leagueName", league.Name}, 
                                             { "leagueEmail", emails.ToArray().ToString()},
                                             { "leaguePhoneNumber", phoneNumber},
-                                            {"link", LibraryConfig.LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN}
+                                            {"link",LibraryConfig.AdminSite + UrlManager.LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN}
                                         };
 
                         EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);

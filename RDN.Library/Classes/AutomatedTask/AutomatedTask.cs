@@ -30,6 +30,7 @@ using RDN.Portable.Classes.League.Enums;
 using RDN.Portable.Classes.Federation.Enums;
 using RDN.Library.Cache.Singletons;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.AutomatedTask
 {
@@ -165,9 +166,9 @@ namespace RDN.Library.Classes.AutomatedTask
                     }
                 }
                 WebClient wc1 = new WebClient();
-                wc1.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_EXCHANGE_RATES));
+                wc1.DownloadStringAsync(new Uri(LibraryConfig.InternalSite + UrlManager.URL_TO_CLEAR_EXCHANGE_RATES));
                 WebClient wc2 = new WebClient();
-                wc2.DownloadStringAsync(new Uri(LibraryConfig.URL_TO_CLEAR_EXCHANGE_RATES_API));
+                wc2.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.URL_TO_CLEAR_EXCHANGE_RATES_API));
             }
             catch (Exception exception)
             {
@@ -378,7 +379,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                         {
                                             { "derbyname", league.Name}, 
                                             { "text", "Your League has been named Rollin News League of the Week.  Congrats!"}, 
-                                            { "link",RollinNewsConfig.PublicSite}
+                                            { "link", RollinNewsConfig.WEBSITE_DEFAULT_LOCATION}
                                         };
                         for (int i = 0; i < leagueEmail.Count; i++)
                             EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_ADMIN_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, leagueEmail[i].Email, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " League of the Week!", emailDataLeague, EmailServerLayoutsEnum.RNMemberLeagueOfTheWeek, EmailPriority.Normal);
@@ -445,7 +446,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                         {
                                             { "derbyname", mem.DerbyName}, 
                                             { "text", "You have been named Rollin News Member of the Week.  Congrats!"}, 
-                                            { "link",RollinNewsConfig.PublicSite}
+                                            { "link", RollinNewsConfig.WEBSITE_DEFAULT_LOCATION}
                                         };
                         EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_ADMIN_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You are Member of the Week!", emailDataMember, EmailServerLayoutsEnum.RNMemberLeagueOfTheWeek, EmailPriority.Normal);
 
@@ -528,7 +529,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                     if (String.IsNullOrEmpty(firstName) || String.IsNullOrEmpty(lastName))
                                     { firstName = "Sir/Madame"; lastName = ""; }
                                     ////http://localhost:8847/product-review/tdp1medium/10/e6cab01ce0044bd6a5d31970a7fe8dc0
-                                    string link = LibraryConfig.WEBSITE_SHOPS_URL + "product-review/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Items.FirstOrDefault().Name) + "/" + message.Items.FirstOrDefault().StoreItemId + "/" + message.InvoiceId.ToString().Replace("-", "");
+                                    string link = LibraryConfig.ShopSite + "/product-review/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Items.FirstOrDefault().Name) + "/" + message.Items.FirstOrDefault().StoreItemId + "/" + message.InvoiceId.ToString().Replace("-", "");
 
                                     var emailData = new Dictionary<string, string>
                                         {
@@ -728,7 +729,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                         {
                                             { "derbyname",mem.DerbyName}, 
                                             { "membersWhoSentMessages", membersWhoSentThisMemberAMessage}, 
-                                            { "viewConversationLink",LibraryConfig.VIEW_MESSAGES_INBOX_MEMBER + mem.MemberId.ToString().Replace("-","") }
+                                            { "viewConversationLink",LibraryConfig.InternalSite + UrlManager.VIEW_MESSAGES_INBOX_MEMBER + mem.MemberId.ToString().Replace("-","") }
                                         };
 
                                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Messages", emailData, EmailServer.EmailServerLayoutsEnum.SendLatestConversationsThreadToUser);
@@ -822,7 +823,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                     {
                                         if (box.Topic.GroupId == 0 || (box.Topic.GroupId > 0 && RDN.Library.Classes.League.Classes.LeagueGroupFactory.IsMemberInGroup(box.Topic.GroupId, box.ToUser.MemberId)))
                                         {
-                                            string url = LibraryConfig.LEAGUE_FORUM_POSTS_URL + box.Topic.Forum.ForumId.ToString().Replace("-", "") + "/" + box.Topic.TopicId;
+                                            string url = LibraryConfig.InternalSite + UrlManager.LEAGUE_FORUM_POSTS_URL + box.Topic.Forum.ForumId.ToString().Replace("-", "") + "/" + box.Topic.TopicId;
                                             g.Topics.Add(new Forum.ForumTopic() { Url = "<a href='" + url + "'>" + box.Topic.TopicTitle + "</a>" });
                                         }
                                     }
@@ -853,7 +854,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                         {
                                             { "derbyname",message.Key.DerbyName}, 
                                             { "forumTopics", forumTopics.ToString()}, 
-                                            { "viewConversationLink", LibraryConfig.LEAGUE_FORUM_URL + message.boxes.FirstOrDefault().Topic.Forum.ForumId.ToString().Replace("-", "") }
+                                            { "viewConversationLink", LibraryConfig.InternalSite + UrlManager.LEAGUE_FORUM_URL + message.boxes.FirstOrDefault().Topic.Forum.ForumId.ToString().Replace("-", "") }
                                         };
                                             emailsSent += 1;
                                             EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Forum Topics", emailData, EmailServer.EmailServerLayoutsEnum.SendLatestForumTopicsToUser);
@@ -1338,7 +1339,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                     {
                                         var emailData = new Dictionary<string, string> { 
                                                  { "name",  name }, 
-                                                 { "link",  LibraryConfig.STORE_MERCHANT_SHOP_URL + item.MerchantId.ToString().Replace("-","") +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( item.ShopName)}, 
+                                                 { "link", LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_SHOP_URL + item.MerchantId.ToString().Replace("-","") +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( item.ShopName)}, 
                                                  { "itemsCount",  AmountOfItemsNotPublished.ToString() }
                                                 };
 
