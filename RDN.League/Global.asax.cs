@@ -297,15 +297,7 @@ new { controller = "Member", action = "AddMemberContact" } // Parameter defaults
 new { controller = "Member", action = "RemoveContact" } // Parameter defaults
 );
 
-            //            routes.MapRoute(
-            //"MemberEdit", // Route name
-            //"Member/Edit", // URL with parameters
-            //new { controller = "Member", action = "EditMemberMySelf" } // Parameter defaults
-            //);
-
-
-
-
+            
             routes.MapRoute(
 "MemberView", // Route name
 "Member/{id}/{name}", // URL with parameters

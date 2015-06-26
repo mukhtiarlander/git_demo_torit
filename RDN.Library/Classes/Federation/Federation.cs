@@ -549,7 +549,7 @@ namespace RDN.Library.Classes.Federation
                                         {"phone", federationPhone},
                                         {"email", federationEmail},
                                         {"id", federationId.ToString()},
-                                        {"link", FederationConfig.ADMIN_APPROVAL_LINK_FOR_NEW_FED}
+                                        {"link", LibraryConfig.AdminSite + FederationConfig.ADMIN_APPROVAL_LINK_FOR_NEW_FED}
                                     };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Federation Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewFederationAdmin);
@@ -588,7 +588,7 @@ namespace RDN.Library.Classes.Federation
                                     {
                                         {"membername", memberName},
                                         {"federationname", federationName},
-                                        {"federationlink", FederationConfig.LINK_FOR_APPROVED_FEDERATION_OWNERS},
+                                        {"federationlink", LibraryConfig.InternalSite + FederationConfig.LINK_FOR_APPROVED_FEDERATION_OWNERS},
                                         {"contactemail", LibraryConfig.DefaultInfoEmail}
                                     };
 

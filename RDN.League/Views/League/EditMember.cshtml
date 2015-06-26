@@ -245,7 +245,7 @@
                                         }
                                         else
                                         {
-                                        <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store Insurance Numbers of each skater in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></div>
+                                        <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store Insurance Numbers of each @RDN.Library.Classes.Config.LibraryConfig.NameOfMember in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></div>
                                         }
                                     </div>
                                     <div class="tab-pane" id="Contacts">
@@ -425,7 +425,7 @@
                                                     </div>
                                                     <div class="col-xs-12  col-sm-6">
                                                         <div class="form-label margin-top-10 margin-bottom-5">
-                                                            Skater Class:
+                                                            @RDN.Library.Classes.Config.LibraryConfig.NameOfMember class:
                                                         </div>
                                                         <div>
                                                             @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")

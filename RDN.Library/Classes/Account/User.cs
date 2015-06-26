@@ -544,7 +544,7 @@ namespace RDN.Library.Classes.Account
                         { "leaguename", leagueName}, 
                         { "link", link  } };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, memberEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Skater Profile Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.LeagueCreatedMemberProfile, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, memberEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + LibraryConfig.NameOfMember + " Profile Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.LeagueCreatedMemberProfile, priority: EmailPriority.Normal);
                 return link;
             }
             catch (Exception exception)

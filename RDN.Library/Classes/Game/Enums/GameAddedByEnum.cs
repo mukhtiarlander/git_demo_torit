@@ -12,6 +12,6 @@ namespace RDN.Library.Classes.Game.Enums
     {
         federation = 1,
         league = 2,
-        skater = 3
+        member = 3
     }
 }

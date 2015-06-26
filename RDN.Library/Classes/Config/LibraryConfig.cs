@@ -39,6 +39,29 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["FacebookPageId2"];
             }
         }
+        public static string FacebookUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FacebookUrl"];
+            }
+        }
+
+        public static string BlogSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BlogSite"];
+            }
+        }
+
+        public static string MainDomain
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MainDomain"];
+            }
+        }
 
         public static string TwitterConsumerSecret
         {

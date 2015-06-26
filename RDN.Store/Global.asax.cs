@@ -77,16 +77,18 @@ namespace RDN.Store
             #region ListingController
             routes.MapRoute(
         "StoreItemListing", // Route name
-        "roller-derby-item/{name}/{id}", // URL with parameters
-        new { controller = "Listings", action = "ViewListing" } // Parameter defaults
+        "{url}/{name}/{id}", // URL with parameters
+        new { controller = "Listings", action = "ViewListing" },
+            new { url = "roller-derby-item" }
     );
             #endregion
 
             #region ShopController
             routes.MapRoute(
           "StoreMerchant", // Route name
-          "roller-derby-shop/{id}/{name}", // URL with parameters
-          new { controller = "Shop", action = "Shop" } // Parameter defaults
+          "{url}/{id}/{name}", // URL with parameters
+          new { controller = "Shop", action = "Shop" },
+            new { url = "roller-derby-shop" }
       );
             #endregion
 
@@ -121,8 +123,9 @@ new { controller = "Home", action = "sell" } // Parameter defaults
 );
             routes.MapRoute(
 "Shops", // Route name
-"roller-derby-shops", // URL with parameters
-new { controller = "Home", action = "Shops" } // Parameter defaults
+"{url}", // URL with parameters
+new { controller = "Home", action = "Shops" },
+            new { url = "roller-derby-shops" }
 );
             routes.MapRoute(
 "Review", // Route name
@@ -132,20 +135,13 @@ new { controller = "Home", action = "Review" } // Parameter defaults
 
 
 
-
-
-
-
             routes.MapRoute(
             "StoreAddToCart", // Route name
             "AddToCart", // URL with parameters
             new { controller = "Home", action = "AddToCart" } // Parameter defaults
         );
 
-
-
-
-            #endregion
+                        #endregion
             routes.MapRoute(
              "Default", // Route name
              "{action}", // URL with parameters

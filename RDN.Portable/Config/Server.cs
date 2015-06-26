@@ -29,7 +29,7 @@ namespace RDN.Portable.Config
         public static string SAVE_LIVE_GAMES_FOLDER = "\\Scoreboard\\LiveGames\\";
         public static string SAVE_OLD_GAMES_FOLDER = "\\Scoreboard\\OldGames\\";
 
-        public static string SAVE_ADVERTISEMENTS_FOLDER = "C:\\WebSites\\RDNation.com\\Data\\RollerDerby\\Advertisements\\";
+        public static string SAVE_ADVERTISEMENTS_FOLDER = "\\RollerDerby\\Advertisements\\";
 
         //public static string SAVE_LOGOS_FOLDER = @"C:\WebSites\codingforcharity.org\rdnation\logos\";
 

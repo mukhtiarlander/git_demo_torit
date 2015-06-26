@@ -38,7 +38,7 @@ namespace RDN.Controllers
         public ActionResult BlogPosts(string id, string name)
         {
 
-            return Redirect("http://blog.rdnation.com/post/" + id + "/" + name);
+            return Redirect(LibraryConfig.BlogSite + "/post/" + id + "/" + name);
         }
 
         public ActionResult Error()
@@ -124,7 +124,7 @@ namespace RDN.Controllers
                 setCookie(model.Email, true);
 
 
-                return Redirect("http://league.rdnation.com");
+                return Redirect(LibraryConfig.InternalSite);
 
 
 
@@ -272,7 +272,7 @@ namespace RDN.Controllers
                         if (RDN.Library.Classes.Account.User.UserLostPassword(user))
                             model.ConfirmationMessage = "An Email Has Been Sent to: " + model.Email;
                         else
-                            model.ConfirmationMessage = "Something went wrong, if this problem persists please contact info@rdnation.com";
+                            model.ConfirmationMessage = "Something went wrong, if this problem persists please contact " + LibraryConfig.DefaultInfoEmail;
                         return View(model);
                     }
 
@@ -427,7 +427,7 @@ namespace RDN.Controllers
                 FormsAuthentication.SetAuthCookie(email, rememberMe);
                 //modify the Domain attribute of the cookie to the second level domain
                 System.Web.HttpCookie MyCookie = System.Web.Security.FormsAuthentication.GetAuthCookie(email, rememberMe);
-                MyCookie.Domain = "rdnation.com";//the second level domain name
+                MyCookie.Domain = LibraryConfig.MainDomain;//the second level domain name
                 Response.AppendCookie(MyCookie);
             }
             catch (Exception e)
@@ -499,7 +499,7 @@ namespace RDN.Controllers
                             }
                             if (returnSite == "zebras")
                             {
-                                url = "http://zebras.rdnation.com";
+                                url = "http://zebras." + LibraryConfig.MainDomain;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
                                 return Redirect(url);
@@ -623,8 +623,8 @@ namespace RDN.Controllers
             {
                 //if its a post from the zebra forum.
                 if (actionName.Contains("yaf_"))
-                    Response.Redirect("http://zebras.rdnation.com/" + actionName);
-                else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki.rdnation.com"))
+                    Response.Redirect("http://zebras."+ LibraryConfig.MainDomain +  "/"+actionName);
+                else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki." + LibraryConfig.MainDomain))
                     Response.Redirect(LibraryConfig.WikiSite);
                 else
                     Response.Redirect(LibraryConfig.PublicSite);

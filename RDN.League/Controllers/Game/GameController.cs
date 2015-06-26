@@ -384,7 +384,7 @@ namespace RDN.League.Controllers
                     var output = FillGamesModelForLeague(model, league.LeagueId);
                     return View(output);
                 }
-                else if (type == GameAddedByEnum.skater.ToString())
+                else if (type == GameAddedByEnum.member.ToString())
                 {
                     var memberId = RDN.Library.Classes.Account.User.GetMemberId();
                     var member = MemberCache.GetMemberDisplay(memberId);

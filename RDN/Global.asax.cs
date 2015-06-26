@@ -42,6 +42,11 @@ namespace RDN
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "Robots.txt",
+                url: "Robots.txt",
+                defaults: new { controller = "Utilities", action = "Robot" });
+
             #region Paywalls
             routes.MapRoute(
               "paywallReceiptForStreaming", // Route name
@@ -60,15 +65,15 @@ namespace RDN
             #region Games
             routes.MapRoute(
               "tournamentHome", // Route name
-              "roller-derby-tournament/{id}/{name}", // URL with parameters
-              new { controller = "Tournament", action = "TournamentHome" }, // Parameter defaults
-              new { id = "[a-zA-Z0-9]+" }
+              "{rollerderbytournament}/{id}/{name}", // URL with parameters
+              new { controller = "Tournament", action = "TournamentHome"}, // Parameter defaults
+              new { rollerderbytournament = "roller-derby-tournament", id = "[a-zA-Z0-9]+" }
           );
             routes.MapRoute(
           "tournaments", // Route name
-          "roller-derby-tournaments", // URL with parameters
-          new { controller = "Tournament", action = "Tournaments" } // Parameter defaults
-                );
+          "{url}", // URL with parameters
+          new { controller = "Tournament", action = "Tournaments" } ,
+            new {url= "roller-derby-tournaments"}    );
 
             routes.MapRoute(
               "apiGame", // Route name
@@ -97,29 +102,31 @@ namespace RDN
 
             routes.MapRoute(
               "Gameid", // Route name
-              "roller-derby-game/{id}", // URL with parameters
-              new { controller = "Game", action = "Index" }, // Parameter defaults
-              new { id = "[a-zA-Z0-9]+" }
+              "{url}/{id}", // URL with parameters
+              new { controller = "Game", action = "Index"},  // Parameter defaults
+              new {url= "roller-derby-game", id = "[a-zA-Z0-9]+" }
           );
 
             routes.MapRoute(
                 "Game", // Route name
-                "roller-derby-game/{id}/{gameName}/{team1}/{team2}", // URL with parameters
+                "{url}/{id}/{gameName}/{team1}/{team2}", // URL with parameters
                 new { controller = "Game", action = "Index", team1 = UrlParameter.Optional, team2 = UrlParameter.Optional }, // Parameter defaults
-                new { id = "[a-zA-Z0-9]+" }
+                new {url = "roller-derby-game",  id = "[a-zA-Z0-9]+" }
             );
 
 
             routes.MapRoute(
                 "Games", // Route name
-                "roller-derby-games", // URL with parameters
-                new { controller = "Games", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                "{url}", // URL with parameters
+                new { controller = "Games", action = "Index", id = UrlParameter.Optional } ,
+                new { url= "roller-derby-games"}
             );
 
             routes.MapRoute(
     "Games2", // Route name
-    "roller-derby-game", // URL with parameters
-    new { controller = "Games", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+    "{url}", // URL with parameters
+    new { controller = "Games", action = "Index", id = UrlParameter.Optional },
+                new { url = "roller-derby-game" }
 );
 
             routes.MapRoute(
@@ -130,17 +137,17 @@ namespace RDN
             routes.MapRoute(
    "ViewRequest", // Route name
    "officiating-requests/view/{id}", // URL with parameters
-   new { controller = "Games", action = "ViewRequest"} // Parameter defaults
+   new { controller = "Games", action = "ViewRequest" } 
 );
             routes.MapRoute(
-   "ViewAllChallenges", // Route name
-   "bout-challenge/view/all", // URL with parameters
-   new { controller = "Games", action = "AllBoutList" } // Parameter defaults
+   "ViewAllChallenges", 
+   "bout-challenge/view/all", 
+   new { controller = "Games", action = "AllBoutList" } 
 );
             routes.MapRoute(
    "ViewChallengeDetails", // Route name
-   "bout-challenge/view/{ChallengeId}", // URL with parameters
-   new { controller = "Games", action = "ViewBoutEvent"} // Parameter defaults
+   "bout-challenge/view/{ChallengeId}", 
+   new { controller = "Games", action = "ViewBoutEvent" } 
 );
 
 
@@ -168,8 +175,9 @@ namespace RDN
 
             routes.MapRoute(
         "scoreboard", // Route name
-        "roller-derby-scoreboard", // URL with parameters
-        new { controller = "Scoreboard", action = "Index" } // Parameter defaults
+        "{url}", // URL with parameters
+        new { controller = "Scoreboard", action = "Index" },
+                new { url = "roller-derby-scoreboard" }
     );
             routes.MapRoute(
     "scoreboard2", // Route name
@@ -209,8 +217,9 @@ new { controller = "Home", action = "Error" } // Parameter defaults
         );
             routes.MapRoute(
                         "verifyDerbyName", // Route name
-                        "verifyderbyname/{id}/{name}", // URL with parameters
-                        new { controller = "Home", action = "VerifyDerbyName", name = UrlParameter.Optional } // Parameter defaults
+                        "{url}/{id}/{name}", // URL with parameters
+                        new { controller = "Home", action = "VerifyDerbyName", name = UrlParameter.Optional },
+                new { url = "verifyderbyname" }
                     );
 
             routes.MapRoute(
@@ -226,95 +235,106 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             #region CalendarRoutes
             routes.MapRoute(
          "CalendarEvent", // Route name
-         "roller-derby-event/{name}/{id}", // URL with parameters
-         new { controller = "Calendar", action = "EventCalendar" } // Parameter defaults
+         "{url}/{name}/{id}", // URL with parameters
+         new { controller = "Calendar", action = "EventCalendar" },
+            new { url = "roller-derby-event" }
                  );
             routes.MapRoute(
       "CalendarEvents", // Route name
-      "roller-derby-events/{year}/{month}", // URL with parameters
-      new { controller = "Calendar", action = "CalendarEvents", year = UrlParameter.Optional, month = UrlParameter.Optional } // Parameter defaults
+      "{url}/{year}/{month}", // URL with parameters
+      new { controller = "Calendar", action = "CalendarEvents", year = UrlParameter.Optional, month = UrlParameter.Optional },
+            new { url = "roller-derby-events" }
               );
             #endregion
 
             #region PublicProfiles
             routes.MapRoute(
             "AllLogos", // Route name
-            "roller-derby-logos", // URL with parameters
-            new { controller = "PublicLogos", action = "AllLogos" } // Parameter defaults
+            "{url}", // URL with parameters
+            new { controller = "PublicLogos", action = "AllLogos" } ,
+            new { url = "roller-derby-logos" }
                     );
 
-            
+
             routes.MapRoute(
             "AllSkaters", // Route name
-            "roller-derby-skaters", // URL with parameters
-            new { controller = "PublicProfile", action = "AllSkaters" } // Parameter defaults
-                    );
+            "{url}", // URL with parameters
+            new { controller = "PublicProfile", action = "AllSkaters" },
+             new { url= "roller-derby-skaters" });
+
             routes.MapRoute(
           "PublicSkaterRedirect", // Route name
-          "roller-derby-skater/{id}", // URL with parameters
-          new { controller = "PublicProfile", action = "SkaterRedirect" } // Parameter defaults
+          "{url}/{id}", // URL with parameters
+          new { controller = "PublicProfile", action = "SkaterRedirect" },
+            new { url = "roller-derby-skater" }
                   );
             routes.MapRoute(
             "PublicSkater", // Route name
-            "roller-derby-skater/{name}/{id}", // URL with parameters
-            new { controller = "PublicProfile", action = "Skater" } // Parameter defaults
+            "{url}/{name}/{id}", // URL with parameters
+            new { controller = "PublicProfile", action = "Skater" },
+            new { url = "roller-derby-skater" }
                     );
-           
+
             routes.MapRoute(
            "PublicSkaterTwoEvils", // Route name
-           "roller-derby-skater/1/{name}/{id}", // URL with parameters
-           new { controller = "PublicProfile", action = "SkaterTwoEvils" } // Parameter defaults
+           "{url}/1/{name}/{id}", // URL with parameters
+           new { controller = "PublicProfile", action = "SkaterTwoEvils" },
+            new { url = "roller-derby-skater" }
                    );
 
 
             routes.MapRoute(
             "AllRefs", // Route name
-            "roller-derby-referees", // URL with parameters
-            new { controller = "PublicProfile", action = "AllRefs" } // Parameter defaults
+            "{url}", // URL with parameters
+            new { controller = "PublicProfile", action = "AllRefs" },
+            new { url = "roller-derby-referees" }
                     );
 
             routes.MapRoute(
             "PublicRef", // Route name
-            "roller-derby-referee/{name}/{id}", // URL with parameters
-            new { controller = "PublicProfile", action = "Ref", league = UrlParameter.Optional } // Parameter defaults
+            "{url}/{name}/{id}", // URL with parameters
+            new { controller = "PublicProfile", action = "Ref", league = UrlParameter.Optional },
+            new { url = "roller-derby-referee" }
                     );
             routes.MapRoute(
             "PublicFederation", // Route name
-            "roller-derby-federation/{name}/{id}", // URL with parameters
-            new { controller = "PublicFederation", action = "Federation" } // Parameter defaults
+            "{url}/{name}/{id}", // URL with parameters
+            new { controller = "PublicFederation", action = "Federation" },
+            new { url = "roller-derby-federation" }
                     );
             routes.MapRoute(
             "PublicFederations", // Route name
-            "roller-derby-federations", // URL with parameters
-            new { controller = "PublicFederation", action = "AllFederations" } // Parameter defaults
+            "{url}", // URL with parameters
+            new { controller = "PublicFederation", action = "AllFederations" },
+            new { url = "roller-derby-federation" }
                     );
 
             routes.MapRoute(
             "PublicLeagues", // Route name
-            "roller-derby-leagues", // URL with parameters
-            new { controller = "PublicLeague", action = "AllLeagues" } // Parameter defaults
+            "{url}", // URL with parameters
+            new { controller = "PublicLeague", action = "AllLeagues" },
+            new { url = "roller-derby-leagues" }// Parameter defaults
                     );
 
-            // routes.MapRoute(
-            //"PublicLeaguesPager", // Route name
-            //"roller-derby-leagues/{page}", // URL with parameters
-            //new { controller = "PublicLeague", action = "AllLeagues" } // Parameter defaults
-            //        );
             routes.MapRoute(
             "RegularDerbyLeague", // Route name
-            "roller-derby-league/{name}/{id}", // URL with parameters
-            new { controller = "PublicLeague", action = "League" } // Parameter defaults
+            "{url}/{name}/{id}", // URL with parameters
+            new { controller = "PublicLeague", action = "League" },
+            new { url = "roller-derby-league" }
                     );
+
             routes.MapRoute(
             "PublicLeagueTwoEvils", // Route name
-            "roller-derby-league/1/{name}/{id}", // URL with parameters
-            new { controller = "PublicLeague", action = "LeagueTwoEvils" } // Parameter defaults
+            "{url}/1/{name}/{id}", // URL with parameters
+            new { controller = "PublicLeague", action = "LeagueTwoEvils" },
+            new { url = "roller-derby-league" }
                     );
 
             routes.MapRoute(
                         "PublicLeagueDerbyRoster", // Route name
-                        "roller-derby-league/2/{name}/{id}", // URL with parameters
-                        new { controller = "PublicLeague", action = "LeagueDerbyRoster" } // Parameter defaults
+                        "{url}/2/{name}/{id}", // URL with parameters
+                        new { controller = "PublicLeague", action = "LeagueDerbyRoster" },
+            new { url = "roller-derby-league" }
                                 );
 
 
@@ -381,19 +401,19 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            
+
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             log4net.Config.XmlConfigurator.Configure();
 
-            
+
         }
         void Application_Error(object sender, EventArgs e)
         {
             string url = HttpContext.Current.Request.Url.AbsoluteUri;
             // Code that runs when an unhandled error occurs
-            if (!url.Contains("wiki.rdnation.com") && !url.Contains("Utilities/AddNodeToSiteMap") && !url.Contains("com/member/register") && !url.Contains(".php") && !url.Contains(".cgi") && !url.Contains(".asp") && !url.Contains("blogs/load/recent") && !url.Contains("user/register") && !url.Contains("Scoreboard/Download"))
+            if (!url.Contains("wiki." +LibraryConfig.MainDomain ) && !url.Contains("Utilities/AddNodeToSiteMap") && !url.Contains("com/member/register") && !url.Contains(".php") && !url.Contains(".cgi") && !url.Contains(".asp") && !url.Contains("blogs/load/recent") && !url.Contains("user/register") && !url.Contains("Scoreboard/Download"))
             {
                 // Get the exception object.
                 Exception exc = Server.GetLastError();

@@ -22,7 +22,7 @@ namespace RDN.Portable.Classes.Contacts.Enums
         Newspaper = 12,
         League = 13,
         NSO = 14,
-        Skater = 15,
+        Member = 15,
         Fresh_Meat = 16,
         Merchandise = 17,
         Charity = 18

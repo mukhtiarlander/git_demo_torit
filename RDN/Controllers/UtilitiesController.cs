@@ -17,6 +17,8 @@ using RDN.Library.Classes.Communications;
 using RDN.Library.Classes.Communications.Enums;
 using RDN.Library.Cache;
 using RDN.Portable.Classes.Controls.Calendar;
+using System.Text;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Controllers
 {
@@ -151,6 +153,19 @@ namespace RDN.Controllers
             if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyderbyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login"))
                 SitemapHelper.AddNode(url, modified);
             return Json(new { answer = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public virtual ActionResult Robot()
+        {
+            StringBuilder robotsResult = new StringBuilder();
+            robotsResult.Append("Sitemap: " + LibraryConfig.PublicSite + "/sitemap" + Environment.NewLine);
+            robotsResult.Append("Disallow: login" + Environment.NewLine);
+            robotsResult.Append("Disallow: /signup" + Environment.NewLine);
+            robotsResult.Append("Disallow: /utilities" + Environment.NewLine);
+            robotsResult.Append("Disallow: /store" + Environment.NewLine);
+            robotsResult.Append("Disallow: /roller-derby-store" + Environment.NewLine);
+
+            return Content(robotsResult.ToString(), "text/plain");
         }
 
         public ActionResult SearchForDerbyName(string name)

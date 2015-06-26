@@ -10,8 +10,8 @@ namespace RDN.Portable.Config
     /// </summary>
     public class FederationConfig
     {
-        public static readonly string ADMIN_APPROVAL_LINK_FOR_NEW_FED = "https://raspberry.rdnation.com/Federation/New";
-        public static readonly string LINK_FOR_APPROVED_FEDERATION_OWNERS = "https://league.rdnation.com/federation/home";
+        public static readonly string ADMIN_APPROVAL_LINK_FOR_NEW_FED =  "/Federation/New";
+        public static readonly string LINK_FOR_APPROVED_FEDERATION_OWNERS = "/federation/home";
 
     
     }
