@@ -963,6 +963,12 @@ namespace RDN.Library.Classes.Messages
                     gro.Recipients.Add(recipient);
                 }
                 int c = dc.SaveChanges();
+
+                // Send Email
+                foreach (Guid memberid in memberids)
+                {
+                    SendEmailAboutMemberAdded(memberid, groupid);
+                }
                 return c > 0;
             }
             catch (Exception exception)
@@ -970,6 +976,21 @@ namespace RDN.Library.Classes.Messages
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return false;
+        }
+
+        public static void SendEmailAboutMemberAdded(Guid memberid, long groupid)
+        {
+            var member = MemberCache.GetMemberDisplay(memberid);
+            var emailData = new Dictionary<string, string>
+            {
+                { "derbyname",member.DerbyName}, 
+                { "messagelink", ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/messages/view/"+groupid}
+            };
+            var user = System.Web.Security.Membership.GetUser((object)member.UserId);
+            if (user != null)
+            {
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " You are added in a message", emailData, EmailServer.EmailServerLayoutsEnum.AddedToChatMessage);
+            }
         }
     }
 }

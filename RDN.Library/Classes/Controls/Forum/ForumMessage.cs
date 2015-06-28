@@ -8,6 +8,10 @@ namespace RDN.Library.Classes.Forum
 {
     public class ForumMessage
     {
+        public ForumMessage()
+        {
+            mentions = new List<ForumMessageMention>();
+         }
         public long TopicId { get; set; }
         public Guid ForumId { get; set; }
         public DateTime Created { get; set; }
@@ -26,7 +30,7 @@ namespace RDN.Library.Classes.Forum
         /// Get Tolal Message Agreed
         /// </summary>
         public long MessageAgreeCount { get; set; } //Get Total Agree
-        
 
+        public List<ForumMessageMention> mentions { get; set; }
     }
 }
