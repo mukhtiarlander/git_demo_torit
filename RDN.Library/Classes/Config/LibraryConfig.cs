@@ -245,22 +245,6 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string LeaguesPublicUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LeaguesPublicUrl"];
-            }
-        }
-
-        public static string MembersPublicUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["MembersPublicUrl"];
-            }
-        }
-
         public static string NameOfMembers
         {
             get
@@ -269,13 +253,7 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string TournamentsPublicUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["TournamentsPublicUrl"];
-            }
-        }
+  
 
         public static string ShopSite
         {
@@ -388,6 +366,16 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["DefaultEmailFromName"];
+            }
+        }
+
+
+
+        public static string DefaultEmailSubject
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultEmailSubject"];
             }
         }
 
@@ -554,6 +542,15 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["ImageFolder"];
+            }
+        }
+
+
+        public static string SportNameForUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SportNameForUrl"];
             }
         }
        
