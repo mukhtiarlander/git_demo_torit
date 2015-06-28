@@ -34,9 +34,16 @@ namespace RDN.League
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
-                "~/Scripts/ViewModels/LeaguesViewModel.js",
-                        "~/Scripts/ViewModels/MembersViewModel.js",        
-                "~/Scripts/main.js"
+                        "~/Scripts/ViewModels/LeaguesViewModel.js",
+                        "~/Scripts/ViewModels/MembersViewModel.js",
+                        "~/Scripts/main.js",
+                        "~/Scripts/ViewModels/Calender/CalenderViewModel.js",
+                        "~/Scripts/ViewModels/Forum/ForumViewModel.js",
+                        "~/Scripts/ViewModels/Leagues/LeagueViewModel.js",
+                        "~/Scripts/ViewModels/Members/MembersViewModel.js",
+                        "~/Scripts/ViewModels/Messages/MessagesViewModel.js",
+                        "~/Scripts/ViewModels/Polls/PollsViewModel.js",
+                        "~/Scripts/ViewModels/Tournament/TournamentViewModel.js"
                         ));
 
 
