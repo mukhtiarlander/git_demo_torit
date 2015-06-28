@@ -81,7 +81,7 @@
         if (item.ForumOwnerTypeEnum === "league")
             memberLink.attr({ href: leagueHost + "member/" + item.CreatedByMember.MemberId.replace(/-/g, "") + "/" + item.CreatedByMember.DerbyNameUrl });
         else
-            memberLink.attr({ href: rdnationHost + "roller-derby-skater/" + item.CreatedByMember.DerbyNameUrl + "/" + item.CreatedByMember.MemberId.replace(/-/g, "") });
+            memberLink.attr({ href: Host + "roller-derby-skater/" + item.CreatedByMember.DerbyNameUrl + "/" + item.CreatedByMember.MemberId.replace(/-/g, "") });
         memberLink.html(item.CreatedByMember.DerbyName);
         thirdColumn.append(memberLink);
         var ent = $(document.createElement('br'));
@@ -103,7 +103,7 @@
         if (item.ForumOwnerTypeEnum === "league")
             memberLink.attr({ href: leagueHost + "member/" + item.LastPostByMember.MemberId.replace(/-/g, "") + "/" + item.LastPostByMember.DerbyNameUrl });
         else
-            memberLink.attr({ href: rdnationHost + "roller-derby-skater/" + item.LastPostByMember.DerbyNameUrl + "/" + item.LastPostByMember.MemberId.replace(/-/g, "") });
+            memberLink.attr({ href: Host + "roller-derby-skater/" + item.LastPostByMember.DerbyNameUrl + "/" + item.LastPostByMember.MemberId.replace(/-/g, "") });
         memberByLink.html(item.LastPostByMember.DerbyName);
         sixColumn.append(memberByLink);
         var entt = $(document.createElement('br'));
@@ -281,6 +281,7 @@
         tinymce.init({
             mode: "textareas",
             elements: "wmd-input",
+            theme: "advanced",
             plugins: "mention",
             theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,formatselect,fontsizeselect",
             theme_advanced_buttons2: "link,unlink,anchor,image,cleanup,code,|,preview,|,forecolor,backcolor,|tablecontrols,|,hr,removeformat,visualaid,|,iespell,media,|,ltr,rtl",

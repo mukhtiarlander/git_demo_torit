@@ -6,7 +6,7 @@
 }
 
 <div class="backLinks">
-    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
 </div>
 <div class="listingHome">
     <div class="listingInfoColumn">
@@ -14,7 +14,7 @@
             <span class="storeItemName">@Model.Name</span>
             <br />
             <div class="storeItemSoldBy">
-                Sold by <a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+                Sold by <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
             </div>
             <div>
                 @{ var total = 0.00;}
@@ -181,7 +181,7 @@
             
             <div class="storeAddToCartContainer">
                 <div class="listingSectionTitle">Shop</div>
-                <div class="listingShopName"><a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></div>
+                <div class="listingShopName"><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></div>
 
                 <div class="listingShopDescription">@Model.Store.Description</div>
                 <br />

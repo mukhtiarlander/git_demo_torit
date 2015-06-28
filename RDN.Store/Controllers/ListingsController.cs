@@ -7,6 +7,7 @@ using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Store;
 using RDN.Library.Classes.Store.Classes;
 using RDN.Portable.Classes.Store.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Store.Controllers
 {
@@ -38,7 +39,7 @@ namespace RDN.Store.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(storeItem.Name) + "/" + storeItem.StoreItemId));
+            return Redirect(Url.Content("~/"+LibraryConfig.SportNameForUrl+"-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(storeItem.Name) + "/" + storeItem.StoreItemId));
 
         }
 

@@ -27,9 +27,17 @@
     });
 });
 
+function ToggleSideMenu() {
+    if ($("#mainNavbar").hasClass("slideInLeft")) {
+        $("#mainNavbar").removeClass("slideInLeft");
+        $("#mainNavbar").addClass("slideOutLeft");
+    }
+    else {
+        $("#mainNavbar").removeClass("slideOutLeft");
+        $("#mainNavbar").addClass("slideInLeft").show();
+    }
+}
 
-var leagueHost = "https://league.rdnation.com/";
-var Host = "https://rdnation.com/";
 var simpleId = 0;
 var simpleIdTwo = 0;
 //ko configuration

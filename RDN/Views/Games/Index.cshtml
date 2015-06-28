@@ -16,7 +16,7 @@
 
             <div class="caption">
                 <h4>
-                    <a href="@Url.Content("~/roller-derby-game/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
+                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
                         @game.GameName
                     </a>
                 </h4>
@@ -88,7 +88,7 @@
     @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
     {
         <div>
-            <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard" class="btn btn-primary">
+            <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" class="btn btn-primary">
                 Download Thor's Hammer Roller
                 Derby Scoreboard
             </a>

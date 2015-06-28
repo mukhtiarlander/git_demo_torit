@@ -11,6 +11,7 @@ using RDN.Library.Classes.Error;
 using RDN.Library.Classes.League.Classes;
 using RDN.Library.DataModels.Context;
 using RDN.Portable.Classes.League.Classes;
+using RDN.Library.Classes.Config;
 
 
 namespace RDN.Library.Classes.Document
@@ -68,7 +69,7 @@ namespace RDN.Library.Classes.Document
                 }
                 FileInfo info = new FileInfo(nameOfFile);
 
-                string saveLocation = @"C:\WebSiteDocuments\rdnation\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string saveLocation = LibraryConfig.DocumentsSaveFolder + @"\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
 
                 if (!Directory.Exists(saveLocation))
                     Directory.CreateDirectory(saveLocation);

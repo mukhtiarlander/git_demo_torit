@@ -19,7 +19,7 @@ namespace RDN.Raspberry.Controllers
 {
     public class PaymentController : Controller
     {
-        // RDNATION MERCHANT ID: D61EB50C-E65C-11E1-84DA-AFFB6088709B
+        // Website MERCHANT ID: D61EB50C-E65C-11E1-84DA-AFFB6088709B
 
         //[Authorize]
         //[HttpPost]

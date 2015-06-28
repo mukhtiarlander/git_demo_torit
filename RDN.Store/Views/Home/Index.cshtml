@@ -8,7 +8,7 @@
     <div class="categories">
         <div class="catHead">Browse</div>
         <ul class="catList">
-            <li><a href="@Url.Content("~/roller-derby-shops")">Shops</a></li>
+            <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shops")">Shops</a></li>
             <li><a href="@Url.Content("~/category/shirts/1")">Shirts</a></li>
             <li><a href="@Url.Content("~/category/item/2")">Items</a></li>
             <li><a href="@Url.Content("~/category/item/3")">Decals</a></li>
@@ -23,7 +23,7 @@
         {
             <div class="storeItem">
                 <div class="storeItemInner">
-                    <a href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                         <div class="storeItemPhoto center">
                             @if (item.PhotoUrl != null)
                             { 
@@ -33,10 +33,10 @@
                         </div>
                     </a>                   
                     <div class="storeItemTitle">
-                        <a href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
                     </div>
                     <div class="storeItemN">
-                        <a href="@Url.Content("~/roller-derby-shop/" + item.ShopMerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.ShopName))">@item.ShopNameTrimmed
+                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.ShopMerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.ShopName))">@item.ShopNameTrimmed
                         </a>
                     </div>
                     <div class="storeItemPrice">

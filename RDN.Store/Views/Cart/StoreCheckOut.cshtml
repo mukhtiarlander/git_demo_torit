@@ -25,7 +25,7 @@
     <br />
     <fieldset>
         <div class="coOrder">
-            <div class="cartShopName">Order For <a href="@Url.Content("~/roller-derby-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MerchantName))">@Model.MerchantName</a></div>
+            <div class="cartShopName">Order For <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MerchantName))">@Model.MerchantName</a></div>
             <table class="coShoppingCartTable">
                 <thead>
                     <tr>
@@ -50,7 +50,7 @@
                         <td style="vertical-align: top;">
                             <div class="storeItemInfo">
                                 <div class="storeItemTitle">
-                                    <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-store/item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a>
+                                    <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-store/item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a>
                                 </div>
 
                                 @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)

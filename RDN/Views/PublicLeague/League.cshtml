@@ -75,7 +75,7 @@
                     <div class="col-sm-4 col-md-3">
                         <div class="thumbnail">
                          
-                            <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
+                            <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
                                 @if (Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
                                 {
                                     <img style="max-height:200px" alt="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
@@ -91,7 +91,7 @@
                             </a>
                             <div class="caption">
                                 <h4>
-                                    <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
+                                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
                                         @Model.LeagueMembers[i].PlayerNumber - @Model.LeagueMembers[i].DerbyName
                                     </a>
                                 </h4>

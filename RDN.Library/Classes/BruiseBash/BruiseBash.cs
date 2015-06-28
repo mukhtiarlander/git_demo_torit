@@ -6,6 +6,7 @@ using System.IO;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.BruiseBash;
 using RDN.Library.Classes.Error;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.BruiseBash
 {
@@ -107,8 +108,8 @@ namespace RDN.Library.Classes.BruiseBash
                 string fileName = "roller_derby_bruise_" + timeOfSave.ToFileTimeUtc() + info.Extension;
 
 
-                string url = "http://images.rdnation.com/bruise/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = @"C:\WebSites\images.rdnation.com\bruise\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = LibraryConfig.ImagesBaseUrl + "/bruise/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\bruise\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);

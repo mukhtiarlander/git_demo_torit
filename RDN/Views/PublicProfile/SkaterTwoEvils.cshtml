@@ -21,7 +21,7 @@
             @if (Model.Team != null)
             { 
                 <div class="vmContactLine">
-                    <span class="vmTeamName"><a href="@Url.Content("~/roller-derby-league/" + Model.Team1ScoreTotal + "/" + Model.TeamName.Replace(" ", "-") + "/" + Model.Team.ToString().Replace("-", ""))">
+                    <span class="vmTeamName"><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + Model.Team1ScoreTotal + "/" + Model.TeamName.Replace(" ", "-") + "/" + Model.Team.ToString().Replace("-", ""))">
                         @Model.TeamName
                     </a></span>
                 </div>

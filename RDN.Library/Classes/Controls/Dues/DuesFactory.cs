@@ -266,11 +266,11 @@ namespace RDN.Library.Classes.Dues
                                 if (!String.IsNullOrEmpty(dues.EmailResponse))
                                 {
                                     emailData.Add("blanktext", dues.EmailResponse);
-                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                                 }
                                 else
                                 {
-                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                                 }
                             }
                         }
@@ -324,11 +324,11 @@ namespace RDN.Library.Classes.Dues
                         if (!String.IsNullOrEmpty(item.EmailResponse))
                         {
                             emailData.Add("blanktext", item.EmailResponse);
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                         }
                         else
                         {
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Dues Payment Requested", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                         }
 
                     }
@@ -345,7 +345,7 @@ namespace RDN.Library.Classes.Dues
         {
             string paymentOnlineText = @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName + " allows members to pay their dues online to their league.  This feature isn't currently enabled for your league, but your managers can enable this feature through the <b>dues management portal settings</b>.";
             if (acceptPaymetsOnline)
-                paymentOnlineText = "You can <a href='" + LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
+                paymentOnlineText = "You can <a href='" + LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at " + LibraryConfig.WebsiteShortName+ "!</a>";
             return paymentOnlineText;
         }
 
@@ -386,11 +386,11 @@ namespace RDN.Library.Classes.Dues
                         if (!String.IsNullOrEmpty(dues.DuesEmailText))
                         {
                             emailData.Add("blanktext", dues.DuesEmailText);
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotificationBlank);
                         }
                         else
                         {
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Dues Payments Withstanding", emailData, EmailServer.EmailServerLayoutsEnum.DuesCollectingNotification);
                         }
                         return true;
                     }

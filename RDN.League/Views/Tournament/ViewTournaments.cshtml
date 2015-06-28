@@ -59,7 +59,7 @@
                             </a>
                         </td>
                         <td>
-                            <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-tournament/" + Model[i].Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model[i].Name))">
+                            <a target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-tournament/" + Model[i].Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model[i].Name))">
                                 @Model[i].Name
                             </a>
                         </td>

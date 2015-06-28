@@ -21,7 +21,7 @@ function searchStoreItems(searchbox) {
             var html = "";
             $.each(result, function (i, item) {
                 html += '<div class="storeItem"><div class="storeItemInner">';
-                html += '<a href="/roller-derby-item/';
+                html += '<a href="/'+SportNameForUrl+'-item/';
                 html += item.Name;
                 html += '/'
                 html += item.StoreItemId;
@@ -35,14 +35,14 @@ function searchStoreItems(searchbox) {
                 }
                 html += '</div></a>';
                 html += '<div class="storeItemTitle">';
-                html += '<a href="/roller-derby-item/';
+                html += '<a href="/' + SportNameForUrl + '-item/';
                 html += item.Name;
                 html += '/'
                 html += item.StoreItemId;
                 html += '">';
                 html += item.NameTrimmed;
                 html += '</a></div><div class="storeItemN">';
-                html += '<a href="/roller-derby-shop/';
+                html += '<a href="/' + SportNameForUrl + '-shop/';
                 html += item.ShopMerchantId;
                 html += '/'
                 html += item.ShopName;

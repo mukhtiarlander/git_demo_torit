@@ -1280,7 +1280,7 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
 
 
 
-                SiteSingleton.Instance.SiteType = Library.Classes.Config.LibraryConfig.SiteType;
+                
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
 

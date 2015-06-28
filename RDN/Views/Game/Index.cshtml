@@ -166,7 +166,7 @@ else if (!Model.Paywall.IsPaid && Model.Game.PaywallId > 0 && Model.Paywall.EndD
         <small class="gText" data-bind="text: hasGameEnded"></small>
         @if (Model.Game.TournamentId != new Guid())
         {<br />
-            <span>apart of the</span> <a href="@Url.Content("~/roller-derby-tournament/" + Model.Game.TournamentId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Game.TournamentName))">
+            <span>apart of the</span> <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-tournament/" + Model.Game.TournamentId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Game.TournamentName))">
                 The @Model.Game.TournamentName Tournament
             </a>
         }
@@ -567,7 +567,7 @@ else if (!Model.Paywall.IsPaid && Model.Game.PaywallId > 0 && Model.Paywall.EndD
         @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
         {
             <div class="text-center">
-                <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard" class="btn btn-primary">
+                <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" class="btn btn-primary">
                     Download Thor's Hammer Roller
                     Derby Scoreboard
                 </a>

@@ -26,7 +26,7 @@ namespace RDN.Utilities.Error
         #region Get Error object
 
         /// <summary>
-        /// Summarizes an exception into an object that can be sent to the error management system of rdnation
+        /// Summarizes an exception into an object that can be sent to the error management system of 
         /// </summary>
         /// <param name="e">The exception</param>
         /// <param name="type">The type information from the class where this occured. Can be obtained by using this.GetType() or just GetType()</param>
@@ -45,7 +45,7 @@ namespace RDN.Utilities.Error
         #region Get Error object in a stream
 
         /// <summary>
-        /// Summarizes an exception into an object that can be sent to the error management system of rdnation
+        /// Summarizes an exception into an object that can be sent to the error management system of 
         /// </summary>
         /// <param name="e">The exception</param>
         /// <param name="type">The type information from the class where this occured. Can be obtained by using this.GetType() or just GetType()</param>
@@ -84,7 +84,7 @@ namespace RDN.Utilities.Error
         #region Save error object to disk
 
         /// <summary>
-        /// Summarizes an exception into an object that can be sent to the error management system of rdnation
+        /// Summarizes an exception into an object that can be sent to the error management system of 
         /// </summary>
         /// <param name="e">The exception</param>
         /// <param name="type">The type information from the class where this occured. Can be obtained by using this.GetType() or just GetType()</param>

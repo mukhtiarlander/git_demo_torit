@@ -32,7 +32,7 @@ namespace Scoreboard.Library.Network
             WebClient client = new WebClient();
             try
             {
-                var st = client.DownloadString("https://api.rdnation.com/Scoreboard/isonline");
+                var st = client.DownloadString( "https://api.rdnation.com/Scoreboard/isonline");
                 if (st.Contains("true"))
                     return true;
                 else

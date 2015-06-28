@@ -1,4 +1,5 @@
-﻿using RDN.Library.Classes.Federation.Enums;
+﻿using RDN.Library.Classes.Config;
+using RDN.Library.Classes.Federation.Enums;
 using RDN.Portable.Classes.Federation.Enums;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace RDN.Library.Classes.Imports.Rinxter
         public RinxterImportFactory Initialize(FederationsEnum organization)
         {
             StartedTime = DateTime.UtcNow;
-            string ImageFolder = @"C:\WebSites\images.rdnation.com\rx\" + StartedTime.Year + @"\" + StartedTime.Month + @"\" + StartedTime.Day + @"\";
+            string ImageFolder = LibraryConfig.ImagesBaseSaveLocation+ @"\rx\" + StartedTime.Year + @"\" + StartedTime.Month + @"\" + StartedTime.Day + @"\";
             if (!Directory.Exists(ImageFolder))
                 Directory.CreateDirectory(ImageFolder);
             federationUrl = organization;

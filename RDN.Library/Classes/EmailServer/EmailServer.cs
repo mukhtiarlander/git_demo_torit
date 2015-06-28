@@ -6,6 +6,7 @@ using RDN.Library.DataModels.EmailServer.Enums;
 using RDN.Library.Classes.Error;
 using System;
 using Common.EmailServer.Library.Classes.Email;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.EmailServer
 {
@@ -28,7 +29,7 @@ namespace RDN.Library.Classes.EmailServer
         AutomatedStats = 14,
         LeagueCreatedMemberProfile = 15,
         MemberAddedToManageDerbyGame = 16,
-        //for the RDNation notification
+        //for the Site notification
         DuesCollectingNotification = 17,
         //for the nortification managers want to write out.
         DuesCollectingNotificationBlank = 18,
@@ -37,7 +38,7 @@ namespace RDN.Library.Classes.EmailServer
         SendMessageToUserFromOtherUser = 20,
         //sends the messages to the user from users in the past few hours.
         SendLatestConversationsThreadToUser = 21,
-        //receipt for a league that subscribes to RDNation.
+        //receipt for a league that subscribes to Site.
         ReceiptForLeagueSubscription = 22,
         SubscriptionIsAboutToRunOutTask = 23,
         SubscriptionHasExpiredTask = 24,
@@ -122,8 +123,6 @@ namespace RDN.Library.Classes.EmailServer
     }
     public static class EmailServer
     {
-        public static readonly string DEFAULT_SUBJECT = "[RDNation]";
-        public static readonly string DEFAULT_SUBJECT_ROLLIN_NEWS = "[RollinNews]";
         public static bool ChangeEmailFromThenTo(string oldEmail, string newEmail)
         {
             var dc = new ManagementContext();
@@ -225,6 +224,13 @@ namespace RDN.Library.Classes.EmailServer
         {
             try
             {
+                properties.Add("publicWebsite", LibraryConfig.PublicSite);
+                properties.Add("websiteLogo", LibraryConfig.LogoUrl);
+                properties.Add("CompanyAddress", LibraryConfig.CompanyAddress);
+                properties.Add("WebsiteShortName", LibraryConfig.WebsiteShortName);
+                properties.Add("DefaultInfoEmail", LibraryConfig.DefaultInfoEmail);
+                properties.Add("EmailSignature", LibraryConfig.EmailSignature);
+
                 EmailServerManager email = new EmailServerManager(databaseConnectionName);
                 return email.SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
             }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace RDN.Library.Classes.Api.Email
 {
     /// <summary>
-    /// this is the library we use to send an email to the API of RDNation.
+    /// this is the library we use to send an email to the API of .
     /// </summary>
     public class EmailManagerApi
     {

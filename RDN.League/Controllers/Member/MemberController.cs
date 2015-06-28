@@ -23,6 +23,7 @@ using RDN.Portable.Classes.Account.Enums;
 using RDN.Portable.Classes.Account.Enums.Settings;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Communications.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -636,7 +637,7 @@ namespace RDN.League.Controllers
                     ViewBag.Updated = changed;
                     if (changed != true)
                     {
-                        ViewBag.Message = "Something is wrong with your passwords, please try again. If it continues, feel free to contact info@rdnation.com";
+                        ViewBag.Message = "Something is wrong with your passwords, please try again. If it continues, feel free to contact " + LibraryConfig.DefaultInfoEmail;
                     }
                 }
                 else

@@ -1284,7 +1284,7 @@ namespace RDN.Library.Classes.Calendar
                         var user = System.Web.Security.Membership.GetUser((object)toUserId);
                         if (user != null)
                         {
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
                         }
                     }
                     else if (calEventReoccur != null)
@@ -1320,7 +1320,7 @@ namespace RDN.Library.Classes.Calendar
                             var user = System.Web.Security.Membership.GetUser((object)toUserId);
                             if (user != null)
                             {
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " New Event Created", emailData, EmailServer.EmailServerLayoutsEnum.CalendarSendNewEvent);
                             }
                         }
                         catch (Exception exception)
