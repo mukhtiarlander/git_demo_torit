@@ -24,14 +24,34 @@ namespace RDN.League.Controllers
     {
 
         [Authorize]
-        public ActionResult EditLocation(Guid locationid)
+        public ActionResult EditLocation(Guid id)
         {
             try
             {
-                var location = RDN.Library.Classes.Location.LocationFactory.GetLocation(locationid);
+                var location = RDN.Library.Classes.Location.LocationFactory.GetLocation(id);
                 if (location == null)
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
-                return View(location);
+
+                RDN.League.Models.Location.NewLocation loc = new Models.Location.NewLocation();
+                loc.LocationId = location.LocationId;
+                loc.LocationName = location.LocationName;
+
+                var add = location.Contact.Addresses.FirstOrDefault();
+                if (add != null)
+                {
+                    loc.Address1 = add.Address1;
+                    loc.Address2 = add.Address2;
+                    loc.CityRaw = add.CityRaw;
+                    loc.StateRaw = add.StateRaw;
+                    loc.Zip = add.Zip;
+                    loc.Country = add.CountryId;
+                }
+                loc.Website = location.Website;
+
+                var countries = RDN.Library.Classes.Location.LocationFactory.GetCountries();
+                loc.Countries = new SelectList(countries, "CountryId", "Name");
+
+                return View(loc);
             }
             catch (Exception exception)
             {
@@ -39,6 +59,27 @@ namespace RDN.League.Controllers
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
         }
+
+        [HttpPost]
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true)]
+        public ActionResult EditLocation(Models.Location.NewLocation location)
+        {
+            try
+            {
+                var id = RDN.Library.Classes.Location.LocationFactory.UpdateLocation(location.LocationId, location.LocationName, location.Address1, location.Address2, location.CityRaw, location.Country, location.StateRaw, location.Zip, location.Website, location.OwnerId);
+                var countries = RDN.Library.Classes.Location.LocationFactory.GetCountries();
+                location.Countries = new SelectList(countries, "CountryId", "Name");
+                return Redirect(Url.Content("~/location/all?u=" + SiteMessagesEnum.su));
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect("~/?u=" + SiteMessagesEnum.sww);
+        }
+
+
         //[HttpPost]
         //[Authorize]
         //public ActionResult EditPaywall(Paywall pw)
@@ -106,6 +147,23 @@ namespace RDN.League.Controllers
 
             try
             {
+                NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(Request.Url.Query);
+                string u = nameValueCollection["u"];
+                if (u == SiteMessagesEnum.s.ToString())
+                {
+                    SiteMessage message = new SiteMessage();
+                    message.MessageType = SiteMessageType.Success;
+                    message.Message = "Successfully Added New Location.";
+                    this.AddMessage(message);
+                }
+                else if (u == SiteMessagesEnum.su.ToString())
+                {
+                    SiteMessage message = new SiteMessage();
+                    message.MessageType = SiteMessageType.Success;
+                    message.Message = "Successfully Edited Location.";
+                    this.AddMessage(message);
+                }
+
                 var id = MemberCache.GetCalendarIdForMemberLeague(RDN.Library.Classes.Account.User.GetMemberId());
                 var locations = RDN.Library.Classes.Calendar.CalendarFactory.GetLocationsOnlyOfCalendar(id);
                 return View(locations);
@@ -185,5 +243,9 @@ namespace RDN.League.Controllers
             return View(location);
         }
 
+     
     }
+
+
+
 }

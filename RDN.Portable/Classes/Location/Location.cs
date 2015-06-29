@@ -20,6 +20,9 @@ namespace RDN.Portable.Classes.Location
         [ProtoMember(3)]
         [DataMember]
         public ContactCard.ContactCard Contact { get; set; }
+        [ProtoMember(2)]
+        [DataMember]
+        public string Website { get; set; }
         public Location()
         {
             Contact = new ContactCard.ContactCard();

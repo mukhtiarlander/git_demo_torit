@@ -43,5 +43,8 @@ namespace RDN.Portable.Classes.ContactCard
         [ProtoMember(10)]
         [DataMember]
         public GeoCoordinate Coords { get; set; }
+        [ProtoMember(11)]
+        [DataMember]
+        public int CountryId { get; set; }
     }
 }
