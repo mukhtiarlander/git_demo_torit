@@ -31,7 +31,6 @@ namespace RDN.Library.Classes.Payment.Classes.Invoice
         public string AdminNote { get; set; }
         // Public note, visible to the user
         public string Note { get; set; }
-        public string DatabaseConnectionStringName { get; set; }
         public bool IsLive { get; set; }
         /// <summary>
         /// if the user is logged in when buying the item, this is their id.

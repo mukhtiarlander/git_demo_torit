@@ -9,6 +9,8 @@ using RDN.Library.Classes.Account.Enums;
 using RDN.Library.Classes.Error;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Controllers
 {
@@ -34,7 +36,7 @@ namespace RDN.Controllers
 
                     //modify the Domain attribute of the cookie to the second level domain
                     System.Web.HttpCookie MyCookie = System.Web.Security.FormsAuthentication.GetAuthCookie(model.Email, false);
-                    MyCookie.Domain = "rdnation.com";//the second level domain name
+                    MyCookie.Domain = LibraryConfig.MainDomain;//the second level domain name
                     Response.AppendCookie(MyCookie);
 
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -48,7 +50,7 @@ namespace RDN.Controllers
                     else
                         Session["UserId"] = (Guid)member.ProviderUserKey;
 
-                    return Redirect(ServerConfig.WEBSITE_DEFAULT_LOGIN_LOCATION);
+                    return Redirect(LibraryConfig.PublicSite + UrlManager.WEBSITE_DEFAULT_LOGIN_LOCATION);
                 }
 
                 ModelState.AddModelError("", "The user name or password provided is incorrect.");
@@ -97,7 +99,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, GetType());
             }
-            return Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+            return Redirect(LibraryConfig.PublicSite);
         }
 
 

@@ -8,7 +8,7 @@ using System.Text;
 namespace RDN.Portable.Classes.Team
 {
     /// <summary>
-    /// used to deserialize logos captured from RDNation.com
+    /// used to deserialize logos captured from 
     /// </summary>
     [ProtoContract]
     [DataContract]

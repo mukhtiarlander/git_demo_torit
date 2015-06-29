@@ -24,6 +24,7 @@ using RDN.Library.Classes.Colors;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Store.Enums;
 using RDN.Portable.Classes.Payment.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -161,7 +162,7 @@ namespace RDN.League.Controllers
                 ViewBag.IsSuccessful = false;
                 var sg = new StoreGateway();
                 var realStore = sg.GetStoreSettings(storeId, privId);
-                string stripe = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + ServerConfig.STRIPE_CONNECT_LIVE_KEY + "&scope=read_write&state=" + StripeStateReturnCodeEnum.store + "-" + privId.ToString().Replace("-", "");
+                string stripe = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + LibraryConfig.StripeConnectKey+ "&scope=read_write&state=" + StripeStateReturnCodeEnum.store + "-" + privId.ToString().Replace("-", "");
                 
 
 

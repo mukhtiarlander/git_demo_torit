@@ -73,7 +73,7 @@
 
                         <td>
                             <span class="vmTeamName">
-                                <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
+                                <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite  + RDN.Portable.Classes.Url.UrlManager.PublicSite_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
                                     @b.LeagueName
                                 </a>
                             </span>

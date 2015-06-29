@@ -196,13 +196,14 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="priority"></param>
-        public static void SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important)
+        public static void SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important, string databaseConnectionName = null)
         {
             try
             {
                 Dictionary<string, string> properties = new Dictionary<string, string>();
                 properties.Add("body", body);
-                EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+                EmailServerManager email = new EmailServerManager(databaseConnectionName);
+                email.SaveEmailToSend(from, displayNameFrom, to, subject, properties, "Default", priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
             }
             catch (Exception exception)
@@ -220,14 +221,12 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="properties">Email properties. Each property is defined as a key/value item. A property can for instance be body/{value] and then that will be parsed into the layout at the place of the %body% tag</param>
         /// <param name="layout">The layout name. For available names, open the database and look inside the table RDN_EmailServer_EmailLayouts</param>
         /// <param name="priority"></param>
-        public static bool SendEmail(string from, string displayNameFrom, string to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important)
+        public static bool SendEmail(string from, string displayNameFrom, string to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important, string databaseConnectionName = null)
         {
-
             try
             {
-
-             return    EmailServerFactory.CreateNew().SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
-
+                EmailServerManager email = new EmailServerManager(databaseConnectionName);
+                return email.SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
             }
             catch (Exception exception)
             {

@@ -7,6 +7,7 @@ using RDN.Library.Cache;
 using RDN.Library.Classes.Federation.Enums;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Models.Filters
 {
@@ -33,7 +34,7 @@ namespace RDN.League.Models.Filters
 
                 if (!isOwner)
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite);
                     return;
                 }
             }
@@ -43,7 +44,7 @@ namespace RDN.League.Models.Filters
 
                 if (!isOwner)
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite);
                     return;
                 }
             }

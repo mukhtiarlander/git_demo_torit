@@ -170,7 +170,7 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public List<PhotoItem> Photos { get; set; }
         /// <summary>
-        /// is connected to RDNation with a user profile
+        /// is connected to with a user profile
         /// </summary>
         [ProtoMember(136)]
         [DataMember]

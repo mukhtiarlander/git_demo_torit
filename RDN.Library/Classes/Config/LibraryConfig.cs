@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using RDN.Library.Classes.Site.Enums;
 
 namespace RDN.Library.Classes.Config
 {
@@ -37,6 +38,29 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["FacebookPageId2"];
+            }
+        }
+        public static string FacebookUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FacebookUrl"];
+            }
+        }
+
+        public static string BlogSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BlogSite"];
+            }
+        }
+
+        public static string MainDomain
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MainDomain"];
             }
         }
 
@@ -94,11 +118,27 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string SiteType
+        public static string ApiSite
         {
             get
             {
-                return ConfigurationManager.AppSettings["SiteType"];
+                return ConfigurationManager.AppSettings["ApiSite"];
+            }
+        }
+
+        public static string AdminSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AdminSite"];
+            }
+        }
+
+        public static SiteType SiteType
+        {
+            get
+            {
+                return (SiteType) Enum.Parse(typeof(SiteType), ConfigurationManager.AppSettings["SiteType"]);
             }
         }
 
@@ -107,6 +147,13 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["StripeApiPublicKey"];
+            }
+        }
+        public static string StripeConnectKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["StripeConnectKey"];
             }
         }
 
@@ -230,11 +277,11 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string ShopUrl
+        public static string ShopSite
         {
             get
             {
-                return ConfigurationManager.AppSettings["ShopUrl"];
+                return ConfigurationManager.AppSettings["ShopSite"];
             }
         }
 
@@ -246,13 +293,15 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string BaseSiteUrl
+
+        public static string LogoUrl
         {
             get
             {
-                return ConfigurationManager.AppSettings["BaseSiteUrl"];
+                return ConfigurationManager.AppSettings["LogoUrl"];
             }
         }
+
 
         public static string SiteEmail
         {
@@ -277,7 +326,7 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["StripeApiKey"];
             }
         }
-        
+
         public static string NameOfMember
         {
             get
@@ -310,7 +359,7 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string DefaultAdminEmailAdmin
+        public static string DefaultAdminEmail
         {
             get
             {
@@ -341,7 +390,7 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["DefaultEmailFromName"];
             }
         }
-        
+
         public static string DefaultEmailMessage
         {
             get
@@ -387,13 +436,13 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["WebsiteTitleDefaultStore"];
             }
         }
-        public static string LogoURL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LogoURL"];
-            }
-        }
+        //public static string LogoURL
+        //{
+        //    get
+        //    {
+        //        return ConfigurationManager.AppSettings["LogoURL"];
+        //    }
+        //}
 
         public static string PaypalIPNHandler
         {
@@ -411,6 +460,105 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static Guid DEFAULT_SCOTTS_USER_ID
+        {
+            get
+            {
+                return new Guid(ConfigurationManager.AppSettings["DEFAULT_SCOTTS_USER_ID"]);
+            }
+        }
+        public static Guid DEFAULT_JAMIES_USER_ID
+        {
+            get
+            {
+                return new Guid(ConfigurationManager.AppSettings["DEFAULT_JAMIES_USER_ID"]);
+            }
+        }
+        public static Guid DEFAULT_ADMIN_USER_ID
+        {
+            get
+            {
+                return new Guid(ConfigurationManager.AppSettings["DEFAULT_ADMIN_USER_ID"]);
+            }
+        }
+        public static string DEFAULT_RDN_FORUM_ID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static Guid STORE_ID
+        {
+            get
+            {
+                return new Guid(ConfigurationManager.AppSettings["RDNATION_STORE_ID"]);
+            }
+        }
         
+        public static string CSS_VERSION
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CSS_VERSION"];
+            }
+        }
+        
+        
+        
+        public static string JS_VERSION
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["JS_VERSION"];
+            }
+        }
+        
+        public static string WikiSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WikiSite"];
+            }
+        }
+        
+        
+        
+        /// <summary>
+        /// website data folder
+        /// </summary>
+        public static string DataFolder
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DataFolder"];
+            }
+        }
+        public static string ImageFolder
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ImageFolder"];
+            }
+        }
+       
+
+
+
     }
 }

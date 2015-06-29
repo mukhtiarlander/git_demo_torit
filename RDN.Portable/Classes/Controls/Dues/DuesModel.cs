@@ -94,6 +94,14 @@ namespace RDN.Portable.Classes.Controls.Dues
         [DataMember]
         public List<CurrencyExchange> Currencies { get; set; }
 
+        [ProtoMember(26)]
+        [DataMember]
+        public long NextDueItem { get; set; }
+
+        [ProtoMember(27)]
+        [DataMember]
+        public long PreviousDueItem { get; set; }
+
 
         public DuesPortableModel()
         {

@@ -90,7 +90,6 @@ namespace RDN.Portable.Config
         public static readonly string LEAGUE_DUES_DELETE_ITEM_URL = APIURL + "/dues/deleteduesitem";
         public static readonly string LEAGUE_DUES_FOR_MEMBER_URL = APIURL + "/dues/duesformember";
         public static readonly string LEAGUE_DUES_GET_SETTINGS_URL = APIURL + "/dues/duessettings";
-        public static readonly string LEAGUE_DUES_RECEIPT_URL = APIURL + "/dues/duesreceipt";
         public static readonly string LEAGUE_DUES_GENERATE_NEW_URL = APIURL + "/dues/generatenewduesitem";
         public static readonly string LEAGUE_DUES_PAY_DUES_PERSONALLY_URL = APIURL + "/dues/payduesonlinepaypal";
         public static readonly string LEAGUE_DUES_EDIT_MEMBER_DUES_URL = APIURL + "/dues/editmemberduesitem";

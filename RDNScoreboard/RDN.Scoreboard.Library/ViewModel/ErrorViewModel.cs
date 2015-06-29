@@ -52,7 +52,7 @@ namespace Scoreboard.Library.ViewModel
                                                 try
                                                 {
                                                     System.Net.HttpStatusCode response;
-                                                    response = RDN.Utilities.Network.Network.SendPackage(stream, ServerConfig.ERROR_SUBMIT_URL);
+                                                    response = RDN.Utilities.Network.Network.SendPackage(stream, ScoreboardConfig.ERROR_SUBMIT_URL);
 
                                                     if (response == HttpStatusCode.OK)
                                                     {
@@ -66,7 +66,7 @@ namespace Scoreboard.Library.ViewModel
                                                 }
                                             }
                                         }
-                                        catch 
+                                        catch
                                         {
 
                                         }

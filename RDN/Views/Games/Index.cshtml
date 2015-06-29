@@ -85,10 +85,10 @@
 
 <div class="text-center">
 
-    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == "RollerDerby")
+    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
     {
         <div>
-            <a href="http://rdnation.com/roller-derby-scoreboard" class="btn btn-primary">
+            <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard" class="btn btn-primary">
                 Download Thor's Hammer Roller
                 Derby Scoreboard
             </a>

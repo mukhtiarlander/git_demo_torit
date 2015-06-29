@@ -113,8 +113,8 @@ namespace BlogEngine.Core.Data
                 }
                 catch (Exception exception)
                 {
-                    if (!String.IsNullOrEmpty(exception.Message) && !exception.Message.Contains("(404) Not Found") && !exception.Message.Contains("The operation has timed out") && !exception.Message.Contains(@"c:\windows\system32\inetsrv\NA") && !exception.Message.Contains("Unable to connect to the remote serve") && !exception.Message.Contains("remote name could not be resolved"))
-                        ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: feeds[i].RSSUrl);
+                    //if (!String.IsNullOrEmpty(exception.Message) && !exception.Message.Contains("(403) Forbidden") && !exception.Message.Contains("(404) Not Found") && !exception.Message.Contains("The operation has timed out") && !exception.Message.Contains(@"c:\windows\system32\inetsrv\NA") && !exception.Message.Contains("Unable to connect to the remote serve") && !exception.Message.Contains("remote name could not be resolved"))
+                    //    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: feeds[i].RSSUrl);
                 }
                 fact.FinishFeedPolling(feeds[i].FeedId, postCount);
             }

@@ -327,8 +327,8 @@ namespace RDN.Library.DataModels.Context
             {
                 if (System.Web.HttpContext.Current.Items["ManagementContext"] == null)
                 {
-                    if (System.Web.HttpContext.Current.Items["DatabaseConnectionName"] != null)
-                        System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext(System.Web.HttpContext.Current.Items["DatabaseConnectionName"].ToString());
+                    if (System.Web.HttpContext.Current.Items["ManagementDatabaseConnectionName"] != null)
+                        System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext(System.Web.HttpContext.Current.Items["ManagementDatabaseConnectionName"].ToString());
                     else
                         System.Web.HttpContext.Current.Items["ManagementContext"] = new ManagementContext();
                 }

@@ -48,7 +48,7 @@
                             <a class="btn btn-warning btn-xs" href="@Url.Content("~/game/manage/" + Model.Model.Items[i].PrivateKeyForGame.ToString().Replace("-", "") + "/" + Model.Model.Items[i].GameId.ToString().Replace("-", ""))"><i class="fa fa-cog"></i> Manage</a>
                         </td>
                         <td>
-                            <a href="@Url.Content(@RDN.Portable.Config.ServerConfig.GAME_URL_FOR_RDNATION + Model.Model.Items[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].Team2Name))">
+                            <a href="@Url.Content(@RDN.Library.Classes.Config.LibraryConfig.PublicSite + RDN.Portable.Classes.Url.UrlManager.GAME_URL_FOR_RDNATION + Model.Model.Items[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].Team2Name))">
                                 @Model.Model.Items[i].GameName
                             </a>
                         </td>

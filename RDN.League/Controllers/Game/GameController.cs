@@ -33,6 +33,8 @@ using RDN.Library.Classes.Payment.Paywall;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Federation;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.League.Controllers
 {
@@ -77,10 +79,10 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_OLD_GAMES_FOLDER);
+                    DirectoryInfo dir = new DirectoryInfo(LibraryConfig.DataFolder + ServerManager.SAVE_OLD_GAMES_FOLDER);
                     if (!dir.Exists)
                         dir.Create();
-                    string finalFile = Path.Combine(ServerConfig.SAVE_OLD_GAMES_FOLDER, "CompletedGame" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
+                    string finalFile = Path.Combine(LibraryConfig.DataFolder + ServerManager.SAVE_OLD_GAMES_FOLDER, "CompletedGame" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".xml");
                     file.SaveAs(finalFile);
                     var game = GameViewModel.deserializeGame(finalFile);
                     if (game != null)
@@ -106,8 +108,8 @@ namespace RDN.League.Controllers
                 catch (Exception e)
                 {
                     Library.Classes.Error.ErrorDatabaseManager.AddException(e, e.GetType(), ErrorGroupEnum.Database);
-                    string filePath = Path.Combine(ServerConfig.SAVE_OLD_GAMES_FOLDER, Path.GetFileName(file.FileName));
-                    DirectoryInfo dir = new DirectoryInfo(ServerConfig.SAVE_OLD_GAMES_FOLDER);
+                    string filePath = Path.Combine(LibraryConfig.DataFolder + ServerManager.SAVE_OLD_GAMES_FOLDER, Path.GetFileName(file.FileName));
+                    DirectoryInfo dir = new DirectoryInfo(LibraryConfig.DataFolder + ServerManager.SAVE_OLD_GAMES_FOLDER);
                     if (!dir.Exists)
                         dir.Create();
                     file.SaveAs(filePath);
@@ -325,14 +327,14 @@ namespace RDN.League.Controllers
                 {
                     //clears the live game once we complete the update.
                     WebClient client = new WebClient();
-                    client.DownloadString(ServerConfig.URL_TO_CLEAR_LIVE_GAME_CACHE + game.GameId.ToString());
+                    client.DownloadString(LibraryConfig.ApiSite + UrlManager.URL_TO_CLEAR_LIVE_GAME_CACHE + game.GameId.ToString());
                 }
                 catch { }
                 try
                 {
                     //clears the live game once we complete the update.
                     WebClient client = new WebClient();
-                    client.DownloadString(ServerConfig.WEBSITE_CLEAR_TOURNAMENT_CACHE_API);
+                    client.DownloadString(LibraryConfig.ApiSite + UrlManager.WEBSITE_CLEAR_TOURNAMENT_CACHE_API);
                 }
                 catch { }
                 return Redirect(Url.Content("~/game/manage/" + game.PrivateKeyForGame.ToString().Replace("-", "") + "/" + game.GameId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.s));
@@ -382,7 +384,7 @@ namespace RDN.League.Controllers
                     var output = FillGamesModelForLeague(model, league.LeagueId);
                     return View(output);
                 }
-                else if (type == GameAddedByEnum.skater.ToString())
+                else if (type == GameAddedByEnum.member.ToString())
                 {
                     var memberId = RDN.Library.Classes.Account.User.GetMemberId();
                     var member = MemberCache.GetMemberDisplay(memberId);
@@ -595,7 +597,7 @@ namespace RDN.League.Controllers
                     oldLink.LinkType = (GameLinkTypeEnum)Enum.ToObject(typeof(GameLinkTypeEnum), Convert.ToInt32(linkId));
                 }
                 GameLinkViewModel gameLink = new GameLinkViewModel();
-                gameLink.GameLink = ServerConfig.WEBSITE_DEFAULT_LOCATION;
+                gameLink.GameLink = LibraryConfig.PublicSite;
                 gameLink.LinkId = Guid.NewGuid();
 
                 game.GameLinks.Add(gameLink);

@@ -144,7 +144,7 @@ namespace RDN.League.Controllers
                 }
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
@@ -206,9 +206,9 @@ namespace RDN.League.Controllers
             add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
             add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
             //#if DEBUG
-            //                add.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_DEBUG_KEY + "');";
+            //                add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_DEBUG_KEY + "');";
             //#else
-            add.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+            add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
             //#endif
             return View(add);
         }
@@ -224,7 +224,7 @@ namespace RDN.League.Controllers
                 var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.LeagueId);
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(ServerConfig.RDNATION_STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
                    .SetInvoiceId(bi.InvoiceId)
                         .FinalizeInvoice();
 
@@ -287,11 +287,8 @@ namespace RDN.League.Controllers
 
             var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(new Guid(leagueId));
 
-            //#if DEBUG
-            //            bi.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_DEBUG_KEY + "');";
-            //#else
-            bi.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
-            //#endif
+            bi.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
+            
 
             return View(bi);
         }

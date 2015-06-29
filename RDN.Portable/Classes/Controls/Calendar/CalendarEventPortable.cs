@@ -87,7 +87,7 @@ namespace RDN.Portable.Classes.Controls.Calendar
         public string GoogleCalendarUrl { get; set; }
         [ProtoMember(25)]
         [DataMember]
-        public string RDNationLink { get; set; }
+        public string SiteUrl { get; set; }
         [ProtoMember(26)]
         [DataMember]
         public string ToGroupIds { get; set; }

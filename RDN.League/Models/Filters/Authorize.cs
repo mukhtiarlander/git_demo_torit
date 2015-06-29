@@ -7,6 +7,8 @@ using RDN.Utilities.Config;
 using RDN.Library.Cache;
 using RDN.Portable.Config;
 using RDN.Library.Util.Enum;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.League.Models.Filters
 {
@@ -28,7 +30,7 @@ namespace RDN.League.Models.Filters
         public bool HasPaidSubscription { get; set; }
         public bool IsGroupModerator { get; set; }
         public bool IsInventoryTracker { get; set; }
-        public bool IsSponsorship{ get; set; }
+        public bool IsSponsorship { get; set; }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -52,7 +54,7 @@ namespace RDN.League.Models.Filters
                 var isEmailVerified = IsEmailValidated(ref filterContext);
                 if (!isEmailVerified)
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_VERIFY_EMAIL_LOGGED_IN_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite + UrlManager.WEBSITE_VERIFY_EMAIL_LOGGED_IN_LOCATION);
                     return;
                 }
             }
@@ -61,7 +63,7 @@ namespace RDN.League.Models.Filters
             {
                 if (!MemberStatus.IsInLeague())
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite);
                     return;
                 }
             }
@@ -71,7 +73,7 @@ namespace RDN.League.Models.Filters
                 bool isPaid = MemberCache.CheckIsLeagueSubscriptionPaid(memberId);
                 if (!isPaid)
                 {
-                    filterContext.Result = new RedirectResult(ServerConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + MemberCache.GetLeagueIdOfMember(memberId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp);
+                    filterContext.Result = new RedirectResult(LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + MemberCache.GetLeagueIdOfMember(memberId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp);
                     return;
                 }
             }
@@ -130,7 +132,7 @@ namespace RDN.League.Models.Filters
             //so we check if any of these are true, and if they are, that means the above rules didn't return.
             if (IsHeadNSO || IsHeadRef || IsSecretary || IsTreasurer || IsManager || IsShopManager || IsMedical || IsInventoryTracker || IsAttendanceManager || IsPollManager || IsSponsorship)
             {
-                filterContext.Result = new RedirectResult(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.na.ToString());
+                filterContext.Result = new RedirectResult(LibraryConfig.InternalSite + "?u=" + SiteMessagesEnum.na.ToString());
                 return;
             }
 

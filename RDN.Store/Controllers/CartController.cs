@@ -259,12 +259,12 @@ namespace RDN.Store.Controllers
                 }
 
                 //#if DEBUG
-                //checkoutObject.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_DEBUG_KEY + "');";
+                //checkoutObject.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_DEBUG_KEY + "');";
                 //#else
                 if (!String.IsNullOrEmpty(checkout.StripePublishableKey))
                     checkoutObject.StripeKey = "Stripe.setPublishableKey('" + checkout.StripePublishableKey + "');";
                 else
-                    checkoutObject.StripeKey = "Stripe.setPublishableKey('" + ServerConfig.STRIPE_LIVE_KEY + "');";
+                    checkoutObject.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
                 //#endif
             }
             catch (Exception exception)

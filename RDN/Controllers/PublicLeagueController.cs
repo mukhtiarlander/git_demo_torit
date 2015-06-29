@@ -26,7 +26,7 @@ namespace RDN.Controllers
                 model.CurrentPage = 1;
             else
                 model.CurrentPage = page.Value;
-            model.NumberOfRecords = SiteCache.GetNumberOfLeaguesSignedUpToRDNation();
+            model.NumberOfRecords = SiteCache.GetNumberOfLeaguesSignedUp();
             model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
             model.PageSize = DEFAULT_PAGE_SIZE;
             var output = FillLeagueModel(model);

@@ -43,14 +43,14 @@
         })();
 
     </script>
-    <link rel="apple-touch-icon" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon-precomposed" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("~/Content/Rollerball_pink_s100.png")" />
+    <link rel="apple-touch-icon" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("~/Content/logo.png")" />
 </head>
 <body>
     <div id="fb-root">
@@ -76,7 +76,7 @@
         }
         <div class="hLogo">
             <a href="@Url.Content("~/")">
-                <img class="hLogoImg" src="@Url.Content("~/Content/Rollerball_pink_s100.png")" /></a>
+                <img class="hLogoImg" src="@Url.Content("~/Content/logo.png")" /></a>
         </div>
         @*<div>Guaranteed to make your fans and team happier.</div>*@
         <div class="hFBLike">
@@ -88,12 +88,12 @@
         
      
         <div class="sidebar">
-            <h2 class="newsTitle"><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION ">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></h2>
+            <h2 class="newsTitle"><a href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION ">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></h2>
             @foreach (var item in store.StoreItems)
             {
                 <div class="storeItem">
                     <div class="storeItemInner">
-                        <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                             <div class="storeItemPhoto center">
                                 @if (item.Photos.FirstOrDefault() != null)
                                 { 
@@ -103,10 +103,10 @@
                         </a>
 
                         <div class="storeItemTitle">
-                            <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
                         </div>
                         <div class="storeItemN">
-                            <a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
                         </div>
                         <div class="storeItemPrice">
                             @if (item.Currency == "USD") {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
@@ -119,7 +119,7 @@
                 </div>
             }
             <br />
-            <div class="clear center"><a href="@Url.Content(RDN.Portable.Config.ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/sell")">Sell Gear At @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></div>
+            <div class="clear center"><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/sell")">Sell Gear At @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></div>
         </div>
 
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))

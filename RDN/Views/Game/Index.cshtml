@@ -518,12 +518,12 @@ else if (!Model.Paywall.IsPaid && Model.Game.PaywallId > 0 && Model.Paywall.EndD
 
             <div role="tabpanel" class="tab-pane  well " id="photosTab">
                 <div class="gameJamsCon">
-                    
+
                     <div data-bind="foreach: pictures">
                         <div class="col-xs-4">
                             <img data-bind="attr: {src: url, alt: alt}" class="thumbnail-lg img-responsive img-rounded" />
-                            </div>
                         </div>
+                    </div>
                     <div class="clearfix">
                     </div>
                 </div>
@@ -564,10 +564,10 @@ else if (!Model.Paywall.IsPaid && Model.Game.PaywallId > 0 && Model.Paywall.EndD
 
         </div>
 
-        @if(RDN.Library.Classes.Config.LibraryConfig.SiteType == "RollerDerby")
+        @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
         {
             <div class="text-center">
-                <a href="http://rdnation.com/roller-derby-scoreboard" class="btn btn-primary">
+                <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard" class="btn btn-primary">
                     Download Thor's Hammer Roller
                     Derby Scoreboard
                 </a>

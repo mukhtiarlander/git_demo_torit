@@ -124,14 +124,13 @@ namespace RDN.League.Controllers
 
                 var token = FacebookData.GetLatestAccessToken();
 
-                //ConfigurationManager.AppSettings has been moved to LibraryConfig as RDN-18 request
                 FacebookFactory.Initialize(token).GetPageAuthorization(LibraryConfig.FacebookPageName2, LibraryConfig.FacebookPageId2)
-                       .PostToFanPage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId, "", "", "", "", "");
+                       .PostToFanPage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/bout-challenge/view/" + executeId, "", "", "", "", "");
                 try
                 {
 
                     TwitterFactory.Initialize(LibraryConfig.TwitterConsumerKey, LibraryConfig.TwitterConsumerSecret, LibraryConfig.TwitterToken, LibraryConfig.TwitterTokenSecret)
-                              .SendMessage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/bout-challenge/view/" + executeId);
+                              .SendMessage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/bout-challenge/view/" + executeId);
                 }
                 catch (Exception exception)
                 {

@@ -296,7 +296,7 @@ namespace RDN.Library.Classes.League.Classes
                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", member.DerbyName }, 
                         { "groupname", groupName}, 
-                        { "link", ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION} };
+                        { "link", LibraryConfig.InternalSite} };
 
                 //clear members cache for each member.
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To New Group", emailData, layout: EmailServerLayoutsEnum.UserAddedToLeagueGroup, priority: EmailPriority.Normal);

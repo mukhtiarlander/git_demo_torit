@@ -15,6 +15,7 @@ using RDN.Portable.Classes.Controls.Dues.Enums;
 using RDN.Portable.Classes.Controls.Dues;
 using RDN.Portable.Classes.Controls.Dues.Classify;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.Dues
 {
@@ -342,9 +343,9 @@ namespace RDN.Library.Classes.Dues
         }
         public static string GeneratePaymentOnlineText(bool acceptPaymetsOnline, Guid ownerId)
         {
-            string paymentOnlineText = @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName+" allows members to pay their dues online to their league.  This feature isn't currently enabled for your league, but your managers can enable this feature through the <b>dues management portal settings</b>.";
+            string paymentOnlineText = @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName + " allows members to pay their dues online to their league.  This feature isn't currently enabled for your league, but your managers can enable this feature through the <b>dues management portal settings</b>.";
             if (acceptPaymetsOnline)
-                paymentOnlineText = "You can <a href='" + ServerConfig.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
+                paymentOnlineText = "You can <a href='" + LibraryConfig.InternalSite + UrlManager.LEAGUE_DUES_MANAGEMENT_URL + ownerId.ToString().Replace("-", "") + "'>pay your dues online <b>NOW</b> at RDNation!</a>";
             return paymentOnlineText;
         }
 
@@ -560,7 +561,7 @@ namespace RDN.Library.Classes.Dues
                         col.IsPaidInFull = false;
                         col.WasClearedByUser = true;
                         //if (col.FeeCollected == 0.0)
-                            //dues.FeesCollected.Remove(col);
+                        //dues.FeesCollected.Remove(col);
                     }
                     if (feeCollected.Count == 0)
                     {
@@ -912,6 +913,8 @@ namespace RDN.Library.Classes.Dues
                     item.TotalWithstanding = 0.00;
                     item.TotalPaymentNeededFromMember = dues.CostOfFee;
 
+                     
+
                     foreach (var fee in dues.FeesRequired)
                     {
                         DuesRequired col = new DuesRequired();
@@ -926,9 +929,11 @@ namespace RDN.Library.Classes.Dues
 
                         item.DuesRequired.Add(col);
                     }
+
                     foreach (var fee in dues.FeesCollected)
                     {
-                        DuesCollected col = new DuesCollected();
+                        DuesCollected col = new DuesCollected();                       
+
                         col.DuesPaid = fee.FeeCollected;
                         item.TotalPaid += fee.FeeCollected;
                         col.DuesCollectedId = fee.FeeCollectionId;
@@ -945,7 +950,7 @@ namespace RDN.Library.Classes.Dues
                                 item.IsCurrentMemberPaidOrWaivedInFull = true;
                         }
 
-                        item.DuesCollected.Add(col);
+                        item.DuesCollected.Add(col);                                             
                     }
                     var members = dues.FeeManagedBy.LeagueOwner.Members.Where(x => x.IsInactiveForLeague == false && x.HasLeftLeague == false).OrderBy(x => x.Member.DerbyName).ToList();
                     foreach (var member in members)
@@ -1305,5 +1310,32 @@ namespace RDN.Library.Classes.Dues
             }
         }
 
+        /// <summary>
+        /// Get Due Item Collection making request to get only Fee Management egnore other entities
+        /// </summary>
+        /// <param name="leagueId"></param>
+        /// <returns></returns>
+        public static List<long> GetDuesItemCollection(Guid leagueId)
+        {
+            List<long> due = new List<long>();            
+            try
+            {
+                var dc = new ManagementContext();
+                var dues = (from xx in dc.FeeManagement where xx.LeagueOwner.LeagueId == leagueId
+                            select xx).FirstOrDefault();
+
+                var duess = dues.Fees.OrderByDescending(x => x.PayBy);
+
+                foreach (var d in duess)
+                {   
+                    due.Add(d.FeeCollectionId);
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return due;
+        }
     }
 }
