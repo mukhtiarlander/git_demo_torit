@@ -1276,10 +1276,10 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
 
                 RegisterGlobalFilters(GlobalFilters.Filters);
                 RegisterRoutes(RouteTable.Routes);
-                
-                
-                
-                SiteSingleton.Instance.SiteType = (SiteType)Enum.Parse(typeof(SiteType), Library.Classes.Config.LibraryConfig.SiteType);
+
+
+
+                SiteSingleton.Instance.SiteType = Library.Classes.Config.LibraryConfig.SiteType;
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
 

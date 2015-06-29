@@ -985,7 +985,7 @@ namespace RDN.Library.Classes.Messages
             var emailData = new Dictionary<string, string>
             {
                 { "derbyname",member.DerbyName}, 
-                { "messagelink", ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/messages/view/"+groupid}
+                { "messagelink", LibraryConfig.InternalSite+"/messages/view/"+groupid}
             };
             var user = System.Web.Security.Membership.GetUser((object)member.UserId);
             if (user != null)
