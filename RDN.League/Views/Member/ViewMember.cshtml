@@ -70,7 +70,7 @@
                             <div class="panel-body no-padding">
                                 <ul class="nav nav-tabs padding-top-5" id="myTab">
                                     <li class="active margin-left-5"><a href="#Personal">Profile</a></li>
-                                    @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                                    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
                                     {
                                         <li class="margin-left-5"><a href="#Skating">Skating</a></li>
                                     }
@@ -183,7 +183,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                                    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
                                         {
 
                                         <div role="tabpanel" class="tab-pane" id="Skating">
