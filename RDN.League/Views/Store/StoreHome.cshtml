@@ -53,7 +53,7 @@ else
                             @if (Model.IsPublished)
                             {
                                 <h3 class="margin-bottom-10 margin-top-5">
-                                    <i class="fa fa-shopping-cart"></i> <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a> <i class="fa fa-external-link text-primary"></i>
+                                    <i class="fa fa-shopping-cart"></i> <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite/roller-derby-shop/@Model.MerchantId.ToString().Replace("-", "")/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName)">@Model.ShopName</a> <i class="fa fa-external-link text-primary"></i>
                                 </h3>
                                 <span class="text-muted i">Published</span>
                             }
@@ -91,7 +91,7 @@ else
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a>
+                                                    <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a>
                                                     <p><small>@item.ItemType</small></p>
                                                     <h4>
                                                         <b>

@@ -520,15 +520,15 @@
                             </p>
                             <h4 style="color:#ddd">@item.NameTrimmed</h4>
                             <p>
-                                <a style="color:#313940" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                                <a style="color:#313940" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
                             </p>
-                            <a class="btn btn-info btn-sm" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">Buy</a>
+                            <a class="btn btn-info btn-sm" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">Buy</a>
                         </div>
                     </div>
                 </div>
             }
         </div>
-        <a class="btn btn-info btn-lg margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION "><i class="fa fa-shopping-cart"></i> Shops at RDNation</a>
+        <a class="btn btn-info btn-lg margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite "><i class="fa fa-shopping-cart"></i> Shops at RDNation</a>
         <div class="white padding-bottom-10">
             Questions, Comments or Concerns? Feel Free to Email us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>
         </div>
