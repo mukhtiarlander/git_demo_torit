@@ -20,13 +20,11 @@ namespace RDN.League.Models.Location
         public string Zip { get; set; }
         [Required]
         public int Country { get; set; }
+        public string CountryName { get; set; }
         public SelectList Countries { get; set; }
         public string Website { get; set; }
         public Guid OwnerId { get; set; }
         public string OwnerType { get; set; }
         public string RedirectTo { get; set; }
-
-       
-
     }
 }

@@ -326,6 +326,7 @@
     <Compile Include="Models\League\LeagueModel.cs" />
     <Compile Include="Models\League\RegisterLeague.cs" />
     <Compile Include="Models\League\Sponsorship.cs" />
+    <Compile Include="Models\Location\EditLocation.cs" />
     <Compile Include="Models\Location\NewLocation.cs" />
     <Compile Include="Models\Messages\MessageModel.cs" />
     <Compile Include="Models\Organization\Designation.cs" />
@@ -1253,6 +1254,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Views\Location\EditLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RDN.Library\RDN.Library.csproj">

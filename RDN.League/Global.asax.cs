@@ -1057,22 +1057,23 @@ new { controller = "Calendar", action = "CalendarList", year = UrlParameter.Opti
             #endregion
 
             #region Location Routes
-            routes.MapRoute(
-"LocationNew", // Route name
-"Location/new/{ownerType}/{redirectto}/{id}", // URL with parameters
-new { controller = "Location", action = "NewLocation" } // Parameter defaults
-);
+                routes.MapRoute(
+                "LocationNew", // Route name
+                "Location/new/{ownerType}/{redirectto}/{id}", // URL with parameters
+                new { controller = "Location", action = "NewLocation" } // Parameter defaults
+                );
 
-            routes.MapRoute(
-"LocationEdit", // Route name
-"location/edit/{id}", // URL with parameters
-new { controller = "Location", action = "EditLocation" } // Parameter defaults
-);
-            routes.MapRoute(
-"LocationAll", // Route name
-"location/all", // URL with parameters
-new { controller = "Location", action = "AllLocations" } // Parameter defaults
-);
+                routes.MapRoute(
+                "LocationEdit", // Route name
+                "location/edit/{id}", // URL with parameters
+                new { controller = "Location", action = "EditLocation" } // Parameter defaults
+                );
+
+                routes.MapRoute(
+                "LocationAll", // Route name
+                "location/all", // URL with parameters
+                new { controller = "Location", action = "AllLocations" } // Parameter defaults
+                );
             #endregion
 
             #region Forum Routes
