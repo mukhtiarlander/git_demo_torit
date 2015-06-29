@@ -8,7 +8,7 @@
         @using (Html.BeginForm("EditLeague", "Federation"))
         {
             <div class="tvLogo">
-                <img src="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" />
+                <img src="@Url.Content("~/Content/images/logo.png")" />
             </div>
             <div class="tvChanges">
                 <a href="@Url.Content("~/federation/league/" + Model.LeagueId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))" target="_blank">View Changes</a>

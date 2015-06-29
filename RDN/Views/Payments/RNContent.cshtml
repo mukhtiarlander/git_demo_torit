@@ -14,15 +14,14 @@
     <br />
 
 <form method="POST">
-  <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="@Model.StripeKey"
-    data-image="https://rdnation.com/Content/Rollerball_pink_s100.png"
-    data-name="Rollin News Content"
-    data-description="Advertising Content For Rollin News"
-    data-amount="2000"
-      data-currency="GBP">
-  </script>
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="@Model.StripeKey"
+            data-image="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/Content/logo.png"
+            data-name="Rollin News Content"
+            data-description="Advertising Content For Rollin News"
+            data-amount="2000"
+            data-currency="GBP">
+    </script>
 </form>
     </center>
 

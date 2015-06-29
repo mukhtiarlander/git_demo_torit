@@ -14,7 +14,7 @@ namespace RDN.Portable.Error
         { }
 
 /// <summary>
-        /// Summarizes an exception into an object that can be sent to the error management system of rdnation
+        /// Summarizes an exception into an object that can be sent to the error management system of 
         /// </summary>
         /// <param name="e">The exception</param>
         /// <param name="type">The type information from the class where this occured. Can be obtained by using this.GetType() or just GetType()</param>

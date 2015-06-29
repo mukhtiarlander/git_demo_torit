@@ -139,9 +139,9 @@ namespace RDN.Controllers
         public ActionResult Index()
         {
             HomeModel model = new HomeModel();
-            model.LeagueCount = SiteCache.GetNumberOfLeaguesSignedUpToRDNation();
+            model.LeagueCount = SiteCache.GetNumberOfLeaguesSignedUp();
             model.RandomLeagues = SiteCache.GetAllPublicLeagues().Where(x => !String.IsNullOrEmpty(x.LogoUrl)).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
-            model.MemberCount = SiteCache.GetNumberOfMembersSignedUpToRDNation();
+            model.MemberCount = SiteCache.GetNumberOfMembersSignedUp();
             model.RandomSkaters = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
                 .Where(x => !x.photoUrl.Contains("roller-girl"))
                 .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
@@ -449,7 +449,7 @@ namespace RDN.Controllers
         /// we have a returnst
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="returnSite">Used for returning to a subdomain like league.rdnation.com</param>
+        /// <param name="returnSite">Used for returning to a subdomain like </param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpPost]

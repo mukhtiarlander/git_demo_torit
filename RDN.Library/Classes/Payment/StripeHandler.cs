@@ -36,7 +36,7 @@ namespace RDN.Library.Classes.Payment
             {
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.RDNATION_STORE_ID, "USD",
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD",
 PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionUpdated)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetInvoiceStatus(InvoiceStatus.Subscription_Should_Be_Updated_On_Charge);

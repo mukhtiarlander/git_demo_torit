@@ -22,7 +22,7 @@ namespace RDN.Controllers
                 model.CurrentPage = 1;
             else
                 model.CurrentPage = page.Value;
-            model.NumberOfRecords = SiteCache.GetNumberOfFederationsSignedUpToRDNation();
+            model.NumberOfRecords = SiteCache.GetNumberOfFederationsSignedUp();
             model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
             model.PageSize = DEFAULT_PAGE_SIZE;
             var output = FillFederationModel(model);

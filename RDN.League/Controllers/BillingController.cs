@@ -144,7 +144,7 @@ namespace RDN.League.Controllers
                 }
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.RDNATION_STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
@@ -224,7 +224,7 @@ namespace RDN.League.Controllers
                 var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.LeagueId);
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.RDNATION_STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
                    .SetInvoiceId(bi.InvoiceId)
                         .FinalizeInvoice();
 

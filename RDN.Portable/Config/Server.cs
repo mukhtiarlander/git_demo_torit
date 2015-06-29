@@ -31,8 +31,6 @@ namespace RDN.Portable.Config
 
         public static string SAVE_ADVERTISEMENTS_FOLDER = "\\RollerDerby\\Advertisements\\";
 
-        //public static string SAVE_LOGOS_FOLDER = @"C:\WebSites\codingforcharity.org\rdnation\logos\";
-
         public static Guid RDNATION_STORE_ID = new Guid("7b0c3da2-b58a-4b1a-b9a2-92d253ce0100");
 
         //public static readonly string STRIPE_DEBUG_KEY = "pk_0D4hTiqyKAkZbsx8QCPpZcSljUYFO";

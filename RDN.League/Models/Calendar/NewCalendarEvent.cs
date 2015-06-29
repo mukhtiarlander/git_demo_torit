@@ -63,7 +63,7 @@ namespace RDN.League.Models.Calendar
         {
             if (calEvent != null)
             {
-                this.RDNationLink = calEvent.RDNationLink;
+                this.SiteUrl = calEvent.SiteUrl;
                 this.TicketUrl = calEvent.TicketUrl;
                 this.EventType = calEvent.EventType;
                 this.Attendees = calEvent.Attendees.OrderBy(x => x.MemberName).ToList();

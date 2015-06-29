@@ -23,7 +23,7 @@ namespace RDN.Controllers
             else
                 model.CurrentPage = page.Value;
             model.PageSize = DEFAULT_PAGE_SIZE;
-            model.NumberOfRecords = SiteCache.GetNumberOfMembersSignedUpToRDNation();
+            model.NumberOfRecords = SiteCache.GetNumberOfMembersSignedUp();
             model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
 
             var output = FillMembersModel(model);

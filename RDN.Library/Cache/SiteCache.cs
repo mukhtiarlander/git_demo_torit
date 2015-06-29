@@ -1131,7 +1131,7 @@ namespace RDN.Library.Cache
             }
             return new List<LeagueMemberClass>();
         }
-        public static int GetNumberOfLeaguesSignedUpToRDNation()
+        public static int GetNumberOfLeaguesSignedUp()
         {
             try
             {
@@ -1158,7 +1158,7 @@ namespace RDN.Library.Cache
             return 0;
 
         }
-        public static int GetNumberOfMembersSignedUpToRDNation()
+        public static int GetNumberOfMembersSignedUp()
         {
             try
             {
@@ -1171,7 +1171,7 @@ namespace RDN.Library.Cache
             }
             return 0;
         }
-        public static int GetNumberOfFederationsSignedUpToRDNation()
+        public static int GetNumberOfFederationsSignedUp()
         {
             try
             {

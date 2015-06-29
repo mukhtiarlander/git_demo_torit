@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using RDN.Library.Classes.Site.Enums;
 
 namespace RDN.Library.Classes.Config
 {
@@ -133,11 +134,11 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string SiteType
+        public static SiteType SiteType
         {
             get
             {
-                return ConfigurationManager.AppSettings["SiteType"];
+                return (SiteType) Enum.Parse(typeof(SiteType), ConfigurationManager.AppSettings["SiteType"]);
             }
         }
 
@@ -502,7 +503,7 @@ namespace RDN.Library.Classes.Config
 
 
 
-        public static Guid RDNATION_STORE_ID
+        public static Guid STORE_ID
         {
             get
             {
