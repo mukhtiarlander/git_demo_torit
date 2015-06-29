@@ -74,11 +74,11 @@ namespace RDN.League.Controllers.League
                 var token = FacebookData.GetLatestAccessToken();
 
                 FacebookFactory.Initialize(token).GetPageAuthorization(Library.Classes.Config.LibraryConfig.FacebookPageName2, Library.Classes.Config.LibraryConfig.FacebookPageId2)
-                        .PostToFanPage("Officials Request: " + oRequest.TeamsPlaying + " @ " + oRequest.Date.GetValueOrDefault().ToShortDateString() + "\n\n" + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/officiating-requests/view/" + executeId, "", "", "", "", "");
+                        .PostToFanPage("Officials Request: " + oRequest.TeamsPlaying + " @ " + oRequest.Date.GetValueOrDefault().ToShortDateString() + "\n\n" + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/officiating-requests/view/" + executeId, "", "", "", "", "");
                  
                  
                 TwitterFactory.Initialize(Library.Classes.Config.LibraryConfig.TwitterConsumerKey, Library.Classes.Config.LibraryConfig.TwitterConsumerSecret, Library.Classes.Config.LibraryConfig.TwitterToken, Library.Classes.Config.LibraryConfig.TwitterTokenSecret)
-                          .SendMessage("Officials Request: " + oRequest.TeamsPlaying + " @ " + oRequest.Date.GetValueOrDefault().ToShortDateString() + " #rollerderby " + RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION + "/officiating-requests/view/" + executeId);
+                          .SendMessage("Officials Request: " + oRequest.TeamsPlaying + " @ " + oRequest.Date.GetValueOrDefault().ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/officiating-requests/view/" + executeId);
 
 
 

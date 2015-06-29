@@ -38,7 +38,7 @@ namespace RDN.Controllers
         public ActionResult BlogPosts(string id, string name)
         {
 
-            return Redirect("http://blog.rdnation.com/post/" + id + "/" + name);
+            return Redirect(LibraryConfig.BlogSite + "/post/" + id + "/" + name);
         }
 
         public ActionResult Error()
@@ -124,7 +124,7 @@ namespace RDN.Controllers
                 setCookie(model.Email, true);
 
 
-                return Redirect("http://league.rdnation.com");
+                return Redirect(LibraryConfig.InternalSite);
 
 
 
@@ -272,7 +272,7 @@ namespace RDN.Controllers
                         if (RDN.Library.Classes.Account.User.UserLostPassword(user))
                             model.ConfirmationMessage = "An Email Has Been Sent to: " + model.Email;
                         else
-                            model.ConfirmationMessage = "Something went wrong, if this problem persists please contact info@rdnation.com";
+                            model.ConfirmationMessage = "Something went wrong, if this problem persists please contact " + LibraryConfig.DefaultInfoEmail;
                         return View(model);
                     }
 
@@ -394,21 +394,21 @@ namespace RDN.Controllers
                     if (site == "store")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION + url);
+                            return Redirect(LibraryConfig.ShopSite + url);
                         else if (!String.IsNullOrEmpty(site))
-                            return Redirect(ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION);
+                            return Redirect(LibraryConfig.ShopSite);
                     }
                     else if (site == "rollinNews")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION + url);
+                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION+ url);
                         else if (!String.IsNullOrEmpty(site))
                             return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION);
 
                     }
 
                 }
-                return Redirect(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION);
+                return Redirect(LibraryConfig.InternalSite);
             }
             catch (Exception e)
             {
@@ -427,7 +427,7 @@ namespace RDN.Controllers
                 FormsAuthentication.SetAuthCookie(email, rememberMe);
                 //modify the Domain attribute of the cookie to the second level domain
                 System.Web.HttpCookie MyCookie = System.Web.Security.FormsAuthentication.GetAuthCookie(email, rememberMe);
-                MyCookie.Domain = "rdnation.com";//the second level domain name
+                MyCookie.Domain = LibraryConfig.MainDomain;//the second level domain name
                 Response.AppendCookie(MyCookie);
             }
             catch (Exception e)
@@ -492,14 +492,14 @@ namespace RDN.Controllers
                             }
                             if (returnSite == "shops")
                             {
-                                url = ServerConfig.WEBSITE_STORE_DEFAULT_LOCATION;
+                                url = LibraryConfig.ShopSite;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
                                 return Redirect(url);
                             }
                             if (returnSite == "zebras")
                             {
-                                url = "http://zebras.rdnation.com";
+                                url = "http://zebras." + LibraryConfig.MainDomain;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
                                 return Redirect(url);
@@ -545,7 +545,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(e, GetType());
             }
-            return Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+            return Redirect(LibraryConfig.PublicSite);
         }
 
         public ActionResult SiteMap()
@@ -566,7 +566,7 @@ namespace RDN.Controllers
                     for (int i = 0; i < sitemap + 1; i++)
                     {
                         writer.WriteStartElement("sitemap");
-                        writer.WriteElementString("loc", ServerConfig.WEBSITE_DEFAULT_LOCATION + "/sitemaps?p=" + i);
+                        writer.WriteElementString("loc", LibraryConfig.PublicSite + "/sitemaps?p=" + i);
                         writer.WriteElementString("lastmod", DateTime.UtcNow.ToString("yyyy-MM-dd"));
                         writer.WriteEndElement(); // url
                     }
@@ -623,11 +623,11 @@ namespace RDN.Controllers
             {
                 //if its a post from the zebra forum.
                 if (actionName.Contains("yaf_"))
-                    Response.Redirect("http://zebras.rdnation.com/" + actionName);
-                else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki.rdnation.com"))
-                    Response.Redirect(ServerConfig.WIKI_URL);
+                    Response.Redirect("http://zebras."+ LibraryConfig.MainDomain +  "/"+actionName);
+                else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki." + LibraryConfig.MainDomain))
+                    Response.Redirect(LibraryConfig.WikiSite);
                 else
-                    Response.Redirect(ServerConfig.WEBSITE_DEFAULT_LOCATION);
+                    Response.Redirect(LibraryConfig.PublicSite);
             }
             catch (Exception e)
             {

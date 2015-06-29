@@ -75,7 +75,7 @@ namespace RDN.TransactionHandler
                         StripeHandler.SubscriptionUpdated(stripeEvent, json);
                         break;
                     default:
-                        EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, "New Stripe Type Found", json);
+                        EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "New Stripe Type Found", json);
                         break;
                 }
             }

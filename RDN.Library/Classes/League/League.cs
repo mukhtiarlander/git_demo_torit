@@ -48,6 +48,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Colors;
 using System.Configuration;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 
 namespace RDN.Library.Classes.League
 {
@@ -160,8 +161,8 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", ServerConfig.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
-                                            { "leagueSubscriptionLink", ServerConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "leagueSubscriptionLink", LibraryConfig.InternalSite+ UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
                         {
@@ -181,8 +182,8 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", ServerConfig.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
-                                            { "leagueSubscriptionLink", ServerConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "leagueSubscriptionLink",  LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
                         {
@@ -201,8 +202,8 @@ namespace RDN.Library.Classes.League
                         var emailData = new Dictionary<string, string>
                                         {
                                             { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", ServerConfig.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
-                                            { "leagueSubscriptionLink", ServerConfig.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "leagueSubscriptionLink", LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                         };
                         foreach (var email in emails)
                         {
@@ -219,10 +220,10 @@ namespace RDN.Library.Classes.League
                                             { "leagueName", league.Name}, 
                                             { "leagueEmail", emails.ToArray().ToString()},
                                             { "leaguePhoneNumber", phoneNumber},
-                                            {"link", ServerConfig.LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN}
+                                            {"link",LibraryConfig.AdminSite + UrlManager.LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN}
                                         };
 
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
                         EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultKrisWorlidgeEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Expiring League Subscription", adminEmailData, EmailServer.EmailServerLayoutsEnum.SubscriptionForLeagueExpiringAdmin);
 
                     }
@@ -1604,7 +1605,7 @@ namespace RDN.Library.Classes.League
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " A league has been created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewLeagueAdmin);
 
                 // ToDo: To be removed
-                //Util.Email.SendEmail(false, ServerConfig.DEFAULT_ADMIN_EMAIL, "ContactLeague creation", "A new league has been created a needs to be verified, league name: " + leagueName);
+                //Util.Email.SendEmail(false, LibraryConfig.DEFAULT_ADMIN_EMAIL, "ContactLeague creation", "A new league has been created a needs to be verified, league name: " + leagueName);
             }
             catch (Exception exception)
             {
@@ -1708,7 +1709,7 @@ namespace RDN.Library.Classes.League
 
 
             // ToDo: To be removed
-            //Util.Email.SendEmail(false, ServerConfig.DEFAULT_ADMIN_EMAIL, "ContactLeague creation", "A new league has been created a needs to be verified, league name: " + leagueName);
+            //Util.Email.SendEmail(false, LibraryConfig.DEFAULT_ADMIN_EMAIL, "ContactLeague creation", "A new league has been created a needs to be verified, league name: " + leagueName);
 
             return output;
         }

@@ -988,7 +988,7 @@ namespace RDN.Library.Classes.Game
             var emailData = new Dictionary<string, string> { 
                         { "derbyname", name}, 
                         { "gameName",tournament.TournamentName}, 
-                        { "link",ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/tournament/view/"+ tournament.PrivateTournamentId.ToString().Replace("-","") +"/"+tournament.TournamentId.ToString().Replace("-","") } };
+                        { "link",LibraryConfig.InternalSite +"/tournament/view/"+ tournament.PrivateTournamentId.ToString().Replace("-","") +"/"+tournament.TournamentId.ToString().Replace("-","") } };
 
             EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emailToSendTo, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To Manage Tournament", emailData, layout: EmailServer.EmailServerLayoutsEnum.TournamentMemberAddedToManage);
         }

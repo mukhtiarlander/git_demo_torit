@@ -26,7 +26,7 @@ namespace RDN.Library.Classes.RN.Communication
 
                 Dictionary<string, string> emailProps = new Dictionary<string, string>(){
                 {"Name",mem.Name}   ,
-                {"link",RDN.Library.Classes.Config.LibraryConfig.BaseSiteUrl  + "admin/#/"}   
+                {"link",RDN.Library.Classes.Config.LibraryConfig.PublicSite  + "admin/#/"}   
                };
 
                 EmailServer.EmailServer.SendEmail(RDN.Library.Classes.Config.LibraryConfig.SiteEmail, RDN.Library.Classes.Config.LibraryConfig.FromEmailName, user.UserName, "Rollin News Reminder", emailProps, EmailServerLayoutsEnum.RNAutomatedEmailForWriter, EmailPriority.Important);

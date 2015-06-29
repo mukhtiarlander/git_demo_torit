@@ -23,6 +23,7 @@ using RDN.Library.Classes.Colors;
 using RDN.Portable.Classes.Colors;
 using RDN.Portable.Classes.Account.Classes;
 using System.Configuration;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Api.Controllers
 {
@@ -53,7 +54,7 @@ namespace RDN.Api.Controllers
                     j.Description = e.Notes;
                     j.EventUrl = e.Link;
                     j.TicketUrl = e.TicketUrl;
-                    j.RDNUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
+                    j.RDNUrl = LibraryConfig.PublicSite + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
                     if (e.Location != null)
                         j.Location = e.Location.LocationName;
                     j.LeagueId = e.OrganizersId.ToString().Replace("-", "");
@@ -100,7 +101,7 @@ namespace RDN.Api.Controllers
                     j.Description = e.NotesHtml;
                     j.EventUrl = e.Link;
                     j.TicketUrl = e.TicketUrl;
-                    j.RDNUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
+                    j.RDNUrl = LibraryConfig.PublicSite + "/roller-derby-event/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + j.CalendarItemId;
                     if (e.Location != null)
                         j.Location = e.Location.LocationName;
                     evs.Events.Add(j);

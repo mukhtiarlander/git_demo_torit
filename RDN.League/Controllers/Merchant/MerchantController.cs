@@ -12,6 +12,7 @@ using RDN.Library.Util;
 using RDN.Library.Util.Enum;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -53,7 +54,7 @@ namespace RDN.League.Controllers
                 MerchantGateway mg = new MerchantGateway();
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var merchant = mg.GetMerchantSettings(memId);
-                string stripe = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + ServerConfig.STRIPE_CONNECT_LIVE_KEY + "&scope=read_write&state=" + StripeStateReturnCodeEnum.merchant + "-" + merchant.PrivateManagerId.ToString().Replace("-", "");
+                string stripe = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + LibraryConfig.StripeConnectKey+ "&scope=read_write&state=" + StripeStateReturnCodeEnum.merchant + "-" + merchant.PrivateManagerId.ToString().Replace("-", "");
                 
                 string u = nameValueCollection["return"];
                 if (!String.IsNullOrEmpty(u))

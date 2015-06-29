@@ -9,6 +9,7 @@ using RDN.Library.Classes.Store;
 using RDN.Library.Classes.Store.Display;
 using System.Text;
 using RDN.Library.Classes.Store.Classes;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Store.Controllers
 {
@@ -59,6 +60,19 @@ namespace RDN.Store.Controllers
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return Json(new { answer = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public virtual ActionResult Robot()
+        {
+            StringBuilder robotsResult = new StringBuilder();
+            robotsResult.Append("Sitemap: " + LibraryConfig.PublicSite + "/sitemap" + Environment.NewLine);
+            robotsResult.Append("Disallow: login" + Environment.NewLine);
+            robotsResult.Append("Disallow: /signup" + Environment.NewLine);
+            robotsResult.Append("Disallow: /utilities" + Environment.NewLine);
+            robotsResult.Append("Disallow: /store" + Environment.NewLine);
+            robotsResult.Append("Disallow: /roller-derby-store" + Environment.NewLine);
+
+            return Content(robotsResult.ToString(), "text/plain");
         }
 
     }

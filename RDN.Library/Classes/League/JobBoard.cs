@@ -80,7 +80,7 @@ namespace RDN.Library.Classes.League
                                         {
                                             { "derbyname",derbyName}, 
                                             { "JobName", jobName}, 
-                                            { "jobLink",ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/view/job/detail/" + jobId+"/"+ leagueId.ToString().Replace("-","") },
+                                            { "jobLink",LibraryConfig.InternalSite +"/view/job/detail/" + jobId+"/"+ leagueId.ToString().Replace("-","") },
                                         };
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)

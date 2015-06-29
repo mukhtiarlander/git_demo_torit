@@ -17,6 +17,10 @@ namespace RDN.Utilities.Config
 
         public static readonly string ORAGANIZATION = "RDNation.com";
 
+        public static string API_URL = "https://api.rdnation.com";
+        public static string LEAGUE_URL = "https://league.rdnation.com";
+        public static string WIKI_URL = "http://wiki.rdnation.com";
+
         public static int DEFAULT_SIZE_OF_RESIZED_IMAGE = 800;
         public static string SAVE_GAMES_FILE_LOCATION = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + ORAGANIZATION + "\\" + SCOREBOARD_NAME_NOSPACES + "\\Saved Games\\";
         public static string SAVE_REPORTS_FILE_LOCATION = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + ORAGANIZATION + "\\" + SCOREBOARD_NAME_NOSPACES + "\\Saved Reports\\";
@@ -43,7 +47,7 @@ namespace RDN.Utilities.Config
         public static string SAVE_SERVER_FILES_FOLDER_IMG_WFT = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + ORAGANIZATION + "\\" + SCOREBOARD_NAME_NOSPACES + "\\Server\\img\\wftdaoverlay\\";
         //public static string SAVE_SERVER_FILES_FOLDER_JSEXT = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + ORAGANIZATION + "\\" + SCOREBOARD_NAME_NOSPACES + "\\Server\\js\\external\\";
         //public static string SAVE_SERVER_FILES_FOLDER_JSEXT_IMG = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + ORAGANIZATION + "\\" + SCOREBOARD_NAME_NOSPACES + "\\Server\\js\\external\\Img\\";
-       
+
         /// <summary>
         /// sends every 60 seconds.
         /// </summary>
@@ -67,38 +71,38 @@ namespace RDN.Utilities.Config
         public static string ALL_LOGOS_JSON_DEBUG = _UPLOAD_URL_HOST_DEBUG + "logos/getalllogos";
 
 
-        public static string UPLOAD_ERRORS_URL = "https://api.rdnation.com/error/submit";
-        public static string UPLOAD_LIVE_GAMES_URL = "https://api.rdnation.com/Scoreboard/uploadLiveGames?k=" + KEY_FOR_UPLOAD;
+        public static string UPLOAD_ERRORS_URL = API_URL + "/error/submit";
+        public static string UPLOAD_LIVE_GAMES_URL = API_URL + "/Scoreboard/uploadLiveGames?k=" + KEY_FOR_UPLOAD;
         //public static string UPLOAD_LIVE_GAMES_URL = "http://localhost:49534/Scoreboard/uploadLiveGames?k=" + KEY_FOR_UPLOAD;
-        public static string IS_WEBSITE_ONLINE_URL = "https://api.rdnation.com/Scoreboard/isonline";
-        public static string SCOREBOARD_MACHINE_ID_URL = "https://api.rdnation.com/Scoreboard/scoreboardLaunched?k=" + KEY_FOR_UPLOAD;
-        public static string SCOREBOARD_MACHINE_ID_URL_NEW = "https://api.rdnation.com/Scoreboard/scoreboardLaunchedNew?k=" + KEY_FOR_UPLOAD;
-        public static string FEEDBACK_URL = "https://api.rdnation.com/Scoreboard/feedback?k=" + KEY_FOR_UPLOAD;
+        public static string IS_WEBSITE_ONLINE_URL = API_URL + "/Scoreboard/isonline";
+        public static string SCOREBOARD_MACHINE_ID_URL = API_URL + "/Scoreboard/scoreboardLaunched?k=" + KEY_FOR_UPLOAD;
+        public static string SCOREBOARD_MACHINE_ID_URL_NEW = API_URL + "/Scoreboard/scoreboardLaunchedNew?k=" + KEY_FOR_UPLOAD;
+        public static string FEEDBACK_URL = API_URL + "/Scoreboard/feedback?k=" + KEY_FOR_UPLOAD;
         public static string UPDATER_URL = "https://codingforcharity.org/rdnation/version/update.xml";
-        public static string UPLOAD_LOGOS_LOCATION = "https://api.rdnation.com/logos/uploadTeamLogo?k=" + KEY_FOR_UPLOAD;
-        public static string SCOREBOARD_UPLOAD_MEMBER_PICTURE_URL = "https://api.rdnation.com/scoreboard/UploadMemberPictureFromGame?k=" + KEY_FOR_UPLOAD;
-        public static string SCOREBOARD_UPLOAD_LOGO_URL = "https://api.rdnation.com/logos/uploadTeamLogo?k=" + KEY_FOR_UPLOAD;
-        public static string SCOREBOARD_UPLOAD_AND_PUBLISH_GAME = "https://league.rdnation.com/game/upload";
+        public static string UPLOAD_LOGOS_LOCATION = API_URL + "/logos/uploadTeamLogo?k=" + KEY_FOR_UPLOAD;
+        public static string SCOREBOARD_UPLOAD_MEMBER_PICTURE_URL = API_URL + "/scoreboard/UploadMemberPictureFromGame?k=" + KEY_FOR_UPLOAD;
+        public static string SCOREBOARD_UPLOAD_LOGO_URL = API_URL + "/logos/uploadTeamLogo?k=" + KEY_FOR_UPLOAD;
+        public static string SCOREBOARD_UPLOAD_AND_PUBLISH_GAME = LEAGUE_URL + "/game/upload";
 
 
         //public static string LOGOS_ONLINE_LOCATION = "https://codingforcharity.org/rdnation/logos/";
 
-        public static string ALL_LOGOS_JSON = "https://api.rdnation.com/Logos/GetAllLogos";
+        public static string ALL_LOGOS_JSON = API_URL + "/Logos/GetAllLogos";
 
 
 
-        public static string SCOREBOARD_WIKI_URL = "http://wiki.rdnation.com/Welcome_to_The_Wiki_For_Thors_Hammer";
+        public static string SCOREBOARD_WIKI_URL = WIKI_URL + "/Welcome_to_The_Wiki_For_Thors_Hammer";
         public static string SCOREBOARD_ONLINE_HELP_URL = "http://zebras.rdnation.com/yaf_topics34_Roller-Derby-Scoreboard-Discussion.aspx";
         /// <summary>
         /// url for team manager help.
         /// </summary>
-        public static string SCOREBOARD_TEAM_MANAGER_WIKI_URL = "http://wiki.rdnation.com/Team_Manager";
-        public static string SCOREBOARD_LOGO_MANAGER_WIKI_URL = "http://wiki.rdnation.com/Uploading_Logos";
-        public static string REFEREE_MANAGER_WIKI_URL = "http://wiki.rdnation.com/Referee_Manager";
-        public static string SCOREBOARD_SCOREBOARD_WIKI_URL = "http://wiki.rdnation.com/Choosing_a_Scoreboard";
-        public static string SCOREBOARD_SLIDESHOW_MANAGER_WIKI_URL = "http://wiki.rdnation.com/SlideShow_Manager";
-        public static string SCOREBOARD_STATS_COLLECTION_WIKI_URL = "http://wiki.rdnation.com/Stats_Collection";
-        public static string SCOREBOARD_STATS_COLLECTION_SERVER_SETTINGS_WIKI_URL = "http://wiki.rdnation.com/Stats_Collection#Server_Settings";
+        public static string SCOREBOARD_TEAM_MANAGER_WIKI_URL = WIKI_URL + "/Team_Manager";
+        public static string SCOREBOARD_LOGO_MANAGER_WIKI_URL = WIKI_URL + "/Uploading_Logos";
+        public static string REFEREE_MANAGER_WIKI_URL = WIKI_URL + "/Referee_Manager";
+        public static string SCOREBOARD_SCOREBOARD_WIKI_URL = WIKI_URL + "/Choosing_a_Scoreboard";
+        public static string SCOREBOARD_SLIDESHOW_MANAGER_WIKI_URL = WIKI_URL + "/SlideShow_Manager";
+        public static string SCOREBOARD_STATS_COLLECTION_WIKI_URL = WIKI_URL + "/Stats_Collection";
+        public static string SCOREBOARD_STATS_COLLECTION_SERVER_SETTINGS_WIKI_URL = WIKI_URL + "/Stats_Collection#Server_Settings";
 
         public static readonly string DEFAULT_GAME_NAME = "Scrimmage";
 
@@ -110,7 +114,7 @@ namespace RDN.Utilities.Config
         public static int WFTDA_DEFAULT_TIMEOUTS_PERIOD = 2;
         public static int MADE_DEFAULT_TIMEOUTS_PERIOD = 2;
 
-
+        public static string ERROR_SUBMIT_URL = API_URL +"/error/submit";
 
     }
 }

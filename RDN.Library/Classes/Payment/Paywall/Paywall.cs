@@ -166,9 +166,9 @@ namespace RDN.Library.Classes.Payment.Paywall
                                                                                         { "PaywallDescription", invoice.Paywall.Description},
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ invoice.Paywall.Price.ToString("N2") },
-                                            { "receiptLink", "<a href='"+ServerConfig.WEBSITE_DEFAULT_LOCATION+"/streaming/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
+                                            { "receiptLink", "<a href='"+LibraryConfig.PublicSite+"/streaming/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
                                             { "buyerEmail", invoice.InvoiceBilling.Email},
-                                            { "sellerMessageLink", "<a href='"+ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION+"/messages/new/paywall/"+ invoice.Merchant.MerchantId.ToString().Replace("-", "")+"'>send the provider a message</a>"},
+                                            { "sellerMessageLink", "<a href='"+LibraryConfig.InternalSite+"/messages/new/paywall/"+ invoice.Merchant.MerchantId.ToString().Replace("-", "")+"'>send the provider a message</a>"},
                                                                                         { "sellerEmail", invoice.Merchant.OrderPayedNotificationEmail},
                                             { "paywallPassword",invoice.Paywall.PaywallPassword},
                                             { "paywallLocation", "<a href='"+invoice.Paywall.PaywallLocation+"'>Go See What you Paid For!</a>"},
@@ -176,9 +176,9 @@ namespace RDN.Library.Classes.Payment.Paywall
 
                 //sends email to user for their payment.
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaid);
-                if (invoice.Merchant.OrderPayedNotificationEmail != LibraryConfig.DefaultAdminEmailAdmin)
+                if (invoice.Merchant.OrderPayedNotificationEmail != LibraryConfig.DefaultAdminEmail)
                     EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Payment Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaidMerchant);
             }
             catch (Exception exception)
             {
@@ -202,15 +202,15 @@ namespace RDN.Library.Classes.Payment.Paywall
                                             { "PaywallDescription", invoice.Paywall.Description},
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ invoice.RefundAmount.ToString("N2") },
-                                            { "receiptLink", "<a href='"+ServerConfig.WEBSITE_DEFAULT_LOCATION+"/streaming/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
+                                            { "receiptLink", "<a href='"+LibraryConfig.PublicSite+"/streaming/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
                                             { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
 
                 //sends email to user for their payment.
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Refund for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefunded);
-                if (invoice.Merchant.OrderPayedNotificationEmail != LibraryConfig.DefaultAdminEmailAdmin)
+                if (invoice.Merchant.OrderPayedNotificationEmail != LibraryConfig.DefaultAdminEmail)
                     EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmailAdmin, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Paywall Refund Made, " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefundedMerchant);
             }
             catch (Exception exception)
             {

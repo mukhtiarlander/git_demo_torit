@@ -5,6 +5,7 @@ using RDN.Library.Classes.Error;
 using RDN.Library.Classes.League.Classes;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.Forum;
+using RDN.Portable.Classes.Url;
 using RDN.Portable.Config;
 using System;
 using System.Collections.Generic;
@@ -68,8 +69,8 @@ namespace RDN.Library.Classes.Controls.Forum
                                             { "derbyname",derbyName}, 
                                             { "FromUserName", DerbyNameSendingPost}, 
                                             { "messageBody",fullMessage + PlainMessage},
-                                            { "viewConversationLink",                                               ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION +"/forum/post/view/" + ForumId.ToString().Replace("-","") +"/"+ TopicId},
-                                            { "notificationSettings",                                               ServerConfig.WEBSITE_MEMBER_SETTINGS}
+                                            { "viewConversationLink",                                               LibraryConfig.InternalSite +"/forum/post/view/" + ForumId.ToString().Replace("-","") +"/"+ TopicId},
+                                            { "notificationSettings",                                               LibraryConfig.InternalSite + UrlManager.WEBSITE_MEMBER_SETTINGS}
                                         };
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)

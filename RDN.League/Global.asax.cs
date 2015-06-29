@@ -18,6 +18,7 @@ using RDN.Library.Classes.Payment.Enums;
 using StackExchange.Profiling.EntityFramework6;
 using System.Web.Optimization;
 using RDN.Library.Classes.Site.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League
 {
@@ -296,15 +297,7 @@ new { controller = "Member", action = "AddMemberContact" } // Parameter defaults
 new { controller = "Member", action = "RemoveContact" } // Parameter defaults
 );
 
-            //            routes.MapRoute(
-            //"MemberEdit", // Route name
-            //"Member/Edit", // URL with parameters
-            //new { controller = "Member", action = "EditMemberMySelf" } // Parameter defaults
-            //);
-
-
-
-
+            
             routes.MapRoute(
 "MemberView", // Route name
 "Member/{id}/{name}", // URL with parameters
@@ -1305,7 +1298,7 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
             Exception exc = Server.GetLastError();
             ErrorDatabaseManager.AddException(exc, GetType());
             Server.ClearError();
-            Response.Redirect(ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "?u=" + SiteMessagesEnum.sww);
+            Response.Redirect(LibraryConfig.InternalSite + "?u=" + SiteMessagesEnum.sww);
         }
     }
 }

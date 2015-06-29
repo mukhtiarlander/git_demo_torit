@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using RDN.Utilities.Config;
 using RDN.Utilities.Error;
 using RDN.Library.Classes.Error;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Controllers
 {
@@ -21,7 +22,7 @@ namespace RDN.Controllers
             try
             {
                 Library.Classes.Admin.Admin.Admin.ScoreboardDownloadClick(version: ScoreboardConfig.SCOREBOARD_VERSION_NUMBER, email: id, ip: Request.UserHostAddress, httpRaw: Request.ServerVariables["ALL_RAW"]);
-                Response.Redirect("http://codingforcharity.org/rdnation/version/setup.exe");
+                Response.Redirect("http://codingforcharity.org/" + LibraryConfig.WebsiteShortName + "/version/setup.exe");
             }
             catch (Exception e)
             {
@@ -30,7 +31,7 @@ namespace RDN.Controllers
                     ErrorDatabaseManager.AddException(e, GetType());
                 }
                 catch { }
-                Response.Redirect("http://codingforcharity.org/rdnation/version/setup.exe");
+                Response.Redirect("http://codingforcharity.org/" +LibraryConfig.WebsiteShortName + "/version/setup.exe");
             }
         }
         

@@ -1,7 +1,7 @@
 ﻿<div class="loginBar">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
-        <span><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION/account/logout">Logout</a></span>
+        <span><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/account/logout">Logout</a></span>
     }
     else
     { 
@@ -10,10 +10,10 @@
 <span>/
 
 </span>*@
-        <span><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION/SignUp?u=@RDN.Library.Util.Enum.SiteMessagesEnum.f&returnSite=store&ReturnUrl=@Server.UrlEncode(Request.RawUrl)">Sign Up</a></span> 
+        <span><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/SignUp?u=@RDN.Library.Util.Enum.SiteMessagesEnum.f&returnSite=store&ReturnUrl=@Server.UrlEncode(Request.RawUrl)">Sign Up</a></span> 
         <span>/
 
         </span>
-        <span><a href="@RDN.Portable.Config.ServerConfig.WEBSITE_DEFAULT_LOCATION/login?returnSite=shops&ReturnUrl=@Server.UrlEncode(Request.RawUrl)">Login</a></span>
+        <span><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/login?returnSite=shops&ReturnUrl=@Server.UrlEncode(Request.RawUrl)">Login</a></span>
     }
 </div>

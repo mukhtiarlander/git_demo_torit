@@ -33,6 +33,7 @@ using RDN.Library.Classes.Controls.Calendar;
 using RDN.Library.Classes.Mobile;
 using System.Configuration;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Url;
 namespace RDN.Library.Classes.Calendar
 {
     public class CalendarEventFactory
@@ -518,7 +519,7 @@ namespace RDN.Library.Classes.Calendar
                 ev.StartDateReoccurringDisplay = e.StartReocurring.ToShortDateString() + " " + e.StartReocurring.ToShortTimeString();
                 ev.EventReoccurring = aEvent;
                 ev.TicketUrl = e.TicketUrl;
-                ev.RDNationLink = ServerConfig.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
+                ev.RDNationLink = LibraryConfig.PublicSite  + UrlManager.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
 
                 foreach (var owner in e.LeagueOwners)
                 {
@@ -1096,7 +1097,7 @@ namespace RDN.Library.Classes.Calendar
                 ev.AllowSelfCheckIn = e.AllowSelfCheckIn;
                 ev.CalendarItemId = e.CalendarItemId;
                 ev.CalendarId = calendarId;
-                ev.RDNationLink = ServerConfig.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
+                ev.RDNationLink = LibraryConfig.PublicSite + UrlManager.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
                 if (!ev.IsInUTCTime)
                 {
                     ev.EndDate = e.EndDate;
@@ -1276,7 +1277,7 @@ namespace RDN.Library.Classes.Calendar
                         emailData.Add("location", location);
                         emailData.Add("locationMap", address);
                         emailData.Add("eventNotes", calEvent.Notes);
-                        emailData.Add("viewEventLink", ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "/calendar/event/league/" + calId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""));
+                        emailData.Add("viewEventLink", LibraryConfig.InternalSite + "/calendar/event/league/" + calId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""));
 
 
                         emailData.Add("eventDateTime", startDate.ToString("ddd") + ", " + startDate.ToShortDateString() + " " + startDate.ToShortTimeString() + " - " + endDate.ToShortTimeString());
@@ -1312,7 +1313,7 @@ namespace RDN.Library.Classes.Calendar
                             emailData.Add("locationMap", address);
                             emailData.Add("eventNotes", calEventReoccur.Notes);
 
-                            emailData.Add("viewEventLink", ServerConfig.WEBSITE_INTERNAL_DEFAULT_LOCATION + "/calendar/event/league/" + calId.ToString().Replace("-", "") + "/" + calEventReoccur.CalendarItemId.ToString().Replace("-", ""));
+                            emailData.Add("viewEventLink", LibraryConfig.InternalSite + "/calendar/event/league/" + calId.ToString().Replace("-", "") + "/" + calEventReoccur.CalendarItemId.ToString().Replace("-", ""));
 
                             emailData.Add("eventDateTime", startDate.ToString("ddd") + ", " + startDate.ToShortDateString() + " " + startDate.ToShortTimeString() + " - " + endDate.ToShortTimeString());
 
@@ -1999,7 +2000,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.EventType.EventType = CalendarEventTypeEnum.Birthday;
 
                 calEvent.Name = member.DerbyName + " Birthday";
-                calEvent.NameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/roller-derby-birthday/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
+                calEvent.NameUrl = LibraryConfig.PublicSite + "/roller-derby-birthday/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
                 calEvent.CalendarItemId = member.MemberId;
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.DOB.Month, member.DOB.Day);
 
@@ -2048,7 +2049,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.EventType.EventType = CalendarEventTypeEnum.StartSkatingDate;
 
                 calEvent.Name = member.DerbyName + " Started Skating Today";
-                calEvent.NameUrl = ServerConfig.WEBSITE_DEFAULT_LOCATION + "/started-skating-roller-derby/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName);
+                calEvent.NameUrl = LibraryConfig.PublicSite + "/started-skating-roller-derby/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName);
                 calEvent.CalendarItemId = member.MemberId;
                 try
                 {
