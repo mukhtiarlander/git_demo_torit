@@ -481,11 +481,11 @@ namespace RDN.Library.Classes.Config
                 return new Guid(ConfigurationManager.AppSettings["DEFAULT_ADMIN_USER_ID"]);
             }
         }
-        public static string DEFAULT_RDN_FORUM_ID
+        public static Guid DEFAULT_RDN_FORUM_ID
         {
             get
             {
-                return ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"];
+                return new Guid( ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"]);
             }
         }
 

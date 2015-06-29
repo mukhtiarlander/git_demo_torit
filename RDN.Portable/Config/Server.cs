@@ -20,7 +20,7 @@ namespace RDN.Portable.Config
         public static readonly int CSS_VERSION = 25;
         public static readonly int JS_VERSION = CSS_VERSION;
 
-        public static readonly Guid DEFAULT_RDN_FORUM_ID = new Guid("8059734d-511c-4511-8770-ee595c10bef5");
+        //public static readonly Guid DEFAULT_RDN_FORUM_ID = new Guid("8059734d-511c-4511-8770-ee595c10bef5");
 
         //public static readonly string EMAIL_LAYOUTS_LOCATION = @"C:\WebSites Services\EmailLayouts";
 

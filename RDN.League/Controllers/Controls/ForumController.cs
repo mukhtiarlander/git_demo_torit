@@ -192,7 +192,7 @@ namespace RDN.League.Controllers
             {
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
 
-                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) !=ServerManager.DEFAULT_RDN_FORUM_ID)
+                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) !=LibraryConfig.DEFAULT_RDN_FORUM_ID)
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
 
                 var league = MemberCache.GetLeagueOfMember(memId);
@@ -447,7 +447,7 @@ namespace RDN.League.Controllers
             {
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
 
-                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) != ServerManager.DEFAULT_RDN_FORUM_ID)
+                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) != LibraryConfig.DEFAULT_RDN_FORUM_ID)
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
 
                 var league = MemberCache.GetLeagueOfMember(memId);
@@ -471,7 +471,7 @@ namespace RDN.League.Controllers
                     return Redirect(Url.Content("~/forum/posts/league/" + forumId + "?u=" + SiteMessagesEnum.de));
                 ///forum/posts/league/928750a7fb11474d904d29f5ff66b8f6
                 topic.CurrentMemberId = memId;
-                if (new Guid(forumId) != ServerManager.DEFAULT_RDN_FORUM_ID)
+                if (new Guid(forumId) != LibraryConfig.DEFAULT_RDN_FORUM_ID)
                 {
                     topic.IsManagerOfTopic = RDN.Library.Cache.MemberCache.IsManagerOrBetterOfLeague(topic.CurrentMemberId);
                     if (!topic.IsManagerOfTopic)
@@ -520,7 +520,7 @@ namespace RDN.League.Controllers
             try
             {
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
-                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) != ServerManager.DEFAULT_RDN_FORUM_ID)
+                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) != LibraryConfig.DEFAULT_RDN_FORUM_ID)
                     return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
 
                 bool success = Forum.RemovePost(new Guid(forumId), Convert.ToInt64(topicId), Convert.ToInt64(postId));
@@ -759,7 +759,7 @@ namespace RDN.League.Controllers
                     if (!String.IsNullOrEmpty(groupid))
                         gId = Convert.ToInt64(groupid);
                     if (ownerType == ForumOwnerTypeEnum.main)
-                        topics = Forum.GetForumTopicsForMain(memId, ServerManager.DEFAULT_RDN_FORUM_ID, gId, Forum.DEFAULT_PAGE_SIZE, page, false);
+                        topics = Forum.GetForumTopicsForMain(memId, LibraryConfig.DEFAULT_RDN_FORUM_ID, gId, Forum.DEFAULT_PAGE_SIZE, page, false);
                     else
                         topics = Forum.GetForumTopics(memId, new Guid(id), ownerType, gId, Forum.DEFAULT_PAGE_SIZE, page, false);
 
