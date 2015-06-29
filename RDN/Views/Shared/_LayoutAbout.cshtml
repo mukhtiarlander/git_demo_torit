@@ -33,7 +33,7 @@
 
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-29843570-1']);
-        _gaq.push(['_setDomainName', 'rdnation.com']);
+        _gaq.push(['_setDomainName', '@RDN.Library.Classes.Config.LibraryConfig.MainDomain']);
         _gaq.push(['_trackPageview']);
 
         (function () {
@@ -88,12 +88,12 @@
         
      
         <div class="sidebar">
-            <h2 class="newsTitle"><a href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION ">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></h2>
+            <h2 class="newsTitle"><a href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></h2>
             @foreach (var item in store.StoreItems)
             {
                 <div class="storeItem">
                     <div class="storeItemInner">
-                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                             <div class="storeItemPhoto center">
                                 @if (item.Photos.FirstOrDefault() != null)
                                 { 
@@ -103,10 +103,10 @@
                         </a>
 
                         <div class="storeItemTitle">
-                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
                         </div>
                         <div class="storeItemN">
-                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
                         </div>
                         <div class="storeItemPrice">
                             @if (item.Currency == "USD") {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
@@ -119,7 +119,7 @@
                 </div>
             }
             <br />
-            <div class="clear center"><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION + "/sell")">Sell Gear At @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></div>
+            <div class="clear center"><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/sell")">Sell Gear At @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></div>
         </div>
 
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))

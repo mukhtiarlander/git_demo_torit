@@ -177,7 +177,7 @@
                                     @foreach (var item in Model.InvoiceItems)
                                     {
                                         <tr>
-                                            <td><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.WEBSITE_STORE_DEFAULT_LOCATION/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
+                                            <td><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
                                             <td>@item.Quantity</td>
                                             <td>@item.Price @Model.Currency</td>
                                             <td>@item.TotalShipping @Model.Currency</td>
