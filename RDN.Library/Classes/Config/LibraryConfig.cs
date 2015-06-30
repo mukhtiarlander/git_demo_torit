@@ -213,6 +213,22 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string CompanyAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CompanyAddress"];
+            }
+        }
+
+        public static string EmailSignature
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EmailSignature"];
+            }
+        }
+
         public static string WebsiteSlogan
         {
             get

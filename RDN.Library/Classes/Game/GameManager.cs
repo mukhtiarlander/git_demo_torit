@@ -118,7 +118,9 @@ namespace RDN.Library.Classes.Game
                                             { "derbyname", memberUser.DerbyName }, 
                                             { "email", userAccount.Email },
                                             { "gamename", game.GameName},
-                                            { "link", "http://rdnation.com/roller-derby-game/" + game.GameId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name)  }
+                                            { "websiteShortName", LibraryConfig.WebsiteShortName},
+                                            { "emailSignature", LibraryConfig.EmailSignature},
+                                            { "link",LibraryConfig.PublicSite  +"/roller-derby-game/" + game.GameId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name)  }
                                         };
                                             EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, userAccount.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To A Derby Game", emailData, EmailServer.EmailServerLayoutsEnum.AddedToANewGame);
                                         }
