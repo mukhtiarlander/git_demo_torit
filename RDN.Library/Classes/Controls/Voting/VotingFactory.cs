@@ -142,7 +142,7 @@ namespace RDN.Library.Classes.Controls.Voting
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)
                     {
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Poll Created", emailData, EmailServer.EmailServerLayoutsEnum.PollNewPollCreated);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " New Poll Created", emailData, EmailServer.EmailServerLayoutsEnum.PollNewPollCreated);
                     }
                 }
             }
@@ -220,7 +220,10 @@ namespace RDN.Library.Classes.Controls.Voting
                     v.NonVotes = voting[i].Voters.Count;
                     if (voting[i].Questions.Count > 0)
                         v.Voted = voting[i].Questions.FirstOrDefault().Votes.Count;
-
+                    if (voting[i].Questions.Count() > 0 && voting[i].Questions.FirstOrDefault().Votes.Select(s => s.Member.MemberId).Contains(currentMemberId))
+                    {
+                        v.DidCurrentMemberVoted = true;
+                    }
                     fact.Polls.Add(v);
                 }
                 fact.Polls = fact.Polls.OrderByDescending(x => x.Created).ToList();

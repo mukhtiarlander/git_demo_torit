@@ -99,6 +99,9 @@ namespace RDN.Portable.Classes.Voting
         [DataMember]
         public bool CanVotePoll { get; set; }
 
+        [ProtoMember(227)]
+        [DataMember]
+        public bool DidCurrentMemberVoted { get; set; }
 
 
 
