@@ -53,9 +53,6 @@
                         Expires
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                        $@Model.AmountPaid.ToString("N2")
-                    </div>
-                    <div>
                         @if (Model.Expires.ToShortDateString() != "1/1/0001")
                         {
                             @Model.Expires.ToShortDateString()
@@ -64,39 +61,12 @@
                 </div>
                 <div class="row margin-bottom-10">
                     <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
-                        Expires
+                        Receipt Emailed To
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                        $@Model.AmountPaid.ToString("N2")
-                    </div>
-                    <div>
-                        @if (Model.Expires.ToShortDateString() != "1/1/0001")
-                        {
-                            @Model.Expires.ToShortDateString()
-                        }
+                        @Model.EmailForReceipt
                     </div>
                 </div>
-                <table>
-                    
-                    <tr>
-                        <td class="b padding-bottom-10">:</td>
-                        <td class="padding-bottom-10">
-                           
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b padding-bottom-10">Expires:</td>
-                        <td class="padding-bottom-10">
-                           
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="b padding-bottom-10">Receipt Emailed To:</td>
-                        <td class="padding-bottom-10">@Model.EmailForReceipt</td>
-                    </tr>
-                </table>
-
             </div>
         </div>
     </div>
