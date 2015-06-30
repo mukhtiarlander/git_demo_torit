@@ -339,6 +339,10 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.Title = poll.Title;
                 voting.Description = poll.Description;
                 voting.IsOpenToLeague = poll.IsOpenToLeague;
+                foreach (var member in poll.Voters)
+                {
+                    voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == member.MemberId).FirstOrDefault() });
+                }
                 int c = dc.SaveChanges();
                 return c > 0;
             }
@@ -561,7 +565,20 @@ namespace RDN.Library.Classes.Controls.Voting
                     m.DerbyName = voter.Member.DerbyName;
                     m.PlayerNumber = voter.Member.PlayerNumber;
                     m.UserId = voter.Member.AspNetUserId;
+                    m.DidVote = true;
                     v.Voters.Add(m);
+                }
+                var league = MemberCache.GetLeagueOfMember(mem);
+                for (int i = 0; i < league.LeagueMembers.Count; i++)
+                {
+                    v.Voters.Add(new MemberDisplay()
+                    {
+                        MemberId = league.LeagueMembers[i].MemberId,
+                        Firstname = league.LeagueMembers[i].Firstname,
+                        LastName = league.LeagueMembers[i].LastName,
+                        DerbyName = league.LeagueMembers[i].DerbyName,
+                        DidVote = false
+                    });
                 }
                 //= MemberCache.GetLeagueMembers(mem, leagueId);
                 foreach (var question in voting.Questions.OrderBy(x => x.QuestionSortId))

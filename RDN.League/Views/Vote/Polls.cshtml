@@ -50,16 +50,16 @@
                     {
                         <tr>
                            
-                            <td>
+                            <td class="vertical-middle">
                                 @Model.Polls[i].Question
                             </td>
-                            <td>
+                            <td class="vertical-middle">
                                 @Model.Polls[i].Voted / @Model.Polls[i].NonVotes
                             </td>
-                            <td>
+                            <td class="vertical-middle">
                                 @Model.Polls[i].IsPublic
                             </td>
-                            <td>
+                            <td class="vertical-middle">
                                 @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(Model.Polls[i].Created)
                             </td>
                             <td class="text-center">

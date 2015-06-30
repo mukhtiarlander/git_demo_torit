@@ -484,6 +484,13 @@ namespace RDN.League.Controllers.UI
         {
             try
             {
+                foreach (string guid in voting.ToMemberIds.Split(','))
+                {
+                    Guid temp = new Guid();
+                    bool didWork = Guid.TryParse(guid, out temp);
+                    if (didWork)
+                        voting.Voters.Add(new MemberDisplayBasic() { MemberId = temp });
+                }
                 var poll = VotingFactory.UpdatePollV2(voting);
                 return Redirect(Url.Content("~/poll/edit/" + voting.LeagueId.ToString().Replace("-", "") + "/" + voting.VotingId + "?u=" + SiteMessagesEnum.su));
             }
