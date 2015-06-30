@@ -5,59 +5,100 @@
     ViewBag.Title = "League Receipt";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscriptions</a></li>
+    <li class="active">Receipt</li>
+</ol>
 
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-    <div class="backLink">
-        < <a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscriptions</a>
-    </div>
-        </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle">
-            Receipt for @Model.LeagueName
-        </div>
-         <div class="titleDescription">
-               Your receipt for subscribing to RDNation.com!  We greatly appreciate your business.  If there is anything we can do for your league, please feel free to contact us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here to make the entire Derby community a better place.
-       
-        </div>
-        <div class="divider"></div>
-       
-         
-        <div>
-            <table>
-                <tr>
-                    <td class="b vLT2D">Invoice Id:</td>
-                    <td class="vRTD">@Model.InvoiceId.ToString().Replace("-", "")</td>
-                    <td><a href="@Url.Content("~/billing/league/history/" + Model.LeagueId.ToString().Replace("-", ""))">View Billing History</a></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Current Status:</td>
-                    <td class="vRTD">@EnumExt.ToFreindlyName(Model.MembershipStatus)</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Amount Paid:</td>
-                    <td class="vRTD">$@Model.AmountPaid.ToString("N2")
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="b vLT2D">Expires:</td>
-                    <td class="vRTD">
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default margin-bottom-15">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-5 margin-top-5">Receipt for @Model.LeagueName</h3>
+                <span class="text-muted">
+                    Your receipt for subscribing to RDNation.com!  We greatly appreciate your business.  If there is anything we can do for your league, please feel free to contact us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here to make the entire Derby community a better place.
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row margin-bottom-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        Invoice Id
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                        @Model.InvoiceId.ToString().Replace("-", "")
+                        <a href="@Url.Content("~/billing/league/history/" + Model.LeagueId.ToString().Replace("-", ""))" class="btn btn-xs btn-info">
+                            <i class="fa fa-history"></i> Billing History
+                        </a>
+                    </div>
+                </div>
+                <div class="row margin-bottom-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        Current Status
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                        @EnumExt.ToFreindlyName(Model.MembershipStatus)
+                    </div>
+                </div>
+                <div class="row margin-bottom-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        Amount Paid
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                        $@Model.AmountPaid.ToString("N2")
+                    </div>
+                </div>
+                <div class="row margin-bottom-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        Expires
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                        $@Model.AmountPaid.ToString("N2")
+                    </div>
+                    <div>
                         @if (Model.Expires.ToShortDateString() != "1/1/0001")
                         {
                             @Model.Expires.ToShortDateString()
                         }
-                    </td>
-                    <td></td>
-                </tr>
+                    </div>
+                </div>
+                <div class="row margin-bottom-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        Expires
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                        $@Model.AmountPaid.ToString("N2")
+                    </div>
+                    <div>
+                        @if (Model.Expires.ToShortDateString() != "1/1/0001")
+                        {
+                            @Model.Expires.ToShortDateString()
+                        }
+                    </div>
+                </div>
+                <table>
+                    
+                    <tr>
+                        <td class="b padding-bottom-10">:</td>
+                        <td class="padding-bottom-10">
+                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="b padding-bottom-10">Expires:</td>
+                        <td class="padding-bottom-10">
+                           
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td class="b vLT2D">Receipt Emailed To:</td>
-                    <td class="vRTD">@Model.EmailForReceipt</td>
-                    <td></td>
-                </tr>
-            </table>
+                    <tr>
+                        <td class="b padding-bottom-10">Receipt Emailed To:</td>
+                        <td class="padding-bottom-10">@Model.EmailForReceipt</td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
     </div>
 </div>
+
