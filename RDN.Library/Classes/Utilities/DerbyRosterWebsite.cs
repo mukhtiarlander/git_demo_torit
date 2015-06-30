@@ -129,8 +129,8 @@ namespace RDN.Library.Classes.Utilities
                             dc.LeaguesForDerbyRoster.Add(roster);
                             dc.SaveChanges();
 
-                            //http://rdnation.com/roller-derby-league/San-Diego-Roller-Derby/99121fbf301f4c2fb4beb5c13d011088
-                            string url = "http://rdnation.com/roller-derby-league/2/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + roster.TeamId.ToString().Replace("-", "");
+                            
+                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-league/2/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + roster.TeamId.ToString().Replace("-", "");
                             Console.WriteLine("sitemap:" + url);
                             SitemapHelper.AddNode(url, false);
 

@@ -543,7 +543,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author = "RDNation.com";
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Roster For " + league.Name;
 
                     //we create the first sheet.
@@ -612,7 +612,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author = "RDNation.com";
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Groups For " + league.Name;
 
                     //we create the first sheet.
@@ -1143,7 +1143,7 @@ namespace RDN.League.Controllers
 
                 using (ExcelPackage p = RDN.Library.Classes.League.ReportBuilder.PrepareExcelWorkBook(model.SelectedColumnsHidden, league))
                 {
-                    p.Workbook.Properties.Author = "RDNation.com";
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Report For " + league.Name;
                     //Generate A File with Random name
                     Byte[] bin = p.GetAsByteArray();

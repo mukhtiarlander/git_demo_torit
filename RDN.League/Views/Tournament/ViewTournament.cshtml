@@ -55,7 +55,7 @@
                                 @Html.TextBoxFor(x => x.Name, new { @class = "form-control margin-bottom-5" })
                                 @if (Model.IsPublished)
                                 {
-                                    <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">View Public Tournament</a>
+                                    <a target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite+"/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">View Public Tournament</a>
                                 }
                                 else
                                 {
@@ -231,7 +231,7 @@
                                         {@Model.Games[i].Team1Name}
                                         else
                                         {
-                                        <a href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + Model.Games[i].Team1LinkId.ToString().Replace("-", ""))">
+                                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + Model.Games[i].Team1LinkId.ToString().Replace("-", ""))">
                                             @Model.Games[i].Team1Name
                                         </a>
                                         }
@@ -241,7 +241,7 @@
                                         {@Model.Games[i].Team2Name}
                                         else
                                         {
-                                        <a href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name) + "/" + Model.Games[i].Team2LinkId.ToString().Replace("-", ""))">
+                                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name) + "/" + Model.Games[i].Team2LinkId.ToString().Replace("-", ""))">
                                             @Model.Games[i].Team2Name
                                         </a>
                                         }

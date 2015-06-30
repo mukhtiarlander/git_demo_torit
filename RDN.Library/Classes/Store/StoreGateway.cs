@@ -421,7 +421,7 @@ namespace RDN.Library.Classes.Store
                                             { "sellersAddress",sellersAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
                                             { "notesForPayment", invoice.Note},
-                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
+                                            { "emailLink", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
                                           };
 
                 //sends email to user for their payment.
@@ -485,7 +485,7 @@ namespace RDN.Library.Classes.Store
                                             { "shippingAddress",shippingAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
                                             { "notesForPayment", invoice.Note},
-                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
+                                            { "emailLink", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
                                           };
 
                 //sends email to user for their payment.

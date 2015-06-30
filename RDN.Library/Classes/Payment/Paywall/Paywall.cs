@@ -172,7 +172,7 @@ namespace RDN.Library.Classes.Payment.Paywall
                                                                                         { "sellerEmail", invoice.Merchant.OrderPayedNotificationEmail},
                                             { "paywallPassword",invoice.Paywall.PaywallPassword},
                                             { "paywallLocation", "<a href='"+invoice.Paywall.PaywallLocation+"'>Go See What you Paid For!</a>"},
-                                                { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
+                                                { "emailLink", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
 
                 //sends email to user for their payment.
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallPaid);
@@ -203,7 +203,7 @@ namespace RDN.Library.Classes.Payment.Paywall
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ invoice.RefundAmount.ToString("N2") },
                                             { "receiptLink", "<a href='"+LibraryConfig.PublicSite+"/streaming/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
-                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
+                                            { "emailLink", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                                                                      };
 
                 //sends email to user for their payment.
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Refund for " + invoice.Paywall.Name, emailData, EmailServer.EmailServerLayoutsEnum.PaywallRefunded);

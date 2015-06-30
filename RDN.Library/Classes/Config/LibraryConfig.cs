@@ -165,14 +165,6 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string WebsiteMainEmail
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WebsiteMainEmail"];
-            }
-        }
-
         public static string WebsiteName
         {
             get

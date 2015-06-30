@@ -228,6 +228,7 @@ namespace RDN.Library.Classes.EmailServer
                 properties.Add("websiteLogo", LibraryConfig.LogoUrl);
                 properties.Add("CompanyAddress", LibraryConfig.CompanyAddress);
                 properties.Add("WebsiteShortName", LibraryConfig.WebsiteShortName);
+                properties.Add("DefaultInfoEmail", LibraryConfig.DefaultInfoEmail);
                 properties.Add("EmailSignature", LibraryConfig.EmailSignature);
 
                 EmailServerManager email = new EmailServerManager(databaseConnectionName);

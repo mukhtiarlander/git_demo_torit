@@ -1,8 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Contact";
-
-    string webmail = RDN.Library.Classes.Config.LibraryConfig.WebsiteMainEmail;
 }
 <div class="page-header">
     <h2>
@@ -11,6 +9,7 @@
 </div>
 <div>
     We'd love to hear from you! Please send all your general questions and inquiries
-    to <a href="mailto:@webmail">@webmail</a></div>
+    to <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail</a>
+</div>
 
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />

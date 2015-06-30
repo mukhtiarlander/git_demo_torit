@@ -271,7 +271,7 @@
                                             <div class="col-lg-6 col-xs-12">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading text-center">
-                                                        <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                                        <a target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite+"/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name) + "/" + league.LeagueId.ToString().Replace("-", ""))">
                                                             @league.Name
                                                         </a>
                                                     </div>

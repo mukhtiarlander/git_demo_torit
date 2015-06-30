@@ -143,14 +143,14 @@ namespace RDN.Library.Classes.Utilities
 
                         if (skaterId != new Guid())
                         {
-                            //  http://rdnation.com/roller-derby-skater/A-LO/5cb2bdb641f747f39d1745286d6a1561
-                            string url = "http://rdnation.com/roller-derby-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.DerbyName) + "/" + skaterId.ToString().Replace("-", "");
+                            
+                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.DerbyName) + "/" + skaterId.ToString().Replace("-", "");
                             SitemapHelper.AddNode(url, false);
                         }
                         if (teamId != new Guid())
                         {
-                            //http://rdnation.com/roller-derby-league/San-Diego-Roller-Derby/99121fbf301f4c2fb4beb5c13d011088
-                            string url = "http://rdnation.com/roller-derby-league/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + teamId.ToString().Replace("-", "");
+                            
+                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-league/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + teamId.ToString().Replace("-", "");
                             SitemapHelper.AddNode(url, false);
                         }
                     }

@@ -48,8 +48,8 @@ namespace RDN.Library.Classes.AutomatedTask
             {
                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", "Veggie D" }, 
-                        { "publicProfile", "http://rdnation.com/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  }, 
-                        { "editProfileLink", "http://rdnation.com/login?returnSite=league&ReturnUrl=%2fmember%2fedit" } };
+                        { "publicProfile", RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  }, 
+                        { "editProfileLink",RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/login?returnSite=league&ReturnUrl=%2fmember%2fedit" } };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, "spoiledtechie@gmail.com", "Your Profile Is Still Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
             }

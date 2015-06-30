@@ -28,6 +28,7 @@ using RDN.Portable.Classes.Controls.Calendar.Enums;
 using RDN.Portable.Classes.Controls.Calendar;
 using RDN.Portable.Classes.Account.Enums.Settings;
 using ScheduleWidget.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -52,7 +53,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author = "RDNation.com";
+                    p.Workbook.Properties.Author =LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Event Roster " + calEventTemp.Name + " - " + calEventTemp.StartDate.ToString("yyyy-M-d");
 
                     //we create the first sheet.
@@ -1078,7 +1079,7 @@ namespace RDN.League.Controllers
             {
                 SiteMessage message = new SiteMessage();
                 message.MessageType = SiteMessageType.Warning;
-                message.Message = "Event wasn't deleted, please contact info@rdnation.com.";
+                message.Message = "Event wasn't deleted, please contact " + LibraryConfig.DefaultInfoEmail+ ".";
                 this.AddMessage(message);
             }
             if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.sww.ToString())
@@ -1272,7 +1273,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author = "RDNation.com";
+                    p.Workbook.Properties.Author =LibraryConfig.WebsiteShortName;
                     p.Workbook.Properties.Title = "Calendar Report For " + cal.EntityName;
 
                     //we create the first sheet.

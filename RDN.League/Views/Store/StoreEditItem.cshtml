@@ -102,7 +102,7 @@
 
                             <div class="form-group">
                                 <label for="ItemType" class="control-label">Type Of Item</label>
-                                @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)", @class = "form-control", @placeholder = "" }) - <small>To Add Type, Email us at <a href="mailto:'@RDN.Library.Classes.Config.LibraryConfig.WebsiteMainEmail'">@RDN.Library.Classes.Config.LibraryConfig.WebsiteMainEmail</a></small>
+                                @Html.DropDownListFor(x => x.ItemType, Model.ItemTypeSelectList, "Choose Type...", new { @onchange = "TypeOfStoreItemSelected(this)", @class = "form-control", @placeholder = "" }) - <small>To Add Type, Email us at <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail</a></small>
                             </div>
                             <div class="form-group @(Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt ? "" : "displayNone")" id="shirtSize">
                                 <label for="ItemType" class="control-label">Sizes</label>
