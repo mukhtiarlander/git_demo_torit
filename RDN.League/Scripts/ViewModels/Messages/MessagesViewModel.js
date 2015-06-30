@@ -132,7 +132,7 @@
                 minimumInputLength: 1,
                 templateResult: formatRepo, // omitted for brevity, see the source of this page
                 templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-            }).select2("open");
+            }).select2("open"); 
         }).popover(
           {
               html: true,
