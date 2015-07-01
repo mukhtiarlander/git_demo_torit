@@ -5,7 +5,7 @@
 }
 @{
     
-    ViewBag.Title = Model.Name.Replace("Roller Derby League", " ") + @RDN.Library.Classes.Config.LibraryConfig.SportName + " League";
+    ViewBag.Title = Model.Name;
     if (!String.IsNullOrEmpty(Model.State) && !String.IsNullOrEmpty(Model.Country))
     {
         ViewBag.Title += " in " + Model.State + ", " + Model.Country;
@@ -53,7 +53,7 @@
                         {
                             <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
                                 <td>
-                                    <img height="40px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby person" />
+                                    <img height="40px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
                                 </td>
                                 <td>
                                     <a href="@Url.Content("~/roller-derby-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">

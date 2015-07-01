@@ -29,13 +29,9 @@
                     {
                         <img class="round-corners" style="width: 100%; max-width:400px" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
                     }
-                    else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
-                    {
-                        <img class="round-corners" style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-                    }
                     else
                     {
-                        <img class="round-corners" style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                        <img class="round-corners" style="width: 100%; max-width: 400px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
                     }
                     <input class="btn btn-default margin-top-10 margin-bottom-10" type="file" name="file" id="file" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto" />
                 </div>

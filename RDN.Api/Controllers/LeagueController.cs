@@ -194,7 +194,7 @@ namespace RDN.Api.Controllers
                         MemberDisplayAPI m = new MemberDisplayAPI();
                         if (members[i].Photos.FirstOrDefault() != null)
                             m.ThumbUrl = members[i].Photos.FirstOrDefault().ImageThumbUrl;
-                        //m.ThumbUrl = "http://images.rdnation.com/members/2014/2/23/Annie-roller-derby-130376147098933750_thumb.JPG";
+                        
                         m.DerbyName = members[i].DerbyName;
                         m.DerbyNameUrl = members[i].DerbyNameUrl;
                         m.DOB = members[i].DOB;
@@ -256,7 +256,7 @@ namespace RDN.Api.Controllers
                         MemberDisplayBasic m = new MemberDisplayBasic();
                         if (members[i].Photos.FirstOrDefault() != null)
                             m.ThumbUrl = members[i].Photos.FirstOrDefault().ImageThumbUrl;
-                        m.ThumbUrl = "http://images.rdnation.com/members/2014/2/23/Annie-roller-derby-130376147098933750_thumb.JPG";
+                        
                         m.DerbyName = members[i].DerbyName;
                         m.Firstname = members[i].Firstname;
                         m.LastName = members[i].LastName;

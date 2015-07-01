@@ -101,7 +101,7 @@
                             </label>
                             <div class="margin-bottom-15">
                                 @Html.DropDownListFor(x => x.TouramentTypeForSeedingEnum, Model.TouramentTypeForSeedingEnum.ToSelectListDropDown(), "Choose Class...", new { @class = "full-width margin-bottom-5" })
-                                <span class="i text-muted">To seed based on performance, choose class.  <a href="http://wiki.rdnation.com/Online_Tournament#Seeding_a_Tournament_for_Performance_Rounds">Help</a></span>
+                                <span class="i text-muted">To seed based on performance, choose class.  <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Online_Tournament#Seeding_a_Tournament_for_Performance_Rounds">Help</a></span>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">

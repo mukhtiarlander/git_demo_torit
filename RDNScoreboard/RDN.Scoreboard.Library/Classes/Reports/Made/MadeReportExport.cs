@@ -47,7 +47,7 @@ namespace Scoreboard.Library.Classes.Reports.Excel
             {
                 try
                 {
-                    p.Workbook.Properties.Author = "RDNation.com v" + ScoreboardConfig.SCOREBOARD_VERSION_NUMBER;
+                    p.Workbook.Properties.Author =  "RDNation.com v" + ScoreboardConfig.SCOREBOARD_VERSION_NUMBER;
                     p.Workbook.Properties.Title = "MADE Report For " + GameViewModel.Instance.GameName;
 
                     //first sheet for Team 1

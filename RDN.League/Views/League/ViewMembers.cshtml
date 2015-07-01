@@ -158,7 +158,7 @@
                         <td id="@Model.Model.Items[i].MemberId-connected" class="center">
                             @if (!Model.Model.Items[i].IsConnected && isAdminOfLeague)
                             {
-                                <input class="btn btn-xs btn-warning" id="@Model.Model.Items[i].MemberId-invite" type="button" value="Invite" onclick="SendEmailInviteToRDNation('@Model.Model.Items[i].MemberId', '@ViewBag.LeagueName')" />
+                                <input class="btn btn-xs btn-warning" id="@Model.Model.Items[i].MemberId-invite" type="button" value="Invite" onclick="SendEmailInvite('@Model.Model.Items[i].MemberId', '@ViewBag.LeagueName')" />
                             }
                         </td>
 
@@ -182,7 +182,7 @@
              <div>
                 <span class="b">SMS</span> - Can send user Text Messages through the messages Menu.<br />
                 <span class="b">Joined</span> - Shows who is signed up and who isn't. So you
-                can make sure they get setup with <a href="rdnation.com">RDNation.com</a>.
+                can make sure they get setup with <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>.
             </div>
         }
     </div>

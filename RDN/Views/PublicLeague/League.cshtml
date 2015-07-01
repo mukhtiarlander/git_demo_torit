@@ -80,13 +80,9 @@
                                 {
                                     <img style="max-height:200px" alt="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
                                 }
-                                else if (Model.LeagueMembers[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                                                else
                                 {
-                                    <img style="max-height:200px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
-                                }
-                                else
-                                {
-                                    <img style="max-height:200px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
+                                    <img style="max-height:200px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
                                 }
                             </a>
                             <div class="caption">

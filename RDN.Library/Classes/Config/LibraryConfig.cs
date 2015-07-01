@@ -18,6 +18,14 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string DefaultEmailSubject
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultEmailSubject"];
+            }
+        }
+
         public static string FacebookPageName2
         {
             get
@@ -102,6 +110,14 @@ namespace RDN.Library.Classes.Config
                 return Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
             }
         }
+
+        public static string DefaultPictureName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultPictureName"];
+            }
+        }
         public static string ConnectionStringName
         {
             get
@@ -117,6 +133,24 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["InternalSite"];
             }
         }
+
+        public static string ImagesBaseUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ImagesBaseUrl"];
+            }
+        }
+
+
+        public static string ImagesBaseSaveLocation
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ImagesBaseSaveLocation"];
+            }
+        }
+
 
         public static string ApiSite
         {
@@ -526,6 +560,14 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["CSS_VERSION"];
             }
         }
+
+        public static string DocumentsSaveFolder
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DocumentsSaveFolder"];
+            }
+        }
         
         
         
@@ -557,14 +599,7 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["DataFolder"];
             }
         }
-        public static string ImageFolder
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ImageFolder"];
-            }
-        }
-       
+    
 
 
 

@@ -204,7 +204,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
 
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email.EmailAddress, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
                 }
@@ -214,7 +214,7 @@ namespace RDN.Library.Classes.Admin.Admin
             {
                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, testEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, testEmail, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                 return true;
             }
         }
@@ -276,7 +276,7 @@ namespace RDN.Library.Classes.Admin.Admin
                             {
                                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emails[i], EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emails[i], LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                             }
                         }
                     }
@@ -295,7 +295,7 @@ namespace RDN.Library.Classes.Admin.Admin
             return false;
         }
 
-        public static bool SendMassEmailsForLeaguesNotSignedUpToRDNation(string subject, string body, string testEmail)
+        public static bool SendMassEmailsForLeaguesNotSignedUpToWebsite(string subject, string body, string testEmail)
         {
             var dc = new ManagementContext();
             var UnSubscribedEmails = dc.NonSubscribersList.Select(x => x.EmailToRemoveFromList).ToList();
@@ -324,7 +324,7 @@ namespace RDN.Library.Classes.Admin.Admin
                     {
                         var emailData = new Dictionary<string, string> { { "body", body } };
 
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email.EmailAddress, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                     }
                 }
             }
@@ -371,7 +371,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
 
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
                 }
@@ -398,7 +398,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
 
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
 
@@ -409,7 +409,7 @@ namespace RDN.Library.Classes.Admin.Admin
             {
                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, testEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, testEmail, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                 return true;
             }
         }
@@ -430,7 +430,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
 
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
                 }
@@ -474,7 +474,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         if (Utilities.EmailValidator.Validate(email))
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
                 }
@@ -497,7 +497,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         if (Utilities.EmailValidator.Validate(email.Email))
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email.Email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
                 }
@@ -536,7 +536,7 @@ namespace RDN.Library.Classes.Admin.Admin
                     {
                         var emailData = new Dictionary<string, string> { { "body", body } };
 
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                     }
                 }
             }
@@ -559,7 +559,7 @@ namespace RDN.Library.Classes.Admin.Admin
                     {
                         var emailData = new Dictionary<string, string> { { "body", body } };
 
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                     }
                 }
             }
@@ -598,7 +598,7 @@ namespace RDN.Library.Classes.Admin.Admin
                         {
                             var emailData = new Dictionary<string, string> { { "body", body } };
 
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                         }
                     }
                 }

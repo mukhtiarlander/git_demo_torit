@@ -85,7 +85,7 @@ namespace RDN.Library.Classes.League
                     var user = System.Web.Security.Membership.GetUser((object)userId);
                     if (user != null)
                     {
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Job Created: " + jobName, emailData, EmailServer.EmailServerLayoutsEnum.RDNJobNewCreated);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " Job Created: " + jobName, emailData, EmailServer.EmailServerLayoutsEnum.RDNJobNewCreated);
                     }
                 }
             }

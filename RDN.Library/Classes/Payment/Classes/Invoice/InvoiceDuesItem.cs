@@ -15,7 +15,7 @@ namespace RDN.Library.Classes.Payment.Classes.Invoice
         public decimal BasePrice { get; set; }
         public decimal PriceAfterFees { get; set; }
         public WhoPaysProcessorFeesEnum WhoPaysFees { get; set; }
-        public decimal RDNationsFees { get; set; }
+        public decimal SiteFees { get; set; }
         public decimal ProcessorFees { get; set; }
         public DateTime PaidForDate { get; set; }
     }

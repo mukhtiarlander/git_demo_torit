@@ -16,7 +16,7 @@ namespace RDN.Raspberry.Models.Admin
         AllRegisteredUsers = 5,
         AllRegisteredLeagues = 6,
         AllRegisteredEmails = 7,
-        AllLeaguesThatDontExistWithinRDNation = 8,
+        AllLeaguesThatDontExistWithinSite = 8,
         AllLeagueOwners = 9,
         AllEmailsToSendMontlyUpdatesTo = 10,
         Role = 11

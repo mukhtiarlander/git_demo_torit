@@ -17,7 +17,7 @@
 
 
 var leagueHost = "https://league.rdnation.com/";
-var rdnationHost = "https://rdnation.com/";
+var Host = "https://rdnation.com/";
 var simpleId = 0;
 var simpleIdTwo = 0;
 //ko configuration
@@ -857,7 +857,7 @@ function GetCurrentDateTime() {
     return curr_month + "/" + curr_date + "/" + curr_year + " " + curr_hour + ":" + curr_minutes + " " + a_p;
 }
 
-function SendEmailInviteToRDNation(memberId, leagueId) {
+function SendEmailInvite(memberId, leagueId) {
     memberId = $.trim(memberId);
     leagueId = $.trim(leagueId);
     var to = $("#" + memberId + "-invite");

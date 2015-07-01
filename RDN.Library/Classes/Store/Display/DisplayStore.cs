@@ -27,7 +27,7 @@ namespace RDN.Library.Classes.Store.Display
         //public decimal PayedFeesToRDN { get; set; }
         public string Bank { get; set; }
         public string BankAccount { get; set; }
-        public bool IsRDNation { get; set; }
+        public bool IsSite { get; set; }
         public string PayPalEmailAddressForPayments { get; set; }
         //public bool AcceptPaymentsViaStripe { get; set; }
         //public string StripeConnectKey { get; set; }

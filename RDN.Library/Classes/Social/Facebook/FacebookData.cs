@@ -1,4 +1,5 @@
-﻿using RDN.Library.Classes.EmailServer;
+﻿using RDN.Library.Classes.Config;
+using RDN.Library.Classes.EmailServer;
 using RDN.Library.Classes.Social.Enums;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.Social;
@@ -30,7 +31,7 @@ namespace RDN.Library.Classes.Social.Facebook
                                             { "body","Please Refresh Facebook Connection by clicking on link:http://rollinnews.com/admin/#/social"}
                                               };
 
-                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, user, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " Reset Facebook Connection", emailData, EmailServerLayoutsEnum.Blank);
+                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, user, LibraryConfig.DefaultEmailSubject + " Reset Facebook Connection", emailData, EmailServerLayoutsEnum.Blank);
                 }
             }
         }

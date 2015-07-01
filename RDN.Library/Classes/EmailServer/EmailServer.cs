@@ -29,7 +29,7 @@ namespace RDN.Library.Classes.EmailServer
         AutomatedStats = 14,
         LeagueCreatedMemberProfile = 15,
         MemberAddedToManageDerbyGame = 16,
-        //for the RDNation notification
+        //for the Site notification
         DuesCollectingNotification = 17,
         //for the nortification managers want to write out.
         DuesCollectingNotificationBlank = 18,
@@ -38,7 +38,7 @@ namespace RDN.Library.Classes.EmailServer
         SendMessageToUserFromOtherUser = 20,
         //sends the messages to the user from users in the past few hours.
         SendLatestConversationsThreadToUser = 21,
-        //receipt for a league that subscribes to RDNation.
+        //receipt for a league that subscribes to Site.
         ReceiptForLeagueSubscription = 22,
         SubscriptionIsAboutToRunOutTask = 23,
         SubscriptionHasExpiredTask = 24,

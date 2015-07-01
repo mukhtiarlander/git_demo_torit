@@ -552,7 +552,7 @@ namespace RDN.Library.Classes.Federation
                                         {"link", LibraryConfig.AdminSite + FederationConfig.ADMIN_APPROVAL_LINK_FOR_NEW_FED}
                                     };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Federation Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewFederationAdmin);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailSubject + " New Federation Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewFederationAdmin);
 
 
                 // ToDo: To be removed
@@ -592,7 +592,7 @@ namespace RDN.Library.Classes.Federation
                                         {"contactemail", LibraryConfig.DefaultInfoEmail}
                                     };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, federationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Federation Approved", emailData, layout: EmailServer.EmailServerLayoutsEnum.FederationApproved);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, federationEmail, LibraryConfig.DefaultEmailSubject + " Federation Approved", emailData, layout: EmailServer.EmailServerLayoutsEnum.FederationApproved);
 
                 // ToDo: To be removed
                 //                var message = string.Format(@"{0},<br/><br/> Your Federation '{1}' has just been approved by and RDNation.com!<br/><br/>
@@ -675,7 +675,7 @@ namespace RDN.Library.Classes.Federation
         //                    dis.Team = league.LeagueId.ToString();
         //                else
         //                {
-        //                    var leagueId = RDN.Library.Classes.League.League.CreateLeagueForImport(mem.league, "0", "Virginia", "Fairfax", -5, "info@rdnation.com", "0", new Guid("9323d367-ca5f-414d-bfce-666449bc94f3"));
+        //                    var leagueId = RDN.Library.Classes.League.League.CreateLeagueForImport(mem.league, "0", "Virginia", "Fairfax", -5, @RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail, "0", new Guid("9323d367-ca5f-414d-bfce-666449bc94f3"));
         //                    dis.Team = leagueId.ToString();
 
         //                }
