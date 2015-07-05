@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool manager = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+    string selectedFolder = "Documents";
+
+    if (ViewBag.SelectedFolder != null)
+    { selectedFolder = ViewBag.SelectedFolder; }
 }
 
 <ol class="breadcrumb">
@@ -85,7 +89,7 @@
                                 }
                             </li>
                             }
-                        </ol>
+                        </ol> 
                     </li>
 
 
@@ -180,7 +184,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h4><i class="fa fa-file"></i> Documents</h4>
+                        <h4><i class="fa fa-file"></i> @selectedFolder</h4>
                     </div>
                     @if (manager)
                     {

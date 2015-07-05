@@ -1971,6 +1971,7 @@ namespace RDN.League.Controllers
                 string u = nameValueCollection["u"];
                 //folder selected
                 string f = nameValueCollection["f"];
+                
                 //group selected
                 string g = nameValueCollection["g"];
                 long folderId = 0;
@@ -1983,7 +1984,7 @@ namespace RDN.League.Controllers
                     this.AddMessage(message);
                 }
                 if (!String.IsNullOrEmpty(f))
-                {
+                {                    
                     folderId = Convert.ToInt64(f);
                 }
                 if (!String.IsNullOrEmpty(g))
@@ -2023,7 +2024,14 @@ namespace RDN.League.Controllers
                 ViewBag.FoldersSelect = new SelectList(foldersCom.OrderBy(x => x.FolderName), "FolderId", "FolderName");
                 //folder to move to for UPLOADER.
                 ViewBag.FoldersApartOf = new SelectList(foldersApartOf.OrderBy(x => x.FolderName), "GroupFolderId", "FolderName");
-
+                
+                if(!string.IsNullOrEmpty(f)){
+                    ViewBag.SelectedFolder = repo.Folders.Find(item => item.FolderId.Equals(Convert.ToInt64(f))).FolderName;
+                }
+                else if (!string.IsNullOrEmpty(g)) {
+                    ViewBag.SelectedFolder = repo.GroupsApartOf.Find(item => item.Id.Equals(Convert.ToInt64(g))).GroupName;
+                }
+                
                 return View(repo);
             }
             catch (Exception exception)
