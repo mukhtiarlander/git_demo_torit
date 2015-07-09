@@ -126,7 +126,7 @@
                         <div class="thumbnail">
                             @if (league.Logo != null)
                             {
-                                <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
 
                                     <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
 
@@ -134,7 +134,7 @@
                             }
                             <div class="caption">
                                 <h4>
-                                    <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
                                         @league.Name
                                     </a>
                                 </h4>

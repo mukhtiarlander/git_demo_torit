@@ -20,7 +20,7 @@
                 </div>
                 <div class="storeItemInfo">
                     <div class="storeItemTitle">
-                        <a href="@Url.Content("~/roller-derby-store/item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
+                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-store/item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
                     </div>
                     <div class="storeItemPrice">
                         $@item.Price.ToString("N2")</div>

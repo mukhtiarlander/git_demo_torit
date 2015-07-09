@@ -1,11 +1,7 @@
-﻿var apiUrl = "http://localhost:16106/";
-
-apiUrl = "https://api.rdnation.com/";
+﻿
 
 OpenLayers.ImgPath = "/content/images/";
 
-var urlForLiveCurrentGames = "https://api.rdnation.com/livegame/currentgames?callback=?";
-//var urlForLiveCurrentGames = "http://localhost:19237/livegame/currentgames?callback=?";
 
 function Chat(chatTemp, memberName, id, created) {
     this.chat = ko.observable(chatTemp);
@@ -170,7 +166,7 @@ function CurrentGame(game) {
     this.ruleSet = ko.observable(game.RuleSet);
     this.isGameStreaming = ko.observable(game.IsLiveStreaming);
 
-    this.gameUrl = ko.observable("http://" + window.location.host + "/roller-derby-game/" + game.GameId.replace(/-/g, "") + "/" + game.GameName.replace(/ /g, "-") + "/" + team1NTemp.replace(/ /g, "-") + "/" + team2NTemp.replace(/ /g, "-"));
+    this.gameUrl = ko.observable("http://" + window.location.host + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.GameId.replace(/-/g, "") + "/" + game.GameName.replace(/ /g, "-") + "/" + team1NTemp.replace(/ /g, "-") + "/" + team2NTemp.replace(/ /g, "-"));
 }
 var currentGamesTimer = $.timer(function () {
     currentGamesViewModel.PullCurrentGamesTicker();

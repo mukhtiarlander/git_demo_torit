@@ -69,6 +69,7 @@
 </head>
 <body id="navbar-theme" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
     @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+    @System.Web.Optimization.Scripts.Render("~/bundles/properties")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript" src="https://js.stripe.com/v1/"></script>

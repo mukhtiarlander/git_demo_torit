@@ -40,7 +40,7 @@
                                     }
                                 </td>
                                 <td>
-                                        <a href="@Url.Content("~/roller-derby-federation/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].FederationName.Replace(" ", "-")) + "/" + Model.Model.Items[i].FederationId.ToString().Replace("-", ""))">
+                                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-federation/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Model.Items[i].FederationName.Replace(" ", "-")) + "/" + Model.Model.Items[i].FederationId.ToString().Replace("-", ""))">
                                             @Model.Model.Items[i].FederationName
                                         </a>
                                 </td>

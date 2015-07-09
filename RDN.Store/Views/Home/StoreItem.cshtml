@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 <div class="storeMenu">
-    <a href="@Url.Content("~/roller-derby-store")">Store Home</a> | <a href="@Url.Content("~/roller-derby-store/cart")">View Cart (@Model.CartItemsCount)</a>
+    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-store")">Store Home</a> | <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-store/cart")">View Cart (@Model.CartItemsCount)</a>
 </div>
 <div class="clear">
 </div>
@@ -30,7 +30,7 @@
             <span class="storeItemName">@Model.Name</span>
             <br />
             <div class="storeItemSoldBy">
-                Sold by <a href="@Url.Content("~/roller-derby-store/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Merchant.Name) + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">@Model.Merchant.Name</a>
+                Sold by <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-store/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Merchant.Name) + "/" + Model.Merchant.MerchantId.ToString().Replace("-", ""))">@Model.Merchant.Name</a>
             </div>
         </div>
         <hr />

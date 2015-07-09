@@ -70,7 +70,7 @@ namespace RDN.Store.Controllers
             robotsResult.Append("Disallow: /signup" + Environment.NewLine);
             robotsResult.Append("Disallow: /utilities" + Environment.NewLine);
             robotsResult.Append("Disallow: /store" + Environment.NewLine);
-            robotsResult.Append("Disallow: /roller-derby-store" + Environment.NewLine);
+            robotsResult.Append("Disallow: /" + LibraryConfig.SportNameForUrl + "-store" + Environment.NewLine);
 
             return Content(robotsResult.ToString(), "text/plain");
         }

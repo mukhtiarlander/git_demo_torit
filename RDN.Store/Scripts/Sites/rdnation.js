@@ -1,0 +1,1 @@
+﻿var SportNameForUrl = "" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "";

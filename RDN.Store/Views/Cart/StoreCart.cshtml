@@ -15,7 +15,7 @@
     @foreach (var merchant in Model.Stores)
     {
         <div class="cartShop">
-            <div class="cartShopName">Order For <a href="@Url.Content("~/roller-derby-shop/" + @merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(merchant.Name))">@merchant.Name</a></div>
+            <div class="cartShopName">Order For <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + @merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(merchant.Name))">@merchant.Name</a></div>
             <table class="storeShoppingCartTable">
                 <thead>
                     <tr>
@@ -41,7 +41,7 @@
                             <td class="cartItemInfo">
 
                                 <div class="cartItemTitle">
-                                    <a target="_blank" href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
+                                    <a target="_blank" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
                                 </div>
                                 <div class="cartItemDesc">
 
