@@ -391,6 +391,16 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+
+
+        public static string DefaultEmailSubject
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultEmailSubject"];
+            }
+        }
+
         public static string DefaultEmailMessage
         {
             get
