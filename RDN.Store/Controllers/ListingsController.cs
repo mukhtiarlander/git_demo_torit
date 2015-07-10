@@ -7,6 +7,7 @@ using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Store;
 using RDN.Library.Classes.Store.Classes;
 using RDN.Portable.Classes.Store.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Store.Controllers
 {
