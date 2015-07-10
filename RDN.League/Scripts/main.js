@@ -27,6 +27,16 @@
     });
 });
 
+function ToggleSideMenu() {
+    if ($("#mainNavbar").hasClass("slideInLeft")) {
+        $("#mainNavbar").removeClass("slideInLeft");
+        $("#mainNavbar").addClass("slideOutLeft");
+    }
+    else {
+        $("#mainNavbar").removeClass("slideOutLeft");
+        $("#mainNavbar").addClass("slideInLeft").show();
+    }
+}
 
 var simpleId = 0;
 var simpleIdTwo = 0;

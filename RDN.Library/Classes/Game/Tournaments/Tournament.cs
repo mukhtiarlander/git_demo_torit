@@ -990,7 +990,7 @@ namespace RDN.Library.Classes.Game
                         { "gameName",tournament.TournamentName}, 
                         { "link",LibraryConfig.InternalSite +"/tournament/view/"+ tournament.PrivateTournamentId.ToString().Replace("-","") +"/"+tournament.TournamentId.ToString().Replace("-","") } };
 
-            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emailToSendTo, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To Manage Tournament", emailData, layout: EmailServer.EmailServerLayoutsEnum.TournamentMemberAddedToManage);
+            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emailToSendTo, LibraryConfig.DefaultEmailSubject + " Added To Manage Tournament", emailData, layout: EmailServer.EmailServerLayoutsEnum.TournamentMemberAddedToManage);
         }
 
         public static bool UpdateTournament(Tournament tourn)
@@ -1363,8 +1363,8 @@ namespace RDN.Library.Classes.Game
                 string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.TournamentName + " roller derby tournamnent-") + saveTime + info.Extension;
                 string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.TournamentName + " roller derby tournamnent-") + saveTime + "_thumb" + info.Extension;
 
-                string url = "http://images.rdnation.com/tournaments/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = @"C:\WebSites\images.rdnation.com\tournaments\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = LibraryConfig.ImagesBaseUrl + "/tournaments/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\tournaments\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);

@@ -14,8 +14,8 @@ namespace RDN.Library.Util
         {
             try
             {
-                XDocument xmlDoc = XDocument.Load("http://blog.rdnation.com/api/read");
-                Tumblr tm = Tumblr.GetTumblr("http://blog.rdnation.com/api/read", true);
+                XDocument xmlDoc = XDocument.Load(RDN.Library.Classes.Config.LibraryConfig.BlogSite+ "/api/read");
+                Tumblr tm = Tumblr.GetTumblr(RDN.Library.Classes.Config.LibraryConfig.BlogSite+ "/api/read", true);
                 tm.Posts.Count = "3";
 
                 return tm;

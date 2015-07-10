@@ -153,8 +153,8 @@ namespace RDN.Library.Classes.RN.Funds
                         emailData.Add("name", member.DerbyName);
                     else
                         emailData.Add("name", member.Firstname + " " + member.LastName);
-                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, member.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
-                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
+                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, member.UserName, LibraryConfig.DefaultEmailSubject + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
+                    EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, LibraryConfig.DefaultAdminEmail, LibraryConfig.DefaultEmailSubject + " You just received more money!", emailData, EmailServerLayoutsEnum.RNMoneyAddedToAccount, EmailPriority.Normal);
                 }
             }
 

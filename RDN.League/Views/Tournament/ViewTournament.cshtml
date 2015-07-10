@@ -55,7 +55,7 @@
                                 @Html.TextBoxFor(x => x.Name, new { @class = "form-control margin-bottom-5" })
                                 @if (Model.IsPublished)
                                 {
-                                    <a target="_blank" href="@Url.Content("http://rdnation.com/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">View Public Tournament</a>
+                                    <a target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite+"/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">View Public Tournament</a>
                                 }
                                 else
                                 {
@@ -101,7 +101,7 @@
                             </label>
                             <div class="margin-bottom-15">
                                 @Html.DropDownListFor(x => x.TouramentTypeForSeedingEnum, Model.TouramentTypeForSeedingEnum.ToSelectListDropDown(), "Choose Class...", new { @class = "full-width margin-bottom-5" })
-                                <span class="i text-muted">To seed based on performance, choose class.  <a href="http://wiki.rdnation.com/Online_Tournament#Seeding_a_Tournament_for_Performance_Rounds">Help</a></span>
+                                <span class="i text-muted">To seed based on performance, choose class.  <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Online_Tournament#Seeding_a_Tournament_for_Performance_Rounds">Help</a></span>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
@@ -231,7 +231,7 @@
                                         {@Model.Games[i].Team1Name}
                                         else
                                         {
-                                        <a href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + Model.Games[i].Team1LinkId.ToString().Replace("-", ""))">
+                                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + Model.Games[i].Team1LinkId.ToString().Replace("-", ""))">
                                             @Model.Games[i].Team1Name
                                         </a>
                                         }
@@ -241,7 +241,7 @@
                                         {@Model.Games[i].Team2Name}
                                         else
                                         {
-                                        <a href="@Url.Content("http://rdnation.com/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name) + "/" + Model.Games[i].Team2LinkId.ToString().Replace("-", ""))">
+                                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name) + "/" + Model.Games[i].Team2LinkId.ToString().Replace("-", ""))">
                                             @Model.Games[i].Team2Name
                                         </a>
                                         }

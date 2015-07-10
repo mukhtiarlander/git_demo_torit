@@ -7,7 +7,7 @@ namespace RDN.Library.Classes.Calendar.Enums
 {
     /// <summary>
     /// when updating thes points, make sure to update the main.js file and the check in files
-    /// within league.rdnation.com
+    /// within league
     /// </summary>
     public enum CalendarPointTypeEnum
     {

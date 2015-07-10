@@ -32,7 +32,7 @@ namespace RDN.League.Models.Store
             this.InternalReferenceType = store.InternalReferenceType;
             this.Invoices = store.Invoices;
             this.IsPublished = store.IsPublished;
-            this.IsRDNation = store.IsRDNation;
+            this.IsSite = store.IsSite;
             this.Location = store.Location;
             this.MerchantId = store.MerchantId;
             this.NumberOfItemsForSale = store.NumberOfItemsForSale;

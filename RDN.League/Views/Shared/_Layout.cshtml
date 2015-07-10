@@ -78,18 +78,19 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
+                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>*@
+                <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
                 <a class="navbar-brand" href="@Url.Content("~/")">
                     <img alt="Brand" style="height:50px" src="@Url.Content("~/Content/logo.png")" />
                 </a>
             </div>
 
-            <div class="collapse navbar-collapse" id="mainNavbar">
+            <div class="navbar-collapse animated" id="mainNavbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName<span class="caret"></span></a>
@@ -105,7 +106,7 @@
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
+                            <ul class="dropdown-menu animated slideInDown" role="menu">
                                 <li>
                                     <a href="@Url.Content("~/member/" + memId.ToString().Replace("-", ""))" title="View Member">
                                         <i class="fa fa-user"></i> @member.DerbyName
@@ -166,7 +167,6 @@
                                     <div class="col-sm-4 no-padding">
                                         <ul class="multi-column-dropdown">
                                             <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Personal</li>
-
                                             <li>
                                                 <a href="@Url.Content("~/")" title="League Home">
                                                     <i class="fa fa-home"></i> Home
@@ -470,8 +470,8 @@
                             <li><a href="@Url.Content("~/member/settings")"><i class="fa fa-cogs"></i> Settings</a></li>
                             <li><a href="@Url.Content("~/member/password")"><i class="fa fa-key"></i> Change Password</a></li>
                             <li><a href="@Url.Content("~/member/username")"><i class="fa fa-envelope"></i> Change Email</a></li>
-                            <li><a href="@Url.Content("~/account/logout")"><i class="fa fa-sign-out"></i> Logout</a></li>                                                                                    
-                            <li ><hr style="margin-top: 0px !important;margin-bottom: 1px !important;" /><a href="@Url.Content("~/league/setup")">Setup New League</a></li>
+                            <li><a href="@Url.Content("~/account/logout")"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            <li><hr style="margin-top: 0px !important;margin-bottom: 1px !important;" /><a href="@Url.Content("~/league/setup")">Setup New League</a></li>
                             <li role="presentation"><a href="@Url.Content("~/league/join")">Join League</a></li>
                             <li>
                                 <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite" title="Help" target="_blank">
@@ -482,8 +482,6 @@
                     </li>
 
                 </ul>
-
-
             </div>
         </div>
     </div>

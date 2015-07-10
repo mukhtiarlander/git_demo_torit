@@ -11,7 +11,7 @@ namespace RDN.Library.Classes.AutomatedTask.Enums
         EmailAdminToTellThemAutomationIsWorking = 2,
         ResendAllEmailsStuckWaitingToBeVerified = 3,
         EmailMembersThatHaveMessagesSittingInInbox = 4,
-        EmailLeaguesWhichSubscriptionToRDNationIsAboutToOrHasExpired = 5,
+        EmailLeaguesWhichSubscriptionToWiteIsAboutToOrHasExpired = 5,
         EmailMembersAboutNewForumContent = 6,
         EmailMerchantsAboutItemsExpiring = 7,
         ChargeMerchantsForItemsExpiring = 8,

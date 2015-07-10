@@ -346,6 +346,7 @@ namespace RDN.Portable.Classes.Account.Classes
         [ProtoMember(170)]
         [DataMember]
         public long TotalForumPostsCount { get; set; }
+        
 
     }
 }

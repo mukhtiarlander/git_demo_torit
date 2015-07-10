@@ -25,6 +25,7 @@ using RDN.Library.Classes.Controls.Voting;
 using System.Threading;
 using RDN.Portable.Classes.Account.Enums;
 using RDN.Portable.Classes.Controls.Calendar.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -48,7 +49,7 @@ namespace RDN.League.Controllers
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Info;
-                    message.Message = "You do not have access to that page. Please contact info@rdnation.com if you think this is an error.";
+                    message.Message = "You do not have access to that page. Please contact " + LibraryConfig.DefaultInfoEmail+ " if you think this is an error.";
                     this.AddMessage(message);
                 }
                 else if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.sww.ToString())
@@ -131,8 +132,8 @@ namespace RDN.League.Controllers
         {
             try
             {
-                XDocument xmlDoc = XDocument.Load("http://blog.rdnation.com/api/read");
-                Tumblr tm = Tumblr.GetTumblr("http://blog.rdnation.com/api/read", true);
+                XDocument xmlDoc = XDocument.Load(LibraryConfig.BlogSite+"/api/read");
+                Tumblr tm = Tumblr.GetTumblr(LibraryConfig.BlogSite +"/api/read", true);
                 tm.Posts.Count = "3";
 
 

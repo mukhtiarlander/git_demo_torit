@@ -14,6 +14,7 @@ using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Communications.Enums;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.League.Enums;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Account.Classes
 {
@@ -207,9 +208,9 @@ namespace RDN.Library.Classes.Account.Classes
                     }
 
 
-                    memTemp.Edit = "<a href='http://league.rdnation.com/Federation/Member/Edit/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>Edit</a>";
+                    memTemp.Edit = "<a href='"+LibraryConfig.InternalSite+"/Federation/Member/Edit/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>Edit</a>";
 
-                    memTemp.MemberUrl = "<a href='http://league.rdnation.com/member/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>" + memTemp.DerbyName + "</a>";
+                    memTemp.MemberUrl = "<a href='" + LibraryConfig.InternalSite + "/member/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>" + memTemp.DerbyName + "</a>";
 
                     membersReturned.Add(memTemp);
                 }

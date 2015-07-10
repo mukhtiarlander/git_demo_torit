@@ -128,7 +128,7 @@ namespace RDN.Library.Classes.League
                 var dc = new ManagementContext();
                 var BoutLists = dc.BoutLists.Where(x => x.ChallengeId == challengeId && x.League.LeagueId == leagueId).FirstOrDefault();
 
-                if ((leagueId == null || leagueId == Guid.Empty) && (challengeId != null)) //used for RDNation.com 
+                if ((leagueId == null || leagueId == Guid.Empty) && (challengeId != null)) 
                 {
                     BoutLists = dc.BoutLists.Where(x => x.ChallengeId == challengeId).FirstOrDefault();                    
                 }
