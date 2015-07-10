@@ -27,9 +27,13 @@
                         {
                             <img style="width: 100%; max-width:400px" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" class="img-rounded" />
                         }
+                        else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                        {
+                            <img style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" class="img-rounded" />
+                        }
                         else
                         {
-                            <img style="width: 100%; max-width: 400px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" class="img-rounded" />
+                            <img style="width: 100%; max-width: 400px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" class="img-rounded" />
                         }
                         <p>
                             <h3><b>@Model.Firstname @Model.LastName</b></h3>
@@ -66,7 +70,7 @@
                             <div class="panel-body no-padding">
                                 <ul class="nav nav-tabs padding-top-5" id="myTab">
                                     <li class="active margin-left-5"><a href="#Personal">Profile</a></li>
-                                    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                                    @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
                                     {
                                         <li class="margin-left-5"><a href="#Skating">Skating</a></li>
                                     }
@@ -179,7 +183,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                                    @if (RDN.Library.Cache.Singletons.SiteSingleton.Instance.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
                                         {
 
                                         <div role="tabpanel" class="tab-pane" id="Skating">

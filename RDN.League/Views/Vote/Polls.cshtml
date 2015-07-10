@@ -50,22 +50,36 @@
                     {
                         <tr>
                            
-                            <td>
+                            <td class="vertical-middle">
                                 @Model.Polls[i].Question
                             </td>
-                            <td>
+                            <td class="vertical-middle">
                                 @Model.Polls[i].Voted / @Model.Polls[i].NonVotes
                             </td>
-                            <td>
+                            <td class="vertical-middle">
                                 @Model.Polls[i].IsPublic
                             </td>
-                            <td>
+                            <td class="vertical-middle">
                                 @RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(Model.Polls[i].Created)
                             </td>
                             <td class="text-center">
                                 @if (!Model.Polls[i].IsClosed && Model.Polls[i].IsCurrentMemberAllowedToVote)
                                 {
-                                    <a class="btn btn-primary btn-sm" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)"><i class="fa fa-lg fa-thumbs-o-up"></i></a>
+                                    if (Model.Polls[i].DidCurrentMemberVoted == true)
+                                    {
+                                        <a class="btn btn-primary btn-sm" title="You Voted" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
+                                            <span class="fa-stack voted-mark">
+                                                <i class="fa fa-thumbs-up fa-stack-1x fa-lg"></i>
+                                                <i class="fa fa-check fa-stack-2x"></i>
+                                            </span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary btn-sm" title="Vote" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
+                                            <i class="fa fa-thumbs-up"></i>
+                                        </a>
+                                    }
                                 }
                                 else if (Model.Polls[i].IsCurrentMemberAllowedToVote)
                                 {
@@ -73,7 +87,10 @@
                                 }
                                 else
                                 {
-                                    <a class="btn btn-danger btn-sm disabled"  title="Not Allowed"><i class="fa fa-lg fa-times-circle"></i></a>
+                                    <span class="fa-stack" title="Vote Not Allowed">
+                                        <i class="fa fa-thumbs-up fa-stack-1x text-primary"></i>
+                                        <i class="fa fa-ban fa-stack-2x" style="color:silver"></i>
+                                    </span> 
                                 }
                             </td>
                             <td class="vertical-middle">

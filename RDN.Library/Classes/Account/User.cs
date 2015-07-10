@@ -542,10 +542,9 @@ namespace RDN.Library.Classes.Account
                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", derbyName }, 
                         { "leaguename", leagueName}, 
-                                { "WebsiteName", LibraryConfig.WebsiteName}, 
                         { "link", link  } };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, memberEmail, LibraryConfig.DefaultEmailSubject + " " + LibraryConfig.NameOfMember + " Profile Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.LeagueCreatedMemberProfile, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, memberEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " " + LibraryConfig.NameOfMember + " Profile Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.LeagueCreatedMemberProfile, priority: EmailPriority.Normal);
                 return link;
             }
             catch (Exception exception)
@@ -955,7 +954,7 @@ namespace RDN.Library.Classes.Account
                                         {
                                             { "name", derbyName }
                                           };
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Password Changed", emailData, EmailServer.EmailServerLayoutsEnum.PasswordChanged);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Password Changed", emailData, EmailServer.EmailServerLayoutsEnum.PasswordChanged);
             }
             catch (Exception exception)
             {
@@ -975,8 +974,8 @@ namespace RDN.Library.Classes.Account
                                           };
 
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Username/Email Changed", emailData, EmailServer.EmailServerLayoutsEnum.UsernameChanged);
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, oldEmail, LibraryConfig.DefaultEmailSubject + " Username/Email Changed", emailData, EmailServer.EmailServerLayoutsEnum.UsernameChanged);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Username/Email Changed", emailData, EmailServer.EmailServerLayoutsEnum.UsernameChanged);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, oldEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Username/Email Changed", emailData, EmailServer.EmailServerLayoutsEnum.UsernameChanged);
             }
             catch (Exception exception)
             {
@@ -997,7 +996,7 @@ namespace RDN.Library.Classes.Account
                                             { "validationurl", LibraryConfig.PublicSite + UrlManager.WEBSITE_LOST_PASSWORD_RESET_LOCATION }
                                         };
 
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Recover Password", emailData, EmailServer.EmailServerLayoutsEnum.RecoverLostPassword);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Recover Password", emailData, EmailServer.EmailServerLayoutsEnum.RecoverLostPassword);
 
             }
             catch (Exception exception)
@@ -1022,7 +1021,7 @@ namespace RDN.Library.Classes.Account
 
                 foreach (var user in users)
                 {
-                    return EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, user, LibraryConfig.DefaultEmailSubject + " New Writer Registered", emailData, EmailServer.EmailServerLayoutsEnum.RNWriterRegistered);
+                    return EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, user, EmailServer.EmailServer.DEFAULT_SUBJECT_ROLLIN_NEWS + " New Writer Registered", emailData, EmailServer.EmailServerLayoutsEnum.RNWriterRegistered);
                 }
 
 
@@ -1049,7 +1048,7 @@ namespace RDN.Library.Classes.Account
                                             { "code", emailVerificationCode.ToString() },
                                             { "validationurl", LibraryConfig.InternalSite + UrlManager.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") }
                                         };
-                    return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
+                    return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
                 }
                 else
                 {
@@ -1061,7 +1060,7 @@ namespace RDN.Library.Classes.Account
                                             { "validationurl", LibraryConfig.InternalSite + UrlManager.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") },
                                             { "password", password }
                                         };
-                    return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
+                    return EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Validate your account", emailData, EmailServer.EmailServerLayoutsEnum.SendEmailVerificationWithoutPassword);
                 }
 
 
@@ -1520,13 +1519,13 @@ namespace RDN.Library.Classes.Account
             }
             else if (mem.Gender == (int)GenderEnum.Female)
             {
-                m.photoUrl = LibraryConfig.PublicSite + "/content/" + LibraryConfig.DefaultPictureName;
+                m.photoUrl = LibraryConfig.PublicSite + "/content/roller-girl.jpg";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Female.ToString();
             }
             else if (mem.Gender == (int)GenderEnum.Male)
             {
-                m.photoUrl = LibraryConfig.PublicSite + "/content/" + LibraryConfig.DefaultPictureName;
+                m.photoUrl = LibraryConfig.PublicSite + "/content/roller-person.gif";
                 m.ThumbUrl = m.photoUrl;
                 m.Gender = GenderEnum.Male.ToString();
             }
@@ -1698,8 +1697,8 @@ namespace RDN.Library.Classes.Account
                 string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName + " roller derby-") + timeOfSave.ToFileTimeUtc() + "_thumb" + info.Extension;
 
 
-                string url =LibraryConfig.ImagesBaseUrl + "/members/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave =LibraryConfig.ImagesBaseSaveLocation+ @"\members\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = "http://images.rdnation.com/members/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = @"C:\WebSites\images.rdnation.com\members\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);
@@ -1774,8 +1773,8 @@ namespace RDN.Library.Classes.Account
                 DateTime timeOfSave = DateTime.UtcNow;
                 FileInfo info = new FileInfo(nameOfFile);
                 //the file name when we save it
-                string url = LibraryConfig.ImagesBaseUrl+"/games/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\games\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = "http://images.rdnation.com/games/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = @"C:\WebSites\images.rdnation.com\games\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);

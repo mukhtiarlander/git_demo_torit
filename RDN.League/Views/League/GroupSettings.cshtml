@@ -13,7 +13,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> @Model.GroupName Group</h3>
-                <span class="text-muted"><a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams" target="_blank">Read the wiki before continuing</a> to manage the group for the first time.</span>
+                <span class="text-muted"><a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">Read the wiki before continuing</a> to manage the group for the first time.</span>
             </div>
             @using (Html.BeginForm("GroupsSettings", "League", FormMethod.Post, new { @id = "GroupsSettings" }))
             {
@@ -35,7 +35,7 @@
                             <label class="form-label">Group Type</label>
                             <div class="margin-bottom-20">
                                 @Html.DropDownListFor(x => x.GroupTypeEnum, (SelectList)ViewData["groupTypeSelectList"], new {@class="full-width margin-bottom-5" })
-                                <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams#Group_Types_Explained" target="_blank">Group Types Explained</a>
+                                <a  href="http://wiki.rdnation.com/Groups_And_Teams#Group_Types_Explained" target="_blank">Group Types Explained</a>
                             </div>
                         </div>
                         <div class="col-xs-12">

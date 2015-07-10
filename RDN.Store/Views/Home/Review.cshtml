@@ -8,7 +8,7 @@
     <div class="categories">
         <div class="catHead">Browse</div>
         <ul class="catList">
-            <li><a href="@Url.Content("~/roller-derby-shops")">Shops</a></li>
+            <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shops")">Shops</a></li>
             <li><a href="@Url.Content("~/category/shirts/1")">Shirts</a></li>
             <li><a href="@Url.Content("~/category/item/2")">Items</a></li>
             <li><a href="@Url.Content("~/category/item/3")">Decals</a></li>
@@ -25,7 +25,7 @@
             <span class="storeItemName">@Model.Name</span>
             <br />
             <div class="storeItemSoldBy">
-                Sold by <a href="@Url.Content("~/roller-derby-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+                Sold by <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
             </div>
         </div>
         <div class="storePhotoContainer center">

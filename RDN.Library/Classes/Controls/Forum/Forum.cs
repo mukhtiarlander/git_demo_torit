@@ -23,7 +23,6 @@ using RDN.Library.Classes.Mobile;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.League.Classes;
-using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Forum
 {
@@ -2031,7 +2030,7 @@ namespace RDN.Library.Classes.Forum
                 bool isManager = RDN.Library.Cache.MemberCache.IsAdministrator(memberId);
                 //need to add the default forum.
                 List<LeagueGroup> groups = new List<LeagueGroup>();
-                groups.Insert(0, new LeagueGroup { Id = 0, GroupName =LibraryConfig.WebsiteShortName});
+                groups.Insert(0, new LeagueGroup { Id = 0, GroupName = "RDNation" });
 
                 foreach (var g in groups)
                 {

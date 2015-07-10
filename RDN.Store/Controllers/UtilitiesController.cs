@@ -26,7 +26,7 @@ namespace RDN.Store.Controllers
             try
             {
                 //don't want the sitemap to have lostpassword links.
-                //Verify 
+                //Verify Roller Derby Name
                 if (!url.Contains("receipt") && !url.Contains("product-review") && !url.Contains("checkout") && !url.Contains("cart") && !url.Contains("lostpassword") && !url.Contains("verifyderbyname") && !url.Contains("returnsite=") && !url.Contains("returnurl") && !url.Contains("problem.error"))
                     SitemapHelper.AddNode(url, modified);
                 return Json(new { answer = true }, JsonRequestBehavior.AllowGet);
@@ -70,7 +70,7 @@ namespace RDN.Store.Controllers
             robotsResult.Append("Disallow: /signup" + Environment.NewLine);
             robotsResult.Append("Disallow: /utilities" + Environment.NewLine);
             robotsResult.Append("Disallow: /store" + Environment.NewLine);
-            robotsResult.Append("Disallow: /roller-derby-store" + Environment.NewLine);
+            robotsResult.Append("Disallow: /" + LibraryConfig.SportNameForUrl + "-store" + Environment.NewLine);
 
             return Content(robotsResult.ToString(), "text/plain");
         }

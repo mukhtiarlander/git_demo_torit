@@ -285,13 +285,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                                             { "leaguename",league.Name}, 
                                             { "invoiceId", invoiceId.ToString().Replace("-","") },
                                             { "reasonForDecline", reasonForDecline},
-                                            { "tryAgainUrl", updateUrl},
-                                            { "SportName", LibraryConfig.SportName}
+                                            { "tryAgainUrl", updateUrl}
                                         };
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, LibraryConfig.DefaultEmailSubject + " Card Was Declined For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionCardWasDeclined, databaseConnectionName: databaseConnectionName);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Card Was Declined For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.SubscriptionCardWasDeclined, databaseConnectionName: databaseConnectionName);
                 if (league.Email != secondEmail && !String.IsNullOrEmpty(secondEmail))
                 {
-                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, secondEmail, LibraryConfig.DefaultEmailSubject + " Card Was Declined For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.ReceiptForLeagueSubscription, databaseConnectionName: databaseConnectionName);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, secondEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " Card Was Declined For League Subscription", emailData, EmailServer.EmailServerLayoutsEnum.ReceiptForLeagueSubscription, databaseConnectionName: databaseConnectionName);
                 }
             }
             catch (Exception exception)
@@ -363,7 +362,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         if (nnv.FailureMessage == null)
                         {
                             invoice.InvoiceStatus = (byte)InvoiceStatus.Failed;
-                            nnv.FailureMessage = "Payment Declined, Please contact RDNation @ " + LibraryConfig.DefaultInfoEmail + ".";
+                            nnv.FailureMessage = "Payment Declined, Please contact RDNation @ info@rdnation.com.";
                         }
                         else if (nnv.FailureMessage.Contains("Your card number is incorrect"))
                             invoice.InvoiceStatus = (byte)InvoiceStatus.Card_Was_Declined;

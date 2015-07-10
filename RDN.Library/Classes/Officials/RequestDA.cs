@@ -69,7 +69,7 @@ namespace RDN.Library.Classes.Officials
                 var dc = new ManagementContext();
                 var requestInfo = dc.Requests.Where(x => x.RequestId == requestId && x.RequestCreator.MemberId == requestCreator).FirstOrDefault();
 
-                if ((requestCreator == null || requestCreator == Guid.Empty) && (requestId != null)) 
+                if ((requestCreator == null || requestCreator == Guid.Empty) && (requestId != null)) // used for RDNation.com
                 {
                     requestInfo = dc.Requests.Where(x => x.RequestId == requestId).FirstOrDefault();
                 }   

@@ -67,7 +67,7 @@ namespace RDN.Portable.Classes.Url
        
        public static readonly string WEBSITE_MEMBER_SETTINGS = "/member/settings";
        
-       public static readonly string GAME_URL = "/roller-derby-game/";
+       public static readonly string GAME_URL_FOR_RDNATION = "/roller-derby-game/";
 
        public static string SAVE_ADVERTISEMENTS_WEBSITE_FOLDER = "/data/rollerderby/advertisements/";
 

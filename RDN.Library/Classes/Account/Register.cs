@@ -18,7 +18,7 @@ namespace RDN.Library.Classes.Account
                 {
 
                     case NewUserEnum.User_AlreadyAttachedToAccount:
-                        result.Add("This Profile Has Already Been Claimed");
+                        result.Add("This Roller Derby Profile Has Already Been Claimed");
                         break;
                     case NewUserEnum.Email_EmailNotRightIncorrect:
                         result.Add("The email address you gave does not match our records");

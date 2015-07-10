@@ -21,7 +21,7 @@
         <span>
             @Model.Members.Count leagues
         </span>
-
+        
     </div>
 </div>
 
@@ -46,20 +46,23 @@
                     <div class="col-sm-4 col-md-3">
                         <div class="thumbnail">
 
-                            <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
+                            <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
                                 @if (Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
                                 {
                                     <img style="max-height:200px" alt="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Members[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
                                 }
+                                else if (Model.Members[i].Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                {
+                                    <img style="max-height:200px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />                                    
+                                }
                                 else
                                 {
-                                    <img style="max-height:200px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" />
-
+                                    <img style="max-height:200px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
                                 }
                             </a>
                             <div class="caption">
                                 <h4>
-                                    <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
+                                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Members[i].DerbyName) + "/" + Model.Members[i].MemberId.ToString().Replace("-", ""))">
                                         @Model.Members[i].PlayerNumber - @Model.Members[i].DerbyName
                                     </a>
                                 </h4>
@@ -75,82 +78,82 @@
             <div class="clearfix"></div>
         </div>
 
-        <div role="tabpanel" class="tab-pane  well " id="leagues">
-            <table class="table-striped table table-hover" id="leagueTable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>
-                            League Name
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Leagues.Count; i++)
-                    {
+            <div role="tabpanel" class="tab-pane  well " id="leagues">
+                <table class="table-striped table table-hover" id="leagueTable">
+                    <thead>
                         <tr>
-                            <td class="padding-5">
-                                @if (Model.Leagues[i].Logo != null)
-                                {
-                                    <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
-                                        <img height="160px" class="pull-right" src="@Model.Leagues[i].Logo.ImageUrl" />
-
-                                    </a>
-                                }
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <h3>
-                                        <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
-                                            @Model.Leagues[i].Name
-                                        </a>
-                                        <small>
-                                            - founded <span>@Model.Leagues[i].Founded.Year</span>
-                                        </small>
-                                    </h3>
-
-                                </div>
-                                <div class="row">
-                                    <span>@Model.Leagues[i].State</span>
-                                    <span>@Model.Leagues[i].Country</span>
-                                </div>
-                                <div class="row">
-                                    <span>@Model.Leagues[i].LeagueMembers.Count</span> members
-                                </div>
-                                <div class="row">
-                                    plays by <span>@Model.Leagues[i].RuleSetsPlayedEnum</span>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    @if (!String.IsNullOrEmpty(Model.Leagues[i].Facebook))
-                                    {
-                                        <a href="@Model.Leagues[i].Facebook" class="pull-left  " target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
-                                    }
-                                    @if (!String.IsNullOrEmpty(Model.Leagues[i].Instagram))
-                                    {
-                                        <a href="@Model.Leagues[i].Facebook" class="pull-left col-xs-offset-1 " target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
-                                    }
-                                    @if (!String.IsNullOrEmpty(Model.Leagues[i].Twitter))
-                                    {
-                                        <a href="@Model.Leagues[i].Facebook" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
-                                    }
-                                    @if (!String.IsNullOrEmpty(Model.Leagues[i].ShopUrl))
-                                    {
-                                        <a href="@Model.Leagues[i].Facebook" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-shopping-cart fa-2x"></i></a>
-                                    }
-                                </div>
-                            </td>
+                            <th></th>
+                            <th>
+                                League Name
+                            </th>
+                            
                         </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Leagues.Count; i++)
+                        {
+                            <tr>
+                                <td class="padding-5">
+                                    @if (Model.Leagues[i].Logo != null)
+                                    {
+                                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
+                                            <img height="160px" class="pull-right" src="@Model.Leagues[i].Logo.ImageUrl" />
+
+                                        </a>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <h3>
+                                            <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
+                                                @Model.Leagues[i].Name
+                                            </a>
+                                            <small>
+                                                - founded <span>@Model.Leagues[i].Founded.Year</span>
+                                            </small>
+                                        </h3>
+
+                                    </div>
+                                    <div class="row">
+                                        <span>@Model.Leagues[i].State</span>
+                                        <span>@Model.Leagues[i].Country</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>@Model.Leagues[i].LeagueMembers.Count</span> members
+                                    </div>
+                                    <div class="row">
+                                        plays by <span>@Model.Leagues[i].RuleSetsPlayedEnum</span>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].Facebook))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left  " target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].Instagram))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left col-xs-offset-1 " target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].Twitter))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+                                        }
+                                        @if (!String.IsNullOrEmpty(Model.Leagues[i].ShopUrl))
+                                        {
+                                            <a href="@Model.Leagues[i].Facebook" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-shopping-cart fa-2x"></i></a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
 
 
 
 
-                    }
-                </tbody>
-            </table>
+                        }
+                    </tbody>
+                </table>
 
-            <div class="clearfix"></div>
-        </div>
+                <div class="clearfix"></div>
+            </div>
     </div>
 </div>

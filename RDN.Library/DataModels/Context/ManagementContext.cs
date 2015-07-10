@@ -113,7 +113,11 @@ namespace RDN.Library.DataModels.Context
         public DbSet<ContactCard.Email> EmailsForAllEntities { get; set; }
         public DbSet<NonSubscribersList> NonSubscribersList { get; set; }
         public DbSet<SubscribersList> SubscribersList { get; set; }
-        //public DbSet<AdminEmailMessages> AdminEmailMessages { get; set; }
+        public DbSet<AdminEmailMessages> AdminEmailMessages { get; set; }
+        [Obsolete("Use Common")]
+        public DbSet<EmailSendItem> EmailServer{ get; set; }
+        [Obsolete("Use Common")]
+        public DbSet<EmailProperty> EmailServerProperties { get; set; }
 
 
         // **************** Game **************** \\

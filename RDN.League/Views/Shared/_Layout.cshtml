@@ -69,6 +69,7 @@
 </head>
 <body id="navbar-theme" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
     @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+    @System.Web.Optimization.Scripts.Render("~/bundles/properties")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
@@ -534,7 +535,7 @@
         </div>
     </div>
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
         (function () {
             var a = document.createElement('a');
@@ -555,10 +556,17 @@
             document.body.appendChild(a);
         })();
 
-    </script>
-    <a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=League Feedback" target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>
+    </script>*@
+    @*<a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=League Feedback" target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>*@
+    <div id="feedback_tab" style="">
+        <a href="mailto:info@rdnation.com">
+            <i class="fa fa-envelope-o"></i> Contact
+        </a>
+        <a href="http://support.rdnation.com/Projects/ProjectSummary/1" target="_blank">
+            <i class="fa fa-question-circle"></i> Support
+        </a>
+    </div>
     @MiniProfiler.RenderIncludes()
-
 </body>
 
 </html>

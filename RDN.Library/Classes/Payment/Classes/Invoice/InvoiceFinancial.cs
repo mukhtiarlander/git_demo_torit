@@ -21,8 +21,8 @@ namespace RDN.Library.Classes.Payment.Classes.Invoice
         // Shipping
         public decimal ShippingCost { get; set; }
 
-        public decimal SiteFees { get; set; }
-        public decimal PriceSubtractingSiteFees { get; set; }
+        public decimal RDNationFees { get; set; }
+        public decimal PriceSubtractingRDNationFees { get; set; }
 
         public decimal CCProcessorFees { get; set; }
 

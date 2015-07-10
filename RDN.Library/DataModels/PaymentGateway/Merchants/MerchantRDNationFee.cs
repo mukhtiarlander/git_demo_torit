@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RDN.Library.DataModels.PaymentGateway.Merchants
 {
     /// <summary>
-    /// this table will collect all the refererall fees the merchant owes .
+    /// this table will collect all the refererall fees the merchant owes RDNation.
     /// </summary>
     [Table("RDN_Merchant_RDNation_Fees")]
     public class MerchantRDNationFee: InheritDb

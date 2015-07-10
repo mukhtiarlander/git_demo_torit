@@ -20,7 +20,7 @@ namespace RDN.Library.Classes.Error
                 return GenerateErrorObject(e, type, errorGroup, errorSeverity, null, null, null, null, parameters, additionalInformation);
         }
         /// <summary>
-        /// Summarizes an exception into an object that can be sent to the error management system of site
+        /// Summarizes an exception into an object that can be sent to the error management system of rdnation
         /// </summary>
         /// <param name="e">The exception</param>
         /// <param name="type">The type information from the class where this occured. Can be obtained by using this.GetType() or just GetType()</param>

@@ -81,6 +81,8 @@ namespace RDN.Portable.Classes.Account.Classes
         
         public string Age { get { return ((DateTime.UtcNow - DOB).TotalDays / 365).ToString("N0"); } }
 
+        public bool DidVote { get; set; }
+
         public MemberDisplayBasic()
         { }
 

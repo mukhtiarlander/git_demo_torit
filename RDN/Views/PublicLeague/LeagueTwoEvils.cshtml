@@ -1,6 +1,6 @@
 ﻿@model RDN.Portable.Classes.League.Classes.League
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = Model.Name.Replace("Roller Derby League"," ") + @RDN.Library.Classes.Config.LibraryConfig.SportName+ " League";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
 <div class="expandableContainer">
@@ -39,10 +39,10 @@
                         {
                             <tr class="@(i % 2 == 0 ? "tr1" : "tr0")">
                                 <td>
-                                    <img height="40px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
+                                    <img height="40px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby person" />
                                 </td>
                                 <td>
-                                    <a href="@Url.Content("~/roller-derby-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
+                                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
                                         @Model.LeagueMembers[i].DerbyName
                                     </a>
                                 </td>

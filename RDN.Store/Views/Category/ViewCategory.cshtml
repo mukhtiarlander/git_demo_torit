@@ -11,7 +11,7 @@
 {
     <div class="storeItem">
         <div class="storeItemInner">
-            <a href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+            <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                 <div class="storeItemPhoto center">
                     @if (item.Photos.FirstOrDefault() != null)
                     { 
@@ -21,10 +21,10 @@
             </a>
 
             <div class="storeItemTitle">
-                <a href="@Url.Content("~/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
             </div>
             <div class="storeItemN">
-                <a href="@Url.Content("~/roller-derby-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
             </div>
             <div class="storeItemPrice">
                                 @if (item.Currency == "USD") {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>

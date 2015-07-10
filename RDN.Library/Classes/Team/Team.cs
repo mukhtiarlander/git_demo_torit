@@ -15,7 +15,6 @@ using RDN.Utilities.Error;
 using System.Data.Entity;
 using System.Drawing;
 using RDN.Portable.Classes.Team;
-using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.Team
 {
@@ -180,8 +179,8 @@ namespace RDN.Library.Classes.Team
                 DateTime timeOfSave = DateTime.UtcNow;
                 FileInfo info = new FileInfo(file.FileName);
                 //the file name when we save it
-                string url = LibraryConfig.ImagesBaseUrl + "/leagues/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation + @"\leagues\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = "http://images.rdnation.com/leagues/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = @"C:\WebSites\images.rdnation.com\leagues\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);

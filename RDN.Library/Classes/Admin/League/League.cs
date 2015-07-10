@@ -258,7 +258,7 @@ namespace RDN.Library.Classes.Admin.League
                 emailData.Add("name", pendingLeague.Creator.Firstname);
                 emailData.Add("derbyname", pendingLeague.Creator.DerbyName);
                 emailData.Add("leaguename", pendingLeague.LeagueName);
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, LibraryConfig.DefaultEmailSubject + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
             }
 
             // ToDo: To be removed
@@ -394,7 +394,7 @@ namespace RDN.Library.Classes.Admin.League
                     emailData.Add("name", pendingLeague.Creator.Firstname);
                     emailData.Add("derbyname", pendingLeague.Creator.DerbyName);
                     emailData.Add("leaguename", pendingLeague.LeagueName);
-                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, LibraryConfig.DefaultEmailSubject + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your league has been approved", emailData, EmailServer.EmailServerLayoutsEnum.LeagueApproved);
                 }
 
                 try
@@ -430,7 +430,17 @@ namespace RDN.Library.Classes.Admin.League
             if (pendingLeague == null)
                 return false;
 
-            
+            //var defaultEmail = pendingLeague.Creator.ContactCard.Emails.FirstOrDefault(x => x.IsDefault.Equals(true));
+            //if (defaultEmail != null)
+            //{
+            //    var emailData = new Dictionary<string, string>();
+            //    emailData.Add("name", pendingLeague.Creator.Firstname);
+            //    emailData.Add("derbyname", pendingLeague.Creator.DerbyName);
+            //    emailData.Add("leaguename", pendingLeague.LeagueName);
+            //    emailData.Add("rejectmessage", rejectMessage);
+            //    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, defaultEmail.EmailAddress, "Your league was rejected at RDNation.com", emailData, EmailServer.EmailServerLayoutsEnum.LeagueRejected);
+            //}
+
 
             dc.LeaguePendings.Remove(pendingLeague);
             var result = dc.SaveChanges();

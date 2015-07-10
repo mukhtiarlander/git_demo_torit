@@ -51,7 +51,7 @@ namespace RDN.Library.Classes.Scoreboard
 
 
                 var emailData = new Dictionary<string, string> { { "body", body } };
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailSubject + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
             }
             catch (Exception exception)
             {
@@ -82,7 +82,7 @@ namespace RDN.Library.Classes.Scoreboard
 
 
                 var emailData = new Dictionary<string, string> { { "body", body } };
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailSubject + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Feedback", emailData, layout: EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
             }
             catch (Exception exception)
             {

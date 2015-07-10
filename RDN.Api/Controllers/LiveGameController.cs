@@ -144,7 +144,7 @@ namespace RDN.Api.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Json(new { result = "Error, Sent to Developers." }, JsonRequestBehavior.AllowGet);
+            return Json(new { result = "Error Within RDNation.  Sent to Developers." }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GameJson(string id)

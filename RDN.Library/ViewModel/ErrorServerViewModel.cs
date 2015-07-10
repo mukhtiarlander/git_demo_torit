@@ -15,7 +15,64 @@ namespace RDN.Library.ViewModel
     public class ErrorServerViewModel
     {
 
-        
+        //public static void commitScoreboardException(Exception e, string additionalInfo)
+        //{
+        //    RDNDataContext db = new RDNDataContext();
+        //    RDN_Errors_Log UEL = new RDN_Errors_Log();
+        //    //UEL.Application_Id = Applications.Instance.ApplicationId;
+        //    UEL.Date_Time = DateTime.UtcNow;
+        //    UEL.Error_Message = e.Message;
+        //    UEL.Error_Source = e.Source;
+        //    UEL.Error_Target = e.TargetSite != null ? e.TargetSite.ToString() : null;
+        //    UEL.Error_Trace = e.StackTrace;
+        //    UEL.Last_Exception = e.InnerException != null ? e.InnerException.ToString() : null;
+        //    if (e.InnerException != null)
+        //        UEL.Trace_Error = e.InnerException.StackTrace;
+        //    UEL.Additional_Info = additionalInfo;
+
+        //    db.RDN_Errors_Logs.InsertOnSubmit(UEL);
+        //    db.SubmitChanges();
+
+        //    try
+        //    {
+        //        RDN.Library.Util.Email.SendEmail(false, "info@rdnation.com", "Error", Xml.SerializeToString(e));
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //}
+
+        //public static void commitScoreboardException(ErrorViewModel e, string additionalInfo)
+        //{
+        //    RDNDataContext db = new RDNDataContext();
+        //    RDN_Errors_Log UEL = new RDN_Errors_Log();
+        //    //UEL.Application_Id = Applications.Instance.ApplicationId;
+        //    UEL.Date_Time = DateTime.UtcNow;
+        //    UEL.Error_Message = e.ExceptionMessege;
+        //    UEL.Error_Source = e.ExceptionSource;
+        //    UEL.Error_Target = e.Error_Target;
+        //    UEL.Error_Trace = e.ExceptionStack;
+        //    UEL.Last_Exception = e.Last_Exception;
+        //    UEL.Load_Date = e.DateTime.ToString();
+        //    UEL.Version = e.Version;
+        //    UEL.Scoreboard_Id = e.ScoreboardId;
+        //    UEL.Game_Id = e.GameId;
+        //    UEL.Additional_Info = additionalInfo + e.Log;
+
+        //    db.RDN_Errors_Logs.InsertOnSubmit(UEL);
+        //    db.SubmitChanges();
+
+        //    try
+        //    {
+        //        RDN.Library.Util.Email.SendEmail(false, "info@rdnation.com", "Error", Xml.SerializeToString(e));
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //}
+
         public static List<Error> GetExceptions(int recordsToSkip, int numberOfRecordsToPull)
         {
             return ErrorDatabaseManager.GetErrorObjects(recordsToSkip, numberOfRecordsToPull);

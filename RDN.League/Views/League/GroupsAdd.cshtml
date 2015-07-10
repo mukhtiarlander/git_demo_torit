@@ -13,7 +13,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> Create a New Group</h3>
-                <span class="text-muted">Please <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams" target="_blank">read the wiki before continuing</a> to create a group for the first time.</span>
+                <span class="text-muted">Please <a href="http://wiki.rdnation.com/Groups_And_Teams" target="_blank">read the wiki before continuing</a> to create a group for the first time.</span>
             </div>
              @using (Html.BeginForm("GroupsAdd", "League", FormMethod.Post, new { @id = "GroupsAdd" }))
             { 
@@ -35,7 +35,7 @@
                             <label class="form-label">Group Type</label>
                             <div class="margin-bottom-20">
                                 @Html.DropDownListFor(x => x.GroupTypeEnum, (SelectList)ViewData["groupTypeSelectList"], new { @class = "full-width margin-bottom-5" })
-                                <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams#Group_Types_Explained" target="_blank">Group Types Explained</a>
+                                <a href="http://wiki.rdnation.com/Groups_And_Teams#Group_Types_Explained" target="_blank">Group Types Explained</a>
                             </div>
                         </div>
                         <div class="col-xs-12">
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-xs-12">
                             <label class="form-label">Members</label>
-                            <span>- <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams#Group_Members_Explained" target="_blank">Group Members Explained</a></span>
+                            <span>- <a href="http://wiki.rdnation.com/Groups_And_Teams#Group_Members_Explained" target="_blank">Group Members Explained</a></span>
                             <div>
                                 <table id="groupMembers" class="table table-striped table-hover">
                                     <thead>

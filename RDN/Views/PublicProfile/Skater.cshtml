@@ -9,9 +9,13 @@
     {
         <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
     }
+    else if (Model.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+    {
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+    }
     else
     {
-        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
+        <img style="max-height:400px;" class="img-rounded img-responsive imgCenter" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
     }
 </div>
 
@@ -122,7 +126,7 @@
                         <div class="thumbnail">
                             @if (league.Logo != null)
                             {
-                                <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
 
                                     <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
 
@@ -130,7 +134,7 @@
                             }
                             <div class="caption">
                                 <h4>
-                                    <a href="@Url.Content("~/roller-derby-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
                                         @league.Name
                                     </a>
                                 </h4>

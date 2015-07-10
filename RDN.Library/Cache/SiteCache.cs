@@ -45,9 +45,9 @@ namespace RDN.Library.Cache
 {
     public class SiteCache : CacheLock
     {
-        public int NumberOfLeaguesSignedUpWithSite { get; set; }
-        public int NumberOfMembersSignedUpWithSite { get; set; }
-        public int NumberOfFederationsSignedUpWithSite { get; set; }
+        public int NumberOfLeaguesSignedUpWithRDNation { get; set; }
+        public int NumberOfMembersSignedUpWithRDNation { get; set; }
+        public int NumberOfFederationsSignedUpWithRDNation { get; set; }
         public List<LeagueMemberClass> LeagueMemberClasses { get; set; }
         List<SkaterJson> PublicMembers { get; set; }
         SkaterJson MemberOfWeek { get; set; }
@@ -625,7 +625,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicMembers == null)
                 {
                     cached.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                    cached.NumberOfMembersSignedUpWithSite = cached.PublicMembers.Count;
+                    cached.NumberOfMembersSignedUpWithRDNation = cached.PublicMembers.Count;
                     UpdateCache(cached);
                 }
                 return cached.PublicMembers;
@@ -667,7 +667,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicMembers == null)
                 {
                     cached.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                    cached.NumberOfMembersSignedUpWithSite = cached.PublicMembers.Count;
+                    cached.NumberOfMembersSignedUpWithRDNation = cached.PublicMembers.Count;
                     UpdateCache(cached);
                 }
                 return cached.PublicMembers.Where(x => x.LeagueId == leagueId).ToList();
@@ -686,7 +686,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicMembers == null)
                 {
                     cached.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                    cached.NumberOfMembersSignedUpWithSite = cached.PublicMembers.Count;
+                    cached.NumberOfMembersSignedUpWithRDNation = cached.PublicMembers.Count;
                     UpdateCache(cached);
                 }
                 return cached.PublicMembers.Skip(page * count).Take(count).ToList();
@@ -707,7 +707,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicMembers == null)
                 {
                     cached.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                    cached.NumberOfMembersSignedUpWithSite = cached.PublicMembers.Count;
+                    cached.NumberOfMembersSignedUpWithRDNation = cached.PublicMembers.Count;
                     UpdateCache(cached);
                 }
                 if (!String.IsNullOrEmpty(alphaCharacter))
@@ -731,7 +731,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicLeagues == null)
                 {
                     cached.PublicLeagues = Classes.League.LeagueFactory.GetAllPublicLeagues();
-                    cached.NumberOfLeaguesSignedUpWithSite = cached.PublicLeagues.Count;
+                    cached.NumberOfLeaguesSignedUpWithRDNation = cached.PublicLeagues.Count;
                     UpdateCache(cached);
                 }
                 if (!String.IsNullOrEmpty(alphaCharacter))
@@ -813,7 +813,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicMembers == null)
                 {
                     cached.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                    cached.NumberOfMembersSignedUpWithSite = cached.PublicMembers.Count;
+                    cached.NumberOfMembersSignedUpWithRDNation = cached.PublicMembers.Count;
                     UpdateCache(cached);
                 }
                 var mem = cached.PublicMembers.Where(x => x.MemberId == memId).FirstOrDefault();
@@ -848,7 +848,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicLeagues == null)
                 {
                     cached.PublicLeagues = Classes.League.LeagueFactory.GetAllPublicLeagues();
-                    cached.NumberOfLeaguesSignedUpWithSite = cached.PublicLeagues.Count;
+                    cached.NumberOfLeaguesSignedUpWithRDNation = cached.PublicLeagues.Count;
                     UpdateCache(cached);
                 }
                 var mem = cached.PublicLeagues.Where(x => x.LeagueId == memId).FirstOrDefault();
@@ -886,7 +886,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicMembers == null)
                 {
                     cached.PublicMembers = Classes.Account.User.GetAllPublicMembers();
-                    cached.NumberOfMembersSignedUpWithSite = cached.PublicMembers.Count;
+                    cached.NumberOfMembersSignedUpWithRDNation = cached.PublicMembers.Count;
                     UpdateCache(cached);
                 }
                 return cached.PublicMembers.Where(x =>
@@ -990,7 +990,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicLeagues == null)
                 {
                     cached.PublicLeagues = Classes.League.LeagueFactory.GetAllPublicLeagues();
-                    cached.NumberOfLeaguesSignedUpWithSite = cached.PublicLeagues.Count;
+                    cached.NumberOfLeaguesSignedUpWithRDNation = cached.PublicLeagues.Count;
                     UpdateCache(cached);
                 }
                 return cached.PublicLeagues.Where(x =>
@@ -1014,7 +1014,7 @@ namespace RDN.Library.Cache
                 if (cached.PublicLeagues == null)
                 {
                     cached.PublicLeagues = Classes.League.LeagueFactory.GetAllPublicLeagues();
-                    cached.NumberOfLeaguesSignedUpWithSite = cached.PublicLeagues.Count;
+                    cached.NumberOfLeaguesSignedUpWithRDNation = cached.PublicLeagues.Count;
                     UpdateCache(cached);
                 }
 
@@ -1136,7 +1136,7 @@ namespace RDN.Library.Cache
             try
             {
                 var cached = GetCache(HttpContext.Current.Cache);
-                return cached.NumberOfLeaguesSignedUpWithSite;
+                return cached.NumberOfLeaguesSignedUpWithRDNation;
             }
             catch (Exception exception)
             {
@@ -1163,7 +1163,7 @@ namespace RDN.Library.Cache
             try
             {
                 var cached = GetCache(HttpContext.Current.Cache);
-                return cached.NumberOfMembersSignedUpWithSite;
+                return cached.NumberOfMembersSignedUpWithRDNation;
             }
             catch (Exception exception)
             {
@@ -1176,7 +1176,7 @@ namespace RDN.Library.Cache
             try
             {
                 var cached = GetCache(HttpContext.Current.Cache);
-                return cached.NumberOfFederationsSignedUpWithSite;
+                return cached.NumberOfFederationsSignedUpWithRDNation;
             }
             catch (Exception exception)
             {
@@ -1243,7 +1243,7 @@ namespace RDN.Library.Cache
                             dataObject.MemberIdsForUserNames = new List<MemberDisplayBasic>();
                             dataObject.CurrencyExchangeRates = new List<CurrencyExchange>();
                             dataObject.PastGames = new List<CurrentGameJson>();
-                            dataObject.NumberOfFederationsSignedUpWithSite = Classes.Federation.Federation.GetNumberOfFederations();
+                            dataObject.NumberOfFederationsSignedUpWithRDNation = Classes.Federation.Federation.GetNumberOfFederations();
 
                             dataObject.Countries = Classes.Location.LocationFactory.GetCountries();
                             dataObject.PublicMemberFullProfile = new List<MemberDisplay>();

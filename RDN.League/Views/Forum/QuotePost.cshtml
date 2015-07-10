@@ -70,9 +70,13 @@
                                                         {
                                                             <img height="65px" alt="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@message.Member.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
                                                         }
+                                                        else if (message.Member.Gender == RDN.Portable.Classes.Account.Enums.GenderEnum.Female)
+                                                        {
+                                                            <img height="65px" src="@Url.Content("~/content/roller-girl.jpg")" alt="roller derby girl" />
+                                                        }
                                                         else
                                                         {
-                                                            <img height="65px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
+                                                            <img height="65px" src="@Url.Content("~/content/roller-person.gif")" alt="roller derby boy" />
                                                         }
                                                     </td>
                                                     <td class="padding-left-10">

@@ -132,8 +132,7 @@
                 minimumInputLength: 1,
                 templateResult: formatRepo, // omitted for brevity, see the source of this page
                 templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-            });
-
+            }).select2("open"); 
         }).popover(
           {
               html: true,
@@ -141,9 +140,6 @@
               template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Messages.SaveMembersToMessage(' + group_id + ')"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Messages.HideAddMemberPopup()">Close</button></div></div>',
               title: "<i class='fa fa-plus-circle'></i> Add Member"
           });
-
-
-
     };
     function formatRepo(repo) {
 

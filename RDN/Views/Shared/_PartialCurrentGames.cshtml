@@ -6,7 +6,7 @@
     <div class="currentGameContainer" data-bind="foreach: currentGames">
         <a data-bind="attr: { href: gameUrl }">
              <!-- ko if: isGameStreaming -->
-            <img style="float:left; vertical-align:middle;" title="Game Is Streaming Live" width="32" src="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/Content/images/icons/Streaming.png" />
+                <img style="float:left; vertical-align:middle;" title="Game Is Streaming Live" width="32" src="http://rdnation.com/Content/images/icons/Streaming.png" />
                 <!-- /ko -->
             <div class="currentGame">
                
@@ -28,7 +28,7 @@
     <!-- /ko -->
     <!-- ko if: currentGames().length === 0 -->
     <div class="cgNoGames">
-        <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-games">Past Weeks Games</a>, <a class="green b" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard">Download Our Scoreboard</a> to Display Your Games Live Online!
+        <a href="http://rdnation.com/roller-derby-games">Past Weeks Games</a>, <a class="green b" href="http://rdnation.com/roller-derby-scoreboard">Download Our Scoreboard</a> to Display Your Games Live Online!
     </div>
     <!-- /ko -->
 </div>

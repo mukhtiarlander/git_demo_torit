@@ -535,7 +535,7 @@ namespace RDN.Library.Classes.Messages
                             if (user != null)
                             {
                                 inbox.UserNotifiedViaEmail = true;
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " New Message From " + ownerName, emailData, EmailServer.EmailServerLayoutsEnum.SendMessageToUserFromOtherUser);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Message From " + ownerName, emailData, EmailServer.EmailServerLayoutsEnum.SendMessageToUserFromOtherUser);
                             }
 
                         }
@@ -990,7 +990,7 @@ namespace RDN.Library.Classes.Messages
             var user = System.Web.Security.Membership.GetUser((object)member.UserId);
             if (user != null)
             {
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " You are added in a message", emailData, EmailServer.EmailServerLayoutsEnum.AddedToChatMessage);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " You are added in a message", emailData, EmailServer.EmailServerLayoutsEnum.AddedToChatMessage);
             }
         }
     }

@@ -354,7 +354,7 @@ namespace RDN.Library.Classes.Payment
                     item.MemberPaidId = dbitem.MemberPaidId;
                     item.PriceAfterFees = dbitem.PriceAfterFees;
                     item.ProcessorFees = dbitem.ProcessorFees;
-                    item.SiteFees = dbitem.RDNationsFees;
+                    item.RDNationsFees = dbitem.RDNationsFees;
                     item.Name = dbitem.Name;
                     item.Description = dbitem.Description;
                     item.WhoPaysFees = (WhoPaysProcessorFeesEnum)Enum.Parse(typeof(WhoPaysProcessorFeesEnum), dbitem.WhoPaysFees.ToString());

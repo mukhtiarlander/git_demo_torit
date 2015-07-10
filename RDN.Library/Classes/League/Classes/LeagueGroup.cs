@@ -299,7 +299,7 @@ namespace RDN.Library.Classes.League.Classes
                         { "link", LibraryConfig.InternalSite} };
 
                 //clear members cache for each member.
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, LibraryConfig.DefaultEmailSubject + " Added To New Group", emailData, layout: EmailServerLayoutsEnum.UserAddedToLeagueGroup, priority: EmailPriority.Normal);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Added To New Group", emailData, layout: EmailServerLayoutsEnum.UserAddedToLeagueGroup, priority: EmailPriority.Normal);
             }
             MemberCache.Clear(memberId);
             MemberCache.ClearApiCache(memberId);

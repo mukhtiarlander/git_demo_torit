@@ -142,8 +142,8 @@ namespace RDN.Raspberry.Controllers
                         case MassEmailEnum.AllRegisteredEmails:
                             result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForAllRegisteredEmails(model.IsMassSendVerified, model.Subject, model.HtmlBody);
                             break;
-                        case MassEmailEnum.AllLeaguesThatDontExistWithinSite:
-                            result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForLeaguesNotSignedUpToWebsite(model.Subject, model.HtmlBody, model.TestEmail);
+                        case MassEmailEnum.AllLeaguesThatDontExistWithinRDNation:
+                            result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForLeaguesNotSignedUpToRDNation(model.Subject, model.HtmlBody, model.TestEmail);
                             break;
                         case MassEmailEnum.AllLeagueOwners:
                             result = Library.Classes.Admin.Admin.Admin.SendMassEmailsToOwnersOfLeagues(model.Subject, model.HtmlBody, model.TestEmail);
@@ -229,7 +229,7 @@ namespace RDN.Raspberry.Controllers
 
                 var emailData = xml.Root.Elements().ToDictionary(xNode => xNode.Name.LocalName, xNode => xNode.Value);
 
-                EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, content.Email, "Email layout test - " + LibraryConfig.WebsiteShortName, emailData, (EmailServerLayoutsEnum)Enum.Parse(typeof(EmailServerLayoutsEnum), content.LayoutId));
+                EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, content.Email, "Email layout test - RDNation.com", emailData, (EmailServerLayoutsEnum)Enum.Parse(typeof(EmailServerLayoutsEnum), content.LayoutId));
                 content.Sent = true;
             }
             catch (Exception e)

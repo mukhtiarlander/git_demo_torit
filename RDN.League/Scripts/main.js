@@ -13,11 +13,21 @@
         return false;
     });
     $('[data-toggle="tooltip"]').tooltip();
+    $("#feedback_tab").on("mouseenter", function () {
+        feedback_tab_hovered = true;
+        $("#feedback_tab").css('opacity', 1).animate({ "right": "0px" }, 300);
+        setTimeout(function () { feedback_tab_hovered = false; }, 1000);
+    });
+    $("#feedback_tab").on("mouseleave", function () {
+        if (feedback_tab_hovered == false) {
+            setTimeout(function () {
+                $("#feedback_tab").animate({ "right": "-60px" }, 300, function () { $("#feedback_tab").animate({ "opacity": 0.7 }, 100); });
+            }, 1000);
+        }
+    });
 });
 
 
-var leagueHost = "https://league.rdnation.com/";
-var Host = "https://rdnation.com/";
 var simpleId = 0;
 var simpleIdTwo = 0;
 //ko configuration

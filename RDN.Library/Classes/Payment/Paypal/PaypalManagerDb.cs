@@ -113,11 +113,11 @@ namespace RDN.Library.Classes.Payment.Paypal
                                           };
 
                     //sends email to user for their payment.
-                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, LibraryConfig.DefaultEmailSubject + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
+                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
                     if (league != null && !String.IsNullOrEmpty(league.Email))
                     {
                         //sends email to league for notification of their payment.
-                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, LibraryConfig.DefaultEmailSubject + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
                     }
 
                     MobileNotificationFactory mnf = new MobileNotificationFactory();
@@ -226,14 +226,14 @@ namespace RDN.Library.Classes.Payment.Paypal
 
                         //sends email to user for their payment.
                         if (!String.IsNullOrEmpty(member.UserName))
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.UserName, LibraryConfig.DefaultEmailSubject + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.UserName, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
                         else if (!String.IsNullOrEmpty(member.Email))
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, LibraryConfig.DefaultEmailSubject + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, member.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Receipt", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForUser);
 
                         if (league != null && !String.IsNullOrEmpty(league.Email))
                         {
                             //sends email to league for notification of their payment.
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, LibraryConfig.DefaultEmailSubject + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, league.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Dues Payment Made", emailData, EmailServer.EmailServerLayoutsEnum.DuesPaymentMadeForLeague);
                         }
 
                         MobileNotificationFactory mnf = new MobileNotificationFactory();

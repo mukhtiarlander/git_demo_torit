@@ -272,7 +272,7 @@ namespace RDN.League.Controllers
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Success;
-                    message.Message = "Something went wrong. Please contact "+LibraryConfig.DefaultInfoEmail+" if this continues not to work.";
+                    message.Message = "Something went wrong. Please contact info@rdnation.com if this continues not to work.";
                     this.AddMessage(message);
                 }
                 var classification = FeeClassificationFactory.PullClassifications(new Guid(duesManagementId), memId);
@@ -790,7 +790,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author =LibraryConfig.WebsiteShortName;
+                    p.Workbook.Properties.Author = "RDNation.com";
 
                     ExcelWorksheet reportSheet = p.Workbook.Worksheets.Add(Fee.PayBy.ToString("yyyy-MM-dd"));
                     reportSheet.Name = Fee.PayBy.ToString("yyyy-MM-dd"); //Setting Sheet's name
@@ -852,7 +852,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
+                    p.Workbook.Properties.Author = "RDNation.com";
 
                     ExcelWorksheet duesPaidSheet = p.Workbook.Worksheets.Add(RDN.Utilities.Strings.StringExt.ToExcelFriendly("Dues Paid"));
                     ExcelWorksheet duesNotPaidSheet = p.Workbook.Worksheets.Add(RDN.Utilities.Strings.StringExt.ToExcelFriendly("Dues Not Paid"));
@@ -959,7 +959,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
+                    p.Workbook.Properties.Author = "RDNation.com";
 
                     ExcelWorksheet duesPaidSheet = p.Workbook.Worksheets.Add(RDN.Utilities.Strings.StringExt.ToExcelFriendly("Dues Paid"));
                     ExcelWorksheet duesNotPaidSheet = p.Workbook.Worksheets.Add(RDN.Utilities.Strings.StringExt.ToExcelFriendly("Dues Not Paid"));

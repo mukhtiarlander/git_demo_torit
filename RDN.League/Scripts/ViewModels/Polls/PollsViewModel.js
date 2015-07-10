@@ -81,6 +81,9 @@
     this.ShowNewPollMembersPopup = function () {
         $("#NewPollMembersPopup").modal('show');
     }
+    this.ShowEditPollMembersPopup = function () {
+        $("#EditPollMembersPopup").modal('show');
+    }
 
     this.NewPollChooseMembersDone = function () {
         $("#NewPollSelectedMembersDiv").empty();
@@ -88,6 +91,14 @@
             $("#NewPollSelectedMembersDiv").append('<span class="label label-primary pull-left padding-5 margin-top-5 margin-right-5 font12">' + $("#" + $(this).attr('name') + "-name").html() + '</span>');
         });
         $("#NewPollMembersPopup").modal('hide');
+    }
+
+    this.EditPollChooseMembersDone = function () {
+        $("#EditPollSelectedMembersDiv").empty().show();
+        $("#checkboxes input:checkbox:checked").each(function () {
+            $("#EditPollSelectedMembersDiv").append('<span class="label label-primary font12 margin-right-5 margin-bottom-5 pull-left padding-5"><i class="fa fa-plus"></i> ' + $("#" + $(this).attr('name') + "-name").html() + '</span>');
+        });
+        $("#EditPollMembersPopup").modal('hide');
     }
 
     this.AddNewPoll = function () {

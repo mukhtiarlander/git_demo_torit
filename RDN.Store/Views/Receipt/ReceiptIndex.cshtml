@@ -8,7 +8,7 @@
 }
 
 <div class="backLinks">
-    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/roller-derby-shops")">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
+    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shops")">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
 </div>
 <div class="receiptHome">
     <div class="fixedCenterContainter">
@@ -88,7 +88,7 @@
                     <td class="b vLT2D">Shop:
                     </td>
                     <td>
-                        <a href="@Url.Content("~/roller-derby-shop/" + Model.Merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Merchant.ShopName))">@Model.Merchant.ShopName</a>
+                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Merchant.ShopName))">@Model.Merchant.ShopName</a>
                     </td>
                 </tr>
 
@@ -164,7 +164,7 @@
                                 @foreach (var item in Model.InvoiceItems)
                                 { 
                                     <tr>
-                                        <td><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite/roller-derby-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
+                                        <td><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a></td>
                                         <td>@item.Quantity</td>
                                         <td>@item.Price @Model.Currency</td>
                                         <td>@item.TotalShipping @Model.Currency</td>

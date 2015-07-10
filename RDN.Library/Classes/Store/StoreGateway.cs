@@ -33,7 +33,7 @@ namespace RDN.Library.Classes.Store
 {
     public class StoreGateway
     {
-        public static readonly decimal SITE_FEE_FOR_LISTING_ITEM = .30M;
+        public static readonly decimal RDNATION_FEE_FOR_LISTING_ITEM = .30M;
 
         // ToDo: GetStoreCategories
         // ToDo: GetCategoryItems        
@@ -179,8 +179,8 @@ namespace RDN.Library.Classes.Store
                 string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " buy roller derby item-") + saveTime + info.Extension;
                 string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " buy roller derby item-") + saveTime + "_thumb" + info.Extension;
 
-                string url = LibraryConfig.ImagesBaseUrl + "/store/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\store\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = "http://images.rdnation.com/store/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = @"C:\WebSites\images.rdnation.com\store\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);
@@ -421,17 +421,17 @@ namespace RDN.Library.Classes.Store
                                             { "sellersAddress",sellersAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
                                             { "notesForPayment", invoice.Note},
-                                            { "emailLink", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
+                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
                                           };
 
                 //sends email to user for their payment.
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, LibraryConfig.DefaultEmailSubject + " Receipt for " + invoice.Merchant.ShopName, emailData, EmailServer.EmailServerLayoutsEnum.StoreSendReceiptForOrder);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Receipt for " + invoice.Merchant.ShopName, emailData, EmailServer.EmailServerLayoutsEnum.StoreSendReceiptForOrder);
 
                 //sends email to the seller
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, LibraryConfig.DefaultEmailSubject + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.Merchant.OrderPayedNotificationEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
 
                 //sends email to the seller
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, LibraryConfig.DefaultEmailSubject + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, EmailServer.EmailServer.DEFAULT_SUBJECT + " New Order Bought From Shop: " + invoice.InvoiceId.ToString().Replace("-", ""), emailData, EmailServer.EmailServerLayoutsEnum.StoreSendSellerAboutOrdersBought);
             }
             catch (Exception exception)
             {
@@ -485,11 +485,11 @@ namespace RDN.Library.Classes.Store
                                             { "shippingAddress",shippingAddress.ToString()},
                                             { "itemsSold", itemsSold.ToString()},
                                             { "notesForPayment", invoice.Note},
-                                            { "emailLink", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
+                                            { "emailRDNation", "<a href='mailto:"+LibraryConfig.DefaultInfoEmail+"'>"+ LibraryConfig.DefaultInfoEmail+"</a>"}                                            
                                           };
 
                 //sends email to user for their payment.
-                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, LibraryConfig.DefaultEmailSubject + " Your Items Have Shipped", emailData, EmailServer.EmailServerLayoutsEnum.StoreSendShippedItemsForOrder);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, invoice.InvoiceBilling.Email, EmailServer.EmailServer.DEFAULT_SUBJECT + " Your Items Have Shipped", emailData, EmailServer.EmailServerLayoutsEnum.StoreSendShippedItemsForOrder);
             }
             catch (Exception exception)
             {
@@ -565,7 +565,7 @@ namespace RDN.Library.Classes.Store
                     //they are just now publishing the item.
                     if (!si.IsPublished && storeItem.IsPublished)
                     {
-                        AddSiteFeeToMerchant(si);
+                        AddRDNationFeeToMerchant(si);
                         si.LastPublished = DateTime.UtcNow;
                     }
                     si.IsPublished = storeItem.IsPublished;
@@ -664,7 +664,7 @@ namespace RDN.Library.Classes.Store
             return false;
         }
 
-        public static bool AddSiteFeeToMerchant(DataModels.Store.StoreItem si)
+        public static bool AddRDNationFeeToMerchant(DataModels.Store.StoreItem si)
         {
             try
             {
@@ -673,7 +673,7 @@ namespace RDN.Library.Classes.Store
                 fee.FeeDescription = "Published " + si.Name + " on " + DateTime.UtcNow.ToShortDateString();
                 var merc = dc.Merchants.Where(x => x.MerchantId == si.Merchant.MerchantId).FirstOrDefault();
                 fee.Merchant = merc;
-                fee.RDNFee = SITE_FEE_FOR_LISTING_ITEM;
+                fee.RDNFee = RDNATION_FEE_FOR_LISTING_ITEM;
                 fee.SetSlipStatus(MerchantSlipStatus.Active);
                 merc.RDNationFees.Add(fee);
                 int c = dc.SaveChanges();
@@ -1441,7 +1441,7 @@ namespace RDN.Library.Classes.Store
                     store.Currency = merchant.CurrencyRate.CurrencyAbbrName;
                     store.CurrencyCost = merchant.CurrencyRate.CurrencyExchangePerUSD;
                 }
-                store.IsSite = merchant.IsRDNation;
+                store.IsRDNation = merchant.IsRDNation;
                 store.OrderPayedNotificationEmail = merchant.OrderPayedNotificationEmail;
                 store.PayedFeesToRDN = merchant.PayedFeesToRDN;
                 store.RDNFixedFee = merchant.RDNFixedFee;
@@ -1612,7 +1612,7 @@ namespace RDN.Library.Classes.Store
                     store.Currency = merchant.CurrencyRate.CurrencyAbbrName;
                     store.CurrencyCost = merchant.CurrencyRate.CurrencyExchangePerUSD;
                 }
-                store.IsSite = merchant.IsRDNation;
+                store.IsRDNation = merchant.IsRDNation;
                 store.OrderPayedNotificationEmail = merchant.OrderPayedNotificationEmail;
                 store.PayedFeesToRDN = merchant.PayedFeesToRDN;
                 store.RDNFixedFee = merchant.RDNFixedFee;

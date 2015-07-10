@@ -15,6 +15,8 @@ namespace RDN.Library.Cache.Singletons
 {
     public class SiteSingleton
     {
+        public SiteType SiteType { get;set; }
+        
         static SiteSingleton instance = new SiteSingleton();
         private List<TwitterStatus> GetTweets { get; set; }
         private DateTime LastRefresh { get; set; }
