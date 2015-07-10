@@ -21,7 +21,6 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     @System.Web.Optimization.Scripts.Render("~/bundles/properties")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
-    
     <link rel="apple-touch-icon" href="@Url.Content("~/Content/logo.png")" />
     <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/logo.png")" />
     <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/logo.png")" />
@@ -143,7 +142,7 @@
         })();
 
     </script>
-    <a id="uservoice-feedback-tab" href="mailto:info@rdnation.com?subject=RDNation Feedback"
+    <a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Feedback"
        target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
         margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png);
         background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px;
@@ -163,7 +162,7 @@
 
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-29843570-1']);
-        _gaq.push(['_setDomainName', 'rdnation.com']);
+        _gaq.push(['_setDomainName', '@RDN.Library.Classes.Config.LibraryConfig.MainDomain']);
         _gaq.push(['_trackPageview']);
 
         (function () {

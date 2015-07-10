@@ -18,6 +18,14 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string DefaultEmailSubject
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultEmailSubject"];
+            }
+        }
+
         public static string FacebookPageName2
         {
             get
@@ -102,6 +110,14 @@ namespace RDN.Library.Classes.Config
                 return Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
             }
         }
+
+        public static string DefaultPictureName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DefaultPictureName"];
+            }
+        }
         public static string ConnectionStringName
         {
             get
@@ -117,6 +133,24 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["InternalSite"];
             }
         }
+
+        public static string ImagesBaseUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ImagesBaseUrl"];
+            }
+        }
+
+
+        public static string ImagesBaseSaveLocation
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ImagesBaseSaveLocation"];
+            }
+        }
+
 
         public static string ApiSite
         {
@@ -165,14 +199,6 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string WebsiteMainEmail
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WebsiteMainEmail"];
-            }
-        }
-
         public static string WebsiteName
         {
             get
@@ -213,6 +239,22 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string CompanyAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CompanyAddress"];
+            }
+        }
+
+        public static string EmailSignature
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EmailSignature"];
+            }
+        }
+
         public static string WebsiteSlogan
         {
             get
@@ -245,6 +287,22 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string LeaguesPublicUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["LeaguesPublicUrl"];
+            }
+        }
+
+        public static string MembersPublicUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MembersPublicUrl"];
+            }
+        }
+
         public static string NameOfMembers
         {
             get
@@ -253,7 +311,13 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-  
+        public static string TournamentsPublicUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["TournamentsPublicUrl"];
+            }
+        }
 
         public static string ShopSite
         {
@@ -366,16 +430,6 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["DefaultEmailFromName"];
-            }
-        }
-
-
-
-        public static string DefaultEmailSubject
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["DefaultEmailSubject"];
             }
         }
 
@@ -504,6 +558,14 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["CSS_VERSION"];
+            }
+        }
+
+        public static string DocumentsSaveFolder
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DocumentsSaveFolder"];
             }
         }
         
