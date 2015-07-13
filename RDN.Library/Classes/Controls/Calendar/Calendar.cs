@@ -124,7 +124,7 @@ namespace RDN.Library.Classes.Calendar
                                  EventsReocurring = xx.Calendar.CalendarEventsReocurring.Where(x => (x.EndReocurring >= startDate || x.EndReocurring == null) && x.StartReocurring <= endDate && x.IsRemovedFromCalendar == false && x.IsPublic),
                              }).FirstOrDefault();
 
-                string baseUrl = VirtualPathUtility.ToAbsolute("~/roller-derby-event/");
+                string baseUrl = VirtualPathUtility.ToAbsolute("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-event/");
                 if (calDb != null)
                 {
                     //adds all the events from the database that were in the date range selected.

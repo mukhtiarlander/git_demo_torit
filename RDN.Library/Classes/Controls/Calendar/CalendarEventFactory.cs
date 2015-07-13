@@ -2000,7 +2000,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.EventType.EventType = CalendarEventTypeEnum.Birthday;
 
                 calEvent.Name = member.DerbyName + " Birthday";
-                calEvent.NameUrl = LibraryConfig.PublicSite + "/roller-derby-birthday/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
+                calEvent.NameUrl = LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-birthday/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
                 calEvent.CalendarItemId = member.MemberId;
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.DOB.Month, member.DOB.Day);
 
@@ -2049,7 +2049,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.EventType.EventType = CalendarEventTypeEnum.StartSkatingDate;
 
                 calEvent.Name = member.DerbyName + " Started Skating Today";
-                calEvent.NameUrl = LibraryConfig.PublicSite + "/started-skating-roller-derby/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName);
+                calEvent.NameUrl = LibraryConfig.PublicSite + "/started-skating-" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName);
                 calEvent.CalendarItemId = member.MemberId;
                 try
                 {

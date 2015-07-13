@@ -84,7 +84,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <a target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName) + "/" + message.Member.MemberId.ToString().Replace("-", ""))">
+                                                            <a target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.Member.DerbyName) + "/" + message.Member.MemberId.ToString().Replace("-", ""))">
                                                                 <h4>@message.Member.DerbyName</h4>
                                                             </a>
                                                         }

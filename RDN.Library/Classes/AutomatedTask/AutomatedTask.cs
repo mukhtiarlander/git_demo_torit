@@ -49,7 +49,7 @@ namespace RDN.Library.Classes.AutomatedTask
                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", "Veggie D" }, 
                         { "sportAndProfileName", LibraryConfig.SportName + " "+ LibraryConfig.MemberName }, 
-                        { "publicProfile", RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  }, 
+                        { "publicProfile", RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  }, 
                         { "editProfileLink",RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/login?returnSite=league&ReturnUrl=%2fmember%2fedit" } };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, "spoiledtechie@gmail.com", "Your Profile Is Still Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
@@ -312,7 +312,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                 var emailData = new Dictionary<string, string> { 
                         { "derbyname", mem.DerbyName }, 
                         { "sportAndProfileName", LibraryConfig.SportName + " "+ LibraryConfig.MemberName }, 
-                        { "publicProfile", LibraryConfig.PublicSite +"/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "") }, 
+                        { "publicProfile", LibraryConfig.PublicSite +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "") }, 
                         { "editProfileLink",LibraryConfig.InternalSite +"/member/edit" } };
 
                                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName,LibraryConfig.DefaultEmailSubject + " Your " + RDN.Library.Classes.Config.LibraryConfig.SportName + " Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);

@@ -218,8 +218,8 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             routes.MapRoute(
                         "verifyDerbyName", // Route name
                         "{url}/{id}/{name}", // URL with parameters
-                        new { controller = "Home", action = "VerifyDerbyName", name = UrlParameter.Optional },
-                new { url = "verifyderbyname" }
+                        new { controller = "Home", action = "VerifyName", name = UrlParameter.Optional },
+                new { url = "verifyname" }
                     );
 
             routes.MapRoute(

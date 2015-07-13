@@ -83,7 +83,7 @@ namespace RDN.Controllers
 #if !DEBUG
 [RequireHttps] //apply to all actions in controller
 #endif
-        public ActionResult VerifyDerbyName(string id, string name)
+        public ActionResult VerifyName(string id, string name)
         {
             RegisterModel register = PopulateRegisterModel(new Guid(id));
 
@@ -107,7 +107,7 @@ namespace RDN.Controllers
 #if !DEBUG
 [RequireHttps] //apply to all actions in controller
 #endif
-        public ActionResult VerifyDerbyName(RegisterModel model)
+        public ActionResult VerifyName(RegisterModel model)
         {
             try
             {

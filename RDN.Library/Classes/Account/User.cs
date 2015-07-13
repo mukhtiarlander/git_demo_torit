@@ -2415,7 +2415,7 @@ namespace RDN.Library.Classes.Account
                 mem.IsRetired = member.Retired;
                 mem.Firstname = member.Firstname;
                 mem.DerbyName = member.DerbyName;
-                mem.DerbyNameUrl = LibraryConfig.PublicSite + "/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
+                mem.DerbyNameUrl = LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName) + "/" + member.MemberId.ToString().Replace("-", "");
                 mem.MemberId = memberId;
                 mem.UserId = member.AspNetUserId;
                 mem.DayJob = member.DayJob;

@@ -17,10 +17,10 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-8">
                         <h3 class="margin-bottom-10 margin-top-5">Manage Your Post Game</h3>
-                        <span class="text-muted">Here you can update the game you used with <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard" target="_blank">Thor's Hammer</a> or inputed manually.</span>
+                        <span class="text-muted">Here you can update the game you used with <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" target="_blank">Thor's Hammer</a> or inputed manually.</span>
                     </div>
                     <div class="col-xs-12 col-sm-4 text-right">
-                        <a class="btn btn-warning btn-sm" target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-game/" + Model.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team2Name))"><i class="fa fa-history"></i> View Changes</a>
+                        <a class="btn btn-warning btn-sm" target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + Model.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team2Name))"><i class="fa fa-history"></i> View Changes</a>
                     </div>
                 </div>
             </div>

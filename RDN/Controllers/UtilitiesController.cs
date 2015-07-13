@@ -150,7 +150,7 @@ namespace RDN.Controllers
         {
             //don't want the sitemap to have lostpassword links.
             //Verify Roller Derby Name
-            if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyderbyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login"))
+            if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login"))
                 SitemapHelper.AddNode(url, modified);
             return Json(new { answer = true }, JsonRequestBehavior.AllowGet);
         }
@@ -163,7 +163,7 @@ namespace RDN.Controllers
             robotsResult.Append("Disallow: /signup" + Environment.NewLine);
             robotsResult.Append("Disallow: /utilities" + Environment.NewLine);
             robotsResult.Append("Disallow: /store" + Environment.NewLine);
-            robotsResult.Append("Disallow: /roller-derby-store" + Environment.NewLine);
+            robotsResult.Append("Disallow: /" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-store" + Environment.NewLine);
 
             return Content(robotsResult.ToString(), "text/plain");
         }

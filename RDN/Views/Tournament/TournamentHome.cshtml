@@ -263,7 +263,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
                             @Model.Games[i].GameDate.ToString("MM/dd/yyyy")
                         </td>
                         <td>
-                            <a href="@Url.Content("~/roller-derby-game/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
+                            <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
                                 @Model.Games[i].GameName
                             </a>
                         </td>
@@ -555,7 +555,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
             <thead>
                 <tr>
                     <th>
-                        Skater
+                        @RDN.Library.Classes.Config.LibraryConfig.NameOfMember
                     </th>
                     <th>
                         Total Overall Assists
@@ -575,7 +575,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
                         <td>
                             @if (Model.AllSkaters[i].SkaterLinkId != new Guid())
                             {
-                                <a href="@Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.AllSkaters[i].SkaterName) + "/" + Model.AllSkaters[i].SkaterLinkId.ToString().Replace("-", ""))">
+                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.AllSkaters[i].SkaterName) + "/" + Model.AllSkaters[i].SkaterLinkId.ToString().Replace("-", ""))">
                                     @Model.AllSkaters[i].SkaterName
                                 </a>
                             }
@@ -652,7 +652,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
     @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
     {
         <div>
-            <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard" class="btn btn-primary">
+            <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" class="btn btn-primary">
                 Download Thor's Hammer Roller
                 Derby Scoreboard
             </a>

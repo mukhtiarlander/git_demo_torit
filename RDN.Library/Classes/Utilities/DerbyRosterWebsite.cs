@@ -129,8 +129,8 @@ namespace RDN.Library.Classes.Utilities
                             dc.LeaguesForDerbyRoster.Add(roster);
                             dc.SaveChanges();
 
-                            
-                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-league/2/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + roster.TeamId.ToString().Replace("-", "");
+
+                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/2/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + roster.TeamId.ToString().Replace("-", "");
                             Console.WriteLine("sitemap:" + url);
                             SitemapHelper.AddNode(url, false);
 

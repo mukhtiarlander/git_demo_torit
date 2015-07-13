@@ -360,7 +360,7 @@ namespace RDN.Library.Classes.Store
                 {
                     itemsSold.Append("<li>");
                     //http://localhost:8847/roller-derby-item/Name-of-ITem-PicturesName-of-ITem-Pictures/12
-                    itemsSold.Append("<a href='" +  LibraryConfig.ShopSite+ "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
+                    itemsSold.Append("<a href='" + LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
                     itemsSold.Append(" - " + item.Description);
                     itemsSold.Append("</li>");
                 }
@@ -412,7 +412,7 @@ namespace RDN.Library.Classes.Store
                 var emailData = new Dictionary<string, string>
                                         {
                                             { "memberName",  invoice.InvoiceBilling.FirstName +" "+ invoice.InvoiceBilling.LastName},
-                                            { "shopName", "<a href='"+LibraryConfig.ShopSite+"/roller-derby-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
+                                            { "shopName", "<a href='"+LibraryConfig.ShopSite+"/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ (invoice.TotalIncludingTax + invoice.ShippingCost).ToString("N2") },
                                             { "receiptLink", "<a href='"+LibraryConfig.ShopSite+"/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},
@@ -449,7 +449,7 @@ namespace RDN.Library.Classes.Store
                 {
                     itemsSold.Append("<li>");
                     //http://localhost:8847/roller-derby-item/Name-of-ITem-PicturesName-of-ITem-Pictures/12
-                    itemsSold.Append("<a href='" + LibraryConfig.ShopSite + "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
+                    itemsSold.Append("<a href='" + LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId + "'>" + item.Name + "</a>");
                     itemsSold.Append(" - " + item.Description);
                     itemsSold.Append("</li>");
                 }
@@ -477,7 +477,7 @@ namespace RDN.Library.Classes.Store
                 var emailData = new Dictionary<string, string>
                                         {
                                             { "memberName",  invoice.InvoiceBilling.FirstName +" "+ invoice.InvoiceBilling.LastName},
-                                            { "shopName", "<a href='"+LibraryConfig.ShopSite+"/roller-derby-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
+                                            { "shopName", "<a href='"+LibraryConfig.ShopSite+"/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/"+invoice.Merchant.MerchantId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(invoice.Merchant.ShopName) +"'>"+ invoice.Merchant.ShopName+"</a>"},
                                             { "invoiceId", invoice.InvoiceId.ToString().Replace("-","")},
                                             { "amountPaid", "$"+ (invoice.TotalIncludingTax + invoice.ShippingCost).ToString("N2") },
                                             { "receiptLink", "<a href='"+LibraryConfig.ShopSite+"/receipt/"+invoice.InvoiceId.ToString().Replace("-","")+"'>Your Receipt and Order Status</a>"},

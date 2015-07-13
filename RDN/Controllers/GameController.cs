@@ -86,7 +86,7 @@ namespace RDN.Controllers
                         Price = price,
                         InternalObject = game.Game.GameId,
                         MemberPaidId = memId,
-                        PaywallLocation = LibraryConfig.PublicSite + "/roller-derby-game/" + game.Game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team1.TeamName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team2.TeamName)
+                        PaywallLocation = LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.Game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team1.TeamName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team2.TeamName)
                     })
                     .SetInvoiceContactData(new InvoiceContactInfo
                     {
@@ -109,7 +109,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/roller-derby-game/" + game.Game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team1.TeamName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team2.TeamName) + "?u=" + SiteMessagesEnum.sww));
+            return Redirect(Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.Game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team1.TeamName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Game.Team2.TeamName) + "?u=" + SiteMessagesEnum.sww));
 
         }
 
@@ -162,7 +162,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/roller-derby-games?u=" + SiteMessagesEnum.dex));
+            return Redirect(Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-games?u=" + SiteMessagesEnum.dex));
         }
         [HttpPost]
         public ActionResult Index(GameOutModel crap)
@@ -232,7 +232,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/roller-derby-games"));
+            return Redirect(Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-games"));
         }
 
         public ActionResult PicturesOfGame(string id)

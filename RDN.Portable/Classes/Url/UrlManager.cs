@@ -56,7 +56,7 @@ namespace RDN.Portable.Classes.Url
         ///// </summary>
        public static readonly string WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION = "/manager/validateemails";
        public static readonly string WEBSITE_VERIFY_EMAIL_LOGGED_IN_LOCATION = "/manager/verifyemail";
-       public static readonly string WEBSITE_VALIDATE_DERBY_NAME = "/verifyderbyname/";
+       public static readonly string WEBSITE_VALIDATE_DERBY_NAME = "/verifyname/";
 
        public static readonly string PublicSite_FOR_LEAGUES = "/roller-derby-league/";
        

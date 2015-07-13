@@ -99,7 +99,7 @@ namespace RDN.Controllers
             var member = SiteCache.GetPublicMemberFull(new Guid(id));
             if (member == null)
                 return Redirect(Url.Content("~/"));
-            return RedirectPermanent(Url.Content("~/roller-derby-skater/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName)) + "/" + id);
+            return RedirectPermanent(Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-" + RDN.Library.Classes.Config.LibraryConfig.NameOfMember.ToLower() + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName)) + "/" + id);
 
         }
         public ActionResult SkaterTwoEvils(string name, string id)

@@ -143,14 +143,14 @@ namespace RDN.Library.Classes.Utilities
 
                         if (skaterId != new Guid())
                         {
-                            
-                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-skater/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.DerbyName) + "/" + skaterId.ToString().Replace("-", "");
+
+                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.DerbyName) + "/" + skaterId.ToString().Replace("-", "");
                             SitemapHelper.AddNode(url, false);
                         }
                         if (teamId != new Guid())
                         {
-                            
-                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/roller-derby-league/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + teamId.ToString().Replace("-", "");
+
+                            string url = RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/1/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(pr.Leagues.FirstOrDefault().Name) + "/" + teamId.ToString().Replace("-", "");
                             SitemapHelper.AddNode(url, false);
                         }
                     }

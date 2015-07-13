@@ -25,7 +25,7 @@
                 </a>
                 @if (Model.AreBracketsPublished)
                 {
-                    <a class="btn btn-warning btn-sm" title="Tournament Brackets" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite+"/roller-derby-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">
+                    <a class="btn btn-warning btn-sm" title="Tournament Brackets" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-tournament/" + Model.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Name))">
                         <i class="fa fa-desktop"></i> Live
                     </a>
                 }

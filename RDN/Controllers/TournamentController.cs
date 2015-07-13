@@ -114,7 +114,7 @@ namespace RDN.Controllers
                         Price = price,
                         InternalObject = to.Id,
                         MemberPaidId = memId,
-                        PaywallLocation = LibraryConfig.PublicSite + "/roller-derby-tournament/" + to.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(to.Name)
+                        PaywallLocation = LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-tournament/" + to.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(to.Name)
                     })
                     .SetInvoiceContactData(new InvoiceContactInfo
                     {
@@ -139,7 +139,7 @@ namespace RDN.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/roller-derby-tournament/" + to.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(to.Name) + "?u=" + SiteMessagesEnum.sww));
+            return Redirect(Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-tournament/" + to.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(to.Name) + "?u=" + SiteMessagesEnum.sww));
         }
 
 

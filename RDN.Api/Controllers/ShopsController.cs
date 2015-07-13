@@ -57,7 +57,7 @@ namespace RDN.Api.Controllers
                 j.SoldById = names[i].Store.MerchantId.ToString().Replace("-", "");
                 j.StoreItemId = names[i].StoreItemId;
                 j.Views = names[i].Views;
-                j.RDNUrl = LibraryConfig.ShopSite+ "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
+                j.RDNUrl = LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
                 shop.Items.Add(j);
             }
 
@@ -101,7 +101,7 @@ namespace RDN.Api.Controllers
                 j.SoldById = names[i].Store.MerchantId.ToString().Replace("-", "");
                 j.StoreItemId = names[i].StoreItemId;
                 j.Views = names[i].Views;
-                j.RDNUrl = LibraryConfig.ShopSite+ "/roller-derby-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
+                j.RDNUrl = LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(j.Name) + "/" + j.StoreItemId;
                 shop.Items.Add(j);
             }
 

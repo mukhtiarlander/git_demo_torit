@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-federations")">Federations</a></li>
                         <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-leagues">Leagues</a></li>
-                        <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-skaters">@RDN.Library.Classes.Config.LibraryConfig.NameOfMembers</a></li>
+                        <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMembersNameForUrl">@RDN.Library.Classes.Config.LibraryConfig.NameOfMembers</a></li>
                         <li><a href="@Url.Content("~/officiating-requests/view/all")">Officials</a></li>
                     </ul>
                 </li>
@@ -37,13 +37,13 @@
                         <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-games")">View</a></li>
                         @if (RDN.Library.Classes.Config.LibraryConfig.SiteType== RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
                         {
-                            <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/roller-derby-scoreboard">Scoreboard</a></li>
+                            <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">Scoreboard</a></li>
                         }
                         <li><a href="@RDN.Library.Classes.Config.LibraryConfig.TournamentsPublicUrl">Tournaments</a></li>
                         <li><a href="@Url.Content("~/bout-challenge/view/all")">Bout Challenges</a></li>
                     </ul>
                 </li>
-                <li><a href="@Url.Content("~/roller-derby-events")">Events</a></li>
+                <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-events")">Events</a></li>
                 <li><a href="@Url.Content("~/pricing")">Pricing</a></li>
                 <li><a href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite">Gear</a></li>
                 <li>

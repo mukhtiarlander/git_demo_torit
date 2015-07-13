@@ -615,6 +615,21 @@ namespace RDN.Library.Classes.Config
                 return ConfigurationManager.AppSettings["SportNameForUrl"];
             }
         }
+        public static string SportNamePlusMemberNameForUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SportNamePlusMemberNameForUrl"];
+            }
+        }
+
+        public static string SportNamePlusMembersNameForUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SportNamePlusMembersNameForUrl"];
+            }
+        }
        
 
 
