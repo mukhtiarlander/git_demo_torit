@@ -186,8 +186,8 @@ namespace RDN.Library.Classes.Team
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);
 
-                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(teamName + " roller derby logo-") + timeOfSave.ToFileTimeUtc() + info.Extension;
-                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(teamName + " roller derby logo-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(teamName + " " + LibraryConfig.SportNameForUrl + " logo-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(teamName + " " + LibraryConfig.SportNameForUrl + " logo-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
 
                 string urlMain = url + fileName;
                 string urlThumb = url + fileNameThumb;

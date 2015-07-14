@@ -27,7 +27,7 @@ namespace RDN.Library.Util.Enum
         sced = 9,
         //Stripe key added successfully
         sca = 10,
-        //tells the sign up page that the user is NOT connected to Roller Derby
+        //tells the sign up page that the user is NOT connected to 
         f = 11,
         /// <summary>
         /// just a success of something.

@@ -891,7 +891,7 @@ namespace Scoreboard.Library.ViewModel
         }
 
         /// <summary>
-        /// creates a new instance and overall a brand new roller derby game.
+        /// creates a new instance and overall a brand new game.
         /// </summary>
         public void createNewGame(GameTypeEnum gameType)
         {

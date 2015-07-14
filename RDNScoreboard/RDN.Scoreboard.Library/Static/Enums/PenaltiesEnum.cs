@@ -6,7 +6,7 @@ using System.Text;
 namespace Scoreboard.Library.Static.Enums
 {
     /// <summary>
-    /// describes all penalties for Roller Derby.
+    /// describes all penalties for .
     /// Id Numbers match up with the Scoreboard Server so please do not change.
     /// </summary>
     public enum PenaltiesEnum

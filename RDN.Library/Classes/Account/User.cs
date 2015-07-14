@@ -46,6 +46,7 @@ using RDN.Portable.Classes.Games.Scoreboard.Game;
 using System.Configuration;
 using RDN.Library.Classes.Config;
 using RDN.Portable.Classes.Url;
+using RDN.Portable.Classes.Insurance;
 
 namespace RDN.Library.Classes.Account
 {
@@ -153,7 +154,7 @@ namespace RDN.Library.Classes.Account
 
         }
         /// <summary>
-        /// makes the person connected to derby
+        /// makes the person connected to
         /// </summary>
         /// <param name="memId"></param>
         /// <returns></returns>
@@ -257,7 +258,7 @@ namespace RDN.Library.Classes.Account
         }
 
         /// <summary>
-        /// searches for the derby name and see if its already entered in the DB by someone else.
+        /// searches for the name and see if its already entered in the DB by someone else.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -806,7 +807,7 @@ namespace RDN.Library.Classes.Account
                     output.Add(NewUserEnum.Firstname_TooShort);
 
                 if (string.IsNullOrEmpty(derbyName))
-                    output.Add(NewUserEnum.Derbyname_IsEmpty);
+                    output.Add(NewUserEnum.Nickname_IsEmpty);
 
                 // Check the asp.net membership management to see if the email is taken
                 if (!string.IsNullOrEmpty(Membership.GetUserNameByEmail(email)))
@@ -1694,12 +1695,12 @@ namespace RDN.Library.Classes.Account
                 FileInfo info = new FileInfo(nameOfFile);
 
                 //the file name when we save it
-                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName + " roller derby-") + timeOfSave.ToFileTimeUtc() + info.Extension;
-                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName + " roller derby-") + timeOfSave.ToFileTimeUtc() + "_thumb" + info.Extension;
+                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + "_thumb" + info.Extension;
 
 
-                string url =LibraryConfig.ImagesBaseUrl + "/members/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave =LibraryConfig.ImagesBaseSaveLocation+ @"\members\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = LibraryConfig.ImagesBaseUrl + "/members/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation + @"\members\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);
@@ -1774,14 +1775,14 @@ namespace RDN.Library.Classes.Account
                 DateTime timeOfSave = DateTime.UtcNow;
                 FileInfo info = new FileInfo(nameOfFile);
                 //the file name when we save it
-                string url = LibraryConfig.ImagesBaseUrl+"/games/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\games\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string url = LibraryConfig.ImagesBaseUrl + "/games/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation + @"\games\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);
 
-                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " roller derby-") + timeOfSave.ToFileTimeUtc() + info.Extension;
-                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " roller derby-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " " + LibraryConfig.SportNameForUrl + "-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
 
                 string urlMain = url + fileName;
                 string urlThumb = url + fileNameThumb;
@@ -1795,9 +1796,9 @@ namespace RDN.Library.Classes.Account
                     var memMain = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
                     if (memMain != null)
                     {
-                        fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " roller derby-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                        fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
 
-                        fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " roller derby-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                        fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " " + LibraryConfig.SportNameForUrl + "-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
 
                         urlMain = url + fileName;
                         urlThumb = url + fileNameThumb;
@@ -1972,48 +1973,18 @@ namespace RDN.Library.Classes.Account
                             leagueMember.PassedWrittenExam = league.PassedWrittenExam;
                     }
                 }
-                int other = Convert.ToInt32(InsuranceProviderEnum.Other);
-                var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-
-                if (insurance == null && !String.IsNullOrEmpty(mem.InsuranceNumOther))
-                    AddInsuranceProvider(mem.InsuranceNumOther, mem.InsuranceNumOtherExpires, member, other);
-                else if (insurance != null)
+                for (int i = 0; i < mem.InsuranceNumbers.Count; i++)
                 {
-                    insurance.InsuranceNumber = mem.InsuranceNumOther;
-                    insurance.Expires = mem.InsuranceNumOtherExpires;
+                    int other = Convert.ToInt32(mem.InsuranceNumbers[i].Type);
+                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
+                    if (insurance == null)
+                        AddInsuranceProvider(mem.InsuranceNumbers[i].Number, mem.InsuranceNumbers[i].Expires, member, other);
+                    else
+                    {
+                        insurance.InsuranceNumber = mem.InsuranceNumbers[i].Number;
+                        insurance.Expires = mem.InsuranceNumbers[i].Expires;
+                    }
                 }
-
-
-                other = Convert.ToInt32(InsuranceProviderEnum.USARS);
-                insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                if (insurance == null && !String.IsNullOrEmpty(mem.InsuranceNumUsars))
-                    AddInsuranceProvider(mem.InsuranceNumUsars, mem.InsuranceNumUsarsExpires, member, other);
-                else if (insurance != null)
-                {
-                    insurance.InsuranceNumber = mem.InsuranceNumUsars;
-                    insurance.Expires = mem.InsuranceNumUsarsExpires;
-                }
-
-                other = Convert.ToInt32(InsuranceProviderEnum.WFTDA);
-                insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                if (insurance == null && !String.IsNullOrEmpty(mem.InsuranceNumWftda))
-                    AddInsuranceProvider(mem.InsuranceNumWftda, mem.InsuranceNumWftdaExpires, member, other);
-                else if (insurance != null)
-                {
-                    insurance.InsuranceNumber = mem.InsuranceNumWftda;
-                    insurance.Expires = mem.InsuranceNumWftdaExpires;
-                }
-
-                other = Convert.ToInt32(InsuranceProviderEnum.CRDI);
-                insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                if (insurance == null && !String.IsNullOrEmpty(mem.InsuranceNumCRDI))
-                    AddInsuranceProvider(mem.InsuranceNumCRDI, mem.InsuranceNumCRDIExpires, member, other);
-                else if (insurance != null)
-                {
-                    insurance.InsuranceNumber = mem.InsuranceNumCRDI;
-                    insurance.Expires = mem.InsuranceNumCRDIExpires;
-                }
-
 
                 dc.SaveChanges();
             }
@@ -2074,52 +2045,16 @@ namespace RDN.Library.Classes.Account
                     member.YearStoppedSkating = mem.StoppedSkating;
                 member.HeightInches = (mem.HeightFeet * 12) + mem.HeightInches;
 
-                if (!String.IsNullOrEmpty(mem.InsuranceNumOther))
+                for (int i = 0; i < mem.InsuranceNumbers.Count; i++)
                 {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.Other);
+                    int other = Convert.ToInt32(mem.InsuranceNumbers[i].Type);
                     var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
                     if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumOther, mem.InsuranceNumOtherExpires, member, other);
+                        AddInsuranceProvider(mem.InsuranceNumbers[i].Number, mem.InsuranceNumbers[i].Expires, member, other);
                     else
                     {
-                        insurance.InsuranceNumber = mem.InsuranceNumOther;
-                        insurance.Expires = mem.InsuranceNumOtherExpires;
-                    }
-                }
-                if (!String.IsNullOrEmpty(mem.InsuranceNumUsars))
-                {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.USARS);
-                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                    if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumUsars, mem.InsuranceNumUsarsExpires, member, other);
-                    else
-                    {
-                        insurance.InsuranceNumber = mem.InsuranceNumUsars;
-                        insurance.Expires = mem.InsuranceNumUsarsExpires;
-                    }
-                }
-                if (!String.IsNullOrEmpty(mem.InsuranceNumWftda))
-                {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.WFTDA);
-                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                    if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumWftda, mem.InsuranceNumWftdaExpires, member, other);
-                    else
-                    {
-                        insurance.InsuranceNumber = mem.InsuranceNumWftda;
-                        insurance.Expires = mem.InsuranceNumWftdaExpires;
-                    }
-                }
-                if (!String.IsNullOrEmpty(mem.InsuranceNumCRDI))
-                {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.CRDI);
-                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                    if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumCRDI, mem.InsuranceNumCRDIExpires, member, other);
-                    else
-                    {
-                        insurance.InsuranceNumber = mem.InsuranceNumCRDI;
-                        insurance.Expires = mem.InsuranceNumCRDIExpires;
+                        insurance.InsuranceNumber = mem.InsuranceNumbers[i].Number;
+                        insurance.Expires = mem.InsuranceNumbers[i].Expires;
                     }
                 }
 
@@ -2171,55 +2106,20 @@ namespace RDN.Library.Classes.Account
                     member.YearStoppedSkating = mem.StoppedSkating;
                 member.HeightInches = (mem.HeightFeet * 12) + mem.HeightInches;
 
-                if (!String.IsNullOrEmpty(mem.InsuranceNumOther))
+                for (int i = 0; i < mem.InsuranceNumbers.Count; i++)
                 {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.Other);
+                    int other = Convert.ToInt32(mem.InsuranceNumbers[i].Type);
                     var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
                     if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumOther, mem.InsuranceNumOtherExpires, member, other);
+                        AddInsuranceProvider(mem.InsuranceNumbers[i].Number, mem.InsuranceNumbers[i].Expires, member, other);
                     else
                     {
-                        insurance.InsuranceNumber = mem.InsuranceNumOther;
-                        insurance.Expires = mem.InsuranceNumOtherExpires;
+                        insurance.InsuranceNumber = mem.InsuranceNumbers[i].Number;
+                        insurance.Expires = mem.InsuranceNumbers[i].Expires;
                     }
                 }
-                if (!String.IsNullOrEmpty(mem.InsuranceNumUsars))
-                {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.USARS);
-                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                    if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumUsars, mem.InsuranceNumUsarsExpires, member, other);
-                    else
-                    {
-                        insurance.InsuranceNumber = mem.InsuranceNumUsars;
-                        insurance.Expires = mem.InsuranceNumUsarsExpires;
-                    }
-                }
-                if (!String.IsNullOrEmpty(mem.InsuranceNumWftda))
-                {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.WFTDA);
-                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                    if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumWftda, mem.InsuranceNumWftdaExpires, member, other);
-                    else
-                    {
-                        insurance.InsuranceNumber = mem.InsuranceNumWftda;
-                        insurance.Expires = mem.InsuranceNumWftdaExpires;
-                    }
-                }
-                if (!String.IsNullOrEmpty(mem.InsuranceNumCRDI))
-                {
-                    int other = Convert.ToInt32(InsuranceProviderEnum.CRDI);
-                    var insurance = member.InsuranceNumbers.Where(x => x.InsuranceType == other).FirstOrDefault();
-                    if (insurance == null)
-                        AddInsuranceProvider(mem.InsuranceNumCRDI, mem.InsuranceNumCRDIExpires, member, other);
-                    else
-                    {
-                        insurance.InsuranceNumber = mem.InsuranceNumCRDI;
-                        insurance.Expires = mem.InsuranceNumCRDIExpires;
-                    }
-                }
-                foreach (var league in mem.Leagues)
+
+foreach (var league in mem.Leagues)
                 {
                     var leagueMember = dc.LeagueMembers.Where(x => x.League.LeagueId == league.LeagueId && x.Member.MemberId == mem.MemberId).FirstOrDefault();
                     if (leagueMember != null)
@@ -2862,26 +2762,7 @@ namespace RDN.Library.Classes.Account
             {
                 try
                 {
-                    if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.Other))
-                    {
-                        mem.InsuranceNumOther = numb.InsuranceNumber;
-                        mem.InsuranceNumOtherExpires = numb.Expires;
-                    }
-                    else if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.USARS))
-                    {
-                        mem.InsuranceNumUsars = numb.InsuranceNumber;
-                        mem.InsuranceNumUsarsExpires = numb.Expires;
-                    }
-                    else if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.WFTDA))
-                    {
-                        mem.InsuranceNumWftda = numb.InsuranceNumber;
-                        mem.InsuranceNumWftdaExpires = numb.Expires;
-                    }
-                    else if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.CRDI))
-                    {
-                        mem.InsuranceNumCRDI = numb.InsuranceNumber;
-                        mem.InsuranceNumCRDIExpires = numb.Expires;
-                    }
+                    mem.InsuranceNumbers.Add(new InsuranceNumber() { Expires= numb.Expires, Number = numb.InsuranceNumber, Type = (InsuranceType)numb.InsuranceType });
                 }
                 catch (Exception exception)
                 {

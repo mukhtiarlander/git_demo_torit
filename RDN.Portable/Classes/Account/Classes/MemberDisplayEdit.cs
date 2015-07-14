@@ -1,5 +1,6 @@
 ﻿using ProtoBuf;
 using RDN.Portable.Classes.Geo;
+using RDN.Portable.Classes.Insurance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,16 @@ namespace RDN.Portable.Classes.Account.Classes
     public class MemberDisplayEdit : MemberDisplayBasic
     {
         public MemberDisplayEdit()
+            : base()
         {
             Countries = new List<CountryClass>();
+            InsuranceNumbers = new List<InsuranceNumber>();
+
         }
         [ProtoMember(801)]
         [DataMember]
         /// <summary>
-        /// DateTime Started Skating
+        /// DateTime Started 
         /// </summary>
         public DateTime? StartedSkating { get; set; }
         [ProtoMember(802)]
@@ -36,30 +40,6 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public bool IsProfileRemovedFromPublicView { get; set; }
 
-        [ProtoMember(806)]
-        [DataMember]
-        public string InsuranceNumWftda { get; set; }
-        [ProtoMember(807)]
-        [DataMember]
-        public string InsuranceNumUsars { get; set; }
-        [ProtoMember(808)]
-        [DataMember]
-        public string InsuranceNumCRDI { get; set; }
-        [ProtoMember(809)]
-        [DataMember]
-        public string InsuranceNumOther { get; set; }
-        [ProtoMember(810)]
-        [DataMember]
-        public DateTime? InsuranceNumWftdaExpires { get; set; }
-        [ProtoMember(811)]
-        [DataMember]
-        public DateTime? InsuranceNumUsarsExpires { get; set; }
-        [ProtoMember(812)]
-        [DataMember]
-        public DateTime? InsuranceNumCRDIExpires { get; set; }
-        [ProtoMember(813)]
-        [DataMember]
-        public DateTime? InsuranceNumOtherExpires { get; set; }
         [ProtoMember(814)]
         [DataMember]
         public int Country { get; set; }
@@ -85,8 +65,12 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public string ZipCode { get; set; }
 
-        [ProtoMember(821    )]
+        [ProtoMember(821)]
         [DataMember]
         public bool IsSuccessful { get; set; }
+
+        [ProtoMember(822)]
+        [DataMember]
+        public List<InsuranceNumber> InsuranceNumbers { get; set; }
     }
 }

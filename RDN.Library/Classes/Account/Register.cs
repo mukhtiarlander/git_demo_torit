@@ -65,8 +65,8 @@ namespace RDN.Library.Classes.Account
                     case NewUserEnum.Gender_IsntSelected:
                         result.Add("The gender currently isn't selected");
                         break;
-                    case NewUserEnum.Derbyname_IsEmpty:
-                        result.Add("There is no Derby Name Given");
+                    case NewUserEnum.Nickname_IsEmpty:
+                        result.Add("There is no Nick Name Given");
                         break;
                     case NewUserEnum.Position_IsntSelected:
                         result.Add("Position is not selected");

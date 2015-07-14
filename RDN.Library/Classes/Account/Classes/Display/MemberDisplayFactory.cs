@@ -15,6 +15,7 @@ using RDN.Portable.Classes.Communications.Enums;
 using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.League.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Insurance;
 
 namespace RDN.Library.Classes.Account.Classes
 {
@@ -70,7 +71,7 @@ namespace RDN.Library.Classes.Account.Classes
                     {
                         foreach (var add in mem.Member.ContactCard.Addresses)
                         {
-                            var address =new RDN.Portable.Classes.ContactCard.Address();
+                            var address = new RDN.Portable.Classes.ContactCard.Address();
                             address.AddressId = add.AddressId;
                             address.Address1 = add.Address1;
                             address.Address2 = add.Address2;
@@ -135,26 +136,12 @@ namespace RDN.Library.Classes.Account.Classes
 
                     foreach (var numb in mem.Member.InsuranceNumbers)
                     {
-                        if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.Other))
+                        memTemp.InsuranceNumbers.Add(new InsuranceNumber()
                         {
-                            memTemp.InsuranceNumOther = numb.InsuranceNumber;
-                            memTemp.InsuranceNumOtherExpires = numb.Expires;
-                        }
-                        else if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.USARS))
-                        {
-                            memTemp.InsuranceNumUsars = numb.InsuranceNumber;
-                            memTemp.InsuranceNumUsarsExpires = numb.Expires;
-                        }
-                        else if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.WFTDA))
-                        {
-                            memTemp.InsuranceNumWftda = numb.InsuranceNumber;
-                            memTemp.InsuranceNumWftdaExpires = numb.Expires;
-                        }
-                        else if (numb.InsuranceType == Convert.ToInt32(InsuranceProviderEnum.CRDI))
-                        {
-                            memTemp.InsuranceNumCRDI = numb.InsuranceNumber;
-                            memTemp.InsuranceNumCRDIExpires = numb.Expires;
-                        }
+                            Expires = numb.Expires,
+                            Number = numb.InsuranceNumber,
+                            Type = (InsuranceType)numb.InsuranceType
+                        });
                     }
 
                     MedicalInformationFactory.AttachMemberMedicalInformation(mem.Member, memTemp);
@@ -208,7 +195,7 @@ namespace RDN.Library.Classes.Account.Classes
                     }
 
 
-                    memTemp.Edit = "<a href='"+LibraryConfig.InternalSite+"/Federation/Member/Edit/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>Edit</a>";
+                    memTemp.Edit = "<a href='" + LibraryConfig.InternalSite + "/Federation/Member/Edit/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>Edit</a>";
 
                     memTemp.MemberUrl = "<a href='" + LibraryConfig.InternalSite + "/member/" + memTemp.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memTemp.DerbyName) + "'>" + memTemp.DerbyName + "</a>";
 

@@ -24,7 +24,7 @@
         Firstname_IllegalCharacters,
         Firstname_TooShort,
         Firstname_DoesntMatchVerifiedFirstName,
-        Derbyname_IsEmpty,
+        Nickname_IsEmpty,
         League_LeagueNotFound,
         Error_Save,
 

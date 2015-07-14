@@ -5,6 +5,7 @@ using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Games;
 using RDN.Portable.Classes.Games.Scoreboard;
 using RDN.Portable.Classes.Imaging;
+using RDN.Portable.Classes.Insurance;
 using RDN.Portable.Classes.League.Enums;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace RDN.Portable.Classes.Account.Classes
             MemberContacts = new List<MemberContact>();
             ContactCard = new ContactCard.ContactCard();
             Settings = new MemberSettingsClass();
-
+            InsuranceNumbers = new List<InsuranceNumber>();
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public bool IsInactiveFromCurrentLeague { get; set; }
         /// <summary>
-        /// this is set to TRUE if the user isn't a member of the derby crowd.
+        /// this is set to TRUE if the user isn't a member of the  crowd.
         /// just someone who wanted to sign up.
         /// </summary>
         [ProtoMember(118)]
@@ -134,30 +135,6 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public string DayJob { get; set; }
 
-        [ProtoMember(125)]
-        [DataMember]
-        public string InsuranceNumWftda { get; set; }
-        [ProtoMember(126)]
-        [DataMember]
-        public string InsuranceNumUsars { get; set; }
-        [ProtoMember(127)]
-        [DataMember]
-        public string InsuranceNumCRDI { get; set; }
-        [ProtoMember(128)]
-        [DataMember]
-        public string InsuranceNumOther { get; set; }
-        [ProtoMember(129)]
-        [DataMember]
-        public DateTime? InsuranceNumWftdaExpires { get; set; }
-        [ProtoMember(130)]
-        [DataMember]
-        public DateTime? InsuranceNumUsarsExpires { get; set; }
-        [ProtoMember(131)]
-        [DataMember]
-        public DateTime? InsuranceNumCRDIExpires { get; set; }
-        [ProtoMember(132)]
-        [DataMember]
-        public DateTime? InsuranceNumOtherExpires { get; set; }
         [ProtoMember(133)]
         [DataMember]
         public string LeagueClassificationOfSkatingLevel { get; set; }
@@ -212,7 +189,7 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public string Information { get; set; }
         /// <summary>
-        /// DateTime Started Skating
+        /// DateTime Started 
         /// </summary>
         [ProtoMember(142)]
         [DataMember]
@@ -346,7 +323,7 @@ namespace RDN.Portable.Classes.Account.Classes
         [ProtoMember(170)]
         [DataMember]
         public long TotalForumPostsCount { get; set; }
-        
 
+        public List<InsuranceNumber> InsuranceNumbers { get; set; }
     }
 }

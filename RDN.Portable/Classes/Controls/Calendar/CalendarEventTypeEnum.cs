@@ -9,7 +9,7 @@ namespace RDN.Portable.Classes.Controls.Calendar
     {
         Event = 0,
         Birthday = 1,
-        StartSkatingDate = 2
+        StartedDate = 2
 
     }
 }

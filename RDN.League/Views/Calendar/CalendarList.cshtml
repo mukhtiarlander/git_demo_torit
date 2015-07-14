@@ -130,7 +130,7 @@ else
                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
 
 
-                                @if (calEvent.EventType.EventType != CalendarEventTypeEnum.Birthday && calEvent.EventType.EventType != CalendarEventTypeEnum.StartSkatingDate)
+                                @if (calEvent.EventType.EventType != CalendarEventTypeEnum.Birthday && calEvent.EventType.EventType != CalendarEventTypeEnum.StartedDate)
                                 {
                                     if (avail == null)
                                     {
@@ -185,7 +185,7 @@ else
                         {
                             <i class="fa fa-birthday-cake fa-lg"></i>
                         }
-                        else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
+                        else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
                         {
                             <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
                         }
@@ -200,9 +200,9 @@ else
                             {
                                 <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                             }
-                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartSkatingDate)
+                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
                             {
-                                <a href="@Url.Content("~/calendar/started-skating/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                <a href="@Url.Content("~/calendar/started-playing/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                             }
                             </td>
                             <td class="vertical-middle">

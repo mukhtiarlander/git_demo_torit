@@ -50,7 +50,7 @@ namespace RDN.Library.DataModels.Member
             }
         }
 
-        //are the considered to be in derby.
+        //are the considered to be in.
         //careted this flag for those people that just sign up to buy things through RDNation.
         //false == they are connected
         //true == they are just some random person.

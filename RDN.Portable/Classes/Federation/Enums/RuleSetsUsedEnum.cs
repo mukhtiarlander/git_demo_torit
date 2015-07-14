@@ -6,7 +6,7 @@ using System.Text;
 namespace RDN.Portable.Classes.Federation.Enums
 {
     /// <summary>
-    /// only for defining the rule sets of derby.
+    /// only for defining the rule sets of .
     /// </summary>
     [Flags]
     public enum RuleSetsUsedEnum

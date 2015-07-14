@@ -959,9 +959,9 @@ new { controller = "Messages", action = "SaveMembersToMessage" }
 new { controller = "Calendar", action = "ViewBirthday" } // Parameter defaults
 );
             routes.MapRoute(
-"StartedSkatingEvent", // Route name
-"calendar/started-skating/{id}/{name}", // URL with parameters
-new { controller = "Calendar", action = "ViewStartedSkating" } // Parameter defaults
+"StartedPlayingEvent", // Route name
+"calendar/started-playing/{id}/{name}", // URL with parameters
+new { controller = "Calendar", action = "ViewStartedPlaying" } // Parameter defaults
 );
             routes.MapRoute(
 "EventCheckInSmall", // Route name

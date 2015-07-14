@@ -8,6 +8,7 @@ using RDN.Library.Classes.League.Reports;
 using RDN.Portable.Classes.Account.Enums;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Error;
+using RDN.Portable.Classes.Insurance;
 
 namespace RDN.Library.Classes.League
 {
@@ -68,12 +69,14 @@ namespace RDN.Library.Classes.League
                                             reportSheet.Cells[row, column].Value = "hidden";
                                         break;
                                     case MembersReportEnum.CRDI_Insurance_Number:
-                                        reportSheet.Cells[row, column].Value = league.LeagueMembers[i].InsuranceNumCRDI;
+                                        var crdNumber = league.LeagueMembers[i].InsuranceNumbers.Where(x => x.Type == InsuranceType.CRDI).FirstOrDefault();
+                                        if (crdNumber != null)
+                                            reportSheet.Cells[row, column].Value = crdNumber.Number;
                                         break;
-                                    case MembersReportEnum.Derby_Name:
+                                    case MembersReportEnum.Nick_Name:
                                         reportSheet.Cells[row, column].Value = league.LeagueMembers[i].DerbyName;
                                         break;
-                                    case MembersReportEnum.Derby_Number:
+                                    case MembersReportEnum.Number:
                                         reportSheet.Cells[row, column].Value = league.LeagueMembers[i].PlayerNumber;
                                         break;
                                     case MembersReportEnum.First_Name:
@@ -86,16 +89,22 @@ namespace RDN.Library.Classes.League
                                         reportSheet.Cells[row, column].Value = league.LeagueMembers[i].LastName;
                                         break;
                                     case MembersReportEnum.Other_Insurance_Number:
-                                        reportSheet.Cells[row, column].Value = league.LeagueMembers[i].InsuranceNumOther;
+                                        var otherNumber = league.LeagueMembers[i].InsuranceNumbers.Where(x => x.Type == InsuranceType.Other).FirstOrDefault();
+                                        if (otherNumber != null)
+                                            reportSheet.Cells[row, column].Value = otherNumber.Number;
                                         break;
-                                    case MembersReportEnum.Skating_Level:
+                                    case MembersReportEnum.Skill_Level:
                                         reportSheet.Cells[row, column].Value = league.LeagueMembers[i].LeagueClassificationOfSkatingLevel;
                                         break;
                                     case MembersReportEnum.USARS_Insurance_Number:
-                                        reportSheet.Cells[row, column].Value = league.LeagueMembers[i].InsuranceNumUsars;
+                                        var usarNumber = league.LeagueMembers[i].InsuranceNumbers.Where(x => x.Type == InsuranceType.USARS).FirstOrDefault();
+                                        if (usarNumber != null)
+                                            reportSheet.Cells[row, column].Value = usarNumber.Number;
                                         break;
                                     case MembersReportEnum.WFTDA_Insurance_Number:
-                                        reportSheet.Cells[row, column].Value = league.LeagueMembers[i].InsuranceNumWftda;
+                                        var wftdaNumber = league.LeagueMembers[i].InsuranceNumbers.Where(x => x.Type == InsuranceType.WFTDA).FirstOrDefault();
+                                        if (wftdaNumber != null)
+                                            reportSheet.Cells[row, column].Value = wftdaNumber.Number;
                                         break;
                                     case MembersReportEnum.Skills_Test_Date:
                                         if (league.LeagueMembers[i].Leagues.FirstOrDefault() != null && league.LeagueMembers[i].Leagues.FirstOrDefault().SkillsTestDate.HasValue)

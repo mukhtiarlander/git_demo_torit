@@ -43,6 +43,7 @@ using RDN.Portable.Classes.League.Enums;
 using RDN.Library.Classes.League;
 using RDN.Portable.Classes.Account.Enums;
 using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.Insurance;
 
 
 
@@ -1121,7 +1122,7 @@ namespace RDN.League.Controllers
             try
             {
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
-               
+
                 var league = MemberCache.GetLeagueOfMember(memId);
                 //MembersReportEnum en = new MembersReportEnum();
                 long reportSelected = 0;
@@ -1134,7 +1135,7 @@ namespace RDN.League.Controllers
                     model.SavedReportName = oldReport.Name;
                 }
 
-               
+
 
                 if (String.IsNullOrEmpty(model.SavedReportName))
                     model.SavedReportName = "ReportBuilder";
@@ -1153,7 +1154,7 @@ namespace RDN.League.Controllers
                     Response.Headers.Add("Content-Type", RDN.Utilities.IO.FileExt.GetMIMEType(file));
                     Response.AddHeader("Content-Length", bin.Length.ToString());
                     Response.ContentType = RDN.Utilities.IO.FileExt.GetMIMEType(file);
-                    
+
                     return File(bin, RDN.Utilities.IO.FileExt.GetMIMEType(file), file);
                 }
             }
@@ -1164,7 +1165,7 @@ namespace RDN.League.Controllers
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww.ToString()));
         }
 
-       
+
 
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
         public ActionResult ViewMembersInsurance()
@@ -1497,19 +1498,31 @@ namespace RDN.League.Controllers
                         dt.Columns.Add(i.ToString());
                     }
 
+                    List<InsuranceType> numbers = new List<InsuranceType>();
+                    for (int i = 0; i < members.Count; i++)
+                    {
+                        for (int j = 0; j < members[i].InsuranceNumbers.Count; j++)
+                        {
+                            if (numbers.Where(x => x == members[i].InsuranceNumbers[j].Type).FirstOrDefault() == null)
+                            {
+                                numbers.Add(members[i].InsuranceNumbers[j].Type);
+                            }
+                        }
+                    }
+
                     DataRow dr0 = dt.NewRow();
                     dr0[0] = "First Name";
                     dr0[1] = "Last Name";
-                    dr0[2] = "Derby Name";
-                    dr0[3] = "Derby Number";
-                    dr0[4] = "WFTDA";
-                    dr0[5] = "WFTDA Expires";
-                    dr0[6] = "USARS";
-                    dr0[7] = "USARS Expires";
-                    dr0[8] = "CRDI";
-                    dr0[9] = "CRDI Expires";
-                    dr0[10] = "Other";
-                    dr0[11] = "Other Expires";
+                    dr0[2] = "Nick Name";
+                    dr0[3] = "Number";
+
+                    int columnNumber = 4;
+                    for (int i = 0; i < numbers.Count; i++)
+                    {
+                        dr0[columnNumber] = numbers[i].ToString();
+                        dr0[columnNumber + 1] = numbers[i].ToString() + " Expires";
+                        columnNumber += 2;
+                    }
 
                     dt.Rows.Add(dr0);
                     // write the details
@@ -1520,19 +1533,20 @@ namespace RDN.League.Controllers
                         dr1[1] = person.LastName;
                         dr1[2] = person.DerbyName;
                         dr1[3] = person.PlayerNumber;
-                        dr1[4] = person.InsuranceNumWftda;
-                        if (person.InsuranceNumWftdaExpires.HasValue)
-                            dr1[5] = person.InsuranceNumWftdaExpires.Value.ToShortDateString();
-                        dr1[6] = person.InsuranceNumUsars;
-                        if (person.InsuranceNumUsarsExpires.HasValue)
-                            dr1[7] = person.InsuranceNumUsarsExpires.Value.ToShortDateString();
-                        dr1[8] = person.InsuranceNumCRDI;
-                        if (person.InsuranceNumCRDIExpires.HasValue)
-                            dr1[9] = person.InsuranceNumCRDIExpires.Value.ToShortDateString();
-                        dr1[10] = person.InsuranceNumOther;
-                        if (person.InsuranceNumOtherExpires.HasValue)
-                            dr1[11] = person.InsuranceNumOtherExpires.Value.ToShortDateString();
 
+                        columnNumber = 4;
+                        for (int i = 0; i < numbers.Count; i++)
+                        {
+                            var memNumber = person.InsuranceNumbers.Where(x => x.Type == numbers[i]).FirstOrDefault();
+                            if (memNumber != null)
+                            {
+                                dr0[columnNumber] = memNumber.Number;
+                                if (memNumber.Expires.HasValue)
+                                    dr0[columnNumber + 1] = memNumber.Expires.Value.ToShortDateString();
+                            }
+
+                            columnNumber += 2;
+                        }
                         dt.Rows.Add(dr1);
                     }
                     int colIndex = 0;
@@ -2023,6 +2037,15 @@ namespace RDN.League.Controllers
                 ViewBag.FoldersSelect = new SelectList(foldersCom.OrderBy(x => x.FolderName), "FolderId", "FolderName");
                 //folder to move to for UPLOADER.
                 ViewBag.FoldersApartOf = new SelectList(foldersApartOf.OrderBy(x => x.FolderName), "GroupFolderId", "FolderName");
+
+                if (!string.IsNullOrEmpty(f))
+                {
+                    ViewBag.SelectedFolder = repo.Folders.Find(item => item.FolderId.Equals(Convert.ToInt64(f))).FolderName;
+                }
+                else if (!string.IsNullOrEmpty(g))
+                {
+                    ViewBag.SelectedFolder = repo.GroupsApartOf.Find(item => item.Id.Equals(Convert.ToInt64(g))).GroupName;
+                }
 
                 return View(repo);
             }

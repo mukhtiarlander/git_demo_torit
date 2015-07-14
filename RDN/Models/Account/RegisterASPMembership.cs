@@ -20,7 +20,7 @@ namespace RDN.Models.Account
         public string Email { get; set; }
 
         /// <summary>
-        /// this email is used to help verify the email address of a user connecting to their derby profile
+        /// this email is used to help verify the email address of a user connecting to their profile
         /// </summary>
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email Address: ")]

@@ -124,7 +124,7 @@ function AddSiteMapNode(url, modified) {
     $.getJSON("/Utilities/AddNodeToSiteMap", { url: url, modified: modified });
 }
 
-//verifys the derby name if we already have it in our system.  If we do, it will display possible matches to the user signing up.
+//verifys the name if we already have it in our system.  If we do, it will display possible matches to the user signing up.
 function SearchForDerbyName(control) {
     $("#loadingDerbyName").toggleClass("displayNone");
     $.getJSON("/Utilities/SearchForDerbyName", { name: control.value }, function (result) {

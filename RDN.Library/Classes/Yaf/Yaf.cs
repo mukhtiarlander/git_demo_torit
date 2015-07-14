@@ -31,10 +31,10 @@ namespace RDN.Library.Classes.Yaf
                         if (mem.derbyName != null)
                             user.DisplayName = mem.derbyName;
                         else
-                            user.DisplayName = "No Derby Name";
+                            user.DisplayName = "No Nick Name";
                         if (user.DisplayName == user.Name)
                         {
-                            user.DisplayName = "No Derby Name";
+                            user.DisplayName = "No Nick Name";
                         }
                     }
                 }

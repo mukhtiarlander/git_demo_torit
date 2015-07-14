@@ -679,7 +679,7 @@ namespace RDN.League.Controllers
         }
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
-        public ActionResult ViewStartedSkating(string id, string name)
+        public ActionResult ViewStartedPlaying(string id, string name)
         {
             NewCalendarEvent cal = new NewCalendarEvent();
             try

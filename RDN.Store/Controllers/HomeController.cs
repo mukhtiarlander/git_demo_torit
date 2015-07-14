@@ -83,7 +83,7 @@ namespace RDN.Store.Controllers
         }
 
 #if !DEBUG
-[RequireHttps] //apply to all actions in controller
+[RequireHttps] 
 #endif
         public ActionResult Review(string name, string id, string invoiceId)
         {
@@ -117,7 +117,7 @@ namespace RDN.Store.Controllers
         }
 
 #if !DEBUG
-[RequireHttps] //apply to all actions in controller
+[RequireHttps] 
 #endif
         [HttpPost]
         [Authorize]

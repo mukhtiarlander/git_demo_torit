@@ -6,7 +6,7 @@ using System.Text;
 namespace RDN.Portable.Classes.Federation.Enums
 {
     /// <summary>
-    /// used to define the organizations of derby.
+    /// used to define the organizations of.
     /// </summary>
     [Flags]
     public enum FederationsEnum

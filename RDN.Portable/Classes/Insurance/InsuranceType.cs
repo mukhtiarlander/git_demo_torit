@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RDN.Library.Classes.Account.Enums
+namespace RDN.Portable.Classes.Insurance
 {
-    public enum InsuranceProviderEnum
+    public enum InsuranceType
     {
         None = 0,
         WFTDA = 1,

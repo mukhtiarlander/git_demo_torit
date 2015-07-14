@@ -9,6 +9,7 @@ using RDN.Library.DataModels.ContactCard;
 using RDN.League.Models.Federation;
 using RDN.Portable.Classes.Account.Enums;
 using RDN.Portable.Classes.Imaging;
+using RDN.Portable.Classes.Insurance;
 
 namespace RDN.League.Models.User
 {
@@ -19,6 +20,7 @@ namespace RDN.League.Models.User
             FederationsApartOf = new List<FederationDisplay>();
             Photos = new List<PhotoItem>();
             Leagues = new List<RDN.Portable.Classes.League.Classes.League>();
+            InsuranceNumbers = new List<InsuranceNumber>();
         }
 
         public ContactCard ContactCard { get; set; }
@@ -43,7 +45,7 @@ namespace RDN.League.Models.User
         public string LastName { get; set; }
         public string Email { get; set; }
         /// <summary>
-        /// DateTime Started Skating
+        /// DateTime Started 
         /// </summary>
         public DateTime? StartedSkating { get; set; }
         public DateTime? StoppedSkating { get; set; }
@@ -60,14 +62,6 @@ namespace RDN.League.Models.User
         public string LeagueName { get; set; }
         public string PhoneNumber { get; set; }
 
-        public string InsuranceNumWftda { get; set; }
-        public string InsuranceNumUsars { get; set; }
-        public string InsuranceNumCRDI { get; set; }
-        public string InsuranceNumOther { get; set; }
-        public DateTime? InsuranceNumWftdaExpires { get; set; }
-        public DateTime? InsuranceNumUsarsExpires { get; set; }
-        public DateTime? InsuranceNumCRDIExpires { get; set; }
-        public DateTime? InsuranceNumOtherExpires { get; set; }
         public int Country { get; set; }
         public SelectList Countries { get; set; }
 
@@ -80,5 +74,7 @@ namespace RDN.League.Models.User
         public string ZipCode { get; set; }
         [AllowHtml]
         public string Bio { get; set; }
+
+        public List<InsuranceNumber> InsuranceNumbers { get; set; }
     }
 }

@@ -1360,8 +1360,8 @@ namespace RDN.Library.Classes.Game
                 FileInfo info = new FileInfo(nameOfFile);
 
                 //the file name when we save it
-                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.TournamentName + " roller derby tournamnent-") + saveTime + info.Extension;
-                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.TournamentName + " roller derby tournamnent-") + saveTime + "_thumb" + info.Extension;
+                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.TournamentName + " " + LibraryConfig.SportNameForUrl + " tournamnent-") + saveTime + info.Extension;
+                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.TournamentName + " " + LibraryConfig.SportNameForUrl + " tournamnent-") + saveTime + "_thumb" + info.Extension;
 
                 string url = LibraryConfig.ImagesBaseUrl + "/tournaments/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
                 string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\tournaments\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";

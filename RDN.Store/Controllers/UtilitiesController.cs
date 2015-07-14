@@ -26,8 +26,8 @@ namespace RDN.Store.Controllers
             try
             {
                 //don't want the sitemap to have lostpassword links.
-                //Verify Roller Derby Name
-                if (!url.Contains("receipt") && !url.Contains("product-review") && !url.Contains("checkout") && !url.Contains("cart") && !url.Contains("lostpassword") && !url.Contains("verifyderbyname") && !url.Contains("returnsite=") && !url.Contains("returnurl") && !url.Contains("problem.error"))
+                //Verify  Name
+                if (!url.Contains("receipt") && !url.Contains("product-review") && !url.Contains("checkout") && !url.Contains("cart") && !url.Contains("lostpassword") && !url.Contains("verifyname") && !url.Contains("returnsite=") && !url.Contains("returnurl") && !url.Contains("problem.error"))
                     SitemapHelper.AddNode(url, modified);
                 return Json(new { answer = true }, JsonRequestBehavior.AllowGet);
             }

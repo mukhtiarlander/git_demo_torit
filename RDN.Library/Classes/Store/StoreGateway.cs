@@ -176,8 +176,8 @@ namespace RDN.Library.Classes.Store
                 FileInfo info = new FileInfo(nameOfFile);
 
                 //the file name when we save it
-                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " buy roller derby item-") + saveTime + info.Extension;
-                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " buy roller derby item-") + saveTime + "_thumb" + info.Extension;
+                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " buy " + LibraryConfig.SportNameForUrl + " item-") + saveTime + info.Extension;
+                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " buy " + LibraryConfig.SportNameForUrl + " item-") + saveTime + "_thumb" + info.Extension;
 
                 string url = LibraryConfig.ImagesBaseUrl + "/store/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
                 string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\store\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";

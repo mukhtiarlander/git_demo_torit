@@ -14,7 +14,7 @@ namespace RDN.Library.Classes.Utilities
     public class DerbyRosterWebsite
     {
         /// <summary>
-        /// scans derby roster.com for us for the shadow leagues.
+        /// scans roster.com for us for the shadow leagues.
         /// </summary>
         public static void ScanDerbyRosterWebsite()
         {

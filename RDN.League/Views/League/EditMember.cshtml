@@ -58,7 +58,7 @@
                             <div class="panel-body no-padding">
                                 <ul class="nav nav-tabs padding-top-10" id="myTab">
                                     <li class="active margin-left-15"><a href="#Personal">Personal</a></li>
-                                    <li class="margin-left-15"><a href="#Skating">Skating</a></li>
+                                    <li class="margin-left-15"><a href="#Playing">Playing</a></li>
                                     <li class="margin-left-15"><a href="#Contacts">Contacts</a></li>
                                     <li class="margin-left-15"><a href="#League">League</a></li>
                                     <li class="margin-left-15"><a href="#Federation">Federation</a></li>
@@ -68,7 +68,7 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-lg-6">
                                                 <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Derby Name
+                                                   Nick Name
                                                 </div>
                                                 <div>
                                                     @Html.TextBoxFor(x => x.DerbyName, new { @type = "text", @class = "form-control" })
@@ -76,7 +76,7 @@
                                             </div>
                                             <div class="col-xs-12 col-lg-6">
                                                 <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Derby Number
+                                                   Number
                                                 </div>
                                                 <div>
                                                     @Html.TextBoxFor(x => x.PlayerNumber, new { @type = "text", @class = "form-control" })
@@ -133,13 +133,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="Skating">
+                                    <div class="tab-pane" id="Playing">
                                         @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
                                         {
                                         <div class="row">
                                             <div class="col-xs-12 col-lg-6">
                                                 <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Date Started Skating
+                                                    Date Started Playing
                                                 </div>
                                                 <div>
                                                     @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
@@ -147,7 +147,7 @@
                                             </div>
                                             <div class="col-xs-12 col-lg-6">
                                                 <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Date Stopped Skating
+                                                    Date Stopped Playing
                                                 </div>
                                                 <div>
                                                     @if (Model.StoppedSkating.HasValue)

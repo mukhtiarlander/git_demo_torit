@@ -20,13 +20,13 @@
     {
         <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
     }
-    <li class="active">Started Skating</li>
+    <li class="active">Started Playing</li>
 </ol>
 
 <div class="alert alert-info text-center padding-top-20">
     <i class="fa fa-user fa-4x"></i>
     <h2>
-        @Model.Name started skating on @Model.StartDate.ToShortDateString()
+        @Model.Name started playing on @Model.StartDate.ToShortDateString()
     </h2>
 </div>
 

@@ -848,7 +848,7 @@ namespace RDN.Library.Classes.Calendar
                 ev.EndDate = mem.StartedSkating.GetValueOrDefault();
                 ev.StartDate = mem.StartedSkating.GetValueOrDefault();
                 ev.EventType = new Portable.Classes.Controls.Calendar.CalendarEventType();
-                ev.EventType.EventType = CalendarEventTypeEnum.StartSkatingDate;
+                ev.EventType.EventType = CalendarEventTypeEnum.StartedDate;
                 ev.Name = mem.DerbyName;
             }
             catch (Exception exception)
@@ -2046,10 +2046,10 @@ namespace RDN.Library.Classes.Calendar
             try
             {
 
-                calEvent.EventType.EventType = CalendarEventTypeEnum.StartSkatingDate;
+                calEvent.EventType.EventType = CalendarEventTypeEnum.StartedDate;
 
-                calEvent.Name = member.DerbyName + " Started Skating Today";
-                calEvent.NameUrl = LibraryConfig.PublicSite + "/started-skating-" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName);
+                calEvent.Name = member.DerbyName + " Started Playing Today";
+                calEvent.NameUrl = LibraryConfig.PublicSite + "/started-playing-" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName);
                 calEvent.CalendarItemId = member.MemberId;
                 try
                 {
@@ -2079,7 +2079,7 @@ namespace RDN.Library.Classes.Calendar
                 //because the title is too long for the calendar display.
                 
                 calEvent.id = member.MemberId;
-                calEvent.url = VirtualPathUtility.ToAbsolute("~/calendar/started-skating/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName));
+                calEvent.url = VirtualPathUtility.ToAbsolute("~/calendar/started-playing/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName));
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.StartedSkating.Value.Month, member.StartedSkating.Value.Day);
                 calEvent.StartDate = dt;
                 calEvent.EndDate = dt;

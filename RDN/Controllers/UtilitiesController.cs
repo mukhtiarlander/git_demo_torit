@@ -149,7 +149,7 @@ namespace RDN.Controllers
         public ActionResult AddNodeToSiteMap(string url, bool modified)
         {
             //don't want the sitemap to have lostpassword links.
-            //Verify Roller Derby Name
+            //Verify  Name
             if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login"))
                 SitemapHelper.AddNode(url, modified);
             return Json(new { answer = true }, JsonRequestBehavior.AllowGet);

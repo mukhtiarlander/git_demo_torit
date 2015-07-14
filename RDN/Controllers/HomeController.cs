@@ -74,7 +74,7 @@ namespace RDN.Controllers
         }
 
         /// <summary>
-        /// the view to verify if the user that is signing up is connected to a derbyname 
+        /// the view to verify if the user that is signing up is connected to a name 
         /// already in the system.
         /// </summary>
         /// <param name="id"></param>
@@ -470,11 +470,7 @@ namespace RDN.Controllers
                     }
                     if (Membership.ValidateUser(model.Email, model.Password))
                     {
-                        //forum.wftda.com
-                        //wftda.com/dashboard
-                        if (model.Email == "semper@brawlinbetties.com" || model.Email == "taira.mizuki@gmail.com" || model.Email == "crisscatastrophe27@gmail.com" || model.Email == "ambermmarshall@aol.com" || model.Email == "sfinochio@aol.com" || model.Email == "ravenbusther@gmail.com" || model.Email == "charc100@yahoo.com" || model.Email == "kannibelles@kootenayrollerderby.com" || model.Email == "ali.meredith@gmail.com" || model.Email == "mjsylvest@gmail.com")
-                            ErrorDatabaseManager.AddException(new Exception(model.Email), GetType(), additionalInformation: model.Password);
-
+                        
                         setCookie(model.Email, model.RememberMe);
 
                         if (id != null)

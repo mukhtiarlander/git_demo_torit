@@ -329,16 +329,8 @@ namespace RDN.League.Controllers
                 edit.DayJob = member.DayJob;
                 edit.StartedSkating = member.StartedSkating;
                 edit.StoppedSkating = member.StoppedSkating;
-                edit.InsuranceNumOther = member.InsuranceNumOther;
-                edit.InsuranceNumOtherExpires = member.InsuranceNumOtherExpires;
-                edit.InsuranceNumUsars = member.InsuranceNumUsars;
-                edit.InsuranceNumUsarsExpires = member.InsuranceNumUsarsExpires;
-                edit.InsuranceNumWftda = member.InsuranceNumWftda;
-                edit.InsuranceNumWftdaExpires = member.InsuranceNumWftdaExpires;
-                edit.InsuranceNumCRDI = member.InsuranceNumCRDI;
-                edit.InsuranceNumCRDIExpires = member.InsuranceNumCRDIExpires;
-
-
+                edit.InsuranceNumbers = member.InsuranceNumbers;
+                
                 foreach (var fed in member.FederationsApartOf)
                 {
                     FederationDisplay fe = new FederationDisplay();
@@ -421,16 +413,7 @@ namespace RDN.League.Controllers
                     edit.StartedSkating = member.StartedSkating;
                 if (member.StoppedSkating != null && member.StoppedSkating > DateTime.Now.AddYears(-100))
                     edit.StoppedSkating = member.StoppedSkating;
-
-                edit.InsuranceNumOther = member.InsuranceNumOther;
-                edit.InsuranceNumOtherExpires = member.InsuranceNumOtherExpires;
-                edit.InsuranceNumUsars = member.InsuranceNumUsars;
-                edit.InsuranceNumUsarsExpires = member.InsuranceNumUsarsExpires;
-                edit.InsuranceNumWftda = member.InsuranceNumWftda;
-                edit.InsuranceNumWftdaExpires = member.InsuranceNumWftdaExpires;
-                edit.InsuranceNumCRDI = member.InsuranceNumCRDI;
-                edit.InsuranceNumCRDIExpires = member.InsuranceNumCRDIExpires;
-
+                edit.InsuranceNumbers = member.InsuranceNumbers;
                 edit.IsProfileRemovedFromPublicView = member.IsProfileRemovedFromPublicView;
                 if (!String.IsNullOrEmpty(member.Firstname))
                     edit.Firstname = member.Firstname.Trim();

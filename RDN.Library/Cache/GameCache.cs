@@ -13,7 +13,7 @@ namespace RDN.Library.Cache
     {
 
         /// <summary>
-        /// All Games for roller derby should be placed into cache if they don't already exist.
+        /// All Games for should be placed into cache if they don't already exist.
         /// </summary>
         private List<GameViewModel> GamesForRollerDerby { get; set; }
 

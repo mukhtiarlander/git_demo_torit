@@ -220,14 +220,7 @@ namespace RDN.Api.Controllers
                             m.SkillsTestDate = members[i].Leagues.FirstOrDefault().SkillsTestDate.GetValueOrDefault();
                             m.DepartureDate = members[i].Leagues.FirstOrDefault().DepartureDate.GetValueOrDefault();
                         }
-                        m.InsuranceNumCRDI = members[i].InsuranceNumCRDI;
-                        m.InsuranceNumCRDIExpires = members[i].InsuranceNumCRDIExpires.GetValueOrDefault();
-                        m.InsuranceNumOther = members[i].InsuranceNumOther;
-                        m.InsuranceNumOtherExpires = members[i].InsuranceNumOtherExpires.GetValueOrDefault();
-                        m.InsuranceNumUsars = members[i].InsuranceNumUsars;
-                        m.InsuranceNumUsarsExpires = members[i].InsuranceNumUsarsExpires.GetValueOrDefault();
-                        m.InsuranceNumWftda = members[i].InsuranceNumWftda;
-                        m.InsuranceNumWftdaExpires = members[i].InsuranceNumWftdaExpires.GetValueOrDefault();
+                        m.InsuranceNumbers = members[i].InsuranceNumbers;
                         m.LeagueClassificationOfSkatingLevel = members[i].LeagueClassificationOfSkatingLevel;
                         mems.Add(m);
                     }

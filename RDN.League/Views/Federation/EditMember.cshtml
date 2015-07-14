@@ -77,14 +77,14 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="b">Date Started Skating:
+                                    <td class="b">Date Started Playing:
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="b">Date Stopped Skating:
+                                    <td class="b">Date Stopped Playing:
                                     </td>
                                     <td>
                                         @if (Model.StoppedSkating.HasValue)

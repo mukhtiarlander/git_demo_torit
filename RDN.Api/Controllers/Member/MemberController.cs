@@ -41,14 +41,7 @@ namespace RDN.Api.Controllers.Member
                         if (ob.Member.StoppedSkating != null && ob.Member.StoppedSkating > DateTime.Now.AddYears(-100))
                             edit.StoppedSkating = ob.Member.StoppedSkating;
 
-                        edit.InsuranceNumOther = ob.Member.InsuranceNumOther;
-                        edit.InsuranceNumOtherExpires = ob.Member.InsuranceNumOtherExpires;
-                        edit.InsuranceNumUsars = ob.Member.InsuranceNumUsars;
-                        edit.InsuranceNumUsarsExpires = ob.Member.InsuranceNumUsarsExpires;
-                        edit.InsuranceNumWftda = ob.Member.InsuranceNumWftda;
-                        edit.InsuranceNumWftdaExpires = ob.Member.InsuranceNumWftdaExpires;
-                        edit.InsuranceNumCRDI = ob.Member.InsuranceNumCRDI;
-                        edit.InsuranceNumCRDIExpires = ob.Member.InsuranceNumCRDIExpires;
+                        edit.InsuranceNumbers = ob.Member.InsuranceNumbers;
 
                         edit.IsProfileRemovedFromPublicView = ob.Member.IsProfileRemovedFromPublicView;
                         if (!String.IsNullOrEmpty(ob.Member.Firstname))
@@ -129,14 +122,7 @@ namespace RDN.Api.Controllers.Member
                         m.Gender = mem.Gender;
                         m.HeightFeet = mem.HeightFeet;
                         m.HeightInches = mem.HeightInches;
-                        m.InsuranceNumCRDI = mem.InsuranceNumCRDI;
-                        m.InsuranceNumCRDIExpires = mem.InsuranceNumCRDIExpires;
-                        m.InsuranceNumOther = mem.InsuranceNumOther;
-                        m.InsuranceNumOtherExpires = mem.InsuranceNumOtherExpires;
-                        m.InsuranceNumUsars = mem.InsuranceNumUsars;
-                        m.InsuranceNumUsarsExpires = mem.InsuranceNumUsarsExpires;
-                        m.InsuranceNumWftda = mem.InsuranceNumWftda;
-                        m.InsuranceNumWftdaExpires = mem.InsuranceNumWftdaExpires;
+                        m.InsuranceNumbers = mem.InsuranceNumbers;
                         m.IsProfileRemovedFromPublicView = mem.IsProfileRemovedFromPublicView;
                         m.IsRetired = mem.IsRetired;
                         m.LastName = mem.LastName;

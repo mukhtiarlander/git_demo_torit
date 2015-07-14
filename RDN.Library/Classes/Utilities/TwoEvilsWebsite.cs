@@ -15,7 +15,7 @@ namespace RDN.Library.Classes.Utilities
     public class TwoEvilsWebsite
     {
         /// <summary>
-        /// scans the two evils website for all the derby profiles
+        /// scans the two evils website for all the profiles
         /// </summary>
         public static void ScanTwoEvilsWebsite()
         {
