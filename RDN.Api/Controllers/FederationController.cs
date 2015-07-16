@@ -20,7 +20,7 @@ namespace RDN.Api.Controllers
         [ApiAuthorize(IsApiAuthenticated = true)]
         public ActionResult GetMembers(Guid id)
         {
-            return Json(ApiFederationCache.GetMembersOfFederation(id));
+            return Json(ApiFederationCacheManager.GetMembersOfFederation(id));
 
         }
 
@@ -28,7 +28,7 @@ namespace RDN.Api.Controllers
         [ApiAuthorize(IsApiAuthenticated = true)]
         public ActionResult GetFederation(Guid id)
         {
-            return Json(ApiFederationCache.GetFederation(id));
+            return Json(ApiFederationCacheManager.GetFederation(id));
 
         }
 
@@ -36,7 +36,7 @@ namespace RDN.Api.Controllers
         [ApiAuthorize(IsApiAuthenticated = true)]
         public ActionResult ClearCache(Guid id)
         {
-            ApiFederationCache.Clear(id);
+            ApiFederationCacheManager.Clear(id);
             return Json(true);
 
         }
