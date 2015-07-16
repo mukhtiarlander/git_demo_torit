@@ -14,6 +14,8 @@ using RDN.Library.Classes.Account.Classes;
 using RDN.Library.Classes.Federation.Enums;
 using System.Web.Security;
 using RDN.Portable.Classes.Account.Classes;
+using RDN.Portable.Classes.API.Federation;
+using RDN.Library.Classes.Config;
 
 namespace RDN.League.Controllers
 {
@@ -35,7 +37,7 @@ namespace RDN.League.Controllers
         //    return View();
         //}
 
-
+        FederationManager _manager = new FederationManager(LibraryConfig.ApiSite, LibraryConfig.ApiKey);
         /// <summary>
         /// home page for the federation.
         /// </summary>
@@ -242,7 +244,7 @@ namespace RDN.League.Controllers
             try
             {
                 var federation = MemberCache.GetAllOwnedFederations(RDN.Library.Classes.Account.User.GetMemberId()).FirstOrDefault().Federation;
-                var mems = FederationCache.GetMembersOfFederation(federation.FederationId, HttpContext.Cache);
+                var mems = _manager.GetMembersAsync(federation.FederationId).Result;
 
                 return Json(new
                 {
@@ -304,7 +306,7 @@ namespace RDN.League.Controllers
                     member.FederationsApartOf.Remove(fed);
 
                 member.LeaguesToChooseFrom = RDN.Library.Classes.League.LeagueFactory.GetLeaguesInFederation(federation.FederationId);
-                member.LeaguesToChooseFrom.Add(new RDN.Portable.Classes.League.Classes.League{ Name = "", LeagueId = new Guid() });
+                member.LeaguesToChooseFrom.Add(new RDN.Portable.Classes.League.Classes.League { Name = "", LeagueId = new Guid() });
                 if (member.Leagues.Count == 0)
                     member.Leagues.Add(new RDN.Portable.Classes.League.Classes.League());
                 ViewBag.Saved = false;
@@ -348,8 +350,8 @@ namespace RDN.League.Controllers
                         feds.MembershipDate = new DateTime();
                     else
                         feds.MembershipDate = Convert.ToDateTime(memberDate);
+                    _manager.ClearCacheAsync(feds.FederationId);
 
-                    RDN.Library.Cache.FederationCache.Clear(feds.FederationId);
                 }
                 foreach (var league in mem.Leagues)
                 {
@@ -408,7 +410,7 @@ namespace RDN.League.Controllers
                 Federation.DisconnectMemberFromFederation(federation.FederationId, model.MemberId);
                 RDN.Library.Cache.MemberCache.Clear(model.MemberId);
                 MemberCache.ClearApiCache(model.MemberId);
-                RDN.Library.Cache.FederationCache.Clear(federation.FederationId);
+                _manager.ClearCacheAsync(federation.FederationId);
                 ViewBag.Removed = true;
 
             }
@@ -439,7 +441,7 @@ namespace RDN.League.Controllers
                         Selected = i == model.CurrentPage
                     });
 
-                output.Model.Items = FederationCache.GetMembersOfFederation(federationId, HttpContext.Cache).ToList();
+                output.Model.Items = _manager.GetMembersAsync(federationId).Result.ToList();
             }
             catch (Exception exception)
             {

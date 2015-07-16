@@ -385,11 +385,11 @@ namespace RDN.Library.Classes.Config
             }
         }
 
-        public static string ApiAuthenticationKey
+        public static string ApiKey
         {
             get
             {
-                return ConfigurationManager.AppSettings["ApiAuthenticationKey"];
+                return ConfigurationManager.AppSettings["ApiKey"];
             }
         }
 

@@ -344,7 +344,6 @@ namespace RDN.Portable.Error
                 }
             }
 
-            var assembly = type.Assembly;
             //var assemblyInfo = assembly.GetName();
             //output.AssemblyName = assemblyInfo.Name;
             //output.AssemblyVersion = assemblyInfo.Version.ToString();

@@ -8,11 +8,14 @@ using RDN.Library.Classes.Store;
 using RDN.Models.OutModel;
 using RDN.Models.Utilities;
 using RDN.Portable.Classes.Federation;
+using RDN.Portable.Classes.API.Federation;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Controllers
 {
     public class PublicFederationController : Controller
     {
+        FederationManager _manager = new FederationManager(LibraryConfig.ApiSite, LibraryConfig.ApiKey);
         private readonly int DEFAULT_PAGE_SIZE = 100;
 
         public ActionResult AllFederations(int? page)
@@ -26,7 +29,7 @@ namespace RDN.Controllers
             model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
             model.PageSize = DEFAULT_PAGE_SIZE;
             var output = FillFederationModel(model);
-         
+
 
             return View(output);
         }
@@ -49,8 +52,8 @@ namespace RDN.Controllers
         public ActionResult Federation(string name, string id)
         {
 
-            var fed =FederationCache.GetFederation(new Guid(id));
-            
+            var fed = _manager.GetFederationAsync(new Guid(id)).Result;
+
 
             return View(fed);
         }

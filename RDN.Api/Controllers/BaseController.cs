@@ -1,4 +1,6 @@
-﻿using RDN.Library.Classes.Config;
+﻿using RDN.Library.Classes.Api;
+using RDN.Library.Classes.Config;
+using RDN.Portable.Classes.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace RDN.Api.Controllers
         {
             get
             {
-                if (HttpContext.Request.Headers.Get("api_key") == LibraryConfig.ApiAuthenticationKey)
+                if (HttpContext.Request.Headers.Get(ApiManager.ApiKey) == LibraryConfig.ApiKey)
                     return true;
                 else
                     return false;
