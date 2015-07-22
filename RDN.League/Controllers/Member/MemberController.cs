@@ -613,14 +613,19 @@ namespace RDN.League.Controllers
         {
             try
             {
+                string possibleErrorMsg;
                 ViewBag.Updated = false;
                 if (member.NewPassword == member.Password)
                 {
-                    bool changed = RDN.Library.Classes.Account.User.ChangeUserPassword(member.UserId, member.OldPassword, member.NewPassword);
+                    bool changed = RDN.Library.Classes.Account.User.ChangeUserPassword(member.UserId, member.OldPassword, member.NewPassword, out possibleErrorMsg);
                     ViewBag.Updated = changed;
-                    if (changed != true)
+                    if (changed != true && string.IsNullOrWhiteSpace(possibleErrorMsg))
                     {
                         ViewBag.Message = "Something is wrong with your passwords, please try again. If it continues, feel free to contact " + LibraryConfig.DefaultInfoEmail;
+                    }
+                    else if (!changed)
+                    {
+                        ViewBag.Message = possibleErrorMsg;
                     }
                 }
                 else
@@ -633,6 +638,7 @@ namespace RDN.League.Controllers
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
+
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
         }
