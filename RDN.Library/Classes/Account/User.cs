@@ -345,8 +345,9 @@ namespace RDN.Library.Classes.Account
             }
             return false;
         }
-        public static bool ChangeUserPassword(Guid userId, string oldPassword, string newPassword)
+        public static bool ChangeUserPassword(Guid userId, string oldPassword, string newPassword, out string errorMessage)
         {
+            errorMessage = "";
             try
             {
                 var user = Membership.GetUser((object)userId);
@@ -357,6 +358,26 @@ namespace RDN.Library.Classes.Account
                     SendEmailForPasswordChanged(user.Email, tempUser.DerbyName);
                 }
                 return changed;
+            }
+            //one field is null
+            catch (ArgumentNullException exception)
+            {
+                if(exception.Message.Contains("cannot be null"))
+                    errorMessage = "Please fill all the fields";
+                else
+                    ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            //one field id empty
+            catch (ArgumentException exception)
+            {
+                if (exception.Message.Contains("cannot be empty"))
+                    errorMessage = "Please fill all the fields";
+                else
+                    ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }            
+            catch (PlatformNotSupportedException ex)
+            {
+                errorMessage = "There is an error regarding .Net Framework. Please contact the support";
             }
             catch (Exception exception)
             {
