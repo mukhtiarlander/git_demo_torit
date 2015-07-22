@@ -75,9 +75,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201507221520526_updates.cs" />
-    <Compile Include="Migrations\201507221520526_updates.Designer.cs">
-      <DependentUpon>201507221520526_updates.cs</DependentUpon>
+    <Compile Include="Migrations\201507221849032_invoices.cs" />
+    <Compile Include="Migrations\201507221849032_invoices.Designer.cs">
+      <DependentUpon>201507221849032_invoices.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -130,8 +130,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507221520526_updates.resx">
-      <DependentUpon>201507221520526_updates.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507221849032_invoices.resx">
+      <DependentUpon>201507221849032_invoices.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
