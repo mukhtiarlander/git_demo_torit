@@ -333,7 +333,8 @@
             }
         },
         stepMinute: 5,
-        timeFormat: 'hh:mm tt'
+        //timeFormat: 'hh:mm tt'
+        format: 'DD-MM-YYYY HH:mm'
     });
     $('#EndDateDisplay').datetimepicker({
         ampm: true,
@@ -345,19 +346,22 @@
             }
         },
         stepMinute: 5,
-        timeFormat: 'hh:mm tt'
+        //timeFormat: 'hh:mm tt'
+        format: 'DD-MM-YYYY HH:mm'
+        
     });
 
     $("#createNewEventForm").validate({
         rules: {
             Name: "required",
-            StartDateDisplay: "required",
-            EndDateDisplay: "required",
+            StartDateDisplay: { required: true, date: true},
+            EndDateDisplay: { required: true, date: true },
             SelectedLocationId: "required",
             SelectedEventTypeId: "required"
+            
         }
     });
-
+    
     $(function () {
         tinymce.init({
             mode: "textareas",
