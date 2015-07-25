@@ -2,6 +2,20 @@
 
 OpenLayers.ImgPath = "/content/images/";
 
+$(document).ready(function () {
+    $("#feedback_tab").on("mouseenter", function () {
+        feedback_tab_hovered = true;
+        $("#feedback_tab").css('opacity', 1).animate({ "right": "0px" }, 300);
+        setTimeout(function () { feedback_tab_hovered = false; }, 1000);
+    });
+    $("#feedback_tab").on("mouseleave", function () {
+        if (feedback_tab_hovered == false) {
+            setTimeout(function () {
+                $("#feedback_tab").animate({ "right": "-60px" }, 300, function () { $("#feedback_tab").animate({ "opacity": 0.7 }, 100); });
+            }, 1000);
+        }
+    });
+});
 
 function Chat(chatTemp, memberName, id, created) {
     this.chat = ko.observable(chatTemp);

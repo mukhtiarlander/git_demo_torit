@@ -18,6 +18,14 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string WebsiteMainEmail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WebsiteMainEmail"];
+            }
+        }
+
         public static string DefaultEmailSubject
         {
             get
@@ -398,6 +406,14 @@ namespace RDN.Library.Classes.Config
             get
             {
                 return ConfigurationManager.AppSettings["DefaultInfoEmail"];
+            }
+        }
+
+        public static string SupportSite
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SupportSite"];
             }
         }
 

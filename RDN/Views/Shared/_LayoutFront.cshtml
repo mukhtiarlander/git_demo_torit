@@ -111,7 +111,7 @@
 
     </div>
     <div class="container-fluid footer">
-        @Html.Partial("_PartialFooter")
+        @*@Html.Partial("_PartialFooter")*@
         <br /><br /><br /><br /><br />
     </div>
     <script type="text/JavaScript">
@@ -122,33 +122,33 @@
 
         //currentGamesViewModel.initialize();
 
-        (function () {
-            var a = document.createElement('a');
-            a.setAttribute('id', 'uservoice-feedback-tab');
-            a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
-            a.setAttribute('target', '_blank');
-            a.style.cssText = [
-      'position: fixed',
-      'top: 45%',
-      'width: 25px',
-      'height: 90px',
-      'margin: -45px 0 0',
-      'right: 0',
-      'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
-      'border: outset 1px #39B4D7',
-      'border-right: none'
-            ].join(';');
-            document.body.appendChild(a);
-        })();
+      //  (function () {
+      //      var a = document.createElement('a');
+      //      a.setAttribute('id', 'uservoice-feedback-tab');
+      //      a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
+      //      a.setAttribute('target', '_blank');
+      //      a.style.cssText = [
+      //'position: fixed',
+      //'top: 45%',
+      //'width: 25px',
+      //'height: 90px',
+      //'margin: -45px 0 0',
+      //'right: 0',
+      //'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
+      //'border: outset 1px #39B4D7',
+      //'border-right: none'
+      //      ].join(';');
+      //      document.body.appendChild(a);
+      //  })();
 
     </script>
-    <a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Feedback"
+    @*<a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Feedback"
        target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
         margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png);
         background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px;
         border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000;
         border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;">
-    </a>
+    </a>*@
     <div id="fb-root">
     </div>
     <script>
@@ -159,6 +159,7 @@
             js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+
 
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-29843570-1']);
@@ -172,7 +173,14 @@
         })();
     </script>
 
-
+    <div id="feedback_tab" style="">
+        <a href="mailto:info@rdnation.com">
+            <i class="fa fa-envelope-o"></i> Contact
+        </a>
+        <a href="http://support.rdnation.com/Projects/ProjectSummary/1" target="_blank">
+            <i class="fa fa-question-circle"></i> Support
+        </a>
+    </div>
 
 </body>
 </html>

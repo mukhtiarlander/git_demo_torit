@@ -219,13 +219,14 @@ select{height:35px;border-radius:4px}
   background-color: #F7F7F7;
   border-top: 1px solid #EBEBEB;
 }
+
 #feedback_tab
 {
-    position:fixed;height:60px;width:90px;background-color:#9b59b6; top:200px;right:-60px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;opacity:0.7;font-size:12px;
+    position:fixed;height:60px;width:90px;background-color:#9b59b6; top:200px;right:-60px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;opacity:0.7;font-size:12px;z-index:1000;overflow:hidden;
 }
 #feedback_tab > a
 {
-    height:30px;line-height:30px;color:white;padding-left:10px;width:100px;float:left;text-decoration:none;border-top-left-radius: 4px;border-bottom-left-radius: 4px;
+    height:30px;line-height:30px;color:white;padding-left:10px;width:100px;float:left;text-decoration:none;
 }
 #feedback_tab > a:hover
 {
