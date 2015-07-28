@@ -148,7 +148,7 @@
                 }
             });
         });
-        $(button).parent().html("<button type='button' class='btn btn-warning' onclick='javascript:Calendar.checkInRemoveLarge(this,\"" + memId + "\", \"" + derbyName + "\")'>Remove</button>");
+        $(button).parent().html("<button type='button' class='btn btn-warning btn-sm' onclick='javascript:Calendar.checkInRemoveLarge(this,\"" + memId + "\", \"" + derbyName + "\")'>Remove</button>");
 
         if (isTardy)
             pontType += " - Tardy";
@@ -183,7 +183,7 @@
             });
         });
 
-        $(button).parent().html('<input type="button" class="btn btn-primary" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,\'' + memId + '\', \'' + derbyName + '\')" />');
+        $(button).parent().html('<input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,\'' + memId + '\', \'' + derbyName + '\')" />');
         tardyCell.html('<input type="checkbox" id="' + memId + '-tardy" points="' + tardyPoints + '"  title="Is Tardy" /><span>Tardy?</span>');
         noteCell.html('<input type="text" id="' + memId + '-Note" class="form-control" />');
         pointCell.text("");

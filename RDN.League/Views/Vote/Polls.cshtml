@@ -74,7 +74,7 @@
                                 {
                                     if (Model.Polls[i].DidCurrentMemberVoted == true)
                                     {
-                                        <a class="btn btn-primary btn-sm" title="You Voted" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
+                                        <a class="btn btn-success btn-sm" title="You Voted" href="@Url.Content("~/poll/votev2/" + Model.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls[i].VotingId)">
                                             <i class="fa fa-thumbs-o-up"></i>
                                         </a>
                                     }
