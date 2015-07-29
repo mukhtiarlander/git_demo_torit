@@ -306,7 +306,7 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             "PublicFederations", // Route name
             "{url}", // URL with parameters
             new { controller = "PublicFederation", action = "AllFederations" },
-            new { url = "roller-derby-federation" }
+            new { url = "roller-derby-federations" }
                     );
 
             routes.MapRoute(
