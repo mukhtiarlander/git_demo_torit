@@ -12,6 +12,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .imgRowMax { max-height: 300px; }
 .imgCenter { display: block; margin-left: auto; margin-right: auto; }
 .b { font-weight: bold;}
+.bn { font-weight:lighter;}
 .bg-white { background-color: #fff; }
 .storeItemPrice { color: #900; font-weight: bold; }
 .displayNone { display: none; }
@@ -53,6 +54,8 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .selectedColorCon { width: 77px; text-align: center; vertical-align: middle; font-size: .8em; height: 27px; margin-right:4px; float: left; border: 1px solid gray; margin-top:4px; }
 .selectedColorCon span {width:25px; text-align:center;background-color:#ddd;float:right;height:25px; vertical-align:middle; padding-top:4px;color:gray; border-left:1px solid gray}
 .selectedColorCon span:hover{background-color:silver;cursor:pointer}
+.quoteForumMessage { margin: 5px; background-color: #ededed; padding: 5px; border-bottom: 1px solid #000; border-top: 1px solid #000; }
+	.quoteForumMessage blockquote { margin-left: 20px; padding-top: 5px; }
 
 .notifications { position: fixed; z-index: 99999; }
 

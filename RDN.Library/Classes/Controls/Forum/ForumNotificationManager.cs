@@ -14,7 +14,7 @@ using System.Text;
 
 namespace RDN.Library.Classes.Controls.Forum
 {
-    public class ForumNotificationFactory
+    public class ForumNotificationManager
     {
         public List<Guid> membersAlreadyEmailed;
         Guid ForumId;
@@ -28,12 +28,13 @@ namespace RDN.Library.Classes.Controls.Forum
         Guid MemberIdSendingPost;
         string DerbyNameSendingPost;
         string PlainMessage;
+        long MessageId;
         /// <summary>
         /// used to export all the members we send messages to.
         /// </summary>
         //public List<MemberDisplayBasic> MembersSent { get; set; }
 
-        public ForumNotificationFactory(Guid forumId, Guid leagueId, bool isNewPost, bool isBroadcasted, long groupId, long topicId, string groupName, string topicName, string plainMessage, Guid memberIdSending, string memberDerbyName)
+        public ForumNotificationManager(Guid forumId, Guid leagueId, bool isNewPost, bool isBroadcasted, long groupId, long topicId, string groupName, string topicName, string plainMessage, Guid memberIdSending, string memberDerbyName, long messageId)
         {
             membersAlreadyEmailed = new List<Guid>();
             ForumId = forumId;
@@ -47,7 +48,7 @@ namespace RDN.Library.Classes.Controls.Forum
             DerbyNameSendingPost = memberDerbyName;
             TopicName = topicName;
             GroupName = groupName;
-            //MembersSent = new List<MemberDisplayBasic>();
+            MessageId = messageId;
         }
 
         /// <summary>
@@ -84,8 +85,35 @@ namespace RDN.Library.Classes.Controls.Forum
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
         }
+        private void SendEmailAboutNewMention(Guid userId, string derbyName)
+        {
+            try
+            {
+                if (userId != new Guid())
+                {
+                    string fullMessage = "<b>" + GroupName + "</b> - " + TopicName + "<br/><br/>";
+                    var emailData = new Dictionary<string, string>
+                                        {
+                                            { "derbyname",derbyName}, 
+                                            { "FromUserName", DerbyNameSendingPost}, 
+                                            { "messageBody",fullMessage + PlainMessage},
+                                            { "viewConversationLink",LibraryConfig.InternalSite +"/forum/post/view/" + ForumId.ToString().Replace("-","") +"/"+ TopicId +"#msg-"+ MessageId},
+                                            { "notificationSettings",LibraryConfig.InternalSite + UrlManager.WEBSITE_MEMBER_SETTINGS}
+                                        };
+                    var user = System.Web.Security.Membership.GetUser((object)userId);
+                    if (user != null)
+                    {
+                        EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " You were mentioned", emailData, EmailServer.EmailServerLayoutsEnum.SendForumBroadcastMessageToUserGroup);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+        }
 
-        public ForumNotificationFactory LeagueEmailAboutForumPost()
+        public ForumNotificationManager LeagueEmailAboutForumPost()
         {
             try
             {
@@ -111,7 +139,6 @@ namespace RDN.Library.Classes.Controls.Forum
                                     SendEmailAboutNewForumPost(mem.UserId, mem.DerbyName);
                                     membersAlreadyEmailed.Add(mem.MemberId);
                                 }
-                                //MembersSent.Add(new MemberDisplayBasic() { UserId = mem.UserId, MemberId = mem.MemberId });
                             }
                         }
                     }
@@ -149,7 +176,7 @@ namespace RDN.Library.Classes.Controls.Forum
             return this;
         }
 
-        public ForumNotificationFactory EmailMembersOnWatchList()
+        public ForumNotificationManager EmailMembersOnWatchList()
         {
             try
             {
@@ -161,6 +188,28 @@ namespace RDN.Library.Classes.Controls.Forum
                     {
                         SendEmailAboutNewForumPost(watches[i].ToUser.AspNetUserId, watches[i].ToUser.DerbyName);
                         membersAlreadyEmailed.Add(watches[i].ToUser.MemberId);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return this;
+        }
+
+        public ForumNotificationManager EmailMemberMentions()
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var message = dc.ForumMessages.Include("Mentions").Include("Mentions.Member").Where(x => x.MessageId == MessageId).FirstOrDefault();
+                for (int i = 0; i < message.Mentions.Count; i++)
+                {
+                    if (!membersAlreadyEmailed.Contains(message.Mentions[i].Member.MemberId))
+                    {
+                        SendEmailAboutNewMention(message.Mentions[i].Member.AspNetUserId, message.Mentions[i].Member.DerbyName);
+                        membersAlreadyEmailed.Add(message.Mentions[i].Member.MemberId);
                     }
                 }
             }

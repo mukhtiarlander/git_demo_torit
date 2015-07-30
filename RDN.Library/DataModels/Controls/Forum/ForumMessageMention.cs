@@ -10,11 +10,11 @@ using RDN.Library.DataModels.Base;
 namespace RDN.Library.DataModels.Forum
 {
     [Table("RDN_Forum_Message_Mention")]
-    public class ForumMessageMention : InheritDb
+    public class ForumMessageMentionDb : InheritDb
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long MentionId { get; set; }
-        public  ForumMessage Messages { get; set; }
+        public ForumMessage Messages { get; set; }
         public Member.Member Member { get; set; }
     }
 }

@@ -468,7 +468,7 @@ namespace RDN.Library.Classes.Forum
             try
             {
                 var dc = new ManagementContext();
-                var message = dc.ForumMessages.Where(x => x.Topic.Forum.ForumId == forumId && x.MessageId == messageId).FirstOrDefault();
+                var message = dc.ForumMessages.Include("Mentions").Include("Mentions.Member").Where(x => x.Topic.Forum.ForumId == forumId && x.MessageId == messageId).FirstOrDefault();
                 return DisplayMessage(message);
             }
             catch (Exception exception)
@@ -490,7 +490,7 @@ namespace RDN.Library.Classes.Forum
             try
             {
                 var dc = new ManagementContext();
-                var topic = dc.ForumTopics.Include("Forum").Where(x => x.Forum.ForumId == forumId && x.TopicId == topicId).FirstOrDefault();
+                var topic = dc.ForumTopics.Include("Forum").Include("Messages").Include("Messages.Mentions").Include("Messages.Mentions.Member").Where(x => x.Forum.ForumId == forumId && x.TopicId == topicId).FirstOrDefault();
                 ForumTopic top = new ForumTopic();
                 if (topic.Forum.FederationOwner != null)
                     top.ForumType = ForumOwnerTypeEnum.federation;
@@ -586,16 +586,6 @@ namespace RDN.Library.Classes.Forum
                 else
                     me.Member.Gender = GenderEnum.None;
 
-                List<ForumMessageMention> men = new List<ForumMessageMention>();
-                List<Guid> membersids = dc.ForumMessages.Include("Mentions").Include("Mentions.Member").Where(x => x.Topic.Forum.ForumId == message.Topic.Forum.ForumId && x.Topic.TopicId == message.Topic.TopicId).First().Mentions.Select(s => s.Member.MemberId).ToList();
-                foreach (var MemberId in membersids)
-                {
-                    ForumMessageMention m = new ForumMessageMention();
-                    m.memberid = MemberId;
-                    men.Add(m);
-                }
-                me.mentions = men;
-
                 if (message.Member.Photos.Count > 0)
                 {
                     var photo = message.Member.Photos.OrderByDescending(x => x.Created).Where(x => x.IsPrimaryPhoto == true).FirstOrDefault();
@@ -604,7 +594,13 @@ namespace RDN.Library.Classes.Forum
                         me.Member.Photos.Add(new PhotoItem(photo.ImageUrl, true, me.Member.DerbyName));
                     }
                 }
-
+                var mentions = message.Mentions.Select(x => x.Member.MemberId);
+                foreach (var MemberId in mentions)
+                {
+                    ForumMessageMention m = new ForumMessageMention();
+                    m.memberid = MemberId;
+                    me.Mentions.Add(m);
+                }
 
                 if (message.LastModified > new DateTime(2013, 11, 23) || message.Created > new DateTime(2013, 11, 23))
                 {
@@ -663,7 +659,7 @@ namespace RDN.Library.Classes.Forum
             return false;
         }
 
-        public static void ReplyToPost(Guid forumId, long topicId, string message, Guid memberId, bool emailGroupAboutPost)
+        public static void ReplyToPost(Guid forumId, long topicId, string message, Guid memberId, bool emailGroupAboutPost, List<Guid> mentionedMemberIds)
         {
             try
             {
@@ -692,6 +688,14 @@ namespace RDN.Library.Classes.Forum
                     topic.LastPostByMember = member;
                     topic.LastPostDateTime = DateTime.UtcNow;
                     topic.CreatedByMember = topic.CreatedByMember;
+
+                    foreach (var id in mentionedMemberIds)
+                    {
+                        ForumMessageMentionDb mention = new ForumMessageMentionDb();
+                        mention.Member = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
+                        mess.Mentions.Add(mention);
+                    }
+
                     dc.ForumMessages.Add(mess);
                     int ch = dc.SaveChanges();
 
@@ -715,9 +719,12 @@ namespace RDN.Library.Classes.Forum
                     Guid ownerId = new Guid();
                     if (topic.Forum.LeagueOwner != null)
                         ownerId = topic.Forum.LeagueOwner.LeagueId;
-                    var notify = new ForumNotificationFactory(forumId, ownerId, false, emailGroupAboutPost, topic.GroupId, topic.TopicId, groupName, topic.TopicTitle, message, member.MemberId, member.DerbyName)
+
+                    var notify = new ForumNotificationManager(forumId, ownerId, false, emailGroupAboutPost, topic.GroupId, topic.TopicId, groupName, topic.TopicTitle, message, member.MemberId, member.DerbyName, mess.MessageId)
                     .LeagueEmailAboutForumPost()
-                    .EmailMembersOnWatchList();
+                    .EmailMembersOnWatchList()
+                    .EmailMemberMentions();
+
 
                     var fact = new MobileNotificationFactory()
                            .Initialize("Forum Reply:", topic.TopicTitle, Mobile.Enums.NotificationTypeEnum.Forum)
@@ -979,7 +986,7 @@ namespace RDN.Library.Classes.Forum
                     DataModels.Forum.ForumMessage mess = new DataModels.Forum.ForumMessage();
                     foreach (Guid id in membersBeingMentioned)
                     {
-                        DataModels.Forum.ForumMessageMention mention = new DataModels.Forum.ForumMessageMention();
+                        DataModels.Forum.ForumMessageMentionDb mention = new DataModels.Forum.ForumMessageMentionDb();
                         mention.Member = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
                         mess.Mentions.Add(mention);
                     }
@@ -1033,20 +1040,19 @@ namespace RDN.Library.Classes.Forum
                             ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: forumId.ToString() + ":" + forumType + ":" + subject + ":" + message + ":" + memberId.ToString() + ":" + groupId + ":" + emailGroupAboutPost + ":" + pinMessage + ":" + lockMessage + ":" + chosenCategory);
                         }
                     }
+                    //make sure the forum has an owner.
                     if (topic.Forum.LeagueOwner != null)
                     {
-                        var notify = new ForumNotificationFactory(forumId, topic.Forum.LeagueOwner.LeagueId, true, emailGroupAboutPost, topic.GroupId, topic.TopicId, groupName, topic.TopicTitle, mess.MessageHTML, member.MemberId, member.DerbyName)
+                        var notify = new ForumNotificationManager(forumId, topic.Forum.LeagueOwner.LeagueId, true, emailGroupAboutPost, topic.GroupId, topic.TopicId, groupName, topic.TopicTitle, mess.MessageHTML, member.MemberId, member.DerbyName, mess.MessageId)
                         .LeagueEmailAboutForumPost()
-                        .EmailMembersOnWatchList();
+                        .EmailMembersOnWatchList()
+                        .EmailMemberMentions();
 
-                        //notify.MembersSent.Add(new MemberDisplayBasic() { MemberId = member.MemberId, UserId = member.AspNetUserId });
                         var fact = new MobileNotificationFactory()
                             .Initialize("Forum Post:", topic.TopicTitle, Mobile.Enums.NotificationTypeEnum.Forum)
                             .AddId(topic.TopicId)
                             .AddMembers(notify.membersAlreadyEmailed)
                             .SendNotifications();
-
-
                     }
                     return topic.TopicId;
                 }
@@ -2031,7 +2037,7 @@ namespace RDN.Library.Classes.Forum
                 bool isManager = RDN.Library.Cache.MemberCache.IsAdministrator(memberId);
                 //need to add the default forum.
                 List<LeagueGroup> groups = new List<LeagueGroup>();
-                groups.Insert(0, new LeagueGroup { Id = 0, GroupName =LibraryConfig.WebsiteShortName});
+                groups.Insert(0, new LeagueGroup { Id = 0, GroupName = LibraryConfig.WebsiteShortName });
 
                 foreach (var g in groups)
                 {

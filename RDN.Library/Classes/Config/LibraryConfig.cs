@@ -453,7 +453,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultEmailMessages"];
+                return ConfigurationManager.AppSettings["DefaultEmailMessage"];
             }
         }
 
