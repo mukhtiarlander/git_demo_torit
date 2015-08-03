@@ -65,15 +65,19 @@ namespace RDN.League
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/font-awesome.css",
-
+                    
                       "~/Content/main.css",
                       "~/Content/jquery-ui-1.10.4.custom.css",
                       "~/Content/FullCalendar/fullcalendar.css",
                        "~/Content/select2.min.css",
-                                               "~/Content/tinymce/tinymce.mentions.css"
-                //,
-                //"~/Content/FullCalendar/fullcalendar.print.css"
+                       //"~/Content/jquery.mentionsInput.css"
+                        "~/Content/tinymce.mentions.css"
+                      //,
+                      //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));
+
+            // Set EnableOptimizations to false for debugging. For more information,
+            // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
         }
     }

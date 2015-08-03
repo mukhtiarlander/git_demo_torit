@@ -12,7 +12,6 @@ namespace RDN.Library.Classes.Account.Classes
     {
         public Guid id { get; set; }
         public string name { get; set; }
-        public string realname { get; set; }
         public string picture { get; set; }
         public string link { get; set; }
     }

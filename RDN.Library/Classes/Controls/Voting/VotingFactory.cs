@@ -216,7 +216,7 @@ namespace RDN.Library.Classes.Controls.Voting
                     v.IsDeleted = voting[i].IsDeleted;
                     v.Question = voting[i].Title;
                     v.VotingId = voting[i].VotingId;
-                    v.Created = voting[i].Created + new TimeSpan(voting[i].LeagueOwner.TimeZone, 0, 0);
+                    v.Created = voting[i].Created + new TimeSpan(voting[i].LeagueOwner.TimeZone,0,0);
                     v.NonVotes = voting[i].Voters.Count;
                     if (voting[i].Questions.Count > 0)
                         v.Voted = voting[i].Questions.FirstOrDefault().Votes.Count;
@@ -551,10 +551,7 @@ namespace RDN.Library.Classes.Controls.Voting
             {
                 var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
                 if (voting == null)
-                {
-                    v.IsDeleted = true;
-                    return v;
-                }
+                    return null;
                 v.IsPublic = voting.IsPublic;
                 v.IsClosed = voting.IsClosed;
                 v.IsDeleted = voting.IsDeleted;
@@ -657,7 +654,7 @@ namespace RDN.Library.Classes.Controls.Voting
             return null;
         }
 
-        public static bool AddVote(Guid leagueId, long pollId, Guid memberId, long answerId, string otherText)
+       public static bool AddVote(Guid leagueId, long pollId, Guid memberId, long answerId, string otherText)
         {
 
             var dc = new ManagementContext();

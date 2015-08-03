@@ -44,7 +44,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 col-sm-8 col-lg-9">
-                        <span id="topicTitle" class="margin-top-5 font20"><b>@Model.TopicTitle</b></span>
+                        <span id="topicTitle" class="margin-top-5 font20"><b>"@Model.TopicTitle"</b></span>
                         @if (Model.IsManagerOfTopic)
                         {
                             <button class="btn btn-default btn-xs margin-bottom-5" type="button" id="editTitle" onclick="EnableForumTopicEdit(this,'true')">
@@ -65,7 +65,7 @@
                     }
                 </div>
             </div>
-
+           
             <div class="panel-body">
 
                 @foreach (var message in Model.Messages)
@@ -141,22 +141,17 @@
                         </div>
                     </div>
                 }
-                <div>
-                    <div>Members Unread</div>
-
-
-                    @for (int i = 0; i < Model.TopicInbox.Count(); i++)
-                    {
-                        <span>
-                            <a target="_blank" href="@Url.Content("~/member/" + Model.TopicInbox[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.TopicInbox[i].DerbyName))">
-                                @Model.TopicInbox[i].DerbyName
-                                @if (Model.TopicInbox[i] != Model.TopicInbox.Last())
-                                {<span>,</span>}
-                            </a>
-                        </span>
-                    }
-                </div>
+                <div>Members Unread</div>
+               
                 
+                @for (int i = 0; i < Model.TopicInbox.Count(); i++ )
+                {
+                    <span>
+                        <a target="_blank" href="@Url.Content("~/member/" + Model.TopicInbox[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.TopicInbox[i].DerbyName))">
+                            @Model.TopicInbox[i].DerbyName</a>@if (Model.TopicInbox[i] != Model.TopicInbox.Last())
+                                               {<span>,</span>}
+                    </span>
+                }
                 @Html.HiddenFor(x => x.TopicId)
                 @Html.HiddenFor(x => x.ForumId)
             </div>

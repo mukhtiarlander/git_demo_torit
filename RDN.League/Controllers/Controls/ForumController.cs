@@ -170,15 +170,7 @@ namespace RDN.League.Controllers
             {
                 var memberId = RDN.Library.Classes.Account.User.GetMemberId();
 
-                List<Guid> guids = new List<Guid>();
-                string[] ids = post.Mentions.Split(',');
-                for (int i = 0; i < ids.Count(); i++)
-                {
-                    if (ids[i].ToString().Trim() != "")
-                        guids.Add(new Guid(ids[i].ToString().Trim()));
-                }
-
-                Forum.ReplyToPost(post.ForumId, post.TopicId, post.Message, memberId, post.BroadcastMessage, guids);
+                Forum.ReplyToPost(post.ForumId, post.TopicId, post.Message, memberId, post.BroadcastMessage);
                 ForumTopicCache.ClearTopicCache(post.ForumId, post.TopicId);
                 WebClient client = new WebClient();
                 client.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.URL_TO_CLEAR_FORUM_TOPIC_API + "forumId=" + post.ForumId + "&topicId=" + post.TopicId));
@@ -200,7 +192,7 @@ namespace RDN.League.Controllers
             {
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
 
-                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) != LibraryConfig.DEFAULT_RDN_FORUM_ID)
+                if (!MemberCache.IsMemberApartOfForum(memId, new Guid(forumId)) && new Guid(forumId) !=LibraryConfig.DEFAULT_RDN_FORUM_ID)
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
 
                 var league = MemberCache.GetLeagueOfMember(memId);
@@ -216,13 +208,12 @@ namespace RDN.League.Controllers
                 else
                     topic.IsWatching = false;
 
-                RDN.Portable.Classes.Account.Classes.MemberDisplay setting = MemberCache.GetMemberDisplay(memId);
-                if (setting.Settings.ForumDescending)
+               RDN.Portable.Classes.Account.Classes.MemberDisplay setting =  MemberCache.GetMemberDisplay(memId);
+               if (setting.Settings.ForumDescending)
                     post.Messages = topic.Messages.OrderByDescending(x => x.Created).ToList();
                 post.ForumId = topic.ForumId;
                 post.ForumType = topic.ForumType;
                 post.TopicId = topic.TopicId;
-                post.GroupId = topic.GroupId;
                 post.TopicTitle = topic.TopicTitle;
                 post.BroadcastMessage = topic.BroadcastForumTopic;
                 return View(post);
@@ -298,7 +289,6 @@ namespace RDN.League.Controllers
                 post.MessageMarkDown = s + message.MessageMarkDown + y;
                 post.TopicId = topic.TopicId;
                 post.ForumId = topic.ForumId;
-                post.GroupId = topic.GroupId;
                 post.ForumType = ForumOwnerTypeEnum.league;
                 return View(post);
             }
@@ -333,15 +323,7 @@ namespace RDN.League.Controllers
                     newPost.Message = newPost.Message.Replace("[/quote]", footQuote);
                 }
 
-                List<Guid> mentions = new List<Guid>();
-                string[] ids = newPost.Mentions.Split(',');
-                for (int i = 0; i < ids.Count(); i++)
-                {
-                    if (ids[i].ToString().Trim() != "")
-                        mentions.Add(new Guid(ids[i].ToString().Trim()));
-                }
-
-                Forum.ReplyToPost(newPost.ForumId, newPost.TopicId, newPost.Message, memId, newPost.BroadcastMessage, mentions);
+                Forum.ReplyToPost(newPost.ForumId, newPost.TopicId, newPost.Message, memId, newPost.BroadcastMessage);
                 ForumTopicCache.ClearTopicCache(newPost.ForumId, newPost.TopicId);
                 WebClient client = new WebClient();
                 client.DownloadStringAsync(new Uri(LibraryConfig.ApiSite + UrlManager.URL_TO_CLEAR_FORUM_TOPIC_API + "forumId=" + newPost.ForumId + "&topicId=" + newPost.TopicId));
@@ -518,7 +500,7 @@ namespace RDN.League.Controllers
                 string[] ids = post.Mentions.Split(',');
                 for (int i = 0; i < ids.Count(); i++)
                 {
-                    if (ids[i].ToString().Trim() != "")
+                    if(ids[i].ToString().Trim() != "")
                         guids.Add(new Guid(ids[i].ToString().Trim()));
                 }
                 var topicId = Forum.CreateNewForumTopicAndPost(post.ForumId, post.ForumType, post.Subject, post.Message, memberId, post.GroupId, post.BroadcastMessage, post.PinMessage, post.LockMessage, post.ChosenCategory, guids);

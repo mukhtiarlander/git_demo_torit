@@ -145,6 +145,7 @@ namespace RDN.Library.Classes.Document
 
         private static void SearchDocument(string[] searchText, Document d)
         {
+
             if (new FileInfo(d.SaveLocation).Exists)
             {
                 using (StreamReader sr = new StreamReader(d.SaveLocation))
@@ -153,6 +154,27 @@ namespace RDN.Library.Classes.Document
                     SearchText(searchText, d, fileContent);
                 }
             }
+        }
+
+        public static List<DocumentJson> SearchDocumentByName(Guid leagueId, string text, long folderId = 0, long groupId = 0)
+        {
+            List<DocumentJson> temps = new List<DocumentJson>();
+            try
+            {
+
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName.ToLower().Contains(text));
+
+                foreach (var document in docs)
+                {
+                    temps.Add(new DocumentJson(document));
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return temps;
         }
 
         private static void SearchText(string[] searchText, Document d, string fileContent)

@@ -276,57 +276,34 @@
             }
         });
     }
+    this.SetupNewForumPost = function () {
 
-
-    this.GetMentionedMembers = function () {
-        var members = [];
-        $("#wmd-input_ifr").contents().find(".mentioned_name").each(function () {
-            $("#mentioned_members_ids").val($("#mentioned_members_ids").val() + $(this).attr('id') + ",");
-            members.push({
-                id: $(this).attr('id'),
-                name: $(this).html()
-            });
-        });
-
-    }
-
-    this.SetupPost = function (uploadType, forumId, forumType, topicId, groupId) {
         tinymce.init({
             mode: "textareas",
             elements: "wmd-input",
             theme: "modern",
-            content_css: '/content/tinymce/tinymce.content.css',
             plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
             language: "en",
             relative_urls: false,
-            uploadType: uploadType,
-            ForumId: forumId,
-            ForumType: forumType,
-            TopicId: topicId,
-            GroupId: groupId,
+            uploadType: "Forum",
+            ForumId: '@Model.ForumId',
+            ForumType: '@Model.ForumType',
+            TopicId: '@Model.TopicId',
             UploadFileUrl: "/forum/postimageupload",
             mentions: {
                 source: function (query, process, delimiter) {
                     if (delimiter === '@') {
-                        $.getJSON('/Utilities/SearchNamesForMention?q=' + query + "&groupId=" + groupId, function (data) {
+                        $.getJSON('/Utilities/SearchNamesForMention?q=' + query, function (data) {
                             process(data)
                         });
                     }
                 },
                 render: function (item) {
-                    var markup = '<li><a href="#">';
+                    var markup;
                     if (item.picture != '')
-                        markup += '<img src="' + item.picture + '" class="w20 round-corners"/> ';
+                        markup = '<li><a href="javascript:;"><img src="' + item.picture + '" class="w20 round-corners"/> ' + item.name + '</a></li>';
                     else
-                        markup += '<i class="fa fa-user fa-lg text-muted"></i> ';
-                    if (item.name && item.realname)
-                        markup += item.name + " [" + item.realname + "]";
-                    else if (item.name)
-                        markup += item.name;
-                    else if (item.realname)
-                        markup += item.realname;
-                    markup += '</a></li>';
-
+                        markup = '<li><a href="javascript:;"><i class="fa fa-user fa-lg text-muted"></i> ' + item.name + '</a></li>';
                     return markup;
                 },
                 highlighter: function (text) {
@@ -336,14 +313,7 @@
                     });
                 },
                 insert: function (item) {
-                    var html = '';
-                    if (item.name && item.realname)
-                        html = '<span class="mentioned_name" id="' + item.id + '">' + item.name + ' [' + item.realname + ']</span>';
-                    else if (item.name)
-                        html = '<span class="mentioned_name" id="' + item.id + '">' + item.name + '</span>';
-                    else if (item.realname)
-                        html = '<span class="mentioned_name" id="' + item.id + '">' + item.realname + '</span>';
-
+                    var html = '<span class="mentioned_name" style="background:#eaeaea;padding:3px" id="' + item.id + '">' + item.name + '</span>';
                     return html;
                 }
             }

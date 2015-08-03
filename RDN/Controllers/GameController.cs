@@ -101,7 +101,7 @@ namespace RDN.Controllers
 
                 //succesfully charged.
                 if (response.Status == InvoiceStatus.Payment_Successful)
-                    return Redirect(LibraryConfig.PublicSite + UrlManager.PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
+                    return Redirect(LibraryConfig.PublicSite+ UrlManager .PAYWALL_RECEIPT_URL + response.InvoiceId.ToString().Replace("-", ""));
                 else if (response.Status == InvoiceStatus.Pending_Payment_From_Paypal)
                     return Redirect(response.RedirectLink);
             }
@@ -145,9 +145,6 @@ namespace RDN.Controllers
 
                 GameOutModel game = new GameOutModel();
                 game.Game = GameServerViewModel.GetGameFromCache(new Guid(id));
-                if (game.Game == null)
-                    return Redirect(Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-games?u=" + SiteMessagesEnum.dex));
-
                 Paywall wall = new Paywall();
                 game.Paywall = wall.GetPaywall(game.Game.PaywallId);
                 if (game.Paywall == null)
@@ -157,7 +154,7 @@ namespace RDN.Controllers
                 if (!String.IsNullOrEmpty(game.Paywall.StripePublishableKey))
                     game.StripeKey = "Stripe.setPublishableKey('" + game.Paywall.StripePublishableKey + "');";
                 else
-                    game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
+                    game.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey+ "');";
                 if (game != null)
                     return View(game);
             }

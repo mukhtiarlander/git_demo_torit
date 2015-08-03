@@ -1884,7 +1884,7 @@ namespace RDN.Library.Classes.Forum
                               LeagueId = xx.LeagueOwner,
                               FederationId = xx.FederationOwner,
                               Categories = xx.Categories.OrderBy(x => x.NameOfCategory),
-                              TimeZone = xx.LeagueOwner.TimeZone
+                              TimeZone = xx.LeagueOwner == null ? 0 : xx.LeagueOwner.TimeZone
                           }).FirstOrDefault();
                 forum.Created = db.Created + new TimeSpan(db.TimeZone, 0, 0);
                 forum.ForumId = db.ForumId;
@@ -1911,7 +1911,7 @@ namespace RDN.Library.Classes.Forum
                     //this is making sure its the actual starting group.
                     if (g.Id == groupId)
                     {
-                        var topics = dc.ForumTopics.Include("Forum").Include("Forum.LeagueOwner").Include("CreatedByMember").Include("Messages").Include("TopicsInbox").Include("TopicsInbox.ToUser").Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
+                        var topics = dc.ForumTopics.Include("Forum").Include("Forum.LeagueOwner").Include("CreatedByMember").Include("Messages").Include("TopicsInbox").Include("TopicsInbox.ToUser").Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel().ToList();
 
                         foreach (var topic in topics)
                         {
@@ -1931,7 +1931,7 @@ namespace RDN.Library.Classes.Forum
                                 ErrorDatabaseManager.AddException(exception, exception.GetType());
                             }
                         }
-                        var topicsSticky = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.IsSticky == true && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
+                        var topicsSticky = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.IsSticky == true && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel().ToList();
 
                         foreach (var topic in topicsSticky)
                         {
@@ -2017,7 +2017,7 @@ namespace RDN.Library.Classes.Forum
             try
             {
                 var dc = new ManagementContext();
-
+                
                 var db = (from xx in dc.Forums.Include("Topics").Include("Topics.Messages").Include("Topics.TopicsInbox")
                           where xx.ForumId == forumId
                           select new
@@ -2028,8 +2028,9 @@ namespace RDN.Library.Classes.Forum
                               LeagueId = xx.LeagueOwner,
                               FederationId = xx.FederationOwner,
                               Categories = xx.Categories.OrderBy(x => x.NameOfCategory),
-                              TimeZone = xx.LeagueOwner.TimeZone
+                              TimeZone = xx.LeagueOwner == null ? 0 : xx.LeagueOwner.TimeZone
                           }).FirstOrDefault();
+                
                 forum.Created = db.Created + new TimeSpan(db.TimeZone, 0, 0);
                 forum.ForumId = db.ForumId;
                 forum.ForumName = db.ForumName;
@@ -2051,7 +2052,7 @@ namespace RDN.Library.Classes.Forum
                     //this is making sure its the actual starting group.
                     if (g.Id == groupId)
                     {
-                        var topics = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
+                        var topics = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel().ToList();
 
                         foreach (var topic in topics)
                         {
@@ -2064,7 +2065,7 @@ namespace RDN.Library.Classes.Forum
                                     gff.Topics.Insert(0, top);
                             }
                         }
-                        var topicsSticky = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.IsSticky == true && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel();
+                        var topicsSticky = dc.ForumTopics.Where(x => gff.GroupId == x.GroupId && x.IsRemoved == false && x.IsArchived == isArchived && x.IsSticky == true && x.Forum.ForumId == forumId).OrderByDescending(x => x.LastPostDateTime).Skip(page * count).Take(count).AsParallel().ToList();
 
                         foreach (var topic in topicsSticky)
                         {
@@ -2161,11 +2162,11 @@ namespace RDN.Library.Classes.Forum
         private static ForumTopic DisplayForumTopic(Guid memId, bool isManager, DataModels.Forum.ForumTopic topic)
         {
             ForumTopic top = new ForumTopic();
-            top.LastModified = (topic.LastModified + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault();
-            top.LastModifiedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(top.LastModified + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0));
-            top.Created = topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0);
+            top.LastModified = (topic.LastModified + new TimeSpan(topic.Forum.LeagueOwner != null ? topic.Forum.LeagueOwner.TimeZone : 0, 0, 0)).GetValueOrDefault();
+            top.LastModifiedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(top.LastModified + new TimeSpan(topic.Forum.LeagueOwner != null ? topic.Forum.LeagueOwner.TimeZone : 0, 0, 0));
+            top.Created = topic.Created + new TimeSpan(topic.Forum.LeagueOwner != null ? topic.Forum.LeagueOwner.TimeZone : 0, 0, 0);
             top.IsArchived = topic.IsArchived;
-            top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.Created + new TimeSpan(topic.Forum.LeagueOwner.TimeZone, 0, 0));
+            top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.Created + new TimeSpan(topic.Forum.LeagueOwner != null ? topic.Forum.LeagueOwner.TimeZone : 0, 0, 0));
             if (topic.LastPostDateTime == null)
                 top.LastPostHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(topic.LastModified.GetValueOrDefault());
             else

@@ -21,7 +21,7 @@ namespace RDN.Portable.Classes.Account.Classes
     [ProtoInclude(600, typeof(MemberSettingsClass))]
     [ProtoInclude(500, typeof(MemberDisplayGame))]
     [ProtoInclude(100, typeof(MemberDisplay))]
-    public class MemberDisplayBasic
+    public class MemberDisplayBasic 
     {
         [ProtoMember(1)]
         [DataMember]
@@ -78,7 +78,7 @@ namespace RDN.Portable.Classes.Account.Classes
         [ProtoMember(18)]
         [DataMember]
         public string ThumbUrl { get; set; }
-
+        
         public string Age { get { return ((DateTime.UtcNow - DOB).TotalDays / 365).ToString("N0"); } }
 
         public bool DidVote { get; set; }
@@ -103,6 +103,6 @@ namespace RDN.Portable.Classes.Account.Classes
         public MemberDisplayBasic()
         { }
 
-
+        
     }
 }

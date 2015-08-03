@@ -10,7 +10,7 @@ namespace RDN.Library.Classes.Forum
     {
         public ForumMessage()
         {
-            Mentions = new List<ForumMessageMention>();
+            mentions = new List<ForumMessageMention>();
          }
         public long TopicId { get; set; }
         public Guid ForumId { get; set; }
@@ -31,6 +31,6 @@ namespace RDN.Library.Classes.Forum
         /// </summary>
         public long MessageAgreeCount { get; set; } //Get Total Agree
 
-        public List<ForumMessageMention> Mentions { get; set; }
+        public List<ForumMessageMention> mentions { get; set; }
     }
 }

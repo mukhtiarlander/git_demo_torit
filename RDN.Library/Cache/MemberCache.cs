@@ -590,19 +590,6 @@ namespace RDN.Library.Cache
             }
             return null;
         }
-        public static LeagueGroup GetGroup(Guid memberId, long groupId)
-        {
-            try
-            {
-                var cached = GetCache(memberId, true);
-                return cached.GroupsApartOf.Where(x => x.Id == groupId).FirstOrDefault();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return null;
-        }
         public static List<RDN.Portable.Classes.League.Classes.League> GetAllOwnedLeagues(Guid memberId)
         {
             try

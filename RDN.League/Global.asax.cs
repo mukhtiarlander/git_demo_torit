@@ -1276,7 +1276,11 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
                 AreaRegistration.RegisterAllAreas();
 
                 RegisterGlobalFilters(GlobalFilters.Filters);
-                RegisterRoutes(RouteTable.Routes);                
+                RegisterRoutes(RouteTable.Routes);
+
+
+
+                
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
 

@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-8 col-lg-9">
                         <h4>Reply to </h4>
-                        <h3 id="topicTitle" class="margin-top-5 margin-bottom-5"><b>@Model.TopicTitle</b></h3>
+                        <h3 id="topicTitle" class="margin-top-5 margin-bottom-5"><b>"@Model.TopicTitle"</b></h3>
                         <span id="topicEditTitle" class="display-none ">
                             <input class="form-control margin-bottom-10" type="text" id="topicTitleEdit" placeholder="@Model.TopicTitle" />
                         </span>
@@ -30,26 +30,26 @@
 
 
 
-                @using (Html.BeginForm("ReplyMessage", "Forum", FormMethod.Post, new { onsubmit = "Forum.GetMentionedMembers()" }))
+                @using (Html.BeginForm("ReplyMessage", "Forum", FormMethod.Post))
                 {
                     <div class="panel panel-default" style="background-color:#fafafa">
                         <div class="panel-body padding-bottom-10 padding-top-10">
                             <div class="row">
-                                                            <div class="col-xs-12 padding-15" style="background-color:white">
+                                <div class="col-xs-12" style="border-bottom:#ddd dashed 1px">
+                                    <h4>@Html.LabelFor(x => x.Message)</h4>
+                                </div>
+                                <div class="col-xs-12 padding-15" style="background-color:white">
                                     @Html.TextArea("Message", string.Empty, new
                                 {
                                     id = "wmd-input",
                                     style = "width:100%"
                                 })
-                                                                @Html.HiddenFor(x => x.Mentions, new { @id = "mentioned_members_ids" })
                                 </div>
                                 <div class="col-xs-12 col-sm-7 col-md-6 padding-top-10">
                                     @if (Model.ForumType != RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main)
                                     {
-                                        <label>
-                                            @Html.CheckBoxFor(x => x.BroadcastMessage)
-                                            <span class="b">Broadcast this message </span><span class="i"> Entire group will be sent copy via email.</span> 
-                                        </label>
+                                        @Html.CheckBoxFor(x => x.BroadcastMessage)
+                                        <span class="b">Broadcast this message: Entire group will be sent copy via email. </span>
                                     }
                                 </div>
                                 <div class="col-xs-12 col-sm-3 col-md-6 padding-top-10 text-right">
@@ -119,7 +119,18 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        Forum.SetupPost("Forum", '@Model.ForumId', '@Model.ForumType', '@Model.TopicId', '@Model.GroupId');
+    $(function () {
+
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+             plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+            uploadType: "Forum",
+            ForumId: '@Model.ForumId',
+            ForumType: '@Model.ForumType',
+            TopicId: '@Model.TopicId',
+            UploadFileUrl: "/forum/postimageupload"
+        });
     });
 </script>
