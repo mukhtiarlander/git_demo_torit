@@ -14,7 +14,7 @@ using System.Text;
 
 namespace RDN.Library.Classes.Controls.Forum
 {
-    public class ForumNotificationFactory
+    public class ForumNotificationManager
     {
         public List<Guid> membersAlreadyEmailed;
         Guid ForumId;
@@ -33,7 +33,7 @@ namespace RDN.Library.Classes.Controls.Forum
         /// </summary>
         //public List<MemberDisplayBasic> MembersSent { get; set; }
 
-        public ForumNotificationFactory(Guid forumId, Guid leagueId, bool isNewPost, bool isBroadcasted, long groupId, long topicId, string groupName, string topicName, string plainMessage, Guid memberIdSending, string memberDerbyName)
+        public ForumNotificationManager(Guid forumId, Guid leagueId, bool isNewPost, bool isBroadcasted, long groupId, long topicId, string groupName, string topicName, string plainMessage, Guid memberIdSending, string memberDerbyName)
         {
             membersAlreadyEmailed = new List<Guid>();
             ForumId = forumId;
@@ -85,7 +85,7 @@ namespace RDN.Library.Classes.Controls.Forum
             }
         }
 
-        public ForumNotificationFactory LeagueEmailAboutForumPost()
+        public ForumNotificationManager LeagueEmailAboutForumPost()
         {
             try
             {
