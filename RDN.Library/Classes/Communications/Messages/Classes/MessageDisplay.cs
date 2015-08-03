@@ -6,6 +6,8 @@ using RDN.Library.Classes.Account.Classes;
 using RDN.Library.Classes.League.Classes;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Controls.Message.Enums;
+using RDN.Portable.Classes.League.Classes;
+using RDN.Portable.Classes.League;
 
 namespace RDN.Library.Classes.Messages.Classes
 {
@@ -22,7 +24,7 @@ namespace RDN.Library.Classes.Messages.Classes
         //public bool IsMessageRead { get; set; }
         public GroupOwnerTypeEnum OwnerType { get; set; }
         public List<MemberDisplayBasic> Recipients { get;set; }
-        public List<LeagueGroupFactory> Groups { get; set; }
+        public List<LeagueGroup> Groups { get; set; }
         public bool SendEmailForMessage { get; set; }
         public string ToMemberNames { get; set; }
         public string ToMemberIds{ get; set; }
@@ -33,7 +35,7 @@ namespace RDN.Library.Classes.Messages.Classes
         public MessageDisplay()
         {
             Recipients = new List<MemberDisplayBasic>();
-            Groups = new List<LeagueGroupFactory>();
+            Groups = new List<LeagueGroup>();
         }
     }
 }

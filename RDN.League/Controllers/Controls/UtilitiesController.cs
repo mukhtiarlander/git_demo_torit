@@ -197,9 +197,11 @@ namespace RDN.League.Controllers
                                 || (xx.LastName != null && xx.LastName.ToLower().Contains(q))
                                 select new MemberJson
                                        {
-                                           name = xx.DerbyName + " [" + (xx.Firstname + " " + xx.LastName).Trim() + "]",
+                                           name = xx.DerbyName,
+                                           realname = xx.FullName,
                                            id = xx.MemberId
                                        }).Take(10).ToList();
+
             namesFound.AddRange(searchLeague);
             namesFound.AddRange(RDN.Library.Classes.Account.User.SearchDerbyNamesJson(q, 10));
             namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();

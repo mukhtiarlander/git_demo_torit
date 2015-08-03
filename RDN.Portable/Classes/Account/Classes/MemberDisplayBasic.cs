@@ -89,12 +89,14 @@ namespace RDN.Portable.Classes.Account.Classes
             {
                 if (!String.IsNullOrEmpty(Firstname) && !String.IsNullOrEmpty(LastName))
                 {
-                    return Firstname + " " + LastName;
+                    return (Firstname + " " + LastName).Trim();
                 }
                 else if (!String.IsNullOrEmpty(Firstname))
                     return Firstname;
-                else
+                else if (!String.IsNullOrEmpty(LastName))
                     return LastName;
+                else
+                    return string.Empty;
             }
         }
 

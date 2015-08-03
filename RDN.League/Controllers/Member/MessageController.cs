@@ -173,7 +173,10 @@ namespace RDN.League.Controllers
                 model.OwnerId = new Guid(id);
                 model.SendEmailForMessage = true;
                 if (model.OwnerType == GroupOwnerTypeEnum.member)
+                {
                     model.Recipients = Messages.GetConnectedMembersOfMember(new Guid(id));
+                    model.Groups = MemberCache.GetGroupsApartOf(new Guid(id));
+                }
                 else if (model.OwnerType == GroupOwnerTypeEnum.shop)
                 {
                     model.Recipients = Messages.GetConnectedShopRecipient(new Guid(id));
@@ -191,7 +194,7 @@ namespace RDN.League.Controllers
                     var mem = MemberCache.GetMemberDisplay(model.OwnerId);
                     model.Recipients = new List<MemberDisplayBasic>();
                     model.Recipients.Add(mem);
-                    
+
                 }
                 else if (model.OwnerType == GroupOwnerTypeEnum.officiating)
                 {
@@ -216,7 +219,9 @@ namespace RDN.League.Controllers
                     model.Title = "Public Event: ";
                 }
                 else
+                {
                     model.Recipients = Messages.GetConnectedMembersOfGroup(new Guid(id));
+                }
             }
             catch (Exception exception)
             {
@@ -402,7 +407,7 @@ namespace RDN.League.Controllers
                 }
             }
 
-           return Json(Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid)));
+            return Json(Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid)));
 
 
         }

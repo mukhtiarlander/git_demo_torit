@@ -3,6 +3,7 @@
     var thisViewModel = this;
     var groupsSelectedIds = [];
     var membersSelectedIds = [];
+    var recipientsSelected = [];
     this.ExpandGroupMemberList = function () {
         $("#groupMemberLists").slideToggle();
     };
@@ -73,6 +74,26 @@
             document.getElementById('ToMemberNamesSelected').innerHTML = text;
         memIds.val(ids);
     };
+    this.SelectRecipient = function (checkbox, id, displayName) {
+        var member = { id: id, name: displayName };
+        var memIds = $("#ToMemberIds");
+        var checked = $(checkbox).is(":checked");
+        if (checked) {
+            $("#ToMemberNames").tokenInput("add", member);
+            recipientsSelected.push(member);
+        }
+        else {
+            $("#ToMemberNames").tokenInput("remove", member);
+            recipientsSelected = jQuery.grep(recipientsSelected, function (value) {
+                return value.id != member.id;
+            });
+        }
+        var ids = "";
+        $.each(recipientsSelected.reverse(), function (i, val) {
+            ids += val.id + ",";
+        });
+        memIds.val(ids);
+    };
     this.toggleCheckedForRecipients = function (checkbox) {
         var memNames = $("#ToMemberNamesSelected");
         var memIds = $("#ToMemberIds");
@@ -94,8 +115,29 @@
                 ids += cbId + ",";
             }
         });
-        if (document.getElementById('ToMemberNamesSelected') !== null)
-            document.getElementById('ToMemberNamesSelected').innerHTML = text;
+        memIds.val(ids);
+    };
+    this.toggleCheckedForRecipients = function (checkbox) {
+        var memNames = $("#ToMemberNamesSelected");
+        var memIds = $("#ToMemberIds");
+        //var checked = $(checkbox).attr("checked");
+        var isChecked = $(checkbox).is(":checked");
+        membersSelectedIds.length = 0;
+        var text = "";
+        var ids = "";
+        $.each(groupsSelectedIds.reverse(), function (i, val) {
+            text += '<span class="label label-primary">' + val.name + '</span> ';
+        });
+        $("#checkboxes input:checkbox").each(function () {
+            $(this).prop('checked', isChecked);
+            if (isChecked) {
+                var cbId = $(this).attr("name");
+                var derbyName = $(this).attr("derbyname");
+                membersSelectedIds.push({ name: derbyName, idd: cbId });
+                text += '<span class="label label-primary">' + derbyName + '</span> ';
+                ids += cbId + ",";
+            }
+        });
         memIds.val(ids);
     };
     this.ShowNewPrivateMessageMembersPopup = function () {
@@ -166,7 +208,7 @@
             success: function (result) {
                 $("#panel-members").popover('hide');
                 $("#btn_add_member").popover('hide');
-                
+
                 if (result == true) {
                     var selected_members = $("#ddlMembersList").select2('data');
                     for (var i = 0; i < selected_members.length; i++) {
