@@ -15,7 +15,7 @@ namespace RDN.Library.DataModels.Forum
     {
         public ForumMessage()
         {
-            Mentions = new Collection<ForumMessageMentionDb>();
+            Mentions = new List<ForumMessageMentionDb>();
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -35,7 +35,7 @@ namespace RDN.Library.DataModels.Forum
 
         public virtual ICollection<ForumMessageLike> MessagesLike { get; set; }
         public virtual ICollection<ForumMessageAgree> MessagesAgree { get; set; }
-        public virtual ICollection<ForumMessageMentionDb> Mentions { get; set; } 
+        public virtual List<ForumMessageMentionDb> Mentions { get; set; } 
         
         #endregion
     }

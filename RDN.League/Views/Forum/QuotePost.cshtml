@@ -16,7 +16,7 @@
                 <h3 class="margin-bottom-5 margin-top-5">Quote Forum Post</h3>
             </div>
 
-            @using (Html.BeginForm("QuotePost", "Forum", FormMethod.Post, new { @id = "editMessage" }))
+            @using (Html.BeginForm("QuotePost", "Forum", FormMethod.Post, new { @id = "editMessage", onsubmit = "Forum.GetMentionedMembers()" }))
             {
                 <div class="panel-body">
 
@@ -33,6 +33,7 @@
                                id = "wmd-input",
                                style = "width:700px"
                            })
+                                @Html.HiddenFor(x => x.Mentions, new { @id = "mentioned_members_ids" })
                             </td>
                         </tr>
                         @if (Model.ForumType == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main) {
@@ -123,20 +124,7 @@
             Message: "required"
         }
     });
-    $(function () {
-
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-             plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
-            language: "en",
-            relative_urls: false,
-            uploadType: "Forum",
-            ForumId: '@Model.ForumId',
-            ForumType: '@Model.ForumType',
-            TopicId: '@Model.TopicId',
-            UploadFileUrl: "/forum/postimageupload"
-        });
+    $(document).ready(function () {
+        Forum.SetupPost("Forum", '@Model.ForumId', '@Model.ForumType', '@Model.TopicId', '@Model.GroupId');
     });
 </script>

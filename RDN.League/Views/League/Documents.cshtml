@@ -10,10 +10,12 @@
     if (ViewBag.SelectedFolder != null)
     { selectedFolder = ViewBag.SelectedFolder; }
 }
+
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Documents</li>
 </ol>
+
 
 <div class="row">
     <div class="col-xs-12">
@@ -24,18 +26,12 @@
                     <div class="input-group-btn">
                         <button class="btn btn-primary" onclick="FullTextDocumentSearchLeague()"><i class="fa fa-search"></i> Search</button>
                     </div>
-                    <div  style="width: 120px;margin: 0 5px !important;text-align: right; position:relative; vertical-align: middle; display:table-cell">
-                        <span>
-                            <input type="checkbox" id="cbDeepSearch"> Deep Search
-                        </span>
                 </div>
             </div>
-                
         </div>
-
     </div>
 </div>
-</div>
+
 <div class="row">
     <div class="co-xs-12 col-sm-4 col-md-3">
         <div class="panel panel-default">
@@ -96,6 +92,7 @@
                         </ol> 
                     </li>
 
+
                     @foreach (var group in Model.GroupsApartOf.OrderBy(x => x.GroupName))
                     {
                     <li>
@@ -111,6 +108,7 @@
                                 }
                             </a>
                         </label><input type="checkbox" checked id="group.Id" />
+
                         <ol>
                             @foreach (var groupFolder in Model.Folders.Where(x => x.GroupId == group.Id).OrderBy(x => x.FolderName))
                             {
@@ -149,12 +147,15 @@
                                     }
                                 </ol>
                                 }
+
                             </li>
                             }
                         </ol>
+
                     </li>
 
                     }
+
                 </ol>
 </div>
             <div class="panel-footer">
@@ -167,7 +168,7 @@
                         <div id="fileUpload-list" class="uploadList"></div>
                     </div>
                     <div class="margin-bottom-10">
-                        @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...", new { @class = "select-sm full-width" })
+                            @Html.DropDownList("uploadDocsDD", (SelectList)ViewBag.FoldersApartOf, "Send To...", new { @class="select-sm full-width"})
                     </div>
                     <button class="btn btn-success btn-sm" id="submitDocs" type="submit"><i class="fa fa-upload"></i> Upload Documents</button>
                        
@@ -187,7 +188,7 @@
                     </div>
                     @if (manager)
                     {
-                        <div class="col-xs-6 text-right">
+                        <div  class="col-xs-6 text-right">
                             <button id="doc-rename-btn" class="btn btn-sm  btn-success display-none" title="Rename" onclick="League.RenameDocument(this)">
                                 <i class="fa fa-pencil"></i>
                             </button>
@@ -212,6 +213,7 @@
                             <th>Size</th>
                             <th>Uploaded</th>
                         </tr>
+
                     </thead>
                     <tbody id="documentsBody">
                         @foreach (var doc in Model.Documents)
@@ -296,9 +298,13 @@
                                         case MimeType.xps:
                                             <i class="fa fa-file-excel-o fa-lg"></i>
                                             break;
+                                        case MimeType.gform:
+                                            <span class="fa-stack">
+                                                <i class="fa fa-file-o fa-stack-2x font19 width-initial"></i>
+                                                <i class="fa fa-google fa-stack-1x font11 margin-left-3 width-initial"></i>
+                                            </span>
+                                            break;
                                     }
-
-
                                 </td>
                                 <td id="rn-@doc.OwnerDocId" class="vertical-middle">
                                     <a href="@Url.Content("~/document/download/" + doc.DocumentId.ToString().Replace("-", ""))">@doc.DocumentName</a>
@@ -314,7 +320,7 @@
                                     }
                                 </td>
                                 <td class="vertical-middle">
-                                    <a class="btn btn-xs btn-primary" title="Comments (@doc.CommentCount)" href="@Url.Content("~/league/document/comments/" + @doc.DocumentId.ToString().Replace("-", "") + "/" + @doc.OwnerDocId)">
+                                        <a class="btn btn-xs btn-primary"  title="Comments (@doc.CommentCount)" href="@Url.Content("~/league/document/comments/" + @doc.DocumentId.ToString().Replace("-", "") + "/" + @doc.OwnerDocId)">
                                             <i class="fa fa-comments"></i>
                                             @if (doc.CommentCount > 0)
                                             {<span class="docCount">@doc.CommentCount</span>}
@@ -326,12 +332,14 @@
                         }
                     </tbody>
 
+
                 </table>
                 @Html.HiddenFor(x => x.OwnerId)
             </div>
         </div>
     </div>  
 </div>
+
 
 <script type="text/javascript">
     $(document).ready(function () { // wait for document to load

@@ -239,7 +239,7 @@
     <Compile Include="Classes\Controls\Calendar\Reports\MembersReport.cs" />
     <Compile Include="Classes\Controls\Dues\FeeClassificationFactory.cs" />
     <Compile Include="Classes\Controls\Forum\ForumMessageMention.cs" />
-    <Compile Include="Classes\Controls\Forum\ForumNotificationFactory.cs" />
+    <Compile Include="Classes\Controls\Forum\ForumNotificationManager.cs" />
     <Compile Include="Classes\Controls\Forum\ForumTopicWatchList.cs" />
     <Compile Include="Classes\Controls\Voting\VotingFactory.cs" />
     <Compile Include="Classes\Display\Colors\ColorDisplay.cs" />
@@ -270,6 +270,7 @@
     <Compile Include="Classes\Error\ErrorManagerWeb.cs" />
     <Compile Include="Classes\Game\GameFactory.cs" />
     <Compile Include="Classes\Insurance\InsuranceManager.cs" />
+    <Compile Include="Classes\League\Classes\LeagueGroupFactory.cs" />
     <Compile Include="Classes\League\ItemInfoDA.cs" />
     <Compile Include="Classes\League\JobBoard.cs" />
     <Compile Include="Classes\League\Organization.cs" />
@@ -318,7 +319,6 @@
     <Compile Include="Classes\League\Classes\Json\LeagueJsonAutoComplete.cs" />
     <Compile Include="Classes\League\Classes\LeagueDocument.cs" />
     <Compile Include="Classes\League\Classes\LeagueFolder.cs" />
-    <Compile Include="Classes\League\Classes\LeagueGroupFactory.cs" />
     <Compile Include="Classes\League\Classes\LeagueMemberClass.cs" />
     <Compile Include="Classes\League\Enums\LeaguePhotoTypeEnum.cs" />
     <Compile Include="Classes\League\Reports\LeagueReportBuilder.cs" />

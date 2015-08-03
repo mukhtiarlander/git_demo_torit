@@ -51,7 +51,7 @@ namespace RDN.Api.Controllers.Controls
                     var mem = MemberCache.GetMemberDisplay(new Guid(ob.MemberId));
                     if (new Guid(ob.UserId) == mem.UserId)
                     {
-                        Forum.ReplyToPost(ob.ForumId, ob.TopicId, ob.Text, new Guid(ob.MemberId), ob.BroadcastMessage);
+                        Forum.ReplyToPost(ob.ForumId, ob.TopicId, ob.Text, new Guid(ob.MemberId), ob.BroadcastMessage, new List<Guid>());
                         ForumTopicCache.ClearTopicCache(ob.ForumId, ob.TopicId);
                         WebClient client = new WebClient();
                         client.DownloadStringAsync(new Uri(LibraryConfig.InternalSite  + UrlManager.URL_TO_CLEAR_FORUM_TOPIC + "forumId=" + ob.ForumId + "&topicId=" + ob.TopicId));

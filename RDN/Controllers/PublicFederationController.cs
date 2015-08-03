@@ -52,8 +52,8 @@ namespace RDN.Controllers
         public ActionResult Federation(string name, string id)
         {
 
-            var fed = _manager.GetFederationAsync(new Guid(id)).Result;
-
+            //var fed = _manager.GetFederationAsync(new Guid(id)).Result;
+            var fed = ApiFederationCacheManager.GetFederation(new Guid(id));
 
             return View(fed);
         }

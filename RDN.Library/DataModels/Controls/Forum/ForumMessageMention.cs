@@ -14,7 +14,7 @@ namespace RDN.Library.DataModels.Forum
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long MentionId { get; set; }
-        public  ForumMessage Messages { get; set; }
+        public ForumMessage Messages { get; set; }
         public Member.Member Member { get; set; }
     }
 }

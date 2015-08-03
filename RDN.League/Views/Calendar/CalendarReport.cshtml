@@ -236,7 +236,7 @@
                                                 <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">@Model.Attendees[i].MemberName</a><br />
                                                 @Model.Attendees[i].FullName
                                             </td>
-                                            <td>
+                                            <td class="no-wrap">
                                                 @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
                                                 {
                                                     <span class="noTwoLine">@type.EventTypeName</span><br />

@@ -20,6 +20,7 @@ using RDN.Library.Classes.Calendar;
 using MoreLinq;
 using RDN.Portable.Classes.Controls.Forum;
 using RDN.Library.Classes.Messages;
+using RDN.Portable.Classes.Account.Classes;
 
 namespace RDN.League.Controllers
 {
@@ -196,11 +197,9 @@ namespace RDN.League.Controllers
                                 || (xx.LastName != null && xx.LastName.ToLower().Contains(q))
                                 select new MemberJson
                                        {
-                                           name = xx.DerbyName,
-                                           realname = xx.FullName,
+                                           name = xx.DerbyName + " [" + (xx.Firstname + " " + xx.LastName).Trim() + "]",
                                            id = xx.MemberId
                                        }).Take(10).ToList();
-
             namesFound.AddRange(searchLeague);
             namesFound.AddRange(RDN.Library.Classes.Account.User.SearchDerbyNamesJson(q, 10));
             namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();
@@ -212,35 +211,45 @@ namespace RDN.League.Controllers
             var added_members = Messages.GetConversationMembers(Convert.ToInt64(messageGroupId));
             var total_members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
             new_members = (from xx in total_members
-                                where ((xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))
-                                || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
-                                || (xx.LastName != null && xx.LastName.ToLower().Contains(q)))
-                                && !added_members.Contains(xx.MemberId)
-                                select new MemberJson
-                                {
-                                    link = Url.Content("~/Member/" + xx.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(xx.DerbyName)),
-                                    picture= xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null  ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
-                                    name = xx.DerbyName,
-                                    id = xx.MemberId
-                                }).Take(5).ToList();
+                           where ((xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))
+                           || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
+                           || (xx.LastName != null && xx.LastName.ToLower().Contains(q)))
+                           && !added_members.Contains(xx.MemberId)
+                           select new MemberJson
+                           {
+                               link = Url.Content("~/Member/" + xx.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(xx.DerbyName)),
+                               picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
+                               name = xx.DerbyName,
+                               id = xx.MemberId
+                           }).Take(5).ToList();
             return Json(new_members, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult SearchNamesForMention(string q, string messageGroupId)
+        [Authorize]
+        public ActionResult SearchNamesForMention(string q, string groupId)
         {
             List<MemberJson> namesFound = new List<MemberJson>();
-            var members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
+            long gId = 0;
+            List<MemberDisplay> members = new List<MemberDisplay>();
+            if (Int64.TryParse(groupId, out gId) && gId > 0)
+            {
+                var mems = MemberCache.GetGroup(RDN.Library.Classes.Account.User.GetMemberId(), gId).GroupMembers;
+                for (int i = 0; i < mems.Count; i++)
+                    members.Add(new MemberDisplay() { DerbyName = mems[i].DerbyName, Firstname = mems[i].Firstname, LastName = mems[i].LastName, MemberId = mems[i].MemberId });
+            }
+            else
+                members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
             var searchLeague = (from xx in members
                                 where (xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))
                                 || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
                                 || (xx.LastName != null && xx.LastName.ToLower().Contains(q))
                                 select new MemberJson
                                 {
-                                    picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
+                                    picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageThumbUrl : "",
                                     name = xx.DerbyName,
+                                    realname = xx.FullName,
                                     id = xx.MemberId
                                 }).Take(10).ToList();
             namesFound.AddRange(searchLeague);
-            namesFound.AddRange(RDN.Library.Classes.Account.User.SearchDerbyNamesJson(q, 10));
             namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();
             return Json(namesFound, JsonRequestBehavior.AllowGet);
         }
@@ -291,10 +300,10 @@ namespace RDN.League.Controllers
         public ActionResult AddPostViewToCount(string forumId, string topicId)
         {
             RDN.Library.Classes.Forum.Forum.UpdatePostViewCount(new Guid(forumId), Convert.ToInt64(topicId), RDN.Library.Classes.Account.User.GetMemberId());
-            
+
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
-        
+
 
 
 
