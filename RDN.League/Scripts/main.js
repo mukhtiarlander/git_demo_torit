@@ -288,7 +288,14 @@ function FullTextDocumentSearchLeague() {
     var box = $("#textSearchBox");
     var tableBody = $("#documentsBody");
     $("#loading").toggleClass("displayNone", false);
-    $.getJSON("/document/FullTextSearchLeague", { leagueId: owner.val(), text: box.val(), folderId: fId, groupId: gId }, function (result) {
+    var isDeepSearch = $("#cbDeepSearch").prop('checked');
+    var url = "";
+    if (isDeepSearch)
+        url = "/document/SeachByDocumentName";
+    else
+        url = "/document/FullTextSearchLeague";
+    alert(url);
+    $.getJSON(url, { leagueId: owner.val(), text: box.val(), folderId: fId, groupId: gId }, function (result) {
         $("#loading").toggleClass("displayNone", true);
         if (result.isSuccess === true) {
             tableBody.html("");
@@ -301,6 +308,9 @@ function FullTextDocumentSearchLeague() {
         $("#loading").toggleClass("displayNone", true);
     });
 }
+
+
+
 function DisplayDocumentRow(result, tableBody, item) {
 
     var row = $(document.createElement('tr'));

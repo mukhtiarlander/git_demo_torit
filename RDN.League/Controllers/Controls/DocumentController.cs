@@ -38,6 +38,28 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize]
+        public ActionResult SeachByDocumentName(string leagueId, string text, string folderId, string groupId)
+        {
+            try
+            {
+                long foldId = 0;
+                long gId = 0;
+                if (!String.IsNullOrEmpty(folderId))
+                    foldId = Convert.ToInt64(folderId);
+                if (!String.IsNullOrEmpty(groupId))
+                    gId = Convert.ToInt64(groupId);
+                var succ = DocumentSearch.SearchDocumentByName(new Guid(leagueId), text, foldId, gId);
+                return Json(new { isSuccess = true, results = succ }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+
         [Authorize]
         public ActionResult DeleteDocument(string ownerId, string doc)
         {
