@@ -216,7 +216,8 @@ namespace RDN.Library.Classes.Account
                         {
                             name = xx.DerbyName,
                             realname = (xx.Firstname + " " + xx.Lastname).Trim(),
-                            id = xx.MemberId
+                            id = xx.MemberId,
+                            picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrlThumb : "",
                         }).Take(limit).ToList();
 
             return name;

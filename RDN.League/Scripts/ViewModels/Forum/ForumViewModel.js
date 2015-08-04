@@ -308,7 +308,7 @@
             mentions: {
                 source: function (query, process, delimiter) {
                     if (delimiter === '@') {
-                        $.getJSON('/Utilities/SearchNamesForMention?q=' + query + "&groupId=" + groupId, function (data) {
+                        $.getJSON('/Utilities/SearchNamesForLeague?q=' + query + "&groupId=" + groupId, function (data) {
                             process(data)
                         });
                     }

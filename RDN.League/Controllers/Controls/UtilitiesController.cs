@@ -183,11 +183,11 @@ namespace RDN.League.Controllers
         }
 
         /// <summary>
-        /// Search top 10 Members to be added in Message
+        /// Search top 10 Members of all Derby
         /// </summary>        
         /// <param name="userId"></param>
         /// <returns></returns>
-        public ActionResult SearchNamesObjects(string q)
+        public ActionResult SearchNamesOfSite(string q)
         {
             List<MemberJson> namesFound = new List<MemberJson>();
             var members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
@@ -196,10 +196,12 @@ namespace RDN.League.Controllers
                                 || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
                                 || (xx.LastName != null && xx.LastName.ToLower().Contains(q))
                                 select new MemberJson
-                                       {
-                                           name = xx.DerbyName + " [" + (xx.Firstname + " " + xx.LastName).Trim() + "]",
-                                           id = xx.MemberId
-                                       }).Take(10).ToList();
+                                {
+                                    picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageThumbUrl : "",
+                                    name = xx.DerbyName,
+                                    realname = xx.FullName,
+                                    id = xx.MemberId
+                                }).Take(10).ToList();
             namesFound.AddRange(searchLeague);
             namesFound.AddRange(RDN.Library.Classes.Account.User.SearchDerbyNamesJson(q, 10));
             namesFound = namesFound.DistinctBy(x => x.id).Take(10).ToList();
@@ -225,7 +227,7 @@ namespace RDN.League.Controllers
             return Json(new_members, JsonRequestBehavior.AllowGet);
         }
         [Authorize]
-        public ActionResult SearchNamesForMention(string q, string groupId)
+        public ActionResult SearchNamesForLeague(string q, string groupId)
         {
             List<MemberJson> namesFound = new List<MemberJson>();
             long gId = 0;

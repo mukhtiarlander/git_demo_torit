@@ -1,82 +1,13 @@
 ﻿var Messages = new function () {
 
     var thisViewModel = this;
-    var groupsSelectedIds = [];
-    var membersSelectedIds = [];
     var recipientsSelected = [];
     this.ExpandGroupMemberList = function () {
         $("#groupMemberLists").slideToggle();
     };
-    this.InitializeNewMessages = function () {
-        var gList = $("#groupList");
-        $.getJSON("/league/GetGroupsOfCurrentMember", {}, function (result) {
-            if (result.isSuccess === true) {
-                $(result.groups).each(function () {
-                    gList.append("<li class='group-icon' style='list-style: none;'><label style='cursor: pointer !important'><i  class='fa fa-group'></i>&nbsp;<input style='position: absolute;left: 0;margin-left: 0;opacity: 0;z-index: 2;cursor: pointer !important;height: 1em;width: 1em;top: 0;' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Messages.ChangeGroupDictionaryItem(this)' type='checkbox' >" + this[0] + "</label></li>");
-                });
-            }
-        }).error(function () {
-        });
-    };
-    this.ChangeGroupDictionaryItem = function (checkbox) {
-        var memNames = $("#ToMemberNamesSelected");
-        var memIds = $("#ToGroupIds");
-        var box = $(checkbox);
-        var checked = box.is(":checked");
-        if (checked) {
-            var group = { name: box.attr("groupName"), idd: box.attr("id") };
-            groupsSelectedIds.push(group);
-        }
-        else {
-            var group = { name: box.attr("groupName"), idd: box.attr("id") };
-            groupsSelectedIds = jQuery.grep(groupsSelectedIds, function (value) {
-                return value.idd != group.idd;
-            });
-        }
-        var text = "";
-        var ids = "";
-        $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="label label-primary">' + val.name + '</span> ';
-            ids += val.idd + ",";
-        });
-        $.each(membersSelectedIds.reverse(), function (i, val) {
-            text += '<span class="label label-primary">' + val.name + '</span> ';
-        });
-        if (document.getElementById('ToMemberNamesSelected') !== null)
-            document.getElementById('ToMemberNamesSelected').innerHTML = text;
-        memIds.val(ids);
-    };
-    this.ChangeDictionaryItem = function (checkbox, id, displayName) {
-        var memNames = $("#ToMemberNamesSelected");
-        var memIds = $("#ToMemberIds");
-        var checked = $(checkbox).is(":checked");
-        if (checked) {
-            var member = { name: displayName, idd: id };
-            membersSelectedIds.push(member);
-        }
-        else {
-            var member = { name: displayName, idd: id };
-            membersSelectedIds = jQuery.grep(membersSelectedIds, function (value) {
-                return value.idd != member.idd;
-            });
-        }
-        var text = "";
-        var ids = "";
-        $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="label label-primary">' + val.name + '</span> ';
-        });
-        $.each(membersSelectedIds.reverse(), function (i, val) {
-            text += '<span class="label label-primary">' + val.name + '</span> ';
-            ids += val.idd + ",";
-        });
-
-        if (document.getElementById('ToMemberNamesSelected') !== null)
-            document.getElementById('ToMemberNamesSelected').innerHTML = text;
-        memIds.val(ids);
-    };
     this.SelectRecipient = function (checkbox, id, displayName) {
         var member = { id: id, name: displayName };
-        var memIds = $("#ToMemberIds");
+
         var checked = $(checkbox).is(":checked");
         if (checked) {
             $("#ToMemberNames").tokenInput("add", member);
@@ -88,55 +19,55 @@
                 return value.id != member.id;
             });
         }
+        this.SaveRecipientListToForm();
+    };
+    this.ToggleCheckedAllForRecipients = function (checkbox) {
+        var isChecked = $(checkbox).is(":checked");
+        $("#checkboxesForMembers input:checkbox").each(function () {
+            $(this).prop('checked', isChecked);
+            var cbId = $(this).attr("name");
+            var derbyName = $(this).attr("derbyname");
+            var member = { id: cbId, name: derbyName };
+            if (isChecked) {
+                recipientsSelected.push(member);
+                $("#ToMemberNames").tokenInput("add", member);
+            }
+            else {
+                $("#ToMemberNames").tokenInput("remove", member);
+                recipientsSelected = jQuery.grep(recipientsSelected, function (value) {
+                    return value.id != member.id;
+                });
+            }
+        });
+
+        this.SaveRecipientListToForm();
+    };
+    this.ToggleCheckedAllForGroups = function (checkbox) {
+        var isChecked = $(checkbox).is(":checked");
+        $("#groupCheckBoxes input:checkbox").each(function () {
+            $(this).prop('checked', isChecked);
+            var cbId = $(this).attr("name");
+            var derbyName = $(this).attr("derbyname");
+            var member = { id: cbId, name: derbyName };
+            if (isChecked) {
+                recipientsSelected.push(member);
+                $("#ToMemberNames").tokenInput("add", member);
+            }
+            else {
+                $("#ToMemberNames").tokenInput("remove", member);
+                recipientsSelected = jQuery.grep(recipientsSelected, function (value) {
+                    return value.id != member.id;
+                });
+            }
+        });
+
+        this.SaveRecipientListToForm();
+    };
+    this.SaveRecipientListToForm = function () {
+        var memIds = $("#ToMemberIds");
         var ids = "";
         $.each(recipientsSelected.reverse(), function (i, val) {
             ids += val.id + ",";
-        });
-        memIds.val(ids);
-    };
-    this.toggleCheckedForRecipients = function (checkbox) {
-        var memNames = $("#ToMemberNamesSelected");
-        var memIds = $("#ToMemberIds");
-        //var checked = $(checkbox).attr("checked");
-        var isChecked = $(checkbox).is(":checked");
-        membersSelectedIds.length = 0;
-        var text = "";
-        var ids = "";
-        $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="label label-primary">' + val.name + '</span> ';
-        });
-        $("#checkboxes input:checkbox").each(function () {
-            $(this).prop('checked', isChecked);
-            if (isChecked) {
-                var cbId = $(this).attr("name");
-                var derbyName = $(this).attr("derbyname");
-                membersSelectedIds.push({ name: derbyName, idd: cbId });
-                text += '<span class="label label-primary">' + derbyName + '</span> ';
-                ids += cbId + ",";
-            }
-        });
-        memIds.val(ids);
-    };
-    this.toggleCheckedForRecipients = function (checkbox) {
-        var memNames = $("#ToMemberNamesSelected");
-        var memIds = $("#ToMemberIds");
-        //var checked = $(checkbox).attr("checked");
-        var isChecked = $(checkbox).is(":checked");
-        membersSelectedIds.length = 0;
-        var text = "";
-        var ids = "";
-        $.each(groupsSelectedIds.reverse(), function (i, val) {
-            text += '<span class="label label-primary">' + val.name + '</span> ';
-        });
-        $("#checkboxes input:checkbox").each(function () {
-            $(this).prop('checked', isChecked);
-            if (isChecked) {
-                var cbId = $(this).attr("name");
-                var derbyName = $(this).attr("derbyname");
-                membersSelectedIds.push({ name: derbyName, idd: cbId });
-                text += '<span class="label label-primary">' + derbyName + '</span> ';
-                ids += cbId + ",";
-            }
         });
         memIds.val(ids);
     };
@@ -195,7 +126,6 @@
             markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + repo.name;
         return markup;
     };
-
     function formatRepoSelection(repo) {
         return repo.name;
     };
@@ -229,5 +159,52 @@
     this.HideAddMemberPopup = function () {
         $("#panel-members").popover('hide');
         $("#btn_add_member").popover('hide');
+    }
+    this.SetupNewMessage = function () {
+        $("#ToMemberNames").tokenInput('/Utilities/SearchNamesForLeague', {
+            theme: "facebook",
+            preventDuplicates: true,
+            hintText: "Begin typing Name of the person.",
+            noResultsText: "No results",
+            searchingText: "Searching...",
+            resultsFormatter: function (item) {
+                var markup = '<li>';
+                if (item.picture != '')
+                    markup += '<img src="' + item.picture + '" class="w20 round-corners"/> ';
+                else
+                    markup += '<i class="fa fa-user fa-lg text-muted"></i> ';
+                if (item.name && item.realname)
+                    markup += item.name + " [" + item.realname + "]";
+                else if (item.name)
+                    markup += item.name;
+                else if (item.realname)
+                    markup += item.realname;
+                markup += '</li>';
+
+                return markup;
+            },
+            tokenFormatter: function (item) {
+                var markup = '<li>';
+                if (item.name && item.realname)
+                    markup += item.name + " [" + item.realname + "]";
+                else if (item.name)
+                    markup += item.name;
+                else if (item.realname)
+                    markup += item.realname;
+                markup += '</li>';
+
+                return markup;
+            },
+            onAdd: function (item) {
+                var member = { id: item.id, name: item.name };
+                recipientsSelected.push(member);
+            },
+            onDelete: function (item) {
+                var member = { id: item.id, name: item.name };
+                recipientsSelected = jQuery.grep(recipientsSelected, function (value) {
+                    return value.id != member.id;
+                });
+            }
+        });
     }
 }
