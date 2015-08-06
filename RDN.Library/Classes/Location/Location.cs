@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Geocoding;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.ContactCard;
 using RDN.Library.DataModels.Location;
 using RDN.Library.Classes.Account.Enums;
 using RDN.Library.Classes.Error;
 using RDN.Portable.Classes.Geo;
+using Address = RDN.Library.DataModels.ContactCard.Address;
 
 namespace RDN.Library.Classes.Location
 {
     public class LocationFactory
     {
+      
         public static void UpdateLocations()
         {
             var dc = new ManagementContext();
@@ -136,12 +139,12 @@ namespace RDN.Library.Classes.Location
                 if (ownerType == LocationOwnerType.calendar)
                 {
                     var cal = dc.Calendar.Where(x => x.CalendarId == idOfOwner).FirstOrDefault();
-                    cal.Locations.Add(location);
+                    if (cal != null) cal.Locations.Add(location);
                 }
                 else if (ownerType == LocationOwnerType.shop)
                 {
                     var shop = dc.Merchants.Where(x => x.PrivateManagerId == idOfOwner).FirstOrDefault();
-                    shop.Locations.Add(location);
+                    if (shop != null) shop.Locations.Add(location);
                 }
                 location.LocationName = name;
                 location.Contact = new DataModels.ContactCard.ContactCard();

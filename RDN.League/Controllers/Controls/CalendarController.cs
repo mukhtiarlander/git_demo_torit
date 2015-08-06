@@ -786,7 +786,7 @@ namespace RDN.League.Controllers
                 {
                     post.Locations = new SelectList(locs, "LocationId", "LocationName");
                 }
-                post.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
+                if (AllowSelfCheckin != null) post.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
                 post.StartDate = DateTime.Now;
                 post.EndDate = DateTime.Now;
                 var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
