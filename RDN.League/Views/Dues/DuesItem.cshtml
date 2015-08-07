@@ -15,7 +15,6 @@
     <li class="active">Dues Item</li>
 </ol>
 
-
 <div class="panel panel-default margin-top-20">
     <div class="panel-heading text-right" style="background-color:#fafafa">
         @if (Model.PreviousDueItem!= 0)
@@ -163,6 +162,8 @@
         }
     </div>
 </div>
+
+<script src="@Url.Content("~/Scripts/ViewModels/Dues/DuesViewModel.js")" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({
