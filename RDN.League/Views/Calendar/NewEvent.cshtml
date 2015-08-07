@@ -129,9 +129,9 @@
                             <label>@Html.CheckBoxFor(x => x.IsPublicEvent, new { @class = "alignLeft", @onchange = "PublicEventChangeCalendar(this)" })</label>
                             <small class="i">
                                 Shows event on the public @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName calendar. <span class="b">
-                                    For
-                                    Bouts, Fundraisers etc...
-                                </span>
+                                                                                                                                   For
+                                                                                                                                   Bouts, Fundraisers etc...
+                                                                                                                               </span>
                             </small>
                         </div>
                     </div>
@@ -178,10 +178,10 @@
                         </label>
                         <div class="margin-bottom-20">
                             @Html.TextArea("Notes", string.Empty, new
-                       {
-                           id = "wmd-input",
-                           @class = "center"
-                       })
+                            {
+                                id = "wmd-input",
+                                @class = "center"
+                            })
                         </div>
                     </div>
                 </div>
@@ -281,6 +281,7 @@
         }
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         LoadDropDownBackgroundColors();
@@ -319,6 +320,11 @@
         onSelect: function (dateText, inst) {
             startDate = new Date(dateText);
         },
+        beforeShow: function() {
+            setTimeout(function(){
+                $('.ui-datepicker').css('z-index', 99999999999999);
+            }, 0);
+        },
         stepMinute: 10,
         timeFormat: 'hh:mm tt'
     });
@@ -327,10 +333,15 @@
         onSelect: function (dateText, inst) {
             endDate = new Date(dateText);
         },
+        beforeShow: function (input, inst) {
+            setTimeout(function () {
+                $('.ui-datepicker').css('z-index', 99999999999999);
+            }, 0);
+        },
         stepMinute: 10,
         timeFormat: 'hh:mm tt'
     });
-    $('#EndsDate').datepicker().css({ "z-index": 1050 });
+   
     function StartDateOnBlur() {
         if (endDate < startDate) {
             $('#EndDate').val($('#StartDate').val());
