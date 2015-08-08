@@ -14,7 +14,7 @@ namespace RDN.Library.Classes.Location
 {
     public class OpenStreetMap
     {
-        public static GeoCoordinate FindLatLongOfAddress2(string street1, string street2, string zip, string city, string state, string country)
+        public static GeoCoordinate FindLatLongOfAddress(string street1, string street2, string zip, string city, string state, string country)
         {
             GeoCoordinate geo = new GeoCoordinate();
             try
