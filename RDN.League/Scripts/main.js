@@ -294,7 +294,6 @@ function FullTextDocumentSearchLeague() {
         url = "/document/SeachByDocumentName";
     else
         url = "/document/FullTextSearchLeague";
-    alert(url);
     $.getJSON(url, { leagueId: owner.val(), text: box.val(), folderId: fId, groupId: gId }, function (result) {
         $("#loading").toggleClass("displayNone", true);
         if (result.isSuccess === true) {
