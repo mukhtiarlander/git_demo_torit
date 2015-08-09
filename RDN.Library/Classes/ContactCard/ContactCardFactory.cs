@@ -100,7 +100,7 @@ namespace RDN.Library.Classes.ContactCard
                     AddressType = (byte)addressType
                 };
 
-                var coords = OpenStreetMap.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
                 add.Coords = new System.Device.Location.GeoCoordinate();
 
                 if (coords != null)
@@ -140,7 +140,7 @@ namespace RDN.Library.Classes.ContactCard
                 add.Zip = zipCode;
                 add.Country = country;
                 add.AddressType = (byte)addressType;
-                var coords = OpenStreetMap.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
                 if (coords != null)
                 {
                     add.Coords = new System.Device.Location.GeoCoordinate();

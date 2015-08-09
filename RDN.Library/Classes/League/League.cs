@@ -1428,7 +1428,7 @@ namespace RDN.Library.Classes.League
                       CityRaw = city,
                       TimeZone = timeZone
                   };
-                var coords = OpenStreetMap.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
                 if (coords != null)
                 {
                     add.Coords = new System.Device.Location.GeoCoordinate();
@@ -2215,7 +2215,7 @@ namespace RDN.Library.Classes.League
                 if (countryDb == null)
                     countryDb = dc.Countries.Where(x => x.Code.ToLower() == leagueToUpdate.Country.ToLower()).FirstOrDefault();
                 addresses.Country = countryDb;
-                var coords = OpenStreetMap.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
                 if (coords != null)
                 {
                     addresses.Coords = new System.Device.Location.GeoCoordinate();
@@ -2302,7 +2302,7 @@ namespace RDN.Library.Classes.League
                 if (countryDb == null)
                     countryDb = dc.Countries.Where(x => x.Code.ToLower() == leagueToUpdate.Country.ToLower()).FirstOrDefault();
                 addresses.Country = countryDb;
-                var coords = OpenStreetMap.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
                 if (coords != null)
                 {
                     addresses.Coords = new System.Device.Location.GeoCoordinate();
@@ -2414,7 +2414,7 @@ namespace RDN.Library.Classes.League
                     var countryDb = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
                     addresses.Country = countryDb;
                     addresses.TimeZone = timezone;
-                    var coords = OpenStreetMap.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
                     if (coords != null)
                     {
                         addresses.Coords = new System.Device.Location.GeoCoordinate();
@@ -2436,7 +2436,7 @@ namespace RDN.Library.Classes.League
                     addresses.Country = countryDb;
                     addresses.TimeZone = timezone;
                     addresses.IsDefault = true;
-                    var coords = OpenStreetMap.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
                     if (coords != null)
                     {
                         addresses.Coords = new System.Device.Location.GeoCoordinate();
@@ -2459,7 +2459,7 @@ namespace RDN.Library.Classes.League
                     add.Country = countryDb;
                     add.TimeZone = timezone;
                     add.IsDefault = true;
-                    var coords = OpenStreetMap.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(addresses.Address1, addresses.Address2, addresses.Zip, addresses.CityRaw, addresses.StateRaw, addresses.Country != null ? addresses.Country.Name : string.Empty);
                     if (coords != null)
                     {
                         add.Coords = new System.Device.Location.GeoCoordinate();
