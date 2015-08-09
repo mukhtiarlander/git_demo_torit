@@ -24,7 +24,7 @@ namespace RDN.Library.Classes.Location
             {
                 try
                 {
-                    var coords = OpenStreetMap.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : String.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : String.Empty);
                     if (coords != null)
                     {
                         add.Coords = new System.Device.Location.GeoCoordinate();
@@ -155,7 +155,7 @@ namespace RDN.Library.Classes.Location
                 a.Country = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
                 a.StateRaw = state;
                 a.ContactCard = location.Contact;
-                var coords = OpenStreetMap.FindLatLongOfAddress(a.Address1, a.Address2, a.Zip, a.CityRaw, a.StateRaw, a.Country != null ? a.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(a.Address1, a.Address2, a.Zip, a.CityRaw, a.StateRaw, a.Country != null ? a.Country.Name : string.Empty);
                 a.Coords = new System.Device.Location.GeoCoordinate();
                 if (coords != null)
                 {
@@ -228,7 +228,7 @@ namespace RDN.Library.Classes.Location
                    a.Country = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
                    a.StateRaw = state;
                    a.ContactCard = location.Contact;
-                    var coords = OpenStreetMap.FindLatLongOfAddress(address1, address2, zip, city, state, a.Country != null ? a.Country.Name : string.Empty);
+                    var coords = GeocodingManager.FindLatLongOfAddress(address1, address2, zip, city, state, a.Country != null ? a.Country.Name : string.Empty);
                    a.Coords = new System.Device.Location.GeoCoordinate();
                     if (coords != null)
                     {

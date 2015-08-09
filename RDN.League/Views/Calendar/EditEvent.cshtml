@@ -26,7 +26,6 @@
     </li>
     <li class="active">Update</li>
 </ol>
-
 <div class="col-xs-12 col-md-8 col-md-offset-2">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -50,7 +49,6 @@
                             @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                         </div>
                     </div>
-
                     <div class="col-xs-12">
                         <label class="form-label">Groups <span class="i"><a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Creating_An_Event">Group only events</a></span></label>
                         <button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-xs btn-warning pull-right" type="button">
@@ -65,7 +63,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">Location</label>
                         <div class="margin-bottom-20">
@@ -77,7 +74,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">Event Type</label>
                         <div class="margin-bottom-20">
@@ -86,9 +82,7 @@
                                 <span class="input-group-btn">
                                     <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
                                 </span>
-
                             </div>
-
                             <span id="addNewEventTypeText" class="displayNone">
                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present):
                                 <span class="b" id="presentType"></span>,
@@ -103,7 +97,6 @@
                             </span>
                         </div>
                     </div>
-
                     <div class="col-xs-12">
                         <label class="form-label">Event Type Color</label>
                         <div class="margin-bottom-20">
@@ -118,35 +111,33 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">Start Date & Time</label>
                         <div class="margin-bottom-20">
-                            @Html.TextBoxFor(x => x.StartDateDisplay, new {  @onchange = "StartDateOnBlur()", @class = "form-control" })
+                            @Html.TextBoxFor(x => x.StartDateDisplay, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">End Date & Time</label>
                         <div class="margin-bottom-20">
-                            @Html.TextBoxFor(x => x.EndDateDisplay, new {  @onchange = "EndDateOnBlur()", @class = "form-control" })
+                            @Html.TextBoxFor(x => x.EndDateDisplay, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">Is Public Event</label>
                         <div class="margin-bottom-20">
                             <label>
-                                @Html.CheckBoxFor(x => x.IsPublicEvent, new { @class = "alignLeft", @onchange = "PublicEventChangeCalendar(this)" }) </label>
-                                    <small class="i">
-                                        Shows event on the public @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName calendar. <span class="b">
-                                            For
-                                            Bouts, Fundraisers etc...
-                                        </span>
-                                    </small>
-</div>
-                    </div>
+                                @Html.CheckBoxFor(x => x.IsPublicEvent, new { @class = "alignLeft", @onchange = "PublicEventChangeCalendar(this)" })
 
+                                <small class="i">
+                                    Shows event on the public @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName calendar. <span class="b">
+                                        For
+                                        Bouts, Fundraisers etc...
+                                    </span>
+                                </small>
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">
                             Ticket Url
@@ -156,7 +147,6 @@
                             <small class="i">Direct link for fans to buy tickets from.</small>
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">
                             Link
@@ -166,18 +156,17 @@
                             <small class="i">&nbsp;</small>
                         </div>
                     </div>
-
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">
                             Allow Self Check In
                         </label>
                         <div class="margin-bottom-20">
                             <label>
-                                @Html.CheckBoxFor(x => x.AllowSelfCheckIn, new { @class = "alignLeft" }) </label>
-                                    <small class="b"> People can check them selves in to events.</small>
-</div>
+                                @Html.CheckBoxFor(x => x.AllowSelfCheckIn, new { @class = "alignLeft" })
+                                <small class="b"> People can check them selves in to events.</small>
+                            </label>
+                        </div>
                     </div>
-
                     <div class="col-xs-12">
                         <label class="form-label">
                             Event Information
@@ -215,13 +204,11 @@
                                         @Html.DropDownListFor(x => x.RepeatsFrequencySelectedId, Model.RepeatsFrequencyDropDown, new { @onchange = "RepeatsFrequencyEventChange(this)", @class = "form-control" })
                                     </td>
                                 </tr>
-
                                 <tr id="repeatsOnRow">
                                     <td colspan="2" class="b">
                                         On:
                                     </td>
                                 </tr>
-
                                 <tr id="repeatsOnRowSel">
                                     <td colspan="2">
                                         <div class="displayNone checkboxError" id="selectDate">Please Select a Day</div>
@@ -238,10 +225,8 @@
                                         <label>@Html.CheckBoxFor(x => x.IsThursday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })T</label>
                                         <label>@Html.CheckBoxFor(x => x.IsFriday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })F</label>
                                         <label>@Html.CheckBoxFor(x => x.IsSaturday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })S</label>
-
                                     </td>
                                 </tr>
-
                                 <tr id="repeatsOnRowSelMonthly" class="displayNone">
                                     <td colspan="2">
                                         <div class="input-group">
@@ -254,7 +239,6 @@
                                         </div>
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td colspan="2" class="b">
                                         Ends:
@@ -285,9 +269,7 @@
                                                 </label>
                                             </span>
                                             @Html.TextBox("EndsDate", Model.EndDateReoccurringDisplay, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)", @class = "form-control" })
-
                                         </div>
-
                                     </td>
                                 </tr>
                                 <tr>
@@ -313,7 +295,6 @@
         }
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function () {
         LoadDropDownBackgroundColors();
@@ -336,7 +317,7 @@
         },
         beforeShow: function () {
             setTimeout(function () {
-                $('.ui-datepicker').css('z-index', 99999999999999);
+                $('.ui-datepicker').css('z-index', 100);
             }, 0);
         },
         stepMinute: 5,
@@ -354,32 +335,32 @@
         },
         beforeShow: function () {
             setTimeout(function () {
-                $('.ui-datepicker').css('z-index', 99999999999999);
+                $('.ui-datepicker').css('z-index', 100);
             }, 0);
         },
         stepMinute: 5,
         //timeFormat: 'hh:mm tt'
         format: 'DD-MM-YYYY HH:mm'
-        
+
     });
 
     $("#createNewEventForm").validate({
         rules: {
             Name: "required",
-            StartDateDisplay: { required: true, date: true},
+            StartDateDisplay: { required: true, date: true },
             EndDateDisplay: { required: true, date: true },
             SelectedLocationId: "required",
             SelectedEventTypeId: "required"
-            
+
         }
     });
-    
+
     $(function () {
         tinymce.init({
             mode: "textareas",
             elements: "elm2",
             theme: "modern",
-             plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
         });
     });
 </script>
