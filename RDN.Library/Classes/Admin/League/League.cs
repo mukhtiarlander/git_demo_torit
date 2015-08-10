@@ -190,7 +190,7 @@ namespace RDN.Library.Classes.Admin.League
                                               TimeZone = pendingLeague.TimeZone
                                           };
 
-            var coords = OpenStreetMap.FindLatLongOfAddress(string.Empty, string.Empty, string.Empty, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
+            var coords = GeocodingManager.FindLatLongOfAddress(string.Empty, string.Empty, string.Empty, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
             if (coords != null)
             {
                 add.Coords = new System.Device.Location.GeoCoordinate();
@@ -303,7 +303,7 @@ namespace RDN.Library.Classes.Admin.League
                     TimeZone = pendingLeague.TimeZone
                 };
 
-                var coords = OpenStreetMap.FindLatLongOfAddress(string.Empty, string.Empty, string.Empty, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
+                var coords = GeocodingManager.FindLatLongOfAddress(string.Empty, string.Empty, string.Empty, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
                 if (coords != null)
                 {
                     add.Coords = new System.Device.Location.GeoCoordinate();

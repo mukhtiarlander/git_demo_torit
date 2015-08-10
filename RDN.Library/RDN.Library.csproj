@@ -334,7 +334,6 @@
     <Compile Include="Classes\Communications\Messages\Messages.cs" />
     <Compile Include="Classes\Communications\Messages\MessagesCache.cs" />
     <Compile Include="Classes\Location\LocationOwnerType.cs" />
-    <Compile Include="Classes\Location\OpenStreetMap.cs" />
     <Compile Include="Classes\Location\TimeZone.cs" />
     <Compile Include="Classes\Mobile\MobileNotification.cs" />
     <Compile Include="Classes\Mobile\PushSharp.cs" />
@@ -821,9 +820,6 @@
     <None Include="Classes\Yaf\YafDataContext.dbml.layout">
       <DependentUpon>YafDataContext.dbml</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lib\Geocoding.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

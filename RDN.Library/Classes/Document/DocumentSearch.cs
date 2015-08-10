@@ -34,97 +34,107 @@ namespace RDN.Library.Classes.Document
                 {
                     try
                     {
-                        //need to zero out maches because we are pulling from the cached referenced object.
-                        d.SearchMatches = 0;
-                        if (!String.IsNullOrEmpty(d.FullText))
+                        if (!string.IsNullOrEmpty(text))
                         {
-                            SearchText(searchText, d, d.FullText);
+                            //need to zero out maches because we are pulling from the cached referenced object.
+                            d.SearchMatches = 0;
+                            if (!String.IsNullOrEmpty(d.FullText))
+                            {
+                                SearchText(searchText, d, d.FullText);
+                            }
+                            else
+                            {
+                                //need 
+                                //odt
+                                //gsheet
+                                switch (d.MimeType)
+                                {
+                                    case Enums.MimeType.doc:
+                                    case Enums.MimeType.dotx:
+                                    case Enums.MimeType.txt:
+                                    case Enums.MimeType.xml:
+                                    case Enums.MimeType.csv:
+                                    case Enums.MimeType.wps:
+                                        SearchDocument(searchText, d);
+                                        if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
+                                        {
+                                            bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId,
+                                                d.FullText);
+                                            if (success)
+                                                MemberCache.ClearLeagueDocument(memId);
+                                            d.HasScannedText = true;
+                                        }
+                                        break;
+                                    case Enums.MimeType.excel:
+                                        SearchExcel(searchText, d);
+                                        if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
+                                        {
+                                            bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId,
+                                                d.FullText);
+                                            if (success)
+                                                MemberCache.ClearLeagueDocument(memId);
+                                            d.HasScannedText = true;
+                                        }
+                                        break;
+                                    case Enums.MimeType.excelOld:
+                                    case Enums.MimeType.xlsm:
+                                        SearchExcelOld(searchText, d);
+                                        if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
+                                        {
+                                            bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId,
+                                                d.FullText);
+                                            if (success)
+                                                MemberCache.ClearLeagueDocument(memId);
+                                            d.HasScannedText = true;
+                                        }
+                                        break;
+                                    case Enums.MimeType.pdf:
+                                        SearchPDF(searchText, d);
+                                        if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
+                                        {
+                                            bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId,
+                                                d.FullText);
+                                            if (success)
+                                                MemberCache.ClearLeagueDocument(memId);
+                                            d.HasScannedText = true;
+                                        }
+                                        break;
+                                    case Enums.MimeType.ppt:
+                                    case Enums.MimeType.odp:
+                                        SearchPPT(searchText, d);
+                                        if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
+                                        {
+                                            bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId,
+                                                d.FullText);
+                                            if (success)
+                                                MemberCache.ClearLeagueDocument(memId);
+                                            d.HasScannedText = true;
+                                        }
+                                        break;
+                                    case Enums.MimeType.rtf:
+                                        SearchRTF(searchText, d);
+                                        if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
+                                        {
+                                            bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId,
+                                                d.FullText);
+                                            if (success)
+                                                MemberCache.ClearLeagueDocument(memId);
+                                            d.HasScannedText = true;
+                                        }
+                                        break;
+                                }
+
+                            }
+                            if (d.SearchMatches > 0)
+                            {
+                                temps.Add(new DocumentJson(d));
+                            }
                         }
                         else
-                        {
-                            //need 
-                            //odt
-                            //gsheet
-                            switch (d.MimeType)
-                            {
-                                case Enums.MimeType.doc:
-                                case Enums.MimeType.dotx:
-                                case Enums.MimeType.txt:
-                                case Enums.MimeType.xml:
-                                case Enums.MimeType.csv:
-                                case Enums.MimeType.wps:
-                                    SearchDocument(searchText, d);
-                                    if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
-                                    {
-                                        bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId, d.FullText);
-                                        if (success)
-                                            MemberCache.ClearLeagueDocument(memId);
-                                        d.HasScannedText = true;
-                                    }
-                                    break;
-                                case Enums.MimeType.excel:
-                                    SearchExcel(searchText, d);
-                                    if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
-                                    {
-                                        bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId, d.FullText);
-                                        if (success)
-                                            MemberCache.ClearLeagueDocument(memId);
-                                        d.HasScannedText = true;
-                                    }
-                                    break;
-                                case Enums.MimeType.excelOld:
-                                case Enums.MimeType.xlsm:
-                                    SearchExcelOld(searchText, d);
-                                    if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
-                                    {
-                                        bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId, d.FullText);
-                                        if (success)
-                                            MemberCache.ClearLeagueDocument(memId);
-                                        d.HasScannedText = true;
-                                    }
-                                    break;
-                                case Enums.MimeType.pdf:
-                                    SearchPDF(searchText, d);
-                                    if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
-                                    {
-                                        bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId, d.FullText);
-                                        if (success)
-                                            MemberCache.ClearLeagueDocument(memId);
-                                        d.HasScannedText = true;
-                                    }
-                                    break;
-                                case Enums.MimeType.ppt:
-                                case Enums.MimeType.odp:
-                                    SearchPPT(searchText, d);
-                                    if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
-                                    {
-                                        bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId, d.FullText);
-                                        if (success)
-                                            MemberCache.ClearLeagueDocument(memId);
-                                        d.HasScannedText = true;
-                                    }
-                                    break;
-                                case Enums.MimeType.rtf:
-                                    SearchRTF(searchText, d);
-                                    if (!d.HasScannedText && !String.IsNullOrEmpty(d.FullText))
-                                    {
-                                        bool success = DocumentRepository.UpdateFullTextForDocument(d.DocumentId, d.FullText);
-                                        if (success)
-                                            MemberCache.ClearLeagueDocument(memId);
-                                        d.HasScannedText = true;
-                                    }
-                                    break;
-                            }
-
-                        }
-
-
+                            temps.Add(new DocumentJson(d));
                         //don't need to show save location to folks outside.
                         //d.SaveLocation = String.Empty;
-                        if (d.SearchMatches > 0)
-                        {
-                            temps.Add(new DocumentJson(d));
-                        }
+
                     }
                     catch (Exception exception)
                     {
@@ -163,7 +173,7 @@ namespace RDN.Library.Classes.Document
             {
 
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
-                var docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName.ToLower().Contains(text));
+                var docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
 
                 foreach (var document in docs)
                 {

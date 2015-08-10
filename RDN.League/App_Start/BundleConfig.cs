@@ -44,9 +44,9 @@ namespace RDN.League
                         "~/Scripts/ViewModels/Members/MembersViewModel.js",
                         "~/Scripts/ViewModels/Messages/MessagesViewModel.js",
                         "~/Scripts/ViewModels/Polls/PollsViewModel.js",
-                        "~/Scripts/ViewModels/Tournament/TournamentViewModel.js"
+                        "~/Scripts/ViewModels/Tournament/TournamentViewModel.js",
+                        "~/Scripts/ViewModels/Dues/DuesViewModel.js"
                         ));
-
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

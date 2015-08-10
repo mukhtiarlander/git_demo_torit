@@ -10,19 +10,18 @@
     <li><a href="@Url.Content("~/billing/league/" + Model.LeagueId.ToString().Replace("-", ""))">Subscriptions</a></li>
     <li class="active">Receipt</li>
 </ol>
-
 <div class="row">
     <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
         <div class="panel panel-default margin-bottom-15">
             <div class="panel-heading">
                 <h3 class="margin-bottom-5 margin-top-5">Receipt for @Model.LeagueName</h3>
                 <span class="text-muted">
-                    Your receipt for subscribing to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName!  We greatly appreciate your business.  If there is anything we can do for your league, please feel free to contact us at <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail</a>.  We are here to make the entire community a better place.
+                    Your receipt for subscribing to RDNation.com!  We greatly appreciate your business.  If there is anything we can do for your league, please feel free to contact us at <a href="mailto:info@rdnation.com">info@rdnation.com</a>.  We are here to make the entire Derby community a better place.
                 </span>
             </div>
             <div class="panel-body">
                 <div class="row margin-bottom-10">
-                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4 text-right padding-right-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
                         Invoice Id
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
@@ -33,7 +32,7 @@
                     </div>
                 </div>
                 <div class="row margin-bottom-10">
-                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4 text-right padding-right-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
                         Current Status
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
@@ -41,7 +40,7 @@
                     </div>
                 </div>
                 <div class="row margin-bottom-10">
-                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4 text-right padding-right-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
                         Amount Paid
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
@@ -49,18 +48,21 @@
                     </div>
                 </div>
                 <div class="row margin-bottom-10">
-                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4 text-right padding-right-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
                         Expires
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                        $@Model.AmountPaid.ToString("N2")
+                    </div>
+                    <div>
                         @if (Model.Expires.ToShortDateString() != "1/1/0001")
                         {
-                            @Model.Expires.ToShortDateString()
+                        @Model.Expires.ToShortDateString()
                         }
                     </div>
                 </div>
                 <div class="row margin-bottom-10">
-                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4 text-right padding-right-10">
+                    <div class="b col-xs-12 col-sm-6 col-md-5 col-lg-4">
                         Receipt Emailed To
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">

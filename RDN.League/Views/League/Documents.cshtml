@@ -22,14 +22,14 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="input-group">
-                    <input id="textSearchBox" class="form-control" placeholder="Search Documents, Seperate, By, Comma" />
+                    <input id="textSearchBox" class="form-control" placeholder="Search Documents, Seperate, By, Comma" onkeyup="FullTextDocumentSearchLeague(true)" />
                     <div class="input-group-btn">
-                        <button class="btn btn-primary" onclick="FullTextDocumentSearchLeague()"><i class="fa fa-search"></i> Search</button>
+                        <button class="btn btn-primary" onclick="FullTextDocumentSearchLeague(false)"><i class="fa fa-search"></i> Search</button>
                     </div>
                     <div style="width: 110px;margin: 0 5px !important;text-align: right; position:relative; vertical-align: middle; display:table-cell">
-                        <span>
+                        <label title="Search Within the Documents">
                             <input type="checkbox" id="cbDeepSearch"> Deep Search
-                        </span>
+                        </label>
                     </div>
                 </div>
             </div>

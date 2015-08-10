@@ -38,10 +38,10 @@
         else
         {
             <div class="row">
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-6">
                     <h3 style="margin-top:5px !important"><i class="fa fa-money"></i> Dues Collections For @Model.LeagueOwnerName</h3>
                 </div>
-                <div class="col-xs-12 col-sm-6 text-right">
+                <div class="col-xs-6 text-right">
                         @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
                         {
                             <a class="btn btn-primary btn-sm" title="Generate New Dues Item" onclick="return confirm('Generate New Dues Payment?')" href="@Url.Content("~/dues/new/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
@@ -53,7 +53,7 @@
                         </a>
                         @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
                         {
-                            <div class="dropdown hidden-sm visible-xs">
+                            <span class="dropdown hidden-sm visible-xs">
                               <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                 Dropdown
                                 <span class="caret"></span>
@@ -70,9 +70,9 @@
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <button type="button" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
+                                    <a href="javascript:void(0);" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
                                         <i class="fa fa-download"></i> Export
-                                    </button>
+                                    </a>
                                 </li>
                                 <li role="presentation">
                                     <a title="Withstanding By Member" href="@Url.Content("~/dues/members/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">
@@ -80,7 +80,7 @@
                                     </a>
                                 </li>
                               </ul>
-                            </div>
+                            </span>
                         }
                     </div>
             </div>
@@ -253,6 +253,10 @@
                     'aTargets': [6,7]
                 }]
             });
+            $("#double-scroll1").doubleScroll();
+        });
+        $(window).resize(function () {
+            console.log("resize");
             $("#double-scroll1").doubleScroll();
         });
     </script>

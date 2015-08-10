@@ -1,10 +1,8 @@
-﻿<div class="navBar">
-    @if (HttpContext.Current.User.Identity.IsAuthenticated)
-    { 
-        <span><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Manage</a></span> 
-    }
-    <span><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></span>
-    <span><a href="@Url.Content("~/")">Shops</a></span>
-    <span><a href="@Url.Content("~/sell")">Sell</a></span>
-    <span><a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite">Help</a></span>
-</div>
+﻿@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{ 
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Manage</a></li> 
+}
+<li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></li>
+<li><a href="@Url.Content("~/")">Shops</a></li>
+<li><a href="@Url.Content("~/sell")">Sell</a></li>
+<li><a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite">Help</a></li>
