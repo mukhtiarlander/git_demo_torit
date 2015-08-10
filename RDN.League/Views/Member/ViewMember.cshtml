@@ -35,22 +35,22 @@
                             <h3><b>@Model.Firstname @Model.LastName</b></h3>
                         </p>
                         <p>
-                           <i>@Model.PlayerNumber</i>
+                            <i>@Model.PlayerNumber</i>
                         </p>
                         <p>
                             @Model.Email
                         </p>
                         @*<div class="row text-center">
-                            @if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
-                            {
-                                <a href="mailto:@Model.Email" class="" target="_blank">@Model.Email</a>
-                            }
-                        </div>*@
+                                @if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
+                                {
+                                    <a href="mailto:@Model.Email" class="" target="_blank">@Model.Email</a>
+                                }
+                            </div>*@
                         <div class="row text-center margin-bottom-15">
                             @if (isAdminOfLeague || !Model.Settings.Hide_Phone_Number_From_League || Model.MemberId == memId)
-                                {
+                            {
                                 <a class="btn btn-info" href="tel:@Model.PhoneNumber" target="_blank"><i class="fa fa-phone fa-lg"></i></a>
-                                }
+                            }
                             @if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
                             {
                                 <a class="btn btn-info" href="mailto:@Model.Email" target="_blank"><i class="fa fa-at fa-lg"></i></a>
@@ -103,7 +103,7 @@
                                                                     <span>Male</span>
                                                                 }
                                                             </td>
-                                                            </tr>
+                                                        </tr>
                                                     </table>
                                                 </div>
                                             </div>
@@ -147,7 +147,7 @@
                                                     </div>
                                                 </div>
                                             }
-                                           @if (Model.DOB < DateTime.UtcNow.AddYears(-5) && !Model.Settings.Hide_DOB_From_Public)
+                                            @if (Model.DOB < DateTime.UtcNow.AddYears(-5) && !Model.Settings.Hide_DOB_From_Public)
                                             {
                                                 <div class="col-xs-12 col-sm-6">
                                                     <div class="well">
@@ -180,7 +180,7 @@
                                         </div>
                                     </div>
                                     @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
-                                        {
+                                    {
 
                                         <div role="tabpanel" class="tab-pane" id="Playing">
                                             <h4 class="no-margin-top">
@@ -189,94 +189,32 @@
                                             @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId) || memId == Model.MemberId)
                                             {
                                                 <div class="row">
-                                                    <div class="col-xs-12 col-md-6">
-                                                        <div class="well">
-                                                            <table class="full-width">
-                                                                <tr>
-                                                                    <td rowspan="2" class="padding-left-10 b font20">
-                                                                        WFTDA
-                                                                    </td>
-                                                                    <td class="text-right">@Model.InsuranceNumWftda</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-right font20">
-                                                                        <span>
-                                                                            @if (Model.InsuranceNumWftdaExpires.HasValue)
-                                                                            {
-                                                                                @Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                                                            }
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
+                                                    @foreach (var insuranceNumber in Model.InsuranceNumbers)
+                                                    {
+
+                                                        <div class="col-xs-12 col-md-6">
+                                                            <div class="well">
+                                                                <table class="full-width">
+                                                                    <tr>
+                                                                        <td rowspan="2" class="padding-left-10 b font20">
+                                                                            @insuranceNumber.Type
+                                                                        </td>
+                                                                        <td class="text-right">@insuranceNumber.Number</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="text-right font20">
+                                                                            <span>
+                                                                                @if (insuranceNumber.Expires.HasValue)
+                                                                                {
+                                                                                    @insuranceNumber.Expires.GetValueOrDefault().ToString("MM/dd/yyyy")
+                                                                                }
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-md-6">
-                                                        <div class="well">
-                                                            <table class="full-width">
-                                                                <tr>
-                                                                    <td rowspan="2" class="padding-left-10 b font20">
-                                                                        USARS
-                                                                    </td>
-                                                                    <td class="text-right">@Model.InsuranceNumUsars</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-right font20">
-                                                                        <span>
-                                                                            @if (Model.InsuranceNumUsarsExpires.HasValue)
-                                                                            {
-                                                                                @Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                                                            }
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-md-6">
-                                                        <div class="well">
-                                                            <table class="full-width">
-                                                                <tr>
-                                                                    <td rowspan="2" class="padding-left-10 b font20">
-                                                                        CRDI
-                                                                    </td>
-                                                                    <td class="text-right">@Model.InsuranceNumCRDI</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-right font20">
-                                                                        <span>
-                                                                             @if (Model.InsuranceNumCRDIExpires.HasValue)
-                                                                            {
-                                                                                @Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                                                            }
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-md-6">
-                                                        <div class="well">
-                                                            <table class="full-width">
-                                                                <tr>
-                                                                    <td rowspan="2" class="padding-left-10 b font20">
-                                                                        Other
-                                                                    </td>
-                                                                    <td class="text-right">@Model.InsuranceNumOther</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-right font20">
-                                                                        <span>
-                                                                            @if (Model.InsuranceNumOtherExpires.HasValue)
-                                                                            {
-                                                                                @Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy")
-                                                                            }
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                                    }
                                                 </div>
                                             }
                                             else
@@ -284,21 +222,21 @@
                                                 <h4>Subscribe to view Insurance Numbers of each member in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></h4>
                                             }
                                         </div>
-                                        }
+                                    }
 
                                     <div id="Contacts" class="tab-pane">
                                         @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
+                                        {
+                                            if (Model.MemberContacts.Count == 0)
                                             {
-                                                if (Model.MemberContacts.Count == 0)
-                                                {
-                                                    <div>Member has no personal contacts</div>
-                                                    <br />
-                                                }
-                                                <div class="row">
-                                                    <div class="col-xs-12 text-right margin-bottom-10">
-                                                        <a class="btn btn-primary" href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))"><i class="fa fa-plus-circle"></i> Add Contacts To Member</a>
-                                                    </div>
+                                                <div>Member has no personal contacts</div>
+                                                <br />
+                                            }
+                                            <div class="row">
+                                                <div class="col-xs-12 text-right margin-bottom-10">
+                                                    <a class="btn btn-primary" href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))"><i class="fa fa-plus-circle"></i> Add Contacts To Member</a>
                                                 </div>
+                                            </div>
                                             <div class="row">
                                                 @foreach (var contact in Model.MemberContacts)
                                                 {
@@ -339,28 +277,28 @@
                                                                         <td>
                                                                             @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
                                                                             {
-                                                                            @contact.Addresses.FirstOrDefault().Address1<br />
-                                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Address2))
-                                                                            {
-                                                                            @contact.Addresses.FirstOrDefault().Address2<br />
-                                                                            }
-                                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().CityRaw))
-                                                                            {
-                                                                            @contact.Addresses.FirstOrDefault().CityRaw<br />}
-                                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().StateRaw))
-                                                                            {
-                                                                            @contact.Addresses.FirstOrDefault().StateRaw<br />
-                                                                            }
-                                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Zip))
-                                                                            {
-                                                                            @contact.Addresses.FirstOrDefault().Zip<br />
-                                                                            }
-                                                                            if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Country))
-                                                                            {
-                                                                            @contact.Addresses.FirstOrDefault().Country
-                                                                            }
-                                                                            <br />
-                                                                            <a class="btn btn-default btn-xs margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                                                                                @contact.Addresses.FirstOrDefault().Address1<br />
+                                                                                if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Address2))
+                                                                                {
+                                                                                    @contact.Addresses.FirstOrDefault().Address2<br />
+                                                                                }
+                                                                                if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().CityRaw))
+                                                                                {
+                                                                                    @contact.Addresses.FirstOrDefault().CityRaw<br />}
+                                                                                if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().StateRaw))
+                                                                                {
+                                                                                    @contact.Addresses.FirstOrDefault().StateRaw<br />
+                                                                                }
+                                                                                if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Zip))
+                                                                                {
+                                                                                    @contact.Addresses.FirstOrDefault().Zip<br />
+                                                                                }
+                                                                                if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Country))
+                                                                                {
+                                                                                    @contact.Addresses.FirstOrDefault().Country
+                                                                                }
+                                                                                <br />
+                                                                                <a class="btn btn-default btn-xs margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
                                                                             }
                                                                         </td>
                                                                     </tr>
@@ -372,11 +310,11 @@
                                                 }
 
                                             </div>
-                                            }
-                                            else
-                                            {
+                                        }
+                                        else
+                                        {
                                             <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
-                                            }
+                                        }
 
                                         <small>Only Managers of the league can see this information.</small>
                                     </div>
@@ -387,32 +325,32 @@
                                                 if (!String.IsNullOrEmpty(league.Name))
                                                 {
 
-                                                <div class="col-xs-12 col-sm-6" >
-                                                    <div class="well padding-15">
-                                                        @if (league.Logo != null)
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <div class="well padding-15">
+                                                            @if (league.Logo != null)
                                                             {
-                                                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
-
-                                                                <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
-
-                                                            </a>
-                                                            }
-                                                        <div class="caption">
-                                                            <h4 class="no-margin">
                                                                 <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
-                                                                    @league.Name
-                                                                </a>
 
-                                                            </h4>
-                                                            @if (league.HasLeftLeague)
-                                                            {
-                                                                <div class="margin-top-10">
-                                                                    <b> retired </b> @league.DepartureDate.GetValueOrDefault().ToShortDateString()
-                                                                </div>
+                                                                    <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
+
+                                                                </a>
                                                             }
+                                                            <div class="caption">
+                                                                <h4 class="no-margin">
+                                                                    <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                                                        @league.Name
+                                                                    </a>
+
+                                                                </h4>
+                                                                @if (league.HasLeftLeague)
+                                                                {
+                                                                    <div class="margin-top-10">
+                                                                        <b> retired </b> @league.DepartureDate.GetValueOrDefault().ToShortDateString()
+                                                                    </div>
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 }
                                             }
                                         </div>
@@ -429,7 +367,7 @@
 
 
 <script type="text/javascript">
-    
+
     $('#myTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
