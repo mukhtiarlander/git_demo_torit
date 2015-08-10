@@ -4,248 +4,301 @@
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
-
-<div class="backLinks">
-    <a href="@Url.Content("~/")">Home</a> > <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
-</div>
-<div class="listingHome">
-    <div class="listingInfoColumn">
-        <div>
-            <span class="storeItemName">@Model.Name</span>
-            <br />
-            <div class="storeItemSoldBy">
-                Sold by <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a>
+<link href="@Url.Content("~/Content/jcarousel-carousels.css")" rel="stylesheet" type="text/css" />
+<ol class="breadcrumb">
+    <li><a href="@Url.Content("~/")">Home</a></li>
+    <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></li>
+    <li class="active">@Model.Name </li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-md-5">
+        <div class="connected-carousels">
+            <div class="stage">
+                <div class="carousel carousel-stage">
+                    <ul>
+                        @foreach (var photo in Model.Photos)
+                        {
+                            <li>
+                                <img src="@photo.ImageUrl" alt="@photo.Alt" style="max-height: 400px;" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="photo-credits">
+                    @Model.Name
+                </div>
+                <a href="#" class="prev prev-stage"><span>&lsaquo;</span></a>
+                <a href="#" class="next next-stage"><span>&rsaquo;</span></a>
             </div>
-            <div>
-                @{ var total = 0.00;}
+            <div class="navigation">
+                <a href="#" class="prev prev-navigation">&lsaquo;</a>
+                <a href="#" class="next next-navigation">&rsaquo;</a>
+                <div class="carousel carousel-navigation">
+                    <ul>
+                        @foreach (var photo in Model.Photos)
+                        {
+                            <li>
+                                <img src="@photo.ImageUrl" alt="@photo.Alt" width="50" height="50" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        @*<div class="margin-bottom-10 text-center">
+                @if (Model.Photos.FirstOrDefault() != null)
+                {
+                    <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt" style="width:100%; max-width: 500px;border: 1px solid #ddd; padding: 3px;" id="mainPhoto" />
+                }
+            </div>
+            <ul class="storePhotosList">
+                @foreach (var photo in Model.Photos)
+                {
+                    <li>
+                        <img src="@photo.ImageUrl" alt="@photo.Alt" style="max-height: 60px;" onmouseover="javascript:MouseOverPhotoStore('@photo.ImageUrl')" />
+                    </li>
+                }
+            </ul>*@
+
+    </div>
+    @using (Html.BeginForm("AddToCart", "Listings", FormMethod.Post, new { @id = "AddToCart" }))
+    {
+        <div class="col-xs-12 col-md-7">
+            <span class="font20 b">@Model.Name</span>
+            <div class="top-border-light margin-top-5 margin-bottom-10"></div>
+            <div class="row">
+                <div class="col-xs-6 col-md-3">
+                    <div class="margin-bottom-10 text-muted">Select Quantity</div>
+                    <label class="select">
+                        <select name="quantityToBuy">
+                            @if (Model.QuantityInStock > 0)
+                            {
+                                <option selected="selected" value="1">1</option>
+                                for (int i = 1; i < Model.QuantityInStock; i++)
+                                {
+                                    <option value="@(i + 1)">@(i + 1)</option>
+                                }
+                            }
+                            else
+                            {
+                                <option selected="selected" value="1">1</option>
+                            }
+                        </select>
+                    </label>
+                </div>
+                @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+                {
+                    <div class="col-xs-6 col-md-6">
+                        <div class="margin-bottom-10 text-muted">Select Size</div>
+                        <label class="select">
+                            @Html.DropDownListFor(x => x.ItemSizeEnum, (SelectList)ViewBag.ItemSizes, "Choose Size...", new { @style = "width: 180px;" })
+                        </label>
+                    </div>
+                }
+                @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
+                {
+                    <div class="col-xs-6 col-md-6">
+                        <div class="margin-bottom-10 text-muted">Select Color</div>
+                        <div class="display-inline-flex">
+                            <label class="select item-color-list">
+                                @Html.DropDownListFor(x => x.ColorTempSelected, (SelectList)ViewBag.Colors, "Choose Color...", new { @onchange = "ColorSelectorChanged()", @class = "margin-right-5" })
+                            </label>
+                            <div id="item-color-chosen"></div>
+                        </div>
+
+                    </div>
+
+                }
+            </div>
+
+            <div class="stock-count-ribbon">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 font12 padding-top-3">
+                        @{ var total = 0.00;}
+                        @foreach (var k in Model.Reviews)
+                        {
+                            if (k.rate == null)
+                            { k.rate = "0.00"; }
+                            total += Convert.ToDouble(k.rate.ToString());
+                        }
+                        @{if (Model.Reviews.Count > 0) { total = Convert.ToInt32(total / Model.Reviews.Count); }}
+                        @for (int i = 1; i <= total; i++)
+                        {
+                            <i class="fa fa-star text-orange"></i>
+                        }
+                        @for (int i = 1; i <= 5 - total; i++)
+                        {
+                            <i class="fa fa-star text-light"></i>
+                        }
+                        <a class="" href="#customerReviewsContainer">@Model.Reviews.Count REVIEWS</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+
+                        <span class="text-muted">
+                            <i class="fa fa-hand-o-up"></i>  @Model.Views views
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-5 margin-bottom-10">
+                    <div>
+                        <span class="font30">
+                            @if (Model.Currency == "USD")
+                            {  <span>$</span>}@Model.Price
+                        </span>
+                        @Model.Currency
+                    </div>
+                    <span class="font12">
+                        + @if (Model.Currency == "USD")
+                        {<span>$</span>}@Model.Shipping.ToString("N2") <span>shipping</span>
+                    </span>
+                    @Html.HiddenFor(x => x.StoreItemId)
+                    @Html.HiddenFor(x => x.Store.MerchantId)
+                    @Html.HiddenFor(x => x.CartId)
+                    @Html.HiddenFor(x => x.Price)
+                    @Html.HiddenFor(x => x.Shipping)
+                    @Html.HiddenFor(x => x.Name)
+                    @Html.HiddenFor(x => x.ArticleNumber)
+                    @if (Model.IsPublished)
+                    {
+                        <div class="margin-top-20">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="margin-top-20">
+                            This item currently isn't available
+                        </div>
+                    }
+
+                    @if (Model.QuantityInStock > 0)
+                    {
+                        <div class="text-light margin-top-10"><i class="fa fa-cubes"></i> @Model.QuantityInStock Available</div>
+                    }
+                    else
+                    {
+                        <div class="text-warning margin-top-10">
+                            Sold Out!
+                        </div>
+                    }
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-7 margin-bottom-10">
+                    <div class="well well-light">
+                        <div class="font10 b margin-bottom-10">SOLD BY</div>
+                        <p> <a href="@Url.Content("~/"+RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl+"-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></p>
+                        <p class="text-muted font12">@Model.Store.Description</p>
+                        <a class="btn btn-default btn-xs" target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite/messages/new/shop/@Model.Store.MerchantId.ToString().Replace("-", "")"><i class="fa fa-envelope-o"></i> Contact Seller</a>
+                    </div>
+                    <div class="well well-light">
+                        <div class="font10 b margin-bottom-10">SHIPPING COSTS</div>
+                        <span class="font12 text-muted">
+                            Single item - @if (Model.Currency == "USD")
+                            {  <span>$</span>}@Model.Shipping @Model.Currency &nbsp;&nbsp;|&nbsp;&nbsp; Each Additional Item - @if (Model.Currency == "USD")
+                            {  <span>$</span>}@Model.ShippingAdditional @Model.Currency
+
+                        </span>
+                        @if (Model.CanPickUpLocally)
+                        { <span class="font11 text-muted">Eligible for Pick Up Locally</span>}
+                    </div>
+                    <div class="well well-light">
+                        <div class="font10 b margin-bottom-10">PAYMENT METHODS</div>
+                        @if (Model.AcceptsStripe)
+                        {
+                            <img src="~/Content/cc-icon.png" /><br />
+                        }
+                        @if (Model.AcceptsPayPal)
+                        {
+                            <img src="~/Content/pp-icon.png" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+<div class="top-border-dark padding-top-10">
+    <span class="font16 b">@Model.Name - @Model.Description</span>
+    <div class="font12 margin-top-5">
+        @Html.Raw(Model.NoteHtml)
+    </div>
+</div>
+<div class="top-border-dark margin-top-30 padding-top-10">
+    <span class="font14 b">Reviews of @Model.Name</span>
+    <div class="font12 margin-top-20">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-md-3 col-md-offset-0 col-lg-2 col-lg-offset-0 text-center margin-bottom-10">
+                @{ var total1 = 0.00;}
                 @foreach (var k in Model.Reviews)
                 {
                     if (k.rate == null)
                     { k.rate = "0.00"; }
-                    total += Convert.ToDouble(k.rate.ToString());
+                    total1 += Convert.ToDouble(k.rate.ToString());
                 }
-                @{if (Model.Reviews.Count > 0) { total = total / Model.Reviews.Count; }}
-                <div class="rateit" data-rateit-resetable="false" id="rateitTotal" data-rateit-readonly="true"  data-rateit-ispreset="true" data-rateit-value="@total" data-rateit-max="5"></div>
-                <span class="reviwTotal"><a href="#customerReviewsContainer">@Model.Reviews.Count customer reviews</a></span>
-
-            </div>
-        </div>
-        <div class="storePhotoContainer center">
-            @if (Model.Photos.FirstOrDefault() != null)
-            { 
-                <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt" style="max-width: 500px; max-height: 500px; min-width: 500px; margin: 0px auto 0px auto;" id="mainPhoto" />
-@*<img src="~/Content/googlePlus.jpg" style="max-width: 500px; max-height: 500px; min-width: 300px; margin: 0px auto 0px auto;" id="mainPhoto" />*@
-            }
-            <ul class="storePhotosList">
-
-                @foreach (var photo in Model.Photos)
-                { <li>
-                    <img src="@photo.ImageUrl" alt="@photo.Alt" style="max-width: 60px; max-height: 60px;" onmouseover="javascript:MouseOverPhotoStore('@photo.ImageUrl')"  /></li>
-@*<li>
-                        <img src="~/Content/googlePlus.jpg" style="max-width: 60px; max-height: 60px;" /></li>*@
-                }
-            </ul>
-        </div>
-        <div class="clear"></div>
-        <div class="storeItemDescContainer">
-            <span class="storeSectionTitle">Information</span> - @Model.Description<br />
-            <div class="storeItemDesc">
-                @Html.Raw(Model.NoteHtml)
-            </div>
-        </div>
-
-        <div class="storeItemDescContainer">
-            <div class="storeItemPaymentBox">
-                <div class="b">
-                    Shipping Costs @if (Model.CanPickUpLocally)
-                                   { <span class="b">- Eligible for Pick Up Locally</span>}
-                </div>
-                <br />
+                @{if (Model.Reviews.Count > 0) { total1 = total1 / Model.Reviews.Count; }}
                 <div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Single Item</th>
-                                <th>Each Additional Item</th>
-                            </tr>
-                        </thead>
-                        <tr>
-                            <td>@if (Model.Currency == "USD")
-                                {  <span>$</span>}@Model.Shipping @Model.Currency</td>
-                            <td>@if (Model.Currency == "USD")
-                                {  <span>$</span>}@Model.ShippingAdditional @Model.Currency</td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
-            <div class="storeItemPaymentBox">
-                <div class="b">
-                    Payment Methods
-                </div>
-                <div>
-                    @if (Model.AcceptsStripe)
-                    { 
-                        <img src="~/Content/cc-icon.png" /><br />
-                    }
-                    @if (Model.AcceptsPayPal)
-                    { 
-                        <img src="~/Content/pp-icon.png" />
-                    }
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="listingDetailsColumn">
-        @using (Html.BeginForm("AddToCart", "Listings", FormMethod.Post, new { @id = "AddToCart" }))
-        {
-            <div class="storeItemDetailsContainer">
-                <span class="listingItemPrice">@if (Model.Currency == "USD")
-                                               {  <span>$</span>}@Model.Price</span> <span class="usd">@Model.Currency</span>
-                @if (Model.Shipping > 0)
-                { 
-                    <span class="listingShipping"><span>+</span> @if (Model.Currency == "USD")
-                                                                 {  <span>$</span>}@Model.Shipping.ToString("N2") <span>shipping</span></span><br />
-                }
-                @if (Model.QuantityInStock > 0)
-                { 
-                    <span class="storeLeftInStock">
-                        @Model.QuantityInStock available
+                    <span class="fa-stack font32">
+                        <i class="fa fa-star fa-stack-2x text-orange "></i>
+                        <i class="fa-stack-1x font16 b text-white">@total1.ToString("N1")</i>
                     </span>
-                }
-                <br />
-
+                </div>
+                <div class="font10 text-muted">
+                    Average rating<br />
+                    based on @Model.Reviews.Count ratings
+                </div>
             </div>
-            <div class="storeAddToCartContainer">
-                <div class="storeQuantity">
-                    Quantity:
-            <select name="quantityToBuy" style="width: 180px;">
-                @if (Model.QuantityInStock > 0)
-                {
-                    <option selected="selected" value="1">1</option>
-                    for (int i = 1; i < Model.QuantityInStock; i++)
+            <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-md-3 col-md-offset-0 col-lg-2 col-lg-offset-0 margin-bottom-10">
+                <table class="full-width">
+                    @for (int starType = 5; starType >= 1; starType--)
                     {
-                    <option value="@(i + 1)">@(i + 1)</option>
+                        var star5 = 0.00; var n = 0;
+
+                        foreach (var star in Model.Reviews)
+                        {
+                            if (star.rate != null)
+                            {
+                                var rateVa = (int)Convert.ToDouble(star.rate.ToString());
+                                if (rateVa == starType)
+                                {
+                                    //star5 += rateVa;
+                                    n = n + 1;
+                                }
+                            }
+                        }
+                        if (Model.Reviews.Count != 0)
+                        {
+                            if (n != 0)
+                            {
+                                var v = (n * 5) / Model.Reviews.Count; //n * 5 / reviewList.Count();
+                                star5 = v; //(5*v)/100;
+                            }
+                        }
+                        <tr>
+                            <td class="no-wrap height15 display-inherit text-muted font11">@starType Star</td>
+                            <td class="full-width">
+                                <div class="progress height15 margin-left-10 margin-bottom-5">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="@star5" style="width: @(star5/5*100)%" aria-valuemin="0" aria-valuemax="5">
+                                        <span class="sr-only">@n</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                     }
-                }
-                else
-                { 
-                    <option selected="selected" value="1">1</option>
-                }
-            </select>
+                </table>
 
-                </div>
-                @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
-                { 
-                    <div class="storeQuantity">
-                        Sizes:
-                        @Html.DropDownListFor(x => x.ItemSizeEnum, (SelectList)ViewBag.ItemSizes, "Choose Size...", new { @style = "width: 180px;" })
-                    </div>
-                }
-                <div class="clear">
-                </div>
-                @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
-                { 
-                    <div class="storeQuantity">
-                        Colors:
-                        @Html.DropDownListFor(x => x.ColorTempSelected, (SelectList)ViewBag.Colors, "Choose Color...", new { @style = "width: 180px;", @onchange = "ColorSelectorChanged()" })
-                    </div>
-                }
-                <div class="clear">
-                </div>
-
-                @Html.HiddenFor(x => x.StoreItemId)
-                @Html.HiddenFor(x => x.Store.MerchantId)
-                @Html.HiddenFor(x => x.CartId)
-                @Html.HiddenFor(x => x.Price)
-                @Html.HiddenFor(x => x.Shipping)
-                @Html.HiddenFor(x => x.Name)
-                @Html.HiddenFor(x => x.ArticleNumber)
-                @if (Model.IsPublished)
-                { 
-                    <div class="center">
-                        <input type="submit" value="Add To Cart" class="primary largePrimary" />
-                    </div>
-                }
-                else
-                { 
-                    <br />
-                    <div class="center">
-                        This item currently isn't available
-                    </div>
-                }
             </div>
-            <div class="clear">
-            </div>
-            
-            <div class="storeAddToCartContainer">
-                <div class="listingSectionTitle">Shop</div>
-                <div class="listingShopName"><a href="@Url.Content("~/"+RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl+"-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></div>
-
-                <div class="listingShopDescription">@Model.Store.Description</div>
-                <br />
-                <div><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite/messages/new/shop/@Model.Store.MerchantId.ToString().Replace("-", "")">Contact Seller</a></div>
-            </div>
-            <div class="storeAddToCartContainer">
-                <div class="listingSectionTitle">Item</div>
-                <div>@Model.Views views</div>
-            </div>
-            
-            <div class="clear">
-            </div>
-        }
+        </div>
     </div>
-    <div class="clear"></div>
-    <div id="customerReviewsContainer">
-        <span class="storeSectionTitle">Customer Reviews</span>
-        <br />
-        <br />
-
-        
-        @{if (Model.Reviews.Count > 0) { total = total / Model.Reviews.Count; }}
-        <div class="rateit" data-rateit-resetable="false" id="rateitTotal" data-rateit-readonly="true"  data-rateit-ispreset="true" data-rateit-value="@total" data-rateit-max="5"></div>
-        <span class="reviwTotal">(@Model.Reviews.Count)</span>
-        <br />
-        <span class="reviwTitle">@total.ToString("N1") out of 5 </span>
-        <br />
-        <br />
-
-        @for (int starType = 5; starType >= 1; starType--)
-        {
-            var star5 = 0.00; var n = 0;
-
-            foreach (var star in Model.Reviews)
-            {
-                if (star.rate != null)
-                {
-                    var rateVa = (int)Convert.ToDouble(star.rate.ToString());
-                    if (rateVa == starType)
-                    {
-                        //star5 += rateVa;
-                        n = n + 1;
-                    }
-                }
-            }
-            if (Model.Reviews.Count != 0)
-            {
-                if (n != 0)
-                {
-                    var v = (n * 5) / Model.Reviews.Count; //n * 5 / reviewList.Count();
-                    star5 = v; //(5*v)/100;
-                }
-            }
-            <span class="reviwTotal">@starType Star</span> <div class="rateit kstars" data-rateit-starwidth="32" data-rateit-resetable="false" data-rateit-readonly="true" id="stark" data-rateit-value="@star5" data-rateit-max="5" data-rateit-starheight="20"></div>
-            <span class="reviwTotal">@n </span> 
-            <br />
-        }
-    </div>
-    <br />
+</div>
+<div id="customerReviewsContainer">
     @foreach (var review in Model.Reviews)
-    {   
-                
-        <div class="rateit" data-rateit-resetable="false" id="eachRate" data-rateit-readonly="true"  data-rateit-ispreset="true" data-rateit-value="@review.rate" data-rateit-max="5"></div>
-                
+    {
+        <div class="rateit" data-rateit-resetable="false" id="eachRate" data-rateit-readonly="true" data-rateit-ispreset="true" data-rateit-value="@review.rate" data-rateit-max="5"></div>
         <span class="reviwT">@review.title</span> <br />
         <span class="reviewAuthor">by @review.userName on @review.Created.ToString("MMMM dd, yyyy")</span>
         <div class="reviewComment">
@@ -253,29 +306,99 @@
                 @review.comment
             </p>
         </div>
-        <br />                
+        <br />
     }
 </div>
-
+<script src="@Url.Content("~/Scripts/jquery.jcarousel.min.js")" type="text/javascript"></script>
 <script type="text/JavaScript">
     UpdateListingViewCount('@Model.StoreItemId');
+    var connector = function (itemNavigation, carouselStage) {
+        return carouselStage.jcarousel('items').eq(itemNavigation.index());
+    };
+    var carouselStage = $('.carousel-stage').jcarousel();
+    var carouselNavigation = $('.carousel-navigation').jcarousel();
+
+    // We loop through the items of the navigation carousel and set it up
+    // as a control for an item from the stage carousel.
+    carouselNavigation.jcarousel('items').each(function () {
+        var item = $(this);
+
+        // This is where we actually connect to items.
+        var target = connector(item, carouselStage);
+
+        item.on('jcarouselcontrol:active', function () {
+                carouselNavigation.jcarousel('scrollIntoView', this);
+                item.addClass('active');
+            })
+            .on('jcarouselcontrol:inactive', function () {
+                item.removeClass('active');
+            })
+            .jcarouselControl({
+                target: target,
+                carousel: carouselStage
+            });
+    });
+
+    // Setup controls for the stage carousel
+    $('.prev-stage')
+        .on('jcarouselcontrol:inactive', function () {
+            $(this).addClass('inactive');
+        })
+        .on('jcarouselcontrol:active', function () {
+            $(this).removeClass('inactive');
+        })
+        .jcarouselControl({
+            target: '-=1'
+        });
+
+    $('.next-stage')
+        .on('jcarouselcontrol:inactive', function () {
+            $(this).addClass('inactive');
+        })
+        .on('jcarouselcontrol:active', function () {
+            $(this).removeClass('inactive');
+        })
+        .jcarouselControl({
+            target: '+=1'
+        });
+
+    // Setup controls for the navigation carousel
+    $('.prev-navigation')
+        .on('jcarouselcontrol:inactive', function () {
+            $(this).addClass('inactive');
+        })
+        .on('jcarouselcontrol:active', function () {
+            $(this).removeClass('inactive');
+        })
+        .jcarouselControl({
+            target: '-=1'
+        });
+
+    $('.next-navigation')
+        .on('jcarouselcontrol:inactive', function () {
+            $(this).addClass('inactive');
+        })
+        .on('jcarouselcontrol:active', function () {
+            $(this).removeClass('inactive');
+        })
+        .jcarouselControl({
+            target: '+=1'
+        });
+    $(".carousel-stage > ul > li").css("width", $(".carousel-stage").width());
 </script>
 @if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
-{ 
+{
     <script type="text/javascript">
         $("#AddToCart").validate({
             rules: {
                 ColorTempSelected: "required"
             }
         });
-        $(document).ready(function () {
-            LoadDropDownBackgroundColors();
-        });
     </script>
-                      
+
 }
 else if (Model.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
-{ 
+{
     <script type="text/javascript">
         $("#AddToCart").validate({
             rules: {

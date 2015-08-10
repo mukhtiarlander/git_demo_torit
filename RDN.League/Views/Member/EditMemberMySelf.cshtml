@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-lg-6">
                                             <div class=" form-label margin-top-10 margin-bottom-5">
-                                               Nick Name
+                                                Nick Name
                                             </div>
                                             <div>
                                                 @Html.TextBoxFor(x => x.DerbyName, new { @type = "text", @class = "form-control" })
@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="col-xs-12 col-lg-6">
                                             <div class="form-label margin-top-10 margin-bottom-5">
-                                               Number
+                                                Number
                                             </div>
                                             <div>
                                                 @Html.TextBoxFor(x => x.PlayerNumber, new { @type = "text", @class = "form-control" })
@@ -181,83 +181,35 @@
                                                 }
                                             </div>
                                         </div>
-                                        <div class="col-xs-12">
-                                            <div class=" form-label margin-top-10 margin-bottom-5">
-                                                Insurance Number WFTDA/Expires
-                                            </div>
-                                            <div class="row">
+                                        @foreach (var insuranceNumber in Model.InsuranceNumbers)
+                                        {
+                                            <div class="col-xs-12">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="no-bold">@insuranceNumber.Type Insurance</label>
+                                                            @Html.TextBox("insuranceNumber_" + insuranceNumber.Type, insuranceNumber.Number, new { @class = "form-control col-xs-6" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="no-bold">Expires</label>
 
-                                                <div class="col-xs-6">
-                                                    @Html.TextBoxFor(x => x.InsuranceNumWftda, new { @class = "form-control col-xs-6" })
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    @if (Model.InsuranceNumWftdaExpires.HasValue)
-                                                    {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker form-control col-xs-6", @Value = Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker form-control col-xs-6" })
-                                                    }
+                                                            @if (insuranceNumber.Expires.HasValue)
+                                                            {
+                                                                @Html.TextBox("insuranceNumberExpires_" + insuranceNumber.Type, insuranceNumber.Expires.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker form-control col-xs-6" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBox("insuranceNumberExpires_" + insuranceNumber.Type, "", new { @class = "jquery_datepicker form-control col-xs-6" })
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-12">
-                                            <div class=" form-label margin-top-10 margin-bottom-5">
-                                                Insurance Number USARS/Expires
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    @Html.TextBoxFor(x => x.InsuranceNumUsars, new { @class = "form-control" })
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    @if (Model.InsuranceNumUsarsExpires.HasValue)
-                                                    {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker form-control" })
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12">
-                                            <div class=" form-label margin-top-10 margin-bottom-5">
-                                                Insurance Number CRDI/Expires
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    @Html.TextBoxFor(x => x.InsuranceNumCRDI, new { @class = "form-control" })
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    @if (Model.InsuranceNumCRDIExpires.HasValue)
-                                                    {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker form-control" })
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12">
-                                            <div class=" form-label margin-top-10 margin-bottom-5">
-                                                Insurance Number Other/Expires
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    @Html.TextBoxFor(x => x.InsuranceNumOther, new { @class = "form-control" })
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    @if (Model.InsuranceNumOtherExpires.HasValue)
-                                                    { @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })  }
-                                                    else
-                                                    { @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker form-control" })  }
-                                                </div>
-                                            </div>
-                                        </div>
+                                        }
+
                                     </div>
                                 </div>
                                 <div id="League" class="tab-pane">
@@ -418,6 +370,16 @@
 </div>
 
 <br /><br />
+@foreach (var insuranceNumber in Model.InsuranceNumbers)
+{
+    <script type="text/javascript">
+
+        $('#insuranceNumberExpires_@insuranceNumber.Type').datepicker({
+            required: false
+        });
+
+    </script>
+}
 <script type="text/javascript">
     $('#DOB').datepicker({ required: false });
     $('#StartedSkating').datepicker({
@@ -427,24 +389,12 @@
         required: false
     });
 
-    $('#InsuranceNumOtherExpires').datepicker({
-        required: false
-    });
-    $('#InsuranceNumUsarsExpires').datepicker({
-        required: false
-    });
-    $('#InsuranceNumWftdaExpires').datepicker({
-        required: false
-    });
-    $('#InsuranceNumCRDIExpires').datepicker({
-        required: false
-    });
     $(function () {
         tinymce.init({
             mode: "textareas",
             elements: "elm2",
             theme: "modern",
-             plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
         });
     });
     $('#myTab a').click(function (e) {

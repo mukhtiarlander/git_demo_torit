@@ -1,4 +1,40 @@
-﻿function LoadDropDownBackgroundColors() {
+﻿$(document).ready(function () {
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.scrollup').fadeIn();
+        } else {
+            $('.scrollup').fadeOut();
+        }
+    });
+    $('.scrollup').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+    $("#feedback_tab").on("mouseenter", function () {
+        feedback_tab_hovered = true;
+        $("#feedback_tab").css('opacity', 1).animate({ "right": "0px" }, 300);
+        setTimeout(function () { feedback_tab_hovered = false; }, 1000);
+    });
+    $("#feedback_tab").on("mouseleave", function () {
+        if (feedback_tab_hovered == false) {
+            setTimeout(function () {
+                $("#feedback_tab").animate({ "right": "-60px" }, 300, function () { $("#feedback_tab").animate({ "opacity": 0.7 }, 100); });
+            }, 1000);
+        }
+    });
+});
+
+function ToggleSideMenu() {
+    if ($("#mainNavbar").hasClass("slideInLeft")) {
+        $("#mainNavbar").removeClass("slideInLeft");
+        $("#mainNavbar").addClass("slideOutLeft");
+    }
+    else {
+        $("#mainNavbar").removeClass("slideOutLeft");
+        $("#mainNavbar").addClass("slideInLeft").show();
+    }
+}
+function LoadDropDownBackgroundColors() {
     $("#ColorTempSelected option").each(function () {
         if ($(this).val() != '') {
             $(this).css('background-color', $(this).val());
@@ -8,55 +44,58 @@
 function ColorSelectorChanged() {
     var selected = $("#ColorTempSelected option:selected").val();
     if ($("#ColorTempSelected").val() != '') {
-        $("#ColorTempSelected").css('background-color', selected);
+        $("#item-color-chosen").css('background-color', selected);
     }
     else
-        $("#ColorTempSelected").css('background-color', "#FFFFFF");
+        $("#item-color-chosen").css('background-color', "transparent");
 }
 
 function searchStoreItems(searchbox) {
     var qu = $(searchbox).val();
     if (qu.length != 1) {
         $.getJSON("/Utilities/SearchStoreItem", { q: qu, limit: 50 }, function (result) {
-            var html = "";
+            var html = "<div class='shop-grid'>";
             $.each(result, function (i, item) {
-                html += '<div class="storeItem"><div class="storeItemInner">';
+                html += '<div class="shop-grid-item"> <div class="thumbnail full-width bg-lighter">';
                 html += '<a href="/'+SportNameForUrl+'-item/';
                 html += item.Name;
                 html += '/'
                 html += item.StoreItemId;
-                html += '"><div class="storeItemPhoto center">';
+                html += '">';
                 if (item.PhotoUrl != null) {
-                    html += '<img src="';
+                    html += '<img data-holder-rendered="true" src="';
                     html += item.PhotoUrl;
-                    html += '" style=" width:160px; max-width:160px;max-height:160px; " alt="';
+                    html += '"  style="width: 100%; display: block;" alt="';
                     html += item.Name;
                     html += '" />';
                 }
-                html += '</div></a>';
-                html += '<div class="storeItemTitle">';
-                html += '<a href="/' + SportNameForUrl + '-item/';
+                html += '</a>';
+                html += '<div class="caption"><p class="margin-bottom-5">';
+                html += '<a class="font15 b" href="/' + SportNameForUrl + '-item/';
                 html += item.Name;
                 html += '/'
                 html += item.StoreItemId;
                 html += '">';
                 html += item.NameTrimmed;
-                html += '</a></div><div class="storeItemN">';
-                html += '<a href="/' + SportNameForUrl + '-shop/';
+                html += '</a></p><p class="margin-bottom-5 b font16 text-muted">';
+                html += '$' + item.Price;
+                html += ' <span class="font11">';
+                html += item.Currency;
+                html += '</span></p>';
+                html += '<a class="font12" href="/' + SportNameForUrl + '-shop/';
                 html += item.ShopMerchantId;
                 html += '/'
                 html += item.ShopName;
                 html += '">';
                 html += item.ShopNameTrimmed;
-                html += '</a></div><div class="storeItemPrice">';
-                html += '$' + item.Price;
-                html += ' <span class="usd">';
-                html += item.Currency;
-                html += '</span></div><div class="clear"></div></div></div>';
+                html += '</a></div></div></div>';
             });
-
+            html += '</div>';
             $("#mainList").html(html);
             $("#mainList").highlight(qu);
+            $('.shop-grid').imagesLoaded().progress(function () {
+                $('.shop-grid').masonry();
+            });
         });
     }
 }
