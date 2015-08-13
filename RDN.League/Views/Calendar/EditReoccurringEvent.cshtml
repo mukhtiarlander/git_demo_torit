@@ -349,6 +349,11 @@
                 endDate = startDate;
             }
         },
+        beforeShow: function () {
+            setTimeout(function () {
+                $('.ui-datepicker').css('z-index', 100);
+            }, 0);
+        },
         stepMinute: 5,
         timeFormat: 'hh:mm tt'
     });
@@ -360,6 +365,11 @@
                 $('#StartDateDisplay').val($('#EndDateDisplay').val());
                 startDate = endDate;
             }
+        },
+        beforeShow: function () {
+            setTimeout(function () {
+                $('.ui-datepicker').css('z-index', 100);
+            }, 0);
         },
         stepMinute: 5,
         timeFormat: 'hh:mm tt'

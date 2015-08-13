@@ -47,6 +47,7 @@ namespace RDN.Library.Classes.Document.Enums
         ps = 39,
         wps = 40,
         xps = 41,
-        gform = 42
+        gform = 42,
+        vsd = 43
     }
 }
