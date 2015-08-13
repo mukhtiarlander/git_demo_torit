@@ -1106,7 +1106,7 @@ namespace RDN.Library.Classes.Store
             try
             {
                 var mc = new ManagementContext();
-                var items = mc.StoreItems.Where(x => x.IsPublished && x.Category.StoreItemCategoryId == categoryId).OrderBy(x => Guid.NewGuid()).Take(40);
+                var items = mc.StoreItems.Include("Merchant").Include("Merchant.CurrencyRate").Include("Photos").Include("Colors").Include("Colors.Color").Where(x => x.IsPublished && x.Category.StoreItemCategoryId == categoryId).OrderBy(x => Guid.NewGuid()).Take(40);
 
                 if (items.Count() == 0)
                     return cat;
