@@ -192,7 +192,7 @@ namespace RDN.Library.Classes.Calendar
                         }
                     }
 
-                    ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId).FirstOrDefault();
+                    ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId && x.IsRemoved == false).FirstOrDefault();
 
 
 
@@ -334,7 +334,7 @@ namespace RDN.Library.Classes.Calendar
                     ev.Notes = notes;
                     ev.Link = link;
                     ev.IsPublicEvent = isEventPublic;
-                    ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId).FirstOrDefault();
+                    ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId && x.IsRemoved == false).FirstOrDefault();
 
                     DateTimeOffset dtOffEnd = new DateTimeOffset(endDate.Ticks, new TimeSpan(ev.Calendar.TimeZone, 0, 0));
                     DateTimeOffset dtOffStart = new DateTimeOffset(startDate.Ticks, new TimeSpan(ev.Calendar.TimeZone, 0, 0));
@@ -1401,7 +1401,7 @@ namespace RDN.Library.Classes.Calendar
                 }
                 else
                     ev.Color = null;
-                ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId).FirstOrDefault();
+                ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId && x.IsRemoved == false).FirstOrDefault();
 
                 //we create a event.  Gotta check if its already in the db.
                 //we had an instance where a league deleted an old reoccuring event
@@ -1627,14 +1627,14 @@ namespace RDN.Library.Classes.Calendar
                 }
 
                 ev.AllowSelfCheckIn = AllowSelfCheckIn;
-                ev.Location = dc.Locations.Include("Contact").Include("Contact.Addresses").Include("Contact.Communications").Where(x => x.LocationId == locationId).FirstOrDefault();
+                ev.Location = dc.Locations.Include("Contact").Include("Contact.Addresses").Include("Contact.Communications").FirstOrDefault(x => x.LocationId == locationId);
                 ev.Name = eventName;
                 ev.Notes = notes;
                 ev.TicketUrl = ticketUrl;
                 ev.Link = link;
                 ev.IsPublic = isEventPublic;
                 ev.LastDateEventsWereCreated = DateTime.UtcNow.AddMonths(-3);
-                ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId).FirstOrDefault();
+                ev.EventType = dc.CalendarEventTypes.FirstOrDefault(x => x.CalendarEventTypeId == selectedEventTypeId && x.IsRemoved == false);
                 dc.CalendarEventsReocurring.Add(ev);
                 ev.Calendar.CalendarEventsReocurring.Add(ev);
                 int cc = dc.SaveChanges();

@@ -31,7 +31,8 @@ namespace RDN.League
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
                         "~/Scripts/FullCalendar/gcal.js",
                          "~/Scripts/select2/select2.min.js",
-                         "~/Scripts/jquery.slimscroll.min.js"
+                         "~/Scripts/jquery.slimscroll.min.js",
+                          "~/Scripts/bootstrap-confirm-button/bootstrap-confirm-button.src.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
@@ -49,7 +50,7 @@ namespace RDN.League
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                      "~/Scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

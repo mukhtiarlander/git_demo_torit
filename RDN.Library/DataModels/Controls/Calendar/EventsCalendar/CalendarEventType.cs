@@ -19,6 +19,7 @@ namespace RDN.Library.DataModels.Calendar
         public int PointsForNotPresent { get; set; }
         public int PointsForExcused { get; set; }
         public int PointsForTardy { get; set; }
+        public bool IsRemoved { get; set; }
 
         public virtual Color.Color DefaultColor { get; set; }
         public virtual Calendar CalendarOwner { get; set; }

@@ -364,7 +364,7 @@ namespace RDN.Library.Classes.Calendar
             {
                 var dc = new ManagementContext();
                 var locations = (from xx in dc.CalendarEventTypes
-                                 where xx.CalendarEventTypeId == eventTypeId
+                                 where xx.CalendarEventTypeId == eventTypeId && xx.IsRemoved == false
                                  select new
                                  {
                                      xx.CalendarEventTypeId,
@@ -400,6 +400,7 @@ namespace RDN.Library.Classes.Calendar
             }
             return ty;
         }
+
         public static List<CalendarEventType> GetEventTypesOfCalendar(Guid calendarId)
         {
             List<CalendarEventType> newEventTypes = new List<CalendarEventType>();
@@ -408,7 +409,7 @@ namespace RDN.Library.Classes.Calendar
             {
                 var dc = new ManagementContext();
                 var locations = (from xx in dc.CalendarEventTypes
-                                 where xx.CalendarOwner.CalendarId == calendarId
+                                 where xx.CalendarOwner.CalendarId == calendarId && xx.IsRemoved == false
                                  select new
                                  {
                                      xx.CalendarEventTypeId,
@@ -446,6 +447,7 @@ namespace RDN.Library.Classes.Calendar
             }
             return newEventTypes;
         }
+
         public static List<RDN.Portable.Classes.Location.Location> GetLocationsOnlyOfCalendar(Guid calendarId)
         {
             List<RDN.Portable.Classes.Location.Location> newLocations = new List<RDN.Portable.Classes.Location.Location>();
@@ -629,12 +631,13 @@ namespace RDN.Library.Classes.Calendar
             }
             return calNew;
         }
+
         public static long UpdateCalendarEventType(CalendarEventType calendarEventType)
         {
             try
             {
                 var dc = new ManagementContext();
-                var t = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == calendarEventType.CalendarEventTypeId).FirstOrDefault();
+                var t = dc.CalendarEventTypes.FirstOrDefault(x => x.CalendarEventTypeId == calendarEventType.CalendarEventTypeId && x.IsRemoved == false);
                 if (t != null)
                 {
                     t.EventTypeName = calendarEventType.EventTypeName;
@@ -660,13 +663,34 @@ namespace RDN.Library.Classes.Calendar
             return 0;
         }
 
+        public static bool DeleteCalendarEventType(long calendarEventTypeId)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var eventType = dc.CalendarEventTypes.FirstOrDefault(x => x.CalendarEventTypeId == calendarEventTypeId && x.IsRemoved == false);
+                if (eventType != null)
+                {
+                    eventType.IsRemoved = true;
+                    int c = dc.SaveChanges();
+                    if (c > 0)
+                        return true;
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
+
         public static long AddCalendarEventType(CalendarEventType calendarEventType)
         {
             try
             {
                 var dc = new ManagementContext();
                 RDN.Library.DataModels.Calendar.CalendarEventType t = new DataModels.Calendar.CalendarEventType();
-                t.CalendarOwner = dc.Calendar.Where(x => x.CalendarId == calendarEventType.CalendarId).FirstOrDefault();
+                t.CalendarOwner = dc.Calendar.FirstOrDefault(x => x.CalendarId == calendarEventType.CalendarId);
                 t.EventTypeName = calendarEventType.EventTypeName;
                 t.PointsForExcused = calendarEventType.PointsForExcused;
                 t.PointsForNotPresent = calendarEventType.PointsForNotPresent;
@@ -861,7 +885,7 @@ namespace RDN.Library.Classes.Calendar
 
                 newCal.IsCalendarInUTC = calDb.IsCalendarInUTC;
 
-                var types = dc.CalendarEventTypes.Include("DefaultColor").Where(x => x.CalendarOwner.CalendarId == id);
+                var types = dc.CalendarEventTypes.Include("DefaultColor").Where(x => x.CalendarOwner.CalendarId == id && x.IsRemoved == false && x.IsRemoved == false);
                 foreach (var type in types)
                 {
                     CalendarEventType t = new CalendarEventType();

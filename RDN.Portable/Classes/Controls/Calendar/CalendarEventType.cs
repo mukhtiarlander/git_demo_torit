@@ -62,5 +62,9 @@ namespace RDN.Portable.Classes.Controls.Calendar
         [DataMember]
         public bool IsSuccessful { get; set; }
 
+        [ProtoMember(15)]
+        [DataMember]
+        public bool IsRemoved { get; set; }
+
     }
 }
