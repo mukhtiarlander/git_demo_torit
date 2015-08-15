@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -73,7 +74,16 @@ namespace RDN.League.Controllers
                     add.AddSubscriptionOwnerName = league.Name;
                 Dictionary<int, string> countries = LocationFactory.GetCountriesDictionary();
                 add.Countries = countries.Select(item => new SelectListItem { Text = item.Value, Value = item.Key.ToString() }).ToList();
-                add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
+
+                List<SelectListItem> years = new List<SelectListItem>();
+                for (int i = 0; i < 10; i++)
+                {
+                    var item = new SelectListItem();
+                    item.Value = i.ToString();
+                    item.Text = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);
+                    years.Add(item);
+                }
+                add.Years = years;
                 add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
 
                 add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
@@ -203,7 +213,16 @@ namespace RDN.League.Controllers
                 add.AddSubscriptionOwnerName = league.Name;
             Dictionary<int, string> countries = LocationFactory.GetCountriesDictionary();
             add.Countries = countries.Select(item => new SelectListItem { Text = item.Value, Value = item.Key.ToString() }).ToList();
-            add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
+            //add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
+            List<SelectListItem> years = new List<SelectListItem>();
+            for (int i = 0; i < 10; i++)
+            {
+                var item = new SelectListItem();
+                item.Value = i.ToString();
+                item.Text = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);
+                years.Add(item);
+            }
+            add.Years = years;
             add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
             //#if DEBUG
             //                add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_DEBUG_KEY + "');";
