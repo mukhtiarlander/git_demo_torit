@@ -51,7 +51,7 @@ namespace RDN.Library.Classes.Payment
         //stripe takes the fees from the seller, so we charge 22.1%.
         private static readonly decimal _SitePaywallFeesPercentageStripe = .221M;
 
-        public const string ConnectionStringName = "ConnectionStringName";
+        public const string ConnectionStringName = "CSN";
 
         private Invoice invoice = null;
 
@@ -1047,19 +1047,26 @@ namespace RDN.Library.Classes.Payment
             try
             {
                 var myCustomer = new StripeCustomerCreateOptions();
-                myCustomer.Card = new StripeCreditCardOptions();
+                myCustomer.Source = new StripeSourceOptions();
+                myCustomer.Description = LibraryConfig.ConnectionStringName;
+                //myCustomer.Source.Description = LibraryConfig.ConnectionStringName;
                 if (invoice.InvoiceBilling != null)
                 {
-                    myCustomer.Card.CardAddressCity = invoice.InvoiceBilling.City;
-                    myCustomer.Card.CardAddressCountry = invoice.InvoiceBilling.Country;
-                    myCustomer.Card.CardAddressLine1 = invoice.InvoiceBilling.Street;
-                    myCustomer.Card.CardAddressState = invoice.InvoiceBilling.State;
-                    myCustomer.Card.CardAddressZip = invoice.InvoiceBilling.Zip;
+                    //myCustomer.Source.Metadata = new Dictionary<string, string>();
+                    //myCustomer.Source.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+                    if (invoice.Subscription != null && String.IsNullOrEmpty(invoice.Subscription.ArticleNumber))
+                    {
+                        myCustomer.Source.AddressCity = invoice.InvoiceBilling.City;
+                        myCustomer.Source.AddressCountry = invoice.InvoiceBilling.Country;
+                        myCustomer.Source.AddressLine1 = invoice.InvoiceBilling.Street;
+                        myCustomer.Source.AddressState = invoice.InvoiceBilling.State;
+                        myCustomer.Source.AddressZip = invoice.InvoiceBilling.Zip;
+                    }
                     myCustomer.Email = invoice.InvoiceBilling.Email;
                 }
                 if (invoice.Subscription != null)
                 {
-                    myCustomer.Card.TokenId = invoice.Subscription.ArticleNumber;
+                    myCustomer.Source.TokenId = invoice.Subscription.ArticleNumber;
                     if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Monthly)
                     {
                         myCustomer.PlanId = StripePlanNames.Monthly_Plan.ToString();
@@ -1089,6 +1096,10 @@ namespace RDN.Library.Classes.Payment
 
                 var customerService = new StripeCustomerService();
                 StripeCustomer stripeCustomer = customerService.Create(myCustomer);
+
+//                var subscriptionService = new StripeSubscriptionService();
+//StripeSubscription stripeSubscription = subscriptionService.Create(stripeCustomer.Id, myCustomer.PlanId, );
+
                 invoice.PaymentProviderCustomerId = stripeCustomer.Id;
                 if (invoice.Subscription == null)
                     invoice.Subscription = new InvoiceSubscription();
@@ -1143,19 +1154,18 @@ namespace RDN.Library.Classes.Payment
             CreateInvoiceReturn output = new CreateInvoiceReturn();
 
             var myCustomer = new StripeCustomerCreateOptions();
-            myCustomer.Card = new StripeCreditCardOptions();
+            myCustomer.Source = new StripeSourceOptions();
             if (invoice.InvoiceBilling != null)
             {
-
-                myCustomer.Card.CardAddressCity = invoice.InvoiceBilling.City;
-                myCustomer.Card.CardAddressCountry = invoice.InvoiceBilling.Country;
-                myCustomer.Card.CardAddressLine1 = invoice.InvoiceBilling.Street;
-                myCustomer.Card.CardAddressState = invoice.InvoiceBilling.State;
-                myCustomer.Card.CardAddressZip = invoice.InvoiceBilling.Zip;
+                myCustomer.Source.AddressCity = invoice.InvoiceBilling.City;
+                myCustomer.Source.AddressCountry = invoice.InvoiceBilling.Country;
+                myCustomer.Source.AddressLine1 = invoice.InvoiceBilling.Street;
+                myCustomer.Source.AddressState = invoice.InvoiceBilling.State;
+                myCustomer.Source.AddressZip = invoice.InvoiceBilling.Zip;
                 myCustomer.Email = invoice.InvoiceBilling.Email;
             }
 
-            myCustomer.Card.TokenId = invoice.StripeToken;
+            myCustomer.Source.TokenId = invoice.StripeToken;
 
             var myCharge = new StripeChargeCreateOptions();
             myCustomer.Metadata = new Dictionary<string, string>();
@@ -1199,24 +1209,26 @@ namespace RDN.Library.Classes.Payment
                 int amountInCentsTotalPayment = Convert.ToInt32((invoice.FinancialData.BasePriceForItems + invoice.FinancialData.ShippingCost) * 100);
                 int SitessCut = Convert.ToInt32(amountInCentsTotalPayment - (invoice.FinancialData.PriceSubtractingSiteFees * 100));
                 var stripeService = new StripeChargeService(merchant.StripeConnectToken); //The token returned from the above method
-                var stripeChargeOption = new StripeChargeCreateOptions() { Amount = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.ShopName };
+                var myCustomer = new StripeChargeCreateOptions() { Amount = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.ShopName };
 
-                stripeChargeOption.Card = new StripeCreditCardOptions();
-                stripeChargeOption.Card.TokenId = invoice.StripeToken;
-                stripeChargeOption.ApplicationFee = SitessCut;
+                myCustomer.Source.TokenId = invoice.StripeToken;
+                myCustomer.ApplicationFee = SitessCut;
 
+                myCustomer.Source = new StripeSourceOptions();
                 if (invoice.InvoiceBilling != null)
                 {
-                    stripeChargeOption.Card.CardAddressCity = invoice.InvoiceBilling.City;
-                    stripeChargeOption.Card.CardAddressCountry = invoice.InvoiceBilling.Country;
-                    stripeChargeOption.Card.CardAddressLine1 = invoice.InvoiceBilling.Street;
-                    stripeChargeOption.Card.CardAddressState = invoice.InvoiceBilling.State;
-                    stripeChargeOption.Card.CardAddressZip = invoice.InvoiceBilling.Zip;
+                    myCustomer.Source.AddressCity = invoice.InvoiceBilling.City;
+                    myCustomer.Source.AddressCountry = invoice.InvoiceBilling.Country;
+                    myCustomer.Source.AddressLine1 = invoice.InvoiceBilling.Street;
+                    myCustomer.Source.AddressState = invoice.InvoiceBilling.State;
+                    myCustomer.Source.AddressZip = invoice.InvoiceBilling.Zip;
+                    myCustomer.Source.ReceiptEmail= invoice.InvoiceBilling.Email;
                 }
-                stripeChargeOption.Metadata = new Dictionary<string, string>();
-                stripeChargeOption.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
 
-                var response = stripeService.Create(stripeChargeOption);
+                myCustomer.Metadata = new Dictionary<string, string>();
+                myCustomer.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+
+                var response = stripeService.Create(myCustomer);
                 invoice.PaymentProviderCustomerId = response.Id;
 
                 return response;
@@ -1239,8 +1251,8 @@ namespace RDN.Library.Classes.Payment
                 var stripeService = new StripeChargeService(merchant.StripeConnectToken); //The token returned from the above method
                 var stripeChargeOption = new StripeChargeCreateOptions() { Amount = amountInCentsTotalPayment, Currency = "usd", Description = invoice.InvoiceId.ToString().Replace("-", "") + ": Payment to " + merchant.OwnerName };
 
-                stripeChargeOption.Card = new StripeCreditCardOptions();
-                stripeChargeOption.Card.TokenId = invoice.StripeToken;
+                stripeChargeOption.Source = new StripeSourceOptions();
+                stripeChargeOption.Source.TokenId = invoice.StripeToken;
                 stripeChargeOption.ApplicationFee = SitesCut;
 
                 stripeChargeOption.Metadata = new Dictionary<string, string>();
@@ -1307,7 +1319,7 @@ namespace RDN.Library.Classes.Payment
                 sendingPayPal.CancelUrl = LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", "");
 
                 sendingPayPal.InvoiceNumber = invoice.InvoiceId.ToString();
-                sendingPayPal.LogoUrl =  LibraryConfig.LogoUrl;
+                sendingPayPal.LogoUrl = LibraryConfig.LogoUrl;
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal Payment Sent To Paypal", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price);
 

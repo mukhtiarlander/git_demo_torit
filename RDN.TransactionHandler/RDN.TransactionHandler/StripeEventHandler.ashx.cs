@@ -42,6 +42,8 @@ namespace RDN.TransactionHandler
                 FileInfo file = new FileInfo(path + filename);
 
                 string json = new StreamReader(context.Request.InputStream).ReadToEnd();
+                File.WriteAllText(path + filename, json);
+
 
                 //TODO:
                 //get stripe event.

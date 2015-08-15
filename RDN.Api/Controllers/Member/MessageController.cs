@@ -74,7 +74,10 @@ namespace RDN.Api.Controllers.Member
                     {
                         if (MessagesCache.IsMemberOfGroup(ob.GroupMessageId, mem.MemberId, HttpContext.Cache))
                         {
-                            Messages.AddNewMessageToGroup(ob.GroupMessageId, mem.MemberId, ob.Message);
+                            long groupId = ob.GroupMessageId;
+                            Guid ownerMemberId = mem.MemberId;
+                            string message = ob.Message;
+                            Messages.AddNewMessageToGroup(groupId, ownerMemberId, message);
                             ob.IsSuccessful = true;
                             return Json(ob, JsonRequestBehavior.AllowGet);
                         }

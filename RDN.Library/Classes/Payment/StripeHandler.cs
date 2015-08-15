@@ -46,7 +46,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 string connectionStringName = null;
                 if (se.Data != null)
                 {
@@ -168,7 +168,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
@@ -231,7 +231,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeInvoice inv = Stripe.Mapper<StripeInvoice>.MapFromJson(se.Data.Object.ToString());
@@ -308,7 +308,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeCharge inv = Stripe.Mapper<StripeCharge>.MapFromJson(se.Data.Object.ToString());
@@ -334,12 +334,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     nnv.LiveMode = inv.LiveMode;
                     nnv.Paid = inv.Paid;
                     nnv.Refunded = inv.Refunded;
-                    if (inv.StripeCard != null)
+                    if (inv.Source!= null)
                     {
-                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.StripeCard.AddressLine1).Where(x => x.Last4 == inv.StripeCard.Last4).FirstOrDefault();
+                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.Source.AddressLine1).Where(x => x.Last4 == inv.Source.Last4).FirstOrDefault();
                         if (nnv.StripeCard == null)
                         {
-                            nnv.StripeCard = CreateStripeCard(inv.StripeCard, json);
+                            nnv.StripeCard = CreateStripeCard(inv.Source, json);
                             dc.StripeCards.Add(nnv.StripeCard);
                         }
                     }
@@ -406,7 +406,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeCharge inv = Stripe.Mapper<StripeCharge>.MapFromJson(se.Data.Object.ToString());
@@ -442,12 +442,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     nnv.LiveMode = inv.LiveMode;
                     nnv.Paid = inv.Paid;
                     nnv.Refunded = inv.Refunded;
-                    if (inv.StripeCard != null)
+                    if (inv.Source != null)
                     {
-                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.StripeCard.AddressLine1).Where(x => x.Last4 == inv.StripeCard.Last4).FirstOrDefault();
+                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.Source.AddressLine1).Where(x => x.Last4 == inv.Source.Last4).FirstOrDefault();
                         if (nnv.StripeCard == null)
                         {
-                            nnv.StripeCard = CreateStripeCard(inv.StripeCard, json);
+                            nnv.StripeCard = CreateStripeCard(inv.Source, json);
                             dc.StripeCards.Add(nnv.StripeCard);
                         }
                     }
@@ -508,7 +508,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeInvoice inv = Stripe.Mapper<StripeInvoice>.MapFromJson(se.Data.Object.ToString());
@@ -563,7 +563,7 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
 
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeCustomer cust = Stripe.Mapper<StripeCustomer>.MapFromJson(se.Data.Object.ToString());
@@ -581,9 +581,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     custDb.Description = cust.Description;
                     custDb.Id = cust.Id;
                     even.Customer = dc.StripeCustomers.Where(x => x.Id == cust.Id).FirstOrDefault();
-                    if (cust.StripeCardList != null)
+                    if (cust.SourceList!= null)
                     {
-                        foreach (var card in cust.StripeCardList.StripeCards)
+                        foreach (var card in cust.SourceList.Data)
                         {
                             custDb.StripeCard = CreateStripeCard(card, json);
                             dc.StripeCards.Add(custDb.StripeCard);
