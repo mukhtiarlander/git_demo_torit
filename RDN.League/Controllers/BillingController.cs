@@ -79,8 +79,9 @@ namespace RDN.League.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     var item = new SelectListItem();
-                    item.Value = i.ToString();
-                    item.Text = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);
+                    var value = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture); ;
+                    item.Value = value;
+                    item.Text = value;
                     years.Add(item);
                 }
                 add.Years = years;
@@ -218,8 +219,9 @@ namespace RDN.League.Controllers
             for (int i = 0; i < 10; i++)
             {
                 var item = new SelectListItem();
-                item.Value = i.ToString();
-                item.Text = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);
+                var value = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);;
+                item.Value = value;
+                item.Text = value;
                 years.Add(item);
             }
             add.Years = years;
