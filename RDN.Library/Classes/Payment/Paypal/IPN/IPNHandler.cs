@@ -22,6 +22,7 @@ using Common.Site.AppConfig;
 using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Email;
 using RDN.Library.Classes.Api.Paypal;
+using Newtonsoft.Json;
 
 namespace RDN.Library.Classes.Payment.Paypal
 {
@@ -51,6 +52,8 @@ namespace RDN.Library.Classes.Payment.Paypal
         {
             try
             {
+
+
                 IsLive = isLive;
                 PostUrl = PaypalPayment.GetBaseUrl(isLive);
                 PaypalMessage = this.FillIPNProperties(context);
@@ -61,7 +64,12 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
+                string values = string.Empty;
+                foreach (var value in context.Request.Form.Keys)
+                {
+                    values += value + "=" + context.Request.Form[value.ToString()].ToString();
+                }
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: values);
             }
         }
 
@@ -300,14 +308,6 @@ namespace RDN.Library.Classes.Payment.Paypal
                 message.Custom = context.Request.Form["custom"];
                 message.Memo = context.Request.Form["memo"];
                 message.Invoice = context.Request.Form["invoice"];
-                if (message.Invoice != null && message.Invoice.Contains(':'))
-                {
-                    var messages = message.Invoice.Split(':');
-                    message.Invoice = messages[0];
-                    if (messages.Count() > 1)
-                        message.ConfigurationName = messages[1];
-
-                }
                 message.Tax = context.Request.Form["tax"];
                 message.QuantityCartItems = context.Request.Form["num_cart_items"];
                 message.PaymentDate = context.Request.Form["payment_date"];
@@ -331,6 +331,13 @@ namespace RDN.Library.Classes.Payment.Paypal
                 message.return_url = context.Request.Form["return_url"];
                 message.reverse_all_parallel_payments_on_error = context.Request.Form["reverse_all_parallel_payments_on_error"];
                 message.payment_request_date = context.Request.Form["payment_request_date"];
+                message.TrackingId = context.Request.Form["tracking_id"];
+                if (!String.IsNullOrEmpty(message.TrackingId) && message.TrackingId.Contains(':'))
+                {
+                    var messages = message.TrackingId.Split(':');
+                    if (messages.Count() > 1)
+                        message.ConfigurationName= messages[1];
+                }
                 if (!String.IsNullOrEmpty(context.Request.Form["transaction[0].is_primary_receiver"]))
                 {
                     for (int i = 0; i < 6; i++)
@@ -344,14 +351,6 @@ namespace RDN.Library.Classes.Payment.Paypal
                             t.paymentType = context.Request.Form["transaction[" + i + "].paymentType"];
                             t.amount = context.Request.Form["transaction[" + i + "].amount"];
                             t.invoiceId = context.Request.Form["transaction[" + i + "].invoiceId"];
-                            if (!String.IsNullOrEmpty(t.invoiceId) && t.invoiceId.Contains(':'))
-                            {
-                                var messages = t.invoiceId.Split(':');
-                                t.invoiceId = messages[0];
-                                if (messages.Count() > 1)
-                                    t.configurationName = messages[1];
-                            }
-
                             t.status = context.Request.Form["transaction[" + i + "].status"];
                             t.id = context.Request.Form["transaction[" + i + "].id"];
                             t.status_for_sender_txn = context.Request.Form["transaction[" + i + "].status_for_sender_txn"];

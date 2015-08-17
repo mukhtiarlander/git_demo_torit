@@ -25,6 +25,13 @@ namespace RDN.TransactionHandler
         {
             try
             {
+                string values = string.Empty;
+                foreach (var value in context.Request.Form.Keys)
+                {
+                    values+= value + "=" + context.Request.Form[value.ToString()].ToString();
+                }
+                logger.Info(values);
+
                 IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
 
                 ipn.CheckStatus();

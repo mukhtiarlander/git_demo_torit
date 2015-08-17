@@ -1136,10 +1136,8 @@ namespace RDN.Library.Classes.Payment
                     invoice.BasePriceForItems = invoice.BasePriceForItems;
                     invoice.Merchant = invoice.Merchant;
 
-                    //var customerService = new StripeCustomerService();
                     var subscriptionService = new StripeSubscriptionService();
                     subscriptionService.Cancel(invoice.PaymentProviderCustomerId, invoice.Subscription.PlanId);
-                    //StripeSubscription subscription = customerService.CancelSubscription(invoice.PaymentProviderCustomerId);
                     int c = dc.SaveChanges();
                     return c > 0;
                 }
@@ -1701,7 +1699,7 @@ namespace RDN.Library.Classes.Payment
 
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": " + leagueSettings.LeagueOwnerName + " Dues Payment";
+                        recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "");
                         recSite.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recSite);
 
@@ -1715,7 +1713,7 @@ namespace RDN.Library.Classes.Payment
                         recLeague.primary = false;
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": " + leagueSettings.LeagueOwnerName + " Dues Payment";
+                        recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "");
                         recLeague.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recLeague);
 
@@ -1723,7 +1721,8 @@ namespace RDN.Library.Classes.Payment
                         req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
                         req.memo = "Dues payment for " + leagueSettings.LeagueOwnerName + " from " + memberPaying.DerbyName + " for " + duesItem.PaidForDate.ToShortDateString();
                         req.reverseAllParallelPaymentsOnError = false;
-                        req.trackingId = invoice.InvoiceId.ToString().Replace("-", "");
+                        req.trackingId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
+                        
                         if (invoice.IsLive)
                             req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
                         else
