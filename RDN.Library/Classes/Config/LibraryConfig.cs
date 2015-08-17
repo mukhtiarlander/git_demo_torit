@@ -561,11 +561,11 @@ namespace RDN.Library.Classes.Config
 
 
 
-        public static Guid STORE_ID
+        public static Guid SiteStoreID
         {
             get
             {
-                return new Guid(ConfigurationManager.AppSettings["RDNATION_STORE_ID"]);
+                return new Guid(ConfigurationManager.AppSettings["SiteStoreID"]);
             }
         }
         

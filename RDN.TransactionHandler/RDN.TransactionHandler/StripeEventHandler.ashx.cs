@@ -13,15 +13,18 @@ using Stripe;
 using RDN.Portable.Config;
 using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Email;
+using log4net;
 
 namespace RDN.TransactionHandler
 {
+
+
     /// <summary>
     /// Summary description for StripeEventHandler
     /// </summary>
     public class StripeEventHandler : IHttpHandler
     {
-
+        private static readonly ILog logger = LogManager.GetLogger("StripeLogger");
         EmailManagerApi _api;
         public bool IsReusable
         {
@@ -35,15 +38,9 @@ namespace RDN.TransactionHandler
         {
             try
             {
-
-
-                Random rand = new Random();
-                var filename = "stripe-json " + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + "-" + rand.Next(100) + ".txt";
-                FileInfo file = new FileInfo(path + filename);
-
                 string json = new StreamReader(context.Request.InputStream).ReadToEnd();
-                File.WriteAllText(path + filename, json);
-
+                //we need to add a logger to this.
+                logger.Info(json);
 
                 //TODO:
                 //get stripe event.

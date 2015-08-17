@@ -29,7 +29,7 @@ namespace RDN.Controllers
         [HttpPost]
         public ActionResult RNContent(PaymentViewModel model)
         {
-            var options = InvoiceFactory.CreateNew().Initalize(LibraryConfig.STORE_ID, "GBP", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
+            var options = InvoiceFactory.CreateNew().Initalize(LibraryConfig.SiteStoreID, "GBP", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
              .SetStripeTokenId(HttpContext.Request.Form["stripeToken"].ToString())
             .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription

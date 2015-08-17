@@ -1,4 +1,5 @@
-﻿using RDN.Library.Cache.Singletons;
+﻿using log4net.Config;
+using RDN.Library.Cache.Singletons;
 using RDN.Library.Classes.Error;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace RDN.TransactionHandler
 
         protected void Application_Start()
         {
+            XmlConfigurator.Configure();
             Library.DatabaseInitializers.ManagementInitializer.Initialize(); // Remove the validation on the database. Meaning that we can update the database without having to update the payments
 
             AreaRegistration.RegisterAllAreas();

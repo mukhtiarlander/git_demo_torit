@@ -79,8 +79,8 @@ namespace RDN.League.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     var item = new SelectListItem();
-                    item.Value = i.ToString();
-                    item.Text = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);
+                    item.Value = DateTime.Now.AddYears(i).Year.ToString();
+                    item.Text = DateTime.Now.AddYears(i).Year.ToString();
                     years.Add(item);
                 }
                 add.Years = years;
@@ -154,7 +154,7 @@ namespace RDN.League.Controllers
                 }
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
@@ -218,8 +218,8 @@ namespace RDN.League.Controllers
             for (int i = 0; i < 10; i++)
             {
                 var item = new SelectListItem();
-                item.Value = i.ToString();
-                item.Text = DateTime.Now.AddYears(i).Year.ToString(CultureInfo.InvariantCulture);
+                item.Value = DateTime.Now.AddYears(i).Year.ToString();
+                item.Text = DateTime.Now.AddYears(i).Year.ToString();
                 years.Add(item);
             }
             add.Years = years;
@@ -243,7 +243,7 @@ namespace RDN.League.Controllers
                 var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.LeagueId);
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
                    .SetInvoiceId(bi.InvoiceId)
                         .FinalizeInvoice();
 

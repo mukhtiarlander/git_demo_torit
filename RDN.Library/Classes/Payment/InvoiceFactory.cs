@@ -1064,28 +1064,29 @@ namespace RDN.Library.Classes.Payment
                     }
                     myCustomer.Email = invoice.InvoiceBilling.Email;
                 }
+                string planId = StripePlanNames.Monthly_Plan.ToString();
                 if (invoice.Subscription != null)
                 {
                     myCustomer.Source.TokenId = invoice.Subscription.ArticleNumber;
                     if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Monthly)
                     {
-                        myCustomer.PlanId = StripePlanNames.Monthly_Plan.ToString();
+                        planId = StripePlanNames.Monthly_Plan.ToString();
                     }
                     else if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Six_Months)
                     {
-                        myCustomer.PlanId = StripePlanNames.Six_Month_League_Subscription.ToString();
+                        planId = StripePlanNames.Six_Month_League_Subscription.ToString();
                     }
                     else if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Three_Months)
                     {
-                        myCustomer.PlanId = StripePlanNames.Three_Month_League_Subscription.ToString();
+                        planId = StripePlanNames.Three_Month_League_Subscription.ToString();
                     }
                     else if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Yearly)
                     {
-                        myCustomer.PlanId = StripePlanNames.Yearly_League_Subscription.ToString();
+                        planId = StripePlanNames.Yearly_League_Subscription.ToString();
                     }
                     else if (invoice.Subscription.SubscriptionPeriodStripe == SubscriptionPeriodStripe.Monthly_RN_Sponsor)
                     {
-                        myCustomer.PlanId = StripePlanNames.Monthly_RN_Sponsor.ToString();
+                        planId = StripePlanNames.Monthly_RN_Sponsor.ToString();
                     }
                 }
                 //creates the customer
@@ -1097,13 +1098,17 @@ namespace RDN.Library.Classes.Payment
                 var customerService = new StripeCustomerService();
                 StripeCustomer stripeCustomer = customerService.Create(myCustomer);
 
-//                var subscriptionService = new StripeSubscriptionService();
-//StripeSubscription stripeSubscription = subscriptionService.Create(stripeCustomer.Id, myCustomer.PlanId, );
+                var subscriptionOptions = new StripeSubscriptionCreateOptions();
+                subscriptionOptions.Metadata = new Dictionary<string, string>();
+                subscriptionOptions.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
+                subscriptionOptions.PlanId = planId;
+                var subscriptionService = new StripeSubscriptionService();
+                StripeSubscription stripeSubscription = subscriptionService.Create(stripeCustomer.Id, planId, subscriptionOptions);
 
                 invoice.PaymentProviderCustomerId = stripeCustomer.Id;
                 if (invoice.Subscription == null)
                     invoice.Subscription = new InvoiceSubscription();
-                invoice.Subscription.PlanId = myCustomer.PlanId;
+                invoice.Subscription.PlanId = planId;
                 return stripeCustomer;
             }
             catch (Exception exception)
@@ -1222,7 +1227,7 @@ namespace RDN.Library.Classes.Payment
                     myCustomer.Source.AddressLine1 = invoice.InvoiceBilling.Street;
                     myCustomer.Source.AddressState = invoice.InvoiceBilling.State;
                     myCustomer.Source.AddressZip = invoice.InvoiceBilling.Zip;
-                    myCustomer.Source.ReceiptEmail= invoice.InvoiceBilling.Email;
+                    myCustomer.Source.ReceiptEmail = invoice.InvoiceBilling.Email;
                 }
 
                 myCustomer.Metadata = new Dictionary<string, string>();
@@ -1705,7 +1710,7 @@ namespace RDN.Library.Classes.Payment
                         if (invoice.IsLive)
                             recLeague.email = leagueSettings.PayPalEmailAddress;
                         else
-                            recLeague.email = "cheeta_1359429163_per@gmail.com";
+                            recLeague.email = "admin-buyer@rdnation.com";
 
                         recLeague.primary = false;
                         //if we modify this invoiceID, 

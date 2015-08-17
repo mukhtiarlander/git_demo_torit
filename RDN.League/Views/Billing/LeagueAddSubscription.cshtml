@@ -130,131 +130,131 @@
                 </div>
             </div>
         </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12 col-lg-8 col-lg-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-body no-padding-bottom" style="background-color:#fbfbfb">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    First Name
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12 col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-body no-padding-bottom" style="background-color:#fbfbfb">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        First Name
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6  col-md-6">
-                                <label class="form-label">
-                                    Last Name
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                                <div class="col-xs-12 col-sm-6  col-md-6">
+                                    <label class="form-label">
+                                        Last Name
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    Address
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        Address
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    City
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        City
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    State
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        State
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6  col-md-6">
-                                <label class="form-label">
-                                    Zip Code
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.ZipCode, new { @class = "form-control" })
+                                <div class="col-xs-12 col-sm-6  col-md-6">
+                                    <label class="form-label">
+                                        Zip Code
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.ZipCode, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    Country
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.DropDownList("Country", Model.Countries, new { @class = "full-width select-sm" })
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        Country
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.DropDownList("Country", Model.Countries, new { @class = "full-width select-sm" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    Email Address
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control" })
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        Email Address
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    Phone Number
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" id="CCTable">
-            <div class="col-md-12 col-lg-8 col-lg-offset-2">
-                <div class="panel panel-default" >
-                    <div class="panel-body no-padding-bottom" style="background-color:#fbfbfb">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label class="form-label">
-                                    Card Number
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.CCNumber, new { @class = "card-number form-control" })
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6  col-md-6">
-                                <label class="form-label">
-                                    Security Code
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.TextBoxFor(x => x.SecurityCode, new { @class = "card-cvc form-control" })
-                                </div>
-                            </div>
-                            <div class="col-xs-12  col-sm-6 col-md-6">
-                                <label class="form-label">
-                                    Expiration Date
-                                </label>
-                                <div class="margin-bottom-20">
-                                    @Html.DropDownList("MonthOfExpiration", Model.Months, new { @class = "card-expiry-month" }) @Html.DropDownList("YearOfExpiration", Model.Years, new { @class = "card-expiry-year" })
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        Phone Number
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row" id="CCTable">
+                <div class="col-md-12 col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-body no-padding-bottom" style="background-color:#fbfbfb">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label class="form-label">
+                                        Card Number
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.CCNumber, new { @class = "card-number form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6  col-md-6">
+                                    <label class="form-label">
+                                        Security Code
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.TextBoxFor(x => x.SecurityCode, new { @class = "card-cvc form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12  col-sm-6 col-md-6">
+                                    <label class="form-label">
+                                        Expiration Date
+                                    </label>
+                                    <div class="margin-bottom-20">
+                                        @Html.DropDownList("MonthOfExpiration", Model.Months, new { @class = "card-expiry-month" }) @Html.DropDownList("YearOfExpiration", Model.Years, new { @class = "card-expiry-year" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-       
-    </div>
         <div class="panel-footer text-center">
             <div class="paymentErrors red"></div>
             <div id="submitButton1">
-                <button type="submit" class="btn btn-success" ><i class="fa fa-check-circle-o"></i> Subscribe Now</button>
+                <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o"></i> Subscribe Now</button>
             </div>
-            <span id="working1" class="displayNone" ><i class="fa fa-spinner fa-spin fa-lg"></i></span>
+            <span id="working1" class="displayNone"><i class="fa fa-spinner fa-spin fa-lg"></i></span>
             <div class="margin-top-10 ">Amount Due: <span class="b dueAmount">$131.99</span></div>
         </div>
         @Html.HiddenFor(x => x.AddSubscriptionOwnerId)
@@ -278,7 +278,7 @@
                         <i class="fa fa-check-circle fa-lg"></i>
                     </td>
                     <td>
-                       @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName's state of the art attendance tracking software uses the popular points based system.  It tracks attendace at all the events within the league calendar.  It uses the popular points based system for tracking leagues attendace within @RDN.Library.Classes.Config.LibraryConfig.SportName  .
+                        @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName's state of the art attendance tracking software uses the popular points based system.  It tracks attendace at all the events within the league calendar.  It uses the popular points based system for tracking leagues attendace within @RDN.Library.Classes.Config.LibraryConfig.SportName  .
                     </td>
                 </tr>
                 <tr>
@@ -510,46 +510,47 @@
             <div class="margin-top-10">Amount Due: <span class="b dueAmount">$131.99</span></div>
         </div>
     }
-    </div>
+</div>
 
 <script type="text/javascript">
     @Html.Raw(Model.StripeKey)
 
-        $("#PaymentForm").validate({
-            rules: {
-                FirstName: "required",
-                LastName: "required",
-                Address: "required",
-                City: "required",
-                State: "required",
-                ZipCode: "required",
-                Country: "required",
-                CCNumber: "required",
-                SecurityCode: "required",
-                MonthOfExpiration: "required",
-                YearOfExpiration: "required",
-                EmailAddress: "required",
-                PhoneNumber: "required"
-            },
-            submitHandler: function (form) {
-                // disable the submit button to prevent repeated clicks
-                $('#submitButton1').toggleClass("displayNone", true);
-                $('#submitButton').toggleClass("displayNone", true);
-                $('#working').toggleClass("displayNone", false);
-                $('#working1').toggleClass("displayNone", false);
-                Stripe.createToken({
-                    number: $('.card-number').val(),
-                    cvc: $('.card-cvc').val(),
-                    exp_month: $('.card-expiry-month').val(),
-                    exp_year: $('.card-expiry-year').val(),
-                    name: $('#FirstName').val() + " " + $('#LastName').val(),
-                    address_line1: $('#Address').val(),
-                    address_city: $('#City').val(),
-                    address_state: $('#State').val(),
-                    address_zip: $('#ZipCode').val(),
-                    address_country: $("#Country option:selected").text()
-                }, stripeResponseHandler);
-            }
-        });
+    $("#PaymentForm").validate({
+        rules: {
+            FirstName: "required",
+            LastName: "required",
+            Address: "required",
+            City: "required",
+            State: "required",
+            ZipCode: "required",
+            Country: "required",
+            CCNumber: "required",
+            SecurityCode: "required",
+            MonthOfExpiration: "required",
+            YearOfExpiration: "required",
+            EmailAddress: "required",
+            PhoneNumber: "required"
+        },
+        submitHandler: function (form) {
+            // disable the submit button to prevent repeated clicks
+            $('#submitButton1').toggleClass("displayNone", true);
+            $('#submitButton').toggleClass("displayNone", true);
+            $('#working').toggleClass("displayNone", false);
+            $('#working1').toggleClass("displayNone", false);
+            Stripe.createToken({
+                number: $('.card-number').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val(),
+                name: $('#FirstName').val() + " " + $('#LastName').val(),
+                address_line1: $('#Address').val(),
+                address_city: $('#City').val(),
+                address_state: $('#State').val(),
+                address_zip: $('#ZipCode').val(),
+                address_country: $("#Country option:selected").text(),
+                metadata: { CSN: "@RDN.Library.Classes.Config.LibraryConfig.ConnectionStringName" }
+            }, stripeResponseHandler);
+        }
+    });
 
-    </script>
+</script>
