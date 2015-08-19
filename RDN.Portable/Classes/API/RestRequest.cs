@@ -75,13 +75,13 @@ namespace RDN.Portable.Classes.API
                 }
                 var response = httpClient.SendAsync(message).Result;
                 stringResult = response.Content.ReadAsStringAsync().Result;
+
+
                 return JsonConvert.DeserializeObject<T>(stringResult);
             }
             catch (Exception ex)
             {
-                var exception = new Exception("Rest Broke", ex);
-                if (exception.Data == null)
-                    exception.Data.Add("response", stringResult);
+                var exception = new Exception("Rest Broke: " + this.BaseUrl + resource + "::::" + stringResult, ex);
                 throw exception;
             }
         }

@@ -12,6 +12,7 @@ using RDN.Library.Classes.Api.Email;
 using RDN.Library.Classes.EmailServer;
 using RDN.Portable.Config;
 using log4net;
+using Newtonsoft.Json;
 
 namespace RDN.TransactionHandler
 {
@@ -28,12 +29,12 @@ namespace RDN.TransactionHandler
                 string values = string.Empty;
                 foreach (var value in context.Request.Form.Keys)
                 {
-                    values+= value + "=" + context.Request.Form[value.ToString()].ToString();
+                    values += value + "=" + context.Request.Form[value.ToString()].ToString();
                 }
                 logger.Info(values);
 
                 IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
-
+                logger.Info(JsonConvert.SerializeObject(ipn.PaypalMessage));
                 ipn.CheckStatus();
                 ipn.SendIPNNotificationToApi();
             }

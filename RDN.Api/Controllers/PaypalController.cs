@@ -54,7 +54,7 @@ namespace RDN.Api.Controllers
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(invoiceId, message) });
+                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(invoiceId, message) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -71,7 +71,7 @@ namespace RDN.Api.Controllers
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.FailedPayment(invoiceId, message) });
+                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.FailedPayment(invoiceId, message) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -84,7 +84,7 @@ namespace RDN.Api.Controllers
         {
             try
             {
-                return Json(new GenericResponse() { IsSuccess = true });
+                return Json(new GenericResponse() { IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
