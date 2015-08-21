@@ -36,8 +36,8 @@ namespace RDN.Library.Classes.Payment
             {
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD",
-PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionUpdated)
+                var f = pg.StartInvoiceWizard()
+                    .Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionUpdated)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetInvoiceStatus(InvoiceStatus.Subscription_Should_Be_Updated_On_Charge);
 
@@ -46,44 +46,46 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 string connectionStringName = null;
                 if (se.Data != null)
                 {
                     CustomConfigurationManager config = new CustomConfigurationManager();
-                    StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
-                    
-                    if (cust.Metadata != null && cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    StripeSubscription inv = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
+                    var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
+                    inv.Customer = customerService.Get(inv.CustomerId);
+
+                    if (inv.Customer != null && inv.Metadata.Count > 0)
                     {
-                        connectionStringName = cust.Metadata[InvoiceFactory.ConnectionStringName];
-                        ManagementContext.SetDataContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                        connectionStringName = inv.Customer.Metadata[InvoiceFactory.ConnectionStringName];
+                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
-                        config.GetElement(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                        config.GetElement(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                     }
                     StripeSubscriptionDb custDb = new StripeSubscriptionDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_subscription_created;
-                    custDb.CanceledAt = cust.CanceledAt;
-                    custDb.EndedAt = cust.EndedAt;
-                    custDb.Customer = dc.StripeCustomers.Where(x => x.Id == cust.CustomerId).FirstOrDefault();
-                    custDb.PeriodEnd = cust.PeriodEnd;
-                    custDb.PeriodStart = cust.PeriodStart;
-                    custDb.Quantity = cust.Quantity;
-                    custDb.Start = cust.Start;
-                    custDb.Status = cust.Status;
-                    if (cust.StripePlan != null)
+                    custDb.CanceledAt = inv.CanceledAt;
+                    custDb.EndedAt = inv.EndedAt;
+                    custDb.Customer = dc.StripeCustomers.Where(x => x.Id == inv.CustomerId).FirstOrDefault();
+                    custDb.PeriodEnd = inv.PeriodEnd;
+                    custDb.PeriodStart = inv.PeriodStart;
+                    custDb.Quantity = inv.Quantity;
+                    custDb.Start = inv.Start;
+                    custDb.Status = inv.Status;
+                    if (inv.StripePlan != null)
                     {
-                        custDb.StripePlan = dc.StripePlans.Where(x => x.Id == cust.StripePlan.Id).FirstOrDefault();
+                        custDb.StripePlan = dc.StripePlans.Where(x => x.Id == inv.StripePlan.Id).FirstOrDefault();
                         if (custDb.StripePlan == null)
                         {
                             StripePlanDb pl = new StripePlanDb();
-                            pl.AmountInCents = cust.StripePlan.Amount;
-                            pl.Currency = cust.StripePlan.Currency;
-                            pl.Id = cust.StripePlan.Id;
-                            pl.Interval = cust.StripePlan.Interval;
-                            pl.IntervalCount = cust.StripePlan.IntervalCount;
-                            pl.LiveMode = cust.StripePlan.LiveMode;
-                            pl.Name = cust.StripePlan.Name;
-                            pl.TrialPeriodDays = cust.StripePlan.TrialPeriodDays;
+                            pl.AmountInCents = inv.StripePlan.Amount;
+                            pl.Currency = inv.StripePlan.Currency;
+                            pl.Id = inv.StripePlan.Id;
+                            pl.Interval = inv.StripePlan.Interval;
+                            pl.IntervalCount = inv.StripePlan.IntervalCount;
+                            pl.LiveMode = inv.StripePlan.LiveMode;
+                            pl.Name = inv.StripePlan.Name;
+                            pl.TrialPeriodDays = inv.StripePlan.TrialPeriodDays;
                             custDb.StripePlan = pl;
                             dc.StripePlans.Add(pl);
                         }
@@ -93,38 +95,38 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     int lengthOfDays = 31;
 
                     SubscriptionPeriodStripe period = SubscriptionPeriodStripe.Monthly;
-                    if (cust.StripePlan.Id == StripePlanNames.Monthly_Plan.ToString())
+                    if (inv.StripePlan.Id == StripePlanNames.Monthly_Plan.ToString())
                     {
                         period = SubscriptionPeriodStripe.Monthly;
                         ts = now.AddMonths(1) - DateTime.UtcNow;
                         lengthOfDays = ts.Days;
                     }
-                    else if (cust.StripePlan.Id == StripePlanNames.Six_Month_League_Subscription.ToString())
+                    else if (inv.StripePlan.Id == StripePlanNames.Six_Month_League_Subscription.ToString())
                     {
                         period = SubscriptionPeriodStripe.Six_Months;
                         ts = now.AddMonths(6) - DateTime.UtcNow;
                         lengthOfDays = ts.Days;
                     }
-                    else if (cust.StripePlan.Id == StripePlanNames.Three_Month_League_Subscription.ToString())
+                    else if (inv.StripePlan.Id == StripePlanNames.Three_Month_League_Subscription.ToString())
                     {
                         period = SubscriptionPeriodStripe.Three_Months;
                         ts = now.AddMonths(3) - DateTime.UtcNow;
                         lengthOfDays = ts.Days;
                     }
-                    else if (cust.StripePlan.Id == StripePlanNames.Yearly_League_Subscription.ToString())
+                    else if (inv.StripePlan.Id == StripePlanNames.Yearly_League_Subscription.ToString())
                     {
                         period = SubscriptionPeriodStripe.Yearly;
                         ts = now.AddMonths(12) - DateTime.UtcNow;
                         lengthOfDays = ts.Days;
                     }
                     //getting league Id here and subscriptionDate
-                    var invoiceFromPast = pg.GetDisplayInvoiceWithStripeCustomerId(cust.CustomerId);
+                    var invoiceFromPast = pg.GetDisplayInvoiceWithStripeCustomerId(inv.CustomerId);
                     Guid leagueId = new Guid();
                     if (invoiceFromPast.Subscription != null)
                     {
                         leagueId = invoiceFromPast.Subscription.InternalObject;
                     }
-                    f.SetPaymentProviderId(cust.CustomerId);
+                    f.SetPaymentProviderId(inv.CustomerId);
                     f.SetSubscription(new InvoiceSubscription
                     {
                         Description = "League portal subscription",
@@ -132,15 +134,15 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                         Name = "Member portal",
                         NameRecurring = "Member portal recurring",
                         DigitalPurchaseText = "You have now access to the League portal",
-                        Price = Convert.ToDecimal(cust.StripePlan.Amount) / Convert.ToDecimal(100),
+                        Price = Convert.ToDecimal(inv.StripePlan.Amount) / Convert.ToDecimal(100),
                         SubscriptionPeriodStripe = period,
                         SubscriptionPeriodLengthInDays = lengthOfDays,
                         //league id is the ownerId
                         InternalObject = leagueId
                     });
 
-                    custDb.TrialEnd = cust.TrialEnd;
-                    custDb.TrialStart = cust.TrialStart;
+                    custDb.TrialEnd = inv.TrialEnd;
+                    custDb.TrialStart = inv.TrialStart;
 
                     dc.StripeSubscriptions.Add(custDb);
                     even.Subscription = custDb;
@@ -168,45 +170,48 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
-                    StripeSubscription cust = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
-                    if (cust.Metadata != null && cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    StripeSubscription inv = Stripe.Mapper<StripeSubscription>.MapFromJson(se.Data.Object.ToString());
+                    var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
+                    inv.Customer = customerService.Get(inv.CustomerId);
+
+                    if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
-                        ManagementContext.SetDataContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
                     StripeSubscriptionDb custDb = new StripeSubscriptionDb();
                     even.StripeEventTypeEnum = (byte)StripeEventTypeEnum.customer_subscription_created;
-                    custDb.CanceledAt = cust.CanceledAt;
-                    custDb.EndedAt = cust.EndedAt;
-                    custDb.Customer = dc.StripeCustomers.Where(x => x.Id == cust.CustomerId).FirstOrDefault();
-                    custDb.PeriodEnd = cust.PeriodEnd;
-                    custDb.PeriodStart = cust.PeriodStart;
-                    custDb.Quantity = cust.Quantity;
-                    custDb.Start = cust.Start;
-                    custDb.Status = cust.Status;
-                    if (cust.StripePlan != null)
+                    custDb.CanceledAt = inv.CanceledAt;
+                    custDb.EndedAt = inv.EndedAt;
+                    custDb.Customer = dc.StripeCustomers.Where(x => x.Id == inv.CustomerId).FirstOrDefault();
+                    custDb.PeriodEnd = inv.PeriodEnd;
+                    custDb.PeriodStart = inv.PeriodStart;
+                    custDb.Quantity = inv.Quantity;
+                    custDb.Start = inv.Start;
+                    custDb.Status = inv.Status;
+                    if (inv.StripePlan != null)
                     {
-                        custDb.StripePlan = dc.StripePlans.Where(x => x.Id == cust.StripePlan.Id).FirstOrDefault();
+                        custDb.StripePlan = dc.StripePlans.Where(x => x.Id == inv.StripePlan.Id).FirstOrDefault();
                         if (custDb.StripePlan == null)
                         {
                             StripePlanDb pl = new StripePlanDb();
-                            pl.AmountInCents = cust.StripePlan.Amount;
-                            pl.Currency = cust.StripePlan.Currency;
-                            pl.Id = cust.StripePlan.Id;
-                            pl.Interval = cust.StripePlan.Interval;
-                            pl.IntervalCount = cust.StripePlan.IntervalCount;
-                            pl.LiveMode = cust.StripePlan.LiveMode;
-                            pl.Name = cust.StripePlan.Name;
-                            pl.TrialPeriodDays = cust.StripePlan.TrialPeriodDays;
+                            pl.AmountInCents = inv.StripePlan.Amount;
+                            pl.Currency = inv.StripePlan.Currency;
+                            pl.Id = inv.StripePlan.Id;
+                            pl.Interval = inv.StripePlan.Interval;
+                            pl.IntervalCount = inv.StripePlan.IntervalCount;
+                            pl.LiveMode = inv.StripePlan.LiveMode;
+                            pl.Name = inv.StripePlan.Name;
+                            pl.TrialPeriodDays = inv.StripePlan.TrialPeriodDays;
                             custDb.StripePlan = pl;
                             dc.StripePlans.Add(pl);
                         }
                     }
-                    custDb.TrialEnd = cust.TrialEnd;
-                    custDb.TrialStart = cust.TrialStart;
+                    custDb.TrialEnd = inv.TrialEnd;
+                    custDb.TrialStart = inv.TrialStart;
 
                     dc.StripeSubscriptions.Add(custDb);
                     even.Subscription = custDb;
@@ -231,13 +236,16 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeInvoice inv = Stripe.Mapper<StripeInvoice>.MapFromJson(se.Data.Object.ToString());
-                    if (inv.Metadata != null && inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
+                    inv.Customer = customerService.Get(inv.CustomerId);
+
+                    if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
-                        ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
@@ -308,15 +316,18 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeCharge inv = Stripe.Mapper<StripeCharge>.MapFromJson(se.Data.Object.ToString());
-                    if (inv.Metadata != null && inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
+                    inv.Customer = customerService.Get(inv.CustomerId);
+
+                    if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
-                        ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
-                        CustomConfigurationManager config = new CustomConfigurationManager(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        CustomConfigurationManager config = new CustomConfigurationManager(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         email = new EmailManagerApi(config.GetSubElement(StaticConfig.ApiBaseUrl).Value, config.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
                     }
                     StripeChargeDb nnv = new StripeChargeDb();
@@ -334,12 +345,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     nnv.LiveMode = inv.LiveMode;
                     nnv.Paid = inv.Paid;
                     nnv.Refunded = inv.Refunded;
-                    if (inv.StripeCard != null)
+                    if (inv.Source != null)
                     {
-                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.StripeCard.AddressLine1).Where(x => x.Last4 == inv.StripeCard.Last4).FirstOrDefault();
+                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.Source.AddressLine1).Where(x => x.Last4 == inv.Source.Last4).FirstOrDefault();
                         if (nnv.StripeCard == null)
                         {
-                            nnv.StripeCard = CreateStripeCard(inv.StripeCard, json);
+                            nnv.StripeCard = CreateStripeCard(inv.Source, json);
                             dc.StripeCards.Add(nnv.StripeCard);
                         }
                     }
@@ -406,15 +417,18 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeCharge inv = Stripe.Mapper<StripeCharge>.MapFromJson(se.Data.Object.ToString());
-                    if (inv.Metadata != null && inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
+                    inv.Customer = customerService.Get(inv.CustomerId);
+
+                    if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
-                        ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
-                        CustomConfigurationManager config = new CustomConfigurationManager(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        CustomConfigurationManager config = new CustomConfigurationManager(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         email = new EmailManagerApi(config.GetSubElement(StaticConfig.ApiBaseUrl).Value, config.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
                     }
                     StripeChargeDb nnv = new StripeChargeDb();
@@ -442,12 +456,12 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     nnv.LiveMode = inv.LiveMode;
                     nnv.Paid = inv.Paid;
                     nnv.Refunded = inv.Refunded;
-                    if (inv.StripeCard != null)
+                    if (inv.Source != null)
                     {
-                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.StripeCard.AddressLine1).Where(x => x.Last4 == inv.StripeCard.Last4).FirstOrDefault();
+                        nnv.StripeCard = dc.StripeCards.Where(x => x.AddressLine1 == inv.Source.AddressLine1).Where(x => x.Last4 == inv.Source.Last4).FirstOrDefault();
                         if (nnv.StripeCard == null)
                         {
-                            nnv.StripeCard = CreateStripeCard(inv.StripeCard, json);
+                            nnv.StripeCard = CreateStripeCard(inv.Source, json);
                             dc.StripeCards.Add(nnv.StripeCard);
                         }
                     }
@@ -508,13 +522,15 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeInvoice inv = Stripe.Mapper<StripeInvoice>.MapFromJson(se.Data.Object.ToString());
-                    if (inv.Metadata != null && inv.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
+                    inv.Customer = customerService.Get(inv.CustomerId);
+                    if (inv.Customer != null && inv.Customer.Metadata != null && inv.Customer.Metadata.Count > 0)
                     {
-                        ManagementContext.SetDataContext(inv.Metadata[InvoiceFactory.ConnectionStringName]);
+                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
@@ -563,11 +579,11 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                 even.CreatedStripeDate = se.Created.GetValueOrDefault();
                 even.StripeId = se.Id;
 
-                even.LiveMode = se.LiveMode.GetValueOrDefault();
+                even.LiveMode = se.LiveMode;
                 if (se.Data != null)
                 {
                     StripeCustomer cust = Stripe.Mapper<StripeCustomer>.MapFromJson(se.Data.Object.ToString());
-                    if (cust.Metadata != null && cust.Metadata[InvoiceFactory.ConnectionStringName] != null)
+                    if (cust.Metadata != null && cust.Metadata.Count > 0)
                     {
                         ManagementContext.SetDataContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
@@ -581,9 +597,9 @@ PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.SubscriptionU
                     custDb.Description = cust.Description;
                     custDb.Id = cust.Id;
                     even.Customer = dc.StripeCustomers.Where(x => x.Id == cust.Id).FirstOrDefault();
-                    if (cust.StripeCardList != null)
+                    if (cust.SourceList != null)
                     {
-                        foreach (var card in cust.StripeCardList.StripeCards)
+                        foreach (var card in cust.SourceList.Data)
                         {
                             custDb.StripeCard = CreateStripeCard(card, json);
                             dc.StripeCards.Add(custDb.StripeCard);

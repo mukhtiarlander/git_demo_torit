@@ -38,9 +38,9 @@
             <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-cogs"></i> Calendar Settings</h3>
             <span class="text-muted">Modify the calendar settings for your organization.</span>
         </div>
-@using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
-            {
-        <div class="panel-body">
+        @using (Html.BeginForm("CalendarSettings", "Calendar", FormMethod.Post))
+        {
+            <div class="panel-body">
            
                 <table class="table no-margin-bottom table-bordered">
                     <tr>
@@ -53,9 +53,9 @@
                         </td>
                         <td>
                            
-                                @Html.CheckBoxFor(x => x.AllowSelfCheckIn) 
-                                    Allows user to check their
-                                    self into the event.
+                            @Html.CheckBoxFor(x => x.AllowSelfCheckIn) 
+                            Allows user to check their
+                            self into the event.
                             
                         </td>
                     </tr>
@@ -64,7 +64,7 @@
                             Not Present Required For Check In:
                         </td>
                         <td>
-                           @Html.CheckBoxFor(x => x.NotPresentCheckIn) If Enabled, you will NOT need to count the @RDN.Utilities.Config.ConfigManager.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a>
+                            @Html.CheckBoxFor(x => x.NotPresentCheckIn) If Enabled, you will NOT need to count the @RDN.Utilities.Config.ConfigManager.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a>
                         </td>
                     </tr>
                     <tr>
@@ -80,7 +80,7 @@
                             Disable @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date:
                         </td>
                         <td>
-                           @Html.CheckBoxFor(x => x.DisableSkatingStartDates) Removes @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date From Calendar
+                            @Html.CheckBoxFor(x => x.DisableSkatingStartDates) Removes @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date From Calendar
                         </td>
                     </tr>
                     <tr>
@@ -105,81 +105,89 @@
                         </td>
                     </tr>
                 </table>
-                 <div class="panel panel-default margin-top-10">
-        <div class="panel-heading">
-            <i class="fa fa-star"></i> Points
-        </div>
-        <div class="panel-body no-padding">
-            <table class="table table-hover no-margin-bottom">
-                <thead>
-                    <tr>
-                        <th class="text-right">
-                            Event Type
-                        </th>
-                        <th class="tht">
-                            Color
-                        </th>
-                        <th class="tht">
-                            Present
-                        </th>
-                        <th class="tht">
-                            Partial
-                        </th>
-                        <th class="tht">
-                            Not Present
-                        </th>
-                        <th class="tht">
-                            Excused
-                        </th>
-                        <th class="tht">
-                            Tardy
-                        </th>
-                        <th class="tht"></th>
-                    </tr>
-                </thead>
-                @foreach (var type in Model.EventTypes)
-                {
-                    <tr>
-                        <td class="text-right">
-                            @type.EventTypeName
-                        </td>
-                        <td>
-                            @if (!String.IsNullOrEmpty(type.ColorTempSelected))
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading">
+                        <i class="fa fa-star"></i> Points
+                    </div>
+                    <div class="panel-body no-padding">
+                        <table class="table table-hover no-margin-bottom">
+                            <thead>
+                                <tr>
+                                    <th class="text-right">
+                                        Event Type
+                                    </th>
+                                    <th class="tht">
+                                        Color
+                                    </th>
+                                    <th class="tht">
+                                        Present
+                                    </th>
+                                    <th class="tht">
+                                        Partial
+                                    </th>
+                                    <th class="tht">
+                                        Not Present
+                                    </th>
+                                    <th class="tht">
+                                        Excused
+                                    </th>
+                                    <th class="tht">
+                                        Tardy
+                                    </th>
+                                    <th class="tht"></th>
+                                </tr>
+                            </thead>
+                            @foreach (var type in Model.EventTypes)
                             {
-                                <label class="label" style="background-color: @type.ColorTempSelected">@type.ColorName</label>
+                                <tr>
+                                    <td class="text-right">
+                                        @type.EventTypeName
+                                    </td>
+                                    <td>
+                                        @if (!String.IsNullOrEmpty(type.ColorTempSelected))
+                                        {
+                                            <label class="label" style="background-color: @type.ColorTempSelected">@type.ColorName</label>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @type.PointsForPresent
+                                    </td>
+                                    <td class="text-center">
+                                        @type.PointsForPartial
+                                    </td>
+                                    <td class="text-center">
+                                        @type.PointsForNotPresent
+                                    </td>
+                                    <td class="text-center">
+                                        @type.PointsForExcused
+                                    </td>
+                                    <td class="text-center">
+                                        @type.PointsForTardy
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success btn-xs" href="@Url.Content("~/calendar/event-type/edit/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + type.CalendarEventTypeId)"><i class="fa fa-pencil"></i> Edit</a>
+                                        <a class="btn btn-xs btn-danger btnCalenderEventType" data-id="@type.CalendarEventTypeId" title="Delete">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
                             }
-                        </td>
-                        <td class="text-center">
-                            @type.PointsForPresent
-                        </td>
-                        <td class="text-center">
-                            @type.PointsForPartial
-                        </td>
-                        <td class="text-center">
-                            @type.PointsForNotPresent
-                        </td>
-                        <td class="text-center">
-                            @type.PointsForExcused
-                        </td>
-                        <td class="text-center">
-                            @type.PointsForTardy
-                        </td>
-                        <td>
-                            <a class="btn btn-success btn-xs" href="@Url.Content("~/calendar/event-type/edit/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + type.CalendarEventTypeId)"><i class="fa fa-pencil"></i> Edit</a>
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
-    </div>
+                        </table>
+                    </div>
+                </div>
                 @Html.HiddenFor(x => x.CalendarId)
                 @Html.HiddenFor(x => x.EntityName)
                 @Html.HiddenFor(x => x.OwnerEntity)
           
-        </div>
-        <div class="panel-footer">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update Settings</button>
-        </div>
-            }
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update Settings</button>
+            </div>
+        }
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        $('.btnCalenderEventType').btsConfirmButton({ msg: "Confirm" }, Calendar.DeleteCalendarEventType);
+    });
+</script>

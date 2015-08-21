@@ -57,18 +57,33 @@ namespace RDN.Portable.Classes.API
             var st = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(st);
         }
-        public T ExecuteAuthenticatedJsonRequest<T>(string resource, HttpMethod httpMethod, object body = null) where T : new()
+        public T ExecuteAuthenticatedJsonRequest<T>(string resource, HttpMethod httpMethod, object body = null, Dictionary<string, object> parameters = null) where T : new()
         {
-            HttpClient httpClient = new HttpClient();
-            HttpRequestMessage message = new HttpRequestMessage(httpMethod, this.BaseUrl + resource);
-            message.Headers.Add(ApiManager.ApiKey, this.ApiKey);
-            message.Headers.Add(ApiManager.UserId, this.UserId.ToString());
-            if (body != null)
-                message.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            string stringResult = string.Empty;
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                HttpRequestMessage message = new HttpRequestMessage(httpMethod, this.BaseUrl + resource);
+                message.Headers.Add(ApiManager.ApiKey, this.ApiKey);
+                message.Headers.Add(ApiManager.UserId, this.UserId.ToString());
+                if (body != null)
+                    message.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                if (parameters != null)
+                {
+                    foreach (var param in parameters)
+                        message.Properties.Add(param.Key, param.Value);
+                }
+                var response = httpClient.SendAsync(message).Result;
+                stringResult = response.Content.ReadAsStringAsync().Result;
 
-            var response = httpClient.SendAsync(message).Result;
-            var st = response.Content.ReadAsStringAsync().Result;
-            return JsonConvert.DeserializeObject<T>(st);
+
+                return JsonConvert.DeserializeObject<T>(stringResult);
+            }
+            catch (Exception ex)
+            {
+                var exception = new Exception("Rest Broke: " + this.BaseUrl + resource + "::::" + stringResult, ex);
+                throw exception;
+            }
         }
         public T ExecuteAuthenticatedJsonRequest<T>(string resource, HttpMethod httpMethod, Stream fileStream, object body = null) where T : new()
         {

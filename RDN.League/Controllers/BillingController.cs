@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -73,7 +74,16 @@ namespace RDN.League.Controllers
                     add.AddSubscriptionOwnerName = league.Name;
                 Dictionary<int, string> countries = LocationFactory.GetCountriesDictionary();
                 add.Countries = countries.Select(item => new SelectListItem { Text = item.Value, Value = item.Key.ToString() }).ToList();
-                add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
+
+                List<SelectListItem> years = new List<SelectListItem>();
+                for (int i = 0; i < 10; i++)
+                {
+                    var item = new SelectListItem();
+                    item.Value = DateTime.Now.AddYears(i).Year.ToString();
+                    item.Text = DateTime.Now.AddYears(i).Year.ToString();
+                    years.Add(item);
+                }
+                add.Years = years;
                 add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
 
                 add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
@@ -144,7 +154,7 @@ namespace RDN.League.Controllers
                 }
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
@@ -203,7 +213,16 @@ namespace RDN.League.Controllers
                 add.AddSubscriptionOwnerName = league.Name;
             Dictionary<int, string> countries = LocationFactory.GetCountriesDictionary();
             add.Countries = countries.Select(item => new SelectListItem { Text = item.Value, Value = item.Key.ToString() }).ToList();
-            add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
+            //add.Years = EnumExt.ToSelectListId(YearsEnum.Fourteen);
+            List<SelectListItem> years = new List<SelectListItem>();
+            for (int i = 0; i < 10; i++)
+            {
+                var item = new SelectListItem();
+               item.Value = DateTime.Now.AddYears(i).Year.ToString();
+                item.Text = DateTime.Now.AddYears(i).Year.ToString();
+                years.Add(item);
+            }
+            add.Years = years;
             add.Months = EnumExt.ToSelectListIdAndName(MonthsEnum.Jan);
             //#if DEBUG
             //                add.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.STRIPE_DEBUG_KEY + "');";
@@ -224,7 +243,7 @@ namespace RDN.League.Controllers
                 var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.LeagueId);
 
                 PaymentGateway pg = new PaymentGateway();
-                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.STORE_ID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
                    .SetInvoiceId(bi.InvoiceId)
                         .FinalizeInvoice();
 

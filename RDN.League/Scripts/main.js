@@ -391,11 +391,15 @@ function DisplayDocumentRow(result, tableBody, item) {
         thirdColumn.append(item.Folder.FolderName);
     row.append(thirdColumn);
 
+
     var fourthColumn = $(document.createElement('td'));
     fourthColumn.css("vertical-align", "middle");
-    fourthColumn.append('<div class="spanIconsDoc"><a class="btn btn-xs btn-primary" title="Comments (' + item.CommentCount + ')" href="' + leagueHost + 'league/document/comments/' + item.DocumentId.replace(/-/g, "") + '/' + item.OwnerDocId + '"><i class="fa fa-comments"></i><span class="docCount">' + item.CommentCount + '</span></a></div>');
+    var count = item.CommentCount.toString().trim();
+    if (count === "0") {
+        count = "";
+    }
+    fourthColumn.append('<div class="spanIconsDoc"><a class="btn btn-xs btn-primary" title="Comments (' + item.CommentCount + ')" href="' + leagueHost + 'league/document/comments/' + item.DocumentId.replace(/-/g, "") + '/' + item.OwnerDocId + '"><i class="fa fa-comments"></i><span class="docCount"> ' + count + '</span></a></div>');
     row.append(fourthColumn);
-
     var fifthColumn = $(document.createElement('td'));
     fifthColumn.append();
     row.append(fifthColumn);

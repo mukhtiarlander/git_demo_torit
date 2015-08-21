@@ -25,6 +25,18 @@ namespace RDN.Library.Classes.Api.Email
             _api = new RestRequest(baseUrl, apiKey);
         }
 
+        public GenericResponse SendEmail(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important)
+        {
+
+            EmailItem email = new EmailItem();
+            email.From = from;
+            email.DisplayNameFrom = displayNameFrom;
+            email.Reciever = to;
+            email.Subject = subject;
+            email.Properties.Add("body", body);
+            email.Prio = (byte)priority;
+            return _api.ExecuteAuthenticatedJsonRequest<GenericResponse>(SendEmailUrl, HttpMethod.Post, email);
+        }
         public Task<GenericResponse> SendEmailAsync(string from, string displayNameFrom, string to, string subject, string body, EmailPriority priority = EmailPriority.Important)
         {
 

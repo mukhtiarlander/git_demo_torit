@@ -11,7 +11,7 @@ namespace RDN.League.Models.Billing
     {
         public List<SelectListItem> Countries { get; set; }
         public SelectList Months { get; set; }
-        public SelectList Years { get; set; }
+        public List<SelectListItem> Years { get; set; }
         public string StripeKey { get; set; }
     }
 }

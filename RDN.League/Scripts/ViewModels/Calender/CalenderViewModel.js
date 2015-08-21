@@ -16,7 +16,7 @@
 
         memberRow.remove();
         memberRow2.remove();
-    }
+    };
 
 
     this.checkInMemberSmall = function () {
@@ -158,6 +158,14 @@
         $("#" + memId + "-points").text(+points + +additionalPoints);
     }
 
+    this.DeleteCalendarEventType = function (e) {
+        var eventTypeId = e.attr("data-id");
+        $.getJSON("/Calendar/CalendarDeleteEventType", { eventTypeId: eventTypeId }, function (result) {
+            if (result.isSuccess === true) {
+                e.parent().parent().remove();
+            }
+        });
+    };
 
     this.checkInRemoveLarge = function (button, memId, derbyName) {
         memId = $.trim(memId);
@@ -290,5 +298,5 @@
         if (document.getElementById('ToMemberNamesSelected') !== null)
             document.getElementById('ToMemberNamesSelected').innerHTML = text;
         memIds.val(ids);
-    }
+    };
 }

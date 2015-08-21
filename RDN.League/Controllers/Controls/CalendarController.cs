@@ -403,6 +403,24 @@ namespace RDN.League.Controllers
             }
             return View(eventType);
         }
+
+
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsManager = true, HasPaidSubscription = true, IsEventCourdinator = true, IsSecretary = true, IsAttendanceManager = true)]
+        public JsonResult CalendarDeleteEventType(long eventTypeId)
+        {
+            bool success = false;
+            try
+            {
+                success = CalendarFactory.DeleteCalendarEventType(eventTypeId);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsManager = true, HasPaidSubscription = true, IsEventCourdinator = true, IsSecretary = true, IsAttendanceManager = true)]

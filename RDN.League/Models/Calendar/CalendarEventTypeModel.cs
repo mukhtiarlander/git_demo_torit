@@ -28,6 +28,7 @@ namespace RDN.League.Models.Calendar
             this.PointsForPartial = t.PointsForPartial;
             this.PointsForPresent = t.PointsForPresent;
             this.PointsForTardy = t.PointsForTardy;
+            this.IsRemoved = t.IsRemoved;
         }
     }
 }

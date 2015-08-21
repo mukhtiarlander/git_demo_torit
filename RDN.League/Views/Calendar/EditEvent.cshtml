@@ -114,13 +114,13 @@
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">Start Date & Time</label>
                         <div class="margin-bottom-20">
-                            @Html.TextBoxFor(x => x.StartDateDisplay, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
+                            @Html.TextBoxFor(x => x.StartDateDisplay, new { @onchange = "StartDateOnBlur()", @class = "form-control", @Value = DateTime.Parse(@Model.StartDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US")) })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <label class="form-label">End Date & Time</label>
                         <div class="margin-bottom-20">
-                            @Html.TextBoxFor(x => x.EndDateDisplay, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
+                            @Html.TextBoxFor(x => x.EndDateDisplay, new { @onchange = "EndDateOnBlur()", @class = "form-control", @Value = DateTime.Parse(@Model.EndDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US")) })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
@@ -303,46 +303,44 @@
     var d = new Date();
     var curr_date = d.getDate();
 
-    var startDate = new Date('@Model.StartDateDisplay');
-    var endDate = new Date('@Model.EndDateDisplay');
-    $('#EndsDate').datepicker();
-    $('#StartDateDisplay').datetimepicker({
-        ampm: true,
-        onSelect: function (dateText, inst) {
-            startDate = new Date(dateText);
-            if (endDate < startDate) {
-                $('#EndDateDisplay').val($('#StartDateDisplay').val());
-                endDate = startDate;
-            }
-        },
-        beforeShow: function () {
-            setTimeout(function () {
-                $('.ui-datepicker').css('z-index', 100);
-            }, 0);
-        },
-        stepMinute: 5,
-        //timeFormat: 'hh:mm tt'
-        format: 'DD-MM-YYYY HH:mm'
-    });
-    $('#EndDateDisplay').datetimepicker({
-        ampm: true,
-        onSelect: function (dateText, inst) {
-            endDate = new Date(dateText);
-            if (endDate < startDate) {
-                $('#StartDateDisplay').val($('#EndDateDisplay').val());
-                startDate = endDate;
-            }
-        },
-        beforeShow: function () {
-            setTimeout(function () {
-                $('.ui-datepicker').css('z-index', 100);
-            }, 0);
-        },
-        stepMinute: 5,
-        //timeFormat: 'hh:mm tt'
-        format: 'DD-MM-YYYY HH:mm'
+	var startDate = new Date('@DateTime.Parse(@Model.StartDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))');
+	var endDate = new Date('@DateTime.Parse(@Model.EndDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))');
+	$('#EndsDate').datepicker();
+	$('#StartDateDisplay').datetimepicker({
+		ampm: true,
+		onSelect: function (dateText, inst) {
+			startDate = new Date(dateText);
+			if (endDate < startDate) {
+				$('#EndDateDisplay').val($('#StartDateDisplay').val());
+				endDate = startDate;
+			}
+		},
+		beforeShow: function () {
+			setTimeout(function () {
+				$('.ui-datepicker').css('z-index', 100);
+			}, 0);
+		},
+		stepMinute: 5,
+		timeFormat: 'hh:mm tt'
+	});
+	$('#EndDateDisplay').datetimepicker({
+		ampm: true,
+		onSelect: function (dateText, inst) {
+			endDate = new Date(dateText);
+			if (endDate < startDate) {
+				$('#StartDateDisplay').val($('#EndDateDisplay').val());
+				startDate = endDate;
+			}
+		},
+		beforeShow: function () {
+			setTimeout(function () {
+				$('.ui-datepicker').css('z-index', 100);
+			}, 0);
+		},
+		stepMinute: 5,
+		timeFormat: 'hh:mm tt'
 
-    });
+	});
 
     $("#createNewEventForm").validate({
         rules: {
@@ -355,12 +353,25 @@
         }
     });
 
-    $(function () {
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
-        });
-    });
+	$(function () {
+		tinymce.init({
+			mode: "textareas",
+			elements: "elm2",
+			theme: "modern",
+			plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+		});
+	});
+
+	function StartDateOnBlur() {
+		if (endDate < startDate) {
+			$('#EndDate').val($('#StartDate').val());
+			endDate = startDate;
+		}
+	}
+	function EndDateOnBlur() {
+		if (endDate < startDate) {
+			$('#StartDate').val($('#EndDate').val());
+			startDate = endDate;
+		}
+	}
 </script>

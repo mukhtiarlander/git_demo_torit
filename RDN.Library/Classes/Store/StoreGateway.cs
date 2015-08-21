@@ -1106,7 +1106,7 @@ namespace RDN.Library.Classes.Store
             try
             {
                 var mc = new ManagementContext();
-                var items = mc.StoreItems.Where(x => x.IsPublished && x.Category.StoreItemCategoryId == categoryId).OrderBy(x => Guid.NewGuid()).Take(40);
+                var items = mc.StoreItems.Include("Merchant").Include("Merchant.CurrencyRate").Include("Photos").Include("Colors").Include("Colors.Color").Where(x => x.IsPublished && x.Category.StoreItemCategoryId == categoryId).OrderBy(x => Guid.NewGuid()).Take(40);
 
                 if (items.Count() == 0)
                     return cat;
@@ -1196,7 +1196,7 @@ namespace RDN.Library.Classes.Store
             try
             {
                 var mc = new ManagementContext();
-                var items = (from a in mc.StoreItems
+                var items = (from a in mc.StoreItems.Include("Merchant").Include("Photos")
                              where a.IsPublished && a.Merchant.IsPublished
                              where a.Name.Contains(keyword) || a.Description.Contains(keyword) || a.Note.Contains(keyword)
                              select a).Distinct().Take(limit);
@@ -1219,7 +1219,7 @@ namespace RDN.Library.Classes.Store
             try
             {
                 var mc = new ManagementContext();
-                var items = (from a in mc.StoreItems
+                var items = (from a in mc.StoreItems.Include("Merchant").Include("Photos")
                              where a.IsPublished && a.Merchant.IsPublished
                              select a).Distinct();
                 foreach (var storeItem in items)

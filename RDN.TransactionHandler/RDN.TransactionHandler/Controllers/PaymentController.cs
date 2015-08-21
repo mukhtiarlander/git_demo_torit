@@ -8,6 +8,8 @@ using RDN.Library.Classes.Payment;
 using RDN.Library.Classes.Store;
 using RDN.Library.Classes.Error;
 using System.Web.Script.Serialization;
+using RDN.Library.Classes.Api.Paypal;
+using RDN.Library.Classes.Config;
 
 namespace RDN.TransactionHandler.Controllers
 {
@@ -40,6 +42,20 @@ namespace RDN.TransactionHandler.Controllers
                 return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult TestApi()
+        {
+            try
+            {
 
+                PaypalManagerApi man = new PaypalManagerApi(LibraryConfig.ApiSite, LibraryConfig.ApiKey);
+                
+                return Json(man.InsertIPNNotification(new Library.Classes.Payment.Paypal.PayPalMessage()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, GetType());
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

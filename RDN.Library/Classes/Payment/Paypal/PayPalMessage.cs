@@ -179,7 +179,7 @@ namespace RDN.Library.Classes.Payment.Paypal
             set { _itemNumber = value; }
         }
 
-
+        public string TrackingId { get; set; }
 
         /// <summary>
         /// Quantity of the item ordered by the customer
