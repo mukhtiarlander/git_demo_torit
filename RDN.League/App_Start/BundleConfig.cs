@@ -31,8 +31,8 @@ namespace RDN.League
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
                         "~/Scripts/FullCalendar/gcal.js",
                          "~/Scripts/select2/select2.min.js",
-                         "~/Scripts/jquery.slimscroll.min.js",
-                          "~/Scripts/bootstrap-confirm-button/bootstrap-confirm-button.src.js"
+                         "~/Scripts/jquery.slimscroll.min.js"
+                          
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
@@ -61,6 +61,7 @@ namespace RDN.League
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap/bootstrap-notify.js",
+                      "~/Scripts/bootstrap/bootstrap-confirm-button.src.js",
                       "~/Scripts/jquery.doubleScroll.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

@@ -218,7 +218,7 @@ namespace RDN.League.Controllers
             for (int i = 0; i < 10; i++)
             {
                 var item = new SelectListItem();
-               item.Value = DateTime.Now.AddYears(i).Year.ToString();
+                item.Value = DateTime.Now.AddYears(i).Year.ToString();
                 item.Text = DateTime.Now.AddYears(i).Year.ToString();
                 years.Add(item);
             }
