@@ -40,9 +40,10 @@ namespace RDN.TransactionHandler
             }
             catch (Exception exception)
             {
-                logger.Error(context.Request.Form);
-                logger.Error("Exception", exception);
+         
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
+                //logger.Error(context.Request.Form);
+                //logger.Error("Exception", exception);
             }
         }
 

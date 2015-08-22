@@ -965,7 +965,8 @@ namespace RDN.Library.Classes.Store
             try
             {
                 var mc = new ManagementContext();
-                var merchant = mc.Merchants.FirstOrDefault(x => x.InternalReference == ownerId);
+                
+var merchant = mc.Merchants.FirstOrDefault(x => x.InternalReference == ownerId);
 
                 if (merchant != null)
                 {

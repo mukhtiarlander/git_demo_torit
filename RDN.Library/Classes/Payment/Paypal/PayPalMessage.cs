@@ -525,6 +525,8 @@ namespace RDN.Library.Classes.Payment.Paypal
             + "fees_payer: " + fees_payer + "<br />"
             + "return_url: " + return_url + "<br />"
             + "reverse_all_parallel_payments_on_error: " + reverse_all_parallel_payments_on_error + "<br />"
+            + "trackingId: " + TrackingId+ "<br />"
+            + "Status: " + Status+ "<br />"
             + "payment_request_date: " + payment_request_date + "<br />";
 
             foreach (var item in Transactions)
