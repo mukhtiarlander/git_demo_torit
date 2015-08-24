@@ -159,7 +159,7 @@
                     window.location.href = "/forum/post/quote/" + forumId + "/" + topicId + "/" + messageId;
             } else {
                 $('.bottom-right').notify({
-                    message: { text: 'This post has been removed from the threadThis post has been removed from the thread' },
+                    message: { text: 'This post has been removed from the thread. This post has been removed from the thread' },
                     fadeOut: { enabled: true, delay: 4000 },
                     type: "danger"
                 }).show();
