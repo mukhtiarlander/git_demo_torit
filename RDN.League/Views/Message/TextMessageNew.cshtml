@@ -25,7 +25,7 @@
                     }
                 </span>
             </div>
-            @using (Html.BeginForm("CreateNewTextMessage", "Message", FormMethod.Post, new { onsubmit = "Messages.SaveRecipientListToForm()" }))
+            @using (Html.BeginForm("CreateNewTextMessage", "Message", FormMethod.Post, new { onsubmit = "Messages.SaveRecipientListToForm(0)" }))
             {
                 <div class="panel-body">
                     <div class="row">

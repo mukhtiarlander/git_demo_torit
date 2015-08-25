@@ -160,7 +160,16 @@
         $("#panel-members").popover('hide');
         $("#btn_add_member").popover('hide');
     }
-    this.SetupNewMessage = function () {
+    this.SetupNewMessage = function (memberId) {
+        if (memberId != 0) {
+            $.getJSON("/Message/GetMemberById", { memberId: memberId }, function (result) {
+                if (result.success) {
+                    var member = result.data;
+                    $('#ToMemberNames').tokenInput('add', member);
+                }
+            });
+        }
+
         $("#ToMemberNames").tokenInput('/Utilities/SearchNamesForLeague', {
             theme: "facebook",
             preventDuplicates: true,

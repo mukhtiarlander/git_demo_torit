@@ -255,18 +255,34 @@ namespace RDN.League.Controllers
             }
             return View(model);
         }
+
         [Authorize]
-        public ActionResult CreateNewMessage(MessageModel model)
+        public JsonResult GetMemberById(string memberId)
         {
             try
             {
-                RDN.Portable.Classes.Controls.Message.ConversationModel mess = new RDN.Portable.Classes.Controls.Message.ConversationModel();
+                var memId = new Guid(memberId);
+                var member = RDN.Library.Classes.Account.User.GetMemberWithMemberId(memId);
+                return Json(new { success = true, data = new { id = member.MemberId, name = member.Name } }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+
+        }
+        [Authorize]
+        public ActionResult CreateNewMessage(MessageModel model)
+        {
+            RDN.Portable.Classes.Controls.Message.ConversationModel mess = new RDN.Portable.Classes.Controls.Message.ConversationModel();
+            mess.MemberId = RDN.Library.Classes.Account.User.GetMemberId();
+            try
+            {
                 List<Guid> listOfGuids = new List<Guid>();
                 List<long> listOfGroupIds = new List<long>();
                 mess.FromId = model.OwnerId;
-                mess.MemberId = RDN.Library.Classes.Account.User.GetMemberId();
                 mess.Message = model.MessageTextWriting;
-
                 listOfGuids.Add(mess.MemberId);
 
                 mess.Title = model.Title;
@@ -300,13 +316,13 @@ namespace RDN.League.Controllers
                 }
 
                 Messages.CreateNewMessageForGroup(mess);
-                return Redirect("~/messages/" + GroupOwnerTypeEnum.member.ToString() + "/" + model.OwnerId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.ms.ToString());
+                return Redirect("~/messages/" + GroupOwnerTypeEnum.member.ToString() + "/" + mess.MemberId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.ms.ToString());
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect("~/messages/" + GroupOwnerTypeEnum.member.ToString() + "/" + model.OwnerId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.mns.ToString());
+            return Redirect("~/messages/" + GroupOwnerTypeEnum.member.ToString() + "/" + mess.MemberId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.mns.ToString());
         }
         [HttpPost]
         [Authorize]

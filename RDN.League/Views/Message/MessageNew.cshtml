@@ -158,7 +158,8 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        Messages.SetupNewMessage();
+        var memberId = "@Model.OwnerId.ToString().Replace("-","")";
+        Messages.SetupNewMessage(memberId);
 
     });
 </script>
