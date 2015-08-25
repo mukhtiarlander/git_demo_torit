@@ -1395,7 +1395,7 @@ var merchant = mc.Merchants.FirstOrDefault(x => x.InternalReference == ownerId);
                 else
                     item.ShopNameTrimmed = storeItem.Merchant.ShopName;
 
-                var photo = storeItem.Photos.FirstOrDefault();
+                var photo = storeItem.Photos.FirstOrDefault(x => x.IsPrimaryPhoto);
                 if (photo != null)
                 {
                     item.PhotoUrl = photo.ImageUrl;

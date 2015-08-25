@@ -258,8 +258,8 @@ namespace RDN.Api.Controllers.Controls
                         {
                             post.PostedById = topic.Messages[i].Member.MemberId;
                             post.PostedByName = topic.Messages[i].Member.DerbyName;
-                            if (topic.Messages[i].Member.Photos.FirstOrDefault() != null)
-                                post.PostedByPictureUrl = topic.Messages[i].Member.Photos.FirstOrDefault().ImageThumbUrl;
+                            if (topic.Messages[i].Member.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                                post.PostedByPictureUrl = topic.Messages[i].Member.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl;
                         }
                         post.Text = topic.Messages[i].MessagePlain;
                         post.DatePostedByHuman = topic.Messages[i].CreatedHumanRelative;
