@@ -1094,6 +1094,14 @@ function EventTypeChanged(dropDown) {
 
         $.getJSON("/Calendar/GetEventTypeValues", { eventTypeId: text }, function (result) {
             if (result.isSuccess === true) {
+                if (result.type.IsRemoved) {
+                    $("#EventTypeError").text("This event type has been removed");
+                    $("#addNewEventTypeText").css("display","none");
+                    $("#SelectedEventTypeId").find('option:eq(0)').prop('selected', true);
+                    return false;
+                }
+                $("#EventTypeError").text("");
+                $("#addNewEventTypeText").css("display", "");
                 $("#presentType").text(result.type.PointsForPresent);
                 $("#partialType").text(result.type.PointsForPartial);
                 $("#excusedType").text(result.type.PointsForExcused);
@@ -1105,6 +1113,7 @@ function EventTypeChanged(dropDown) {
         }).error(function () {
             $.getJSON("/Calendar/GetEventTypeValues", { eventTypeId: text }, function (result) {
                 if (result.isSuccess === true) {
+                    $("#addNewEventTypeText").css("display", "");
                     $("#presentType").text(result.type.PointsForPresent);
                     $("#partialType").text(result.type.PointsForPartial);
                     $("#excusedType").text(result.type.PointsForExcused);
