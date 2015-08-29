@@ -439,6 +439,11 @@ function AddTagsToDocument(id, ownerId) {
     $.getJSON("/document/AddTagsToDocument", { docId: id, docOwnerId: ownerId, tags: tags.join()
     }, function (result) {
         if (result.isSuccess === true) {
+            $('.bottom-right').notify({
+                message: { html: false, text: 'Saved Successfully' },
+                fadeOut: { enabled: true, delay: 4000 },
+                type: "success"
+            }).show();
             GetDocumentTags(ownerId);
         }
     }).error(function () {
