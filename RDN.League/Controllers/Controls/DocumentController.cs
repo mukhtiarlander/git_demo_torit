@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Document;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.League.Classes;
+using RDN.Library.DataModels.Tags;
 using RDN.Library.Util.Enum;
 using RDN.Utilities.IO;
 
@@ -65,7 +67,7 @@ namespace RDN.League.Controllers
         {
             try
             {
-                 bool success = true;
+                bool success = true;
                 string[] docs = doc.Split(',');
                 for(int i=0; i<docs.Count(); i++)
                 {
@@ -121,7 +123,7 @@ namespace RDN.League.Controllers
                     if (succ == false)
                         success = false;
                 }
-               
+
                 MemberCache.ClearLeagueDocument(RDN.Library.Classes.Account.User.GetMemberId());
                 return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
             }
@@ -269,6 +271,49 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+        [Authorize]
+        public ActionResult AddTagsToDocument(Guid docId, long docOwnerId, string tags)
+        {
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                CommentForDocument.UpdateLeagueTags(docOwnerId,tags);
+                var tagItems = tags.Split(',');
+                foreach (var tagItem in tagItems)
+                {
+                    CommentForDocument.AddTagToDocumentTag(docId, docOwnerId, tagItem);
+                }
+                MemberCache.ClearLeagueDocument(memId);
+                return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public ActionResult GetDocumentTags(long docOwnerId, string tag)
+        {
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var documentTags = CommentForDocument.FetchDocumentTags(docOwnerId).Select(x => new
+                {
+                    id = x.Id,
+                    label = x.Tag.TagName
+                });
+                var jsonDocumentTags = JsonConvert.SerializeObject(documentTags);
+                MemberCache.ClearLeagueDocument(memId);
+                return Json(new { isSuccess = true, tags = jsonDocumentTags }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+       
         [Authorize]
         public ActionResult DeleteFolderFromLeagueDocuments(Guid leagueId, int folderId)
         {

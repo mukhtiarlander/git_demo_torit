@@ -26,10 +26,12 @@ namespace RDN.Library.DataModels.League.Documents
 
         public virtual DocumentCategory Category { get; set; }
         public virtual List<DocumentComment> Comments { get; set; }
+        public virtual ICollection<DocumentTag> DocumentTags { get; set; }
 
         public LeagueDocument()
         {
             Comments = new List<DocumentComment>();
+            DocumentTags = new List<DocumentTag>();
         }
 
     }

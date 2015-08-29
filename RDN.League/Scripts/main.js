@@ -419,19 +419,10 @@ function DisplayDocumentRow(result, tableBody, item) {
     row.append(eightColumn);
 }
 
-
-
-
-
-
-
-
 function AddCommentToDocument(id, ownerId) {
     var com = $("#comment");
     $.getJSON("/document/AddCommentToLeagueDocument", { docId: id, docOwnerId: ownerId, comment: com.val() }, function (result) {
-        if (result.isSuccess === true) {
-
-        }
+        if (result.isSuccess === true) { }
         if ($("#folderBody").html().trim() == "") {
             $("#folderBody").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + ownerId + '\',\'' + id + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
         }
@@ -443,6 +434,29 @@ function AddCommentToDocument(id, ownerId) {
         com.val("");
     });
 }
+function AddTagsToDocument(id, ownerId) {
+    var tags = $("#Tags").tagsinput('items');
+    $.getJSON("/document/AddTagsToDocument", { docId: id, docOwnerId: ownerId, tags: tags.join()
+    }, function (result) {
+        if (result.isSuccess === true) {
+            GetDocumentTags(ownerId);
+        }
+    }).error(function () {
+
+    });
+}
+function GetDocumentTags(ownerId) {
+   $.getJSON("/document/GetDocumentTags", { docOwnerId: ownerId }, function (result) {
+        if (result.isSuccess === true) {
+            var tags = JSON.parse(result.tags);
+            $.each(tags, function (index, value) {
+                $('#Tags').tagsinput('add', value.label);
+            });
+        }
+    }).error(function () {
+    });
+}
+
 function DeleteCommentFromDocument(span, docOwnerId, commentId) {
     var folder = $("#folderName");
     $.getJSON("/document/DeleteCommentForDocument", { commentId: commentId, docOwnerId: docOwnerId }, function (result) {
