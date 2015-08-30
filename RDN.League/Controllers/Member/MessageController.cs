@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using RDN.Library.Classes.Messages;
 using RDN.Library.Classes.Error;
 using RDN.League.Models.Messages;
@@ -127,7 +128,7 @@ namespace RDN.League.Controllers
                     this.AddMessage(message);
                 }
                 mess = Messages.GetMessagesForOwner((GroupOwnerTypeEnum)Enum.Parse(typeof(GroupOwnerTypeEnum), type.ToLower()), new Guid(idOfGroup), 0, 50);
-                MemberCache.ResetMessageCountCache(new Guid(idOfGroup));
+                //MemberCache.ResetMessageCountCache(new Guid(idOfGroup));
             }
             catch (Exception exception)
             {
@@ -257,13 +258,62 @@ namespace RDN.League.Controllers
         }
 
         [Authorize]
-        public JsonResult GetMemberById(string memberId)
+        public JsonResult GetMemberById(string memberId, string type)
         {
             try
             {
-                var memId = new Guid(memberId);
-                var member = RDN.Library.Classes.Account.User.GetMemberWithMemberId(memId);
-                return Json(new { success = true, data = new { id = member.MemberId, name = member.Name } }, JsonRequestBehavior.AllowGet);
+                var OwnerType = (GroupOwnerTypeEnum)Enum.Parse(typeof(GroupOwnerTypeEnum), type);
+                var recList = new List<KeyValuePair<Guid, string>>();
+                if (OwnerType == GroupOwnerTypeEnum.member)
+                {
+                    recList = Messages.GetConnectedMembersOfMember(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.shop)
+                {
+                    recList = Messages.GetConnectedShopRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.jobboard)
+                {
+                    var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
+                    recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.person)
+                {
+                    var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
+                    recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
+
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.officiating)
+                {
+                    var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
+                    recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
+
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.league)
+                {
+                    recList = Messages.GetConnectedLeagueRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.paywall)
+                {
+                    recList = Messages.GetConnectedShopRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.calevent)
+                {
+                    recList = Messages.GetConnectedCalEventRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+                }
+                else
+                {
+                    recList = Messages.GetConnectedMembersOfGroup(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+                }
+
+                //var memId = new Guid(memberId);
+                //var member = RDN.Library.Classes.Account.User.GetMemberWithMemberId(memId);
+                var json = JsonConvert.SerializeObject(recList);
+                return Json(new { success = true, Recipients = json }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
