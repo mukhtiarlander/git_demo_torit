@@ -73,7 +73,15 @@ namespace RDN.Library.Classes.Admin.League
                 if (forum != null)
                     dc.Forums.Remove(forum);
                 var league = dc.Leagues.Where(x => x.LeagueId == id).FirstOrDefault();
-                dc.Leagues.Remove(league);
+                if (league != null)
+                {
+                    var members = dc.Members.Where(x => x.CurrentLeagueId == league.LeagueId);
+                    var memberIds = members.Select(x => x.MemberId).ToArray();
+                    var forumInboxes = dc.ForumInbox.Where(x => memberIds.Contains(x.ToUser.MemberId));
+                    dc.ForumInbox.RemoveRange(forumInboxes);
+                    dc.Members.RemoveRange(members);
+                    dc.Leagues.Remove(league);
+                }
                 dc.SaveChanges();
                 return true;
             }
