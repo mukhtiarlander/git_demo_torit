@@ -141,7 +141,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        Messages.SetupNewMessage();
+        var memberId = '@Model.OwnerId.ToString().Replace("-","")';
+        var type = '@Model.OwnerType.ToString()';
+        Messages.SetupNewMessage(memberId, type);
         $('#MessageTextWriting').each(function () {
             var length = $(this).val().length;
             $("#counter").html(length + ' characters');

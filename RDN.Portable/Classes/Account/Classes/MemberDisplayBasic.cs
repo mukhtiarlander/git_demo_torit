@@ -83,6 +83,17 @@ namespace RDN.Portable.Classes.Account.Classes
 
         public bool DidVote { get; set; }
 
+        public string Name
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(DerbyName))
+                    return DerbyName;
+                else
+                    return Firstname;
+            }
+        }
+
         public string FullName
         {
             get
