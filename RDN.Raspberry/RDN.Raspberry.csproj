@@ -184,6 +184,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\ConfigationsController.cs" />
     <Compile Include="Controllers\FederationController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\LeagueController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Models\Admin\AdminMessages.cs" />
     <Compile Include="Models\Admin\MassEmail.cs" />
     <Compile Include="Models\Admin\TestEmailLayout.cs" />
+    <Compile Include="Models\Configurations\ConfigurationModel.cs" />
     <Compile Include="Models\Helpers\Messages.cs" />
     <Compile Include="Models\OutModel\Base.cs" />
     <Compile Include="Models\OutModel\EmptyModel.cs" />
@@ -218,6 +220,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -293,6 +298,10 @@
     <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
       <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
       <Name>Common.EmailServer.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.Site\Common.Site.csproj">
+      <Project>{e0f7aafe-6666-4a19-947f-f3fe60381154}</Project>
+      <Name>Common.Site</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDN.Library\RDN.Library.csproj">
       <Project>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</Project>
@@ -422,6 +431,8 @@
     <Content Include="Views\League\SetLeagueMerchantId.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Calendar\ViewDeletedEvents.cshtml" />
+    <Content Include="Views\Configations\ViewConfigurations.cshtml" />
+    <Content Include="Views\Configations\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
