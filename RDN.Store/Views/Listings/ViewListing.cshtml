@@ -192,7 +192,7 @@
                         <div class="font10 b margin-bottom-10">SOLD BY</div>
                         <p> <a href="@Url.Content("~/"+RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl+"-shop/" + Model.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Store.Name))">@Model.Store.Name</a></p>
                         <p class="text-muted font12">@Model.Store.Description</p>
-                        <a class="btn btn-default btn-xs" target="_blank" href="http://localhost:1094/messages/new/shop/@Model.Store.MerchantId.ToString().Replace("-", "")"><i class="fa fa-envelope-o"></i> Contact Seller</a>
+                        <a class="btn btn-default btn-xs" target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite/messages/new/shop/@Model.Store.MerchantId.ToString().Replace("-", "")"><i class="fa fa-envelope-o"></i> Contact Seller</a>
                     </div>
                     <div class="well well-light">
                         <div class="font10 b margin-bottom-10">SHIPPING COSTS</div>
