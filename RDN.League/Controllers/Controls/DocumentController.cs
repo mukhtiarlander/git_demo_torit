@@ -327,9 +327,8 @@ namespace RDN.League.Controllers
                     id = x.Id,
                     label = x.Tag.TagName
                 });
-                var jsonDocumentTags = JsonConvert.SerializeObject(documentTags);
                 MemberCache.ClearLeagueDocument(memId);
-                return Json(new { isSuccess = true, tags = jsonDocumentTags }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = true, tags = documentTags }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
