@@ -1,0 +1,28 @@
+﻿@model IOrderedEnumerable<RDN.Library.Classes.Admin.League.Classes.LeagueJoinCodes>
+@{
+    ViewBag.Title = "LeagueJoinCodes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>League Join Codes</h2>
+@using (Html.BeginForm())
+{
+    <table class="leangueJoinCodesTable" cellspacing="10">
+        <tr>
+            <th>League Id</th>
+            <th>League Name</th>
+            <th>League Join Code</th>
+        </tr>
+
+        @foreach (var league in Model)
+        {
+
+            <tr>
+                <td>@league.LeagueId</td>
+                <td>@league.Name</td>
+                <td>@league.LeagueJoinCode</td>
+            </tr>
+
+        }
+    </table>
+}
