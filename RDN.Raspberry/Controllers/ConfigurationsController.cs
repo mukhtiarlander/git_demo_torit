@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace RDN.Raspberry.Controllers
 {
-    public class ConfigationsController : BaseController
+    public class ConfigurationsController : BaseController
     {
         // GET: Configations
         ConfigurationManager _db;

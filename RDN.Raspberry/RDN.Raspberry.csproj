@@ -184,7 +184,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
-    <Compile Include="Controllers\ConfigationsController.cs" />
+    <Compile Include="Controllers\ConfigurationsController.cs" />
     <Compile Include="Controllers\FederationController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\LeagueController.cs" />
@@ -220,9 +220,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -271,6 +268,7 @@
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Scripts\Sites\rdnation.js" />
+    <Content Include="Scripts\ViewModel\ConfigurationViewModel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -431,8 +429,7 @@
     <Content Include="Views\League\SetLeagueMerchantId.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Calendar\ViewDeletedEvents.cshtml" />
-    <Content Include="Views\Configations\ViewConfigurations.cshtml" />
-    <Content Include="Views\Configations\Create.cshtml" />
+    <Content Include="Views\Configurations\ViewConfigurations.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

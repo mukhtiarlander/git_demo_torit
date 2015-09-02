@@ -1,21 +1,11 @@
 ﻿@model RDN.Raspberry.Models.Configurations.ConfigurationModel
 
 @{
-    ViewBag.Title = "Display Configuration";
+    ViewBag.Title = "View Configuration";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string description = string.Empty;
 }
-<style type="text/css">
 
-    .valign {
-        vertical-align: top;
-        width:150px;
-    }
-    textarea {
-   resize: none;
-}
-
-</style>
 <div id="divViewConfiguration" class="form-horizontal">
     <h4>View Configurations</h4>
 
@@ -49,13 +39,8 @@
                         <label class="label_@item.ID">@item.Value</label>
                         <input type="text" value="@item.Value" name="@item.Value" id="txtValue_@item.ID" class="Display" />
                     </td>
-                    <td class="valign">
-                        @if (item.Discription.Length > 0)
-                        {
-                            description = item.Discription.Length > 60 ? item.Discription.Substring(0, 59) + "..." : item.Discription;
-                        }
-
-                        <label title="@item.Discription" class="label_@item.ID">@description</label>
+                    <td class="valign">                       
+                        <label title="@item.Discription" class="label_@item.ID">@item.Discription</label>
                         <textarea name="txtDiscription" cols="30" rows="4" id="txtDescription_@item.ID"  class="Display">@item.Discription</textarea>
                     </td>
                     <td class="valign">
@@ -82,7 +67,7 @@
     }
 </div>
 <div id="divCreateConfiguration">
-    @using (Html.BeginForm("Create", "Configations"))
+    @using (Html.BeginForm("Create", "Configurations"))
     {
         @Html.AntiForgeryToken()
 
@@ -132,57 +117,7 @@
             $("#divCreateConfiguration").show();            
             $("#divViewConfiguration").hide();
         });
-    });
-
-    function DeleteConfirm(obj)
-    {
-        var id = $(obj).attr('id').split('_')[1];
-
-        var isDelete= confirm('Are you sure you want to delete this item?');
-
-        if(isDelete)
-        {
-            location.href = "/Configations/Delete/" + id;
-        }
-        return;
-    }
-
-    function Edit(obj)
-    {
-        var id = $(obj).attr('id').split('_')[1];
-        $("#txtKey_"+id).show();
-        $("#txtValue_"+id).show();
-        $("#txtDescription_"+id).show();
-        $("#SaveCancel_"+id).show();
-        $(".label_"+id).css("display","none");
-        $("#EditDelete_"+id).hide();
-    }
-
-    function Save(obj)
-    {
-        var id = $(obj).attr('id').split('_')[1];        
-        $.ajax({
-            url: '/Configations/Edit', //This will call the function in controller
-            type: 'POST',
-            data: { id: id, key: $("#txtKey_" + id).val(), value: $("#txtValue_" + id).val(), description: $("#txtDescription_" + id).val() },
-            success: function (data) {
-                if (data) {
-                    location.href = "/Configations/ViewConfigurations";
-                    return;
-                }
-            }
-        });
-    }
-
-    function Cancel(obj) {
-        var id = $(obj).attr('id').split('_')[1];
-        $("#txtKey_" + id).hide();
-        $("#txtValue_" + id).hide();
-        $("#txtDescription_" + id).hide();
-        $("#SaveCancel_" + id).hide();        
-        $(".label_" + id).show();
-        $("#EditDelete_" + id).show();
-    }
+    });   
 </script>
 
 
