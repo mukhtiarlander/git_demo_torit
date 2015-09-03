@@ -152,6 +152,22 @@
         });
     }
 
+    this.CheckIsForumPostExists = function (forumId, topicId, messageId) {
+        $.getJSON("/forum/CheckIsForumPostExists", { forumId: forumId, topicId: topicId, messageId: messageId }, function (result) {
+            if (result.isSuccess === true) {
+                if (result.isExists === true)
+                    window.location.href = "/forum/post/quote/" + forumId + "/" + topicId + "/" + messageId;
+            } else {
+                $('.bottom-right').notify({
+                    message: { text: 'This post has been removed from the thread. This post has been removed from the thread' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "danger"
+                }).show();
+            }
+        });
+        return false;
+    }
+
     this.ScrolledToBottomOfPosts = function () {
         if (thisViewModel.IsScrollingAllowed) {
             if (thisViewModel.IsGettingScrolledContent === false) {

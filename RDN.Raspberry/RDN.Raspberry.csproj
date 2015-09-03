@@ -184,6 +184,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\ConfigurationsController.cs" />
     <Compile Include="Controllers\FederationController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\LeagueController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Models\Admin\AdminMessages.cs" />
     <Compile Include="Models\Admin\MassEmail.cs" />
     <Compile Include="Models\Admin\TestEmailLayout.cs" />
+    <Compile Include="Models\Configurations\ConfigurationModel.cs" />
     <Compile Include="Models\Helpers\Messages.cs" />
     <Compile Include="Models\OutModel\Base.cs" />
     <Compile Include="Models\OutModel\EmptyModel.cs" />
@@ -266,6 +268,7 @@
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Scripts\Sites\rdnation.js" />
+    <Content Include="Scripts\ViewModel\ConfigurationViewModel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -293,6 +296,10 @@
     <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
       <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
       <Name>Common.EmailServer.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.Site\Common.Site.csproj">
+      <Project>{e0f7aafe-6666-4a19-947f-f3fe60381154}</Project>
+      <Name>Common.Site</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDN.Library\RDN.Library.csproj">
       <Project>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</Project>
@@ -422,6 +429,7 @@
     <Content Include="Views\League\SetLeagueMerchantId.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Calendar\ViewDeletedEvents.cshtml" />
+    <Content Include="Views\Configurations\ViewConfigurations.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
