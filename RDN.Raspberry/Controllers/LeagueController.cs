@@ -169,6 +169,13 @@ namespace RDN.Raspberry.Controllers
 
         }
 
+        [Authorize]
+        public ActionResult LeagueJoinCodes()
+        {
+            var leangueJoinCodes =
+                Library.Classes.Admin.League.Classes.LeagueJoinCodes.GetAllLeagueJoinCodes().OrderBy(x => x.Name);
+            return View(leangueJoinCodes);
+        }
 
         [Authorize]
         public ActionResult SubscriptionsOfAllLeagues()

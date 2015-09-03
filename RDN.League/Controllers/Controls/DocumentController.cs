@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Document;
+using RDN.Library.Classes.Document.Json;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.League.Classes;
 using RDN.Library.DataModels.Tags;
@@ -21,7 +22,7 @@ namespace RDN.League.Controllers
     public class DocumentController : Controller
     {
         [Authorize]
-        public ActionResult FullTextSearchLeague(string leagueId, string text, string folderId, string groupId)
+        public ActionResult FullTextSearchLeague(string leagueId, string text, string folderId, string groupId, bool isArchived = false)
         {
             try
             {
@@ -31,7 +32,7 @@ namespace RDN.League.Controllers
                     foldId = Convert.ToInt64(folderId);
                 if (!String.IsNullOrEmpty(groupId))
                     gId = Convert.ToInt64(groupId);
-                var succ = DocumentSearch.FullTextSearchForLeague(new Guid(leagueId), text, foldId, gId);
+                var succ = DocumentSearch.FullTextSearchForLeague(new Guid(leagueId), text, foldId, gId, isArchived);
                 return Json(new { isSuccess = true, results = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -42,7 +43,7 @@ namespace RDN.League.Controllers
         }
 
         [Authorize]
-        public ActionResult SeachByDocumentName(string leagueId, string text, string folderId, string groupId)
+        public ActionResult SeachByDocumentName(string leagueId, string text, string folderId, string groupId, bool isArchived = false)
         {
             try
             {
@@ -52,7 +53,7 @@ namespace RDN.League.Controllers
                     foldId = Convert.ToInt64(folderId);
                 if (!String.IsNullOrEmpty(groupId))
                     gId = Convert.ToInt64(groupId);
-                var succ = DocumentSearch.SearchDocumentByName(new Guid(leagueId), text, foldId, gId);
+                var succ = DocumentSearch.SearchDocumentByName(new Guid(leagueId), text, foldId, gId, isArchived);
                 return Json(new { isSuccess = true, results = succ }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -69,9 +70,32 @@ namespace RDN.League.Controllers
             {
                 bool success = true;
                 string[] docs = doc.Split(',');
-                for(int i=0; i<docs.Count(); i++)
+                for (int i = 0; i < docs.Count(); i++)
                 {
                     bool succ = DocumentRepository.DeleteDocument(new Guid(ownerId), Convert.ToInt64(docs[i]));
+                    if (succ == false)
+                        success = false;
+                }
+                MemberCache.ClearLeagueDocument(RDN.Library.Classes.Account.User.GetMemberId());
+                return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult ArchiveDocument(string ownerId, string doc, bool isArchived)
+        {
+            try
+            {
+                bool success = true;
+                string[] docs = doc.Split(',');
+                for (int i = 0; i < docs.Count(); i++)
+                {
+                    bool succ = DocumentRepository.ArchiveDocument(new Guid(ownerId), Convert.ToInt64(docs[i]),isArchived);
                     if (succ == false)
                         success = false;
                 }
@@ -303,9 +327,8 @@ namespace RDN.League.Controllers
                     id = x.Id,
                     label = x.Tag.TagName
                 });
-                var jsonDocumentTags = JsonConvert.SerializeObject(documentTags);
                 MemberCache.ClearLeagueDocument(memId);
-                return Json(new { isSuccess = true, tags = jsonDocumentTags }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = true, tags = documentTags }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -313,7 +336,7 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
-       
+
         [Authorize]
         public ActionResult DeleteFolderFromLeagueDocuments(Guid leagueId, int folderId)
         {
