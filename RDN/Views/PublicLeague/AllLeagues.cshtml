@@ -1,25 +1,27 @@
 ﻿@using RDN.Utilities.Paging
 @model RDN.Models.OutModel.GenericSingleModel<RDN.Models.Utilities.SimpleModPager<RDN.Portable.Models.Json.Public.LeagueJsonDataTable>>
 @{
-    ViewBag.Title = "All "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Leagues";
+    ViewBag.Title = "All " + @RDN.Library.Classes.Config.LibraryConfig.SportName + " Leagues";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div id="mapdiv" class="page-header" style="height: 350px; width: 100%;"></div>
 <style>
-    .olControlAttribution { bottom: 0px; }
+    .olControlAttribution {
+        bottom: 0px;
+    }
 </style>
-
 <div class=" text-center">
     <h2> @Model.Model.NumberOfRecords.ToString("N0") @RDN.Library.Classes.Config.LibraryConfig.SportName Leagues World Wide</h2>
 </div>
-<div class="col-sm-offset-3 col-sm-6 col-xs-12">
-    <div class="input-group">
-        <input type="text" class="form-control" id="searchBox" data-bind="val: SearchText" onkeyup="LeagueViewModel.SearchLeagues(this)" placeholder="Search">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-        </span>
-    </div><!-- /input-group -->
+<div class="row">
+    <div class="col-sm-offset-3 col-sm-6 col-xs-12">
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchBox" data-bind="val: SearchText" onkeyup="LeagueViewModel.SearchLeagues(this)" placeholder="Search">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+            </span>
+        </div><!-- /input-group -->
+    </div>
 </div>
 <div>
     <table class="table-striped table table-hover" id="leagues">
@@ -60,7 +62,7 @@
                     </div>
                     <br />
                     <div class="row">
-
+                        
                         <a data-bind="if: Facebook, attr:{href: Facebook}" class="pull-left  " target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
                         <a data-bind="if: Instagram, attr:{href: Instagram}" class="pull-left col-xs-offset-1 " target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
                         <a data-bind="if: Twitter, attr:{href: Twitter}" class="pull-left   col-xs-offset-1" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
