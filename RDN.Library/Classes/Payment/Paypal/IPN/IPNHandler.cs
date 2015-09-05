@@ -127,41 +127,43 @@ namespace RDN.Library.Classes.Payment.Paypal
                         else
                             _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Can't Find Invoice ID Problem", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
 
-                        if ((!String.IsNullOrEmpty(PaypalMessage.PaymentStatus) && PaypalMessage.PaymentStatus.ToLower() == "completed") || (!String.IsNullOrEmpty(PaypalMessage.Status) && PaypalMessage.Status.ToLower() == "completed"))
+                        switch (PaypalMessage.PaymentStatus)
                         {
-                            _paypalManager.CompletePayment(new Guid(invoiceId), PaypalMessage);
-                            return true;
+                            case "Completed":
+                                _paypalManager.CompletePayment(new Guid(invoiceId), PaypalMessage);
+                                return true;
+                            case "Pending":
+                                switch (PaypalMessage.PendingReason)
+                                {
+                                    case "address":
+                                    case "authorization":
+                                    case "echeck":
+                                    case "intl":
+                                    case "multi-currency":
+                                    case "unilateral":
+                                    case "upgrade":
+                                    case "verify":
+                                    case "other":
+                                    default:
+                                        _paypalManager.PendingPayment(new Guid(invoiceId), PaypalMessage);
+                                        return true;
+                                }
+                            case "Failed":
+                            case "Denied":
+                                _paypalManager.FailedPayment(new Guid(invoiceId), PaypalMessage);
+                                return true;
+                            default:
+                                if (PaypalMessage.Status == "COMPLETED")
+                                { }
+                                else
+                                {
+                                    _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Status is Defaulted..??????", PaypalMessage.ToString());
+                                }
+                                return true;
                         }
-                        else if ((!String.IsNullOrEmpty(PaypalMessage.PaymentStatus) && PaypalMessage.PaymentStatus.ToLower() == "pending") || (!String.IsNullOrEmpty(PaypalMessage.Status) && PaypalMessage.Status.ToLower() == "pending"))
-                        {
-                            switch (PaypalMessage.PendingReason)
-                            {
-                                case "address":
-                                case "authorization":
-                                case "echeck":
-                                case "intl":
-                                case "multi-currency":
-                                case "unilateral":
-                                case "upgrade":
-                                case "verify":
-                                case "other":
-                                default:
-                                    _paypalManager.PendingPayment(new Guid(invoiceId), PaypalMessage);
-                                    return true;
-                            }
-                        }
-                        else if ((!String.IsNullOrEmpty(PaypalMessage.PaymentStatus) && PaypalMessage.PaymentStatus.ToLower() == "failed") || (!String.IsNullOrEmpty(PaypalMessage.Status) && PaypalMessage.Status.ToLower() == "failed") || (!String.IsNullOrEmpty(PaypalMessage.PaymentStatus) && PaypalMessage.PaymentStatus.ToLower() == "denied") || (!String.IsNullOrEmpty(PaypalMessage.Status) && PaypalMessage.Status.ToLower() == "denied"))
-                        {
-                            _paypalManager.FailedPayment(new Guid(invoiceId), PaypalMessage);
-                            return true;
-                        }
-                        else
-                        {
-                            _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Status is Defaulted..??????", PaypalMessage.ToString());
-                            return true;
-                        }
-                    //email buyer and me a reciept of order.
 
+
+                    //email buyer and me a reciept of order.
                     //web payments from dues or stores are considered invalid because we are using 
                     //the Paypal Adpative payments API to handle the dues and store purchases.
                     case "INVALID":
@@ -241,6 +243,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     var messages = message.TrackingId.Split(':');
                     if (messages.Count() > 1)
                         message.ConfigurationName = messages[1];
+                    message.Invoice = messages[0];
                 }
                 if (!String.IsNullOrEmpty(context.Request.Form["transaction[0].is_primary_receiver"]))
                 {

@@ -162,6 +162,33 @@ namespace RDN.Library.Classes.Document
             }
             return false;
         }
+        public static bool ArchiveDocument(Guid ownerId, long docId, bool isArchived)
+        {
+            try
+            {
+                Document doc = new Document();
+                var dc = new ManagementContext();
+                var docs = dc.LeagueDocuments.FirstOrDefault(x => x.League.LeagueId == ownerId && x.DocumentId == docId);
+                if (docs != null)
+                {
+                    bool isMem = MemberCache.IsMemberApartOfLeague(RDN.Library.Classes.Account.User.GetMemberId(),
+                        docs.League.LeagueId);
+                    if (isMem)
+                    {
+                        docs.Document = docs.Document;
+                        docs.IsArchived = !isArchived;
+                        int c = dc.SaveChanges();
+                        return c > 0;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
+
         public static bool RestoreDocument(long docId)
         {
             try
@@ -431,6 +458,107 @@ namespace RDN.Library.Classes.Document
             return null;
         }
 
+        public static DocumentRepository GetArchivedDocuments(Guid leagueId, Guid memId, long folderId = 0, long groupId = 0)
+        {
+            try
+            {
+                DocumentRepository repo = new DocumentRepository();
+
+                var dc = new ManagementContext();
+                var docs = dc.Leagues.Include("Documents").Include("Documents.Category.Group").Include("Documents.Category").Include("Folders").Where(x => x.LeagueId == leagueId).FirstOrDefault();
+
+                if (docs != null)
+                {
+                    repo.OwnerId = docs.LeagueId;
+                    repo.OwnerName = docs.Name;
+                    repo.Groups = MemberCache.GetLeagueGroupsOfMember().OrderBy(x => x.GroupName).ToList();
+                    for (int i = 0; i < repo.Groups.Count; i++)
+                    {
+                        repo.GroupFolderSettings.Add(new LeagueGroup() { Id = repo.Groups[i].Id, GroupName = "G-" + repo.Groups[i].GroupName });
+                    }
+                    var fols = docs.Folders.OrderBy(x => x.CategoryName);
+                    foreach (var doc in fols)
+                    {
+                        repo.Folders.Add(LeagueFolder.DisplayFolder(doc));
+                        repo.GroupFolderSettings.Add(new LeagueGroup() { Id = doc.CategoryId, GroupName = "F-" + doc.CategoryName });
+                    }
+                    List<DataModels.League.Documents.LeagueDocument> documents = new List<DataModels.League.Documents.LeagueDocument>();
+                    if (folderId > 0)
+                        documents = docs.Documents.Where(x => x.Category != null && x.Category.CategoryId == folderId && x.IsRemoved == false).ToList();
+                    else if (groupId > 0)
+                    {//gets all documents within category group.
+                        documents = docs.Documents.Where(x => x.Category != null && x.Category.Group != null && x.Category.Group.Id == groupId && x.IsRemoved == false && x.IsArchived == true).ToList();
+                        //adds documents within JUST group.
+                        var docs2 = docs.Documents.Where(x => x.Group != null && x.Group.Id == groupId && x.IsRemoved == false && x.IsArchived == true).ToList();
+                        for (int i = 0; i < docs2.Count; i++)
+                        {
+                            if (documents.Where(x => x.DocumentId == docs2[i].DocumentId).FirstOrDefault() == null)
+                                documents.Add(docs2[i]);
+                        }
+                        var docs3 = docs.Documents.Where(x => x.Category != null && x.Category.ParentFolder != null && x.Category.ParentFolder.Group != null && x.Category.ParentFolder.Group.Id == groupId && x.IsRemoved == false).ToList();
+                        for (int i = 0; i < docs3.Count; i++)
+                        {
+                            if (documents.Where(x => x.DocumentId == docs3[i].DocumentId).FirstOrDefault() == null)
+                                documents.Add(docs3[i]);
+                        }
+                    }
+                    else
+                        documents = docs.Documents.Where(x => x.IsRemoved == false && x.IsArchived == true).ToList();
+                    var groups = MemberCache.GetGroupsApartOf(memId);
+                    foreach (var doc in documents)
+                    {
+                        bool addDocDirtyBit = false;
+                        var document = LeagueDocument.DisplayDocument(doc, false);
+                        //check if the document is apart of a group.
+                        if (document.Folder != null && document.Folder.GroupId > 0)
+                        {
+                            //check if member is apart of group doc is in.
+                            if (groups.Where(x => x.Id == document.Folder.GroupId).FirstOrDefault() != null)
+                                addDocDirtyBit = true;
+                        }
+                        else if (document.GroupId > 0)
+                        {//if the document is apart of the group, check if the user is in the group.
+                            if (groups.Where(x => x.Id == document.GroupId).FirstOrDefault() != null)
+                                addDocDirtyBit = true;
+                        }
+                        else if (document.Folder != null && document.Folder.ParentFolderId > 0)
+                        {
+                            //if the folder/parent folder is in a group, we check if the user is apart of the group.
+                            var temp = repo.Folders.Where(x => x.FolderId == document.Folder.ParentFolderId).FirstOrDefault();
+                            if (temp.GroupId > 0)
+                            {
+                                if (groups.Where(x => x.Id == temp.GroupId).FirstOrDefault() != null)
+                                    addDocDirtyBit = true;
+                            }
+                            else //we add the document to the collection since the parent folder doesn't have a group.
+                                addDocDirtyBit = true;
+                        }
+                        else
+                            addDocDirtyBit = true;
+
+                        if (addDocDirtyBit)
+                        {
+                            repo.Documents.Add(document);
+                            if (doc.Category != null)
+                            {
+                                var fol = repo.Folders.Where(x => x.FolderId == doc.Category.CategoryId).FirstOrDefault();
+                                fol.DocumentCount += 1;
+                                fol.FolderSize += doc.Document.DocumentSize;
+                                fol.FolderSizeHuman = RDN.Utilities.Strings.StringExt.FormatBytes(fol.FolderSize);
+                            }
+                        }
+                    }
+                    repo.Documents = repo.Documents.OrderByDescending(x => x.Created).ToList();
+                    return repo;
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return null;
+        }
+
         public static DocumentRepository GetLeagueDocumentRepository(Guid leagueId, Guid memId, long folderId = 0, long groupId = 0)
         {
             try
@@ -460,9 +588,9 @@ namespace RDN.Library.Classes.Document
                         documents = docs.Documents.Where(x => x.Category != null && x.Category.CategoryId == folderId && x.IsRemoved == false).ToList();
                     else if (groupId > 0)
                     {//gets all documents within category group.
-                        documents = docs.Documents.Where(x => x.Category != null && x.Category.Group != null && x.Category.Group.Id == groupId && x.IsRemoved == false).ToList();
+                        documents = docs.Documents.Where(x => x.Category != null && x.Category.Group != null && x.Category.Group.Id == groupId && x.IsRemoved == false && x.IsArchived == false).ToList();
                         //adds documents within JUST group.
-                        var docs2 = docs.Documents.Where(x => x.Group != null && x.Group.Id == groupId && x.IsRemoved == false).ToList();
+                        var docs2 = docs.Documents.Where(x => x.Group != null && x.Group.Id == groupId && x.IsRemoved == false && x.IsArchived == false).ToList();
                         for (int i = 0; i < docs2.Count; i++)
                         {
                             if (documents.Where(x => x.DocumentId == docs2[i].DocumentId).FirstOrDefault() == null)
@@ -476,7 +604,7 @@ namespace RDN.Library.Classes.Document
                         }
                     }
                     else
-                        documents = docs.Documents.Where(x => x.IsRemoved == false).ToList();
+                        documents = docs.Documents.Where(x => x.IsRemoved == false && x.IsArchived == false).ToList();
                     var groups = MemberCache.GetGroupsApartOf(memId);
                     foreach (var doc in documents)
                     {

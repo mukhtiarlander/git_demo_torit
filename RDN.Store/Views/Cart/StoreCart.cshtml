@@ -22,9 +22,9 @@
                     <div id="@item.ShoppingCartItemId-row" class="cart-item cart-item-warning">
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 text-center">
-                                @if (item.Photos.FirstOrDefault() != null)
+                                @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
                                 {
-                                    <img src="@item.Photos.FirstOrDefault().ImageUrl" style="width:120px; max-width:120px; " alt="@item.Photos.FirstOrDefault().Alt" />
+                                    <img src="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).ImageUrl" style="width:120px; max-width:120px; " alt="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).Alt" />
                                 }
                                 else
                                 {

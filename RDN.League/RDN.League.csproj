@@ -130,11 +130,13 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PayPalAdaptivePaymentsSDK">
-      <HintPath>..\packages\PayPalAdaptivePaymentsSDK.2.12.117\lib\net20\PayPalAdaptivePaymentsSDK.dll</HintPath>
+    <Reference Include="PayPalAdaptivePaymentsSDK, Version=2.14.117.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PayPalAdaptivePaymentsSDK.2.14.117\lib\net20\PayPalAdaptivePaymentsSDK.dll</HintPath>
     </Reference>
-    <Reference Include="PayPalCoreSDK">
-      <HintPath>..\packages\PayPalCoreSDK.1.4.2\lib\net45\PayPalCoreSDK.dll</HintPath>
+    <Reference Include="PayPalCoreSDK, Version=1.6.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PayPalCoreSDK.1.6.1\lib\net451\PayPalCoreSDK.dll</HintPath>
     </Reference>
     <Reference Include="ScheduleWidget, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -430,6 +432,7 @@
     <Content Include="app_offline1.htm" />
     <Content Include="browserconfig.xml" />
     <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap-tagsinput.css" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\tinymce\tinymce.mentions.css" />
     <Content Include="Content\banner.jpg" />
@@ -778,11 +781,13 @@
     <Content Include="Content\images\cloud-popup-relative.png" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\jquery.mentionsInput.css" />
-    <Content Include="Scripts\bootstrap-confirm-button\bootstrap-confirm-button.src.js" />
     <Content Include="Scripts\bootstrap-wysiwyg.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap-confirm-button.src.js" />
     <Content Include="Scripts\Bootstrap\bootstrap-notify.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap-tagsinput-angular.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap-tagsinput.js" />
     <Content Include="Scripts\colorPicker\colorpicker.js" />
     <Content Include="Scripts\colorPicker\eye.js" />
     <Content Include="Scripts\colorPicker\jquery.js" />

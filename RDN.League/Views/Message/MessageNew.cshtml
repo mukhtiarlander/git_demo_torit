@@ -152,13 +152,15 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#checkAll").attr("checked", "checked");
-            Messages.toggleCheckedForRecipients($("#checkAll"));
+            Messages.ToggleCheckedAllForRecipients($("#checkAll"));
         });
     </script>
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        Messages.SetupNewMessage();
+        var memberId = "@Model.OwnerId.ToString().Replace("-","")";
+        var type = "@Model.OwnerType.ToString()";
+        Messages.SetupNewMessage(memberId, type);
 
     });
 </script>

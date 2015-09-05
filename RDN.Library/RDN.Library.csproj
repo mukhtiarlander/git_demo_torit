@@ -87,14 +87,17 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PayPalAdaptivePaymentsSDK">
-      <HintPath>..\packages\PayPalAdaptivePaymentsSDK.2.12.117\lib\net20\PayPalAdaptivePaymentsSDK.dll</HintPath>
+    <Reference Include="PayPalAdaptivePaymentsSDK, Version=2.14.117.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PayPalAdaptivePaymentsSDK.2.14.117\lib\net20\PayPalAdaptivePaymentsSDK.dll</HintPath>
     </Reference>
-    <Reference Include="PayPalCoreSDK">
-      <HintPath>..\packages\PayPalCoreSDK.1.4.2\lib\net45\PayPalCoreSDK.dll</HintPath>
+    <Reference Include="PayPalCoreSDK, Version=1.6.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PayPalCoreSDK.1.6.1\lib\net451\PayPalCoreSDK.dll</HintPath>
     </Reference>
-    <Reference Include="PayPalMerchantSDK">
-      <HintPath>..\packages\PayPalMerchantSDK.2.12.117\lib\net20\PayPalMerchantSDK.dll</HintPath>
+    <Reference Include="PayPalMerchantSDK, Version=2.15.117.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PayPalMerchantSDK.2.15.117\lib\net20\PayPalMerchantSDK.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.666, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -197,6 +200,7 @@
     <Compile Include="Cache\MemberCache.cs" />
     <Compile Include="Cache\Site\Management\ManagementCache.cs" />
     <Compile Include="Cache\Site\PublicSiteCache.cs" />
+    <Compile Include="Classes\Admin\League\Classes\LeagueJoinCodes.cs" />
     <Compile Include="Classes\Api\Email\EmailManagerApi.cs" />
     <Compile Include="Classes\Api\Paypal\PaypalManagerApi.cs" />
     <Compile Include="Classes\AutomatedTask\Enums\IntroductoryEmailEnum.cs" />
@@ -711,6 +715,8 @@
     <Compile Include="DataModels\Store\StoreItemCategory.cs" />
     <Compile Include="DataModels\Store\StoreItemColor.cs" />
     <Compile Include="DataModels\Store\StoreItemPhoto.cs" />
+    <Compile Include="DataModels\League\Documents\DocumentTag.cs" />
+    <Compile Include="DataModels\Tags\Tag.cs" />
     <Compile Include="DataModels\Team\DerbyRosterLeague.cs" />
     <Compile Include="DataModels\Team\TeamMembers.cs" />
     <Compile Include="DataModels\Team\TeamLogo.cs" />
