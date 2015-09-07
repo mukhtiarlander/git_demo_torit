@@ -17,7 +17,7 @@ namespace RDN.Library.Classes.Document
 {
     public class DocumentSearch
     {
-        public static List<DocumentJson> FullTextSearchForLeague(Guid leagueId, string text, long folderId = 0, long groupId = 0)
+        public static List<DocumentJson> FullTextSearchForLeague(Guid leagueId, string text, long folderId = 0, long groupId = 0, bool isArchived = false)
         {
             List<DocumentJson> temps = new List<DocumentJson>();
             try
@@ -28,8 +28,11 @@ namespace RDN.Library.Classes.Document
                     searchText[i] = searchText[i].Trim();
                 }
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
-                var docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId);
-
+                DocumentRepository docs = null;
+                if (!isArchived)
+                    docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId);
+                else
+                    docs = RDN.Library.Classes.Document.DocumentRepository.GetArchivedDocuments(leagueId, memId, folderId, groupId);
                 foreach (var d in docs.Documents)
                 {
                     try
@@ -166,14 +169,18 @@ namespace RDN.Library.Classes.Document
             }
         }
 
-        public static List<DocumentJson> SearchDocumentByName(Guid leagueId, string text, long folderId = 0, long groupId = 0)
+        public static List<DocumentJson> SearchDocumentByName(Guid leagueId, string text, long folderId = 0, long groupId = 0, bool isArchived = false)
         {
             List<DocumentJson> temps = new List<DocumentJson>();
             try
             {
 
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
-                var docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
+                IEnumerable<Document> docs = null;
+                if (!isArchived)
+                    docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
+                else
+                    docs = RDN.Library.Classes.Document.DocumentRepository.GetArchivedDocuments(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
 
                 foreach (var document in docs)
                 {

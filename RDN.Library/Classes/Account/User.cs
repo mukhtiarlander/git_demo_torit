@@ -1729,6 +1729,10 @@ namespace RDN.Library.Classes.Account
                 string imageLocationToSaveMain = imageLocationToSave + fileName;
                 string imageLocationToSaveThumb = imageLocationToSave + fileNameThumb;
 
+                foreach (var memberPhoto in memDb.Photos)
+                {
+                    memberPhoto.IsPrimaryPhoto = false;
+                }
                 RDN.Library.DataModels.Member.MemberPhoto image = new RDN.Library.DataModels.Member.MemberPhoto();
                 image.ImageUrl = urlMain;
                 image.SaveLocation = imageLocationToSaveMain;
@@ -1738,6 +1742,7 @@ namespace RDN.Library.Classes.Account
                 image.IsVisibleToPublic = true;
                 image.Member = memDb;
                 memDb.Photos.Add(image);
+
                 sb.Append(imageLocationToSaveMain);
                 using (var newfileStream = new FileStream(imageLocationToSaveMain, FileMode.OpenOrCreate, FileAccess.Write))
                 {

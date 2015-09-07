@@ -965,7 +965,8 @@ namespace RDN.Library.Classes.Store
             try
             {
                 var mc = new ManagementContext();
-                var merchant = mc.Merchants.FirstOrDefault(x => x.InternalReference == ownerId);
+                
+var merchant = mc.Merchants.FirstOrDefault(x => x.InternalReference == ownerId);
 
                 if (merchant != null)
                 {
@@ -1394,7 +1395,7 @@ namespace RDN.Library.Classes.Store
                 else
                     item.ShopNameTrimmed = storeItem.Merchant.ShopName;
 
-                var photo = storeItem.Photos.FirstOrDefault();
+                var photo = storeItem.Photos.FirstOrDefault(x => x.IsPrimaryPhoto);
                 if (photo != null)
                 {
                     item.PhotoUrl = photo.ImageUrl;

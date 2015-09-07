@@ -127,12 +127,9 @@ function ToggleShipment(span, storeItemCartId, merchantId, cartId) {
 }
 
 
-function BillingAddressDifferent(btn, isdifferent) {
-    $(btn).siblings().removeClass("active");
-    $(btn).addClass("active");
-    $("#IsBillingDifferentFromShipping").val(isdifferent);
-    if (isdifferent) {
-        $("#shippingAddress").slideDown("fast");
+function BillingAddressSameAsShipping(checkBox) {
+    if (checkBox.checked === true) {
+        $("#shippingAddress").toggleClass("displayNone", false);
         $("#ShippingAddress_LastName").val($("#BillingAddress_LastName").val());
         $("#ShippingAddress_FirstName").val($("#BillingAddress_FirstName").val());
         $("#ShippingAddress_Street").val($("#BillingAddress_Street").val());
@@ -142,7 +139,7 @@ function BillingAddressDifferent(btn, isdifferent) {
         $("#ShippingAddress_Zip").val($("#BillingAddress_Zip").val());
         $("#ShippingAddress_Country").val($("#BillingAddress_Country").val());
     } else {
-        $("#shippingAddress").slideUp("fast");
+        $("#shippingAddress").toggleClass("displayNone", true);
         $("#ShippingAddress_LastName").val("");
         $("#ShippingAddress_FirstName").val("");
         $("#ShippingAddress_Street").val("");
@@ -190,16 +187,15 @@ function AddSiteMapNode(url, modified) {
     $.getJSON("/Utilities/AddNodeToSiteMap", { url: url, modified: modified });
 }
 
-function HideShowCCInfo(btn, hideShow) {
-    $(btn).siblings().removeClass("active");
-    $(btn).addClass("active");
-    $("#PaymentProviderId").val($(btn).attr("id"));
+function HideShowCCInfo(hideShow) {
     if (hideShow === 'show') {
-        $("#CCTable").slideDown();
+        $("#CCTable").toggleClass('displayNone', false);
+        $("#ccSplitter").toggleClass('displayNone', false);
         toggleSubscriptionValidationRules(true);
     }
     else if (hideShow === 'hide') {
-        $("#CCTable").slideUp();
+        $("#CCTable").toggleClass('displayNone', true);
+        $("#ccSplitter").toggleClass('displayNone', true);
         toggleSubscriptionValidationRules(false);
     }
 }
@@ -225,7 +221,8 @@ function toggleSubscriptionValidationRules(onOff) {
             },
             submitHandler: function (form) {
                 // disable the submit button to prevent repeated clicks
-                $('#submitButton').attr("disabled", true).html("<i class='fa fa-spinner fa-spin'> Place Your Order");
+                $('#submitButton').toggleClass("displayNone", true);
+                $('#working').toggleClass("displayNone", false);
                 Stripe.createToken({
                     number: $('.card-number').val(),
                     cvc: $('.card-cvc').val(),
@@ -255,7 +252,8 @@ function toggleSubscriptionValidationRules(onOff) {
             },
             submitHandler: function (form) {
                 // disable the submit button to prevent repeated clicks
-                $('#submitButton').attr("disabled", true).html("<i class='fa fa-spinner fa-spin'></i> Place Your Order");
+                $('#submitButton').toggleClass("displayNone", true);
+                $('#working').toggleClass("displayNone", false);
                 var form$ = $("#PaymentForm");
                 // and submit
                 form$.get(0).submit();
@@ -268,10 +266,10 @@ function toggleSubscriptionValidationRules(onOff) {
 
 function stripeResponseHandler(status, response) {
     if (response.error) {
-        console.log("stripe Error");
         // show the errors on the form
         $(".paymentErrors").html(response.error.message);
-        $('#submitButton').attr("disabled", false).html("<i class='fa fa-check-circle'></i> Place Your Order");
+        $('#submitButton').toggleClass("displayNone", false);
+        $('#working').toggleClass("displayNone", true);
     } else {
         var form$ = $("#PaymentForm");
         // token contains id, last4, and card type
@@ -280,20 +278,5 @@ function stripeResponseHandler(status, response) {
         form$.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
         // and submit
         form$.get(0).submit();
-    }
-}
-
-function ShowCurrenciesConversions()
-{
-    $("#div_currency_conversions").slideToggle();
-}
-
-function ToggleShippingAddressPanel(chk) {
-    if($(chk).prop("checked"))
-    {
-        $("#ship_address_panel_body").slideDown();
-    }
-    else {
-        $("#ship_address_panel_body").slideUp();
     }
 }

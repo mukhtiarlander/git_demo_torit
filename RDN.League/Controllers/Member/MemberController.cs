@@ -321,6 +321,7 @@ namespace RDN.League.Controllers
                 }
 
                 EditMember edit = new EditMember();
+                edit.Photos = member.Photos;
                 edit.IsProfileRemovedFromPublicView = member.IsProfileRemovedFromPublicView;
                 edit.IsRetired = member.IsRetired;
                 edit.Bio = member.Bio;
@@ -386,7 +387,7 @@ namespace RDN.League.Controllers
                 edit.MemberId = member.MemberId;
                 edit.UserId = member.UserId;
                 edit.PhoneNumber = member.PhoneNumber;
-                edit.Photos = member.Photos;
+             
 
                 edit.PlayerNumber = member.PlayerNumber;
                 edit.WeightLbs = member.WeightLbs;

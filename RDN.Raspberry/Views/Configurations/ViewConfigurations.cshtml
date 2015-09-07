@@ -1,0 +1,122 @@
+﻿@model RDN.Raspberry.Models.Configurations.ConfigurationModel
+
+@{
+    ViewBag.Title = "View Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+}
+
+<div id="divViewConfiguration" class="form-horizontal">
+    <h4>View Configurations</h4>
+
+    <input type="button" title="Add New Configuration" value="Add New Configuration" id="btnAddNewConfiguration" />
+
+    <br />
+    <br />
+
+    @if (Model.Items.Count() > 0)
+    {
+        if (ViewBag.IsDeleted != null)
+        {
+          <div class="bg-success" width="50% !important" >Record has been successfully deleted. </div>
+        }
+        
+        <table>
+            <tr>
+                <th>Kye </th>
+                <th>Value</th>
+                <th>Description</th>
+                <th> </th>
+            </tr>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td class="valign">                       
+                        <label class="label_@item.ID">@item.Key</label>
+                        <input type="text" value="@item.Key" name="@item.Key" id="txtKey_@item.ID" class="Display" />
+                    </td>
+                    <td class="valign">
+                        <label class="label_@item.ID">@item.Value</label>
+                        <input type="text" value="@item.Value" name="@item.Value" id="txtValue_@item.ID" class="Display" />
+                    </td>
+                    <td class="valign">                       
+                        <label title="@item.Discription" class="label_@item.ID">@item.Discription</label>
+                        <textarea name="txtDiscription" cols="30" rows="4" id="txtDescription_@item.ID"  class="Display">@item.Discription</textarea>
+                    </td>
+                    <td class="valign">
+                        <div id="EditDelete_@item.ID">
+                            <input class="button" type="button" id="Edit_@item.ID" onclick="Edit(this)" value="Edit">
+                            <input class="button" type="button" id="Delete_@item.ID" onclick="DeleteConfirm(this)" value="Delete">
+                        </div>
+                        <div id="SaveCancel_@item.ID" style="display:none">
+                            <input class="button" id="Save_@item.ID" type="button" onclick="Save(this)" value="Save">
+                            <input class="button" id="Cancel_@item.ID" type="button" onclick="Cancel(this)" value="Cancel">
+                        </div>
+                    </td>
+                    
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">No Records Found !!</div>
+        <br />
+        <br />
+        <br />
+    }
+</div>
+<div id="divCreateConfiguration">
+    @using (Html.BeginForm("Create", "Configurations"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Create Configuration</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(x => x.Key, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Discription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Discription, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.ValidationMessageFor(model => model.Discription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        $("#divCreateConfiguration").hide();
+        $(".Display").css("display", "none");
+        $("#btnAddNewConfiguration").live("click", function () {
+            $("#divCreateConfiguration").show();            
+            $("#divViewConfiguration").hide();
+        });
+    });   
+</script>
+
+

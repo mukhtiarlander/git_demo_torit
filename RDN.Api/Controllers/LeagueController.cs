@@ -192,8 +192,8 @@ namespace RDN.Api.Controllers
                     for (int i = 0; i < members.Count; i++)
                     {
                         MemberDisplayAPI m = new MemberDisplayAPI();
-                        if (members[i].Photos.FirstOrDefault() != null)
-                            m.ThumbUrl = members[i].Photos.FirstOrDefault().ImageThumbUrl;
+                        if (members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                            m.ThumbUrl = members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl;
                         
                         m.DerbyName = members[i].DerbyName;
                         m.DerbyNameUrl = members[i].DerbyNameUrl;
@@ -247,8 +247,8 @@ namespace RDN.Api.Controllers
                     for (int i = 0; i < members.Count; i++)
                     {
                         MemberDisplayBasic m = new MemberDisplayBasic();
-                        if (members[i].Photos.FirstOrDefault() != null)
-                            m.ThumbUrl = members[i].Photos.FirstOrDefault().ImageThumbUrl;
+                        if (members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                            m.ThumbUrl = members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl;
                         
                         m.DerbyName = members[i].DerbyName;
                         m.Firstname = members[i].Firstname;

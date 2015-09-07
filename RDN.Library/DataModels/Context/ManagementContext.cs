@@ -77,6 +77,7 @@ namespace RDN.Library.DataModels.Context
         public DbSet<League.Documents.LeagueDocument> LeagueDocuments { get; set; }
         public DbSet<League.Documents.DocumentComment> DocumentComments { get; set; }
         public DbSet<League.Documents.DocumentCategory> LeagueDocumentFolders { get; set; }
+        public DbSet<League.Documents.DocumentTag> DocumentTags { get; set; }
         public DbSet<League.LeagueContacts> LeagueContacts { get; set; }
         public DbSet<League.LeagueColor> LeagueColors { get; set; }
         public DbSet<LeagueReport> LeagueReports { get; set; }
@@ -88,6 +89,10 @@ namespace RDN.Library.DataModels.Context
         public DbSet<Task> Tasks { get; set; }
         // **************** Document management **************** \\     
         public DbSet<DataModels.Document.Document> Documents { get; set; }
+
+        // ****************Tag Management **************** \\   
+        public DbSet<DataModels.Tags.Tag> Tags { get; set; }
+       
 
         // **************** Member management **************** \\                
         public DbSet<Member.Member> Members { get; set; }

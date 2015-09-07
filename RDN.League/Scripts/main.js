@@ -281,157 +281,10 @@ function joinCode() {
         */
 }
 
-var lastSearch = "";
-function FullTextDocumentSearchLeague(IsOnKeyPress) {
-    var isDeepSearch = $("#cbDeepSearch").prop('checked');
-    var box = $("#textSearchBox");
-    if (IsOnKeyPress && isDeepSearch) {
-        return;
-        }
-    if (lastSearch == box.val().trim()) {
-        return;
-        }
-    var gId = getParameterByName('g');
-    var fId = getParameterByName('f');
-    var owner = $("#OwnerId");
-    var tableBody = $("#documentsBody");
-    $("#loading").toggleClass("displayNone", false);
-    var url = "";
-    if (!isDeepSearch)
-        url = "/document/SeachByDocumentName";
-    else
-        url = "/document/FullTextSearchLeague";
-    $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId }, function (result) {
-        $("#loading").toggleClass("displayNone", true);
-        if (result.isSuccess === true) {
-            tableBody.html("");
-            $.each(result.results, function (i, item) {
-                DisplayDocumentRow(result, tableBody, item);
-            });
-            lastSearch = box.val().trim();
-        } else {
-        }
-    }).error(function () {
-        $("#loading").toggleClass("displayNone", true);
-    });
-}
-
-
-
-function DisplayDocumentRow(result, tableBody, item) {
-
-    var row = $(document.createElement('tr'));
-
-    var checkColumn = $(document.createElement('td'));
-    var cbId = "cb-" + item.OwnerDocId;
-    checkColumn.append('<input type="checkbox" id="' + cbId + '"   />');
-    row.append(checkColumn);
-
-    var firstColumn = $(document.createElement('td'));
-    firstColumn.css("vertical-align", "middle");
-    //RDN.Library.Classes.Document.Enums
-    if (item.MimeType === 3 || item.MimeType === 28 || item.MimeType === 32)
-        firstColumn.append('<i class="fa fa-file-excel-o fa-lg"></i>');
-    else if (item.MimeType === 2 || item.MimeType === 11 || item.MimeType === 30)
-        firstColumn.append(' <i class="fa fa-file-excel-o fa-lg"></i>');
-    else if (item.MimeType === 33)
-        firstColumn.append('<i class="fa fa-file-excel-o fa-lg"></i>');
-    else if (item.MimeType === 35)
-        firstColumn.append('<img class="docIcon" src="' + leagueHost + '/Content/images/icons/docs/odf.png")" />');
-    else if (item.MimeType === 36)
-        firstColumn.append('<img class="docIcon" src="' + leagueHost + '/Content/images/icons/docs/ods.png")" />');
-    else if (item.MimeType === 19 || item.MimeType === 13 || item.MimeType === 18 || item.MimeType === 20 || item.MimeType === 26 || item.MimeType === 24)
-        firstColumn.append('<i class="fa fa-file-image-o fa-lg"></i>');
-    else if (item.MimeType === 6)
-        firstColumn.append('<i class="fa fa-file-text-o fa-lg"></i>');
-    else if (item.MimeType === 25)
-        firstColumn.append('<img class="docIcon" src="' + leagueHost + '/Content/images/icons/docs/ai.png")" />');
-    else if (item.MimeType === 1)
-        firstColumn.append('<i class="fa fa-file-pdf-o fa-lg"></i>');
-    else if (item.MimeType === 4)
-        firstColumn.append('  <i class="fa fa-file-zip-o fa-lg"></i>');
-    else if (item.MimeType === 7)
-        firstColumn.append('<i class="fa fa-file-code-o fa-lg"></i>');
-    else if (item.MimeType === 7)
-        firstColumn.append('<i class="fa fa-file-code-o fa-lg"></i>');
-    else if (item.MimeType === 9 || item.MimeType === 34)
-        firstColumn.append('<i class="fa fa-file-powerpoint-o fa-lg"></i>');
-    else if (item.MimeType === 23)
-        firstColumn.append('<img class="docIcon" src="' + leagueHost + '/Content/images/icons/docs/svg.png")" />');
-    else if (item.MimeType === 27)
-        firstColumn.append('<img class="docIcon" src="' + leagueHost + '/Content/images/icons/docs/html.png")" />');
-    else if (item.MimeType === 29)
-        firstColumn.append('<i class="fa fa-newspaper-o fa-lg"></i>');
-    else if (item.MimeType === 6)
-        firstColumn.append('<i class="fa fa-file-text-o fa-lg"></i>');
-    else if (item.MimeType === 37)
-        firstColumn.append('<i class="fa fa-file-audio-o fa-lg"></i>');
-    else if (item.MimeType === 38)
-        firstColumn.append(' <i class="fa fa-film fa-lg"></i>');
-    else if (item.MimeType === 39)
-        firstColumn.append(' <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/ps.png")" />');
-    else if (item.MimeType === 40)
-        firstColumn.append(' <img class="docIcon" src="@Url.Content("~/Content/images/icons/docs/wps.png")" />');
-    else if (item.MimeType === 41)
-        firstColumn.append('<i class="fa fa-file-excel-o fa-lg"></i>');
-    else if (item.MimeType === 42)
-        firstColumn.append('<span class="fa-stack"><i class="fa fa-file-o fa-stack-2x font19 width-initial"></i><i class="fa fa-google fa-stack-1x font11 margin-left-3 width-initial"></i></span>');
-    row.append(firstColumn);
-
-    var secondColumn = $(document.createElement('td'));
-    var memberLink = $(document.createElement('a'));
-    memberLink.attr({ href: leagueHost + "document/download/" + item.DocumentId.replace(/-/g, "") });
-    memberLink.html(item.DocumentName);
-    secondColumn.append(memberLink);
-    row.append(secondColumn);
-
-
-    var thirdColumn = $(document.createElement('td'));
-    if (item.Folder != null)
-        thirdColumn.append(item.Folder.FolderName);
-    row.append(thirdColumn);
-
-
-    var fourthColumn = $(document.createElement('td'));
-    fourthColumn.css("vertical-align", "middle");
-    var count = item.CommentCount.toString().trim();
-    if (count === "0") {
-        count = "";
-        }
-    fourthColumn.append('<div class="spanIconsDoc"><a class="btn btn-xs btn-primary" title="Comments (' + item.CommentCount + ')" href="' + leagueHost + 'league/document/comments/' + item.DocumentId.replace(/-/g, "") + '/' + item.OwnerDocId + '"><i class="fa fa-comments"></i><span class="docCount"> ' + count + '</span></a></div>');
-    row.append(fourthColumn);
-    var fifthColumn = $(document.createElement('td'));
-    fifthColumn.append();
-    row.append(fifthColumn);
-    tableBody.append(row);
-
-    var sixColumn = $(document.createElement('td'));
-    sixColumn.append(item.UploadedHuman);
-    row.append(sixColumn);
-
-    if ($("#cbDeepSearch").prop('checked')) {
-        var sevenColumn = $(document.createElement('td'));
-        sevenColumn.append("<b>" + item.SearchMatches + "</b> Matches");
-        row.append(sevenColumn);
-}
-
-    var eightColumn = $(document.createElement('td'));
-    row.append(eightColumn);
-}
-
-
-
-
-
-
-
-
 function AddCommentToDocument(id, ownerId) {
     var com = $("#comment");
     $.getJSON("/document/AddCommentToLeagueDocument", { docId: id, docOwnerId: ownerId, comment: com.val() }, function (result) {
-        if (result.isSuccess === true) {
-
-        }
+        if (result.isSuccess === true) { }
         if ($("#folderBody").html().trim() == "") {
             $("#folderBody").before('<div class="panel panel-default margin-top-10"><div class="panel-heading"><b>You</b><button type="button" class="btn btn-xs btn-danger pull-right" title="Delete"  onclick="DeleteCommentFromDocument(this,\'' + ownerId + '\',\'' + id + '\')"><i class="fa fa-trash"></i></button><br /><i class="fa fa-quote-left" style="color:silver"></i> <span style="font-size:18px">' + com.val() + '</span> <i class="fa fa-quote-right" style="color:silver"></i><br /><span class="text-muted small">Just Now</span></div></div>');
         }
@@ -443,6 +296,52 @@ function AddCommentToDocument(id, ownerId) {
         com.val("");
     });
 }
+function AddTagsToDocument(id, ownerId) {
+    var tags = $("#Tags").tagsinput('items');
+    $.getJSON("/document/AddTagsToDocument", {
+        docId: id, docOwnerId: ownerId, tags: tags.join()
+    }, function (result) {
+        if (result.isSuccess === true) {
+            $('.bottom-right').notify({
+                message: { html: false, text: 'Saved Successfully' },
+                fadeOut: { enabled: true, delay: 4000 },
+                type: "success"
+            }).show();
+            GetDocumentTags(ownerId);
+        }
+    }).error(function () {
+
+    });
+}
+
+function GetFileSize(bytes, si) {
+    var thresh = si ? 1000 : 1024;
+    if (Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si
+        ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + ' ' + units[u];
+}
+
+function GetDocumentTags(ownerId) {
+    $.getJSON("/document/GetDocumentTags", { docOwnerId: ownerId }, function (result) {
+        if (result.isSuccess === true) {
+            var tags = JSON.parse(result.tags);
+            $.each(tags, function (index, value) {
+                $('#Tags').tagsinput('add', value.label);
+            });
+        }
+    }).error(function () {
+    });
+}
+
 function DeleteCommentFromDocument(span, docOwnerId, commentId) {
     var folder = $("#folderName");
     $.getJSON("/document/DeleteCommentForDocument", { commentId: commentId, docOwnerId: docOwnerId }, function (result) {
@@ -1113,6 +1012,7 @@ function EventTypeChanged(dropDown) {
         }).error(function () {
             $.getJSON("/Calendar/GetEventTypeValues", { eventTypeId: text }, function (result) {
                 if (result.isSuccess === true) {
+                    $("#addNewEventTypeText").css("display", "");
                     $("#presentType").text(result.type.PointsForPresent);
                     $("#partialType").text(result.type.PointsForPartial);
                     $("#excusedType").text(result.type.PointsForExcused);
@@ -1636,7 +1536,7 @@ function checkInMemberToEvent() {
         return;
     }
     var isTardy = $(".popover-content #IsTardy").is(':checked');
-
+  
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
