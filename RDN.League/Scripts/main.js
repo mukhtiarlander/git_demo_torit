@@ -1487,7 +1487,6 @@ function HideCheckInHoverTooltip(button) {
 
 function SetCheckInButtonColor(id, status) {
     status = status.toLowerCase().trim();
-    alert(status);
     if (status === "present") {
         if (!$("#" + id).hasClass("btn-success"))
             $("#" + id).removeClass("btn-warning").removeClass("btn-danger").removeClass("btn-primary").addClass("btn-success");
