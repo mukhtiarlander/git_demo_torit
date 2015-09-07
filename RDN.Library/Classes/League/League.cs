@@ -1249,12 +1249,7 @@ namespace RDN.Library.Classes.League
 
             var dc = new ManagementContext();
             // Get the leagues that matches the partial name, include all contactcard information in the query
-            var leagues =
-                dc.Leagues.Include("Logo")
-                    .Include("ContactCard")
-                    .Where(x => x.IsLeaguePublic == false)
-                    .AsParallel()
-                    .OrderBy(x => x.Name);
+            var leagues = dc.Leagues.Include("Logo").Include("ContactCard").Where(x => x.IsLeaguePublic == false).AsParallel().OrderBy(x => x.Name).ToList();
 
             foreach (var league in leagues)
             {

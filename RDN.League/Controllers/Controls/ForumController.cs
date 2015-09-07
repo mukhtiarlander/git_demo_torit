@@ -877,23 +877,6 @@ namespace RDN.League.Controllers
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
         }
-
-        [Authorize]
-        [LeagueAuthorize(EmailVerification = true)]
-        public JsonResult CheckIsForumPostExists(string forumId, long topicId, long messageId)
-        {
-            try
-            {
-                var isExists = Forum.CheckIsPostExists(new Guid(forumId), topicId, messageId);
-                return Json(new { isSuccess = true, isExists = isExists }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
-        }
-
         [Authorize]
         [LeagueAuthorize(EmailVerification = true)]
         public ActionResult GetForumPostsCat(string groupId, string catId, string forumId, string page, string forumType)

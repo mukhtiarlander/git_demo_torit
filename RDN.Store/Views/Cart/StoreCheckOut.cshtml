@@ -4,347 +4,365 @@
     ViewBag.Title = "Check Out";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
-<div class="backLinks">
-    <a href="@Url.Content("~/")">Store Home</a> > <a href="@Url.Content("~/cart")">Cart</a>
-</div>
-
-<div class="checkOut">
-    <span class="storeItemName">Review Your Order</span>
-    <span class="floatRight">
-        @if (!HttpContext.Current.User.Identity.IsAuthenticated)
-        {
+<ol class="breadcrumb">
+    <li><a href="@Url.Content("~/")">Home</a></li>
+    <li><a href="@Url.Content("~/cart")">Cart</a></li>
+    <li class="active">Review Your Order </li>
+</ol>
+@if (!HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    <div class="panel">
+        <div class="panel-body">
             <span>Optional: </span>
-            <span><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/SignUp?u=@RDN.Library.Util.Enum.SiteMessagesEnum.f&returnSite=store&ReturnUrl=@Server.UrlEncode(Request.RawUrl)">Sign Up</a></span> 
-            <span>/
+            <a class="btn btn-default btn-sm" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/SignUp?u=@RDN.Library.Util.Enum.SiteMessagesEnum.f&returnSite=store&ReturnUrl=@Server.UrlEncode(Request.RawUrl)"><i class="fa fa-user"></i> Sign Up</a>
 
-            </span>
-            <span><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/login?returnSite=store&ReturnUrl=@Server.UrlEncode(Request.RawUrl)">Login</a></span>
-        }
-    </span>
-    <br />
-    <br />
-    <fieldset>
-        <div class="coOrder">
-            <div class="cartShopName">Order For <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MerchantName))">@Model.MerchantName</a></div>
-            <table class="coShoppingCartTable">
-                <thead>
-                    <tr>
-                        <th colspan="2"></th>
-                        <th>Price
-                        </th>
-                        <th class="center">Quantity
-                        </th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model.ShoppingCart.Stores.FirstOrDefault().StoreItems)
+            <a class="btn btn-default btn-sm" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/login?returnSite=store&ReturnUrl=@Server.UrlEncode(Request.RawUrl)"><i class="fa fa-key"></i> Login</a>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("CheckOut", "Cart", FormMethod.Post, new { @id = "PaymentForm" }))
+{
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-check-square-o"></i> Review order for <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MerchantName))">@Model.MerchantName</a>
+                </div>
+                <div class="panel-body cart-item-list no-padding-bottom">
+                    @foreach (var item in Model.ShoppingCart.Stores.FirstOrDefault().StoreItems)
                 {
-                    <tr class="coItemRow">
-                        <td>
-                            <div class="cartItemPhoto center">
-                                @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
-                                { 
-                                    <img src="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).ImageUrl" alt="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).Alt" style="width:120px; max-width:120px; "/>
-                                }
-                            </div>
-                        </td>
-                        <td style="vertical-align: top;">
-                            <div class="storeItemInfo">
-                                <div class="storeItemTitle">
-                                    <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-store/item/@RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name)/@item.StoreItemId">@item.Name</a>
+                        <div class="cart-item cart-item-warning no-padding-bottom">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-4 col-md-3 text-center padding-bottom-10">
+                                    @if (item.Photos.FirstOrDefault() != null)
+                                    {
+                                        <img src="@item.Photos.FirstOrDefault().ImageUrl" style="width:120px; max-width:120px; " alt="@item.Photos.FirstOrDefault().Alt" />
+                                    }
+                                    else
+                                    {
+                                        <div class="no-image"><div>No Image</div></div>
+                                    }
                                 </div>
+                                <div class="col-xs-12 col-sm-8 col-md-9 padding-bottom-10">
+                                    <div class="cart-item-details no-border no-min-height">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-8 col-md-6 col-lg-7">
+                                                <a target="_blank" class="b" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
+                                                <div class="display-flex">
+                                                    Quantity:  @item.QuantityOrdered
+                                                </div>
+                                                @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
+                                                {
+                                                    <div class="display-flex">
+                                                        <b>Size:</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
+                                                    </div>
+                                                }
+                                                @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
+                                                {
+                                                    <div class="display-flex">
+                                                        @foreach (var color in item.Colors)
+                                                        {
+                                                            <span class='selectedColor' style='background-color:@color.HexColor;' title="@color.NameOfColor"></span>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
 
-                                @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
-                                { 
-                                    <div class="storeLeftInStock">
-                                        <b>Size:</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
+
+                                            <div class="col-xs-12 col-sm-4 col-md-6 col-lg-5 text-right">
+                                                <div class="b font16">
+                                                    <span id="@item.ShoppingCartItemId-price">
+                                                        @if (item.Currency == "USD")
+                                                        { <span>$</span> }@item.Price.ToString("N2")
+                                                    </span>
+                                                    @item.Currency
+                                                </div>
+                                                @if (!item.WillPickUpLocally)
+                                                {
+                                                    if (item.Shipping > 0)
+                                                    {
+                                                        <span>
+                                                            + @if (item.Currency == "USD")
+                                                            {  <span>$</span>}@item.Shipping.ToString("N2") shipping
+                                                        </span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
-                                }
+                                </div>
                             </div>
-                        </td>
-                        <td style="vertical-align: top;">
-                            <div class="coItemPrice" id="@item.StoreItemId-price">
-                                @if (item.Currency == "USD")
-                                {  <span>$</span>}@item.Price.ToString("N2") @if (item.Shipping > 0)
-                                                                                                         { <span>+ @if (item.Currency == "USD")
-                                                                      {  <span>$</span>}@item.Shipping.ToString("N2") shipping</span> }
-                            </div>
-                        </td>
-                        <td style="vertical-align: top;">
-                            <div class="smallInput tc">
-                                @item.QuantityOrdered
-                            </div>
-                        </td>
-                    </tr>  
-                }
-            </table>
-        </div>
-    </fieldset>
-
-    <br />
-    @using (Html.BeginForm("CheckOut", "Cart", FormMethod.Post, new { @id = "PaymentForm" }))
-    {
-        <fieldset>
-            <div class="coOrder">
-                <div class="cartShopName">Order Summary</div>
-                <table class="coSummaryTable">
-                    <tr>
-                        <td class="b">Items (@Model.TotalItemsCount):
-                        </td>
-                        <td>@if (Model.Currency == "USD")
-                            {  <span>$</span>}@Model.TotalExclVat.ToString() @Model.Currency.ToString()
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Shipping and Handling:
-                        </td>
-                        <td>@if (Model.Currency == "USD")
+                        </div>
+                    }
+                </div>
+                <div class="panel-footer text-white text-right no-rounded-corners" style="background-color:#428bca !important">
+                    <div class="margin-bottom-10 font16">
+                        @Model.TotalItemsCount Items Total:
+                        <span>
+                            @if (Model.Currency == "USD")
+                            {  <span>$</span>}@Model.TotalExclVat.ToString()  @Model.Currency
+                        </span>
+                    </div>
+                    <div class="margin-bottom-10">
+                        Shipping:
+                        <span>
+                            @if (Model.Currency == "USD")
+                            {  <span>$</span>}@Model.TotalShipping.ToString("N2")  @Model.Currency.ToString()
+                        </span>
+                    </div>
+                    <div class="font18">
+                        Grand Total:
+                        <span class="b">
+                            @if (Model.Currency == "USD")
                             {  <span>$</span>}@Model.TotalShipping.ToString() @Model.Currency.ToString()
-                        </td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td colspan="2">
-                            <hr />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="b">Order Total:
-                        </td>
-                        <td class="priceColor b">@if (Model.Currency == "USD")
-                                                 {  <span>$</span>}@Model.TotalInclVat.ToString() @Model.Currency.ToString()
-                        </td>
-                    </tr>
-                   
-                        <tr>
-                            <td class="smallPrint">
-                            USD Conversion as of @DateTime.Now.ToShortDateString():
-                        <td class="smallPrint">
-                            @foreach (var currency in Model.CurrenciesConverted)
-                            { 
-                                <div>@currency.Value.ToString("N2") @currency.Key</div>
-                            }
-                                                 </td>
-                        </tr>
-                    
-                </table>
-                <table class="coNotes">
-                    <tr>
-                        <td>Notes to @Model.MerchantName</td>
-                    </tr>
-                    <tr>
-                        <td>
-
-                            @Html.TextAreaFor(x => x.Notes, new { @class = "coNote", @placeholder = "Optional Notes to " + Model.MerchantName })
-
-
-                        </td>
-                    </tr>
-                </table>
-                <div class="clear"></div>
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <a href="javscript:void(0)" class="font12 margin-bottom-5" onclick="ShowCurrenciesConversions()">
+                        See USD Conversion as of @DateTime.Now.ToShortDateString() <i class="fa fa-angle-down"></i>
+                    </a>
+                    <div id="div_currency_conversions" class="display-none margin-top-10">
+                        @foreach (var currency in Model.CurrenciesConverted)
+                        {
+                            <label class="label label-info font14">@currency.Value.ToString("N2")  @currency.Key</label>
+                        }
+                    </div>
+                </div>
             </div>
-        </fieldset>
-   
-        <br />
-        <div class="coOrder">
-            <div class="cartShopName">Payment and Addresses </div>
-            <div>
-                <ul class="subOptionList center">
-                    @if (Model.AcceptStripe)
-                    { 
-                        <li>
-                            <label class="subOptionPaymentProv">
-                                <input type="radio" name="PaymentProviderId" id="@PaymentProvider.Stripe" value="@PaymentProvider.Stripe" checked="checked" onclick="javascript: HideShowCCInfo('show')" />
-                                <span>Pay with Credit/Debit Card</span>
-                            </label>
-                        </li>
-                    }
-                    @if (Model.AcceptPayPal)
-                    { 
-                        <li>
-                            <label class="subOptionPaymentProv">
-                                <input type="radio" name="PaymentProviderId" id="@PaymentProvider.Paypal" value="@PaymentProvider.Paypal" @(Model.AcceptStripe ? "" : "checked='checked'") onclick="javascript: HideShowCCInfo('hide')" />
-                                <span>Pay with <span class="paypalText">Paypal</span></span>
-                            </label>
-                        </li>
-                    }
-                </ul>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-envelope"></i> <a data-toggle="collapse" href="#notes_panel_body">Notes to @Model.MerchantName</a>
+                        <span class="pull-right text-muted font14">Optional</span>
+                    </div>
+                    <div id="notes_panel_body" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            @Html.TextAreaFor(x => x.Notes, new { @class = "form-control", @placeholder = "Notes to " + Model.MerchantName })
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-
-                <table class="subTable center" id="CCTable">
-                    <tr id="cardNumberTR">
-                        <td class="subTableLD">Credit Card Number:</td>
-                        <td class="subTableRD largeInput">@Html.TextBoxFor(x => x.CCNumber, new { @class = "card-number" })</td>
-                    </tr>
-                    <tr id="securityCodeTR">
-                        <td class="subTableLD">Security Code:</td>
-                        <td class="subTableRD smallInput">@Html.TextBoxFor(x => x.SecurityCode, new { @class = "card-cvc" })</td>
-                    </tr>
-                    <tr id="expirationDateTR">
-                        <td class="subTableLD">Expiration Date:</td>
-                        <td class="subTableRD smallDropDown">@Html.DropDownList("MonthOfExpiration", Model.Months, new { @class = "card-expiry-month" }) @Html.DropDownList("YearOfExpiration", Model.Years, new { @class = "card-expiry-year" })</td>
-                    </tr>
-
-                </table>
-                <div class="paymentErrors center red"></div>
-
-            </div>
-            <hr id="ccSplitter" />
-            <div class="addressContainer">
-                <fieldset>
-                    <legend><span class="addressTitles">Billing Address</span></legend>
-                    <hr />
-                    <table class="addressTbl">
-                        <tr>
-                            <td class="b">First Name:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_FirstName)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Last Name:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_LastName)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Address:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_Street)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Address 1:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_Street2)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">City:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_City)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">State:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_State)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Zip Code:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_Zip)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Country:
-                            </td>
-                            <td>
-                                @Html.DropDownList("BillingAddress_Country", Model.Countries)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Email for Receipt:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BillingAddress_Email)
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
-            </div>
-            <div class="addressContainer">
-
-                <fieldset>
-                    <legend><span class="addressTitles">Shipping Address</span> - <span class="coSameBilling">Different than billing? 
-                    @Html.CheckBoxFor(x => x.IsBillingDifferentFromShipping, new { @onclick = "javascript: BillingAddressSameAsShipping(this)" })
-                    </span></legend>
-                    <hr />
-                    <table class="addressTbl displayNone" id="shippingAddress">
-                        <tr>
-                            <td class="b">First Name:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_FirstName)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Last Name:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_LastName)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Address:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_Street)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Address 1:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_Street2)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">City:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_City)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">State:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_State)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Zip Code:
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(x => x.ShippingAddress_Zip)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="b">Country:
-                            </td>
-                            <td>
-                                @Html.DropDownList("ShippingAddress_Country", Model.Countries)
-                            </td>
-                        </tr>
-
-                    </table>
-                </fieldset>
-            </div>
-            <div class="clear"></div>
-        </div>@Html.HiddenFor(x => x.MerchantId)
-        <div class="center">
-            <div class="paymentErrors center red"></div>
-            <input type="submit" value="Place Your Order" class="primary" id="submitButton" /><img src="@Url.Content("~/Content/indicator.gif")" id="working" class="displayNone" />
         </div>
-    }
-    <br />
-    <br />
-</div>
+        <div class="col-sm-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-9 col-md-10 padding-top-5 padding-left-10">
+                            <h4><i class="fa fa-file-text"></i> Billing Address</h4>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-right">
+                            <span class="font32 fw800 text-info">1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">First Name</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_FirstName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Last Name</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_LastName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Address</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_Street, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
 
+                            <label class="form-label">Address 1</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_Street2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">City</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_City, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">State</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_State, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Zip Code</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.BillingAddress_Zip, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Country</label>
+                            <div class="margin-bottom-10">
+                                @Html.DropDownList("BillingAddress_Country", Model.Countries, new { @class = "full-width" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Email for Receipt</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.BillingAddress_Email, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-9 col-md-10 padding-top-5 padding-left-10">
+                            <h4><i class="fa fa-truck"></i> Shipping Address</h4>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-right">
+                            <span class="font32 fw800 text-info">2</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body text-center">
+                    @Html.HiddenFor(x => x.IsBillingDifferentFromShipping)
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default active" onclick="BillingAddressDifferent(this,false)">Same as Billing Address</button>
+                        <button type="button" class="btn btn-default" onclick="BillingAddressDifferent(this,true)">Different than Billing Address</button>
+                    </div>
+                </div>
+                <div id="shippingAddress" class="panel-body display-none">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">First Name</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_FirstName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Last Name</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_LastName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Address</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_Street, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+
+                            <label class="form-label">Address 1</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_Street2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">City</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_City, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">State</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_State, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Zip Code</label>
+                            <div class="margin-bottom-10">
+                                @Html.TextBoxFor(x => x.ShippingAddress_Zip, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Country</label>
+                            <div class="margin-bottom-10">
+                                @Html.DropDownList("ShippingAddress_Country", Model.Countries, new { @class = "full-width" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <label class="form-label">Email for Receipt</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.ShippingAddress_Email, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-9 col-md-10 padding-top-5 padding-left-10">
+                            <h4><i class="fa fa-money"></i> Payment</h4>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-right">
+                            <span class="font32 fw800 text-info">3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body text-center">
+                    <input id="PaymentProviderId" name="PaymentProviderId" type="hidden" value="Stripe">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        @if (Model.AcceptStripe)
+                        {
+                            <button id="@PaymentProvider.Stripe"  type="button" class="btn btn-default active" onclick="javascript:HideShowCCInfo(this,'show')"><i class="fa fa-credit-card"></i> Credit / Debit Card</button>
+                        }
+                        @if (Model.AcceptPayPal)
+                        {
+                            <button id="@PaymentProvider.Paypal"  type="button" class="btn btn-default"  onclick="javascript:HideShowCCInfo(this,'hide')"><i class="fa fa-paypal"></i> Paypal</button>
+                        }
+                    </div>
+                    <div id="CCTable" class="well text-center no-margin-bottom margin-top-10">
+                        <table>
+                            <tr>
+                                <td class="padding-bottom-10 padding-top-5 padding-right-10 vertical-top">Credit Card Number:</td>
+                                <td class="padding-bottom-10 text-left">@Html.TextBoxFor(x => x.CCNumber, new { @class = "card-number form-control input-sm" })</td>
+                            </tr>
+                            <tr>
+                                <td class="padding-bottom-10 padding-top-5 padding-right-10 vertical-top">Security Code:</td>
+                                <td class="padding-bottom-10 text-left">@Html.TextBoxFor(x => x.SecurityCode, new { @class = "card-cvc form-control input-sm" })</td>
+                            </tr>
+                            <tr id="expirationDateTR">
+                                <td class="padding-right-10 padding-top-5 vertical-top">Expiration Date:</td>
+                                <td class="text-left">@Html.DropDownList("MonthOfExpiration", Model.Months, new { @class = "card-expiry-month select-sm margin-right-5" }) @Html.DropDownList("YearOfExpiration", Model.Years, new { @class = "card-expiry-year select-sm" })</td>
+                            </tr>
+                        </table>
+                        <div class="paymentErrors text-danger"></div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="submit" class="btn btn-lg btn-warning" id="submitButton"><i class="fa fa-check-circle"></i> Place Your Order</button><img src="@Url.Content("~/Content/indicator.gif")" id="working" class="displayNone" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(x => x.MerchantId)
+}
 
 <script type="text/javascript">
-            @Html.Raw(Model.StripeKey)
+    $("#CCNumber").mask("9999-9999-9999-9999");
+    @Html.Raw(Model.StripeKey)
     $("#PaymentForm").validate({
         rules: {
             BillingAddress_FirstName: "required",
@@ -362,8 +380,7 @@
         },
         submitHandler: function (form) {
             // disable the submit button to prevent repeated clicks
-            $('#submitButton').toggleClass("displayNone", true);
-            $('#working').toggleClass("displayNone", false);
+            $('#submitButton').attr("disabled",true).html("<i class='fa fa-spinner fa-spin'></i> Place Your Order");
             Stripe.createToken({
                 number: $('.card-number').val(),
                 cvc: $('.card-cvc').val(),

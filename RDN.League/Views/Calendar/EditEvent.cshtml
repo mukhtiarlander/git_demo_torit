@@ -83,7 +83,6 @@
                                     <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
                                 </span>
                             </div>
-                            <span id="EventTypeError" class="error"></span>
                             <span id="addNewEventTypeText" class="displayNone">
                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(CalendarEventPointTypeEnum.Present):
                                 <span class="b" id="presentType"></span>,
@@ -304,44 +303,44 @@
     var d = new Date();
     var curr_date = d.getDate();
 
-    var startDate = new Date('@DateTime.Parse(@Model.StartDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))');
-    var endDate = new Date('@DateTime.Parse(@Model.EndDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))');
-    $('#EndsDate').datepicker();
-    $('#StartDateDisplay').datetimepicker({
-        ampm: true,
-        onSelect: function (dateText, inst) {
-            startDate = new Date(dateText);
-            if (endDate < startDate) {
-                $('#EndDateDisplay').val($('#StartDateDisplay').val());
-                endDate = startDate;
-            }
-        },
-        beforeShow: function () {
-            setTimeout(function () {
-                $('.ui-datepicker').css('z-index', 100);
-            }, 0);
-        },
-        stepMinute: 5,
-        timeFormat: 'hh:mm tt'
-    });
-    $('#EndDateDisplay').datetimepicker({
-        ampm: true,
-        onSelect: function (dateText, inst) {
-            endDate = new Date(dateText);
-            if (endDate < startDate) {
-                $('#StartDateDisplay').val($('#EndDateDisplay').val());
-                startDate = endDate;
-            }
-        },
-        beforeShow: function () {
-            setTimeout(function () {
-                $('.ui-datepicker').css('z-index', 100);
-            }, 0);
-        },
-        stepMinute: 5,
-        timeFormat: 'hh:mm tt'
+	var startDate = new Date('@DateTime.Parse(@Model.StartDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))');
+	var endDate = new Date('@DateTime.Parse(@Model.EndDateDisplay).ToString("MM/dd/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))');
+	$('#EndsDate').datepicker();
+	$('#StartDateDisplay').datetimepicker({
+		ampm: true,
+		onSelect: function (dateText, inst) {
+			startDate = new Date(dateText);
+			if (endDate < startDate) {
+				$('#EndDateDisplay').val($('#StartDateDisplay').val());
+				endDate = startDate;
+			}
+		},
+		beforeShow: function () {
+			setTimeout(function () {
+				$('.ui-datepicker').css('z-index', 100);
+			}, 0);
+		},
+		stepMinute: 5,
+		timeFormat: 'hh:mm tt'
+	});
+	$('#EndDateDisplay').datetimepicker({
+		ampm: true,
+		onSelect: function (dateText, inst) {
+			endDate = new Date(dateText);
+			if (endDate < startDate) {
+				$('#StartDateDisplay').val($('#EndDateDisplay').val());
+				startDate = endDate;
+			}
+		},
+		beforeShow: function () {
+			setTimeout(function () {
+				$('.ui-datepicker').css('z-index', 100);
+			}, 0);
+		},
+		stepMinute: 5,
+		timeFormat: 'hh:mm tt'
 
-    });
+	});
 
     $("#createNewEventForm").validate({
         rules: {
@@ -354,25 +353,25 @@
         }
     });
 
-    $(function () {
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
-        });
-    });
+	$(function () {
+		tinymce.init({
+			mode: "textareas",
+			elements: "elm2",
+			theme: "modern",
+			plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+		});
+	});
 
-    function StartDateOnBlur() {
-        if (endDate < startDate) {
-            $('#EndDate').val($('#StartDate').val());
-            endDate = startDate;
-        }
-    }
-    function EndDateOnBlur() {
-        if (endDate < startDate) {
-            $('#StartDate').val($('#EndDate').val());
-            startDate = endDate;
-        }
-    }
+	function StartDateOnBlur() {
+		if (endDate < startDate) {
+			$('#EndDate').val($('#StartDate').val());
+			endDate = startDate;
+		}
+	}
+	function EndDateOnBlur() {
+		if (endDate < startDate) {
+			$('#StartDate').val($('#EndDate').val());
+			startDate = endDate;
+		}
+	}
 </script>

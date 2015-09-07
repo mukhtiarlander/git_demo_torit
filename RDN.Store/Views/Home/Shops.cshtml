@@ -24,7 +24,7 @@
                         <div class="storeItemPhoto center">
                             @if (item.Photos.FirstOrDefault() != null)
                             { 
-                                <img src="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).Alt" />
+                                <img src="@item.Photos.FirstOrDefault().ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault().Alt" />
                             }
                         </div>
                     </a>

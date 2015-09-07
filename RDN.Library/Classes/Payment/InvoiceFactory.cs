@@ -1311,54 +1311,22 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
+                PaypalPayment sendingPayPal = new PaypalPayment();
+                sendingPayPal.Amount = (double)invoice.Subscription.Price;
+                sendingPayPal.BuyerEmailAddress = invoice.InvoiceBilling.Email;
 
-                ReceiverList receiverList = new ReceiverList();
-                //RDNation as a reciever
-                Receiver recSite = new Receiver(invoice.Subscription.Price);
-                recSite.email = LibraryConfig.DefaultAdminEmail;
-                //if we modify this invoiceID, 
-                //you need to modify this code here: 
-                recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
-                recSite.paymentType = PaymentTypeEnum.SERVICE.ToString();
-                receiverList.receiver.Add(recSite);
+                sendingPayPal.Code = invoice.Currency;
+                sendingPayPal.ItemName = invoice.Subscription.Description;
+                sendingPayPal.ReturnUrl = LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RECIEPT + invoice.InvoiceId.ToString().Replace("-", "");
+                sendingPayPal.SellerEmailAddress = LibraryConfig.DefaultAdminEmail;
+                sendingPayPal.CancelUrl = LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", "");
 
-                PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_ADDSUBSUBSCRIBE + invoice.Subscription.InternalObject.ToString().Replace("-", ""), invoice.Currency, receiverList, LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RECIEPT + invoice.InvoiceId.ToString().Replace("-", ""));
-                req.memo = invoice.Subscription.Description;
-                req.reverseAllParallelPaymentsOnError = false;
-                req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
-                req.trackingId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
+                sendingPayPal.InvoiceNumber = invoice.InvoiceId.ToString();
+                sendingPayPal.LogoUrl = LibraryConfig.LogoUrl;
 
-                // All set. Fire the request            
-                AdaptivePaymentsService service = new AdaptivePaymentsService();
-                PayResponse resp = service.Pay(req);
+                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal Payment Sent To Paypal", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price);
 
-                // Display response values. 
-                Dictionary<string, string> keyResponseParams = new Dictionary<string, string>();
-                string redirectUrl = null;
-                if (!(resp.responseEnvelope.ack == AckCode.FAILURE) &&
-                    !(resp.responseEnvelope.ack == AckCode.FAILUREWITHWARNING))
-                {
-                    EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal Payment Sent To Paypal", invoice.InvoiceId + " Amount:" + invoice.Subscription.Price);
-                    redirectUrl = PaypalPayment.GetBaseUrl(invoice.IsLive);
-
-                    redirectUrl += "?cmd=_ap-payment&paykey=" + resp.payKey;
-                    keyResponseParams.Add("Pay key", resp.payKey);
-                    keyResponseParams.Add("Payment execution status", resp.paymentExecStatus);
-                    if (resp.defaultFundingPlan != null && resp.defaultFundingPlan.senderFees != null)
-                    {
-                        keyResponseParams.Add("Sender fees", resp.defaultFundingPlan.senderFees.amount +
-                                                    resp.defaultFundingPlan.senderFees.code);
-                    }
-
-                    //Selenium Test Case
-                    keyResponseParams.Add("Acknowledgement", resp.responseEnvelope.ack.ToString());
-                    return redirectUrl;
-                }
-                else
-                {
-
-                    throw new Exception("Failure Payment " + invoice.InvoiceBilling.Email + ":" + invoice.InvoiceId + ":" + resp.error.FirstOrDefault().message);
-                }
+                return sendingPayPal.RedirectToPaypal(invoice.IsLive);
             }
             catch (Exception exception)
             {
@@ -1393,7 +1361,10 @@ namespace RDN.Library.Classes.Payment
                     {
                         Receiver recLeague = new Receiver(invoice.FinancialData.PriceSubtractingSiteFees);
                         recLeague.amount = invoice.FinancialData.PriceSubtractingSiteFees;
-                        recLeague.email = merchant.PaypalEmail;
+                        if (invoice.IsLive)
+                            recLeague.email = merchant.PaypalEmail;
+                        else
+                            recLeague.email = "cheeta_1359429163_per@gmail.com";
 
                         recLeague.primary = false;
                         recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": " + invoice.Paywall.Name;
@@ -1407,8 +1378,11 @@ namespace RDN.Library.Classes.Payment
 
                     req.memo = invoice.Paywall.Description;
                     req.reverseAllParallelPaymentsOnError = false;
-                    req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
-                    req.trackingId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
+                    if (invoice.IsLive)
+                        req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
+                    else
+                        req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandlerDebug;
+
                     // All set. Fire the request            
                     AdaptivePaymentsService service = new AdaptivePaymentsService();
                     PayResponse resp = service.Pay(req);
@@ -1480,7 +1454,10 @@ namespace RDN.Library.Classes.Payment
                         {
                             Receiver recLeague = new Receiver(invoice.FinancialData.PriceSubtractingSiteFees);
                             recLeague.amount = invoice.FinancialData.PriceSubtractingSiteFees;
-                            recLeague.email = merchant.PaypalEmail;
+                            if (invoice.IsLive)
+                                recLeague.email = merchant.PaypalEmail;
+                            else
+                                recLeague.email = "cheeta_1359429163_per@gmail.com";
                             recLeague.primary = false;
                             //if we modify this invoiceID, 
                             //you need to modify this code here: 
@@ -1494,8 +1471,11 @@ namespace RDN.Library.Classes.Payment
                             req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
                         req.memo = "Payment to " + merchant.ShopName + ": " + invoice.InvoiceId.ToString().Replace("-", "");
                         req.reverseAllParallelPaymentsOnError = false;
-                        req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
-                        req.trackingId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
+                        if (invoice.IsLive)
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
+                        else
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandlerDebug;
+
                         // All set. Fire the request            
                         AdaptivePaymentsService service = new AdaptivePaymentsService();
                         PayResponse resp = service.Pay(req);
@@ -1725,7 +1705,10 @@ namespace RDN.Library.Classes.Payment
 
                         Receiver recLeague = new Receiver(duesItem.BasePrice);
                         recLeague.amount = duesItem.BasePrice;
-                        recLeague.email = leagueSettings.PayPalEmailAddress;
+                        if (invoice.IsLive)
+                            recLeague.email = leagueSettings.PayPalEmailAddress;
+                        else
+                            recLeague.email = "admin-buyer@rdnation.com";
 
                         recLeague.primary = false;
                         //if we modify this invoiceID, 
@@ -1739,7 +1722,11 @@ namespace RDN.Library.Classes.Payment
                         req.memo = "Dues payment for " + leagueSettings.LeagueOwnerName + " from " + memberPaying.DerbyName + " for " + duesItem.PaidForDate.ToShortDateString();
                         req.reverseAllParallelPaymentsOnError = false;
                         req.trackingId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
-                        req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
+                        
+                        if (invoice.IsLive)
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandler;
+                        else
+                            req.ipnNotificationUrl = LibraryConfig.PaypalIPNHandlerDebug;
 
                         // All set. Fire the request            
                         AdaptivePaymentsService service = new AdaptivePaymentsService();

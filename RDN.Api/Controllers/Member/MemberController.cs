@@ -131,8 +131,8 @@ namespace RDN.Api.Controllers.Member
                         m.PlayerNumber = mem.PlayerNumber;
                         m.StartedSkating = mem.StartedSkating;
                         m.StoppedSkating = mem.StoppedSkating;
-                        if (mem.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
-                            m.ThumbUrl = mem.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl;
+                        if (mem.Photos.FirstOrDefault() != null)
+                            m.ThumbUrl = mem.Photos.FirstOrDefault().ImageThumbUrl;
                         m.WeightLbs = mem.WeightLbs;
                         return Json(m, JsonRequestBehavior.AllowGet);
 

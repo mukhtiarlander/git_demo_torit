@@ -382,7 +382,7 @@ namespace RDN.Library.Classes.Calendar
             {
                 var dc = new ManagementContext();
                 var locations = (from xx in dc.CalendarEventTypes
-                                 where xx.CalendarEventTypeId == eventTypeId
+                                 where xx.CalendarEventTypeId == eventTypeId && xx.IsRemoved == false
                                  select new
                                  {
                                      xx.CalendarEventTypeId,
@@ -392,9 +392,7 @@ namespace RDN.Library.Classes.Calendar
                                      xx.PointsForPartial,
                                      xx.PointsForPresent,
                                      xx.PointsForTardy,
-                                     xx.DefaultColor,
-                                     xx.IsRemoved
-
+                                     xx.DefaultColor
                                  }).FirstOrDefault();
                 if (locations != null)
                 {
@@ -405,7 +403,6 @@ namespace RDN.Library.Classes.Calendar
                     ty.PointsForPartial = locations.PointsForPartial;
                     ty.PointsForPresent = locations.PointsForPresent;
                     ty.PointsForTardy = locations.PointsForTardy;
-                    ty.IsRemoved = locations.IsRemoved;
                     if (locations.DefaultColor != null)
                     {
                         var c = Color.FromArgb(locations.DefaultColor.ColorIdCSharp);
@@ -431,53 +428,6 @@ namespace RDN.Library.Classes.Calendar
                 var dc = new ManagementContext();
                 var locations = (from xx in dc.CalendarEventTypes
                                  where xx.CalendarOwner.CalendarId == calendarId && xx.IsRemoved == false
-                                 select new
-                                 {
-                                     xx.CalendarEventTypeId,
-                                     xx.EventTypeName,
-                                     xx.PointsForExcused,
-                                     xx.PointsForNotPresent,
-                                     xx.PointsForPartial,
-                                     xx.PointsForPresent,
-                                     xx.PointsForTardy,
-                                     xx.DefaultColor
-                                 }).ToList();
-                foreach (var even in locations)
-                {
-                    CalendarEventType ty = new CalendarEventType();
-                    ty.CalendarId = calendarId;
-                    ty.CalendarEventTypeId = even.CalendarEventTypeId;
-                    ty.EventTypeName = even.EventTypeName;
-                    ty.PointsForExcused = even.PointsForExcused;
-                    ty.PointsForNotPresent = even.PointsForNotPresent;
-                    ty.PointsForPartial = even.PointsForPartial;
-                    ty.PointsForPresent = even.PointsForPresent;
-                    ty.PointsForTardy = even.PointsForTardy;
-                    if (even.DefaultColor != null)
-                    {
-                        var c = Color.FromArgb(even.DefaultColor.ColorIdCSharp);
-                        ty.ColorTempSelected = ColorTranslator.ToHtml(c);
-                        ty.ColorName = even.DefaultColor.ColorName;
-                    }
-                    newEventTypes.Add(ty);
-                }
-            }
-            catch (Exception exception)
-            {
-                Error.ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return newEventTypes;
-        }
-
-        public static List<CalendarEventType> GetAllEventTypesOfCalendar(Guid calendarId)
-        {
-            List<CalendarEventType> newEventTypes = new List<CalendarEventType>();
-
-            try
-            {
-                var dc = new ManagementContext();
-                var locations = (from xx in dc.CalendarEventTypes
-                                 where xx.CalendarOwner.CalendarId == calendarId
                                  select new
                                  {
                                      xx.CalendarEventTypeId,

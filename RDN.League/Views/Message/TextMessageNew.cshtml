@@ -25,7 +25,7 @@
                     }
                 </span>
             </div>
-            @using (Html.BeginForm("CreateNewTextMessage", "Message", FormMethod.Post, new { onsubmit = "Messages.SaveRecipientListToForm(0)" }))
+            @using (Html.BeginForm("CreateNewTextMessage", "Message", FormMethod.Post, new { onsubmit = "Messages.SaveRecipientListToForm()" }))
             {
                 <div class="panel-body">
                     <div class="row">
@@ -141,9 +141,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var memberId = '@Model.OwnerId.ToString().Replace("-","")';
-        var type = '@Model.OwnerType.ToString()';
-        Messages.SetupNewMessage(memberId, type);
+        Messages.SetupNewMessage();
         $('#MessageTextWriting').each(function () {
             var length = $(this).val().length;
             $("#counter").html(length + ' characters');

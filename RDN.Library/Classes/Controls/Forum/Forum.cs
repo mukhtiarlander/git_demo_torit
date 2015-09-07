@@ -911,22 +911,6 @@ namespace RDN.Library.Classes.Forum
             }
             return false;
         }
-        public static bool CheckIsPostExists(Guid forumId, long topicId, long messageId)
-        {
-            try
-            {
-                var dc = new ManagementContext();
-                var firstOrDefault = dc.ForumTopics.Where(x => x.Forum.ForumId == forumId && x.IsRemoved == false).FirstOrDefault(x => x.TopicId == topicId && x.IsRemoved == false);
-                if (firstOrDefault != null && firstOrDefault.Messages != null)
-                    return firstOrDefault.Messages.Any(x => x.MessageId == messageId && x.IsRemoved == false);
-
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return false;
-        }
         /// <summary>
         /// archives the topic.
         /// </summary>
@@ -2033,7 +2017,7 @@ namespace RDN.Library.Classes.Forum
             try
             {
                 var dc = new ManagementContext();
-
+                
                 var db = (from xx in dc.Forums.Include("Topics").Include("Topics.Messages").Include("Topics.TopicsInbox")
                           where xx.ForumId == forumId
                           select new
@@ -2046,7 +2030,7 @@ namespace RDN.Library.Classes.Forum
                               Categories = xx.Categories.OrderBy(x => x.NameOfCategory),
                               TimeZone = xx.LeagueOwner == null ? 0 : xx.LeagueOwner.TimeZone
                           }).FirstOrDefault();
-
+                
                 forum.Created = db.Created + new TimeSpan(db.TimeZone, 0, 0);
                 forum.ForumId = db.ForumId;
                 forum.ForumName = db.ForumName;

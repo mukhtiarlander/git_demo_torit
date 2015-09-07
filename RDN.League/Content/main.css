@@ -66,8 +66,6 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
     .notifications.bottom-right { right: 10px; bottom: 25px; }
     /* Notification Element */
     .notifications > div { position: relative; z-index: 99999; margin: 5px 0px; }
-	/*Closing symbol X*/
-	.notifications > .alert> a.close.pull-right {margin-left: 10px; margin-top:-3px;}  
 
 .well-inverse { border-color: #e5e5e5 #eee #eee; border-style: solid; border-width: 1px 0; -webkit-box-shadow: inset 0 3px 6px rgba(0,0,0,.05); box-shadow: inset 0 3px 6px rgba(0,0,0,.05); }
 
@@ -202,15 +200,6 @@ select{height:35px;border-radius:4px}
 .bg-color-silver{background-color:silver}
 .column-nowrap{white-space:nowrap;width:1px}
 
-/*Toggle Archive Button*/
-.archive {
-    background-color: red !important;
-}
-.non-archive {
-    background-color: white;
-}
-
-
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -230,12 +219,6 @@ select{height:35px;border-radius:4px}
     cursor: inherit;
     display: block;
 }
-
-/* Validations Error Style*/
-
-input.error{ border-color:Red;border-style:solid;border-width:1px; }
-.error{ color:Red; }
-
 
 .popover-footer {
   margin: 0;

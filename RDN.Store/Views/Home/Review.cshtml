@@ -29,9 +29,9 @@
             </div>
         </div>
         <div class="storePhotoContainer center">
-            @if (Model.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+            @if (Model.Photos.FirstOrDefault() != null)
             { 
-                <img src="@Model.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).ImageUrl" alt="@Model.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).Alt" style="max-width: 500px; max-height: 500px; min-width: 500px; margin: 0px auto 0px auto;" id="mainPhoto" />
+                <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt" style="max-width: 500px; max-height: 500px; min-width: 500px; margin: 0px auto 0px auto;" id="mainPhoto" />
 @*<img src="~/Content/profile__medium.gif" style="max-width: 500px; max-height: 500px; min-width: 300px; margin: 0px auto 0px auto;" id="mainPhoto" />*@
             }
             <ul class="storePhotosList">

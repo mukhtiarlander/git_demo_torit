@@ -10,6 +10,7 @@
     <li><a href="@Url.Content("~/league/documents/" + Model.OwnerId.ToString().Replace("-", ""))">Documents</a></li>
     <li class="active">Document Comments</li>
 </ol>
+
 <div class="row">
     <div class=" col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
         <div class="panel panel-default">
@@ -20,28 +21,16 @@
                 </div>
             </div>
             <div class="panel-body no-padding-bottom">
-                <div class="margin-bottom-5">Tags</div>
+                <div class="margin-bottom-5">Add Comment</div>
                 <div class="row ">
                     <div class="col-xs-12 margin-bottom-10">
-                        <input type="text" placeholder="Add Tags" id="Tags" class="form-control" data-role="tagsinput">
+                        <div class="input-group input-group-lg">
+                            <input type="text" id="comment" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="AddCommentToDocument('@Model.DocumentId', '@Model.OwnerDocId')"><i class="fa fa-lg fa-caret-right"></i></button>
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div class="text-right">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-success" onclick="AddTagsToDocument('@Model.DocumentId', '@Model.OwnerDocId')"><i class="fa fa-save"></i> Save</button>
-                    </span>
-                </div>
-
-                <div class="margin-bottom-5">Comment</div>
-                <div class="row ">
-                    <div class="col-xs-12 margin-bottom-10">
-                        <textarea id="comment" name="textarea" class="form-control" rows="5"></textarea>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" onclick="AddCommentToDocument('@Model.DocumentId', '@Model.OwnerDocId')"><i class="fa fa-comment"></i> Comment</button>
-                    </span>
                 </div>
                 <div id="folderBody">
                     @foreach (var folder in Model.Comments)
@@ -69,6 +58,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#folders').dataTable({
@@ -80,24 +70,6 @@
             "bAutoWidth": false,
             "aoColumns": [null, null, { "sType": "natural" }, null]
         });
-        $('#Tags').tagsinput({
-            tagClass: 'big',
-            maxChars: 10,
-            maxTags: 5,
-            allowDuplicates: false,
-            trimValue: true,
-            itemValue: 'id',
-            itemText: 'label'
-
-        });
-
-        $('#Tags').on('beforeItemAdd', function (event) {
-            var items = $('#Tags').tagsinput('items');
-            if (items.length > 4) {
-                event.cancel = true;
-            }
-        });
-        GetDocumentTags('@Model.OwnerDocId');
     });
 
 

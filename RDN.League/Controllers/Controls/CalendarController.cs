@@ -231,7 +231,7 @@ namespace RDN.League.Controllers
                 cal.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
 
                 var locs = RDN.Library.Classes.Calendar.CalendarFactory.GetLocationsOfCalendar(new Guid(calId));
-                var eventTypes = RDN.Library.Classes.Calendar.CalendarFactory.GetAllEventTypesOfCalendar(new Guid(calId));
+                var eventTypes = RDN.Library.Classes.Calendar.CalendarFactory.GetEventTypesOfCalendar(new Guid(calId));
                 var AllowSelfCheckin = CalendarFactory.GetCalendar(new Guid(calId), (CalendarOwnerEntityEnum)Enum.Parse(typeof(CalendarOwnerEntityEnum), type));
 
                 if (cal.Location != null)
@@ -338,7 +338,7 @@ namespace RDN.League.Controllers
                 cal.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
 
                 var locs = RDN.Library.Classes.Calendar.CalendarFactory.GetLocationsOfCalendar(new Guid(calId));
-                var eventTypes = RDN.Library.Classes.Calendar.CalendarFactory.GetAllEventTypesOfCalendar(new Guid(calId));
+                var eventTypes = RDN.Library.Classes.Calendar.CalendarFactory.GetEventTypesOfCalendar(new Guid(calId));
                 var AllowSelfCheckin = CalendarFactory.GetCalendar(new Guid(calId), (CalendarOwnerEntityEnum)Enum.Parse(typeof(CalendarOwnerEntityEnum), type));
 
                 if (cal.Location != null)

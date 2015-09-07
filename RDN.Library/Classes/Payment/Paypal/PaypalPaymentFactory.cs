@@ -34,11 +34,7 @@ namespace RDN.Library.Classes.Payment.Paypal
 
         public string CancelUrl { get; set; }
 
-        public string TrackingId { get; set; }
-
         public string LogoUrl { get; set; }
-
-        public string IPNUrl { get; set; }
 
         public enum ReturnStatus
         {
@@ -94,18 +90,11 @@ namespace RDN.Library.Classes.Payment.Paypal
                 if (!String.IsNullOrEmpty(ItemName))
                     url.AppendFormat("&item_name={0}", HttpUtility.UrlEncode(ItemName));
 
-                if (!String.IsNullOrEmpty(TrackingId))
-                    url.AppendFormat("&tracking_id={0}", HttpUtility.UrlEncode(TrackingId));
-
                 if (!String.IsNullOrEmpty(InvoiceNumber))
                     url.AppendFormat("&invoice={0}", HttpUtility.UrlEncode(InvoiceNumber));
 
                 if (!String.IsNullOrEmpty(ReturnUrl))
                     url.AppendFormat("&return={0}", HttpUtility.UrlEncode(ReturnUrl));
-
-                if (!String.IsNullOrEmpty(IPNUrl))
-                    url.AppendFormat("&ipn_notification_url={0}", HttpUtility.UrlEncode(IPNUrl));
-
 
                 if (!String.IsNullOrEmpty(CancelUrl))
                     url.AppendFormat("&cancel_return={0}", HttpUtility.UrlEncode(CancelUrl));

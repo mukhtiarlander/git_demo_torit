@@ -10,9 +10,9 @@
 <div class="clear">
 </div>
 <div class="storePhotoContainer center">
-    @if (Model.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+    @if (Model.Photos.FirstOrDefault() != null)
     { 
-        <img src="@Model.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).ImageUrl" alt="@Model.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt"
+        <img src="@Model.Photos.FirstOrDefault().ImageUrl" alt="@Model.Photos.FirstOrDefault().Alt"
             style="max-width: 200px; max-height: 200px;" id="mainPhoto" />
     }
     <div class="storePhotosList">

@@ -29,9 +29,9 @@
         {
             <tr>
                 <td>
-                    @if (tourny.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                    @if (tourny.Photos.FirstOrDefault() != null)
                     {
-                        <img src="@tourny.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl" class="thumbnail-sm img-rounded" alt="Logo" />
+                        <img src="@tourny.Photos.FirstOrDefault().ImageThumbUrl" class="thumbnail-sm img-rounded" alt="Logo" />
                     }
                 </td>
                 <td>

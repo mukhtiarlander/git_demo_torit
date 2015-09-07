@@ -510,6 +510,14 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string PaypalIPNHandlerDebug
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["PaypalIPNHandlerDebug"];
+            }
+        }
+
         public static Guid DEFAULT_SCOTTS_USER_ID
         {
             get

@@ -13,10 +13,10 @@
  {
         <div class="shop-grid-item">
             <div class="thumbnail full-width bg-lighter">
-               @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+               @if (item.Photos.FirstOrDefault() != null)
                {
                 <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
-                    <img src="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).ImageUrl" data-holder-rendered="true" style="width: 100%; display: block;" alt="@item.Photos.FirstOrDefault(x=>x.IsPrimaryPhoto).Alt" />
+                    <img src="@item.Photos.FirstOrDefault().ImageUrl" data-holder-rendered="true" style="width: 100%; display: block;" alt="@item.Photos.FirstOrDefault().Alt" />
                 </a>
                }
                 <div class="caption padding-7">

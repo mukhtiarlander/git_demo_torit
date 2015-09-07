@@ -33,9 +33,7 @@
                 $("#ToMemberNames").tokenInput("add", member);
             }
             else {
-                var members = $("#ToMemberNames");
-                if ($.inArray(member, members) != -1)
-                    $("#ToMemberNames").tokenInput("remove", member);
+                $("#ToMemberNames").tokenInput("remove", member);
                 recipientsSelected = jQuery.grep(recipientsSelected, function (value) {
                     return value.id != member.id;
                 });
@@ -158,23 +156,11 @@
         });
 
     };
-    this.HideAddMemberPopup = function() {
+    this.HideAddMemberPopup = function () {
         $("#panel-members").popover('hide');
         $("#btn_add_member").popover('hide');
-    };
-    this.SetupNewMessage = function (memberId, type) {
-        if (memberId != 0) {
-            $.getJSON("/Message/GetMemberById", { memberId: memberId, type : type }, function (result) {
-                if (result.success) {
-                    if (result.Recipients == null || result.Recipients == 'undefined') return;
-                    var members = JSON.parse(result.Recipients);
-                    $.each(members, function (index, item) {
-                        $('#ToMemberNames').tokenInput('add', { id: item.Key, name: item.Value });
-                    });
-                }
-            });
-        }
-
+    }
+    this.SetupNewMessage = function () {
         $("#ToMemberNames").tokenInput('/Utilities/SearchNamesForLeague', {
             theme: "facebook",
             preventDuplicates: true,

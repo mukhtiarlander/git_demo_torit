@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
-using MoreLinq;
 using RDN.Library.DataModels.ContactCard;
 using RDN.Library.DataModels.Context;
 using RDN.Library.Classes.Account.Enums;
@@ -74,16 +73,7 @@ namespace RDN.Library.Classes.Admin.League
                 if (forum != null)
                     dc.Forums.Remove(forum);
                 var league = dc.Leagues.Where(x => x.LeagueId == id).FirstOrDefault();
-                if (league != null)
-                {
-                    var leagueMembers = dc.LeagueMembers.Where(x => x.League.LeagueId == league.LeagueId);
-                    var memberIds = leagueMembers.Select(x => x.Member.MemberId).ToArray();
-                    var forumInboxes = dc.ForumInbox.Where(x => memberIds.Contains(x.ToUser.MemberId));
-                    dc.ForumInbox.RemoveRange(forumInboxes);
-                    dc.Members.Where(x=>memberIds.Contains(x.MemberId)).ForEach(x=>x.CurrentLeagueId = Guid.Empty);
-                    dc.LeagueMembers.RemoveRange(leagueMembers);
-                    dc.Leagues.Remove(league);
-                }
+                dc.Leagues.Remove(league);
                 dc.SaveChanges();
                 return true;
             }

@@ -80,10 +80,10 @@ else
                         {
                             <div class="col-xs-12 col-sm-6 col-md-4 store_masonry_item ">
                                 <div class="panel panel-default">
-                                    @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                                    @if (item.Photos.FirstOrDefault() != null)
                                     {
                                         <div class="panel-heading">
-                                            <img class="full-width round-corners" src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
+                                            <img class="full-width round-corners" src="@item.Photos.FirstOrDefault().ImageUrl" alt="@item.Photos.FirstOrDefault().Alt" />
                                         </div>
                                     }
                                     <div class="panel-body">

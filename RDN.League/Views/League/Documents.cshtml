@@ -22,11 +22,11 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="input-group">
-                    <input id="textSearchBox" class="form-control" placeholder="Search Documents, Seperate, By, Comma" onkeyup="League.FullTextDocumentSearchLeague(true)" />
-                    <div class="input-group-btn alignTop">
-                        <button class="btn btn-primary" onclick="League.FullTextDocumentSearchLeague(false)"><i class="fa fa-search"></i> Search</button>
+                    <input id="textSearchBox" class="form-control" placeholder="Search Documents, Seperate, By, Comma" onkeyup="FullTextDocumentSearchLeague(true)" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" onclick="FullTextDocumentSearchLeague(false)"><i class="fa fa-search"></i> Search</button>
                     </div>
-                    <div style="width: 120px;margin: 0 5px !important;text-align: right; position:relative; vertical-align: middle; display:table-cell">
+                    <div style="width: 110px;margin: 0 5px !important;text-align: right; position:relative; vertical-align: middle; display:table-cell">
                         <label title="Search Within the Documents">
                             <input type="checkbox" id="cbDeepSearch"> Deep Search
                         </label>
@@ -194,12 +194,6 @@
                     @if (manager)
                     {
                         <div class="col-xs-6 text-right">
-                            <button id="doc-view-archive-btn" class="btn btn-sm  btn-default non-archive" title="View Archived Documents" onclick="League.DisplayArchivedDocuments(this)">
-                                <i class="fa fa-archive"></i>
-                            </button>
-                            <button id="doc-archive-btn" class="btn btn-sm  btn-primary display-none" title="Archive" onclick="League.ArchiveDocument(this)">
-                                <i class="fa fa-file-archive-o"></i>
-                            </button>
                             <button id="doc-rename-btn" class="btn btn-sm  btn-success display-none" title="Rename" onclick="League.RenameDocument(this)">
                                 <i class="fa fa-pencil"></i>
                             </button>
@@ -364,7 +358,6 @@
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
-            "aoColumns": [null, null, null, null, null, { "sType": "natural" }, { "sType": "natural" }],
             "aaSorting": []
         });
         $('#documentUpload').MultiFile({

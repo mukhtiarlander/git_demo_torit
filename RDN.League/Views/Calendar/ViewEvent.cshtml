@@ -14,19 +14,16 @@
     var checkedIn = Model.Attendees.Where(x => x.PointType != CalendarEventPointTypeEnum.None).ToList();
     var available = Model.Attendees.Where(x => x.Availability != AvailibilityEnum.None).ToList();
     var currentMemAvailability = available.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
-    var attend = Model.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
-    var isApartOfEvent = Model.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
     var AvailableType = from AvailibilityEnum d in Enum.GetValues(typeof(AvailibilityEnum))
                         where d.ToString() != "None"
                         select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d), Data = d.ToString() };
-    var CalendarPointType = from CalendarEventPointTypeEnum d in Enum.GetValues(typeof(CalendarEventPointTypeEnum))
-                            where d.ToString() != "None" && d.ToString() != "Tardy"
-                            select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
 
 }
 
+
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
         <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month) ">Calendar</a></li>
@@ -64,28 +61,6 @@
                 </div>
             </div>
             <div class="panel-heading text-right">
-                @if (attend != null)
-                {
-                    <button class="btn btn-default btn-sm" id="@Model.CalendarItemId" title="Check In" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')" class="btn btn-default btn-sm"
-                            data-container="body" data-toggle="popover" data-html="true">
-                        <i class="fa fa-check-square fa-lg"></i>
-                    </button>
-                }
-                else if (Model.AllowSelfCheckIn && Model.IsCurrentMemberApartOfEvent || (Model.AllowSelfCheckIn && isApartOfEvent != null))
-                {
-                    <button class="btn btn-default btn-sm" id="@Model.CalendarItemId" title="Check In" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
-                            data-container="body" data-toggle="popover" data-html="true">
-                        <i class="fa fa-square-o fa-lg"></i>
-                    </button>
-                }
-                else if (Model.EventType.EventType == RDN.Portable.Classes.Controls.Calendar.CalendarEventTypeEnum.Birthday)
-                {
-                    <i class="fa fa-birthday-cake fa-lg"></i>
-                }
-                else if (Model.EventType.EventType == RDN.Portable.Classes.Controls.Calendar.CalendarEventTypeEnum.StartedDate)
-                {
-                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
-                }
                 @if (isSec || isAttManager)
                 {
                     <div class="btn-group">
@@ -98,6 +73,7 @@
                         </ul>
                     </div>
                 }
+
                 @if (isSec || isEventsCourd)
                 {
                     if (Model.IsReoccurring)
@@ -146,6 +122,7 @@
                         </div>
                     }
                 }
+
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-floppy-o"></i> Save <span class="caret"></span>
@@ -168,6 +145,7 @@
                         </li>
                     </ul>
                 </div>
+
                 @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport", @style = "display: inline-block;" }))
                 {
                     <button title="Export Roster" type="submit" class="btn btn-default btn-sm" value="Export Roster"><i class="fa fa-file-excel-o"></i> Export Roster</button>
@@ -177,14 +155,17 @@
 
                 }
 
+
             </div>
             <div class="panel-body">
                 <div class="alert alert-info">
                     @Html.Raw(Model.NotesHtml)
                 </div>
 
+
                 <div>
                     <table class="table">
+
                         <tr class="trBorderB">
                             <td class="text-right b">
                                 Date and Time:
@@ -337,6 +318,7 @@
                                 </div>
                             </td>
                         </tr>
+
                         <tr class="trBorderB" id="@Model.CalendarItemId-mainrow">
                             <td class="text-right b">
                                 Set Availability:
@@ -344,10 +326,10 @@
                             <td>
                                 @if (currentMemAvailability == null)
                                 {
-                                    <button class="btn btn-sm btn-default" id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
-                                            data-container="body" data-toggle="popover" data-html="true">
-                                        <i class="fa fa-calendar fa-lg"></i>
-                                    </button>
+                                <button class="btn btn-sm btn-default" id="@Model.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
+                                        data-container="body" data-toggle="popover" data-html="true">
+                                    <i class="fa fa-calendar fa-lg"></i>
+                                </button>
                                 }
                                 else if (currentMemAvailability != null)
                                 {
@@ -375,62 +357,63 @@
                                 }
                             </td>
                         </tr>
+
                         <tr class="trBorderB">
                             <td class="text-right b">
                                 Availability (@available.Count):
                             </td>
                             <td>
-                                @if (available.Count == 0)
+                                @if(available.Count == 0)
                                 {
-                                    <span>No Availability</span>
+                                 <span>No Availability</span>
                                 }
                                 else
-                                {
+                                { 
                                     <div class="panel panel-default">
                                         <div class="panel-body no-padding">
                                             <table id="available" class="table table-condensed table-hover table-responsive table-striped">
                                                 @if (available.Count > 0)
                                                 {
-                                                    <thead class="vmTableHead">
-                                                        <tr>
-                                                            <th></th>
-                                                            <th>
-                                                                Number
-                                                            </th>
-                                                            <th>
-                                                                Name
-                                                            </th>
-                                                            <th>Available</th>
-                                                        </tr>
-                                                    </thead>
+                                                <thead class="vmTableHead">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>
+                                                            Number
+                                                        </th>
+                                                        <th>
+                                                            Name
+                                                        </th>
+                                                        <th>Available</th>
+                                                    </tr>
+                                                </thead>
                                                 }
                                                 <tbody>
                                                     @for (int i = 0; i < available.Count; i++)
                                                     {
-                                                        <tr>
-                                                            <td class="b">
-                                                                @(i + 1).
-                                                            </td>
-                                                            <td>
-                                                                @available[i].MemberNumber
-                                                            </td>
-                                                            <td>
-                                                                <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( available[i].MemberName))">
-                                                                    @available[i].MemberName
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(available[i].Availability)
-                                                            </td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td class="b">
+                                                            @(i + 1).
+                                                        </td>
+                                                        <td>
+                                                            @available[i].MemberNumber
+                                                        </td>
+                                                        <td>
+                                                            <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( available[i].MemberName))">
+                                                                @available[i].MemberName
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(available[i].Availability)
+                                                        </td>
+                                                    </tr>
                                                         if (!String.IsNullOrEmpty(available[i].AvailableNotes))
                                                         {
-                                                            <tr class="trBorderB">
-                                                                <td></td>
-                                                                <td class="i veNote" colspan="3">
-                                                                    @available[i].AvailableNotes
-                                                                </td>
-                                                            </tr>
+                                                    <tr class="trBorderB">
+                                                        <td></td>
+                                                        <td class="i veNote" colspan="3">
+                                                            @available[i].AvailableNotes
+                                                        </td>
+                                                    </tr>
                                                         }
                                                     }
                                                 </tbody>
@@ -461,105 +444,105 @@
                             <td>
                                 @if(checkedIn.Count > 0)
                                 {
-                                    <div class="panel panel-default">
-                                        <div class="panel-body no-padding">
-                                            <table id="members" class="table table-condensed table-hover table-responsive table-striped">
-                                                @if (checkedIn.Count > 0)
+                                <div class="panel panel-default">
+                                    <div class="panel-body no-padding">
+                                        <table id="members" class="table table-condensed table-hover table-responsive table-striped">
+                                            @if (checkedIn.Count > 0)
+                                            {
+                                                <thead class="vmTableHead">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>
+                                                            Number
+                                                        </th>
+                                                        <th>
+                                                            Name
+                                                        </th>
+                                                        <th>
+                                                            Point Type
+                                                        </th>
+                                                        <th>
+                                                            Points
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                            }
+                                            <tbody>
+                                                @for (int i = 0; i < checkedIn.Count; i++)
                                                 {
-                                                    <thead class="vmTableHead">
-                                                        <tr>
-                                                            <th></th>
-                                                            <th>
-                                                                Number
-                                                            </th>
-                                                            <th>
-                                                                Name
-                                                            </th>
-                                                            <th>
-                                                                Point Type
-                                                            </th>
-                                                            <th>
-                                                                Points
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                }
-                                                <tbody>
-                                                    @for (int i = 0; i < checkedIn.Count; i++)
-                                                    {
-                                                        <tr class="@(String.IsNullOrEmpty(checkedIn[i].Note) ? "trBorderB" : String.Empty)">
-                                                            <td class="b">
-                                                                @(i + 1).
-                                                            </td>
-                                                            <td>
-                                                                @checkedIn[i].MemberNumber
-                                                            </td>
-                                                            <td>
-                                                                <a target="_blank" href="@Url.Content("~/member/" + checkedIn[i].MemberId.ToString().Replace("-", "") + "/" + checkedIn[i].MemberName)">
-                                                                    @checkedIn[i].MemberName
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].PointType)
-                                                                @if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                    <tr class="@(String.IsNullOrEmpty(checkedIn[i].Note) ? "trBorderB" : String.Empty)">
+                                                        <td class="b">
+                                                            @(i + 1).
+                                                        </td>
+                                                        <td>
+                                                            @checkedIn[i].MemberNumber
+                                                        </td>
+                                                        <td>
+                                                            <a target="_blank" href="@Url.Content("~/member/" + checkedIn[i].MemberId.ToString().Replace("-", "") + "/" + checkedIn[i].MemberName)">
+                                                                @checkedIn[i].MemberName
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].PointType)
+                                                            @if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                            { <span>
+                                                                - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].SecondaryPointType)
+                                                            </span> }
+                                                        </td>
+                                                        <td>
+                                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Present)
+                                                            {
+                                                                @Model.EventType.PointsForPresent
+                                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
                                                                 { <span>
-                                                                      - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].SecondaryPointType)
-                                                                  </span> }
-                                                            </td>
-                                                            <td>
-                                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Present)
-                                                                {
-                                                                    @Model.EventType.PointsForPresent
-                                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                                    { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
-                                                                      </span> }
-                                                                }
-                                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Partial)
-                                                                {
-                                                                    @Model.EventType.PointsForPartial
-                                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                                    { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
-                                                                      </span> }
-                                                                }
-                                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
-                                                                {
-                                                                    @Model.EventType.PointsForNotPresent
-                                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                                    { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
-                                                                      </span> }
-                                                                }
-                                                                @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Excused)
-                                                                {
-                                                                    @Model.EventType.PointsForExcused
-                                                                    if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
-                                                                    { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
-                                                                      </span> }
-                                                                }
+                                                                    + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
+                                                                </span> }
+                                                            }
+                                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Partial)
+                                                            {
+                                                                @Model.EventType.PointsForPartial
+                                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                                { <span>
+                                                                    + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
+                                                                </span> }
+                                                            }
+                                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
+                                                            {
+                                                                @Model.EventType.PointsForNotPresent
+                                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                                { <span>
+                                                                    + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
+                                                                </span> }
+                                                            }
+                                                            @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Excused)
+                                                            {
+                                                                @Model.EventType.PointsForExcused
+                                                                if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
+                                                                { <span>
+                                                                    + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
+                                                                </span> }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    if (!String.IsNullOrEmpty(checkedIn[i].Note))
+                                                    {
+                                                        <tr class="trBorderB">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td class="i veNote" colspan="3">
+                                                                @checkedIn[i].Note
                                                             </td>
                                                         </tr>
-                                                        if (!String.IsNullOrEmpty(checkedIn[i].Note))
-                                                        {
-                                                            <tr class="trBorderB">
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td class="i veNote" colspan="3">
-                                                                    @checkedIn[i].Note
-                                                                </td>
-                                                            </tr>
-                                                        }
                                                     }
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
+                                </div>
                                 }
                                 else
                                 {
-                                    <span>No CheckIn</span>
+                                <span>No CheckIn</span>
                                 }
                             </td>
                         </tr>
@@ -569,32 +552,8 @@
         </div>
     </div>
 </div>
-<div id="checkInPopUp" style="display: none;" class="well">
-    <div class="row">
-        <div class="col-xs-12">
-            <label class="form-label">Check In</label>
-            <div class="margin-bottom-5">
-                @Html.DropDownList("checkInSelection", new SelectList(CalendarPointType, "ID", "Name"), "Check In...", new { @class = "form-control" })
-            </div>
-            <div class="margin-bottom-10">
-                <label> @Html.CheckBox("IsTardy")<span class="b">Tardy?</span></label>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <label class="form-label">Notes</label>
-            <div class="margin-bottom-20">
-                <input type="text" id="notes" class="form-control" />
-            </div>
-        </div>
-        <div class="col-xs-12 margin-bottom-5">
-            <button type="button" id="checkInButtonPopUp" value="Check In" class="btn btn-primary" onclick="javascript: checkInMemberToEvent()">Check In</button>
-            <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
-        </div>
-        <div class="col-xs-12">
-            <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
-        </div>
-    </div>
-</div>
+
+
 
 <div id="availablePopUp" style="display: none;">
     <div class="row">
@@ -616,6 +575,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     //$(document).ready(function () {
     //    $('#members').dataTable({

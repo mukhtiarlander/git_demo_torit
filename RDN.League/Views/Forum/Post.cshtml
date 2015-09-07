@@ -117,7 +117,7 @@
                                             }
                                             @if (!Model.IsLocked)
                                             {
-                                                <a class="btn btn-sm btn-default" onclick="javascript:Forum.CheckIsForumPostExists('@Model.ForumId.ToString().Replace("-", "")',@Model.TopicId.ToString().Replace("-", ""), @message.MessageId)"><i class=" fa fa-exclamation-circle"></i> Quote</a>
+                                                <a class="btn btn-sm btn-default" href="@Url.Content("~/forum/post/quote/" + Model.ForumId.ToString().Replace("-", "") + "/" + Model.TopicId + "/" + message.MessageId)"><i class="fa fa-exclamation-circle"></i> Quote</a>
                                             }
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                         </span>
                     }
                 </div>
-
+                
                 @Html.HiddenFor(x => x.TopicId)
                 @Html.HiddenFor(x => x.ForumId)
             </div>
