@@ -18,12 +18,10 @@
     bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
     var isAttendance = MemberCache.IsAttendanceManager(memId);
 }
-
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Calendar List</li>
 </ol>
-
 @if (Model.CalendarId == new Guid())
 {
     <div class="alert alert-warning margin-top-20">
@@ -83,7 +81,7 @@ else
                     {
                         <li class="calPagerLi @(i == 0 ? "active b" : "") margin-left-5">
                             <a role="presentation" href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + @Model.CalendarId.ToString().Replace("-", "") + "/" + @Model.CurrentDateSelected.AddMonths(i).Year + "/" + @Model.CurrentDateSelected.AddMonths(i).Month)">
-                            @Model.CurrentDateSelected.AddMonths(i).Month/@Model.CurrentDateSelected.AddMonths(i).Year.ToString().Remove(0, 2)
+                                @Model.CurrentDateSelected.AddMonths(i).Month/@Model.CurrentDateSelected.AddMonths(i).Year.ToString().Remove(0, 2)
                             </a>
                         </li>
                     }
@@ -93,7 +91,7 @@ else
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                             <th class="smallCaps text-center">RSVP</th>
+                            <th class="smallCaps text-center">RSVP</th>
                             <th class="text-center">Check In</th>
                             <th>
                                 Event
@@ -107,28 +105,45 @@ else
                             <th>
                                 Location
                             </th>
-
                             @if (isSec || isAttendance)
-                        {
+                            {
                                 <th class="text-center">
                                     Check In
                                 </th>
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                                 <th></th>}
                         </tr>
                     </thead>
                     @foreach (var calEvent in Model.Events.OrderByDescending(x => x.StartDate))
-                {
+                    {
 
-                    var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
-                    var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
-                    var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
+                        var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
+                        var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
+                        var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
+                        var mem = calEvent.Attendees.FirstOrDefault(x => x.MemberId == memId);
+                        var checkInStatusId = mem != null ? (int)mem.PointType : 0;
+                        string className = "";
+                        if (checkInStatusId == 1)
+                        {
+                            className = "btn-success";
+                        }
+                        if (checkInStatusId == 2)
+                        {
+                            className = "btn-warning";
+                        }
+                        if (checkInStatusId == 3)
+                        {
+                            className = "btn-danger";
+                        }
+                        if (checkInStatusId == 4)
+                        {
+                            className = "btn-primary";
+                        }
                         <tr id="@calEvent.CalendarItemId-mainrow" class="forumTopicRow @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "calCurrentDateEvent" : "")">
                             <td class="text-center">
                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
-
 
                                 @if (calEvent.EventType.EventType != CalendarEventTypeEnum.Birthday && calEvent.EventType.EventType != CalendarEventTypeEnum.StartedDate)
                                 {
@@ -166,70 +181,67 @@ else
 
                                 }
                             </td>
-                        <td class="text-center vertical-middle">
-                        @if (attend != null)
-                        {
-                            <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')" class="btn btn-default btn-sm"
-                                    data-container="body" data-toggle="popover" data-html="true">
-                                <i class="fa fa-check-square fa-lg"></i>
-                            </button>
-                        }
-                        else if (calEvent.AllowSelfCheckIn && calEvent.IsCurrentMemberApartOfEvent || (calEvent.AllowSelfCheckIn && isApartOfEvent != null))
-                        {
-                            <button class="btn btn-default btn-sm" id="@calEvent.CalendarItemId" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')"
-                                    data-container="body" data-toggle="popover" data-html="true">
-                                <i class="fa fa-square-o fa-lg"></i>
-                            </button>
-                        }
-                        else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
-                        {
-                            <i class="fa fa-birthday-cake fa-lg"></i>
-                        }
-                        else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
-                        {
-                            <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
-                        }
+                            <td class="text-center vertical-middle">
 
+                                @if (attend != null)
+                                {
+                                    <button class="btn btn-default btn-sm @className" onmouseout="HideCheckInHoverTooltip(this)" onmouseover="ShowCheckInHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" id="@calEvent.CalendarItemId" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')" class="btn btn-default btn-sm"
+                                            data-container="body" data-toggle="popover" data-html="true">
+                                        <i class="fa fa-check-square fa-lg"></i>
+                                    </button>
+                                }
+                                else if (calEvent.AllowSelfCheckIn && calEvent.IsCurrentMemberApartOfEvent || (calEvent.AllowSelfCheckIn && isApartOfEvent != null))
+                                {
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" onmouseout="HideCheckInHoverTooltip()" onmouseover="ShowCheckInHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')"
+                                            data-container="body" data-toggle="popover" data-html="true">
+                                        <i class="fa fa-square-o fa-lg"></i>
+                                    </button>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
+                                {
+                                    <i class="fa fa-birthday-cake fa-lg"></i>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
+                                {
+                                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
+                                }
                             </td>
                             <td class="vertical-middle @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "b" : "")">
                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
-                            {
+                                {
                                     <a href="@Url.Content("~/calendar/event/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
-                            }
-                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
-                            {
-                                <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
-                            }
-                            else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
-                            {
-                                <a href="@Url.Content("~/calendar/started-playing/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
-                            }
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
+                                {
+                                    <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
+                                {
+                                    <a href="@Url.Content("~/calendar/started-playing/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                }
                             </td>
                             <td class="vertical-middle">
                                 @calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()
                             </td>
                             <td class="vertical-middle">
                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
-                        {
+                                {
                                     <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
-                        }
+                                }
                             </td>
-
                             <td class="vertical-middle">
                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
-                        {
-                            if (calEvent.Location != null)
-                            {
-                                @calEvent.Location.LocationName
-                            }
-                        }
+                                {
+                                    if (calEvent.Location != null)
+                                    {
+                                        @calEvent.Location.LocationName
+                                    }
+                                }
                             </td>
-
-
 
                             <td class="text-center ">
                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && (isSec || isAttendance))
-                            {
+                                {
 
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
@@ -240,10 +252,10 @@ else
                                             <li class="no-margin-left"><a href="@Url.Content("~/calendar/event/checkin-s/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Small Screen</a></li>
                                         </ul>
                                     </div>
-                            }
+                                }
                             </td>
                         </tr>
-                }
+                    }
                 </table>
             </div>
         </div>
@@ -274,7 +286,7 @@ else
             </div>
         </div>
     </div>
-    
+
     <div id="availablePopUp" style="display: none;">
         <div class="row">
             <div class="col-xs-12">
@@ -282,13 +294,13 @@ else
                 <div class="margin-bottom-20">
                     @Html.DropDownList("availableSelection", new SelectList(AvailableType, "Data", "Name"), "Set Availability...", new { @class = "form-control" })
                 </div>
-            </div> 
+            </div>
             <div class="col-xs-12">
                 <label class="form-label">Notes</label>
                 <div class="margin-bottom-20">
                     <input type="text" id="availableNotes" class="form-control" />
                 </div>
-            </div> 
+            </div>
             <div class="col-xs-12">
                 <button type="button" id="availableButtonPopUp" value="Set Availability" class="btn btn-primary" onclick="javascript:setAvailabilityMemberToEvent()">Set Availability</button>
                 <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
@@ -300,6 +312,8 @@ else
             $('[data-toggle="offcanvas"]').click(function () {
                 $('.row-offcanvas').toggleClass('active');
             });
+            $(".checkIn").attr("data-original-title", "");
+
         });
     </script>
 

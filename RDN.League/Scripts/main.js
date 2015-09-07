@@ -995,7 +995,7 @@ function EventTypeChanged(dropDown) {
             if (result.isSuccess === true) {
                 if (result.type.IsRemoved) {
                     $("#EventTypeError").text("This event type has been removed");
-                    $("#addNewEventTypeText").css("display","none");
+                    $("#addNewEventTypeText").css("display", "none");
                     $("#SelectedEventTypeId").find('option:eq(0)').prop('selected', true);
                     return false;
                 }
@@ -1445,17 +1445,65 @@ var calendarId;
 var eventId;
 var addEventPopup = false;
 function checkIntoEvent(idOfPopUp, calId, evenId, name) {
-
     calendarId = calId;
     eventId = evenId;
+    $("#" + eventId).attr("data-toggle", "popover");
     $(".popover").hide().remove();
     $('button[data-toggle="popover"]').popover('destroy');
     var popup = $('#checkInPopUp').clone();
     addEventPopup = true;
     $("#" + eventId).popover({ content: popup.html() });
     $("#" + eventId).popover('show');
-
+    var attr = $("#" + eventId).attr('aria-describedby');
+    if (typeof attr !== typeof undefined && attr !== false) {
+        $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
+            if (result.isSuccess === true) {
+                var status = result.value.toString();
+                if (status == "0") status = "";
+                $(".popover-content #checkInSelection").val(status).change();
+            }
+        });
+    }
 }
+
+function ShowCheckInHoverTooltip(button, calendarId, eventId) {
+    var titleAttr = $(button).attr("data-original-title");
+    if (typeof titleAttr !== typeof undefined && titleAttr !== false && titleAttr != "") {
+        return;
+    }
+    $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
+        if (result.isSuccess === true) {
+            var status = result.status.toString();
+            $(button).attr("data-original-title", status);
+            $(button).attr("data-toggle", "tooltip");
+            $(button).tooltip('show');
+        }
+    });
+}
+
+function HideCheckInHoverTooltip(button) {
+    $(button).tooltip('hide');
+}
+
+function SetCheckInButtonColor(id, status) {
+    status = status.toLowerCase().trim();
+    alert(status);
+    if (status === "present") {
+        if (!$("#" + id).hasClass("btn-success"))
+            $("#" + id).removeClass("btn-warning").removeClass("btn-danger").removeClass("btn-primary").addClass("btn-success");
+    } else if (status === "not present") {
+        if (!$("#" + id).hasClass("btn-danger"))
+            $("#" + id).removeClass("btn-warning").removeClass("btn-primary").removeClass("btn-success").addClass("btn-danger");
+    } else if (status === "partial") {
+        if (!$("#" + id).hasClass("btn-warning"))
+            $("#" + id).removeClass("btn-success").removeClass("btn-danger").removeClass("btn-primary").addClass("btn-warning");
+    } else if (status === "excused") {
+        if (!$("#" + id).hasClass("btn-primary"))
+            $("#" + id).removeClass("btn-warning").removeClass("btn-danger").removeClass("btn-success").addClass("btn-primary");
+    }
+}
+
+
 function setAvailForEvent(calId, evenId) {
     calendarId = calId;
     eventId = evenId;
@@ -1479,6 +1527,7 @@ function CloseAddedRow() {
 function checkInMemberToEvent() {
     var noted = $(".popover-content #notes").val();
     var selectedItem = $(".popover-content #checkInSelection option:selected").val();
+    var selectedItemText = $(".popover-content #checkInSelection option:selected").text();
     if (selectedItem === "") {
         $('.bottom-right').notify({
             message: { text: 'Please Select Check In Type. ' },
@@ -1488,12 +1537,14 @@ function checkInMemberToEvent() {
         return;
     }
     var isTardy = $(".popover-content #IsTardy").is(':checked');
-
+  
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
             $("#" + eventId).children('i').toggleClass("fa-square-o", false);
             $("#" + eventId).children('i').toggleClass("fa-check-square", true);
+            $("#" + eventId).attr("data-original-title", selectedItemText);
+            SetCheckInButtonColor(eventId, selectedItemText);
             $('.bottom-right').notify({
                 message: { text: 'Checked In! ' },
                 fadeOut: { enabled: true, delay: 4000 }

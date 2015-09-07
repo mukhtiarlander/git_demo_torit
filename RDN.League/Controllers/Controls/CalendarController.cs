@@ -11,6 +11,7 @@ using RDN.Library.Classes.Location;
 using RDN.League.Models.Calendar;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Account.Classes;
+using RDN.Portable.Util.Enums;
 using RDN.Utilities.Dates;
 using RDN.League.Models.Utilities;
 using ScheduleWidget.ScheduledEvents;
@@ -583,6 +584,22 @@ namespace RDN.League.Controllers
                     ty = (CalendarEventPointTypeEnum)Enum.Parse(typeof(CalendarEventPointTypeEnum), eventTypePoints);
                 var isSuccess = CalendarFactory.CheckSelfIn(new Guid(calendarId), new Guid(eventId), RDN.Library.Classes.Account.User.GetMemberId(), note, ty, Convert.ToBoolean(isTardy), 0);
                 return Json(new { isSuccess = isSuccess }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
+        public JsonResult GetEventCheckInStatus(string calendarId, string eventId)
+        {
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var status = CalendarFactory.GetEventCheckInStatus(new Guid(calendarId), new Guid(eventId),memId);
+                return Json(new { isSuccess = true, status = status.ToFreindlyName(), value = (int)status }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {

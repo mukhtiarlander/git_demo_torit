@@ -272,6 +272,24 @@ namespace RDN.Library.Classes.Calendar
         /// <param name="note"></param>
         /// <param name="pointType"></param>
         /// <returns></returns>
+
+        public static CalendarEventPointTypeEnum GetEventCheckInStatus(Guid calendarId, Guid eventId, Guid memberId)
+        {
+            var dc = new ManagementContext();
+            var self = (from xx in dc.CalendarEvents
+                        where xx.Calendar.CalendarId == calendarId
+                        where xx.CalendarItemId == eventId
+                        select xx).FirstOrDefault();
+            if (self != null)
+            {
+                var mem = self.Attendees.Where(x => x.Attendant.MemberId == memberId).FirstOrDefault();
+                if (mem != null)
+                    return (CalendarEventPointTypeEnum)mem.PointTypeEnum;
+            }
+            return CalendarEventPointTypeEnum.None;
+        }
+
+
         public static bool CheckSelfIn(Guid calendarId, Guid eventId, Guid memberId, string note, CalendarEventPointTypeEnum pointType, bool isTardy, int additionalPoints)
         {
             try
@@ -364,7 +382,7 @@ namespace RDN.Library.Classes.Calendar
             {
                 var dc = new ManagementContext();
                 var locations = (from xx in dc.CalendarEventTypes
-                                 where xx.CalendarEventTypeId == eventTypeId 
+                                 where xx.CalendarEventTypeId == eventTypeId
                                  select new
                                  {
                                      xx.CalendarEventTypeId,
@@ -376,7 +394,7 @@ namespace RDN.Library.Classes.Calendar
                                      xx.PointsForTardy,
                                      xx.DefaultColor,
                                      xx.IsRemoved
-                                     
+
                                  }).FirstOrDefault();
                 if (locations != null)
                 {
