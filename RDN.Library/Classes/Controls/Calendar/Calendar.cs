@@ -289,6 +289,22 @@ namespace RDN.Library.Classes.Calendar
             return CalendarEventPointTypeEnum.None;
         }
 
+        public static AvailibilityEnum GetEventRSVPStatus(Guid calendarId, Guid eventId, Guid memberId)
+        {
+            var dc = new ManagementContext();
+            var self = (from xx in dc.CalendarEvents
+                        where xx.Calendar.CalendarId == calendarId
+                        where xx.CalendarItemId == eventId
+                        select xx).FirstOrDefault();
+            if (self != null)
+            {
+                var mem = self.Attendees.FirstOrDefault(x => x.Attendant.MemberId == memberId);
+                if (mem != null)
+                    return (AvailibilityEnum)mem.AvailibityEnum;
+            }
+            return AvailibilityEnum.None;
+        }
+
 
         public static bool CheckSelfIn(Guid calendarId, Guid eventId, Guid memberId, string note, CalendarEventPointTypeEnum pointType, bool isTardy, int additionalPoints)
         {

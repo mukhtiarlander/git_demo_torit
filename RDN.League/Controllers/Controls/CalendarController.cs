@@ -609,6 +609,22 @@ namespace RDN.League.Controllers
         }
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
+        public JsonResult GetEventRSVPStatus(string calendarId, string eventId)
+        {
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var status = CalendarFactory.GetEventRSVPStatus(new Guid(calendarId), new Guid(eventId), memId);
+                return Json(new { isSuccess = true, status = status.ToFreindlyName(), value = status.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
         public JsonResult SetAvailabilityForEvent(string calendarId, string eventId, string note, string eventTypePoints)
         {
             try

@@ -1447,7 +1447,6 @@ var addEventPopup = false;
 function checkIntoEvent(idOfPopUp, calId, evenId, name) {
     calendarId = calId;
     eventId = evenId;
-    $("#" + eventId).attr("data-toggle", "popover");
     $(".popover").hide().remove();
     $('button[data-toggle="popover"]').popover('destroy');
     var popup = $('#checkInPopUp').clone();
@@ -1467,18 +1466,28 @@ function checkIntoEvent(idOfPopUp, calId, evenId, name) {
 }
 
 function ShowCheckInHoverTooltip(button, calendarId, eventId) {
-    var titleAttr = $(button).attr("data-original-title");
-    if (typeof titleAttr !== typeof undefined && titleAttr !== false && titleAttr != "") {
-        return;
-    }
     $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
         if (result.isSuccess === true) {
             var status = result.status.toString();
             $(button).attr("data-original-title", status);
-            $(button).attr("data-toggle", "tooltip");
             $(button).tooltip('show');
         }
     });
+}
+
+function ShowRSVPHoverTooltip(button, calendarId, eventId) {
+    $.getJSON("/Calendar/GetEventRSVPStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
+        if (result.isSuccess === true) {
+            var status = result.status.toString();
+            $(button).attr("data-original-title", status);
+            $(button).tooltip('show');
+        }
+    });
+}
+
+
+function HideRSVPHoverTooltip(button) {
+    $(button).tooltip('hide');
 }
 
 function HideCheckInHoverTooltip(button) {
@@ -1512,6 +1521,13 @@ function setAvailForEvent(calId, evenId) {
     addEventPopup = true;
     $("#" + eventId + "-setAvail").popover({ content: popup.html() });
     $("#" + eventId + "-setAvail").popover('show');
+    $.getJSON("/Calendar/GetEventRSVPStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
+        if (result.isSuccess === true) {
+            var status = result.value.toString();
+            if (status.toLowerCase() == "none") status = "";
+            $(".popover-content #availableSelection").val(status).change();
+        }
+    });
 }
 
 function CloseAddedRow() {
@@ -1536,7 +1552,7 @@ function checkInMemberToEvent() {
         return;
     }
     var isTardy = $(".popover-content #IsTardy").is(':checked');
-  
+
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
