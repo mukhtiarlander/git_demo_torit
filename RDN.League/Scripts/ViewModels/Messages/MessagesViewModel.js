@@ -164,7 +164,7 @@
     };
     this.SetupNewMessage = function (memberId, type) {
         if (memberId != 0) {
-            $.getJSON("/Message/GetMemberById", { memberId: memberId, type : type }, function (result) {
+            $.getJSON("/Message/GetConnectedRecepients", { memberId: memberId, type: type }, function (result) {
                 if (result.success) {
                     if (result.Recipients == null || result.Recipients == 'undefined') return;
                     var members = JSON.parse(result.Recipients);

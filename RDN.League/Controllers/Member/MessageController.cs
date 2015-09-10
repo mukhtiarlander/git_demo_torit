@@ -258,18 +258,13 @@ namespace RDN.League.Controllers
         }
 
         [Authorize]
-        public JsonResult GetMemberById(string memberId, string type)
+        public JsonResult GetConnectedRecepients(string memberId, string type)
         {
             try
             {
                 var OwnerType = (GroupOwnerTypeEnum)Enum.Parse(typeof(GroupOwnerTypeEnum), type);
                 var recList = new List<KeyValuePair<Guid, string>>();
-                if (OwnerType == GroupOwnerTypeEnum.member)
-                {
-                    recList = Messages.GetConnectedMembersOfMember(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
-
-                }
-                else if (OwnerType == GroupOwnerTypeEnum.shop)
+                if (OwnerType == GroupOwnerTypeEnum.shop)
                 {
                     recList = Messages.GetConnectedShopRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
 
@@ -279,21 +274,10 @@ namespace RDN.League.Controllers
                     var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
                     recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
                 }
-                else if (OwnerType == GroupOwnerTypeEnum.person)
-                {
-                    var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
-                    recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
-
-                }
                 else if (OwnerType == GroupOwnerTypeEnum.officiating)
                 {
                     var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
                     recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
-
-                }
-                else if (OwnerType == GroupOwnerTypeEnum.league)
-                {
-                    recList = Messages.GetConnectedLeagueRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
 
                 }
                 else if (OwnerType == GroupOwnerTypeEnum.paywall)
@@ -305,11 +289,6 @@ namespace RDN.League.Controllers
                 {
                     recList = Messages.GetConnectedCalEventRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
                 }
-                else
-                {
-                    recList = Messages.GetConnectedMembersOfGroup(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
-                }
-
                 //var memId = new Guid(memberId);
                 //var member = RDN.Library.Classes.Account.User.GetMemberWithMemberId(memId);
                 var json = JsonConvert.SerializeObject(recList);
