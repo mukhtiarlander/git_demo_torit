@@ -79,10 +79,12 @@
                         Auto Renewal
                     </div>
                     <div class="panel-body font20">
-                        @if (Model.LastBilledOn.ToShortDateString() != "1/1/0001")
-                        {
-                            @Model.LastBilledOn.ToShortDateString()
-                        }
+                        <b>
+                            @if (Model.LastBilledOn.ToShortDateString() != "1/1/0001")
+                            {
+                                @Model.LastBilledOn.ToShortDateString()
+                            }
+                        </b>
                     </div>
                     <div class="panel-footer padding-15">
                         @EnumExt.ToFreindlyName(Model.AutoRenewal)

@@ -144,8 +144,7 @@ namespace RDN.Library.Classes.Error
         {
             var output = new List<Classes.Error>();
             var dc = new ManagementContext();
-            var errors =
-                dc.ErrorExceptions.Include("ExceptionData").Include("ExceptionDetails").OrderByDescending(x => x.Created)
+            var errors =                dc.ErrorExceptions.Include("ExceptionData").Include("ExceptionDetails").OrderByDescending(x => x.Created)
                     .Skip(recordsToSkip).Take(numberOfRecordsToPull);
 
             foreach (var error in errors)
