@@ -8,6 +8,7 @@ using System.Text;
 namespace RDN.Library.DataModels.Exception
 {
     [Table("RDN_Error_Exception_Detail")]
+    [Obsolete]
     public class ExceptionDetail
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
