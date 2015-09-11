@@ -163,6 +163,10 @@
         $.getJSON("/Calendar/CalendarDeleteEventType", { eventTypeId: eventTypeId }, function (result) {
             if (result.isSuccess === true) {
                 e.parent().parent().remove();
+                $('.bottom-right').notify({
+                    message: { text: "Event Type Removed" },
+                    fadeOut: { enabled: true, delay: 4000 }
+                }).show();
             }
         });
     };
