@@ -21,13 +21,13 @@
         <div class="row">
             @if (Model.NextDueItem != 0)
             {
-                <div class="col-xs-6">
-                    <a class="btn btn-default btn-sm" style="text-align:left;" title="Previous Due" href="@Url.Content("~/dues/collection/" + Model.NextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i></a>
+                <div class="col-xs-6 pull-left">
+                    <a class="btn btn-default btn-sm " title="Previous Due" href="@Url.Content("~/dues/collection/" + Model.NextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i></a>
                 </div>
             }
             @if (Model.PreviousDueItem != 0)
-            { <div class="col-xs-6 text-right">
-            <a class="btn btn-default btn-sm" title="Next Due" style="text-align:right;" href="@Url.Content("~/dues/collection/" + Model.PreviousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-forward"></i></a>
+            { <div class="col-xs-6 text-right pull-right">
+            <a class="btn btn-default btn-sm" title="Next Due" href="@Url.Content("~/dues/collection/" + Model.PreviousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-forward"></i></a>
         </div>
             }
         </div>
