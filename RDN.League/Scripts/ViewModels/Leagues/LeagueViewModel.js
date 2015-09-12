@@ -201,12 +201,12 @@
         if (typeof isArchived === "undefined" || isArchived === null) {
             isArchived = Archived;
         }
-        if (lastSearch == box.val().trim() && lastArchiveState == isArchived) {
+        if (IsOnKeyPress && lastSearch == box.val().trim() && lastArchiveState == isArchived) {
             return;
         }
         var waitTime = 0;
         if (IsOnKeyPress)
-            waitTime = 2000;
+            waitTime = 1500;
         delay(function () {
             Archived = isArchived;
             lastArchiveState = Archived;
