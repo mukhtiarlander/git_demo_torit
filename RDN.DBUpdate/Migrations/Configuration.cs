@@ -10,26 +10,23 @@ namespace RDN.DBUpdate.Migrations
     using Common.AutomatedTasks.Library.Datamodels.Context;
 
     //internal sealed class Configuration : DbMigrationsConfiguration<RNManagementContext>
-    internal sealed class Configuration : DbMigrationsConfiguration<ManagementContext>
+    //internal sealed class Configuration : DbMigrationsConfiguration<ManagementContext>
+    //{
+    //    public Configuration()
+    //    {
+    //        AutomaticMigrationsEnabled = true;
+    //        AutomaticMigrationDataLossAllowed = true;
+
+    //    }
+    //}
+
+    internal sealed class Links : DbMigrationsConfiguration<ManagementContext>
     {
-        public Configuration()
+        public Links()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-
         }
-
-    }
-
-    internal sealed class CEmail : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailServerContext>
-    {
-        public CEmail()
-        {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-
-        }
-
     }
 
 
