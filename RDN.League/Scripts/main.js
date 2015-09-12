@@ -1453,26 +1453,17 @@ function checkIntoEvent(idOfPopUp, calId, evenId, name) {
     addEventPopup = true;
     $("#" + eventId).popover({ content: popup.html() });
     $("#" + eventId).popover('show');
-    var attr = $("#" + eventId).attr('aria-describedby');
-    if (typeof attr !== typeof undefined && attr !== false) {
-        $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-            if (result.isSuccess === true) {
-                var status = result.value.toString();
-                if (status == "0") status = "";
-                $(".popover-content #checkInSelection").val(status).change();
-            }
-        });
-    }
-}
-
-function ShowCheckInHoverTooltip(button, calendarId, eventId) {
-    $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-        if (result.isSuccess === true) {
-            var status = result.status.toString();
-            $(button).attr("data-original-title", status);
-            $(button).tooltip('show');
-        }
-    });
+    var checkInStatusId = "";
+    var status = $("#" + eventId).attr("data-attendance").trim();
+    if (status == "Present")
+        checkInStatusId = "1";
+    if (status == "Partial")
+        checkInStatusId = "2";
+    if (status == "Not Present")
+        checkInStatusId = "3";
+    if (status == "Excused")
+        checkInStatusId = "4";
+    $(".popover-content #checkInSelection").val(checkInStatusId).change();
 }
 
 function ShowRSVPHoverTooltip(button, calendarId, eventId) {
@@ -1485,12 +1476,7 @@ function ShowRSVPHoverTooltip(button, calendarId, eventId) {
     });
 }
 
-
 function HideRSVPHoverTooltip(button) {
-    $(button).tooltip('hide');
-}
-
-function HideCheckInHoverTooltip(button) {
     $(button).tooltip('hide');
 }
 
@@ -1558,7 +1544,8 @@ function checkInMemberToEvent() {
         if (result.isSuccess === true) {
             $("#" + eventId).children('i').toggleClass("fa-square-o", false);
             $("#" + eventId).children('i').toggleClass("fa-check-square", true);
-            $("#" + eventId).attr("data-original-title", selectedItemText);
+            $("#" + eventId).attr("data-attendance", selectedItemText);
+            $("#" + eventId).attr('data-original-title', selectedItemText);
             SetCheckInButtonColor(eventId, selectedItemText);
             $('.bottom-right').notify({
                 message: { text: 'Checked In! ' },
