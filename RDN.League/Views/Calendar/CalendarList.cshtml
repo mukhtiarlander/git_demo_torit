@@ -152,7 +152,7 @@ else
                                 {
                                     if (avail == null)
                                     {
-                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail"   data-rsvp="@rsvpStatus"   onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                 data-container="body" data-toggle="popover" data-html="true">
                                             <i class="fa fa-calendar fa-lg"></i>
                                         </button>
@@ -186,7 +186,7 @@ else
                             </td>
                             <td class="text-center vertical-middle">
 
-                                @if (attend != null)
+                                @if (attend != null && calEvent.AllowSelfCheckIn)
                                 {
                                     <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name','@checkInStatusId')"
                                             data-container="body" data-toggle="popover" data-html="true">
@@ -199,20 +199,20 @@ else
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-square-o fa-lg"></i>
                                     </button>
-                                    }
-                                    else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
-                                    {
-                                    <i class="fa fa-birthday-cake fa-lg"></i>
-                                    }
-                                    else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
-                                    {
-                                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
-                                    }
-                                </td>
-                                <td class="vertical-middle @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "b" : "")">
-                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                 {
-                                        <a href="@Url.Content("~/calendar/event/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
+                                    <i class="fa fa-birthday-cake fa-lg"></i>
+                                }
+                                else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
+                                {
+                                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
+                                }
+                            </td>
+                            <td class="vertical-middle @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "b" : "")">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                                {
+                                    <a href="@Url.Content("~/calendar/event/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
                                 }
                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                 {
@@ -222,114 +222,114 @@ else
                                 {
                                     <a href="@Url.Content("~/calendar/started-playing/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                                 }
-                                </td>
-                                <td class="vertical-middle">
-                                    @calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()
-                                </td>
-                                <td class="vertical-middle">
-                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                            </td>
+                            <td class="vertical-middle">
+                                @calEvent.StartDate.ToString("ddd"), @calEvent.StartDate.ToShortDateString()
+                            </td>
+                            <td class="vertical-middle">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
                                 {
-                                        <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
+                                    <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
                                 }
-                                </td>
-                                <td class="vertical-middle">
-                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
+                            </td>
+                            <td class="vertical-middle">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
                                 {
                                     if (calEvent.Location != null)
                                     {
                                         @calEvent.Location.LocationName
                                     }
                                 }
-                                </td>
+                            </td>
 
-                                <td class="text-center ">
-                                    @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && (isSec || isAttendance))
+                            <td class="text-center ">
+                                @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && (isSec || isAttendance))
                                 {
 
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-check-square-o"></i> Check In <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li class="no-margin-left"><a href="@Url.Content("~/calendar/event/checkin-l/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Large Screen</a></li>
-                                                <li class="no-margin-left"><a href="@Url.Content("~/calendar/event/checkin-s/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Small Screen</a></li>
-                                            </ul>
-                                        </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-check-square-o"></i> Check In <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li class="no-margin-left"><a href="@Url.Content("~/calendar/event/checkin-l/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Large Screen</a></li>
+                                            <li class="no-margin-left"><a href="@Url.Content("~/calendar/event/checkin-s/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">Small Screen</a></li>
+                                        </ul>
+                                    </div>
                                 }
-                                </td>
-                            </tr>
-                            }
-                            </table>
-                        </div>
-                    </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="checkInPopUp" style="display: none;" class="well">
+        <div class="row">
+            <div class="col-xs-12">
+                <label class="form-label">Check In</label>
+                <div class="margin-bottom-5">
+                    @Html.DropDownList("checkInSelection", new SelectList(CalendarPointType, "ID", "Name"), "Check In...", new { @class = "form-control" })
                 </div>
-                        <div id="checkInPopUp" style="display: none;" class="well">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label class="form-label">Check In</label>
-                                    <div class="margin-bottom-5">
-                                        @Html.DropDownList("checkInSelection", new SelectList(CalendarPointType, "ID", "Name"), "Check In...", new { @class = "form-control" })
-                                    </div>
-                                    <div class="margin-bottom-10">
-                                        <label> @Html.CheckBox("IsTardy")<span class="b">Tardy?</span></label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <label class="form-label">Notes</label>
-                                    <div class="margin-bottom-20">
-                                        <input type="text" id="notes" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 margin-bottom-5">
-                                    <button type="button" id="checkInButtonPopUp" value="Check In" class="btn btn-primary" onclick="javascript: checkInMemberToEvent()">Check In</button>
-                                    <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
-                                </div>
-                                <div class="col-xs-12">
-                                    <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
-                                </div>
-                            </div>
-                        </div>
+                <div class="margin-bottom-10">
+                    <label> @Html.CheckBox("IsTardy")<span class="b">Tardy?</span></label>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <label class="form-label">Notes</label>
+                <div class="margin-bottom-20">
+                    <input type="text" id="notes" class="form-control" />
+                </div>
+            </div>
+            <div class="col-xs-12 margin-bottom-5">
+                <button type="button" id="checkInButtonPopUp" value="Check In" class="btn btn-primary" onclick="javascript: checkInMemberToEvent()">Check In</button>
+                <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
+            </div>
+            <div class="col-xs-12">
+                <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Point Types Explained</a>
+            </div>
+        </div>
+    </div>
 
-                        <div id="availablePopUp" style="display: none;">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label class="form-label">Available Type</label>
-                                    <div class="margin-bottom-20">
-                                        @Html.DropDownList("availableSelection", new SelectList(AvailableType, "Data", "Name"), "Set Availability...", new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <label class="form-label">Notes</label>
-                                    <div class="margin-bottom-20">
-                                        <input type="text" id="availableNotes" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <button type="button" id="availableButtonPopUp" value="Set Availability" class="btn btn-primary" onclick="javascript:setAvailabilityMemberToEvent()">Set Availability</button>
-                                    <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                        <script type="text/javascript">
-                            $(document).ready(function () {
-                                $('[data-toggle="offcanvas"]').click(function () {
-                                    $('.row-offcanvas').toggleClass('active');
-                                });
+    <div id="availablePopUp" style="display: none;">
+        <div class="row">
+            <div class="col-xs-12">
+                <label class="form-label">Available Type</label>
+                <div class="margin-bottom-20">
+                    @Html.DropDownList("availableSelection", new SelectList(AvailableType, "Data", "Name"), "Set Availability...", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <label class="form-label">Notes</label>
+                <div class="margin-bottom-20">
+                    <input type="text" id="availableNotes" class="form-control" />
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <button type="button" id="availableButtonPopUp" value="Set Availability" class="btn btn-primary" onclick="javascript:setAvailabilityMemberToEvent()">Set Availability</button>
+                <button type="button" class="btn btn-default" tabindex="-1" onclick="javascript:CloseAddedRow()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="offcanvas"]').click(function () {
+                $('.row-offcanvas').toggleClass('active');
+            });
 
-                                $("button[data-attendance]").each(function() {
-                                    $(this).tooltip({
-                                        placement: 'bottom',
-                                        title: $(this).attr("data-attendance")
-                                    });
-                                });
-                                $("button[data-rsvp]").each(function () {
-                                    $(this).tooltip({
-                                        placement: 'bottom',
-                                        title: $(this).attr("data-rsvp")
-                                    });
-                                });
+            $("button[data-attendance]").each(function () {
+                $(this).tooltip({
+                    placement: 'bottom',
+                    title: $(this).attr("data-attendance")
+                });
+            });
+            $("button[data-rsvp]").each(function () {
+                $(this).tooltip({
+                    placement: 'bottom',
+                    title: $(this).attr("data-rsvp")
+                });
+            });
 
-                            });
-                        </script>
+        });
+    </script>
 
 }

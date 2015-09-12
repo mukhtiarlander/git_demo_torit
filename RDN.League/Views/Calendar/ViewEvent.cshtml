@@ -337,27 +337,30 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="trBorderB">
-                            <td class="text-right b">
-                                Check In
-                            </td>
-                            <td>
-                                @if (attend != null)
-                                {
-                                    <button class="btn btn-default btn-sm checkIn @className" id="@Model.CalendarItemId" data-attendance="@checkInStatus"   onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
-                                            data-container="body" data-toggle="popover" data-html="true">
-                                        <i class="fa fa-check-square fa-lg"></i>
-                                    </button>
-                                }
-                                else if (Model.AllowSelfCheckIn && Model.IsCurrentMemberApartOfEvent || (Model.AllowSelfCheckIn && isApartOfEvent != null))
-                                {
-                                    <button class="btn btn-default btn-sm" @className id="@Model.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
-                                            data-container="body" data-toggle="popover" data-html="true">
-                                        <i class="fa fa-square-o fa-lg"></i>
-                                    </button>
-                                }
-                            </td>
-                        </tr>
+                        @if (Model.AllowSelfCheckIn)
+                        {
+                            <tr class="trBorderB">
+                                <td class="text-right b">
+                                    Check In:
+                                </td>
+                                <td>
+                                    @if (attend != null)
+                                    {
+                                        <button class="btn btn-default btn-sm checkIn @className" id="@Model.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
+                                                data-container="body" data-toggle="popover" data-html="true">
+                                            <i class="fa fa-check-square fa-lg"></i>
+                                        </button>
+                                    }
+                                    else if (Model.AllowSelfCheckIn && Model.IsCurrentMemberApartOfEvent || (Model.AllowSelfCheckIn && isApartOfEvent != null))
+                                    {
+                                        <button class="btn btn-default btn-sm" @className id="@Model.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
+                                                data-container="body" data-toggle="popover" data-html="true">
+                                            <i class="fa fa-square-o fa-lg"></i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
                         <tr class="trBorderB" id="@Model.CalendarItemId-mainrow">
                             <td class="text-right b">
                                 Set Availability:
@@ -480,7 +483,7 @@
                                 Members Checked In (@checkedIn.Count):
                             </td>
                             <td>
-                                @if(checkedIn.Count > 0)
+                                @if (checkedIn.Count > 0)
                                 {
                                     <div class="panel panel-default">
                                         <div class="panel-body no-padding">
