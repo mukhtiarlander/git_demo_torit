@@ -1284,3 +1284,19 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
 .storePhotosList img { border: 1px solid #ddd; padding: 3px; cursor: pointer; }
 .error{color:red;font-weight:initial;font-size:14px;}
 .shop-item-divider{border-top:1px dotted #ddd; margin-bottom:5px; margin-top:5px}
+
+.cart-item-list .cart-item{    
+  border-bottom:1px dashed #ccc;
+  padding-bottom:20px;
+  padding-top:10px;
+  margin-bottom:10px;
+}
+.cart-item-list .cart-item:last-child{    
+  border-bottom: none !important;
+  margin-bottom:0px !important;
+  padding-bottom:10px !important
+}
+.cart-item-warning{border-left-color: #aa6708;}
+.no-image{width:120px; height:120px;background-color:#eee;border:1px dashed #ccc;}
+.no-image div{margin-top:calc(50% - 12px);text-align:center}
+.cart-item-details{min-height:90px !important;border-bottom:1px solid #eee;margin-bottom:10px;}
