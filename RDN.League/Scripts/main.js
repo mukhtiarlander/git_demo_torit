@@ -1466,20 +1466,6 @@ function checkIntoEvent(idOfPopUp, calId, evenId, name) {
     $(".popover-content #checkInSelection").val(checkInStatusId).change();
 }
 
-function ShowRSVPHoverTooltip(button, calendarId, eventId) {
-    $.getJSON("/Calendar/GetEventRSVPStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-        if (result.isSuccess === true) {
-            var status = result.status.toString();
-            $(button).attr("data-original-title", status);
-            $(button).tooltip('show');
-        }
-    });
-}
-
-function HideRSVPHoverTooltip(button) {
-    $(button).tooltip('hide');
-}
-
 function SetCheckInButtonColor(id, status) {
     status = status.toLowerCase().trim();
     if (status === "present") {
@@ -1507,13 +1493,9 @@ function setAvailForEvent(calId, evenId) {
     addEventPopup = true;
     $("#" + eventId + "-setAvail").popover({ content: popup.html() });
     $("#" + eventId + "-setAvail").popover('show');
-    $.getJSON("/Calendar/GetEventRSVPStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-        if (result.isSuccess === true) {
-            var status = result.value.toString();
-            if (status.toLowerCase() == "none") status = "";
-            $(".popover-content #availableSelection").val(status).change();
-        }
-    });
+    var value = $("#" + eventId + "-setAvail").attr("data-rsvp").trim().replace(" ", "_");
+    if (value == "None") value = "";
+    $(".popover-content #availableSelection").val(value).change();
 }
 
 function CloseAddedRow() {
@@ -1594,7 +1576,8 @@ function setAvailabilityMemberToEvent() {
                 $("#" + eventId + "-setAvail").removeClass("btn-success").addClass("padding-3").addClass("padding-left-10").addClass("padding-right-10").addClass('btn-danger');
                 $("#" + eventId + "-setAvail").html('<i class="fa fa-home font18"></i>');
             }
-
+            $("#" + eventId + "-setAvail").attr("data-rsvp", selectedItem.val().toString().replace("_", " "));
+            $("#" + eventId + "-setAvail").attr('data-original-title', selectedItem.val().toString().replace("_", " "));
             $('.bottom-right').notify({
                 message: { text: 'RSVPed! ' },
                 fadeOut: { enabled: true, delay: 4000 }

@@ -126,6 +126,7 @@ else
                         var mem = calEvent.Attendees.FirstOrDefault(x => x.MemberId == memId);
                         var checkInStatus = mem != null ? ((CalendarEventPointTypeEnum)mem.PointType).ToFreindlyName() : (CalendarEventPointTypeEnum.None).ToFreindlyName();
                         var checkInStatusId = mem != null ? (int)mem.PointType : 0;
+                        var rsvpStatus = mem != null ? ((AvailibilityEnum)mem.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
                         string className = "";
                         if (checkInStatusId == 1)
                         {
@@ -151,7 +152,7 @@ else
                                 {
                                     if (avail == null)
                                     {
-                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail"   data-rsvp="@rsvpStatus"   onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                 data-container="body" data-toggle="popover" data-html="true">
                                             <i class="fa fa-calendar fa-lg"></i>
                                         </button>
@@ -160,21 +161,21 @@ else
                                     {
                                         if (avail.Availability == AvailibilityEnum.Going)
                                         {
-                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                     data-container="body" data-toggle="popover" data-html="true">
                                                 <i class="fa fa-car fa-lg"></i>
                                             </button>
                                         }
                                         else if (avail.Availability == AvailibilityEnum.Maybe_Going)
                                         {
-                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                     data-container="body" data-toggle="popover" data-html="true">
                                                 <i class="fa fa-car fa-lg"></i>
                                             </button>
                                         }
                                         else
                                         {
-                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" data-rsvp="@rsvpStatus" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                     data-container="body" data-toggle="popover" data-html="true">
                                                 <i class="fa fa-home font18"></i>
                                             </button>
@@ -319,6 +320,12 @@ else
                                     $(this).tooltip({
                                         placement: 'bottom',
                                         title: $(this).attr("data-attendance")
+                                    });
+                                });
+                                $("button[data-rsvp]").each(function () {
+                                    $(this).tooltip({
+                                        placement: 'bottom',
+                                        title: $(this).attr("data-rsvp")
                                     });
                                 });
 
