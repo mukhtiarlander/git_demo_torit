@@ -78,14 +78,15 @@
         }
     }
     this.ArchiveDocument = function () {
+        var message = Archived == true ? "un-archive" : "archive";
         var docs = thisViewModel.documentId.split(',');
-        var msg = docs.length > 1 ? 'Are you sure you want to archive ' + docs.length + ' documents?' : 'Are you sure you want to archive this document?';
+        var msg = docs.length > 1 ? 'Are you sure you want to ' + message + ' ' + docs.length + ' documents?' : 'Are you sure you want to ' + message + ' this document?';
         if (confirm(msg)) {
             var owner = $("#OwnerId");
             $.getJSON("/document/ArchiveDocument", { ownerId: owner.val(), doc: thisViewModel.documentId, isArchived: Archived }, function (result) {
                 if (result.isSuccess === true) {
                     $('.bottom-right').notify({
-                        message: { text: 'Archived Successfully' },
+                        message: { text: !Archived ? 'Archived Successfully' : 'Un-archived Successfully' },
                         fadeOut: { enabled: true, delay: 4000 },
                         type: "success"
                     }).show();
@@ -205,7 +206,7 @@
             return;
         }
         var waitTime = 0;
-        if (IsOnKeyPress)
+        if (IsOnKeyPress && !isArchived)
             waitTime = 1500;
         delay(function () {
             Archived = isArchived;

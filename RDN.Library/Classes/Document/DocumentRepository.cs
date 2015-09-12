@@ -484,7 +484,7 @@ namespace RDN.Library.Classes.Document
                     }
                     List<DataModels.League.Documents.LeagueDocument> documents = new List<DataModels.League.Documents.LeagueDocument>();
                     if (folderId > 0)
-                        documents = docs.Documents.Where(x => x.Category != null && x.Category.CategoryId == folderId && x.IsRemoved == false).ToList();
+                        documents = docs.Documents.Where(x => x.Category != null && x.Category.CategoryId == folderId && x.IsRemoved == false && x.IsArchived).ToList();
                     else if (groupId > 0)
                     {//gets all documents within category group.
                         documents = docs.Documents.Where(x => x.Category != null && x.Category.Group != null && x.Category.Group.Id == groupId && x.IsRemoved == false && x.IsArchived == true).ToList();
