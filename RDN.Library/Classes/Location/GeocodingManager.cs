@@ -30,13 +30,19 @@ namespace RDN.Library.Classes.Location
                 {
                     street = street2;
                 }
-                IEnumerable<Address> addresses = geocoder.Geocode(street, city, state, zip, country);
-                if (addresses != null)
+                if (!String.IsNullOrEmpty(state) && !String.IsNullOrEmpty(zip))
                 {
-                    var enumerable = addresses as IList<Address> ?? addresses.ToList();
-                    geo.Latitude = enumerable.First().Coordinates.Latitude;
-                    geo.Longitude = enumerable.First().Coordinates.Longitude;
-                    return geo;
+                    IEnumerable<Address> addresses = geocoder.Geocode(street, city, state, zip, country);
+                    if (addresses != null)
+                    {
+                        var enumerable = addresses as IList<Address> ?? addresses.ToList();
+                        if (enumerable.FirstOrDefault() != null && enumerable.FirstOrDefault().Coordinates != null)
+                        {
+                            geo.Latitude = enumerable.FirstOrDefault().Coordinates.Latitude;
+                            geo.Longitude = enumerable.FirstOrDefault().Coordinates.Longitude;
+                        }
+                        return geo;
+                    }
                 }
             }
             catch (Exception exception)

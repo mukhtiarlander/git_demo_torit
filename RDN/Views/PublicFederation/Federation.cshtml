@@ -105,9 +105,12 @@
                                         <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Leagues[i].Name.Replace(" ", "-")) + "/" + Model.Leagues[i].LeagueId.ToString().Replace("-", ""))">
                                             @Model.Leagues[i].Name
                                         </a>
-                                        <small>
-                                            - founded <span>@Model.Leagues[i].Founded.Year</span>
-                                        </small>
+                                        @if (Model.Leagues[i].Founded != null)
+                                        {
+                                            <small>
+                                                - founded <span>@Model.Leagues[i].Founded.Year</span>
+                                            </small>
+                                        }
                                     </h3>
 
                                 </div>
