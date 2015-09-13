@@ -6,36 +6,39 @@
  * Licensed under the MIT license.
  */
 
-jQuery.fn.btsConfirmButton = function(options, callback) {
+jQuery.fn.btsConfirmButton = function (options, callback) {
 
-	options = $.extend({
-		msg: "I'm sure!",
-		className: 'btn-danger',
-		timeout: 4000
-	}, options);
+    options = $.extend({
+        msg: "I'm sure!",
+        className: 'btn-danger',
+        timeout: 4000
+    }, options);
 
-    $(this).each(function(idx, btn) {
+    $(this).each(function (idx, btn) {
+        var classes = $(btn).attr("class");
         var timeoToken,
             thisBtn$ = $(btn),
             oriText = thisBtn$.html();
         function resetBtn() {
             thisBtn$.html(oriText).data('confirmed', false);
+            if (classes.toLowerCase().indexOf("btn-danger") < 0)
+                thisBtn$.removeClass("btn-danger");
         }
         thisBtn$.data('confirmed', false);
-        thisBtn$.on('click.confirm', function(e) {
+        thisBtn$.on('click.confirm', function (e) {
             e.preventDefault();
             if (thisBtn$.data('confirmed')) {
                 callback(thisBtn$, e);
                 resetBtn();
             } else {
                 thisBtn$.data('confirmed', true);
-                thisBtn$.html(options.msg).addClass(options.className).bind('mouseout.confirm', function() {
+                thisBtn$.html(options.msg).addClass(options.className).bind('mouseout.confirm', function () {
                     timeoToken = setTimeout(resetBtn, options.timeout);
-                }).bind('mouseover.confirm', function() {
+                }).bind('mouseover.confirm', function () {
                     clearTimeout(timeoToken);
                 });
             }
         });
     });
-	return $(this);
+    return $(this);
 };
