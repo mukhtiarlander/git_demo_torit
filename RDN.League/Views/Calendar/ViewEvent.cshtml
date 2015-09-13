@@ -179,9 +179,12 @@
 
             </div>
             <div class="panel-body">
-                <div class="alert alert-info">
-                    @Html.Raw(Model.NotesHtml)
-                </div>
+                @if (!string.IsNullOrEmpty(Model.NotesHtml))
+                {
+                    <div class="alert alert-info">
+                        @Html.Raw(Model.NotesHtml)
+                    </div>
+                }
 
                 <div>
                     <table class="table">
@@ -251,24 +254,27 @@
                                 </td>
                             </tr>
                         }
-                        <tr class="trBorderB">
-                            <td class="text-right b">
-                                WebSite:
-                            </td>
-                            <td>
-                                <a href="@Model.Link" target="_blank">@Model.Link</a>
-                            </td>
-                        </tr>
-                        @if (Model.IsPublicEvent)
+                        @if (!string.IsNullOrEmpty(Model.Link))
                         {
                             <tr class="trBorderB">
                                 <td class="text-right b">
-                                    On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                                    WebSite:
                                 </td>
                                 <td>
                                     <a href="@Model.Link" target="_blank">@Model.Link</a>
                                 </td>
                             </tr>
+                            if (Model.IsPublicEvent)
+                             {
+                                 <tr class="trBorderB">
+                                     <td class="text-right b">
+                                         On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                                     </td>
+                                     <td>
+                                         <a href="@Model.Link" target="_blank">@Model.Link</a>
+                                     </td>
+                                 </tr>
+                             }
                         }
                         <tr class="trBorderB">
                             <td class="text-right b">
