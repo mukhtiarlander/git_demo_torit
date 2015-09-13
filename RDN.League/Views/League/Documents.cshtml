@@ -197,13 +197,13 @@
                             <button id="doc-view-archive-btn" class="btn btn-sm  btn-default non-archive" title="View Archived Documents" onclick="League.DisplayArchivedDocuments(this)">
                                 <i class="fa fa-archive"></i>
                             </button>
-                            <button id="doc-archive-btn" class="btn btn-sm  btn-primary display-none" title="Archive" onclick="League.ArchiveDocument(this)">
+                            <button id="doc-archive-btn" class="btn btn-sm  btn-primary display-none" title="Archive" >
                                 <i class="fa fa-file-archive-o"></i>
                             </button>
                             <button id="doc-rename-btn" class="btn btn-sm  btn-success display-none" title="Rename" onclick="League.RenameDocument(this)">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button id="doc-delete-btn" class="btn btn-sm  btn-danger  display-none" title="Delete" onclick="League.DeleteDocument(this)">
+                            <button id="doc-delete-btn" class="btn btn-sm  btn-danger  display-none" title="Delete" >
                                 <i class="fa fa-trash-o"></i>
                             </button>
                             @Html.DropDownList("dd-MoveItem", (SelectList)ViewBag.FoldersSelect, "Move To...", new { @id = "doc-move-ddl", @onchange = "League.MoveDocumentToFolder(this)", @class = "select-sm  display-none" })
@@ -370,5 +370,7 @@
         $('#documentUpload').MultiFile({
             list: '#fileUpload-list'
         });
+        $('#doc-delete-btn').btsConfirmButton({ msg: "Confirm Delete" }, League.DeleteDocument);
+        $('#doc-archive-btn').btsConfirmButton({ msg: "Confirm Archive" }, League.ArchiveDocument);
     });
 </script>
