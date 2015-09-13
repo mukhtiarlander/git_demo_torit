@@ -34,11 +34,11 @@ namespace RDN.Store.Models.Utilities.Paging
             // Previous
             if (this.currentPage > 1)
             {
-                sb.Append(GeneratePageLink("&laquo;", this.currentPage - 1, routeName));
+                sb.Append(GeneratePageLink("&lt;", this.currentPage - 1, routeName));
             }
             else
             {
-                sb.Append("<li class=\"disabled\"><a href=\"#\">&laquo;</a></li>");
+                sb.Append("<span class=\"disabled\">&lt;</span>");
             }
 
             int start = 1;
@@ -75,7 +75,7 @@ namespace RDN.Store.Models.Utilities.Paging
             {
                 if (i == this.currentPage)
                 {
-                    sb.AppendFormat("<li class=\"active\"><a href=\"#\">{0}</a></li>", i);
+                    sb.AppendFormat("<span class=\"current\">{0}</span>", i);
                 }
                 else
                 {
@@ -92,11 +92,11 @@ namespace RDN.Store.Models.Utilities.Paging
             // Next
             if (this.currentPage < pageCount)
             {
-                sb.Append(GeneratePageLink("&raquo;", (this.currentPage + 1), routeName));
+                sb.Append(GeneratePageLink("&gt;", (this.currentPage + 1), routeName));
             }
             else
             {
-                sb.Append("<li class=\"disabled\"><a href=\"#\">&raquo;</a></li>");
+                sb.Append("<span class=\"disabled\">&gt;</span>");
             }
             return sb.ToString();
         }
@@ -113,7 +113,7 @@ namespace RDN.Store.Models.Utilities.Paging
 
             if (virtualPathData != null)
             {
-                string linkFormat = "<li><a href=\"{0}\">{1}</a></li>";
+                string linkFormat = "<a href=\"{0}\">{1}</a>";
                 return String.Format(linkFormat, virtualPathData.VirtualPath, linkText);
             }
             else
