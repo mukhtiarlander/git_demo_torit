@@ -83,9 +83,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201509122125438_massiveUpdate.cs" />
-    <Compile Include="Migrations\201509122125438_massiveUpdate.Designer.cs">
-      <DependentUpon>201509122125438_massiveUpdate.cs</DependentUpon>
+    <Compile Include="Migrations\201509130020454_emailUpdates.cs" />
+    <Compile Include="Migrations\201509130020454_emailUpdates.Designer.cs">
+      <DependentUpon>201509130020454_emailUpdates.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -142,8 +142,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509122125438_massiveUpdate.resx">
-      <DependentUpon>201509122125438_massiveUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509130020454_emailUpdates.resx">
+      <DependentUpon>201509130020454_emailUpdates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

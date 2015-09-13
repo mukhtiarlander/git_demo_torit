@@ -31,14 +31,14 @@ namespace RDN.Api.Controllers
             }
         }
         [HttpPost]
-        public ActionResult CompletePayment(Guid invoiceId, PayPalMessage message)
+        public ActionResult CompletePayment(PayPalMessage message)
         {
             try
             {
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.CompletePayment(invoiceId, message) }, JsonRequestBehavior.AllowGet);
+                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.CompletePayment(message) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -47,14 +47,14 @@ namespace RDN.Api.Controllers
             }
         }
         [HttpPost]
-        public ActionResult PendingPayment(Guid invoiceId, PayPalMessage message)
+        public ActionResult PendingPayment(PayPalMessage message)
         {
             try
             {
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(invoiceId, message) }, JsonRequestBehavior.AllowGet);
+                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(message) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -64,14 +64,14 @@ namespace RDN.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult FailedPayment(Guid invoiceId, PayPalMessage message)
+        public ActionResult FailedPayment(PayPalMessage message)
         {
             try
             {
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.FailedPayment(invoiceId, message) }, JsonRequestBehavior.AllowGet);
+                return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.FailedPayment(message) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {

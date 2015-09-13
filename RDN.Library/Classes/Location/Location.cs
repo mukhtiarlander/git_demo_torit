@@ -15,7 +15,7 @@ namespace RDN.Library.Classes.Location
 {
     public class LocationFactory
     {
-      
+
         public static void UpdateLocations()
         {
             var dc = new ManagementContext();
@@ -114,9 +114,10 @@ namespace RDN.Library.Classes.Location
                         a.IsDefault = add.IsDefault;
                         a.StateRaw = add.StateRaw;
                         a.Zip = add.Zip;
-                        a.CountryId = add.Country.CountryId;
+                        if (add.Country != null)
+                            a.CountryId = add.Country.CountryId;
                         if (loc.Contact.Communications.FirstOrDefault() != null)
-                            l.Website = loc.Contact.Communications.First().Data;    
+                            l.Website = loc.Contact.Communications.First().Data;
                         l.Contact.Addresses.Add(a);
                     }
                 }
@@ -208,44 +209,44 @@ namespace RDN.Library.Classes.Location
 
         public static int UpdateLocation(Guid locationId, string name, string address1, string address2, string city, int country, string state, string zip, string website, Guid idOfOwner)
         {
-              string log = string.Empty;
+            string log = string.Empty;
             int c = 0;
-              try
+            try
             {
                 var dc = new ManagementContext();
                 DataModels.Location.Location location = (from xx in dc.Locations
-                           where xx.LocationId == locationId
-                           select xx).FirstOrDefault();
+                                                         where xx.LocationId == locationId
+                                                         select xx).FirstOrDefault();
 
                 if (location != null)
                 {
                     location.LocationName = name;
                     Address a = location.Contact.Addresses.First();
-                   a.Address1 = address1;
-                   a.Address2 = address2;
-                   a.CityRaw = city;
-                   a.Zip = zip;
-                   a.Country = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
-                   a.StateRaw = state;
-                   a.ContactCard = location.Contact;
+                    a.Address1 = address1;
+                    a.Address2 = address2;
+                    a.CityRaw = city;
+                    a.Zip = zip;
+                    a.Country = dc.Countries.Where(x => x.CountryId == country).FirstOrDefault();
+                    a.StateRaw = state;
+                    a.ContactCard = location.Contact;
                     var coords = GeocodingManager.FindLatLongOfAddress(address1, address2, zip, city, state, a.Country != null ? a.Country.Name : string.Empty);
-                   a.Coords = new System.Device.Location.GeoCoordinate();
+                    a.Coords = new System.Device.Location.GeoCoordinate();
                     if (coords != null)
                     {
                         log += "not" + coords.Latitude + " " + coords.Longitude;
-                       a.Coords.Latitude = coords.Latitude;
-                       a.Coords.Longitude = coords.Longitude;
+                        a.Coords.Latitude = coords.Latitude;
+                        a.Coords.Longitude = coords.Longitude;
                     }
                     else
                     {
-                       a.Coords.Latitude = 0.0;
-                       a.Coords.Longitude = 0.0;
+                        a.Coords.Latitude = 0.0;
+                        a.Coords.Longitude = 0.0;
                     }
-                   a.Coords.Altitude = 0.0;
-                   a.Coords.Course = 0.0;
-                   a.Coords.HorizontalAccuracy = 1.0;
-                   a.Coords.Speed = 0.0;
-                   a.Coords.VerticalAccuracy = 1.0;
+                    a.Coords.Altitude = 0.0;
+                    a.Coords.Course = 0.0;
+                    a.Coords.HorizontalAccuracy = 1.0;
+                    a.Coords.Speed = 0.0;
+                    a.Coords.VerticalAccuracy = 1.0;
 
                     if (!String.IsNullOrEmpty(website))
                     {

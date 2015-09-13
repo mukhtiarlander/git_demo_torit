@@ -224,12 +224,18 @@ namespace RDN.Library.Classes.EmailServer
         {
             try
             {
-                properties.Add("publicWebsite", LibraryConfig.PublicSite);
-                properties.Add("websiteLogo", LibraryConfig.LogoUrl);
-                properties.Add("CompanyAddress", LibraryConfig.CompanyAddress);
-                properties.Add("WebsiteShortName", LibraryConfig.WebsiteShortName);
-                properties.Add("DefaultInfoEmail", LibraryConfig.DefaultInfoEmail);
-                properties.Add("EmailSignature", LibraryConfig.EmailSignature);
+                if (!properties.ContainsKey("publicWebsite"))
+                    properties.Add("publicWebsite", LibraryConfig.PublicSite);
+                if (!properties.ContainsKey("websiteLogo"))
+                    properties.Add("websiteLogo", LibraryConfig.LogoUrl);
+                if (!properties.ContainsKey("CompanyAddress"))
+                    properties.Add("CompanyAddress", LibraryConfig.CompanyAddress);
+                if (!properties.ContainsKey("WebsiteShortName"))
+                    properties.Add("WebsiteShortName", LibraryConfig.WebsiteShortName);
+                if (!properties.ContainsKey("DefaultInfoEmail"))
+                    properties.Add("DefaultInfoEmail", LibraryConfig.DefaultInfoEmail);
+                if (!properties.ContainsKey("EmailSignature"))
+                    properties.Add("EmailSignature", LibraryConfig.EmailSignature);
 
                 EmailServerManager email = new EmailServerManager(databaseConnectionName);
                 return email.SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);

@@ -1575,12 +1575,15 @@ namespace RDN.Library.Classes.Payment
                     }
                     else
                     {
-                        var fundSettings = Fund.GetCurrentFundsInformation(payout.UserPaidId);
-                        if ((double)invoice.BasePriceForItems <= fundSettings.ActiveInUserAccount)
+                        if (payout != null)
                         {
-                            fundSettings.AmountToWithdraw += (double)payout.PriceAfterFees;
-                            fundSettings.AmountToDeductFromTotal += (double)invoice.BasePriceForItems;
-                            tempFundsBeingPaid.Add(fundSettings);
+                            var fundSettings = Fund.GetCurrentFundsInformation(payout.UserPaidId);
+                            if ((double)invoice.BasePriceForItems <= fundSettings.ActiveInUserAccount)
+                            {
+                                fundSettings.AmountToWithdraw += (double)payout.PriceAfterFees;
+                                fundSettings.AmountToDeductFromTotal += (double)invoice.BasePriceForItems;
+                                tempFundsBeingPaid.Add(fundSettings);
+                            }
                         }
                     }
 
@@ -1719,7 +1722,7 @@ namespace RDN.Library.Classes.Payment
 
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "");
+                        recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
                         recSite.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recSite);
 
@@ -1730,7 +1733,7 @@ namespace RDN.Library.Classes.Payment
                         recLeague.primary = false;
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
-                        recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "");
+                        recLeague.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
                         recLeague.paymentType = PaymentTypeEnum.SERVICE.ToString();
                         receiverList.receiver.Add(recLeague);
 
