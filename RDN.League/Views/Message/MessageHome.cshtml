@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="col-xs-12 col-md-2 text-right">
                                             <a class="btn btn-xs btn-info" href="@Url.Content("~/messages/view/" + topic.GroupMessageId.ToString())"><i class="fa fa-eye"></i> View</a>
-                                            <button type="button" class="btn btn-xs btn-danger" onclick="javascript:deleteChatMessage(this,'@topic.GroupMessageId', '@memId')"><i class="fa fa-trash"></i></button>
+                                            <button type="button" class="btn btn-xs btn-danger" data-group="@topic.GroupMessageId"  ><i class="fa fa-trash"></i></button>
                                         </div>
                                     </div>
                                 </td>
@@ -63,3 +63,14 @@
                 </table>
             </div>
         </div> 
+<script type="text/javascript">
+    $(function () {
+        $("button[data-group]").each(function () {
+            var button = $(this);
+            var groupId = $(button).attr("data-group");
+            $(button).btsConfirmButton({ msg: "Confirm Delete" }, function (e) {
+                deleteChatMessage(button, groupId, "@memId");
+            });
+        });
+    });
+</script>

@@ -453,12 +453,22 @@ function changeMemberSettingCalView(changeTo) {
 }
 
 function deleteChatMessage(element, group, mem) {
-    if (confirm('Really Delete Message?')) {
-        $.getJSON("/message/deletechatmessage", { groupId: group, memId: mem }, function (result) {
+    $.getJSON("/message/deletechatmessage", { groupId: group, memId: mem }, function (result) {
+        if (result.isSuccess) {
+            $(element).parent().parent().parent().remove();
+            $('.bottom-right').notify({
+                message: { text: 'Deleted! ' },
+                fadeOut: { enabled: true, delay: 3000 }
+            }).show();
+        }
+    }).error(function () {
+        $('.bottom-right').notify({
+            message: { text: 'Something Happened, Try again later. ' },
+            fadeOut: { enabled: true, delay: 3000 },
+            type: "danger"
+        }).show();
+    });
 
-        });
-        $(element).parent().parent().remove();
-    }
 }
 
 function AddHashToUrl(a) {
