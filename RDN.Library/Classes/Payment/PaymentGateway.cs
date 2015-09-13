@@ -441,6 +441,8 @@ namespace RDN.Library.Classes.Payment
                     invoice.Paywall = invoice.Paywall;
                     if (!String.IsNullOrEmpty(customerId))
                         invoice.PaymentProviderCustomerId = customerId;
+                    if (status == InvoiceStatus.Payment_Successful)
+                        invoice.InvoicePaid = true;
                     invoice.InvoiceStatusUpdated = DateTime.UtcNow;
                     int c = dc.SaveChanges();
                     return c > 0;
@@ -463,7 +465,10 @@ namespace RDN.Library.Classes.Payment
             try
             {
                 var dc = new ManagementContext();
-                var invoice = dc.Invoices.Include("Items").Include("Payments").Include("Logs").Include("Subscription").Include("InvoiceShipping").Include("InvoiceBilling").Include("Merchant").Where(x => x.InvoicePaid == true).OrderByDescending(x => x.Subscription.ValidUntil).OrderByDescending(x => x.Created).FirstOrDefault(x => x.Subscription.InternalObject.Equals(leagueId));
+                var invoice = dc.Invoices.Include("Items").Include("Payments").Include("Logs").Include("Subscription").Include("InvoiceShipping").Include("InvoiceBilling").Include("Merchant")
+                    .Where(x => x.InvoicePaid == true)
+                    .OrderByDescending(x => x.Created)
+                    .FirstOrDefault(x => x.Subscription.InternalObject.Equals(leagueId));
 
                 if (invoice != null && invoice.Expires > DateTime.UtcNow)
                 {

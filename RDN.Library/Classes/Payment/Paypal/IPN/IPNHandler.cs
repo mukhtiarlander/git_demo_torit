@@ -130,7 +130,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                         switch (PaypalMessage.PaymentStatus)
                         {
                             case "Completed":
-                                _paypalManager.CompletePayment(new Guid(invoiceId), PaypalMessage);
+                                _paypalManager.CompletePayment(PaypalMessage);
                                 return true;
                             case "Pending":
                                 switch (PaypalMessage.PendingReason)
@@ -145,12 +145,12 @@ namespace RDN.Library.Classes.Payment.Paypal
                                     case "verify":
                                     case "other":
                                     default:
-                                        _paypalManager.PendingPayment(new Guid(invoiceId), PaypalMessage);
+                                        _paypalManager.PendingPayment(PaypalMessage);
                                         return true;
                                 }
                             case "Failed":
                             case "Denied":
-                                _paypalManager.FailedPayment(new Guid(invoiceId), PaypalMessage);
+                                _paypalManager.FailedPayment(PaypalMessage);
                                 return true;
                             default:
                                 if (PaypalMessage.Status == "COMPLETED")
@@ -214,6 +214,16 @@ namespace RDN.Library.Classes.Payment.Paypal
                 message.Custom = context.Request.Form["custom"];
                 message.Memo = context.Request.Form["memo"];
                 message.Invoice = context.Request.Form["invoice"];
+
+                if (!String.IsNullOrEmpty(message.Invoice) && message.Invoice.Contains(':'))
+                {
+                    var messages = message.Invoice.Split(':');
+                    if (messages.Count() > 1)
+                        message.ConfigurationName = messages[1];
+
+                    message.Invoice = messages[0];
+                }
+
                 message.Tax = context.Request.Form["tax"];
                 message.QuantityCartItems = context.Request.Form["num_cart_items"];
                 message.PaymentDate = context.Request.Form["payment_date"];
@@ -243,7 +253,9 @@ namespace RDN.Library.Classes.Payment.Paypal
                     var messages = message.TrackingId.Split(':');
                     if (messages.Count() > 1)
                         message.ConfigurationName = messages[1];
-                    message.Invoice = messages[0];
+                    Guid result = new Guid();
+                    if (!Guid.TryParse(message.Invoice, out result))
+                        message.Invoice = messages[0];
                 }
                 if (!String.IsNullOrEmpty(context.Request.Form["transaction[0].is_primary_receiver"]))
                 {
@@ -258,6 +270,16 @@ namespace RDN.Library.Classes.Payment.Paypal
                             t.paymentType = context.Request.Form["transaction[" + i + "].paymentType"];
                             t.amount = context.Request.Form["transaction[" + i + "].amount"];
                             t.invoiceId = context.Request.Form["transaction[" + i + "].invoiceId"];
+                            if (!String.IsNullOrEmpty(t.invoiceId) && t.invoiceId.Contains(':'))
+                            {
+                                var messages = t.invoiceId.Split(':');
+                                if (messages.Count() > 1)
+                                    message.ConfigurationName = messages[1];
+                                t.invoiceId = messages[0];
+                                Guid result = new Guid();
+                                if (!Guid.TryParse(message.Invoice, out result))
+                                    message.Invoice = messages[0];
+                            }
                             t.status = context.Request.Form["transaction[" + i + "].status"];
                             t.id = context.Request.Form["transaction[" + i + "].id"];
                             t.status_for_sender_txn = context.Request.Form["transaction[" + i + "].status_for_sender_txn"];

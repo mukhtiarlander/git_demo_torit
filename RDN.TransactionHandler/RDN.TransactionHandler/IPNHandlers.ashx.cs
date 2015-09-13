@@ -35,8 +35,9 @@ namespace RDN.TransactionHandler
 
                 IPNHandler ipn = new IPNHandler(LibraryConfig.IsProduction, HttpContext.Current);
                 logger.Info(JsonConvert.SerializeObject(ipn.PaypalMessage));
-                ipn.CheckStatus();
                 ipn.SendIPNNotificationToApi();
+                ipn.CheckStatus();
+                
             }
             catch (Exception exception)
             {

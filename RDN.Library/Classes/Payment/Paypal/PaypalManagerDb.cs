@@ -28,10 +28,20 @@ namespace RDN.Library.Classes.Payment.Paypal
             var invoices = dc.Invoices.Where(x => x.InvoiceStatus == status).ToList();
         }
 
-        public static bool PendingPayment(Guid invoiceId, PayPalMessage paypalMessage)
+        public static bool PendingPayment(PayPalMessage paypalMessage)
         {
             try
             {
+                Guid invoiceId = new Guid();
+                if (!String.IsNullOrEmpty(paypalMessage.Invoice) && Guid.TryParse(paypalMessage.Invoice, out invoiceId))
+                    Guid.TryParse(paypalMessage.Invoice, out invoiceId);
+                else if (paypalMessage.Transactions != null && paypalMessage.Transactions.Count > 0)
+                {
+                    var trans = paypalMessage.Transactions.FirstOrDefault();
+                    if (!String.IsNullOrEmpty(trans.invoiceId))
+                        Guid.TryParse(trans.invoiceId, out invoiceId);
+                }
+
                 PaymentGateway pg = new PaymentGateway();
                 var invoice = pg.GetDisplayInvoice(invoiceId);
                 if (invoice != null)
@@ -140,10 +150,21 @@ namespace RDN.Library.Classes.Payment.Paypal
             return false;
         }
 
-        public static bool CompletePayment(Guid invoiceId, PayPalMessage paypalMessage)
+        public static bool CompletePayment(PayPalMessage paypalMessage)
         {
             try
             {
+                Guid invoiceId = new Guid();
+                if (!String.IsNullOrEmpty(paypalMessage.Invoice) && Guid.TryParse(paypalMessage.Invoice, out invoiceId))
+                    Guid.TryParse(paypalMessage.Invoice, out invoiceId);
+                else if (paypalMessage.Transactions != null && paypalMessage.Transactions.Count > 0)
+                {
+                    var trans = paypalMessage.Transactions.FirstOrDefault();
+                    if (!String.IsNullOrEmpty(trans.invoiceId))
+                        Guid.TryParse(trans.invoiceId, out invoiceId);
+                }
+
+
                 PaymentGateway pg = new PaymentGateway();
                 var invoice = pg.GetDisplayInvoice(invoiceId);
                 if (invoice != null)
@@ -162,8 +183,7 @@ namespace RDN.Library.Classes.Payment.Paypal
                     else if (invoice.Paywall != null)
                     {
                         EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: New Paywall Complete!!", invoice.InvoiceId + " Amount:" + invoice.Paywall.Price + paypalMessage.ToString());
-
-
+                        
                         Paywall.Paywall pw = new Paywall.Paywall();
                         pw.HandlePaywallPayments(invoice, null, paypalMessage.PayKey);
                     }
@@ -259,12 +279,22 @@ namespace RDN.Library.Classes.Payment.Paypal
             }
             return false;
         }
-        public static bool FailedPayment(Guid invoiceId, PayPalMessage paypalMessage)
+        public static bool FailedPayment(PayPalMessage paypalMessage)
         {
             PaymentGateway pg = new PaymentGateway();
 
             try
             {
+                Guid invoiceId = new Guid();
+                if (!String.IsNullOrEmpty(paypalMessage.Invoice) && Guid.TryParse(paypalMessage.Invoice, out invoiceId))
+                    Guid.TryParse(paypalMessage.Invoice, out invoiceId);
+                else if (paypalMessage.Transactions != null && paypalMessage.Transactions.Count > 0)
+                {
+                    var trans = paypalMessage.Transactions.FirstOrDefault();
+                    if (!String.IsNullOrEmpty(trans.invoiceId))
+                        Guid.TryParse(trans.invoiceId, out invoiceId);
+                }
+
                 var invoice = pg.GetDisplayInvoice(invoiceId);
                 if (invoice != null)
                 {
