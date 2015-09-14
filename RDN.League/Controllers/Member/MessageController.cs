@@ -274,6 +274,11 @@ namespace RDN.League.Controllers
                     var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
                     recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
                 }
+                else if (OwnerType == GroupOwnerTypeEnum.person)
+                {
+                    var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
+                    recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
+                }
                 else if (OwnerType == GroupOwnerTypeEnum.officiating)
                 {
                     var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
