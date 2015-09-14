@@ -139,7 +139,7 @@ else
                     @if (Model.Forum.Count > 0)
                     {
                         <div class="panel panel-default">
-                            <div class="panel-heading">Unread Forum Topics <span class="titleDesc">@Model.Forum.Count Unread Topics</span></div>
+                            <div class="panel-heading">@Model.Forum.Count Unread Forum Topics</div>
                             <div class="panel-body" style="overflow-x:auto">
                                 <table class="table table-striped table-condensed table-hover">
                                     <thead>
@@ -226,7 +226,7 @@ else
                                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;margin-right:5px'></div>
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                                 {
-                                                    <i class="fa fa-check-square fa-lg"></i>
+                                                    <i class="fa fa-birthday-cake fa-lg"></i>
                                                 }
                                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
                                                 {

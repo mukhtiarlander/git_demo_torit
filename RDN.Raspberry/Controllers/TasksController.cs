@@ -27,14 +27,14 @@ namespace RDN.Raspberry.Controllers
         public ActionResult RunAutomatedTasks()
         {
             AutomatedTask task = new AutomatedTask();
-            try
-            {
-                task.massRollinNewsPaymentsProcessed = AutomatedTask.ProcessRollinNewsMassPayments();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, GetType());
-            }
+            //try
+            //{
+            //    task.massRollinNewsPaymentsProcessed = AutomatedTask.ProcessRollinNewsMassPayments();
+            //}
+            //catch (Exception exception)
+            //{
+            //    ErrorDatabaseManager.AddException(exception, GetType());
+            //}
             try
             {
                 //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.

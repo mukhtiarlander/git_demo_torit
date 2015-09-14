@@ -280,6 +280,11 @@ namespace RDN.League.Controllers
                     recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
 
                 }
+                else if (OwnerType == GroupOwnerTypeEnum.person)
+                {
+                    var mem = MemberCache.GetMemberDisplay(new Guid(memberId));
+                    recList.Add(new KeyValuePair<Guid, string>(mem.MemberId, mem.Name));
+                }
                 else if (OwnerType == GroupOwnerTypeEnum.paywall)
                 {
                     recList = Messages.GetConnectedShopRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
