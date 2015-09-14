@@ -15,7 +15,7 @@ namespace RDN.DBUpdate.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = false;
 
         }
 
@@ -26,7 +26,18 @@ namespace RDN.DBUpdate.Migrations
         public CEmail()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = false;
+
+        }
+
+    }
+
+    internal sealed class CError : DbMigrationsConfiguration<Common.Site.DataModels.Context.ErrorContext>
+    {
+        public CError()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = false;
 
         }
 

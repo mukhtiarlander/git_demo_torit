@@ -119,6 +119,8 @@ namespace RDN.League.Controllers
                     model.ForumId = MemberCache.GetForumIdForMemberLeague(memId);
                     model.Forum = Forum.GetForumTopicsJsonUnread(model.ForumId, 0, memId, 10);
                 }
+
+
                 return View(model);
             }
             catch (Exception exception)

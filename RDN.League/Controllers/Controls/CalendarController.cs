@@ -233,6 +233,9 @@ namespace RDN.League.Controllers
                 var locs = RDN.Library.Classes.Calendar.CalendarFactory.GetLocationsOfCalendar(new Guid(calId));
                 var eventTypes = RDN.Library.Classes.Calendar.CalendarFactory.GetAllEventTypesOfCalendar(new Guid(calId));
                 var AllowSelfCheckin = CalendarFactory.GetCalendar(new Guid(calId), (CalendarOwnerEntityEnum)Enum.Parse(typeof(CalendarOwnerEntityEnum), type));
+                if (AllowSelfCheckin.AllowSelfCheckIn)
+                    cal.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
+
 
                 if (cal.Location != null)
                     cal.Locations = new SelectList(locs, "LocationId", "LocationName", (object)cal.Location.LocationId);
@@ -244,7 +247,7 @@ namespace RDN.League.Controllers
                 else
                     cal.EventTypes = new SelectList(eventTypes, "CalendarEventTypeId", "EventTypeName");
 
-                cal.AllowSelfCheckIn = AllowSelfCheckin.AllowSelfCheckIn;
+
 
                 var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
                                         where d.ToString() != "None"
@@ -598,7 +601,7 @@ namespace RDN.League.Controllers
             try
             {
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
-                var status = CalendarFactory.GetEventCheckInStatus(new Guid(calendarId), new Guid(eventId),memId);
+                var status = CalendarFactory.GetEventCheckInStatus(new Guid(calendarId), new Guid(eventId), memId);
                 return Json(new { isSuccess = true, status = status.ToFreindlyName(), value = (int)status }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)

@@ -49,59 +49,53 @@
 
         });
     };
-    this.DeleteDocument = function (span) {
+    this.DeleteDocument = function () {
         var docs = thisViewModel.documentId.split(',');
-        var msg = docs.length > 1 ? 'Are you sure you want to delete ' + docs.length + ' documents?' : 'Are you sure you want to delete this document?';
-        if (confirm(msg)) {
-            var owner = $("#OwnerId");
-            $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
-                if (result.isSuccess === true) {
-                    $('.bottom-right').notify({
-                        message: { text: 'Files Deleted. ' },
-                        fadeOut: { enabled: true, delay: 4000 },
-                        type: "success"
-                    }).show();
-                } else {
-                    $('.bottom-right').notify({
-                        message: { text: 'Something Happened, Try again later. ' },
-                        fadeOut: { enabled: true, delay: 4000 },
-                        type: "danger"
-                    }).show();
-                }
-                League.ResetDocumentGrid();
-            }).error(function () {
-            });
-
-            for (var i = 0; i < docs.length; i++) {
-                $("#docRow-" + docs[i].toString()).remove();
+        var owner = $("#OwnerId");
+        $.getJSON("/document/DeleteDocument", { ownerId: owner.val(), doc: thisViewModel.documentId }, function (result) {
+            if (result.isSuccess === true) {
+                $('.bottom-right').notify({
+                    message: { text: 'Files Deleted. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "success"
+                }).show();
+            } else {
+                $('.bottom-right').notify({
+                    message: { text: 'Something Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "danger"
+                }).show();
             }
+            League.ResetDocumentGrid();
+        }).error(function () {
+        });
+
+        for (var i = 0; i < docs.length; i++) {
+            $("#docRow-" + docs[i].toString()).remove();
         }
     }
     this.ArchiveDocument = function () {
         var docs = thisViewModel.documentId.split(',');
-        var msg = docs.length > 1 ? 'Are you sure you want to archive ' + docs.length + ' documents?' : 'Are you sure you want to archive this document?';
-        if (confirm(msg)) {
-            var owner = $("#OwnerId");
-            $.getJSON("/document/ArchiveDocument", { ownerId: owner.val(), doc: thisViewModel.documentId, isArchived: Archived }, function (result) {
-                if (result.isSuccess === true) {
-                    $('.bottom-right').notify({
-                        message: { text: 'Archived Successfully' },
-                        fadeOut: { enabled: true, delay: 4000 },
-                        type: "success"
-                    }).show();
-                } else {
-                    $('.bottom-right').notify({
-                        message: { text: 'Something wrong Happened, Try again later. ' },
-                        fadeOut: { enabled: true, delay: 4000 },
-                        type: "danger"
-                    }).show();
-                }
-                League.ResetDocumentGrid();
-            }).error(function () {
-            });
-            for (var i = 0; i < docs.length; i++) {
-                $("#docRow-" + docs[i].toString()).remove();
+        var owner = $("#OwnerId");
+        $.getJSON("/document/ArchiveDocument", { ownerId: owner.val(), doc: thisViewModel.documentId, isArchived: Archived }, function (result) {
+            if (result.isSuccess === true) {
+                $('.bottom-right').notify({
+                    message: { text: !Archived ? 'Archived Successfully' : 'Un-archived Successfully' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "success"
+                }).show();
+            } else {
+                $('.bottom-right').notify({
+                    message: { text: 'Something wrong Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 4000 },
+                    type: "danger"
+                }).show();
             }
+            League.ResetDocumentGrid();
+        }).error(function () {
+        });
+        for (var i = 0; i < docs.length; i++) {
+            $("#docRow-" + docs[i].toString()).remove();
         }
     };
 
@@ -201,12 +195,12 @@
         if (typeof isArchived === "undefined" || isArchived === null) {
             isArchived = Archived;
         }
-        if (lastSearch == box.val().trim() && lastArchiveState == isArchived) {
+        if (IsOnKeyPress && lastSearch == box.val().trim() && lastArchiveState == isArchived) {
             return;
         }
         var waitTime = 0;
-        if (IsOnKeyPress)
-            waitTime = 2000;
+        if (IsOnKeyPress && !isArchived)
+            waitTime = 1500;
         delay(function () {
             Archived = isArchived;
             lastArchiveState = Archived;

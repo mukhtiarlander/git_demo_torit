@@ -1,7 +1,7 @@
 ﻿html,
 body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 
-
+.docIcon { max-height: 22px; max-width: 22px; }
 .messages { color: #000; padding: 3px; margin: 0px 5px 5px 5px; width: 100%; border: 1px solid #000000; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
 .mNotify { font-weight: bold; }
 .messages a:active, .messages a:hover, .messages a { color: #000; }
@@ -204,7 +204,9 @@ select{height:35px;border-radius:4px}
 
 /*Toggle Archive Button*/
 .archive {
-    background-color: red !important;
+    background-color: #5cb85c !important; 
+    border-color: #4cae4c !important;
+    color: #fff !important;
 }
 .non-archive {
     background-color: white;
@@ -1012,7 +1014,15 @@ div.FixedHeader_Cloned table {
 	margin: 0 !important
 }
 
-
+.panel-gray {
+ 
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+   background-color: lightgray;
+  border-color: darkgrey;
+}
 
 /* Folder Tree */
 

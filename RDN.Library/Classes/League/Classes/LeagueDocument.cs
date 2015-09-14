@@ -181,6 +181,8 @@ namespace RDN.Library.Classes.League.Classes
                         return MimeType.wps;
                     case ".xps":
                         return MimeType.xps;
+                    case ".gform":
+                        return MimeType.gform;
                     default:
                         {
                             ErrorDatabaseManager.AddException(new Exception("Mime Type Not Found: " + fi.Extension + ":" + docName), new Exception().GetType());

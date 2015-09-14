@@ -453,12 +453,22 @@ function changeMemberSettingCalView(changeTo) {
 }
 
 function deleteChatMessage(element, group, mem) {
-    if (confirm('Really Delete Message?')) {
-        $.getJSON("/message/deletechatmessage", { groupId: group, memId: mem }, function (result) {
+    $.getJSON("/message/deletechatmessage", { groupId: group, memId: mem }, function (result) {
+        if (result.isSuccess) {
+            $(element).parent().parent().parent().remove();
+            $('.bottom-right').notify({
+                message: { text: 'Deleted! ' },
+                fadeOut: { enabled: true, delay: 3000 }
+            }).show();
+        }
+    }).error(function () {
+        $('.bottom-right').notify({
+            message: { text: 'Something Happened, Try again later. ' },
+            fadeOut: { enabled: true, delay: 3000 },
+            type: "danger"
+        }).show();
+    });
 
-        });
-        $(element).parent().parent().remove();
-    }
 }
 
 function AddHashToUrl(a) {
@@ -1453,45 +1463,17 @@ function checkIntoEvent(idOfPopUp, calId, evenId, name) {
     addEventPopup = true;
     $("#" + eventId).popover({ content: popup.html() });
     $("#" + eventId).popover('show');
-    var attr = $("#" + eventId).attr('aria-describedby');
-    if (typeof attr !== typeof undefined && attr !== false) {
-        $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-            if (result.isSuccess === true) {
-                var status = result.value.toString();
-                if (status == "0") status = "";
-                $(".popover-content #checkInSelection").val(status).change();
-            }
-        });
-    }
-}
-
-function ShowCheckInHoverTooltip(button, calendarId, eventId) {
-    $.getJSON("/Calendar/GetEventCheckInStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-        if (result.isSuccess === true) {
-            var status = result.status.toString();
-            $(button).attr("data-original-title", status);
-            $(button).tooltip('show');
-        }
-    });
-}
-
-function ShowRSVPHoverTooltip(button, calendarId, eventId) {
-    $.getJSON("/Calendar/GetEventRSVPStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-        if (result.isSuccess === true) {
-            var status = result.status.toString();
-            $(button).attr("data-original-title", status);
-            $(button).tooltip('show');
-        }
-    });
-}
-
-
-function HideRSVPHoverTooltip(button) {
-    $(button).tooltip('hide');
-}
-
-function HideCheckInHoverTooltip(button) {
-    $(button).tooltip('hide');
+    var checkInStatusId = "";
+    var status = $("#" + eventId).attr("data-attendance").trim();
+    if (status == "Present")
+        checkInStatusId = "1";
+    if (status == "Partial")
+        checkInStatusId = "2";
+    if (status == "Not Present")
+        checkInStatusId = "3";
+    if (status == "Excused")
+        checkInStatusId = "4";
+    $(".popover-content #checkInSelection").val(checkInStatusId).change();
 }
 
 function SetCheckInButtonColor(id, status) {
@@ -1521,13 +1503,9 @@ function setAvailForEvent(calId, evenId) {
     addEventPopup = true;
     $("#" + eventId + "-setAvail").popover({ content: popup.html() });
     $("#" + eventId + "-setAvail").popover('show');
-    $.getJSON("/Calendar/GetEventRSVPStatus", { calendarId: calendarId, eventId: eventId }, function (result) {
-        if (result.isSuccess === true) {
-            var status = result.value.toString();
-            if (status.toLowerCase() == "none") status = "";
-            $(".popover-content #availableSelection").val(status).change();
-        }
-    });
+    var value = $("#" + eventId + "-setAvail").attr("data-rsvp").trim().replace(" ", "_");
+    if (value == "None") value = "";
+    $(".popover-content #availableSelection").val(value).change();
 }
 
 function CloseAddedRow() {
@@ -1558,7 +1536,8 @@ function checkInMemberToEvent() {
         if (result.isSuccess === true) {
             $("#" + eventId).children('i').toggleClass("fa-square-o", false);
             $("#" + eventId).children('i').toggleClass("fa-check-square", true);
-            $("#" + eventId).attr("data-original-title", selectedItemText);
+            $("#" + eventId).attr("data-attendance", selectedItemText);
+            $("#" + eventId).attr('data-original-title', selectedItemText);
             SetCheckInButtonColor(eventId, selectedItemText);
             $('.bottom-right').notify({
                 message: { text: 'Checked In! ' },
@@ -1607,7 +1586,8 @@ function setAvailabilityMemberToEvent() {
                 $("#" + eventId + "-setAvail").removeClass("btn-success").addClass("padding-3").addClass("padding-left-10").addClass("padding-right-10").addClass('btn-danger');
                 $("#" + eventId + "-setAvail").html('<i class="fa fa-home font18"></i>');
             }
-
+            $("#" + eventId + "-setAvail").attr("data-rsvp", selectedItem.val().toString().replace("_", " "));
+            $("#" + eventId + "-setAvail").attr('data-original-title', selectedItem.val().toString().replace("_", " "));
             $('.bottom-right').notify({
                 message: { text: 'RSVPed! ' },
                 fadeOut: { enabled: true, delay: 4000 }

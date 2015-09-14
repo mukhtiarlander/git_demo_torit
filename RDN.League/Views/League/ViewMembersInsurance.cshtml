@@ -54,7 +54,7 @@
                         <th></th>
                     }
                     <th>
-                       Nick Name
+                        Nick Name
                     </th>
                     <th>
                         #
@@ -62,18 +62,21 @@
                     <th>
                         Name
                     </th>
-                    <th>
-                        WFTDA
-                    </th>
-                    <th>
-                        USARS
-                    </th>
-                    <th>
-                        CRDI
-                    </th>
-                    <th>
-                        Other
-                    </th>
+                    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                    {
+                        <th>
+                            WFTDA
+                        </th>
+                        <th>
+                            USARS
+                        </th>
+                        <th>
+                            CRDI
+                        </th>
+                        <th>
+                            Other
+                        </th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -97,34 +100,54 @@
                         <td>
                             @Model.Model.Items[i].Firstname @Model.Model.Items[i].LastName
                         </td>
-                        <td>
-                            @Model.Model.Items[i].InsuranceNumWftda<br />
-                            @if (Model.Model.Items[i].InsuranceNumWftdaExpires.HasValue)
-                            {
-                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
-                            }
-                        </td>
-                        <td>
-                            @Model.Model.Items[i].InsuranceNumUsars<br />
-                            @if (Model.Model.Items[i].InsuranceNumUsarsExpires.HasValue)
-                            {
-                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
-                            }
-                        </td>
-                        <td>
-                            @Model.Model.Items[i].InsuranceNumCRDI<br />
-                            @if (Model.Model.Items[i].InsuranceNumCRDIExpires.HasValue)
-                            {
-                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
-                            }
-                        </td>
-                        <td>
-                            @Model.Model.Items[i].InsuranceNumOther<br />
-                            @if (Model.Model.Items[i].InsuranceNumOtherExpires.HasValue)
-                            {
-                                <small class="text-muted">Expires: @Model.Model.Items[i].InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
-                            }
-                        </td>
+                        @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                        {
+                            var wftda = Model.Model.Items[i].InsuranceNumbers.Where(x => x.Type == RDN.Portable.Classes.Insurance.InsuranceType.WFTDA).FirstOrDefault();
+                            var cdri = Model.Model.Items[i].InsuranceNumbers.Where(x => x.Type == RDN.Portable.Classes.Insurance.InsuranceType.CRDI).FirstOrDefault();
+                            var other = Model.Model.Items[i].InsuranceNumbers.Where(x => x.Type == RDN.Portable.Classes.Insurance.InsuranceType.Other).FirstOrDefault();
+                            var usars = Model.Model.Items[i].InsuranceNumbers.Where(x => x.Type == RDN.Portable.Classes.Insurance.InsuranceType.USARS).FirstOrDefault();
+
+                            <td>
+                                @if (wftda != null)
+                                {
+                                    @wftda.Number<br />
+                                    if (wftda.Expires.HasValue)
+                                    {
+                                        <small class="text-muted">Expires: @wftda.Expires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (usars != null)
+                                {
+                                    @usars.Number<br />
+                                    if (usars.Expires.HasValue)
+                                    {
+                                        <small class="text-muted">Expires: @usars.Expires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (cdri != null)
+                                {
+                                    @cdri.Number<br />
+                                    if (cdri.Expires.HasValue)
+                                    {
+                                        <small class="text-muted">Expires: @cdri.Expires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (other != null)
+                                {
+                                    @other.Number<br />
+                                    if (other.Expires.HasValue)
+                                    {
+                                        <small class="text-muted">Expires: @other.Expires.GetValueOrDefault().ToString("MM/dd/yyyy")</small>
+                                    }
+                                }
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

@@ -113,7 +113,7 @@
                                             }
                                             @if (Model.IsManagerOfTopic || message.Member.MemberId == Model.CurrentMemberId)
                                             {
-                                                <button class="btn btn-sm btn-default" onclick="javascript:RemovePostOfForumTopic(this, '@message.MessageId')" type="button"><i class="fa fa-trash"></i> Delete</button>
+                                                <button class="btn btn-sm btn-default" data-message="@message.MessageId" type="button"><i class="fa fa-trash"></i> Delete</button>
                                             }
                                             @if (!Model.IsLocked)
                                             {
@@ -193,4 +193,12 @@
 </div>
 <script type="text/JavaScript">
     AddPageViewToCount('@Model.ForumId', '@Model.TopicId');
+    $(function () {
+        $("button[data-message]").each(function () {
+            var messageId = $(this).attr("data-message");
+            $(this).btsConfirmButton({ msg: "Confirm Delete" }, function (e) {
+                RemovePostOfForumTopic(this, messageId);
+            });
+        });
+    });
 </script>

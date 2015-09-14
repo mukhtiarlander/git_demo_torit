@@ -800,6 +800,39 @@ namespace RDN.League.Controllers
                     mem.Leagues.Add(league);
                 }
 
+                if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
+                {
+                    if (mem.InsuranceNumbers.Where(x => x.Type == InsuranceType.CRDI).FirstOrDefault() == null)
+                    {
+                        mem.InsuranceNumbers.Add(new InsuranceNumber()
+                        {
+                            Type = InsuranceType.CRDI
+                        });
+                    }
+                    if (mem.InsuranceNumbers.Where(x => x.Type == InsuranceType.USARS).FirstOrDefault() == null)
+                    {
+                        mem.InsuranceNumbers.Add(new InsuranceNumber()
+                        {
+                            Type = InsuranceType.USARS
+                        });
+                    }
+                    if (mem.InsuranceNumbers.Where(x => x.Type == InsuranceType.WFTDA).FirstOrDefault() == null)
+                    {
+                        mem.InsuranceNumbers.Add(new InsuranceNumber()
+                        {
+                            Type = InsuranceType.WFTDA
+                        });
+                    }
+                }
+                if (mem.InsuranceNumbers.Where(x => x.Type == InsuranceType.Other).FirstOrDefault() == null)
+                {
+                    mem.InsuranceNumbers.Add(new InsuranceNumber()
+                    {
+                        Type = InsuranceType.Other
+                    });
+                }
+
+
                 ViewBag.Saved = false;
                 ViewBag.Removed = false;
                 return View(mem);
@@ -930,6 +963,27 @@ namespace RDN.League.Controllers
                         ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: model.MemberId.ToString());
                     }
                 }
+
+                var values = Enum.GetValues(typeof(InsuranceType));
+                foreach (var insurance in values)
+                {
+                    if (!String.IsNullOrEmpty(Request.Form["insuranceNumber_" + insurance]))
+                    {
+                        var insuranceType = (InsuranceType)Enum.Parse(typeof(InsuranceType), insurance.ToString());
+                        var number = new InsuranceNumber()
+                        {
+                            Type = insuranceType,
+                            Number = Request.Form["insuranceNumber_" + insurance]
+                        };
+
+                        DateTime expires = new DateTime();
+                        if (DateTime.TryParse(Request.Form["insuranceNumberExpires_" + insurance], out expires))
+                            number.Expires = expires;
+
+                        model.InsuranceNumbers.Add(number);
+                    }
+                }
+
 
                 if (file != null)
                     newMemberWithImage = RDN.Library.Classes.Account.User.UpdateMemberDisplayForLeague(model, file.InputStream, file.FileName);

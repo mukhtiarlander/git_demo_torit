@@ -69,6 +69,7 @@
     </Reference>
     <Reference Include="Geocoding, Version=3.3.0.0, Culture=neutral, PublicKeyToken=7c714700b88674c7, processorArchitecture=MSIL">
       <HintPath>..\packages\Geocoding.net.3.3.0\lib\net40\Geocoding.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Google.GData.Client">
       <HintPath>..\packages\Google.GData.Client.1.9.0.0\lib\Google.GData.Client.dll</HintPath>
@@ -280,6 +281,7 @@
     <Compile Include="Classes\League\Classes\LeagueGroupFactory.cs" />
     <Compile Include="Classes\League\ItemInfoDA.cs" />
     <Compile Include="Classes\League\JobBoard.cs" />
+    <Compile Include="Classes\League\LinkDA.cs" />
     <Compile Include="Classes\League\Organization.cs" />
     <Compile Include="Classes\League\ReportBuilder.cs" />
     <Compile Include="Classes\League\Reports\MembersReportContactEnum.cs" />
@@ -566,6 +568,7 @@
     <Compile Include="DataModels\League\Group\Group.cs" />
     <Compile Include="DataModels\League\LeagueMembersClass.cs" />
     <Compile Include="DataModels\League\LeagueMembers.cs" />
+    <Compile Include="DataModels\League\Links.cs" />
     <Compile Include="DataModels\League\OrganizationChart\Designation.cs" />
     <Compile Include="DataModels\League\OrganizationChart\Organization.cs" />
     <Compile Include="DataModels\League\OrganizationChart\Organize.cs" />

@@ -29,7 +29,17 @@ namespace RDN.Library.Classes.Error
         /// <param name="additionalInformation">Additional information that could be useful.</param>        
         public static void AddException(Exception e, Type type, ErrorGroupEnum? errorGroup = null, ErrorSeverityEnum? errorSeverity = null, IList<Expression<Func<object>>> parameters = null, string additionalInformation = null)
         {
-            AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorGroup, errorSeverity, parameters, additionalInformation));
+            Common.Site.Classes.Exception.Enum.ErrorGroupEnum? errorrGroupEnum = null;
+            Common.Site.Classes.Exception.Enum.ErrorSeverityEnum? errorSeverityEnum = null;
+            if (errorGroup != null)
+            {
+                errorrGroupEnum = (Common.Site.Classes.Exception.Enum.ErrorGroupEnum)((int)errorGroup);
+            }
+            if (errorSeverity != null)
+            {
+                errorSeverityEnum = (Common.Site.Classes.Exception.Enum.ErrorSeverityEnum)((int)errorSeverity);
+            }
+            Common.Site.Classes.Exception.ErrorDatabaseManager.AddException(ErrorManagerWeb.GetErrorObject(e, type, HttpContext.Current, errorrGroupEnum, errorSeverityEnum, parameters, additionalInformation));
         }
 
 
@@ -39,189 +49,119 @@ namespace RDN.Library.Classes.Error
         /// <param name="errorObject">Error object to store</param>
         public static void AddException(ErrorObject errorObject)
         {
-            try
+
+            var errorObj = new Common.Site.Classes.Error.ErrorObject()
             {
-                ManagementContext dc = ManagementContext.DataContext;
-
-                var databaseError = new DataModels.Exception.Exception
-                                        {
-                                            AdditionalInformation = errorObject.AdditionalInformation,
-                                            AssemblyName = errorObject.AssemblyName,
-                                            AssemblyVersion = errorObject.AssemblyVersion,
-                                            Created = errorObject.Created,
-                                            ErrorNameSpace = errorObject.ErrorNameSpace,
-                                            MethodName = errorObject.MethodName,
-                                            NameSpace = errorObject.NameSpace,
-                                            Group = errorObject.ErrorGroup.HasValue ? (byte?)errorObject.ErrorGroup.Value : null,
-                                            Severity = errorObject.ErrorSeverity.HasValue ? (byte?)errorObject.ErrorSeverity.Value : null
-                                        };
-
-                if (errorObject.ErrorData != null && errorObject.ErrorData.Count > 0)
+                AdditionalInformation = errorObject.AdditionalInformation,
+                AssemblyName = errorObject.AssemblyName,
+                AssemblyVersion = errorObject.AssemblyVersion,
+                Created = errorObject.Created,
+                ErrorData = errorObject.ErrorData.Select(x => new Common.Site.Classes.Error.ErrorDataDetail()
                 {
-                    foreach (var errorDataDetail in errorObject.ErrorData)
-                    {
-                        var databaseErrorData = new DataModels.Exception.ExceptionData
-                        {
-                            DataType = (byte)errorDataDetail.DataType,
-                            Name = errorDataDetail.Key,
-                            Data = errorDataDetail.Value
-                        };
+                    DataType = (Common.Site.Classes.Error.ErrorDataDetail.ErrorDataType)((int)x.DataType),
+                    Key = x.Key,
+                    Value = x.Value
+                }).ToList(),
+                ErrorExceptions = errorObject.ErrorExceptions.Select(x => new Common.Site.Classes.Error.ErrorException()
+                {
+                    Depth = x.Depth,
+                    Message = x.Message,
+                    MethodName = x.MethodName,
+                    StackTrace = x.StackTrace
+                }).ToList(),
+                ErrorGroup = errorObject.ErrorGroup != null ? (Common.Site.Classes.Exception.Enum.ErrorGroupEnum)((int)errorObject.ErrorGroup) : (Common.Site.Classes.Exception.Enum.ErrorGroupEnum?)null,
+                ErrorNameSpace = errorObject.ErrorNameSpace,
+                ErrorSeverity = errorObject.ErrorSeverity != null ? (Common.Site.Classes.Exception.Enum.ErrorSeverityEnum)((int)errorObject.ErrorSeverity) : (Common.Site.Classes.Exception.Enum.ErrorSeverityEnum?)null,
+                MethodName = errorObject.MethodName,
+                NameSpace = errorObject.NameSpace
+            };
+            Common.Site.Classes.Exception.ErrorDatabaseManager.AddException(errorObj);
 
-                        databaseError.ExceptionData.Add(databaseErrorData);
-                    }
-                }
-
-                if (errorObject.ErrorExceptions != null)
-                    foreach (var exception in errorObject.ErrorExceptions)
-                    {
-                        var exceptionErrorDetail = new DataModels.Exception.ExceptionDetail();
-                        exceptionErrorDetail.Depth = exception.Depth;
-                        exceptionErrorDetail.Message = exception.Message;
-                        exceptionErrorDetail.MethodName = exception.MethodName;
-                        exceptionErrorDetail.StackTrace = exception.StackTrace;
-                        databaseError.ExceptionDetails.Add(exceptionErrorDetail);
-                    }
-
-                dc.ErrorExceptions.Add(databaseError);
-                dc.SaveChanges();
-            }
-            catch (Exception except)
-            { AddException(except, except.GetType()); }
         }
         public static void AddException(RDN.Portable.Error.ErrorObject errorObject)
         {
-            try
-            {
-                var dc = new ManagementContext();
-                var databaseError = new DataModels.Exception.Exception
-                {
-                    AdditionalInformation = errorObject.AdditionalInformation,
-                    AssemblyName = errorObject.AssemblyName,
-                    AssemblyVersion = errorObject.AssemblyVersion,
-                    Created = errorObject.Created,
-                    ErrorNameSpace = errorObject.ErrorNameSpace,
-                    MethodName = errorObject.MethodName,
-                    NameSpace = errorObject.NameSpace,
-                    Group = errorObject.ErrorGroup.HasValue ? (byte?)errorObject.ErrorGroup.Value : null,
-                    Severity = errorObject.ErrorSeverity.HasValue ? (byte?)errorObject.ErrorSeverity.Value : null
-                };
+            var errorObj = new Common.Site.Classes.Error.ErrorObject()
+                 {
+                     AdditionalInformation = errorObject.AdditionalInformation,
+                     AssemblyName = errorObject.AssemblyName,
+                     AssemblyVersion = errorObject.AssemblyVersion,
+                     Created = errorObject.Created,
+                     ErrorData = errorObject.ErrorData.Select(x => new Common.Site.Classes.Error.ErrorDataDetail()
+                     {
+                         DataType = (Common.Site.Classes.Error.ErrorDataDetail.ErrorDataType)((int)x.DataType),
+                         Key = x.Key,
+                         Value = x.Value
+                     }).ToList(),
+                     ErrorExceptions = errorObject.ErrorExceptions.Select(x => new Common.Site.Classes.Error.ErrorException()
+                     {
+                         Depth = x.Depth,
+                         Message = x.Message,
+                         MethodName = x.MethodName,
+                         StackTrace = x.StackTrace
+                     }).ToList(),
+                     ErrorGroup = errorObject.ErrorGroup != null ? (Common.Site.Classes.Exception.Enum.ErrorGroupEnum)((int)errorObject.ErrorGroup) : (Common.Site.Classes.Exception.Enum.ErrorGroupEnum?)null,
+                     ErrorNameSpace = errorObject.ErrorNameSpace,
+                     ErrorSeverity = errorObject.ErrorSeverity != null ? (Common.Site.Classes.Exception.Enum.ErrorSeverityEnum)((int)errorObject.ErrorSeverity) : (Common.Site.Classes.Exception.Enum.ErrorSeverityEnum?)null,
+                     MethodName = errorObject.MethodName,
+                     NameSpace = errorObject.NameSpace
 
-                if (errorObject.ErrorData != null && errorObject.ErrorData.Count > 0)
-                {
-                    foreach (var errorDataDetail in errorObject.ErrorData)
-                    {
-                        var databaseErrorData = new DataModels.Exception.ExceptionData
-                        {
-                            DataType = (byte)errorDataDetail.DataType,
-                            Name = errorDataDetail.Key,
-                            Data = errorDataDetail.Value
-                        };
+                 };
+            Common.Site.Classes.Exception.ErrorDatabaseManager.AddException(errorObj);
 
-                        databaseError.ExceptionData.Add(databaseErrorData);
-                    }
-                }
-
-                if (errorObject.ErrorExceptions != null)
-                    foreach (var exception in errorObject.ErrorExceptions)
-                    {
-                        var exceptionErrorDetail = new DataModels.Exception.ExceptionDetail();
-                        exceptionErrorDetail.Depth = exception.Depth;
-                        exceptionErrorDetail.Message = exception.Message;
-                        exceptionErrorDetail.MethodName = exception.MethodName;
-                        exceptionErrorDetail.StackTrace = exception.StackTrace;
-                        databaseError.ExceptionDetails.Add(exceptionErrorDetail);
-                    }
-
-                dc.ErrorExceptions.Add(databaseError);
-                dc.SaveChanges();
-            }
-            catch (Exception except)
-            { AddException(except, except.GetType()); }
         }
 
 
         public static List<Classes.Error> GetErrorObjects(int recordsToSkip, int numberOfRecordsToPull)
         {
-            var output = new List<Classes.Error>();
-            var dc = new ManagementContext();
-            var errors =                dc.ErrorExceptions.Include("ExceptionData").Include("ExceptionDetails").OrderByDescending(x => x.Created)
-                    .Skip(recordsToSkip).Take(numberOfRecordsToPull);
+          var errors = Common.Site.Classes.Exception.ErrorDatabaseManager.GetErrorObjects(recordsToSkip, numberOfRecordsToPull);
 
-            foreach (var error in errors)
+          return errors.Select(x => new Classes.Error()
             {
-                var record = new Classes.Error
-                                 {
-                                     AdditionalInformation = error.AdditionalInformation,
-                                     AssemblyName = error.AssemblyName,
-                                     AssemblyVersion = error.AssemblyVersion,
-                                     Created = error.Created,
-                                     ErrorGroup =
-                                         error.Group.HasValue ? (ErrorGroupEnum)error.Group.Value : (ErrorGroupEnum?)null,
-                                     ErrorId = error.ExceptionId,
-                                     ErrorNameSpace = error.ErrorNameSpace,
-                                     ErrorSeverity =
-                                         error.Severity.HasValue
-                                             ? (ErrorSeverityEnum)error.Severity.Value
-                                             : (ErrorSeverityEnum?)null,
-                                     MethodName = error.MethodName,
-                                     NameSpace = error.NameSpace
-                                 };
-
-                foreach (var data in error.ExceptionData)
+                AdditionalInformation = x.AdditionalInformation,
+                AssemblyName = x.AssemblyName,
+                AssemblyVersion = x.AssemblyVersion,
+                Created = x.Created,
+               Data = x.Data.Select(data=>new Error.Data()
+               {
+                   DataType = (ErrorDataDetail.ErrorDataType)((int)data.DataType),
+                   Key = data.Key,
+                   Value = data.Value
+               }).ToList(),
+                ErrorId = x.ErrorId,
+                ErrorNameSpace = x.ErrorNameSpace,
+                ErrorGroup =
+                    x.ErrorGroup != null
+                        ? (ErrorGroupEnum) ((int) x.ErrorGroup)
+                        : (ErrorGroupEnum?) null,
+                ErrorSeverity = x.ErrorSeverity != null ? (ErrorSeverityEnum)((int)x.ErrorSeverity) : (ErrorSeverityEnum?)null,
+                MethodName = x.MethodName,
+                NameSpace = x.NameSpace,
+                Exceptions = x.Exceptions.Select(exc => new Classes.Detail()
                 {
-                    var recordData = new Data
-                                         {
-                                             DataType = (ErrorDataDetail.ErrorDataType)data.DataType,
-                                             Key = data.Name,
-                                             Value = data.Data
-                                         };
-                    record.Data.Add(recordData);
-                }
+                    Depth = exc.Depth,
+                    Message = exc.Message,
+                    MethodName = exc.MethodName,
+                    StackTrace = exc.StackTrace
+                }).ToList(),
 
-                foreach (var data in error.ExceptionDetails)
-                {
-                    var recordData = new Classes.Detail
-                                         {
-                                             Depth = data.Depth,
-                                             Message = data.Message,
-                                             MethodName = data.MethodName,
-                                             StackTrace = data.StackTrace
-                                         };
-                    record.Exceptions.Add(recordData);
-                }
+            }).ToList();
 
-                output.Add(record);
-            }
-            return output;
         }
 
         public static bool DeleteErrorObject(int id)
         {
-            var dc = new ErrorContext();
-            var obj = dc.ErrorExceptions.FirstOrDefault(x => x.ExceptionId.Equals(id));
-            if (obj == null) return false;
-            dc.ErrorExceptions.Remove(obj);
-            var result = dc.SaveChanges();
-            return result > 0;
+            return Common.Site.Classes.Exception.ErrorDatabaseManager.DeleteErrorObject(id);
 
         }
         public static bool DeleteSimilarErrorObjects(int id)
         {
-            var dc = new ErrorContext();
-            var obj = dc.ErrorExceptions.FirstOrDefault(x => x.ExceptionId.Equals(id));
-            if (obj == null) return false;
-            var objs = dc.ErrorExceptions.Where(x => x.AdditionalInformation == obj.AdditionalInformation && obj.MethodName == x.MethodName && obj.ErrorNameSpace == x.ErrorNameSpace);
-
-            dc.ErrorExceptions.RemoveRange(objs);
-            var result = dc.SaveChanges();
-            return result > 0;
+            return Common.Site.Classes.Exception.ErrorDatabaseManager.DeleteSimilarErrorObjects(id);
 
         }
 
         public static int GetNumberOfExceptions()
         {
-            var dc = new ErrorContext();
-            return dc.ErrorExceptions.Count();
+            return Common.Site.Classes.Exception.ErrorDatabaseManager.GetNumberOfExceptions();
 
         }
         /// <summary>
@@ -230,18 +170,7 @@ namespace RDN.Library.Classes.Error
         /// <returns></returns>
         public static int DeleteAllErrorObjects()
         {
-            var dc = new ErrorContext();
-            var obj = dc.ErrorExceptions.OrderByDescending(x => x.Created);
-            int count = 0;
-            foreach (var error in obj)
-            {
-                dc.ErrorExceptions.Remove(error);
-                count++;
-                if (count == 200)
-                    break;
-            }
-            var result = dc.SaveChanges();
-            return count;
+            return Common.Site.Classes.Exception.ErrorDatabaseManager.DeleteAllErrorObjects();
         }
     }
 }

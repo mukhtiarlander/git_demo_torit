@@ -3,6 +3,7 @@
 @using RDN.Portable.Classes.Controls.Calendar.Enums;
 @using RDN.Portable.Classes.Controls.Calendar;
 @using RDN.Library.Cache;
+@using RDN.Portable.Util.Enums
 @model Calendar
 @{
     ViewBag.Title = "Calendar for " + Model.EntityName;
@@ -123,7 +124,9 @@ else
                         var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
                         var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
                         var mem = calEvent.Attendees.FirstOrDefault(x => x.MemberId == memId);
+                        var checkInStatus = mem != null ? ((CalendarEventPointTypeEnum)mem.PointType).ToFreindlyName() : (CalendarEventPointTypeEnum.None).ToFreindlyName();
                         var checkInStatusId = mem != null ? (int)mem.PointType : 0;
+                        var rsvpStatus = mem != null ? ((AvailibilityEnum)mem.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
                         string className = "";
                         if (checkInStatusId == 1)
                         {
@@ -149,7 +152,7 @@ else
                                 {
                                     if (avail == null)
                                     {
-                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                 data-container="body" data-toggle="popover" data-html="true">
                                             <i class="fa fa-calendar fa-lg"></i>
                                         </button>
@@ -158,21 +161,21 @@ else
                                     {
                                         if (avail.Availability == AvailibilityEnum.Going)
                                         {
-                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                     data-container="body" data-toggle="popover" data-html="true">
                                                 <i class="fa fa-car fa-lg"></i>
                                             </button>
                                         }
                                         else if (avail.Availability == AvailibilityEnum.Maybe_Going)
                                         {
-                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                     data-container="body" data-toggle="popover" data-html="true">
                                                 <i class="fa fa-car fa-lg"></i>
                                             </button>
                                         }
                                         else
                                         {
-                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
+                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" data-rsvp="@rsvpStatus" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.CalendarId','@calEvent.CalendarItemId')"
                                                     data-container="body" data-toggle="popover" data-html="true">
                                                 <i class="fa fa-home font18"></i>
                                             </button>
@@ -183,16 +186,16 @@ else
                             </td>
                             <td class="text-center vertical-middle">
 
-                                @if (attend != null)
+                                @if (attend != null && calEvent.AllowSelfCheckIn)
                                 {
-                                    <button class="btn btn-default btn-sm @className" onmouseout="HideCheckInHoverTooltip(this)" onmouseover="ShowCheckInHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" id="@calEvent.CalendarItemId" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')" class="btn btn-default btn-sm"
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name','@checkInStatusId')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-check-square fa-lg"></i>
                                     </button>
                                 }
                                 else if (calEvent.AllowSelfCheckIn && calEvent.IsCurrentMemberApartOfEvent || (calEvent.AllowSelfCheckIn && isApartOfEvent != null))
                                 {
-                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" onmouseout="HideCheckInHoverTooltip(this)" onmouseover="ShowCheckInHoverTooltip(this, '@Model.CalendarId', '@calEvent.CalendarItemId')" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')"
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-square-o fa-lg"></i>
                                     </button>
@@ -312,7 +315,19 @@ else
             $('[data-toggle="offcanvas"]').click(function () {
                 $('.row-offcanvas').toggleClass('active');
             });
-            $(".checkIn").attr("data-original-title", "");
+
+            $("button[data-attendance]").each(function () {
+                $(this).tooltip({
+                    placement: 'bottom',
+                    title: $(this).attr("data-attendance")
+                });
+            });
+            $("button[data-rsvp]").each(function () {
+                $(this).tooltip({
+                    placement: 'bottom',
+                    title: $(this).attr("data-rsvp")
+                });
+            });
 
         });
     </script>

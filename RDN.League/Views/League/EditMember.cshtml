@@ -38,320 +38,272 @@
             </div>
             @using (Html.BeginForm("EditMember", "League", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-            <div class="panel-body">
-                <div class="row">
+                <div class="panel-body">
+                    <div class="row">
 
-                    <div class="col-sm-12 col-md-5 col-lg-3  text-center">
-                        @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
-                        {
-                        <img style="width: 100%; max-width:200px" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
-                        }
-                        else
-                        {
-                            <img style="width: 100%; max-width: 200px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
-                        }
-                        <input class="btn btn-default margin-top-10 margin-bottom-10" type="file" name="file" id="file" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto" />
-                    </div>
+                        <div class="col-sm-12 col-md-5 col-lg-3  text-center">
+                            @if (Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null)
+                            {
+                                <img style="width: 100%; max-width:200px" alt="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().Alt" src="@Model.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl" />
+                            }
+                            else
+                            {
+                                <img style="width: 100%; max-width: 200px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
+                            }
+                            <input class="btn btn-default margin-top-10 margin-bottom-10" type="file" name="file" id="file" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto" />
+                        </div>
 
-                    <div class="col-sm-12 col-md-7 col-lg-9">
-                        <div class="panel panel-default">
-                            <div class="panel-body no-padding">
-                                <ul class="nav nav-tabs padding-top-10" id="myTab">
-                                    <li class="active margin-left-15"><a href="#Personal">Personal</a></li>
-                                    <li class="margin-left-15"><a href="#Playing">Playing</a></li>
-                                    <li class="margin-left-15"><a href="#Contacts">Contacts</a></li>
-                                    <li class="margin-left-15"><a href="#League">League</a></li>
-                                    <li class="margin-left-15"><a href="#Federation">Federation</a></li>
-                                </ul>
-                                <div class="tab-content padding-15">
-                                    <div class="tab-pane active" id="Personal">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                   Nick Name
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.DerbyName, new { @type = "text", @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                   Number
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.PlayerNumber, new { @type = "text", @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    First Name
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.Firstname, new { @type = "text", @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Last Name
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.LastName, new { @type = "text", @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Phone Number
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @type = "text", @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Email Address
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.Email, new { @type = "text", @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Day Job
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(x => x.DayJob, new { @type = "text", @class = "form-control" })
-                                                    For use by the league in case they need your expertise.
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class="form-label margin-top-10 margin-bottom-5">
-                                                    Date Of Birth
-                                                </div>
-                                                <div>
-                                                    @Html.TextBox("DOB", Model.DOB.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="Playing">
-                                        @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
-                                        {
-                                        <div class="row">
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Date Started Playing
-                                                </div>
-                                                <div>
-                                                    @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-6">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Date Stopped Playing
-                                                </div>
-                                                <div>
-                                                    @if (Model.StoppedSkating.HasValue)
-                                                    {
-                                                    @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StoppedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                    }
-                                                    else
-                                                    {
-                                                    @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker form-control" })
-                                                    }
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Insurance Number WFTDA/Expires
-                                                </div>
-                                                <div class="row">
-
-                                                    <div class="col-xs-6">
-                                                        @Html.TextBoxFor(x => x.InsuranceNumWftda, new { @class = "form-control col-xs-6" })
+                        <div class="col-sm-12 col-md-7 col-lg-9">
+                            <div class="panel panel-default">
+                                <div class="panel-body no-padding">
+                                    <ul class="nav nav-tabs padding-top-10" id="myTab">
+                                        <li class="active margin-left-15"><a href="#Personal">Personal</a></li>
+                                        <li class="margin-left-15"><a href="#Playing">Playing</a></li>
+                                        <li class="margin-left-15"><a href="#Contacts">Contacts</a></li>
+                                        <li class="margin-left-15"><a href="#League">League</a></li>
+                                        <li class="margin-left-15"><a href="#Federation">Federation</a></li>
+                                    </ul>
+                                    <div class="tab-content padding-15">
+                                        <div class="tab-pane active" id="Personal">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class=" form-label margin-top-10 margin-bottom-5">
+                                                        Nick Name
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        @if (Model.InsuranceNumWftdaExpires.HasValue)
-                                                        {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker form-control col-xs-6", @Value = Model.InsuranceNumWftdaExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                        }
-                                                        else
-                                                        {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumWftdaExpires, new { @class = "jquery_datepicker form-control col-xs-6" })
-                                                        }
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.DerbyName, new { @type = "text", @class = "form-control" })
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Insurance Number USARS/Expires
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        @Html.TextBoxFor(x => x.InsuranceNumUsars, new { @class = "form-control" })
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Number
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        @if (Model.InsuranceNumUsarsExpires.HasValue)
-                                                        {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumUsarsExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                        }
-                                                        else
-                                                        {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumUsarsExpires, new { @class = "jquery_datepicker form-control" })
-                                                        }
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.PlayerNumber, new { @type = "text", @class = "form-control" })
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Insurance Number CRDI/Expires
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        @Html.TextBoxFor(x => x.InsuranceNumCRDI, new { @class = "form-control" })
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        First Name
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        @if (Model.InsuranceNumCRDIExpires.HasValue)
-                                                        {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumCRDIExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })
-                                                        }
-                                                        else
-                                                        {
-                                                        @Html.TextBoxFor(x => x.InsuranceNumCRDIExpires, new { @class = "jquery_datepicker form-control" })
-                                                        }
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.Firstname, new { @type = "text", @class = "form-control" })
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class=" form-label margin-top-10 margin-bottom-5">
-                                                    Insurance Number Other/Expires
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        @Html.TextBoxFor(x => x.InsuranceNumOther, new { @class = "form-control" })
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Last Name
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        @if (Model.InsuranceNumOtherExpires.HasValue)
-                                                        { @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker form-control", @Value = Model.InsuranceNumOtherExpires.GetValueOrDefault().ToString("MM/dd/yyyy") })  }
-                                                        else
-                                                        { @Html.TextBoxFor(x => x.InsuranceNumOtherExpires, new { @class = "jquery_datepicker form-control" })  }
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.LastName, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Phone Number
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.PhoneNumber, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Email Address
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.Email, new { @type = "text", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Day Job
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBoxFor(x => x.DayJob, new { @type = "text", @class = "form-control" })
+                                                        For use by the league in case they need your expertise.
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-6">
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        Date Of Birth
+                                                    </div>
+                                                    <div>
+                                                        @Html.TextBox("DOB", Model.DOB.ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker form-control" })
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        }
-                                        else
-                                        {
-                                        <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store Insurance Numbers of each @RDN.Library.Classes.Config.LibraryConfig.NameOfMember in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></div>
-                                        }
-                                    </div>
-                                    <div class="tab-pane" id="Contacts">
-                                        Contacts of Members
-                                        <a class="btn btn-info btn-sm pull-right" href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))"><i class="fa fa-plus-circle"></i> Add</a>
-                                        <br />
-                                        <span class="text-muted small">Only Managers of the league can see this information.</span>
-                                        @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
-                                        {
-                                        if (Model.MemberContacts.Count == 0)
-                                        {
-                                        <div>Member has no personal contacts</div>
-                                        <br />
-
-                                        }
-                                        <br />
-                                        <br />
-                                        <div class="row">
-
-                                            @foreach (var contact in Model.MemberContacts)
+                                        <div class="tab-pane" id="Playing">
+                                            @if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
                                             {
-                                            <div class="col-xs-12 col-sm-6" id="@contact.ContactId-div">
-                                                <div class="panel panel-default" style="min-height:260px">
-                                                    <div class="panel-heading">
-                                                        <h4 class="no-margin"><i class="fa fa-user"></i> @contact.Firstname @contact.Lastname</h4>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-lg-6">
+                                                        <div class=" form-label margin-top-10 margin-bottom-5">
+                                                            Date Started Playing
+                                                        </div>
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.StartedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StartedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                                        </div>
                                                     </div>
-                                                    <div class="panel-body">
-                                                        <table>
-                                                            <tr>
-                                                                <td class="b"><i class="fa fa-suitcase"></i>&nbsp;</td>
-                                                                <td>
-                                                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="b"><i class="fa fa-envelope"></i>&nbsp;</td>
-                                                                <td>
-                                                                    <a href="mailto:@contact.Email">@contact.Email</a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="b"><i class="fa fa-phone"></i>&nbsp;</td>
-                                                                <td>
-                                                                    <a href="tel:@contact.PhoneNumber">
-                                                                        @contact.PhoneNumber
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="b" style="vertical-align:top">
-                                                                    @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
-                                                                    {
-                                                                        <span><i class="fa fa-map-marker"></i>&nbsp;</span>
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
-                                                                    {
-                                                                    @contact.Addresses.FirstOrDefault().Address1<br />
-                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Address2))
-                                                                    {
-                                                                    @contact.Addresses.FirstOrDefault().Address2<br />
-                                                                    }
-                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().CityRaw))
-                                                                    {
-                                                                    @contact.Addresses.FirstOrDefault().CityRaw<br />}
-                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().StateRaw))
-                                                                    {
-                                                                    @contact.Addresses.FirstOrDefault().StateRaw<br />
-                                                                    }
-                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Zip))
-                                                                    {
-                                                                    @contact.Addresses.FirstOrDefault().Zip<br />
-                                                                    }
-                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Country))
-                                                                    {
-                                                                    @contact.Addresses.FirstOrDefault().Country
-                                                                    }
-                                                                    <br />
-                                                                    <a class="btn btn-default btn-xs margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
-                                                                    }
-                                                                </td>
-                                                            </tr>
+                                                    <div class="col-xs-12 col-lg-6">
+                                                        <div class=" form-label margin-top-10 margin-bottom-5">
+                                                            Date Stopped Playing
+                                                        </div>
+                                                        <div>
+                                                            @if (Model.StoppedSkating.HasValue)
+                                                            {
+                                                                @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker form-control", @Value = Model.StoppedSkating.GetValueOrDefault().ToString("MM/dd/yyyy") })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(model => model.StoppedSkating, new { @class = "jquery_datepicker form-control" })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    @foreach (var insuranceNumber in Model.InsuranceNumbers)
+                                                    {
+                                                        <div class="col-xs-12">
+                                                            <br />
+                                                            <div class="row">
+                                                                <div class="col-xs-6">
+                                                                    <div class="form-group">
+                                                                        <label class="no-bold">@insuranceNumber.Type Insurance</label>
+                                                                        @Html.TextBox("insuranceNumber_" + insuranceNumber.Type, insuranceNumber.Number, new { @class = "form-control col-xs-6" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <div class="form-group">
+                                                                        <label class="no-bold">Expires</label>
 
-                                                        </table>
-                                                    </div>
+                                                                        @if (insuranceNumber.Expires.HasValue)
+                                                                        {
+                                                                            @Html.TextBox("insuranceNumberExpires_" + insuranceNumber.Type, insuranceNumber.Expires.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @class = "jquery_datepicker form-control col-xs-6" })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBox("insuranceNumberExpires_" + insuranceNumber.Type, "", new { @class = "jquery_datepicker form-control col-xs-6" })
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    
                                                 </div>
-                                            </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store Insurance Numbers of each @RDN.Library.Classes.Config.LibraryConfig.NameOfMember in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()).ToString().Replace("-", ""))">Subscribe Here</a></div>
                                             }
                                         </div>
-
-                                        }
-                                        else
-                                        {
-                                        <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
-                                        }
-
-                                    </div>
-                                    <div class="tab-pane" id="League">
-                                        <div class="row">
-                                            @foreach (var leag in Model.Leagues)
+                                        <div class="tab-pane" id="Contacts">
+                                            Contacts of Members
+                                            <a class="btn btn-info btn-sm pull-right" href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))"><i class="fa fa-plus-circle"></i> Add</a>
+                                            <br />
+                                            <span class="text-muted small">Only Managers of the league can see this information.</span>
+                                            @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
                                             {
+                                                if (Model.MemberContacts.Count == 0)
+                                                {
+                                                    <div>Member has no personal contacts</div>
+                                                    <br />
 
-                                                <div class="col-xs-12 padding-top-10" style="background-color:#f7f7f7">
-                                                    <div class="form-label">
-                                                        Name: <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + RDN.Portable.Classes.Url.UrlManager.PublicSite_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.Name) + "/" + leag.LeagueId.ToString().Replace("-", "") + "/")">
-                                                            <b>@leag.Name</b>
-                                                        </a>
-                                                    </div>
+                                                }
+                                                <br />
+                                                <br />
+                                                <div class="row">
+
+                                                    @foreach (var contact in Model.MemberContacts)
+                                                    {
+                                                        <div class="col-xs-12 col-sm-6" id="@contact.ContactId-div">
+                                                            <div class="panel panel-default" style="min-height:260px">
+                                                                <div class="panel-heading">
+                                                                    <h4 class="no-margin"><i class="fa fa-user"></i> @contact.Firstname @contact.Lastname</h4>
+                                                                </div>
+                                                                <div class="panel-body">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td class="b"><i class="fa fa-suitcase"></i>&nbsp;</td>
+                                                                            <td>
+                                                                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName(contact.ContactType)
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b"><i class="fa fa-envelope"></i>&nbsp;</td>
+                                                                            <td>
+                                                                                <a href="mailto:@contact.Email">@contact.Email</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b"><i class="fa fa-phone"></i>&nbsp;</td>
+                                                                            <td>
+                                                                                <a href="tel:@contact.PhoneNumber">
+                                                                                    @contact.PhoneNumber
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b" style="vertical-align:top">
+                                                                                @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
+                                                                                {
+                                                                                    <span><i class="fa fa-map-marker"></i>&nbsp;</span>
+                                                                                }
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (contact.Addresses != null && contact.Addresses.FirstOrDefault() != null)
+                                                                                {
+                                                                                    @contact.Addresses.FirstOrDefault().Address1<br />
+                                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Address2))
+                                                                                    {
+                                                                                        @contact.Addresses.FirstOrDefault().Address2<br />
+                                                                                    }
+                                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().CityRaw))
+                                                                                    {
+                                                                                        @contact.Addresses.FirstOrDefault().CityRaw<br />}
+                                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().StateRaw))
+                                                                                    {
+                                                                                        @contact.Addresses.FirstOrDefault().StateRaw<br />
+                                                                                    }
+                                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Zip))
+                                                                                    {
+                                                                                        @contact.Addresses.FirstOrDefault().Zip<br />
+                                                                                    }
+                                                                                    if (!String.IsNullOrEmpty(contact.Addresses.FirstOrDefault().Country))
+                                                                                    {
+                                                                                        @contact.Addresses.FirstOrDefault().Country
+                                                                                    }
+                                                                                    <br />
+                                                                                    <a class="btn btn-default btn-xs margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@contact.Addresses.FirstOrDefault().Address1+@contact.Addresses.FirstOrDefault().Address2,+@contact.Addresses.FirstOrDefault().CityRaw,+@contact.Addresses.FirstOrDefault().StateRaw+@contact.Addresses.FirstOrDefault().Zip+@contact.Addresses.FirstOrDefault().Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
+                                            }
+
+                                        </div>
+                                        <div class="tab-pane" id="League">
+                                            <div class="row">
+                                                @foreach (var leag in Model.Leagues)
+                                                {
+
+                                                    <div class="col-xs-12 padding-top-10" style="background-color:#f7f7f7">
+                                                        <div class="form-label">
+                                                            Name: <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + RDN.Portable.Classes.Url.UrlManager.PublicSite_FOR_LEAGUES + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.Name) + "/" + leag.LeagueId.ToString().Replace("-", "") + "/")">
+                                                                <b>@leag.Name</b>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                     @*
                                                         <tr>
                                                             <td class="b">Management Role:
@@ -362,152 +314,162 @@
                                                             </td>
                                                         </tr>
                                                     *@
-                                                <div class="col-xs-12 padding-bottom-10" style="background-color:#f7f7f7">
-                                                    <div class="form-label">@Html.CheckBox("LEAGUEIsInactive[" + leag.LeagueId + "]", leag.IsInactiveInLeague) Inactive  <i class="fa fa-question-circle"></i> <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Member_Information#League_Member_Information" target="_blank">Help</a> </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6">
-                                                    <div class="form-label margin-top-10 margin-bottom-5">Membership Date</div>
-                                                    <div>
-                                                        @if (leag.MembershipDate.HasValue)
-                                                        {
-                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", leag.MembershipDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
-                                                        }
-                                                        else
-                                                        {
-                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", "", new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
-                                                        }
+                                                    <div class="col-xs-12 padding-bottom-10" style="background-color:#f7f7f7">
+                                                        <div class="form-label">@Html.CheckBox("LEAGUEIsInactive[" + leag.LeagueId + "]", leag.IsInactiveInLeague) Inactive  <i class="fa fa-question-circle"></i> <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Member_Information#League_Member_Information" target="_blank">Help</a> </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6">
-                                                    <div class="form-label margin-top-10 margin-bottom-5">Departure Date</div>
-                                                    <div>
-                                                        @if (leag.DepartureDate.HasValue)
-                                                        {
-                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", leag.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
-                                                        }
-                                                        else
-                                                        {
-                                                        @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", "", new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
-                                                        }
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6">
-                                                    <div class="form-label margin-top-10 margin-bottom-5">Passed Written Exam</div>
-                                                    <div>
-                                                        @if (leag.PassedWrittenExam.HasValue)
-                                                        {  
-                                                            @Html.TextBox(leag.LeagueId + "-LEAGUEPassedWrittenExam", leag.PassedWrittenExam.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEPassedWrittenExam", @class = "jquery_datepicker form-control" })
-                                                        }
-                                                        else
-                                                        {
-                                                            @Html.TextBox(leag.LeagueId + "-LEAGUEPassedWrittenExam", "", new { @id = leag.LeagueId + "-LEAGUEPassedWrittenExam", @class = "jquery_datepicker form-control" })
-                                                        }
-                                                    </div>
-                                                </div>
-                                                if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
-                                                {
                                                     <div class="col-xs-12 col-sm-6">
-                                                        <div class="form-label margin-top-10 margin-bottom-5">Skills Test Date</div>
+                                                        <div class="form-label margin-top-10 margin-bottom-5">Membership Date</div>
                                                         <div>
-                                                            @if (leag.SkillsTestDate.HasValue)
+                                                            @if (leag.MembershipDate.HasValue)
                                                             {
-                                                            @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", leag.SkillsTestDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
+                                                                @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", leag.MembershipDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
                                                             }
                                                             else
                                                             {
-                                                            @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", "", new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
+                                                                @Html.TextBox(leag.LeagueId + "-LEAGUEMembershipDate", "", new { @id = leag.LeagueId + "-LEAGUEMembershipDate", @class = "jquery_datepicker form-control" })
                                                             }
                                                         </div>
                                                     </div>
-                                                    <div class="col-xs-12  col-sm-6">
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <div class="form-label margin-top-10 margin-bottom-5">Departure Date</div>
+                                                        <div>
+                                                            @if (leag.DepartureDate.HasValue)
+                                                            {
+                                                                @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", leag.DepartureDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBox(leag.LeagueId + "-LEAGUEDepartureDate", "", new { @id = leag.LeagueId + "-LEAGUEDepartureDate", @class = "jquery_datepicker form-control" })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <div class="form-label margin-top-10 margin-bottom-5">Passed Written Exam</div>
+                                                        <div>
+                                                            @if (leag.PassedWrittenExam.HasValue)
+                                                            {
+                                                                @Html.TextBox(leag.LeagueId + "-LEAGUEPassedWrittenExam", leag.PassedWrittenExam.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUEPassedWrittenExam", @class = "jquery_datepicker form-control" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBox(leag.LeagueId + "-LEAGUEPassedWrittenExam", "", new { @id = leag.LeagueId + "-LEAGUEPassedWrittenExam", @class = "jquery_datepicker form-control" })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    if (RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId))
+                                                    {
+                                                        <div class="col-xs-12 col-sm-6">
+                                                            <div class="form-label margin-top-10 margin-bottom-5">Skills Test Date</div>
+                                                            <div>
+                                                                @if (leag.SkillsTestDate.HasValue)
+                                                                {
+                                                                    @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", leag.SkillsTestDate.GetValueOrDefault().ToString("MM/dd/yyyy"), new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.TextBox(leag.LeagueId + "-LEAGUESkillsDate", "", new { @id = leag.LeagueId + "-LEAGUESkillsDate", @class = "jquery_datepicker form-control" })
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12  col-sm-6">
+                                                            <div class="form-label margin-top-10 margin-bottom-5">
+                                                                @RDN.Library.Classes.Config.LibraryConfig.NameOfMember class:
+                                                            </div>
+                                                            <div>
+                                                                @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")
+                                                                <a class="btn btn-success btn-sm" href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)"><i class="fa fa-plus-circle"></i> Add Class</a>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+                                                    <div class="col-xs-12">
                                                         <div class="form-label margin-top-10 margin-bottom-5">
-                                                            @RDN.Library.Classes.Config.LibraryConfig.NameOfMember class:
+                                                            Notes
                                                         </div>
                                                         <div>
-                                                            @Html.DropDownList("LEAGUESkaterClass[" + leag.LeagueId + "]", new SelectList(RDN.Library.Cache.SiteCache.GetLeagueMemberClasses(), "IdOfClass", "NameOfClass", leag.SkaterClass), "Select...")
-                                                            <a class="btn btn-success btn-sm" href="@Url.Content("~/league/member/add/class?returnUrl=" + Request.Url.AbsoluteUri)"><i class="fa fa-plus-circle"></i> Add Class</a>
+                                                            @Html.TextArea(leag.LeagueId + "-LEAGUEMemberNotes", leag.NotesAboutMember, new { @class = "form-control" })
+                                                            <small class="text-muted">These notes can only be seen by managers of the league.</small>
                                                         </div>
                                                     </div>
-                                                    
+                                                    <script type="text/javascript">
+                                                        $('#@leag.LeagueId-LEAGUESkillsDate').datepicker({
+                                                            required: false
+                                                        });
+                                                        $('#@leag.LeagueId-LEAGUEDepartureDate').datepicker({
+                                                            required: false
+                                                        });
+                                                        $('#@leag.LeagueId-LEAGUEMembershipDate').datepicker({
+                                                            required: false
+                                                        });
+                                                        $('#@leag.LeagueId-LEAGUEPassedWrittenExam').datepicker({
+                                                            required: false
+                                                        });
+                                                    </script>
                                                 }
                                                 <div class="col-xs-12">
-                                                    <div class="form-label margin-top-10 margin-bottom-5">
-                                                        Notes
+                                                    <div class="alert alert-warning margin-top-10 no-margin-bottom">
+                                                        Please <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/League_Member_Skater_Classes" target="_blank">read the wiki</a> to understand Class Types.
                                                     </div>
-                                                    <div>
-                                                        @Html.TextArea(leag.LeagueId + "-LEAGUEMemberNotes", leag.NotesAboutMember, new { @class="form-control" })
-                                                        <small class="text-muted">These notes can only be seen by managers of the league.</small>
-                                                    </div>
-                                                </div>
-                                                <script type="text/javascript">
-                                                    $('#@leag.LeagueId-LEAGUESkillsDate').datepicker({
-                                                        required: false
-                                                    });
-                                                    $('#@leag.LeagueId-LEAGUEDepartureDate').datepicker({
-                                                        required: false
-                                                    });
-                                                    $('#@leag.LeagueId-LEAGUEMembershipDate').datepicker({
-                                                        required: false
-                                                    });
-                                                    $('#@leag.LeagueId-LEAGUEPassedWrittenExam').datepicker({
-                                                        required: false
-                                                    });
-                                                </script>
-                                            }
-                                            <div class="col-xs-12">
-                                                <div class="alert alert-warning margin-top-10 no-margin-bottom">
-                                                    Please <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/League_Member_Skater_Classes" target="_blank">read the wiki</a> to understand Class Types.
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane" id="Federation">
-                                        <ul>
-                                            @foreach (var fed in Model.FederationsApartOf)
-                                            {
-                                            <li class="vmTeamName">
-                                                @fed.FederationName - Class: @fed.MADEClassRank
-                                                @*- Ownership: @Html.DropDownList("FEDOwner[" + fed.FederationId + "]", new SelectList(OwnerTypes, "ID", "Name", OwnerTypes.Where(x => x.Name == fed.OwnerType).FirstOrDefault().ID))*@
-                                            </li>
-                                            }
-                                        </ul>
+                                        <div class="tab-pane" id="Federation">
+                                            <ul>
+                                                @foreach (var fed in Model.FederationsApartOf)
+                                                {
+                                                    <li class="vmTeamName">
+                                                        @fed.FederationName - Class: @fed.MADEClassRank
+                                                        @*- Ownership: @Html.DropDownList("FEDOwner[" + fed.FederationId + "]", new SelectList(OwnerTypes, "ID", "Name", OwnerTypes.Where(x => x.Name == fed.OwnerType).FirstOrDefault().ID))*@
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @Html.HiddenFor(x => x.MemberId)
-                    @Html.HiddenFor(x => x.CurrentLeagueId)
+                        @Html.HiddenFor(x => x.MemberId)
+                        @Html.HiddenFor(x => x.CurrentLeagueId)
 
+                    </div>
                 </div>
-            </div>
-            <div class="panel-footer">
-                @if (ViewBag.Saved)
-                {
-                <span class="addedSuccessfully">Updated Successfully!</span>
-                }
-                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update Member</button>
-            </div>
+                <div class="panel-footer">
+                    @if (ViewBag.Saved)
+                    {
+                        <span class="addedSuccessfully">Updated Successfully!</span>
+                    }
+                    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update Member</button>
+                </div>
 
             }
             <div class="panel-footer">
                 @using (Html.BeginForm("RemoveMember", "League"))
                 {
-                <div class="removeMemberButton">
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Really Remove Member?');"><i class="fa fa-trash"></i> Remove Member From League</button>
-                    @if (ViewBag.Removed)
-                    {
-                    <span>Removed Successfully!</span>
-                    }
-                </div>
-                @Html.HiddenFor(x => x.MemberId)
-                @Html.HiddenFor(x => x.CurrentLeagueId)
+                    <div class="removeMemberButton">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Really Remove Member?');"><i class="fa fa-trash"></i> Remove Member From League</button>
+                        @if (ViewBag.Removed)
+                        {
+                            <span>Removed Successfully!</span>
+                        }
+                    </div>
+                    @Html.HiddenFor(x => x.MemberId)
+                    @Html.HiddenFor(x => x.CurrentLeagueId)
                 }
             </div>
         </div>
 
     </div>
 </div>
+@foreach (var insuranceNumber in Model.InsuranceNumbers)
+{
+    <script type="text/javascript">
+
+        $('#insuranceNumberExpires_@insuranceNumber.Type').datepicker({
+            required: false
+        });
+
+    </script>
+}
 <script type="text/javascript">
 
     $('#StartedSkating').datepicker({
@@ -517,18 +479,6 @@
         required: false
     });
     $('#DOB').datepicker({
-        required: false
-    });
-    $('#InsuranceNumOtherExpires').datepicker({
-        required: false
-    });
-    $('#InsuranceNumUsarsExpires').datepicker({
-        required: false
-    });
-    $('#InsuranceNumWftdaExpires').datepicker({
-        required: false
-    });
-    $('#InsuranceNumCRDIExpires').datepicker({
         required: false
     });
     $('#myTab a').click(function (e) {

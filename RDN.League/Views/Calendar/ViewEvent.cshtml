@@ -3,6 +3,7 @@
 @using RDN.Library.Classes.Calendar.Enums
 @using RDN.Portable.Classes.Controls.Calendar.Enums
 @using RDN.Library.Cache
+@using RDN.Portable.Util.Enums
 @model NewCalendarEvent
 @{
     ViewBag.Title = "View Calendar Event " + Model.Name;
@@ -22,8 +23,10 @@
     var CalendarPointType = from CalendarEventPointTypeEnum d in Enum.GetValues(typeof(CalendarEventPointTypeEnum))
                             where d.ToString() != "None" && d.ToString() != "Tardy"
                             select new { ID = (int)d, Name = RDN.Utilities.Enums.EnumExt.ToFreindlyName(d) };
-    var mem = Model.Attendees.FirstOrDefault(x => x.MemberId == memId);
-    var checkInStatusId = mem != null ? (int)mem.PointType : 0;
+    var attendy = Model.Attendees.FirstOrDefault(x => x.MemberId == memId);
+    var rsvpStatus = attendy != null ? ((AvailibilityEnum)attendy.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
+    var checkInStatus = attendy != null ? ((CalendarEventPointTypeEnum)attendy.PointType).ToFreindlyName() : (CalendarEventPointTypeEnum.None).ToFreindlyName();
+    var checkInStatusId = attendy != null ? (int)attendy.PointType : 0;
     string className = "";
     if (checkInStatusId == 1)
     {
@@ -83,28 +86,6 @@
                 </div>
             </div>
             <div class="panel-heading text-right">
-                @if (attend != null)
-                {
-                    <button class="btn btn-default btn-sm @className" id="@Model.CalendarItemId" onmouseout="HideCheckInHoverTooltip(this)" onmouseover="ShowCheckInHoverTooltip(this, '@Model.CalendarId', '@Model.CalendarItemId')" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')" class="btn btn-default btn-sm"
-                            data-container="body" data-toggle="popover" data-html="true">
-                        <i class="fa fa-check-square fa-lg"></i>
-                    </button>
-                }
-                else if (Model.AllowSelfCheckIn && Model.IsCurrentMemberApartOfEvent || (Model.AllowSelfCheckIn && isApartOfEvent != null))
-                {
-                    <button class="btn btn-default btn-sm" @className id="@Model.CalendarItemId" onmouseout="HideCheckInHoverTooltip(this)" onmouseover="ShowCheckInHoverTooltip(this, '@Model.CalendarId', '@Model.CalendarItemId')" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
-                            data-container="body" data-toggle="popover" data-html="true">
-                        <i class="fa fa-square-o fa-lg"></i>
-                    </button>
-                }
-                else if (Model.EventType.EventType == RDN.Portable.Classes.Controls.Calendar.CalendarEventTypeEnum.Birthday)
-                {
-                    <i class="fa fa-birthday-cake fa-lg"></i>
-                }
-                else if (Model.EventType.EventType == RDN.Portable.Classes.Controls.Calendar.CalendarEventTypeEnum.StartedDate)
-                {
-                    <img src="@Url.Content("~/Content/images/icons/games.png")" height="25px" />
-                }
                 @if (isSec || isAttManager)
                 {
                     <div class="btn-group">
@@ -198,9 +179,12 @@
 
             </div>
             <div class="panel-body">
-                <div class="alert alert-info">
-                    @Html.Raw(Model.NotesHtml)
-                </div>
+                @if (!string.IsNullOrEmpty(Model.NotesHtml))
+                {
+                    <div class="alert alert-info">
+                        @Html.Raw(Model.NotesHtml)
+                    </div>
+                }
 
                 <div>
                     <table class="table">
@@ -270,24 +254,27 @@
                                 </td>
                             </tr>
                         }
-                        <tr class="trBorderB">
-                            <td class="text-right b">
-                                WebSite:
-                            </td>
-                            <td>
-                                <a href="@Model.Link" target="_blank">@Model.Link</a>
-                            </td>
-                        </tr>
-                        @if (Model.IsPublicEvent)
+                        @if (!string.IsNullOrEmpty(Model.Link))
                         {
                             <tr class="trBorderB">
                                 <td class="text-right b">
-                                    On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                                    WebSite:
                                 </td>
                                 <td>
                                     <a href="@Model.Link" target="_blank">@Model.Link</a>
                                 </td>
                             </tr>
+                            if (Model.IsPublicEvent)
+                             {
+                                 <tr class="trBorderB">
+                                     <td class="text-right b">
+                                         On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                                     </td>
+                                     <td>
+                                         <a href="@Model.Link" target="_blank">@Model.Link</a>
+                                     </td>
+                                 </tr>
+                             }
                         }
                         <tr class="trBorderB">
                             <td class="text-right b">
@@ -356,6 +343,30 @@
                                 </div>
                             </td>
                         </tr>
+                        @if (Model.AllowSelfCheckIn)
+                        {
+                            <tr class="trBorderB">
+                                <td class="text-right b">
+                                    Check In:
+                                </td>
+                                <td>
+                                    @if (attend != null)
+                                    {
+                                        <button class="btn btn-default btn-sm checkIn @className" id="@Model.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
+                                                data-container="body" data-toggle="popover" data-html="true">
+                                            <i class="fa fa-check-square fa-lg"></i>
+                                        </button>
+                                    }
+                                    else if (Model.AllowSelfCheckIn && Model.IsCurrentMemberApartOfEvent || (Model.AllowSelfCheckIn && isApartOfEvent != null))
+                                    {
+                                        <button class="btn btn-default btn-sm" @className id="@Model.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@Model.CalendarItemId', '@Model.Name')"
+                                                data-container="body" data-toggle="popover" data-html="true">
+                                            <i class="fa fa-square-o fa-lg"></i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
                         <tr class="trBorderB" id="@Model.CalendarItemId-mainrow">
                             <td class="text-right b">
                                 Set Availability:
@@ -363,7 +374,7 @@
                             <td>
                                 @if (currentMemAvailability == null)
                                 {
-                                    <button class="btn btn-sm btn-default" id="@Model.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@Model.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
+                                    <button class="btn btn-sm btn-default" id="@Model.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-calendar fa-lg"></i>
                                     </button>
@@ -372,21 +383,21 @@
                                 {
                                     if (currentMemAvailability.Availability == AvailibilityEnum.Going)
                                     {
-                                        <button class="btn btn-sm btn-success" id="@Model.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@Model.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
+                                        <button class="btn btn-sm btn-success" id="@Model.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
                                                 data-container="body" data-toggle="popover" data-html="true">
                                             <i class="fa fa-car fa-lg"></i>
                                         </button>
                                     }
                                     else if (currentMemAvailability.Availability == AvailibilityEnum.Maybe_Going)
                                     {
-                                        <button class="btn btn-sm btn-warning" id="@Model.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@Model.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
+                                        <button class="btn btn-sm btn-warning" id="@Model.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
                                                 data-container="body" data-toggle="popover" data-html="true">
                                             <i class="fa fa-car fa-lg"></i>
                                         </button>
                                     }
                                     else
                                     {
-                                        <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" id="@Model.CalendarItemId-setAvail" onmouseout="HideRSVPHoverTooltip(this)" onmouseover="ShowRSVPHoverTooltip(this, '@Model.CalendarId', '@Model.CalendarItemId')" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
+                                        <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" id="@Model.CalendarItemId-setAvail" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.CalendarId','@Model.CalendarItemId')"
                                                 data-container="body" data-toggle="popover" data-html="true">
                                             <i class="fa fa-home font18"></i>
                                         </button>
@@ -478,7 +489,7 @@
                                 Members Checked In (@checkedIn.Count):
                             </td>
                             <td>
-                                @if(checkedIn.Count > 0)
+                                @if (checkedIn.Count > 0)
                                 {
                                     <div class="panel panel-default">
                                         <div class="panel-body no-padding">
@@ -522,8 +533,8 @@
                                                                 @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].PointType)
                                                                 @if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
                                                                 { <span>
-                                                                      - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].SecondaryPointType)
-                                                                  </span> }
+                                                                    - @RDN.Utilities.Enums.EnumExt.ToFreindlyName(checkedIn[i].SecondaryPointType)
+                                                                </span> }
                                                             </td>
                                                             <td>
                                                                 @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Present)
@@ -531,32 +542,32 @@
                                                                     @Model.EventType.PointsForPresent
                                                                     if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
                                                                     { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
-                                                                      </span> }
+                                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPresent + Model.EventType.PointsForTardy)
+                                                                    </span> }
                                                                 }
                                                                 @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Partial)
                                                                 {
                                                                     @Model.EventType.PointsForPartial
                                                                     if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
                                                                     { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
-                                                                      </span> }
+                                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForPartial + Model.EventType.PointsForTardy)
+                                                                    </span> }
                                                                 }
                                                                 @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Not_Present)
                                                                 {
                                                                     @Model.EventType.PointsForNotPresent
                                                                     if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
                                                                     { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
-                                                                      </span> }
+                                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForNotPresent + Model.EventType.PointsForTardy)
+                                                                    </span> }
                                                                 }
                                                                 @if (checkedIn[i].PointType == CalendarEventPointTypeEnum.Excused)
                                                                 {
                                                                     @Model.EventType.PointsForExcused
                                                                     if (checkedIn[i].SecondaryPointType == CalendarEventPointTypeEnum.Tardy)
                                                                     { <span>
-                                                                          + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
-                                                                      </span> }
+                                                                        + @Model.EventType.PointsForTardy = @(Model.EventType.PointsForExcused + Model.EventType.PointsForTardy)
+                                                                    </span> }
                                                                 }
                                                             </td>
                                                         </tr>
@@ -636,6 +647,17 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#@Model.CalendarItemId').tooltip({
+            placement: 'bottom',
+            title: $('#@Model.CalendarItemId').attr("data-attendance")
+        });
+        $('#@Model.CalendarItemId-setAvail').tooltip({
+            placement: 'bottom',
+            title: $('#@Model.CalendarItemId-setAvail').attr("data-rsvp")
+        });
+    });
+
     //$(document).ready(function () {
     //    $('#members').dataTable({
     //        "aaSorting": [[1, "asc"]],
