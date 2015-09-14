@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RDN.Library.DataModels.Base;
 
-namespace RDN.Library.DataModels.League
+namespace RDN.Library.DataModels.League.Links
 {
      [Table("RDN_League_Links")]
     public class Links : InheritDb

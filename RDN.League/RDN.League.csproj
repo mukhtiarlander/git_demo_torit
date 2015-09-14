@@ -270,6 +270,7 @@
     <Compile Include="Controllers\League\InventoryController.cs" />
     <Compile Include="Controllers\League\JobBoardController.cs" />
     <Compile Include="Controllers\League\LeagueController.cs" />
+    <Compile Include="Controllers\League\LinksController.cs" />
     <Compile Include="Controllers\League\OfficiatingController.cs" />
     <Compile Include="Controllers\League\OrganizationController.cs" />
     <Compile Include="Controllers\League\SponsorController.cs" />
@@ -942,6 +943,10 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Links\ViewLinks.cshtml" />
+    <Content Include="Views\Links\AddNewLink.cshtml" />
+    <Content Include="Views\Links\LinkDetail.cshtml" />
+    <Content Include="Views\Links\EditLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\img\" />
