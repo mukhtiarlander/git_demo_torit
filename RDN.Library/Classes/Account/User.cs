@@ -1422,7 +1422,7 @@ namespace RDN.Library.Classes.Account
         public static DataModels.Member.Member GetMemberWithUserId(Guid userId)
         {
             var dc = new ManagementContext();
-            return dc.Members.FirstOrDefault(x => x.AspNetUserId.Equals(userId));
+             return dc.Members.FirstOrDefault(x => x.AspNetUserId.Equals(userId));
         }
         public static DataModels.Member.Member GetMemberWithLoginEmail(string email)
         {

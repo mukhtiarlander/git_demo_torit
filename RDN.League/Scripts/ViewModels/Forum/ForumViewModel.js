@@ -38,7 +38,7 @@
         var zeroColumn = $(document.createElement('td'));
         zeroColumn.addClass("text-center vertical-middle");
         if (item.IsRead !== true) {
-            var btn = $(document).createElement('button');
+            var btn = $(document.createElement('button'));
             btn.addClass('btn btn-default btn-sm');
             btn.attr({ 'data-toggle': 'tooltip', 'data-placement': 'top', 'data-original-title': 'Mark As Read', onclick: "javascript:MarkForumTopicAsRead(this, '" + item.TopicId + "')" });
             btn.html('<i class="fa fa-envelope"></i>');

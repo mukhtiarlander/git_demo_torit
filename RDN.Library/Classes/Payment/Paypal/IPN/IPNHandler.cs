@@ -56,6 +56,9 @@ namespace RDN.Library.Classes.Payment.Paypal
                 PostUrl = PaypalPayment.GetBaseUrl(isLive);
                 PaypalMessage = this.FillIPNProperties(context);
 
+                if (!String.IsNullOrEmpty(PaypalMessage.ConfigurationName))
+                    PaypalMessage.ConfigurationName = "RDN";
+
                 _configManager = new CustomConfigurationManager(PaypalMessage.ConfigurationName);
                 _emailManager = new EmailManagerApi(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
                 _paypalManager = new PaypalManagerApi(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);

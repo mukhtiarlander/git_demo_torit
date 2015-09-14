@@ -337,11 +337,14 @@ namespace RDN.League.Controllers
                 }
 
                 List<Guid> mentions = new List<Guid>();
-                string[] ids = newPost.Mentions.Split(',');
-                for (int i = 0; i < ids.Count(); i++)
+                if (!String.IsNullOrEmpty(newPost.Mentions))
                 {
-                    if (ids[i].ToString().Trim() != "")
-                        mentions.Add(new Guid(ids[i].ToString().Trim()));
+                    string[] ids = newPost.Mentions.Split(',');
+                    for (int i = 0; i < ids.Count(); i++)
+                    {
+                        if (ids[i].ToString().Trim() != "")
+                            mentions.Add(new Guid(ids[i].ToString().Trim()));
+                    }
                 }
 
                 Forum.ReplyToPost(newPost.ForumId, newPost.TopicId, newPost.Message, memId, newPost.BroadcastMessage, mentions);
@@ -479,7 +482,7 @@ namespace RDN.League.Controllers
 
                 var display = MemberCache.GetMemberDisplay(memId);
 
-                if (display.Settings.ForumDescending)
+                if (display.Settings != null && display.Settings.ForumDescending)
                     topic.Messages = topic.Messages.OrderByDescending(o => o.Created).ToList();
 
                 var isWatching = topic.Watchers.Where(x => x.MemberId == memId).FirstOrDefault();
