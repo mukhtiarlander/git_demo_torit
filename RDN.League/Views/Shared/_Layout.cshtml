@@ -93,14 +93,14 @@
             <div class="navbar-collapse animated" id="mainNavbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
+                        <a href="#">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>@*<span class="caret"></span></a>*@
+                        @*<ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Library.Classes.Config.LibraryConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
                                     <i class="fa fa-link"></i> Forum
                                 </a>
                             </li>
-                        </ul>
+                        </ul>*@
                     </li>
                     @if (isConnected)
                     {

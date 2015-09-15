@@ -16,31 +16,28 @@
 
 
 <div class="panel panel-default margin-top-20">
-    <div class="panel-heading text-right" style="background-color:#fafafa">
-        @if (Model.PreviousDueItem != 0)
-        {
-            <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/edit/" + Model.PreviousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i> Previous Due</a>
-        }
-        else
-        {
-            <a class="btn btn-default btn-sm" href="javascript: void(0)"><i class="fa fa-backward"></i> Previous Due</a>
-        }
-        @if (Model.NextDueItem != 0)
-        {
-            <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/edit/" + Model.NextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))">Next Due <i class="fa fa-forward"></i> </a>
-        }
-        else
-        {
-            <a class="btn btn-default btn-sm" href="javascript: void(0)"><i class="fa fa-forward"></i> Next Due</a>
-        }
-    </div>
+    @if (Model.PreviousDueItem != 0 || Model.NextDueItem != 0)
+    {
+        <div class="panel-heading text-right" style="background-color:#fafafa">
+            @if (Model.PreviousDueItem != 0)
+            {
+                <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/edit/" + Model.PreviousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i> Previous Due</a>
+            }
+
+            @if (Model.NextDueItem != 0)
+            {
+                <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/edit/" + Model.NextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))">Next Due <i class="fa fa-forward"></i> </a>
+            }
+
+        </div>
+    }
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-12 col-sm-6">
                 <h3 style="margin-top:5px !important"><i class="fa fa-pencil-square-o"></i> Edit Dues For @Fee.PayBy.ToLongDateString()</h3>
             </div>
             <div class="col-xs-12 col-sm-6 text-right">
-                <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i> View Item</a>
+                <a class="btn btn-default btn-sm" href="@Url.Content("~/dues/collection/" + Fee.DuesItemId + "/" + Model.DuesId.ToString().Replace("-", ""))">View Item</a>
                 <a class="btn btn-default btn-sm" title="Dues Classifications" href="@Url.Content("~/dues/classification/" + @Model.OwnerEntity + "/" + @Model.LeagueOwnerId.ToString().Replace("-", "") + "/" + @Model.DuesId.ToString().Replace("-", ""))">
                     <i class="fa fa-folder"></i> Classify
                 </a>
@@ -78,7 +75,8 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <label class="form-label">&nbsp;
+                    <label class="form-label">
+                        &nbsp;
                         @if (ViewBag.Saved)
                         {
                             <span class="addedSuccessfully">Updated Successfully!</span>
@@ -98,8 +96,8 @@
                 </div>
                 @Html.HiddenFor(x => x.DuesId)
                 @Html.Hidden("DuesItemId", Fee.DuesItemId)
-            }   
-           
+            }
+
         </div>
     </div>
     <div class="panel-body scroll-x">
@@ -144,7 +142,7 @@
                                 }
                                 else
                                 {
-                                    @Html.TextBox("due-" + Model.Members[i].MemberId, Model.Members[i].due.ToString("N2"), new { @class = "form-control input-sm", @style="width:100px;margin:0 auto" })
+                                    @Html.TextBox("due-" + Model.Members[i].MemberId, Model.Members[i].due.ToString("N2"), new { @class = "form-control input-sm", @style = "width:100px;margin:0 auto" })
                                 }
                             </td>
                             <td id="@Model.Members[i].MemberId-Collected" class="text-right vertical-middle">
@@ -166,7 +164,7 @@
                                 { }
                                 else
                                 {
-                                    <button class="btn btn-info btn-xs" id="@Model.Members[i].MemberId-button" type="button" onclick="javascript:UpdateDuesDueForMem(this,'@Model.Members[i].MemberId    ')" >Update</button>
+                                    <button class="btn btn-info btn-xs" id="@Model.Members[i].MemberId-button" type="button" onclick="javascript:UpdateDuesDueForMem(this,'@Model.Members[i].MemberId    ')">Update</button>
                                 }
                             </td>
 

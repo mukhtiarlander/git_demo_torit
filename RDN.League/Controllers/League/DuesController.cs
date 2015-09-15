@@ -195,7 +195,7 @@ namespace RDN.League.Controllers
                     SetCulture(league.CultureSelected);
 
                 var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
-                
+
                 GetNextPreviousDueItem(duesItemId, dues);
 
                 return View(dues);
@@ -218,7 +218,10 @@ namespace RDN.League.Controllers
             {
                 if (currentItemIndex == 0) //check to see its first element
                 {
-                    dues.NextDueItem = dueCollection.ElementAt(currentItemIndex + 1);
+                    if (dueCollection.Count > 1)
+                        dues.NextDueItem = dueCollection.ElementAt(currentItemIndex + 1);
+                    else
+                        dues.NextDueItem = 0;
                     dues.PreviousDueItem = 0;
                 }
                 else if (currentItemIndex != 0 && (currentItemIndex + 1 != dueCollection.Count))
@@ -272,7 +275,7 @@ namespace RDN.League.Controllers
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Success;
-                    message.Message = "Something went wrong. Please contact "+LibraryConfig.DefaultInfoEmail+" if this continues not to work.";
+                    message.Message = "Something went wrong. Please contact " + LibraryConfig.DefaultInfoEmail + " if this continues not to work.";
                     this.AddMessage(message);
                 }
                 var classification = FeeClassificationFactory.PullClassifications(new Guid(duesManagementId), memId);
@@ -411,7 +414,7 @@ namespace RDN.League.Controllers
                 var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
 
                 GetNextPreviousDueItem(duesItemId, dues);
-                
+
                 ViewBag.Saved = false;
                 return View(dues);
             }
@@ -729,7 +732,7 @@ namespace RDN.League.Controllers
                     var dues2 = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(Request.Form["DuesItemId"]), duesModel.DuesId, memberId);
                     if (dues2 != null)
                     {
-                        
+
                         PaymentGateway pg = new PaymentGateway();
 
                         var f = pg.StartInvoiceWizard()
@@ -790,7 +793,7 @@ namespace RDN.League.Controllers
             {
                 try
                 {
-                    p.Workbook.Properties.Author =LibraryConfig.WebsiteShortName;
+                    p.Workbook.Properties.Author = LibraryConfig.WebsiteShortName;
 
                     ExcelWorksheet reportSheet = p.Workbook.Worksheets.Add(Fee.PayBy.ToString("yyyy-MM-dd"));
                     reportSheet.Name = Fee.PayBy.ToString("yyyy-MM-dd"); //Setting Sheet's name

@@ -16,22 +16,25 @@
 </ol>
 
 <div class="panel panel-default margin-top-20">
-    <div class="panel-heading" style="background-color: #fafafa">
+    @if (Model.PreviousDueItem != 0 || Model.NextDueItem != 0)
+    {
+        <div class="panel-heading" style="background-color: #fafafa">
 
-        <div class="row">
-            @if (Model.NextDueItem != 0)
-            {
-                <div class="col-xs-6 pull-left">
-                    <a class="btn btn-default btn-sm " title="Previous Due" href="@Url.Content("~/dues/collection/" + Model.NextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i></a>
+            <div class="row">
+                @if (Model.NextDueItem != 0)
+                {
+                    <div class="col-xs-6 pull-left">
+                        <a class="btn btn-default btn-sm " title="Previous Due" href="@Url.Content("~/dues/collection/" + Model.NextDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-backward"></i></a>
+                    </div>
+                }
+                @if (Model.PreviousDueItem != 0)
+                { <div class="col-xs-6 text-right pull-right">
+                    <a class="btn btn-default btn-sm" title="Next Due" href="@Url.Content("~/dues/collection/" + Model.PreviousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-forward"></i></a>
                 </div>
-            }
-            @if (Model.PreviousDueItem != 0)
-            { <div class="col-xs-6 text-right pull-right">
-            <a class="btn btn-default btn-sm" title="Next Due" href="@Url.Content("~/dues/collection/" + Model.PreviousDueItem + "/" + Model.DuesId.ToString().Replace("-", ""))"><i class="fa fa-forward"></i></a>
+                }
+            </div>
         </div>
-            }
-        </div>
-    </div>
+    }
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-6">
@@ -50,7 +53,8 @@
         </div>
     </div>
     <div class="panel-heading text-right" style="background-color: #fafafa">
-        <span class="pull-left margin-top-5">Amount: <b class="font18">@Fee.CostOfDues.ToString("N2")</b>
+        <span class="pull-left margin-top-5">
+            Amount: <b class="font18">@Fee.CostOfDues.ToString("N2")</b>
         </span>
         <a class="btn btn-default btn-sm" onclick="document.getElementById('DuesReport').submit();" title="Export Report">
             <i class="fa fa-download"></i>Export
@@ -67,16 +71,21 @@
                 <tr>
                     <th></th>
                     <th>Last</th>
-                    <th>Name
+                    <th>
+                        Name
                     </th>
-                    <th class="text-right">Due
+                    <th class="text-right">
+                        Due
                     </th>
-                    <th class="text-right">Collected
+                    <th class="text-right">
+                        Collected
                     </th>
-                    <th class="text-center">Pay
+                    <th class="text-center">
+                        Pay
                     </th>
                     <th></th>
-                    <th>Email Reminder
+                    <th>
+                        Email Reminder
                     </th>
                 </tr>
             </thead>

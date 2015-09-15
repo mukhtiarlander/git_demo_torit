@@ -28,7 +28,8 @@ namespace RDN.Library.Cache
                 if (cached.Topic.TopicId == 0)
                 {
                     cached.Topic = Forum.GetForumTopic(forumId, topicId);
-                    UpdateCache(cached);
+                    if (cached != null)
+                        UpdateCache(cached);
                 }
                 return cached.Topic;
             }
@@ -45,7 +46,7 @@ namespace RDN.Library.Cache
             try
             {
                 HttpContext.Current.Cache.Remove("ForumTopicCache-" + forumId + "-" + topicId);
-                
+
             }
             catch (Exception exception)
             {

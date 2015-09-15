@@ -219,7 +219,7 @@ new { controller = "Home", action = "Error" } // Parameter defaults
                         "verifyDerbyName", // Route name
                         "{url}/{id}/{name}", // URL with parameters
                         new { controller = "Home", action = "VerifyName", name = UrlParameter.Optional },
-                new { url = "verifyname" }
+                new { url = "(verifyname|verifyderbyname)" }
                     );
 
             routes.MapRoute(

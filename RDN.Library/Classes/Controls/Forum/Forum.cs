@@ -1690,9 +1690,15 @@ namespace RDN.Library.Classes.Forum
                                 top.CategoryId = message.topic.Category.CategoryId;
                             }
                             top.ForumId = forumId;
-                            top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault();
+                            if (message.topic.Forum != null && message.topic.Forum.LeagueOwner != null)
+                                top.LastModified = (message.topic.LastModified + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0)).GetValueOrDefault();
+                            else
+                                top.LastModified = message.topic.LastModified.GetValueOrDefault();
                             top.Created = message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0);
-                            top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0));
+                            if (message.topic.Forum != null && message.topic.Forum.LeagueOwner != null)
+                                top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.topic.Created + new TimeSpan(message.topic.Forum.LeagueOwner.TimeZone, 0, 0));
+                            else
+                                top.CreatedHuman = RDN.Utilities.Dates.DateTimeExt.RelativeDateTime(message.topic.Created);
                             top.CreatedByMember = new MemberDisplayBasic();
                             top.CreatedByMember.DerbyName = message.topic.CreatedByMember.DerbyName;
                             top.CreatedByMember.DerbyNameUrl = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(message.topic.CreatedByMember.DerbyName);
