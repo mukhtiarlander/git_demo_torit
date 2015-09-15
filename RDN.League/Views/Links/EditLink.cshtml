@@ -40,14 +40,14 @@
                         <div class="col-xs-12">
                             <label class="form-label margin-top-10">Notes</label>
                             <div>
-                                @Html.TextArea("Description", Model.Notes != null ? Model.Notes.ToString() : "", new { id = "wmd-input", @class = "form-control full-width" })                                
+                                @Html.TextArea("Notes", Model.Notes != null ? Model.Notes.ToString() : "", new { id = "wmd-input", @class = "form-control full-width" })                                
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel-footer">
                     <button type="submit" class="btn btn-default btn-success" name="EditSponsor"><i class="fa fa-save"></i> Save</button>
-                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/link/all")">Cancel</a>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/links/all")">Cancel</a>
                 </div>
             </div>
               @Html.HiddenFor(models => models.LinkId)

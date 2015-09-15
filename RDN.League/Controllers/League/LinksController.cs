@@ -77,7 +77,8 @@ namespace RDN.League.Controllers.League
             return View();
         }
         
-        [HttpPost]       
+        [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddNewLink(LinkManager linkManager)
         {
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -97,7 +98,24 @@ namespace RDN.League.Controllers.League
         
         public ActionResult Delete(long id, string leagueId)
         {
-            return View();
+            try
+            {
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                if (!MemberCache.IsMemberApartOfLeague(memId, new Guid(leagueId)))
+                {
+                    return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
+                }
+
+                var Data = RDN.Library.Classes.League.Links.LinkManager.DeleteItem(id, new Guid(leagueId));
+                return Redirect(Url.Content("~/league/links/all?u=" + SiteMessagesEnum.de));
+
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+
         }
 
 
@@ -133,11 +151,12 @@ namespace RDN.League.Controllers.League
         }
 
         [HttpPost]
-        public ActionResult EditLink(FormCollection linkManager)
+        [ValidateInput(false)]
+        public ActionResult EditLink(LinkManager linkManager)
         {
             try
             {
-               // bool execute = RDN.Library.Classes.League.Links.LinkManager.EditLink(linkManager);
+                bool execute = RDN.Library.Classes.League.Links.LinkManager.EditLink(linkManager);
 
                 return Redirect(Url.Content("~/league/links/all?u=" + SiteMessagesEnum.s));
             }
