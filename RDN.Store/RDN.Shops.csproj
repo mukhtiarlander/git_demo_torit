@@ -23,7 +23,6 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -286,7 +285,6 @@
     <Content Include="Scripts\jquery.easydate.js" />
     <Content Include="Scripts\jquery.idTabs.min.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
-    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.numeric.js" />
     <Content Include="Scripts\jquery.rateit.min.js" />
     <Content Include="Scripts\jquery.timer.js" />
