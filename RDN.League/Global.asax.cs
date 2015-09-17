@@ -217,7 +217,7 @@ new { controller = "Member", action = "ChangeEmailNotificationSetting" } // Para
 "Member/ChangeForumMessageOrderSetting", // URL with parameters
 new { controller = "Member", action = "ChangeForumMessageOrderSetting" } // Parameter defaults
 );
-            
+
             routes.MapRoute(
 "MemberRetireSelf", // Route name
 "Member/RetireSelf", // URL with parameters
@@ -297,7 +297,7 @@ new { controller = "Member", action = "AddMemberContact" } // Parameter defaults
 new { controller = "Member", action = "RemoveContact" } // Parameter defaults
 );
 
-            
+
             routes.MapRoute(
 "MemberView", // Route name
 "Member/{id}/{name}", // URL with parameters
@@ -374,27 +374,27 @@ new { controller = "Game", action = "ViewGame" } // Parameter defaults
 "boutchallenge/add/request", // URL with parameters
 new { controller = "BoutChallenge", action = "BoutChallengeRequest" } // Parameter defaults
 );
-             routes.MapRoute(
+            routes.MapRoute(
 "ViewAllRequest", // Route name
 "boutchallenge/view/all", // URL with parameters
 new { controller = "BoutChallenge", action = "ViewAllBoutRequest" } // Parameter defaults
 );
-             routes.MapRoute(
+            routes.MapRoute(
 "EditRequest", // Route name
 "boutchallenge/edit/{id}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "EditBoutRequest" } // Parameter defaults
 );
-             routes.MapRoute(
+            routes.MapRoute(
 "DeleteRequest", // Route name
 "boutchallenge/delete/{id}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "DeleteBoutRequest" } // Parameter defaults
 );
-             routes.MapRoute(
+            routes.MapRoute(
 "CloseRequest", // Route name
 "boutchallenge/close/{id}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "CloseBoutRequest" } // Parameter defaults
 );
-             routes.MapRoute(
+            routes.MapRoute(
 "ViewEvent", // Route name
 "boutchallenge/view/{ChallengeId}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "ViewEvent" } // Parameter defaults
@@ -503,7 +503,7 @@ new { controller = "League", action = "DocumentSettings" } // Parameter defaults
 new { controller = "League", action = "GroupSettings" } // Parameter defaults
 );
 
-  
+
 
 
             routes.MapRoute(
@@ -535,9 +535,9 @@ new { controller = "League", action = "GroupSettings" } // Parameter defaults
             routes.MapRoute(
 "LeagueMembersRemoved", // Route name
 "league/members/view/removed", // URL with parameters
-new { controller = "League", action = "ViewMembersRemoved"} // Parameter defaults
+new { controller = "League", action = "ViewMembersRemoved" } // Parameter defaults
 );
-        
+
             routes.MapRoute(
 "LeagueMembersPermissions", // Route name
 "league/members/view/permissions", // URL with parameters
@@ -600,7 +600,7 @@ new { controller = "League", action = "EditMember", name = UrlParameter.Optional
 "league/edit/{id}", // URL with parameters
 new { controller = "League", action = "EditLeague", name = UrlParameter.Optional } // Parameter defaults
 );
-           
+
             // Task List
             routes.MapRoute(
 "NewTaskList", // Route name
@@ -716,7 +716,7 @@ new { controller = "Inventory", action = "ViewItem" } // Parameter defaults
             routes.MapRoute(
 "JobBoard", // Route name
 "league/job/add", // URL with parameters
-new { controller = "JobBoard", action = "AddJob"} // Parameter defaults
+new { controller = "JobBoard", action = "AddJob" } // Parameter defaults
 );
             routes.MapRoute(
 "JobBoardView", // Route name
@@ -756,87 +756,115 @@ new { controller = "JobBoard", action = "ViewJob" } // Parameter defaults
 
             //Sponsor for league
 
-                routes.MapRoute(
+            routes.MapRoute(
 "Sponsorship", // Route name
 "league/sponsor/add", // URL with parameters
 new { controller = "Sponsor", action = "AddNewSponsor" } // Parameter defaults
 );
-                routes.MapRoute(
+            routes.MapRoute(
 "Sponsors", // Route name
 "league/Sponsors", // URL with parameters
 new { controller = "Sponsor", action = "ViewSponsors" } // Parameter defaults
 );
-                routes.MapRoute(
+            routes.MapRoute(
 "EditSponsor", // Route name
 "league/Sponsor/edit/{id}/{leagueId}", // URL with parameters
 new { controller = "Sponsor", action = "EditSponsor" } // Parameter defaults
 );
-                 routes.MapRoute(
+            routes.MapRoute(
 "DeleteSponsor", // Route name
 "league/Sponsor/delete/{id}/{leagueId}", // URL with parameters
 new { controller = "Sponsor", action = "DeleteSponsor" } // Parameter defaults
 );
-                 routes.MapRoute(
+            routes.MapRoute(
 "SponsorDetails", // Route name
 "league/Sponsor/details/{id}/{leagueId}", // URL with parameters
 new { controller = "Sponsor", action = "ViewSponsor" } // Parameter defaults
 );
-                 routes.MapRoute(
+            routes.MapRoute(
 "UseCode", // Route name
 "league/Sponsor/UseCode/{id}/{leagueId}", // URL with parameters
 new { controller = "Sponsor", action = "UseCode" } // Parameter defaults
 );
 
-                 //Designation for league Organization
+            //Designation for league Organization
 
-                 routes.MapRoute(
-     "Designations", // Route name
-     "league/organization/designation", // URL with parameters
-     new { controller = "Organization", action = "Designation" } // Parameter defaults
-     );
-                 routes.MapRoute(
-     "AddNewDesignation", // Route name
-     "league/organization/designation/add", // URL with parameters
-     new { controller = "Organization", action = "AddForm" } // Parameter defaults
-     );
-                 routes.MapRoute(
-    "EditDesignation", // Route name
-    "league/organization/designation/edit/{id}/{leagueId}", // URL with parameters
-    new { controller = "Organization", action = "EditDesignation" } // Parameter defaults
-    ); 
-                 routes.MapRoute(
-    "DetailsDesignation", // Route name
-    "league/organization/designation/details/{id}/{leagueId}", // URL with parameters
-    new { controller = "Organization", action = "ViewDetails" } // Parameter defaults
-    );
+            routes.MapRoute(
+"Designations", // Route name
+"league/organization/designation", // URL with parameters
+new { controller = "Organization", action = "Designation" } // Parameter defaults
+);
+            routes.MapRoute(
+"AddNewDesignation", // Route name
+"league/organization/designation/add", // URL with parameters
+new { controller = "Organization", action = "AddForm" } // Parameter defaults
+);
+            routes.MapRoute(
+"EditDesignation", // Route name
+"league/organization/designation/edit/{id}/{leagueId}", // URL with parameters
+new { controller = "Organization", action = "EditDesignation" } // Parameter defaults
+);
+            routes.MapRoute(
+"DetailsDesignation", // Route name
+"league/organization/designation/details/{id}/{leagueId}", // URL with parameters
+new { controller = "Organization", action = "ViewDetails" } // Parameter defaults
+);
             //Organize For Leaue organization
 
-                routes.MapRoute(
-    "AddOrganization", // Route name
-    "league/organize/new/add", // URL with parameters
-    new { controller = "Organization", action = "AddOrganize" } // Parameter defaults
-    );
+            routes.MapRoute(
+"AddOrganization", // Route name
+"league/organize/new/add", // URL with parameters
+new { controller = "Organization", action = "AddOrganize" } // Parameter defaults
+);
 
             //Organization Chart
-                routes.MapRoute(
-    "OrganizationChart", // Route name
-    "league/organization/chart/{id}/{leagueId}", // URL with parameters
-    new { controller = "Organization", action = "OrgChart" } // Parameter defaults
-    );
+            routes.MapRoute(
+"OrganizationChart", // Route name
+"league/organization/chart/{id}/{leagueId}", // URL with parameters
+new { controller = "Organization", action = "OrgChart" } // Parameter defaults
+);
 
             //Organization 
-                routes.MapRoute(
-    "OrganizationNew", // Route name
-    "league/organization/new/{leagueId}", // URL with parameters
-    new { controller = "Organization", action = "AddOrganization" } // Parameter defaults
-    );
-                routes.MapRoute(
-    "LeagueAllOrganization", // Route name
-    "league/organization/view/all", // URL with parameters
-    new { controller = "Organization", action = "ViewAllOrganization" } // Parameter defaults
-    );
+            routes.MapRoute(
+"OrganizationNew", // Route name
+"league/organization/new/{leagueId}", // URL with parameters
+new { controller = "Organization", action = "AddOrganization" } // Parameter defaults
+);
+            routes.MapRoute(
+"LeagueAllOrganization", // Route name
+"league/organization/view/all", // URL with parameters
+new { controller = "Organization", action = "ViewAllOrganization" } // Parameter defaults
+);
 
+            routes.MapRoute(
+          "Linklist", // Route name
+          "league/links/all", // URL with parameters
+          new { controller = "Links", action = "ViewLinks" } // Parameter defaults
+          );
 
+           routes.MapRoute(
+      "AddLink", // Route name
+      "league/links/add", // URL with parameters
+      new { controller = "Links", action = "AddNewLink" } // Parameter defaults
+      );
+
+           routes.MapRoute(
+     "DeleteLink", // Route name
+     "league/links/delete/{id}/{leagueId}", // URL with parameters
+     new { controller = "Links", action = "Delete" } // Parameter defaults
+     );
+
+            routes.MapRoute(
+               "LinkView", // Route name
+               "League/Links/View/{id}/{leagueId}", // URL with parameters
+               new { controller = "Links", action = "LinkDetail" } // Parameter defaults
+               );
+
+            routes.MapRoute(
+            "LinkEdit", // Route name
+            "League/Links/Edit/{id}/{leagueId}", // URL with parameters
+            new { controller = "Links", action = "EditLink" } // Parameter defaults
+            );
 
             #endregion
 
@@ -947,7 +975,7 @@ new { controller = "Message", action = "MessageHome" } // Parameter defaults
             routes.MapRoute(
 "SaveMembersToMessage", // Route name
 "Messages/SaveMembersToMessage",
-new { controller = "Messages", action = "SaveMembersToMessage" } 
+new { controller = "Messages", action = "SaveMembersToMessage" }
 );
 
             #endregion
@@ -1050,23 +1078,23 @@ new { controller = "Calendar", action = "CalendarList", year = UrlParameter.Opti
             #endregion
 
             #region Location Routes
-                routes.MapRoute(
-                "LocationNew", // Route name
-                "Location/new/{ownerType}/{redirectto}/{id}", // URL with parameters
-                new { controller = "Location", action = "NewLocation" } // Parameter defaults
-                );
+            routes.MapRoute(
+            "LocationNew", // Route name
+            "Location/new/{ownerType}/{redirectto}/{id}", // URL with parameters
+            new { controller = "Location", action = "NewLocation" } // Parameter defaults
+            );
 
-                routes.MapRoute(
-                "LocationEdit", // Route name
-                "location/edit/{id}", // URL with parameters
-                new { controller = "Location", action = "EditLocation" } // Parameter defaults
-                );
+            routes.MapRoute(
+            "LocationEdit", // Route name
+            "location/edit/{id}", // URL with parameters
+            new { controller = "Location", action = "EditLocation" } // Parameter defaults
+            );
 
-                routes.MapRoute(
-                "LocationAll", // Route name
-                "location/all", // URL with parameters
-                new { controller = "Location", action = "AllLocations" } // Parameter defaults
-                );
+            routes.MapRoute(
+            "LocationAll", // Route name
+            "location/all", // URL with parameters
+            new { controller = "Location", action = "AllLocations" } // Parameter defaults
+            );
             #endregion
 
             #region Forum Routes
@@ -1129,7 +1157,7 @@ new { controller = "Forum", action = "GetLikeCount" } // Parameter defaults
 new { controller = "Forum", action = "GetIAgreeCount" } // Parameter defaults
 );
 
-            
+
             #endregion
 
             #region Voting
@@ -1276,7 +1304,7 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
                 AreaRegistration.RegisterAllAreas();
 
                 RegisterGlobalFilters(GlobalFilters.Filters);
-                RegisterRoutes(RouteTable.Routes);                
+                RegisterRoutes(RouteTable.Routes);
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
 

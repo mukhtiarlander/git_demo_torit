@@ -1,0 +1,77 @@
+﻿@model RDN.Library.Classes.League.Links.LinkManager
+@{
+    ViewBag.Title = "Edit Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();   
+    
+}
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/link/all")">Links</a></li>
+    <li class="active">Edit Link</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("EditLink", "Links", FormMethod.Post, new { @id = "EditLink" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.Link</h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-right">
+                            <a class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?')" title="Delete Link Item" href="@Url.Content("~/league/links/delete/" + Model.LinkId + "/" + Model.LinksForLeague.ToString().Replace("-", ""))">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-muted"> Edit item in the leagues links.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Link URL</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.Link, new { @type = "text", @class = "form-control", })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Notes</label>
+                            <div>
+                                @Html.TextArea("Notes", Model.Notes != null ? Model.Notes.ToString() : "", new { id = "wmd-input", @class = "form-control full-width" })                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="EditSponsor"><i class="fa fa-save"></i> Save</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/links/all")">Cancel</a>
+                </div>
+            </div>
+              @Html.HiddenFor(models => models.LinkId)
+              @Html.HiddenFor(models => models.LinksForLeague)
+              @Html.HiddenFor(models => models.LinksAddByMember)
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#EditLink").validate({
+        rules: {
+            Link: "required"
+        }
+    });
+
+    $(function () {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+        });
+    });
+
+</script>

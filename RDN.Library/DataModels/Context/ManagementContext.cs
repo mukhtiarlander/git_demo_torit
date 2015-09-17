@@ -45,6 +45,7 @@ using RDN.Library.DataModels.Social;
 using RDN.Library.DataModels.Controls.Forum;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using RDN.Library.DataModels.League.Links;
 
 namespace RDN.Library.DataModels.Context
 {

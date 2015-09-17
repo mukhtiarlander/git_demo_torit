@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 @using StackExchange.Profiling;
 <head runat="server">
@@ -10,87 +10,27 @@
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefaultStore
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefaultStore 
         }
     </title>
-    <link href="@Url.Content("~/Content/main.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/font-awesome.css")" rel="stylesheet" type="text/css" />
-
-    <link rel="apple-touch-icon" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon" sizes="72x72" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon" sizes="144x144" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon-precomposed" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-</head>
-<body id="navbar-theme" class="Orange">
-    <div class="navbar  navbar-inverse navbar-fixed-top yamm" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>*@
-                <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
-                <a class="navbar-brand no-padding" href="@Url.Content("~/")">
-                    <img alt="Brand" style="height:50px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
-                </a>
-            </div>
-            <div class="navbar-collapse animated" id="mainNavbar">
-                <ul class="nav navbar-nav">
-                    @Html.Partial("_PartialUpperLinks")
-                </ul>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input id="search" type="text" class="form-control" placeholder="Search" />
-                    </div>
-                </form>
-                <ul class="nav navbar-nav navbar-right" >
-                    @Html.Partial("_PartialLoginLinks")
-                    <a class="btn btn-warning btn-sm btn-cart pull-right margin-top-10 margin-left-15" href="@Url.Content("~/cart")"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm">Cart</span> <span class="cart-count">@HttpContext.Current.Session["cartCount"].ToString()</span></a>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="nav-spacer"></div>
-    <div class="container padding-top-20">
-        @RenderBody()
-    </div>
-    <a href="#" class="scrollup" style="display: none;">Scroll</a>
-    <div id="feedback_tab" style="">
-        <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
-            <i class="fa fa-envelope-o"></i> Contact
-        </a>
-        <a href="@RDN.Library.Classes.Config.LibraryConfig.SupportSite" target="_blank">
-            <i class="fa fa-question-circle"></i> Support
-        </a>
-    </div>
-    @MiniProfiler.RenderIncludes()
-    
-  
-    <div class="footer">
-        @Html.Partial("_PartialFooter")
-    </div>
-
-
-    <script src="@Url.Content("~/Scripts/jquery-1.11.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/main.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/Sites/rdnation.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/masonry/imagesloaded.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/masonry/masonry.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/Site.css?v=" + RDN.Library.Classes.Config.LibraryConfig.CSS_VERSION)" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/main.js?v=" + RDN.Library.Classes.Config.LibraryConfig.JS_VERSION)" type="text/javascript"></script>
+    <link rel="apple-touch-icon" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("~/Content/logo.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("~/Content/logo.png")" />
+                    <img alt="Brand" style="height:50px" src="@Url.Content("~/Content/logo.png")" />
     <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.numeric.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.highlight-4.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.rateit.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
     <script type="text/javascript">
 
         var _gaq = _gaq || [];
@@ -103,22 +43,83 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
-        $(document).ready(function () {
-            AddSiteMapNode(location.href, true);
 
+    </script>
+    <link rel="apple-touch-icon" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon-precomposed" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+</head>
+<body>
+    <div id="fb-root">
+    </div>
+    <script type="text/javascript">
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+    </script>
+    <div class="mainContent">
+        <div class="header">
+        </div>
+        <div class="hTitle">
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteName
+        </div>
+        <div class="hDescription">
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteSloganDefault
+        </div>
+         
+        <div class="hLogo">
+            <a href="@Url.Content("~/")">
+                <img class="hLogoImg" alt="logo" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" /></a>
+        </div>
+        @*<div>Guaranteed to make your fans and team happier.</div>*@
+        <div class="hFBLike">
+            <div class="fb-like-box" data-href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl" data-width="292"
+                data-colorscheme="dark" data-show-faces="false" data-stream="false" data-header="false">
+            </div>
+        </div>
+         @if (DateTime.UtcNow < new DateTime(2014, 1, 1))
+         { 
+        <div class="smallAd"><a target="_blank" href="https://www.2n1skateshoppe.com/"><img height="90px" src="@Url.Content("~/Content/ads/2n1.png")" /></a></div>
+         }
+        @Html.Partial("_PartialUpperLinks")
+        @Html.Partial("_PartialLoginLinks")
+        <div class="searchBar">
+            <span>Search</span>
+            <input type="text" id="search" placeholder="Search For Store Items" />
+        </div>
+        <div class="cartBar">
+            <span><a href="@Url.Content("~/cart")">Cart (@HttpContext.Current.Session["cartCount"].ToString())</a></span>
+
+        </div>
+        <div class="middleCont">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="footer">
+        @Html.Partial("_PartialFooter")
+    </div>
+    <script type="text/JavaScript">
+        AddSiteMapNode(location.href, true);
+        $(document).ready(function () {
             var inp = $("input")[0];
             inp.addEventListener("input", function () {
                 searchStoreItems(this);
             }, false);
-            $('.shop-grid').masonry({
-                itemSelector: '.shop-grid-item',
-                percentPosition: true,
-            });
-            $('.shop-grid').imagesLoaded().progress(function () {
-                $('.shop-grid').masonry();
-            });
         });
-          
     </script>
+    <a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=Shop Feedback"
+        target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>
+   
+@MiniProfiler.RenderIncludes()
 </body>
 </html>

@@ -78,14 +78,15 @@
         }
     }
     this.ArchiveDocument = function () {
+        var message = Archived == true ? "un-archive" : "archive";
         var docs = thisViewModel.documentId.split(',');
-        var msg = docs.length > 1 ? 'Are you sure you want to archive ' + docs.length + ' documents?' : 'Are you sure you want to archive this document?';
+        var msg = docs.length > 1 ? 'Are you sure you want to ' + message + ' ' + docs.length + ' documents?' : 'Are you sure you want to ' + message + ' this document?';
         if (confirm(msg)) {
             var owner = $("#OwnerId");
             $.getJSON("/document/ArchiveDocument", { ownerId: owner.val(), doc: thisViewModel.documentId, isArchived: Archived }, function (result) {
                 if (result.isSuccess === true) {
                     $('.bottom-right').notify({
-                        message: { text: 'Archived Successfully' },
+                        message: { text: !Archived ? 'Archived Successfully' : 'Un-archived Successfully' },
                         fadeOut: { enabled: true, delay: 4000 },
                         type: "success"
                     }).show();
@@ -182,13 +183,6 @@
             });
         }
     };
-    var delay = (function () {
-        var timer = 0;
-        return function (callback, ms) {
-            clearTimeout(timer);
-            timer = setTimeout(callback, ms);
-        };
-    })();
 
     var lastSearch = "";
     var lastArchiveState = false;
@@ -201,42 +195,36 @@
         if (typeof isArchived === "undefined" || isArchived === null) {
             isArchived = Archived;
         }
-        if (lastSearch == box.val().trim() && lastArchiveState == isArchived) {
+        if (IsOnKeyPress && lastSearch == box.val().trim() && lastArchiveState == isArchived) {
             return;
         }
-        var waitTime = 0;
-        if (IsOnKeyPress)
-            waitTime = 2000;
-        delay(function () {
-            Archived = isArchived;
-            lastArchiveState = Archived;
-            var gId = getParameterByName('g');
-            var fId = getParameterByName('f');
-            var owner = $("#OwnerId");
-            ;
-            var tableBody = $("#documentsBody");
-            $("#loading").toggleClass("displayNone", false);
-            var url = "";
-            if (!isDeepSearch)
-                url = "/document/SeachByDocumentName";
-            else
-                url = "/document/FullTextSearchLeague";
-            $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId, isArchived: Archived }, function (result) {
-                $("#loading").toggleClass("displayNone", true);
-                if (result.isSuccess === true) {
-                    tableBody.html("");
-                    $.each(result.results, function (i, item) {
-                        League.DisplayDocumentRow(result, tableBody, item);
-                    });
-                    League.SetUpDocumentsSection();
-                    lastSearch = box.val().trim();
-                } else {
-                }
-            }).error(function () {
-                $("#loading").toggleClass("displayNone", true);
-            });
-        }, waitTime);
-
+        Archived = isArchived;
+        lastArchiveState = Archived;
+        var gId = getParameterByName('g');
+        var fId = getParameterByName('f');
+        var owner = $("#OwnerId");
+        ;
+        var tableBody = $("#documentsBody");
+        $("#loading").toggleClass("displayNone", false);
+        var url = "";
+        if (!isDeepSearch)
+            url = "/document/SeachByDocumentName";
+        else
+            url = "/document/FullTextSearchLeague";
+        $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId, isArchived: Archived }, function (result) {
+            $("#loading").toggleClass("displayNone", true);
+            if (result.isSuccess === true) {
+                tableBody.html("");
+                $.each(result.results, function (i, item) {
+                    League.DisplayDocumentRow(result, tableBody, item);
+                });
+                League.SetUpDocumentsSection();
+                lastSearch = box.val().trim();
+            } else {
+            }
+        }).error(function () {
+            $("#loading").toggleClass("displayNone", true);
+        });
     };
 
     this.DisplayArchivedDocuments = function (button) {
