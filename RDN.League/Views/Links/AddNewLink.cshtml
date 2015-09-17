@@ -1,0 +1,67 @@
+﻿@model RDN.Library.Classes.League.Links.LinkManager
+
+@{
+    ViewBag.Title = "Add New Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+}
+
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/links/all")">Links</a></li>
+    <li class="active">Add New Item</li>
+</ol>
+
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("AddNewLink", "Links", FormMethod.Post, new { @id = "AddNewLink" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> Add New Item</h3>
+                    <div class="text-muted"> Add a new link to the  League Links.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Link URL</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.Link, new { @type = "text", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Notes</label>
+                            <div>
+                               @Html.TextArea("Notes", string.Empty, new { @class = "form-control full-width" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="AddNewLink"><i class="fa fa-save"></i> Add Link</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/links/all")">Cancel</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $("#AddNewLink").validate({
+        rules: {
+            Link: "required"         
+        }
+    });
+
+    $(function () {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+        });
+    });
+
+</script>
