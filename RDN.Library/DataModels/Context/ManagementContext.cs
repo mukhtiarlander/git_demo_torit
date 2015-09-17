@@ -88,6 +88,8 @@ namespace RDN.Library.DataModels.Context
         public DbSet<RefereeRequest> Requests { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<Links> Links { get; set; }
+
         // **************** Document management **************** \\     
         public DbSet<DataModels.Document.Document> Documents { get; set; }
 
