@@ -14,9 +14,9 @@
             <div class="panel-heading">
                 <h3 class="margin-bottom-15 margin-top-5"><i class="fa fa-key"></i> Retire profile of @Model.DerbyName</h3>
             </div>
-            @using (Html.BeginForm("RetireProfile", "Member", FormMethod.Post))
-            {
-                <div class="panel-body">
+           @* @using (Html.BeginForm("RetireProfile", "Member", FormMethod.Post))
+            {*@
+            <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
                             <label class="form-label">
@@ -26,13 +26,23 @@
                     </div>
                 </div>
                 <div class="panel-footer text-center">					
-					<br/>
-                    <button type="submit" name="ChangePassword" class="btn btn-success"><i class="fa fa-save"></i> Retire Your Profile</button>
+					<br/>                  
+
+                     <a class="btn btn-xs btn-danger btnRetireYourProfile"  title="Retire Your Profile">
+                                            <i class="fa fa-trash"></i> Retire Your Profile
+                                        </a>
+
                 </div>
                 @Html.HiddenFor(x => x.MemberId)
                 @Html.HiddenFor(x => x.UserId)
                 @Html.HiddenFor(x => x.DerbyName)
-            }
+            @*}*@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.btnRetireYourProfile').btsConfirmButton({ msg: "Confirm" }, Member.RetireYourProfile);
+    });
+</script>

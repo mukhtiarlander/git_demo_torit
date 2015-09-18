@@ -792,6 +792,23 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+       
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true)]
+        public ActionResult RetireProfile()
+        {
+            try
+            {
+                Guid memberId = RDN.Library.Classes.Account.User.GetMemberId();
 
+                var mem = RDN.Library.Cache.MemberCache.GetMemberDisplay(memberId);
+                return View(mem);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+        }
     }
 }

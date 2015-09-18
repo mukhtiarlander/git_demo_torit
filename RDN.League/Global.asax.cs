@@ -206,6 +206,14 @@ new { controller = "Scoreboard", action = "ManageGame", id = UrlParameter.Option
             #endregion
 
             #region MemberRoutes
+
+            routes.MapRoute(
+        "RetireProfile", // Route name
+        "member/retireprofile", // URL with parameters
+        new { controller = "Member", action = "RetireProfile" } // Parameter defaults
+        );
+
+
             routes.MapRoute(
 "ChangeEmailNotificationSetting", // Route name
 "Member/ChangeEmailNotificationSetting", // URL with parameters
@@ -304,8 +312,7 @@ new { controller = "Member", action = "RemoveContact" } // Parameter defaults
 new { controller = "Member", action = "ViewMember", name = UrlParameter.Optional } // Parameter defaults
 );
 
-
-
+          
             #endregion
 
             #region GameAndTournamentRoutes
