@@ -106,7 +106,7 @@
                         if (addMarkers) {
                             var i = 0;
                             ko.utils.arrayForEach(thisViewModel.Events(), function (entry) {
-                                CreateMarkerForEvent(entry.Latitude, entry.Longitude, entry, i + 1);
+                                CreateMarkerForEvent(entry.Longitude,entry.Latitude, entry, i + 1);
                             });
                         }
                         thisViewModel.page(thisViewModel.page() + 1);
