@@ -29,6 +29,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -467,6 +468,8 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\knockout-3.2.0.js" />
     <Content Include="Scripts\knockout.mapping-2.4.1.js" />
+    <Content Include="Scripts\masonry\imagesloaded.min.js" />
+    <Content Include="Scripts\masonry\masonry.min.js" />
     <Content Include="Scripts\menucool.js" />
     <Content Include="Scripts\FullCalendar\fullcalendar.js" />
     <Content Include="Scripts\FullCalendar\fullcalendar.min.js" />
