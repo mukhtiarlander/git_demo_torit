@@ -183,6 +183,8 @@ namespace RDN.Library.Classes.League.Classes
                         return MimeType.xps;
                     case ".gform":
                         return MimeType.gform;
+                    case ".vsd":
+                        return MimeType.vsd;
                     default:
                         {
                             ErrorDatabaseManager.AddException(new Exception("Mime Type Not Found: " + fi.Extension + ":" + docName), new Exception().GetType());
