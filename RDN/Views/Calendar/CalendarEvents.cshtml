@@ -16,30 +16,30 @@
     <a class="btn btn-success" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Add Event</a>
 </div>
 
-<div data-bind="foreach: Events">
-    <div class="col-sm-4 col-md-3">
-        <div class="thumbnail">
-            <a data-bind=" attr: {href: LogoUrl}">
-                <img style="max-height:200px" alt="" data-bind="attr:{ src: LogoUrl}" />
+<div id="event-grid" data-bind="foreach: Events">
+    <div  class="col-sm-4 col-md-3 col-lg-2 event-grid-item">
+        <div class="thumbnail bg-lighter">
+            <a data-bind=" attr: {href: NameUrl}">
+                <img alt="" data-bind="attr:{ src: LogoUrl}" />
             </a>
             <div class="caption">
                 <h4 class=" text-center">
-                    <a data-bind=" attr: {href: NameUrl}">
+                    <a data-bind=" attr: {href: NameUrl}" class="fs14">
                         <span data-bind="text: Name "></span>
                     </a>
                 </h4>
-                <div class="row text-center">
-                    <small>
-                        <span class="" data-bind="text: DateTimeHuman"></span>
+                <div class="text-center">
+                    <small class="fs11 text-muted">
+                       <i class="fa fa-calendar"></i> <span class="" data-bind="text: DateTimeHuman"></span>
                     </small>
                 </div>
-                <div class="row text-center" data-bind="if:Address">
-                    <small>
-                        <span class="" data-bind="text: Address "></span>
+                <div class="text-center" data-bind="if:Address">
+                    <small class="text-muted fs11">
+                       <i class="fa fa-map-marker"></i> <span  data-bind="text: Address "></span>
                     </small>
                 </div>
-                <div data-bind="if: TicketUrl" class=" row text-center">
-                    <a data-bind="attr:{href:TicketUrl}" target="_blank" class="btn btn-primary btn-sm ">Find Tickets</a>
+                <div data-bind="if: TicketUrl" class="text-center fs11 text-muted">
+                    <a data-bind="attr:{href:TicketUrl}" target="_blank" class="btn btn-primary btn-sm">Find Tickets</a>
                 </div>
             </div>
         </div>
@@ -61,5 +61,7 @@
             var w = $("#mapDiv").width();
             $("#mapDiv").css("height", w * 3 / 4);
         });
+
+       
     });
 </script>

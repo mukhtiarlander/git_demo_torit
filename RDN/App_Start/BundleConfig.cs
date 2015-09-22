@@ -23,8 +23,10 @@ namespace RDN
                         "~/Scripts/menucool.js",
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
                         "~/Scripts/FullCalendar/gcal.js",
-                        "~/Scripts/Utilities/Countdown.js"
-                        ));
+                        "~/Scripts/Utilities/Countdown.js",
+                        "~/Scripts/masonry/imagesloaded.min.js",
+                        "~/Scripts/masonry/masonry.min.js"
+                    ));
 
             bundles.Add(new ScriptBundle("~/bundles/viewmodels").Include(
                 "~/scripts/OpenLayers.js",

@@ -25,36 +25,35 @@
                         Current Status
                     </div>
                     <div class="panel-body font20">
-                       <b>@EnumExt.ToFreindlyName(Model.MembershipStatus)</b>
+                        <b>@EnumExt.ToFreindlyName(Model.MembershipStatus)</b>
                     </div>
                     <div class="panel-footer">
                         <a class="btn btn-primary btn-sm" href="@Url.Content("~/billing/league/addsubscription/" + Model.LeagueId.ToString().Replace("-", ""))">Add To Your Subscription</a>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-lg-3">
-                <div class="panel panel-primary text-center">
-                    <div class="panel-heading">
-                        Expires
-                    </div>
-                    <div class="panel-body font20">
-                        <b>
-                            @if (Model.Expires.ToShortDateString() != "1/1/0001")
-                            {
+            @if (Model.Expires != DateTime.MinValue)
+            {
+                <div class="col-xs-12 col-sm-6 col-lg-3">
+                    <div class="panel panel-primary text-center">
+                        <div class="panel-heading">
+                            Expires
+                        </div>
+                        <div class="panel-body font20">
+                            <b>
                                 @Model.Expires.ToShortDateString()
-                            }
-                        </b>
-                    </div>
-                    <div class="panel-footer">
+                            </b>
+                        </div>
+                        <div class="panel-footer">
 
-                        @if (Model.Expires > DateTime.UtcNow)
-                        {
-                            <a class="btn btn-primary btn-sm" href="@Url.Content("~/billing/league/update/" + Model.LeagueId.ToString().Replace("-", ""))">Update Subscription Information</a>
-                        }
+                            @if (Model.Expires > DateTime.UtcNow)
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Content("~/billing/league/update/" + Model.LeagueId.ToString().Replace("-", ""))">Update Subscription Information</a>
+                            }
+                        </div>
                     </div>
                 </div>
-
-            </div>
+            }
             <div class="col-xs-12 col-sm-6 col-lg-3">
                 <div class="panel panel-primary text-center">
                     <div class="panel-heading">
@@ -66,6 +65,10 @@
                             {
                                 @Model.LastBilledOn.ToShortDateString()
                             }
+                            else
+                            {
+                                <text> NONE </text>
+                            }
                         </b>
                     </div>
                     <div class="panel-footer">
@@ -73,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-lg-3" >
+            <div class="col-xs-12 col-sm-6 col-lg-3">
                 <div class="panel panel-primary text-center">
                     <div class="panel-heading">
                         Auto Renewal
@@ -92,9 +95,9 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
-    <div class="panel-body no-padding-bottom">   
+    <div class="panel-body no-padding-bottom">
         <h3 class="margin-bottom-15">What You Are Getting? </h3>
         <table id="tbl_subscribtions" class="table table-striped table-hover table-condensedas">
             <tr>

@@ -206,6 +206,14 @@ new { controller = "Scoreboard", action = "ManageGame", id = UrlParameter.Option
             #endregion
 
             #region MemberRoutes
+
+            routes.MapRoute(
+        "RetireProfile", // Route name
+        "member/retireprofile", // URL with parameters
+        new { controller = "Member", action = "RetireProfile" } // Parameter defaults
+        );
+
+
             routes.MapRoute(
 "ChangeEmailNotificationSetting", // Route name
 "Member/ChangeEmailNotificationSetting", // URL with parameters
@@ -304,8 +312,7 @@ new { controller = "Member", action = "RemoveContact" } // Parameter defaults
 new { controller = "Member", action = "ViewMember", name = UrlParameter.Optional } // Parameter defaults
 );
 
-
-
+          
             #endregion
 
             #region GameAndTournamentRoutes
@@ -836,6 +843,35 @@ new { controller = "Sponsor", action = "UseCode" } // Parameter defaults
     new { controller = "Organization", action = "ViewAllOrganization" } // Parameter defaults
     );
 
+                routes.MapRoute(
+             "Linklist", // Route name
+             "league/links/all", // URL with parameters
+             new { controller = "Links", action = "ViewLinks" } // Parameter defaults
+             );
+
+                routes.MapRoute(
+           "AddLink", // Route name
+           "league/links/add", // URL with parameters
+           new { controller = "Links", action = "AddNewLink" } // Parameter defaults
+           );
+
+                routes.MapRoute(
+          "DeleteLink", // Route name
+          "league/links/delete/{id}/{leagueId}", // URL with parameters
+          new { controller = "Links", action = "Delete" } // Parameter defaults
+          );
+
+                routes.MapRoute(
+                   "LinkView", // Route name
+                   "League/Links/View/{id}/{leagueId}", // URL with parameters
+                   new { controller = "Links", action = "LinkDetail" } // Parameter defaults
+                   );
+
+                routes.MapRoute(
+                "LinkEdit", // Route name
+                "League/Links/Edit/{id}/{leagueId}", // URL with parameters
+                new { controller = "Links", action = "EditLink" } // Parameter defaults
+                );
 
 
             #endregion

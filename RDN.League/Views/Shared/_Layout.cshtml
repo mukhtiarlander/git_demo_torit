@@ -18,7 +18,7 @@
     var storeItems = SiteCache.GetRandomPublishedStoreItems(4);
     var leagueId = MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "");
     var leaguethemecolor = MemberCache.GetLeagueThemeColor(MemberCache.GetLeagueIdOfMember(memId));
-
+   
     int games_cnt = 0;
     if (ManagementCache.GetBoutChallengesCount() > 0)
     {
@@ -327,6 +327,13 @@
                                                 </li>
                                             }
 
+                                            <li>
+                                                <a href="@Url.Content("~/league/links/all")" title="Links">
+                                                    <i class="fa fa-external-link"></i> Links
+
+                                                </a>
+                                            </li>
+
                                         </ul>
                                     </div>
                                     <div class="col-sm-4 no-padding">
@@ -479,6 +486,10 @@
                                     <i class="fa fa-question-circle"></i> Help
                                 </a>
                             </li>
+                            @if (!member.IsRetired)
+                            {
+                            <li><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-trash"></i> Retire Your Profile</a></li>
+                            }
                         </ul>
                     </li>
 
