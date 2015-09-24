@@ -504,6 +504,11 @@ new { controller = "League", action = "DocumentSettings" } // Parameter defaults
        new { controller = "League", action = "GroupsAdd" } // Parameter defaults
    );
 
+			routes.MapRoute(
+	  "LeagueGroupsEdit", // Route name
+	  "league/groups/edit", // URL with parameters
+	  new { controller = "League", action = "GroupsEditAll" } // Parameter defaults
+	);
             routes.MapRoute(
 "LeagueGroupsSettings", // Route name
 "league/groups/settings/{id}", // URL with parameters
