@@ -4,183 +4,172 @@
     ViewBag.Title = "Request Details";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
-
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/officiating-requests/view/all")">All Requests</a>
-        </div>
-    </div>
-       <div class="tvChanges">
-            <div class="navIcons">
-                <a title="Contact" href="@Model.UrlToContact">
-                    <img  src="@Url.Content("~/Content/images/icons/contact.png")"  />Contact
-                </a>
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/officiating-requests/view/all")">Contacts</a></li>
+    <li class="active">Officiating Request Details</li>
+</ol>
+<div class="row margin-bottom-10">
+    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-7">
+                        <h3 class="margin-top-10"><i class="fa fa-ticket"></i> Officiating Request Details</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 text-right">
+                        <a class="btn btn-default btn-sm margin-top-5" href="@Model.UrlToContact">
+                            <i class="fa fa-envelope"></i> Contact
+                        </a>
+                        <a class="btn btn-default btn-sm margin-top-5" href="@Model.UrlToRequest"><i class="fa fa-plus"></i> Add New Request</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle c" >
-            
-            Officiating Request Details
-        </div>
-
-        <div class="titleDescription">
-        </div>
-        <div class="divider"></div>
-
-        <div>
-            <table class="addForumPostTbl">
-                <tr>
-                    <td class="b alRight">Teams Playing:
-                    </td>
-                    <td class="vRTD">
-                        @Model.TeamsPlaying
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Date:
-                    </td>
-                    <td class="vRTD">
-                        @Model.Date.Value.ToShortDateString()
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">First Whistle:
-                    </td>
-                    <td class="vRTD">
-                        @Model.FirstWhistle
-
-                    </td>
-                </tr>
-                 <tr>
-                    <td class="b alRight">Location Name:
-                    </td>
-                    <td class="vRTD">
-                        @Model.LocationName
-                    </td>
-                </tr>
-
-                <tr>
-
-                    <td></td>
-                    <td  class="vRTD">
-                        @if (!String.IsNullOrEmpty(Model.Address))
-                        {
+            <div class="panel-body no-padding-bottom">
+                <div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>Teams Playing:</label>
                             <div>
-                                @Model.Address
+                                @Model.TeamsPlaying
                             </div>
-                        }
-                        @if (!String.IsNullOrEmpty(Model.Address1))
-                        { <div>
-                            @Model.Address1
                         </div>
-                        }
-                        <div>
-                            @if (!String.IsNullOrEmpty(Model.City))
-                            { 
-                                @Model.City<span>,</span>
-                            }
-                            @if (!String.IsNullOrEmpty(Model.State))
-                            { 
-                                @Model.State<span> </span>
-                            }
-                            @if (!String.IsNullOrEmpty(Model.Zip))
-                            { 
-                                @Model.Zip
-                            }
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>Date:</label>
+                            <div>
+                                @Model.Date.Value.ToShortDateString()
+                            </div>
                         </div>
-
-                        @if (!String.IsNullOrEmpty(Model.Country))
-                        {<div>
-                            @Model.Country
-                        </div> 
-                        }
-                        <span class="evMap"><a href="http://www.bing.com/maps/default.aspx?q=@Model.Address+@Model.Address1,+@Model.City,+@Model.State+@Model.Zip+@Model.Country" target="_blank">View Map</a></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Is Regulation:
-                    </td>
-                    <td class="vRTD">
-                        <label>@Html.CheckBox("IsRegulation", Model.IsRegulation, new { @disabled = "disabled" })</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Evaluations Provided:
-                    </td>
-                    <td class="vRTD">
-                        <label>@Html.CheckBox("Evaluation", Model.EvaluationsProvided, new { @disabled = "disabled" })</label>
-                    </td>
-                </tr>
-               
-                <tr>
-                    <td class="b alRight">Snacks Provided?:
-                    </td>
-                    <td class="vRTD">
-                        <label>@Html.CheckBox("IsSnacksProvided", Model.IsSnacksProvided, new { @disabled = "disabled" }) </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Referees needed?:
-                    </td>
-                    <td class="vRTD">
-                        @Model.NoRefNeded
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Non Officials needed?:
-                    </td>
-                    <td class="vRTD">
-                        @Model.NonsoNeded
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Reimbursement?:
-                    </td>
-                    <td class="vRTD">
-                        <label>@Html.CheckBox("IsReimbursement", Model.IsReimbursement, new { @disabled = "disabled" })</label>
-                    </td>
-                </tr>
-                  <tr>
-                    <td class="b alRight">Stipend for Refs:
-                    </td>
-                    <td class="vRTD">
-                        @Model.TravelStipendForRefs
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Stipend for NSOs:</td>
-                    <td class="vRTD">
-                        @Model.TravelStipendForNSO
-                    </td>
-                </tr>
-
-              
-                <tr>
-                    <td class="b alRight">Select Rule Set:
-                    </td>
-                    <td class="vRTD">
-                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Description:
-                    </td>
-                    <td class="Details" style="width: 400px; max-width: 400px;">
-                        @Html.Raw(Model.Description)
-                    </td>
-                </tr>
-
-
-            </table>
-
-            <br /><br />
-
-            <div class="center">
-                <a href="@Model.UrlToRequest">Add New Request</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>First Whistle:</label>
+                            <div>
+                                @Model.FirstWhistle
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label> Location Name:</label>
+                            <div>
+                                @Model.LocationName
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>Adress:</label>
+                            <div>
+                                @Model.LocationName
+                                @if (!String.IsNullOrEmpty(Model.Address))
+                                {
+                                <div>
+                                    @Model.Address
+                                </div>
+                                }
+                                @if (!String.IsNullOrEmpty(Model.Address1))
+                                { <div>
+                                    @Model.Address1
+                                </div>
+                                }
+                                <div>
+                                    @if (!String.IsNullOrEmpty(Model.City))
+                                    {
+                                    @Model.City<span>,</span>
+                                    }
+                                    @if (!String.IsNullOrEmpty(Model.State))
+                                    {
+                                    @Model.State<span> </span>
+                                    }
+                                    @if (!String.IsNullOrEmpty(Model.Zip))
+                                    {
+                                    @Model.Zip
+                                    }
+                                </div>
+                                <div>
+                                    @if (!String.IsNullOrEmpty(Model.Country))
+                                    {
+                                    @Model.Country
+                                    }
+                                    <a class="btn btn-xs btn-default margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@Model.Address+@Model.Address1,+@Model.City,+@Model.State+@Model.Zip+@Model.Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10">
+                            <label>
+                                Is Regulation: @Html.CheckBox("IsRegulation", Model.IsRegulation, new { @disabled = "disabled" })
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10">
+                            <label>
+                                Evaluations Provided: @Html.CheckBox("Evaluation", Model.EvaluationsProvided, new { @disabled = "disabled" })
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10">
+                            <label>
+                                Snacks Provided?: @Html.CheckBox("IsSnacksProvided", Model.IsSnacksProvided, new { @disabled = "disabled" })
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-10">
+                            <label>
+                                Reimbursement?: @Html.CheckBox("IsReimbursement", Model.IsReimbursement, new { @disabled = "disabled" })
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Referees needed?:
+                            </label>
+                            <div>
+                                @Model.NoRefNeded
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Non Officials needed?:
+                            </label>
+                            <div>
+                                @Model.NonsoNeded
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Stipend for Refs:
+                            </label>
+                            <div>
+                                @Model.TravelStipendForRefs
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Stipend for NSOs:
+                            </label>
+                            <div>
+                                @Model.TravelStipendForNSO
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Select Rule Set:
+                            </label>
+                            <div>
+                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Description:
+                            </label>
+                            <div>
+                                @Html.Raw(Model.Description)
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
