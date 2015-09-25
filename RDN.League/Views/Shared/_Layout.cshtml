@@ -78,12 +78,7 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
+              
                 <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
                 <a class="navbar-brand" href="@Url.Content("~/")">
                     <img alt="Brand" style="height:50px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
@@ -94,13 +89,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>@*<span class="caret"></span></a>*@
-                        @*<ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Library.Classes.Config.LibraryConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
-                                    <i class="fa fa-link"></i> Forum
-                                </a>
-                            </li>
-                        </ul>*@
+                       
                     </li>
                     @if (isConnected)
                     {
@@ -497,12 +486,12 @@
             </div>
         </div>
     </div>
-    <div class="nav-spacer"></div>
+   <div class="nav-spacer"></div>
     @RenderSection("SecondNav", required: false)
 
     <div class="container">
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
-    </div>
+    </div>*@
     <div class="container">
         @RenderBody()
     </div>

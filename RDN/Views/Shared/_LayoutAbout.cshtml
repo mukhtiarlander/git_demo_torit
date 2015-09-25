@@ -5,13 +5,14 @@
     {
         store = RDN.Library.Cache.SiteCache.GetRandomPublishedStoreItems(3);
     }
-    else { 
+    else
+    {
         store = RDN.Library.Cache.SiteCache.GetRandomPublishedStoreItems(3, new Guid(ViewData["merchantId"].ToString()));
     }
 }
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    @using StackExchange.Profiling;
+@using StackExchange.Profiling;
 <head runat="server">
     <title>
         @if (ViewBag.Title == null)
@@ -21,7 +22,7 @@
         else
         {    @ViewBag.Title
             @Html.Raw(" - ")
-            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault 
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault
         }
     </title>
     @System.Web.Optimization.Styles.Render("~/Content/css")
@@ -56,76 +57,89 @@
 <body>
     <div id="fb-root">
     </div>
-    <script>        (function (d, s, id) {
+    <script>
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
             js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=159367097423747";
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div class="mainContent">
-        <div class="header">
+   <div class="header">
         </div>
+        
         <div class="hTitle">
-           @RDN.Library.Classes.Config.LibraryConfig.WebsiteName
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteName
         </div>
         <div class="hDescription">
             @RDN.Library.Classes.Config.LibraryConfig.WebsiteSloganDefault
         </div>
-          @if (DateTime.UtcNow < new DateTime(2014, 1, 1)) { 
-        <div class="smallAd"><a target="_blank" href="https://www.2n1skateshoppe.com/"><img height="90px" src="@Url.Content("~/Content/ads/2n1.png")" /></a></div>
+        @if (DateTime.UtcNow < new DateTime(2014, 1, 1))
+        {
+            <div class="smallAd"><a target="_blank" href="https://www.2n1skateshoppe.com/"><img height="90px" src="@Url.Content("~/Content/ads/2n1.png")" /></a></div>
         }
+       @*
         <div class="hLogo">
             <a href="@Url.Content("~/")">
-                <img class="hLogoImg" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" /></a>
+                <img class="hLogoImg" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
+            </a>
         </div>
-        @*<div>Guaranteed to make your fans and team happier.</div>*@
-        <div class="hFBLike">
-            <div class="fb-like-box" data-href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl" data-width="292"
-                data-colorscheme="dark" data-show-faces="false" data-stream="false" data-header="false">
-            </div>
+
+        <div>Guaranteed to make your fans and team happier.</div>
+    <div class="hFBLike">
+        <div class="fb-like-box" data-href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl" data-width="292"
+             data-colorscheme="dark" data-show-faces="false" data-stream="false" data-header="false">
         </div>
+    </div>
+    *@
         @Html.Partial("_PartialUpperLinks")
-        
-     
-        <div class="sidebar">
-            <h2 class="newsTitle"><a href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></h2>
-            @foreach (var item in store.StoreItems)
-            {
-                <div class="storeItem">
-                    <div class="storeItemInner">
-                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
-                            <div class="storeItemPhoto center">
-                                @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
-                                { 
-                                    <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
-                                }
-                            </div>
-                        </a>
 
-                        <div class="storeItemTitle">
-                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+@*
+    <div class="sidebar">
+        <h2 class="newsTitle"><a href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite">Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></h2>
+        @foreach (var item in store.StoreItems)
+        {
+            <div class="storeItem">
+                <div class="storeItemInner">
+                    <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                        <div class="storeItemPhoto center">
+                            @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                            {
+                                <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
+                            }
                         </div>
-                        <div class="storeItemN">
-                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
-                        </div>
-                        <div class="storeItemPrice">
-                            @if (item.Currency == "USD") {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
-                        </div>
+                    </a>
+
+                    <div class="storeItemTitle">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                    </div>
+                    <div class="storeItemN">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                    </div>
+                    <div class="storeItemPrice">
+                        @if (item.Currency == "USD")
+                        {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
+                    </div>
 
 
-                        <div class="clear">
-                        </div>
+                    <div class="clear">
                     </div>
                 </div>
-            }
-            <br />
-            <div class="clear center"><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/sell")">Sell Gear At @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></div>
-        </div>
-
+            </div>
+        }
+        <br />
+        <div class="clear center"><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/sell")">Sell Gear At @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a></div>
+    </div>
+*@   
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
         <div class="aboutCont">
-            @RenderBody()
+            <div class="row">
+                <div class="col-md-12 col-lg-10 col-lg-offset-1 margin-top-10">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -134,32 +148,10 @@
     <script type="text/JavaScript">
         AddSiteMapNode(location.href, true);
         ko.applyBindings(currentGamesViewModel, document.getElementById("currentGamesBar"));
-
         currentGamesViewModel.initialize();
-
-      //  (function () {
-      //      var a = document.createElement('a');
-      //      a.setAttribute('id', 'uservoice-feedback-tab');
-            
-      //      a.setAttribute('target', '_blank');
-      //      a.style.cssText = [
-      //'position: fixed',
-      //'top: 45%',
-      //'width: 25px',
-      //'height: 90px',
-      //'margin: -45px 0 0',
-      //'right: 0',
-      //'background: #882f96 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
-      //'border: outset 1px #000',
-      //'border-right: none'
-      //      ].join(';');
-      //      document.body.appendChild(a);
-      //  })();
-
     </script>
-    @*<a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Feedback"
-       target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px; margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png); background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000; border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;"></a>*@
-@MiniProfiler.RenderIncludes()
+
+    @MiniProfiler.RenderIncludes()
     <div id="feedback_tab" style="">
         <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
             <i class="fa fa-envelope-o"></i> Contact
