@@ -491,7 +491,7 @@
 
     <div class="container">
         @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
-    </div>*@
+    </div>
     <div class="container">
         @RenderBody()
     </div>
@@ -534,7 +534,7 @@
         </div>
     </div>
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
-    <div id="feedback_tab" style="">
+    <div id="feedback_tab" style="" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
         <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
             <i class="fa fa-envelope-o"></i> Contact
         </a>
