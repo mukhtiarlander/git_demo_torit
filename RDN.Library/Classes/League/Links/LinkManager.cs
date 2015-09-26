@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using RDN.Library.Classes.Error;
 using RDN.Library.DataModels.Context;
 
-namespace RDN.Library.Classes.League
+namespace RDN.Library.Classes.League.Links
 {
 
-    public class LinkDA
+    public class LinkManager
     {
         
         public long LinkId { get; set; }
@@ -20,7 +20,7 @@ namespace RDN.Library.Classes.League
         public Guid LinksForLeague { get; set; }
         public Guid LinksAddByMember { get; set; }
 
-        public LinkDA() { }
+        public LinkManager() { }
 
 
         public static bool DeleteItem(long linkedID, Guid leagueId)
@@ -44,18 +44,19 @@ namespace RDN.Library.Classes.League
             return false;
         }
 
-        public static bool AddLink(LinkDA linkItem)
+        public static bool AddLink(LinkManager linkItem)
         {
 
             try
             {
                 var dc = new ManagementContext();
 
-                DataModels.League.Links objLinks = new DataModels.League.Links();
+                DataModels.League.Links.Links objLinks = new DataModels.League.Links.Links();
 
 
                 objLinks.Link = linkItem.Link;
                 objLinks.Notes = linkItem.Notes;
+                objLinks.LinkId = linkItem.LinkId;
 
                 objLinks.LinksForLeague = dc.Leagues.Where(x => x.LeagueId == linkItem.LinksForLeague).FirstOrDefault();
                 objLinks.LinksAddByMember = dc.Members.Where(x => x.MemberId == linkItem.LinksAddByMember).FirstOrDefault();
@@ -73,7 +74,7 @@ namespace RDN.Library.Classes.League
             return false;
         }
 
-        public static LinkDA GetLeagueLink(long linkId, Guid LinkForLeague)
+        public static LinkManager GetLeagueLink(long linkId, Guid LinkForLeague)
         {
             try
             {
@@ -82,7 +83,7 @@ namespace RDN.Library.Classes.League
 
                 if (link != null)
                 { 
-                    return new LinkDA {  Link=link.Link, Notes=link.Notes,LinksAddByMember=link.LinksAddByMember.MemberId,LinksForLeague=link.LinksForLeague.LeagueId};
+                    return new LinkManager {LinkId=link.LinkId, Link=link.Link, Notes=link.Notes,LinksAddByMember=link.LinksAddByMember.MemberId,LinksForLeague=link.LinksForLeague.LeagueId};
                 }
             }
             catch (Exception exception)
@@ -92,9 +93,9 @@ namespace RDN.Library.Classes.League
             return null;
         }
 
-        public static List<LinkDA> GetLeagueLinks(Guid leagueId)
+        public static List<LinkManager> GetLeagueLinks(Guid leagueId)
         {
-            List<LinkDA> itemLists = new List<LinkDA>();
+            List<LinkManager> itemLists = new List<LinkManager>();
             try
             {
                 var dc = new ManagementContext();
@@ -105,7 +106,7 @@ namespace RDN.Library.Classes.League
                 {
                     foreach (var item in links)
                     {
-                        itemLists.Add(new LinkDA { Link = item.Link, Notes = item.Notes, LinksAddByMember = item.LinksAddByMember.MemberId, LinksForLeague = item.LinksForLeague.LeagueId });
+                        itemLists.Add(new LinkManager { LinkId=item.LinkId,Link = item.Link, Notes = item.Notes, LinksAddByMember = item.LinksAddByMember.MemberId, LinksForLeague = item.LinksForLeague.LeagueId });
                     }
                 }
                 return itemLists;
@@ -117,7 +118,7 @@ namespace RDN.Library.Classes.League
             return null;
         }
 
-        public static bool EditLink(LinkDA link)
+        public static bool EditLink(LinkManager link)
         {
             try
             {

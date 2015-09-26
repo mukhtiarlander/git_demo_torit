@@ -91,6 +91,8 @@ namespace RDN.Library.Classes.Calendar
                             FrequencyTypeOptions = repeatFrequencySelected,
                             DaysOfWeek = daysOfWeek
                         };
+                        if (repeatFrequencySelected == FrequencyTypeEnum.Yearly)
+                            aEvent.Anniversary = new Anniversary() { Day = DateTime.Now.Day, Month = DateTime.Now.Month };
                     }
 
 
@@ -268,7 +270,7 @@ namespace RDN.Library.Classes.Calendar
                 }
                 catch (Exception exception)
                 {
-                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " " + endsOnDateReoccuring + " " + endsWhen.ToString());
+                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " "+ repeatFrequencySelected.ToString() +":"+ endsOnDateReoccuring + " " + endsWhen.ToString());
                 }
             }
             return reoccurringEventId;
@@ -393,7 +395,7 @@ namespace RDN.Library.Classes.Calendar
                 {
                     e.Calendar = e.Calendar;
                     e.IsRemovedFromCalendar = true;
-               
+
                     var evs = e.ReoccuringEvents.Where(x => x.Attendees.Count == 0 && x.IsRemovedFromCalendar == false);
                     foreach (var ev in evs)
                     {
@@ -519,7 +521,7 @@ namespace RDN.Library.Classes.Calendar
                 ev.StartDateReoccurringDisplay = e.StartReocurring.ToShortDateString() + " " + e.StartReocurring.ToShortTimeString();
                 ev.EventReoccurring = aEvent;
                 ev.TicketUrl = e.TicketUrl;
-                ev.SiteUrl = LibraryConfig.PublicSite  + UrlManager.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
+                ev.SiteUrl = LibraryConfig.PublicSite + UrlManager.WEBSITE_EVENT_URL + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(e.Name) + "/" + e.CalendarItemId.ToString().Replace("-", "");
 
                 foreach (var owner in e.LeagueOwners)
                 {
@@ -1561,6 +1563,9 @@ namespace RDN.Library.Classes.Calendar
                        FrequencyTypeOptions = repeatFrequencySelected,
                        DaysOfWeek = daysOfWeek
                    };
+
+                    if (repeatFrequencySelected == FrequencyTypeEnum.Yearly)
+                        aEvent.Anniversary = new Anniversary() { Day = DateTime.Now.Day, Month = DateTime.Now.Month };
                 }
 
                 var dc = new ManagementContext();
@@ -1729,7 +1734,7 @@ namespace RDN.Library.Classes.Calendar
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " " + repeatFrequencySelected.ToString() + ":" + endsOnDateReoccuring + " " + endsWhen.ToString());
             }
             return ev.CalendarItemId;
         }
@@ -1763,10 +1768,10 @@ namespace RDN.Library.Classes.Calendar
                                  Chat = xx.Text,
                                  Id = xx.ConversationId,
                                  MemberName = xx.Owner == null ? "Anonymous" : xx.Owner.DerbyName,
-                                 MemberProfilePicUrl = xx.Owner.Photos.OrderByDescending(x=>x.Created).FirstOrDefault() == null? "": xx.Owner.Photos.OrderByDescending(x=>x.Created).FirstOrDefault().ImageUrlThumb, 
+                                 MemberProfilePicUrl = xx.Owner.Photos.OrderByDescending(x => x.Created).FirstOrDefault() == null ? "" : xx.Owner.Photos.OrderByDescending(x => x.Created).FirstOrDefault().ImageUrlThumb,
                                  Created = xx.Created,
                                  OwnerId = eventId,
-                                 
+
                              }).OrderByDescending(x => x.Id).Take(60).AsParallel().ToList();
                 foreach (var con in convo)
                 {
@@ -1920,7 +1925,7 @@ namespace RDN.Library.Classes.Calendar
                 if (ev.ReocurringEvent != null)
                     calEvent.CalendarReoccurringId = ev.ReocurringEvent.CalendarItemId;
                 calEvent.Name = ev.Name;
-                calEvent.NameUrl =RDN.Library.Classes.Config.LibraryConfig.EventPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(ev.Name) + "/" + ev.CalendarItemId.ToString().Replace("-", "");
+                calEvent.NameUrl = RDN.Library.Classes.Config.LibraryConfig.EventPublicUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(ev.Name) + "/" + ev.CalendarItemId.ToString().Replace("-", "");
                 calEvent.TicketUrl = ev.TicketUrl;
                 calEvent.CalendarItemId = ev.CalendarItemId;
 
@@ -2025,7 +2030,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.title = "BDay " + member.DerbyName;
                 //removes length less than 14 chars 
                 //because the title is too long for the calendar display.
-                
+
                 calEvent.id = member.MemberId;
                 calEvent.url = VirtualPathUtility.ToAbsolute("~/calendar/birthday/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName));
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.DOB.Month, member.DOB.Day);
@@ -2077,7 +2082,7 @@ namespace RDN.Library.Classes.Calendar
                 calEvent.title = "SS:" + member.DerbyName;
                 //removes length less than 14 chars 
                 //because the title is too long for the calendar display.
-                
+
                 calEvent.id = member.MemberId;
                 calEvent.url = VirtualPathUtility.ToAbsolute("~/calendar/started-playing/" + member.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(member.DerbyName));
                 DateTime dt = new DateTime(DateTime.UtcNow.Year, member.StartedSkating.Value.Month, member.StartedSkating.Value.Day);

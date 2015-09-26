@@ -2,6 +2,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 @using StackExchange.Profiling;
+@using RDN.Library.Cache
+@{
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    var leaguethemecolor = MemberCache.GetLeagueThemeColor(MemberCache.GetLeagueIdOfMember(memId));
+}
 <head runat="server">
     <title>
         @if (ViewBag.Title == null)
@@ -116,7 +121,7 @@
 
     </script>
 
-    <div id="feedback_tab" style="">
+    <div id="feedback_tab" style="" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
         <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
             <i class="fa fa-envelope-o"></i> Contact
         </a>

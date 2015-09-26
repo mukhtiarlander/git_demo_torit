@@ -20,27 +20,25 @@
 
 <div class="clearfix"></div>
 <br />
-<div data-bind="foreach: Members">
+<div id="skaters-grid" data-bind="foreach: Members">
 
-    <div class="col-sm-4 col-md-3">
-        <div class="thumbnail">
+    <div class="col-sm-4 col-md-3 col-lg-2 skaters-grid-item">
+        <div class="thumbnail bg-lighter">
 
             <a data-bind=" attr: {href: DerbyNameUrl}">
 
-                <img style="max-height:200px" alt="" data-bind="attr:{ src: ThumbUrl}" />
+                <img alt="" data-bind="attr:{ src: ThumbUrl}" />
 
             </a>
             <div class="caption">
-                <h4>
-                    <a data-bind=" attr: {href: DerbyNameUrl}">
-                        <span data-bind="text: DerbyName "></span> - <span data-bind="text: DerbyNumber"></span>
-                    </a>
-               </h4>
-                <small>
-                    <a data-bind="if: LeagueUrl, attr: {href: LeagueUrl}">
-                        <span data-bind="text: LeagueName"></span>
-                    </a>
-                </small>
+                <p>
+                    <a data-bind=" attr: {href: DerbyNameUrl}" class="fs14">
+                        <span data-bind="text: DerbyName " class="fw600"></span>
+                    </a><span data-bind="text: (DerbyNumber)" class="label label-success pull-right"></span>
+                </p>
+                <a data-bind="if: LeagueUrl, attr: {href: LeagueUrl}" class="fs12">
+                    <span data-bind="text: LeagueName"></span>
+                </a>
             </div>
         </div>
     </div>

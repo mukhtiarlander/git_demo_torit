@@ -48,6 +48,16 @@
                         }
                         thisViewModel.page(thisViewModel.page() + 1);
                         thisViewModel.pendingRequest(false);
+                        $('#skaters-grid').masonry('reloadItems', {
+                            itemSelector: '.skaters-grid-item',
+                            percentPosition: true,
+                        })
+                        $('#skaters-grid').imagesLoaded().progress(function () {
+                            $('#skaters-grid').masonry({
+                                itemSelector: '.skaters-grid-item',
+                            });
+
+                        });
                     }
                     else
                         thisViewModel.IsFinishedScrolling(true);

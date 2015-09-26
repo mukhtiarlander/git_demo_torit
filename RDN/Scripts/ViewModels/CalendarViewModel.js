@@ -106,11 +106,21 @@
                         if (addMarkers) {
                             var i = 0;
                             ko.utils.arrayForEach(thisViewModel.Events(), function (entry) {
-                                CreateMarkerForEvent(entry.Latitude, entry.Longitude, entry, i + 1);
+                                CreateMarkerForEvent(entry.Longitude,entry.Latitude, entry, i + 1);
                             });
                         }
                         thisViewModel.page(thisViewModel.page() + 1);
                         thisViewModel.pendingRequest(false);
+                        $('#event-grid').masonry('reloadItems', {
+                            itemSelector: '.event-grid-item',
+                            percentPosition: true,
+                        })
+                        $('#event-grid').imagesLoaded().progress(function () {
+                            $('#event-grid').masonry({
+                                itemSelector: '.event-grid-item',
+                            });
+                           
+                        });
                        
                     }
                     else

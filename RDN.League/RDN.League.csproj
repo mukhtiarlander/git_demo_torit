@@ -29,6 +29,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -270,6 +271,7 @@
     <Compile Include="Controllers\League\InventoryController.cs" />
     <Compile Include="Controllers\League\JobBoardController.cs" />
     <Compile Include="Controllers\League\LeagueController.cs" />
+    <Compile Include="Controllers\League\LinksController.cs" />
     <Compile Include="Controllers\League\OfficiatingController.cs" />
     <Compile Include="Controllers\League\OrganizationController.cs" />
     <Compile Include="Controllers\League\SponsorController.cs" />
@@ -943,6 +945,14 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Links\AddNewLink.cshtml" />
+    <Content Include="Views\Links\EditLink.cshtml" />
+    <Content Include="Views\Links\LinkDetail.cshtml" />
+    <Content Include="Views\Links\ViewLinks.cshtml" />
+    <Content Include="Views\Member\RetireProfile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Location\EditLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\img\" />

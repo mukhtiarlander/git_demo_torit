@@ -1,0 +1,65 @@
+﻿@model List<RDN.Library.Classes.League.Links.LinkManager>
+
+@{
+    ViewBag.Title = "Links";
+    Layout = "~/Views/Shared/Menus/LeagueViewMembers.cshtml";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
+    bool isEditable = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">Links</li>
+</ol>
+
+<div class="panel panel-default margin-top-20">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-6 col-sm-9">
+                <h3 style="margin-top: 5px !important"><i class="fa fa-cubes"></i>Links For The League</h3>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <a class="btn btn-success pull-right" href="@Url.Content("~/league/links/add")">
+                    <i class="fa fa-plus-circle"> </i> Add
+                </a>
+            </div>
+        </div>
+        <div class="text-muted">Here we help you manage the league links e.g link url can be save.</div>
+    </div>
+    <div class="panel-body no-padding padding-top-10">
+        <table class="table table-striped table-hover table-condensed no-margin-bottom" id="jobBoard">
+            <thead>
+                <tr>
+                   
+                    <th></th>
+                     <th>Link URL</th>                    
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                       
+                        <td >
+                            <a class="btn btn-warning btn-xs" href="@Url.Content("~/League/Links/View/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"> </i> View </a>
+                            @if (isEditable)
+                            {
+                                <a class="btn btn-info btn-xs" href="@Url.Content("~/League/Links/Edit/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))"><i class="fa fa-pencil"> </i> Edit </a>
+                            }
+                        </td>
+                         <td>
+                             <a target="_blank" href="@Url.Content("http://"+item.Link)">
+                                                    <i class="fa fa-external-link"></i>  @item.Link
+                                                </a>
+                        </td>                      
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

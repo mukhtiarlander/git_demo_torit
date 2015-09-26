@@ -267,7 +267,14 @@ namespace RDN.Api.Controllers
                                 {
                                     FileInfo f2 = new FileInfo(compressedFile);
                                     if (f2.Exists)
+                                    {
+                                        if (IsFileinUse(f2))
+                                        {
+                                            FileStream obj = new FileStream(compressedFile, FileMode.Append);
+                                            obj.Close();
+                                        }
                                         f2.Delete();
+                                    }
                                 }
                                 catch (Exception e)
                                 {
@@ -299,6 +306,36 @@ namespace RDN.Api.Controllers
                 return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        protected virtual bool IsFileinUse(FileInfo file)
+        {
+            FileStream stream = null;
+
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+
+                return true;
+
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+            return false;
+        }
+
+
+
         /// <summary>
         /// captures the uploading of errors from the scoreboard.
         /// </summary>
