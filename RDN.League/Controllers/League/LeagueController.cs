@@ -311,6 +311,76 @@ namespace RDN.League.Controllers
             return Redirect(Url.Content("~/league/groups?u=" + SiteMessagesEnum.sww));
         }
 
+		[Authorize]
+		[LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsManager = true, IsSecretary = true)]
+		public ActionResult GroupsEditAll() 
+		{
+			try
+			{
+				var league = MemberCache.GetLeagueOfMember(RDN.Library.Classes.Account.User.GetMemberId());
+				NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(Request.Url.Query);
+				string u = nameValueCollection["u"];
+				if (u == SiteMessagesEnum.sww.ToString())
+				{
+					SiteMessage message = new SiteMessage();
+					message.MessageType = SiteMessageType.Error;
+					message.Message = "Something went wrong, error sent, please try again later.";
+					this.AddMessage(message);
+				}
+				else if (u == SiteMessagesEnum.na.ToString())
+				{
+					SiteMessage message = new SiteMessage();
+					message.MessageType = SiteMessageType.Warning;
+					message.Message = "You do not have access to that page.";
+					this.AddMessage(message);
+				}
+				return View(league);
+			}
+			catch (Exception exception)
+			{
+				ErrorDatabaseManager.AddException(exception, exception.GetType());
+			}
+			return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+		}
+
+		[LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsManager = true, IsSecretary = true)]
+		public ActionResult EditMemberGroup(string memberId, string groupId, bool isApartOfGroup)
+		{
+			try
+			{
+				Guid memId = Guid.Parse(memberId);
+				long grId =  Convert.ToInt64(groupId);
+				var league = MemberCache.GetLeagueOfMember(RDN.Library.Classes.Account.User.GetMemberId());
+				var group = league.Groups.FirstOrDefault(gr => gr.Id == grId);
+				if (group != null)
+				{
+					var groupMember = group.GroupMembers.FirstOrDefault(m => m.MemberId == memId);
+
+					if (groupMember == null)
+					{
+						groupMember = new LeagueGroupMember();
+						groupMember.MemberId = memId;
+						group.GroupMembers.Add(groupMember);
+					}
+					groupMember.IsApartOfGroup = isApartOfGroup;
+
+					bool updated = LeagueGroupFactory.UpdateGroup(group);
+					MemberCache.Clear(memId);
+					MemberCache.ClearApiCache(memId);
+					MemberCache.UpdateCurrentLeagueMemberCache(memId);
+					if (updated)
+					{
+						return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				ErrorDatabaseManager.AddException(exception, exception.GetType());
+			}
+			return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);			
+		}
+
         [HttpPost]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true)]
         public ActionResult GroupsSettings(LeagueGroup group)

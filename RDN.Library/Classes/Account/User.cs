@@ -1502,7 +1502,7 @@ namespace RDN.Library.Classes.Account
             try
             {
                 var dc = new ManagementContext();
-                var members = dc.Members.Include("Leagues.League.Logo").Where(x => x.IsNotConnectedToDerby == false && x.IsProfileRemovedFromPublic == false).OrderBy(x => x.DerbyName).ToList();
+                var members = dc.Members.Include("Leagues.League.Logo").Where(x => x.IsNotConnectedToDerby == false && x.IsProfileRemovedFromPublic == false).ToList().OrderBy(x=>x.DerbyName);
 
                 List<SkaterJson> mems = new List<SkaterJson>();
                 try

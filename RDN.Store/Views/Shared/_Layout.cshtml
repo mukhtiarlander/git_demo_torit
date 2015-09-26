@@ -1,6 +1,11 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 @using StackExchange.Profiling;
+@using RDN.Library.Cache
+@{
+    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+    var leaguethemecolor = MemberCache.GetLeagueThemeColor(MemberCache.GetLeagueIdOfMember(memId));
+}
 <head runat="server">
     <title>
         @if (ViewBag.Title == null)
@@ -26,7 +31,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
 </head>
-<body id="navbar-theme" class="Orange">
+<body id="navbar-theme" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
     <div class="navbar  navbar-inverse navbar-fixed-top yamm" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -53,7 +58,7 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right" >
                     @Html.Partial("_PartialLoginLinks")
-                    <a class="btn btn-warning btn-sm btn-cart pull-right margin-top-10 margin-left-15" href="@Url.Content("~/cart")"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm">Cart</span> <span class="cart-count">@HttpContext.Current.Session["cartCount"].ToString()</span></a>
+                    <a class="btn btn-sm btn-cart pull-right margin-top-10 margin-left-15 text-white @(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)" href="@Url.Content("~/cart")"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm">Cart</span> <span class="cart-count">@HttpContext.Current.Session["cartCount"].ToString()</span></a>
                 </ul>
             </div>
         </div>
@@ -63,7 +68,7 @@
         @RenderBody()
     </div>
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
-    <div id="feedback_tab" style="">
+    <div id="feedback_tab" style="" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
         <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
             <i class="fa fa-envelope-o"></i> Contact
         </a>

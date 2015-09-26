@@ -342,7 +342,7 @@ namespace RDN.Library.Classes.Forum
             try
             {
                 var dc = new ManagementContext();
-                var topic = dc.ForumTopics.Where(x => x.TopicId == topicId && x.Forum.ForumId == forumId).FirstOrDefault();
+                var topic = dc.ForumTopics.Include("TopicsInbox").Where(x => x.TopicId == topicId && x.Forum.ForumId == forumId).FirstOrDefault();
                 topic.Forum = topic.Forum;
                 topic.LastPostByMember = topic.LastPostByMember;
                 topic.CreatedByMember = topic.CreatedByMember;

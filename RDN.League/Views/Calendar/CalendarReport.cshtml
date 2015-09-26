@@ -165,248 +165,247 @@
                         </div>
                     </div>
                     <div class="scroll-x margin-top-20">
-                        <table class="table table-condensed table-hover table-responsive table-striped" id="members">
-                            <thead>
-                                <tr>
-                                    <th colspan="3"></th>
-                                    <th colspan="7" class="text-center">
-                                        <div class="panel-default">
-                                            <div class="panel-gray">
-                                                <span> Total Points</span>
+                        <table class="tables table-hover table-striped" id="members">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3"></th>
+                                        <th colspan="7" class="text-center">
+                                            <div class="panel-default">
+                                                <div class="panel-gray padding-5">
+                                                    <span> Total Points</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-
-                                    <th colspan="3" class="text-center">
-                                        <div class="panel-default">
-                                            <div class="panel-gray">
-                                                <span class="text-center">  % Attended</span>
+                                        </th>
+                                        <th colspan="3" class="text-center">
+                                            <div class="panel-default">
+                                                <div class="panel-gray">
+                                                    <span class="text-center">  % Attended</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                    @*    <th>
-                                            Average Pts
-                                        </th>*@
-                                </tr>
-                                <tr>
-                                    <th>
-                                        #
-                                    </th>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th>
-                                        Event Types
-                                    </th>
-                                    <th class="alignCenter">
-                                        Amt
-                                    </th>
-                                    <th class="alignCenter">
-                                        Attended
-                                    </th>
-                                    <th class="alignCenter">
-                                        Absent
-                                    </th>
-                                    <th class="alignCenter">
-                                        Excused
-                                    </th>
-                                    <th class="alignCenter">
-                                        Tardy
-                                    </th>
-                                    <th class="alignCenter">
-                                        Earned Pts
-                                    </th>
-                                    <th class="alignCenter">
-                                        Possible Pts
-                                    </th>
-                                    <th class="alignCenter">
-                                        All
-                                    </th>
-                                    <th class="alignCenter">
-                                        Counted
-                                    </th>
-                                    <th class="alignCenter">
-                                        All Pts Earned
-                                    </th>
-                                    @*    <th>
-                                            Average Pts
-                                        </th>*@
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.Attendees.Count; i++)
-                                {
-                                    <tr class="reportingRow">
-                                        <td>
-                                            @Model.Attendees[i].MemberNumber
-                                        </td>
-                                        <td>
-                                            <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">@Model.Attendees[i].MemberName</a><br />
-                                            @Model.Attendees[i].FullName
-                                        </td>
-                                        <td class="no-wrap">
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <span class="noTwoLine">@type.EventTypeName</span><br />
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Count()<br />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalTimesAttendedEventType<br />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalTimesBeenAbsent<br />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalTimesBeenExcused<br />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalTimesBeenTardy<br />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalPointsAccruedForType<br />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Sum(x => x.EventType.PointsForPresent)
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalAllPointsPossiblePercentage.ToString("N0")
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (Model.Attendees[i].MemberName == "Velocirapture")
-                                            { }
-                                            @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
-                                            {
-                                                <div>
-                                                    @type.TotalCountedPointsPossiblePercentage.ToString("N0")
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            <div>
-                                                @Model.Attendees[i].TotalPoints
-                                            </div>
-                                            <div>
-                                                <span title="Total Hours">@(RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(Model.Attendees[i].TotalHoursAttendedEventType)) hrs</span>
-                                            </div>
-                                        </td>
-                                        @*    <td>@Model.Attendees[i].PointsAverage.ToString("N2")
-                                            </td>*@
+                                        </th>
+                                        @*    <th>
+                            Average Pts
+                        </th>*@
                                     </tr>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Event Types
+                                        </th>
+                                        <th class="alignCenter">
+                                            Amt
+                                        </th>
+                                        <th class="alignCenter">
+                                            Attended
+                                        </th>
+                                        <th class="alignCenter">
+                                            Absent
+                                        </th>
+                                        <th class="alignCenter">
+                                            Excused
+                                        </th>
+                                        <th class="alignCenter">
+                                            Tardy
+                                        </th>
+                                        <th class="alignCenter">
+                                            Earned Pts
+                                        </th>
+                                        <th class="alignCenter">
+                                            Possible Pts
+                                        </th>
+                                        <th class="alignCenter">
+                                            All
+                                        </th>
+                                        <th class="alignCenter">
+                                            Counted
+                                        </th>
+                                        <th class="alignCenter">
+                                            All Pts Earned
+                                        </th>
+                                        @*    <th>
+                            Average Pts
+                        </th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Attendees.Count; i++)
+                                {
+                                        <tr class="reportingRow">
+                                            <td>
+                                                @Model.Attendees[i].MemberNumber
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">@Model.Attendees[i].MemberName</a><br />
+                                                @Model.Attendees[i].FullName
+                                            </td>
+                                            <td class="no-wrap">
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <span class="noTwoLine">@type.EventTypeName</span><br />
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Count()<br />
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalTimesAttendedEventType<br />
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalTimesBeenAbsent<br />
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalTimesBeenExcused<br />
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalTimesBeenTardy<br />
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalPointsAccruedForType<br />
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @Model.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == type.CalendarEventTypeId).Sum(x => x.EventType.PointsForPresent)
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalAllPointsPossiblePercentage.ToString("N0")
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                @if (Model.Attendees[i].MemberName == "Velocirapture")
+                                            { }
+                                                @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
+                                            {
+                                                    <div>
+                                                        @type.TotalCountedPointsPossiblePercentage.ToString("N0")
+                                                    </div>
+                                            }
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    @Model.Attendees[i].TotalPoints
+                                                </div>
+                                                <div>
+                                                    <span title="Total Hours">@(RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(Model.Attendees[i].TotalHoursAttendedEventType)) hrs</span>
+                                                </div>
+                                            </td>
+                                            @*    <td>@Model.Attendees[i].PointsAverage.ToString("N2")
+                            </td>*@
+                                        </tr>
                                 }
-                            </tbody>
-                            <tfoot>
+                                </tbody>
+                                <tfoot>
 
-                                <tr>
-                                    <th>
-                                        #
-                                    </th>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th>
-                                        Event Types
-                                    </th>
-                                    <th class="alignCenter">
-                                        Amt
-                                    </th>
-                                    <th class="alignCenter">
-                                        Attended
-                                    </th>
-                                    <th class="alignCenter">
-                                        Absent
-                                    </th>
-                                    <th class="alignCenter">
-                                        Excused
-                                    </th>
-                                    <th class="alignCenter">
-                                        Tardy
-                                    </th>
-                                    <th class="alignCenter">
-                                        Earned Pts
-                                    </th>
-                                    <th class="alignCenter">
-                                        Possible Pts
-                                    </th>
-                                    <th class="alignCenter">
-                                        All
-                                    </th>
-                                    <th class="alignCenter">
-                                        Counted
-                                    </th>
-                                    <th class="alignCenter">
-                                        All Pts Earned
-                                    </th>
-                                    @*    <th>
-                                            Average Pts
-                                        </th>*@
-                                </tr>
-                                <tr>
-                                    <th colspan="3"></th>
-                                    <th colspan="7" class="text-center">
-                                        <div class="panel-default">
-                                            <div class="panel-gray">
-                                                <span> Total Points</span>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Event Types
+                                        </th>
+                                        <th class="alignCenter">
+                                            Amt
+                                        </th>
+                                        <th class="alignCenter">
+                                            Attended
+                                        </th>
+                                        <th class="alignCenter">
+                                            Absent
+                                        </th>
+                                        <th class="alignCenter">
+                                            Excused
+                                        </th>
+                                        <th class="alignCenter">
+                                            Tardy
+                                        </th>
+                                        <th class="alignCenter">
+                                            Earned Pts
+                                        </th>
+                                        <th class="alignCenter">
+                                            Possible Pts
+                                        </th>
+                                        <th class="alignCenter">
+                                            All
+                                        </th>
+                                        <th class="alignCenter">
+                                            Counted
+                                        </th>
+                                        <th class="alignCenter">
+                                            All Pts Earned
+                                        </th>
+                                        @*    <th>
+                            Average Pts
+                        </th>*@
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3"></th>
+                                        <th colspan="7" class="text-center">
+                                            <div class="panel-default">
+                                                <div class="panel-gray">
+                                                    <span> Total Points</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
+                                        </th>
 
-                                    <th colspan="3" class="text-center">
-                                        <div class="panel-default">
-                                            <div class="panel-gray">
-                                                <span class="text-center">  % Attended</span>
+                                        <th colspan="3" class="text-center">
+                                            <div class="panel-default">
+                                                <div class="panel-gray">
+                                                    <span class="text-center">  % Attended</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                    <th></th>
-                                    @*    <th>
-                                            Average Pts
-                                        </th>*@
-                                </tr>
-                            </tfoot>
-                        </table>
+                                        </th>
+                                        <th></th>
+                                        @*    <th>
+                            Average Pts
+                        </th>*@
+                                    </tr>
+                                </tfoot>
+                            </table>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane padding-top-20" id="EventsByMember">
@@ -850,6 +849,9 @@
         </text>
             }
         }
+        $(".scroll-x").doubleScroll();
     });
-
+    $(window).resize(function () {
+        $(".scroll-x").doubleScroll();
+    });
 </script>

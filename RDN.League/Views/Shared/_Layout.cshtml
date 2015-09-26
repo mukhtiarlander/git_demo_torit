@@ -78,12 +78,7 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
+              
                 <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
                 <a class="navbar-brand" href="@Url.Content("~/")">
                     <img alt="Brand" style="height:50px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl" />
@@ -94,13 +89,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>@*<span class="caret"></span></a>*@
-                        @*<ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="@Url.Content("~/forum/posts/" + RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.main.ToString() + "/" + RDN.Library.Classes.Config.LibraryConfig.DEFAULT_RDN_FORUM_ID.ToString().Replace("-", ""))" title="Forum">
-                                    <i class="fa fa-link"></i> Forum
-                                </a>
-                            </li>
-                        </ul>*@
+                       
                     </li>
                     @if (isConnected)
                     {
@@ -248,13 +237,13 @@
                                                 @if (isPaid)
                                                 {
                                                     <a href="@Url.Content("~/league/documents/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))" title="Documents">
-                                                        <i class="fa fa-file-word-o"></i> Docs
+                                                        <i class="fa fa-file-word-o"></i> Documents
                                                     </a>
                                                 }
                                                 else
                                                 {
                                                     <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Documents">
-                                                        <i class="fa fa-file-word-o"></i> Docs
+                                                        <i class="fa fa-file-word-o"></i> Documents
                                                     </a>
                                                 }
                                             </li>
@@ -488,7 +477,7 @@
                             </li>
                             @if (!member.IsRetired)
                             {
-                            <li><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-trash"></i> Retire Your Profile</a></li>
+                            <li><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-user"></i> Retire Your Profile</a></li>
                             }
                         </ul>
                     </li>
@@ -497,7 +486,7 @@
             </div>
         </div>
     </div>
-    <div class="nav-spacer"></div>
+   <div class="nav-spacer"></div>
     @RenderSection("SecondNav", required: false)
 
     <div class="container">
@@ -545,7 +534,7 @@
         </div>
     </div>
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
-    <div id="feedback_tab" style="">
+    <div id="feedback_tab" style="" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">
         <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
             <i class="fa fa-envelope-o"></i> Contact
         </a>
