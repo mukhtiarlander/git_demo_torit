@@ -237,13 +237,13 @@
                                                 @if (isPaid)
                                                 {
                                                     <a href="@Url.Content("~/league/documents/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))" title="Documents">
-                                                        <i class="fa fa-file-word-o"></i> Docs
+                                                        <i class="fa fa-file-word-o"></i> Documents
                                                     </a>
                                                 }
                                                 else
                                                 {
                                                     <a href="@Url.Content("~/billing/league/" + MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "") + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Documents">
-                                                        <i class="fa fa-file-word-o"></i> Docs
+                                                        <i class="fa fa-file-word-o"></i> Documents
                                                     </a>
                                                 }
                                             </li>
