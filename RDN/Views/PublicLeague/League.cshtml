@@ -59,6 +59,7 @@
     <ul class="nav nav-tabs" role="tablist" id="myTabs">
         <li role="presentation" class="active"><a href="#membersTab" role="tab" data-toggle="tab">Members</a></li>
         <li role="presentation"><a href="#calendarTab" role="tab" data-toggle="tab">Calendar</a></li>
+        <li role="presentation"><a href="#tweetTab" role="tab" data-toggle="tab">Tweets</a></li>
     </ul>
 
     <div class="tab-content">
@@ -112,11 +113,18 @@
             <div id="calendar" class="calendarDisplay">
             </div>
         </div>
+        <div role="tabpanel" class="tab-pane active" id="tweetTab">
+            <br />
+            <div id="tweet">
+            </div>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        LeagueViewModel.LoadTweets("@Model.Twitter");
 
         var date = new Date();
         var d = date.getDate();

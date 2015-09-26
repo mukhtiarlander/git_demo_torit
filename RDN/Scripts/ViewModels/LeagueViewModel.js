@@ -20,13 +20,25 @@
         });
     }
 
+    this.LoadTweets = function (userName) {
+        userName = userName.substring(userName.lastIndexOf("/") + 1, userName.length);
+        $.ajax({
+            type: "POST",
+            url: apiUrl + "Utilities/GetTweets",
+            data: { userName: userName },
+            dataType: "json",
+            success: function (data) {
+               
+            }
+        });
+    };
     this.SearchLeagues = function (input) {
         thisViewModel.SearchText($(input).val());
         thisViewModel.IsFinishedScrolling(false);
         thisViewModel.pendingRequest(false);
         thisViewModel.page(0);
         getItems(thisViewModel.ListCountPull(), true);
-    }
+    };
 
     var delay = (function () {
         var timer = 0;
@@ -40,7 +52,8 @@
     function getItems(cnt, isSearch) {
         if (thisViewModel.SearchText() != null) {
             var text = thisViewModel.SearchText();
-            thisViewModel.SearchText(text.trim());}
+            thisViewModel.SearchText(text.trim());
+        }
         if (lastLeagueSearch == thisViewModel.SearchText()) return;
         var waitTime = 0;
         if (isSearch)
