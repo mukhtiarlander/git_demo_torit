@@ -176,16 +176,17 @@ namespace RDN.Library.Classes.League
             return false;
         }
 
-        public static bool UseCode(long sponsorId, Guid leagueId)
+        public static bool UseCode(long sponsorId, Guid leagueId, out long usedCount)
         {
+			usedCount = -1;
             try
-            {
-
+            {				
                 var dc = new ManagementContext();
                 var dbSponsor = dc.Sponsorships.Where(x => x.SponsorId == sponsorId && x.SponsorForLeague.LeagueId == leagueId).FirstOrDefault();
                 if (dbSponsor == null)
                     return false;
                 dbSponsor.UsedCount = dbSponsor.UsedCount + 1;
+				usedCount = dbSponsor.UsedCount;
                 int c = dc.SaveChanges();
 
                 return c > 0;
@@ -193,10 +194,15 @@ namespace RDN.Library.Classes.League
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
+            }			
             return false;
         }
-
+		
+		public static bool UseCode(long sponsorId, Guid leagueId)
+		{
+			long usedCount;
+			return UseCode(sponsorId, leagueId, out usedCount);
+		}
 
     }
 }
