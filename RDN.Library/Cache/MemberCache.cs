@@ -1467,21 +1467,5 @@ namespace RDN.Library.Cache
             }
             return null;
         }
-
-        public static bool IsValidMemberForEditLink(Guid memId)
-        {
-            try
-            {
-                var cached = GetCache(memId, true);
-                if (cached.memberDisplay != null)
-                    if (cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Manager) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Owner) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Treasurer))
-                        return true;
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return false;
-        }
     }
 }

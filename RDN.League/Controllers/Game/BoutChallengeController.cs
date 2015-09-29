@@ -129,7 +129,7 @@ namespace RDN.League.Controllers
                 try
                 {
 
-                    TwitterFactory.Initialize(LibraryConfig.TwitterConsumerKey, LibraryConfig.TwitterConsumerSecret, LibraryConfig.TwitterToken, LibraryConfig.TwitterTokenSecret)
+                    TwitterManager.Initialize(LibraryConfig.TwitterConsumerKey, LibraryConfig.TwitterConsumerSecret, LibraryConfig.TwitterToken, LibraryConfig.TwitterTokenSecret)
                               .SendMessage("Bout Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/bout-challenge/view/" + executeId);
                 }
                 catch (Exception exception)

@@ -3,6 +3,14 @@
 @{
     ViewBag.Title = "View Link";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var linkURL = string.Empty;
+    if (Model.Link.IndexOf("http") > -1 || Model.Link.IndexOf("https") > -1)
+    {
+        linkURL = Model.Link;
+    }else{
+        linkURL = "http://"+Model.Link;
+    }
 }
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
@@ -21,18 +29,25 @@
                         <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.Link</h3>
                     </div>
                 </div>
-                <div class="text-muted">Link URL.</div>
+                <div class="text-muted">View Link </div>
             </div>
-            <div class="panel-body no-padding-top">
-                <div class="col-xs-12 col-sm-6 text-right">
-                    <label class="form-label margin-top-10">Link URL</label>
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                    <label class="form-label margin-top-10"><b> @Model.Link</b></label>
+            <div class="panel-body no-padding-top">             
+                <div class="col-xs-12 col-sm-6 text-left" >                    
+                    <label class="form-label margin-top-25"><b> <a target="_blank" href="@Url.Content(linkURL)">
+                                                    <i class="fa fa-external-link"></i> @Model.Link
+                                                </a></b>                     
+                    </label>
+                </div> 
+                <div class="col-xs-12 col-sm-6 text-left ">    
+                    <b>Notes</b>                 
+                    <br />
+                    <label class="form-label" style="word-wrap: break-word;"> @Html.Raw(Model.Notes)</label>                
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<script>
+   
+</script>

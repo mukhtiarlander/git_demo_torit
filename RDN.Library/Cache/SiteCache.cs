@@ -40,6 +40,8 @@ using RDN.Portable.Classes.Controls.Calendar;
 using RDN.Library.Classes.Controls.Calendar;
 using RDN.Library.Classes.Config;
 using RDN.Portable.Classes.Url;
+using Common.Site.Classes.Configations;
+using RDN.Utilities.Error;
 
 namespace RDN.Library.Cache
 {
@@ -71,6 +73,7 @@ namespace RDN.Library.Cache
         public List<LeagueGroup> LeagueGroups { get; set; }
         public List<Tournament> Tournaments { get; set; }
         public List<MemberDisplayBasic> MemberIdsForUserNames { get; set; }
+        public List<Common.Site.Classes.Configations.SiteConfiguration> SiteConfiguration{set;get;}
 
         public static Document GetDocument(Guid documentId)
         {
@@ -1256,6 +1259,7 @@ namespace RDN.Library.Cache
                             dataObject.LeagueGroups = new List<LeagueGroup>();
                             dataObject.Documents = new List<Document>();
                             dataObject.Tournaments = new List<Tournament>();
+                            dataObject.SiteConfiguration = new List<SiteConfiguration>();
                             //dataObject.MobileNotifications = new List<MobileNotification>();
                             cache["SiteCache"] = dataObject;
                         }
@@ -1285,6 +1289,31 @@ namespace RDN.Library.Cache
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return null;
+        }
+
+        public static List<SiteConfiguration> GetConfiguration()
+        {
+            try
+            {
+                var cached = GetCache(HttpContext.Current.Cache);
+                if (cached.SiteConfiguration == null || cached.SiteConfiguration.Count()==0)
+                {
+                    Common.Site.Classes.Configations.ConfigurationManager configManager=new ConfigurationManager();
+                    cached.SiteConfiguration = configManager.GetConfigurations();                  
+                    UpdateCache(cached);
+                }
+                return cached.SiteConfiguration;
+            }
+            catch (Exception e)
+            {
+                Library.Classes.Error.ErrorDatabaseManager.AddException(e, e.GetType(), ErrorGroupEnum.Database);
+            }
+            return null;
+        }
+
+        public static string GetConfigurationValue(string key)
+        {
+           return GetConfiguration().Where(item=>item.Key==key).FirstOrDefault().Value;
         }
     }
 }

@@ -12,6 +12,7 @@ using RDN.Library.Classes.Game;
 using RDN.Library.Classes.League;
 using RDN.Library.Classes.League.Classes;
 using RDN.Library.Classes.League.Classes.Json;
+using RDN.Library.Classes.Social.Twitter;
 using RDN.Library.Classes.Store;
 using RDN.Library.Classes.Store.Display;
 using RDN.Library.Classes.Team;
@@ -27,6 +28,7 @@ namespace RDN.Library.Cache
         List<TeamLogo> Logos { get; set; }
         List<TeamLogo> ScoreboardLogos { get; set; }
         List<CountryClass> Countries { get; set; }
+        List<Tweet> Tweets { get; set; }
 
         public static List<TeamLogo> GetAllLogos()
         {
@@ -72,6 +74,25 @@ namespace RDN.Library.Cache
             return new List<CountryClass>();
         }
 
+        public static List<Tweet> GetTweets(string userName)
+        {
+            try
+            {
+                var cached = GetCache(HttpContext.Current.Cache);
+                if (cached.Tweets.Where(x => x.UserName == userName).Count() == 0)
+                {
+                    cached.Tweets.AddRange(RDN.Library.Classes.Social.Twitter.TwitterManager.Initialize(Library.Classes.Config.LibraryConfig.TwitterConsumerKey, Library.Classes.Config.LibraryConfig.TwitterConsumerSecret, Library.Classes.Config.LibraryConfig.TwitterToken, Library.Classes.Config.LibraryConfig.TwitterTokenSecret).RetriveTweets2(userName));
+                    UpdateCache(cached);
+                }
+                return cached.Tweets;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return new List<Tweet>();
+        }
+
         public static List<RDN.Portable.Classes.Team.TeamLogo> GetAllScoreboardLogos()
         {
             try
@@ -111,6 +132,9 @@ namespace RDN.Library.Cache
                         var scoreboardLogos = team.ScoreboardLogos;
                         foreach (var l in scoreboardLogos)
                             l.SaveLocation = null;
+
+                        var tweets = new List<Tweet>();
+                        dataObject.Tweets = tweets;
 
                         dataObject.ScoreboardLogos = scoreboardLogos;
                         cache["ApiCache"] = dataObject;

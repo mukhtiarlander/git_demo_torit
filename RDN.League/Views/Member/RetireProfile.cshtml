@@ -14,8 +14,6 @@
             <div class="panel-heading">
                 <h3 class="margin-bottom-15 margin-top-5"><i class="fa fa-key"></i> Retire profile of @Model.DerbyName</h3>
             </div>
-           @* @using (Html.BeginForm("RetireProfile", "Member", FormMethod.Post))
-            {*@
             <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -28,15 +26,13 @@
                 <div class="panel-footer text-center">					
 					<br/>                  
 
-                     <a class="btn btn-xs btn-danger btnRetireYourProfile"  title="Retire Your Profile">
+                     <a class="btn btn-danger btnRetireYourProfile"  title="Retire Your Profile">
                                             <i class="fa fa-trash"></i> Retire Your Profile
                                         </a>
-
                 </div>
                 @Html.HiddenFor(x => x.MemberId)
                 @Html.HiddenFor(x => x.UserId)
-                @Html.HiddenFor(x => x.DerbyName)
-            @*}*@
+                @Html.HiddenFor(x => x.DerbyName)            
         </div>
     </div>
 </div>

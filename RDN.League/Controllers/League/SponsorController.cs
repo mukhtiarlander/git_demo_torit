@@ -233,8 +233,12 @@ namespace RDN.League.Controllers.League
                 {
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
-
-                var Data = RDN.Library.Classes.League.Sponsor.UseCode(id, new Guid(leagueId));
+				long usedCount;
+                var Data = RDN.Library.Classes.League.Sponsor.UseCode(id, new Guid(leagueId), out usedCount);
+				if (Data)
+				{
+					return Json(usedCount, JsonRequestBehavior.AllowGet);
+				}
                 return Redirect(Url.Content("~/league/Sponsors?u=" + SiteMessagesEnum.et));
 
             }

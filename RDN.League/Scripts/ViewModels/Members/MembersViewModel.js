@@ -26,7 +26,8 @@
         }
     };
 
-    this.RetireYourProfile = function (btn) {       
+    this.RetireYourProfile = function (btn) {
+            $(btn).remove();
             $.ajax({
                 url: '/member/retireself',
                 type: 'POST',
@@ -38,8 +39,7 @@
                         $('.bottom-right').notify({
                             message: { text: 'Your Account has been Retired.' },
                             fadeOut: { enabled: true, delay: 3000 }
-                        }).show();
-                        $(btn).remove();
+                        }).show();                       
                         return false;
                     }
                     else {

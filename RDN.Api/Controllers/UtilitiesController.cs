@@ -60,6 +60,20 @@ namespace RDN.Api.Controllers
             }
         }
 
+        public JsonResult GetTweets(string userName)
+        {
+            try
+            {
+                var tweets = ApiCache.GetTweets(userName);
+                return Json(new { result = true, tweets = tweets }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, GetType());
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult GetCountries()
         {
             try

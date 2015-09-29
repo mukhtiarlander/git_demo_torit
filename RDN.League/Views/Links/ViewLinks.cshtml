@@ -8,7 +8,24 @@
 
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     Guid leagueId = RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId);
-    bool isEditable = RDN.Library.Cache.MemberCache.IsValidMemberForEditLink(memId);
+    bool isEditable = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+}
+
+@helper CheckLinkURL(string url)
+{
+        
+    if (url.IndexOf("http") > -1 || url.IndexOf("https") > -1)
+    {
+        <a target="_blank" href="@Url.Content(url)">
+                                                    <i class="fa fa-external-link"></i> 
+                                                </a>
+    }
+    else
+    {
+        <a target="_blank" href="@Url.Content("http://"+url)">
+                                                    <i class="fa fa-external-link"></i> 
+                                                </a>
+    }    
 }
 
 <ol class="breadcrumb">
@@ -24,7 +41,7 @@
             </div>
             <div class="col-xs-6 col-sm-3">
                 <a class="btn btn-success pull-right" href="@Url.Content("~/league/links/add")">
-                    <i class="fa fa-plus-circle"></i>Add
+                    <i class="fa fa-plus-circle"> </i> Add
                 </a>
             </div>
         </div>
@@ -34,8 +51,9 @@
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="jobBoard">
             <thead>
                 <tr>
-                    <th>Link URL</th>                    
+                   
                     <th></th>
+                     <th>Link URL</th>                    
                 </tr>
             </thead>
             <tbody>
@@ -43,16 +61,21 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @item.Link
-                        </td>                      
-                        <td class="text-right">
-                            <a class="btn btn-warning btn-xs" href="@Url.Content("~/League/Links/View/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"></i>View </a>
+                       
+                        <td >
+                            <a class="btn btn-warning btn-xs" href="@Url.Content("~/League/Links/View/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"> </i> View </a>
                             @if (isEditable)
                             {
-                                <a class="btn btn-info btn-xs" href="@Url.Content("~/League/Links/Edit/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i>Edit </a>
+                                <a class="btn btn-info btn-xs" href="@Url.Content("~/League/Links/Edit/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))"><i class="fa fa-pencil"> </i> Edit </a>
                             }
                         </td>
+                         <td>
+                           @*  <a target="_blank" href="@Url.Content(CheckLinkURL(item.Link))">
+                                                    <i class="fa fa-external-link"></i> 
+                                                </a>*@
+                             @CheckLinkURL(item.Link)
+                             <a href="@Url.Content("~/League/Links/View/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))">@item.Link</a>
+                        </td>                      
                     </tr>
                 }
             </tbody>

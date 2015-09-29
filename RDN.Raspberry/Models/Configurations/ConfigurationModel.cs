@@ -12,7 +12,7 @@ namespace RDN.Raspberry.Models.Configurations
 
         [StringLength(50), Required]
         public string Key { get; set; }
-        [StringLength(50), Required]
+        [StringLength(400), Required]
         public string Value { get; set; }
         [Required]
         [DataType(DataType.MultilineText)]
