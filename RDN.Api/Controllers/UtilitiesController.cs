@@ -65,7 +65,7 @@ namespace RDN.Api.Controllers
             try
             {
                 var tweets = ApiCache.GetTweets(userName);
-                return Json(tweets);
+                return Json(new { result = true, tweets = tweets }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {

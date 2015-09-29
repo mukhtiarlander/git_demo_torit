@@ -79,9 +79,9 @@ namespace RDN.Library.Cache
             try
             {
                 var cached = GetCache(HttpContext.Current.Cache);
-                if (cached.Tweets.Count == 0)
+                if (cached.Tweets.Where(x => x.UserName == userName).Count() == 0)
                 {
-                    cached.Tweets = RDN.Library.Classes.Social.Twitter.TwitterManager.Initialize(Library.Classes.Config.LibraryConfig.TwitterConsumerKey, Library.Classes.Config.LibraryConfig.TwitterConsumerSecret, Library.Classes.Config.LibraryConfig.TwitterToken, Library.Classes.Config.LibraryConfig.TwitterTokenSecret).RetriveTweets2(userName);
+                    cached.Tweets.AddRange(RDN.Library.Classes.Social.Twitter.TwitterManager.Initialize(Library.Classes.Config.LibraryConfig.TwitterConsumerKey, Library.Classes.Config.LibraryConfig.TwitterConsumerSecret, Library.Classes.Config.LibraryConfig.TwitterToken, Library.Classes.Config.LibraryConfig.TwitterTokenSecret).RetriveTweets2(userName));
                     UpdateCache(cached);
                 }
                 return cached.Tweets;
@@ -134,7 +134,7 @@ namespace RDN.Library.Cache
                             l.SaveLocation = null;
 
                         var tweets = new List<Tweet>();
-                       dataObject.Tweets =  tweets;
+                        dataObject.Tweets = tweets;
 
                         dataObject.ScoreboardLogos = scoreboardLogos;
                         cache["ApiCache"] = dataObject;
