@@ -24,42 +24,18 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
 				<h3 style="margin-top:5px !important"><i class="fa fa-group"></i> Groups For @Model.Name</h3>
-			</div>
-			@*<div class="col-xs-12 col-sm-6 text-right">
-				@if (isAdminOfLeague)
-				{
-					<a class="btn btn-info btn-sm" title="Add Members" href="@Url.Content("~/League/Members/Add")">
-						<i class="fa fa-plus-circle"></i> Add
-					</a>
-
-				}
-				@if (isPaid)
-				{
-					<a class="btn btn-default btn-sm" href="@Url.Content("~/league/members/view/report")">
-						<i class="fa fa-file-text"></i> Report
-					</a>
-				}
-				else
-				{
-					<a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
-						<i class="fa fa-file-text"></i> Report
-					</a>
-				}
-			</div>*@
-		</div>
-		@*<div class="text-muted">Change the permissions of people within your league.  Allow them to do various things within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName.</div>*@
+			</div>			
+		</div>		
 	</div>
-	@*<div class="panel-heading text-center no-padding-bottom margin-bottom-10" style="background-color:#fbfbfb">
-		@Html.Partial("Menus/LeagueViewMembers")
-	</div>*@
+	
 	<div id="double-scroll" class="panel-body no-padding padding-top-10" style="overflow-x:auto">
 		<table class="table table-striped table-hover table-condensedas" id="members">
 			<thead>
 				<tr>
-					<th>Name</th>
+					<th class="text-center">Name</th>
 					@for (int i = 0; i < Model.Groups.Count; i++)
 					{
-						<th>@Model.Groups[i].GroupName</th>
+						<th class="text-center">@Model.Groups[i].GroupName</th>
 					}
 				</tr>
 			</thead>
@@ -95,10 +71,10 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<th>Name</th>
+					<th class="text-center">Name</th>
 					@for (int i = 0; i < Model.Groups.Count; i++)
 					{
-						<th>@Model.Groups[i].GroupName</th>
+						<th class="text-center">@Model.Groups[i].GroupName</th>
 					}
 				</tr>
 			</tfoot>

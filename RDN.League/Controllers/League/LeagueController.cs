@@ -356,20 +356,54 @@ namespace RDN.League.Controllers
 				{
 					var groupMember = group.GroupMembers.FirstOrDefault(m => m.MemberId == memId);
 
-					if (groupMember == null)
+					if (groupMember != null)
+					{
+						groupMember.IsApartOfGroup = isApartOfGroup;
+					}
+					//it a this member is not in the group but it is apart of the group now create new LeagueGroupMember obj
+					else if (isApartOfGroup)
 					{
 						groupMember = new LeagueGroupMember();
 						groupMember.MemberId = memId;
 						group.GroupMembers.Add(groupMember);
-					}
-					groupMember.IsApartOfGroup = isApartOfGroup;
+						groupMember.IsApartOfGroup = isApartOfGroup;
 
+						// check for info in the league members
+						MemberDisplay member = league.LeagueMembers.FirstOrDefault(m => m.MemberId == memId);
+						if (member != null)
+						{							
+							groupMember.DerbyName = member.DerbyName;
+							groupMember.DerbyNameUrl = member.DerbyNameUrl;
+							groupMember.Firstname = member.Firstname;
+							groupMember.LastName = member.LastName;
+							groupMember.UserName = member.UserName;
+							groupMember.UserId = member.UserId;
+							groupMember.Email = member.Email;
+							groupMember.PhoneNumber = member.PhoneNumber;
+							groupMember.ClassificationId = member.ClassificationId;
+							groupMember.ClassificationName = member.ClassificationName;
+							groupMember.PlayerNumber = member.PlayerNumber;
+							groupMember.Gender = member.Gender;
+							groupMember.HeightFeet = member.HeightFeet;
+							groupMember.HeightInches = member.HeightInches;
+							groupMember.WeightLbs = member.WeightLbs;
+							groupMember.DOB = member.DOB;
+							groupMember.ThumbUrl = member.ThumbUrl;
+							groupMember.DidVote = member.DidVote;
+						}						
+					}
+					
 					bool updated = LeagueGroupFactory.UpdateGroup(group);
 					MemberCache.Clear(memId);
 					MemberCache.ClearApiCache(memId);
 					MemberCache.UpdateCurrentLeagueMemberCache(memId);
 					if (updated)
 					{
+						//it was a delete remove from collection
+						if (!isApartOfGroup && groupMember != null)
+						{
+							group.GroupMembers.Remove(groupMember);
+						}
 						return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
 					}
 				}
