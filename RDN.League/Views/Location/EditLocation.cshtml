@@ -7,9 +7,9 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Action("AllLocations","Location")">Location</a></li>
     @*<li><a href="@Url.Content("~/store/home/" + Model.PrivateManagerId.ToString().Replace("-", "") + "/" + Model.MerchantId.ToString().Replace("-", ""))">Shop</a></li>*@
-    <li class="active">Add New Location</li>
+    <li class="active">Edit Location</li>
 </ol>
 <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
@@ -96,9 +96,9 @@
                     <button type="submit" class="btn btn-success margin-bottom-10" name="createLocation"><i class="fa fa-save"></i> Update Location</button>
                 </div>
                 @Html.HiddenFor(x => x.LocationId)
-                @*@Html.HiddenFor(x => x.OwnerId)
+                @Html.HiddenFor(x => x.OwnerId)
                 @Html.HiddenFor(x => x.OwnerType)
-                @Html.HiddenFor(x => x.RedirectTo)*@
+                @Html.HiddenFor(x => x.RedirectTo)
             }
         </div>
     </div>
