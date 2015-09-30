@@ -9,6 +9,7 @@ using RDN.Library.Classes.Error;
 using RDN.Library.Classes.League.Links;
 using RDN.Library.Util;
 using RDN.Library.Util.Enum;
+using RDN.League.Models.Filters;
 
 namespace RDN.League.Controllers.League
 {
@@ -19,7 +20,8 @@ namespace RDN.League.Controllers.League
 #endif
     public class LinksController : BaseController
     {
-                
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult ViewLinks()
         {
             NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(Request.Url.Query);
@@ -71,12 +73,14 @@ namespace RDN.League.Controllers.League
             var links = RDN.Library.Classes.League.Links.LinkManager.GetLeagueLinks(league.LeagueId);
             return View(links);            
         }
-        
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult AddNewLink()
         {
             return View();
         }
-        
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult AddNewLink(LinkManager linkManager)
@@ -95,7 +99,8 @@ namespace RDN.League.Controllers.League
                 return View();
         }
 
-        
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult Delete(long id, string leagueId)
         {
             try
@@ -118,7 +123,8 @@ namespace RDN.League.Controllers.League
 
         }
 
-
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult LinkDetail(long id, string leagueId)
         {
             var memId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -131,7 +137,8 @@ namespace RDN.League.Controllers.League
            
             return View(Data);
         }
-
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult EditLink(long id, string leagueId)
         {
             try
@@ -149,7 +156,8 @@ namespace RDN.League.Controllers.League
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
         }
-
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditLink(LinkManager linkManager)
