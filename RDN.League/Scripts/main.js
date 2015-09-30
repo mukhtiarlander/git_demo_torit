@@ -1454,7 +1454,7 @@ function onReturnOfSkaterAddedToTeam() {
 var calendarId;
 var eventId;
 var addEventPopup = false;
-function checkIntoEvent(idOfPopUp, calId, evenId, name) {
+function checkIntoEvent(idOfPopUp, calId, evenId) {
     calendarId = calId;
     eventId = evenId;
     $(".popover").hide().remove();
