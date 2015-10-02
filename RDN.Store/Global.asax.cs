@@ -125,7 +125,7 @@ new { controller = "Home", action = "sell" } // Parameter defaults
 "Shops", // Route name
 "{url}", // URL with parameters
 new { controller = "Home", action = "Shops" },
-            new { url = "roller-derby-shops" }
+            new { url = "(roller-derby|soccer)-shops" }
 );
             routes.MapRoute(
 "Review", // Route name
