@@ -1345,11 +1345,11 @@ namespace RDN.League.Controllers
                     memberSheet.Cells[1, 7].Value = "Excused";
                     memberSheet.Cells[1, 8].Value = "Tardy";
                     memberSheet.Cells[1, 9].Value = "Earned Pts";
-                    memberSheet.Cells[1, 10].Value = "Possible Pts"; 
+                    memberSheet.Cells[1, 10].Value = "Possible Pts";
                     memberSheet.Cells[1, 11].Value = "All";
                     memberSheet.Cells[1, 12].Value = "Counted";
                     memberSheet.Cells[1, 13].Value = "All Pts Earned";
-                   
+
                     ExcelWorksheet reportSheet = p.Workbook.Worksheets.Add("Report Totals");
                     reportSheet.Name = "Report Totals"; //Setting Sheet's name
                     reportSheet.Cells.Style.Font.Size = 11; //Default font size for whole sheet
@@ -1453,28 +1453,56 @@ namespace RDN.League.Controllers
                             memberSheet.Cells[memberRow, 2].Value = attendee.FullName;
 
                             var tempRow = memberRow;
-                            if (attendee.EventTypes != null)
+                            if (attendee.EventTypes != null && attendee.EventTypes.Count > 0)
                             {
                                 foreach (var eventType in attendee.EventTypes.OrderBy(x => x.CalendarEventTypeId))
                                 {
                                     memberSheet.Cells[tempRow, 3].Value = eventType.EventTypeName;
-                                    memberSheet.Cells[tempRow, 4].Value = cal.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == eventType.CalendarEventTypeId).Count();
+                                    memberSheet.Cells[tempRow, 4].Value =
+                                        cal.Events.Where(
+                                            x =>
+                                                x.EventType != null &&
+                                                x.EventType.CalendarEventTypeId == eventType.CalendarEventTypeId)
+                                            .Count();
                                     memberSheet.Cells[tempRow, 5].Value = eventType.TotalTimesAttendedEventType;
                                     memberSheet.Cells[tempRow, 6].Value = eventType.TotalTimesBeenAbsent;
                                     memberSheet.Cells[tempRow, 7].Value = eventType.TotalTimesBeenExcused;
                                     memberSheet.Cells[tempRow, 8].Value = eventType.TotalTimesBeenTardy;
                                     memberSheet.Cells[tempRow, 9].Value = eventType.TotalPointsAccruedForType;
-                                    memberSheet.Cells[tempRow, 10].Value = cal.Events.Where(x => x.EventType != null && x.EventType.CalendarEventTypeId == eventType.CalendarEventTypeId).Sum(x => x.EventType.PointsForPresent);
-                                    memberSheet.Cells[tempRow, 11].Value = eventType.TotalAllPointsPossiblePercentage.ToString("N0");
-                                    memberSheet.Cells[tempRow, 12].Value = eventType.TotalCountedPointsPossiblePercentage.ToString("N0");
+                                    memberSheet.Cells[tempRow, 10].Value =
+                                        cal.Events.Where(
+                                            x =>
+                                                x.EventType != null &&
+                                                x.EventType.CalendarEventTypeId == eventType.CalendarEventTypeId)
+                                            .Sum(x => x.EventType.PointsForPresent);
+                                    memberSheet.Cells[tempRow, 11].Value =
+                                        eventType.TotalAllPointsPossiblePercentage.ToString("N0");
+                                    memberSheet.Cells[tempRow, 12].Value =
+                                        eventType.TotalCountedPointsPossiblePercentage.ToString("N0");
+                                    if (tempRow == memberRow)
+                                        memberSheet.Cells[tempRow, 13].Value = attendee.TotalPoints;
+                                    if (tempRow == memberRow + 1)
+                                        memberSheet.Cells[tempRow, 13].Value = RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(attendee.TotalHoursAttendedEventType) + " hrs";
+                                    tempRow++;
+                                }
+                                if (attendee.EventTypes.Count == 1)
+                                {
+                                    memberSheet.Cells[tempRow, 13].Value = RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(attendee.TotalHoursAttendedEventType) + " hrs";
                                     tempRow++;
                                 }
                             }
-                            memberSheet.Cells[memberRow, 13].Value = attendee.TotalPoints +
-                                                                            RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(attendee.TotalHoursAttendedEventType) + " hrs";
+                            else
+                            {
+
+                                memberSheet.Cells[tempRow, 13].Value = attendee.TotalPoints;
+                                tempRow++;
+                                memberSheet.Cells[tempRow, 13].Value = RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(attendee.TotalHoursAttendedEventType) + " hrs";
+                            }
+
                             if (memberRow == tempRow) memberRow++;
                             else memberRow = tempRow;
                             ws.Cells["A1:K20"].AutoFitColumns();
+                            memberSheet.Cells.AutoFitColumns();
                             rowReport += 1;
 
 

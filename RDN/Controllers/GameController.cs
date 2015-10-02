@@ -243,7 +243,9 @@ namespace RDN.Controllers
             try
             {
                 var pictures = GameServerViewModel.GetPicturesOfGameFromDb(new Guid(id));
-                return Json(new { pictures = pictures }, JsonRequestBehavior.AllowGet);
+                var jsonResult = Json(new { pictures = pictures }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
             }
             catch (Exception exception)
             {
