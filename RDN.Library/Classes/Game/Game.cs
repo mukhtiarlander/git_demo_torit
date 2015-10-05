@@ -111,8 +111,8 @@ namespace RDN.Library.Classes.Game
                              select new CurrentGameJson
                              {
                                  StartTime = xx.GameDate,
-                                 JamNumber = xx.GameJams.OrderByDescending(x => x.JamNumber).FirstOrDefault().JamNumber,
-                                 PeriodNumber = xx.GameJams.OrderByDescending(x => x.JamNumber).FirstOrDefault().CurrentPeriod,
+                                 JamNumber = xx.GameJams.OrderByDescending(x => x.JamNumber).FirstOrDefault() == null ? 0 : xx.GameJams.OrderByDescending(x => x.JamNumber).FirstOrDefault().JamNumber,
+                                 PeriodNumber = xx.GameJams.OrderByDescending(x => x.JamNumber).FirstOrDefault() == null ? 0 : xx.GameJams.OrderByDescending(x => x.JamNumber).FirstOrDefault().CurrentPeriod,
                                  GameId = xx.GameId,
                                  RuleSet = xx.GameType,
                                  GameName = xx.GameName,
