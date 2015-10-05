@@ -6,7 +6,7 @@
 <br />
 <div class="row text-center">
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="bold">Join over @Model.LeagueCount leagues from around the world</h3>
+        <h3 class="bold">Join over @Model.LeagueCount.ToString("N0") leagues from around the world</h3>
         <div>Manage every part of your league</div>
         <br />
         @foreach (var league in Model.RandomLeagues)
@@ -17,7 +17,7 @@
 </div><br />
 <div class="row text-center">
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="bold">Join over @Model.MemberCount people from around the world</h3>
+        <h3 class="bold">Join over @Model.MemberCount.ToString("N0") people from around the world</h3>
         <div>Keep track of all your members</div>
         <br />
         @foreach (var league in Model.RandomSkaters)

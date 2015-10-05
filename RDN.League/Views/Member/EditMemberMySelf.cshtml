@@ -33,7 +33,8 @@
                     {
                         <img class="round-corners" style="width: 100%; max-width: 400px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
                     }
-                    <input class="btn btn-default margin-top-10 margin-bottom-10" type="file" name="file" id="file" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto" />
+                    <input class="btn btn-default margin-top-10 margin-bottom-10" type="file"  name="file" id="file" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto" />
+                    <label id="lblFileError" style="color: red;"/>
                 </div>
 
                 <div class="col-sm-12 col-md-7 col-lg-9">
@@ -396,6 +397,22 @@
             theme: "modern",
             plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
         });
+        var file = $("#file");
+        file.change(function () {
+            var ext = this.value.match(/\.([^\.]+)$/)[1];
+            switch (ext) {
+                case 'jpg':
+                case 'jpeg':
+                case 'tiff':
+                case 'png':
+                    $("#lblFileError").text("");
+                    break;
+                default:
+                    $("#lblFileError").text("Invalid file type");
+                    this.value = '';
+            }
+        });
+
     });
     $('#myTab a').click(function (e) {
         e.preventDefault();
