@@ -71,6 +71,7 @@ namespace RDN.League.Controllers.League
                 SetCulture(league.CultureSelected);
 
             var links = RDN.Library.Classes.League.Links.LinkManager.GetLeagueLinks(league.LeagueId);
+
             return View(links);            
         }
         [Authorize]
@@ -134,9 +135,10 @@ namespace RDN.League.Controllers.League
                 SetCulture(league.CultureSelected);
 
             var Data = RDN.Library.Classes.League.Links.LinkManager.GetLeagueLink(id, new Guid(leagueId));
-           
+
             return View(Data);
         }
+       
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult EditLink(long id, string leagueId)

@@ -2,15 +2,7 @@
 
 @{
     ViewBag.Title = "View Link";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var linkURL = string.Empty;
-    if (Model.Link.IndexOf("http") > -1 || Model.Link.IndexOf("https") > -1)
-    {
-        linkURL = Model.Link;
-    }else{
-        linkURL = "http://"+Model.Link;
-    }
+    Layout = "~/Views/Shared/_Layout.cshtml";  
 }
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
@@ -33,14 +25,11 @@
             <div class="panel-body no-padding-top">             
                 <div class="row">
                   
-                    <div class="col-xs-12 col-sm-6 text-left nowrap">
-                    
+                    <div class="col-xs-12 col-sm-6 text-left nowrap">                    
                         <label class="form-label margin-top-25">
-                            
-                                <a target="_blank" href="@Url.Content(linkURL)">
+                                <a target="_blank" href="@Url.Content(Model.Link)">
                                     <i class="fa fa-external-link"></i> @Model.Link
-                                </a>
-                            
+                                </a>                            
                         </label>
                     </div>
                 </div> 
