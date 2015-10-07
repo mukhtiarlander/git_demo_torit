@@ -319,7 +319,7 @@
                 elements: "wmd-input",
                 theme: "modern",
                 content_css: '/content/tinymce/tinymce.content.css',
-                plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+                plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
                 language: "en",
                 relative_urls: false,
                 uploadType: uploadType,
