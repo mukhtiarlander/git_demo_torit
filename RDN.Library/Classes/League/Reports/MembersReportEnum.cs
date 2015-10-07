@@ -38,7 +38,9 @@ namespace RDN.Library.Classes.League.Reports
         Son = 29,
         Daughter = 30,
         Partner = 31,
-        Sibling = 32
+        Sibling = 32,
+        Derby_Name = 33
         //Groups = 15
+
     }
 }
