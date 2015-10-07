@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace RDN.Library.Classes.Site.Enums
 {
-  public enum SiteType
+    public enum SiteType
     {
-      RollerDerby = 0
+        RollerDerby = 0,
+        Soccer = 1
     }
 }

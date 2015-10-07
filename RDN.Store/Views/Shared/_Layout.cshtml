@@ -56,7 +56,7 @@
                         <input id="search" type="text" class="form-control" placeholder="Search" />
                     </div>
                 </form>
-                <ul class="nav navbar-nav navbar-right" >
+                <ul class="nav navbar-nav navbar-right">
                     @Html.Partial("_PartialLoginLinks")
                     <a class="btn btn-sm btn-cart pull-right margin-top-10 margin-left-15 text-white @(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)" href="@Url.Content("~/cart")"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm">Cart</span> <span class="cart-count">@HttpContext.Current.Session["cartCount"].ToString()</span></a>
                 </ul>
@@ -77,8 +77,8 @@
         </a>
     </div>
     @MiniProfiler.RenderIncludes()
-    
-  
+
+
     <div class="footer">
         @Html.Partial("_PartialFooter")
     </div>
@@ -86,7 +86,14 @@
 
     <script src="@Url.Content("~/Scripts/jquery-1.11.1.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/main.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/Sites/rdnation.js")" type="text/javascript"></script>
+    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+    {
+        <script src="@Url.Content("~/Scripts/Sites/rdnation.js")" type="text/javascript"></script>
+    }
+    else if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.Soccer)
+    {
+        <script src="@Url.Content("~/Scripts/Sites/snation.js")" type="text/javascript"></script>
+    }
     <script src="@Url.Content("~/Scripts/masonry/imagesloaded.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/masonry/masonry.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")" type="text/javascript"></script>
@@ -123,7 +130,8 @@
                 $('.shop-grid').masonry();
             });
         });
-          
+
     </script>
 </body>
+
 </html>

@@ -64,6 +64,8 @@ namespace RDN
 
             if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/rdnation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Soccer)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/snation.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
