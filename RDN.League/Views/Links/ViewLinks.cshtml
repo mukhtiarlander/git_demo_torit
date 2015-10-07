@@ -11,23 +11,6 @@
     bool isEditable = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
 
-@helper CheckLinkURL(string url)
-{
-        
-    if (url.IndexOf("http") > -1 || url.IndexOf("https") > -1)
-    {
-        <a target="_blank" href="@Url.Content(url)">
-                                                    <i class="fa fa-external-link"></i> 
-                                                </a>
-    }
-    else
-    {
-        <a target="_blank" href="@Url.Content("http://"+url)">
-                                                    <i class="fa fa-external-link"></i> 
-                                                </a>
-    }    
-}
-
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Links</li>
@@ -70,10 +53,9 @@
                             }
                         </td>
                          <td>
-                           @*  <a target="_blank" href="@Url.Content(CheckLinkURL(item.Link))">
+                           <a target="_blank" href="@Url.Content(item.Link)">
                                                     <i class="fa fa-external-link"></i> 
-                                                </a>*@
-                             @CheckLinkURL(item.Link)
+                                                </a>                             
                              <a href="@Url.Content("~/League/Links/View/" + item.LinkId + "/" + item.LinksForLeague.ToString().Replace("-", ""))">@item.Link</a>
                         </td>                      
                     </tr>

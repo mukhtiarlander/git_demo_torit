@@ -304,6 +304,9 @@ namespace RDN.Library.Classes.AutomatedTask
                             }
                         }
 
+                        dc.SaveChanges();
+
+
                         foreach (var mem in newMembers)
                         {
                             try
@@ -323,7 +326,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                 Error.ErrorDatabaseManager.AddException(exception, exception.GetType());
                             }
                         }
-                        dc.SaveChanges();
+                        
                     }
                 }
             }
