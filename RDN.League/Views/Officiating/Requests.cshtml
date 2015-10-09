@@ -49,6 +49,7 @@
         <table class="table table-striped table-hover table-condensed no-margin-bottom" id="boutRequest">
             <thead>
                 <tr>
+					<th></th>
                     <th>Teams Playing</th>
                     <th>Location</th>
                     <th>Date</th>
@@ -59,7 +60,6 @@
                     <th>Regulation</th>
                     <th>Evaluation</th>
                     <th>Snacks</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -67,7 +67,19 @@
                 @foreach (var b in Model)
                 {
                     <tr class="@(b.RequestId % 2 == 0 ? "tr1" : "tr0")">
-                       
+						<td>
+
+							@if (memId == b.RequestCreator)
+							{
+								<a class="btn btn-xs btn-success" href="@Url.Content("~/officiating/editrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>
+								<a class="btn btn-xs btn-warning" href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+							}
+							else
+							{
+
+								<a class="btn btn-xs btn-warning" href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+							}
+						</td>
                         <td>
                             @Truncate(b.TeamsPlaying, 23)
                         </td>
@@ -112,20 +124,7 @@
                         <td>
                             <label>@Html.CheckBox("IsSnacksProvided", b.IsSnacksProvided, new { @disabled = "disabled" })</label>
 
-                        </td>
-                        <td>
-
-                            @if (memId == b.RequestCreator)
-                            {
-                                <a  class="btn btn-xs btn-success" href="@Url.Content("~/officiating/editrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>
-                                <a class="btn btn-xs btn-warning" href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
-                            }
-                            else
-                            {
-
-                                <a href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))">View </a>
-                            }
-                        </td>
+                        </td>                        
                     </tr>
                 }
             </tbody>
