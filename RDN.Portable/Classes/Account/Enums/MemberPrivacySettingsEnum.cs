@@ -16,5 +16,6 @@ namespace RDN.Portable.Classes.Account.Enums
         Hide_DOB_From_League = 4,
         Hide_DOB_From_Public = 8,
         Do_You_Derby = 16,
+        Hide_Address_From_League=32
     }
 }
