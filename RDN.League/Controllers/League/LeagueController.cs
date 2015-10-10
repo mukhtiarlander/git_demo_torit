@@ -1191,9 +1191,10 @@ namespace RDN.League.Controllers
                 bool isAdminOfLeague=RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
               
                 bool isAddressHide = false;
-                if (isAdminOfLeague && display.Settings.Hide_Address_From_League)
+                if (display.Settings.Hide_Address_From_League)
                 {
-                    isAddressHide = true;
+                    if(isAdminOfLeague)
+                        isAddressHide = true;
                 }
 
                 ViewBag.LeagueName = league.Name;
@@ -1210,7 +1211,7 @@ namespace RDN.League.Controllers
                     {
                         var add = mem.ContactCard.Addresses.FirstOrDefault();
                         //check to see login user is accessible to see Address then provide its respective values 
-                        if (isAddressHide)
+                        if (isAddressHide || !display.Settings.Hide_Address_From_League)
                         {
                             memObj.Address1 = add.Address1;
                             memObj.Address2 = add.Address2;

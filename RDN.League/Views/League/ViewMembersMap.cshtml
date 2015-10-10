@@ -92,8 +92,7 @@
                                     {
 
                                         <script type="text/javascript">
-                                            $(document).ready(function () {
-                                                // var memData = "@Model[i].DerbyName|||||@Model[i].ThumbUrl||@Model[i].photoUrl";
+                                            $(document).ready(function () {                                                
                                                 var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
                                                 createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
                                             });
