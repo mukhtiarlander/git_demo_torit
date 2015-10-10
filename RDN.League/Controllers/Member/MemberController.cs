@@ -303,7 +303,7 @@ namespace RDN.League.Controllers
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Success;
-                    message.Message = "Successfully Updated Profile.";
+                    message.Message = "Successfully Updated";
                     this.AddMessage(message);
                 }
                 var memid = RDN.Library.Classes.Account.User.GetMemberId();
