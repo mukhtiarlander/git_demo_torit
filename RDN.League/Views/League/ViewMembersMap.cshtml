@@ -1,11 +1,12 @@
-﻿@model List<RDN.Portable.Models.Json.SkaterJson>
+﻿﻿@model List<RDN.Portable.Models.Json.SkaterJson>
 @{
     ViewBag.Title = "Map for Members in " + ViewBag.LeagueName;
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
-    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
-}
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);    
+    
+  }
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
@@ -75,20 +76,23 @@
                                 </td>
                                 <td> @(i + 1)<span>.</span></td>
                                 <td>
-                                    @Model[i].DerbyName
-                                    @if (!String.IsNullOrEmpty(Model[i].Address1))
+                                    @Model[i].DerbyName                                
+                                
+                                 
+                                   @if (!String.IsNullOrEmpty(Model[i].Address1))
                                     {
                                         <br />
                                         @Model[i].Address1 @Model[i].Address2
                                         <br />
                                     }
+                                    @if(!String.IsNullOrEmpty(Model[i].City) &&!String.IsNullOrEmpty(Model[i].State) && !String.IsNullOrEmpty(Model[i].Zip)){
                                     @Model[i].City @Model[i].State @Model[i].Zip
-
+                                    }
                                     @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
                                     {
 
                                         <script type="text/javascript">
-                                            $(document).ready(function () {
+                                            $(document).ready(function () {                                                
                                                 var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
                                                 createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
                                             });
@@ -128,6 +132,6 @@
         });
         $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
     });
-   
+
 
 </script>

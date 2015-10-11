@@ -89,5 +89,10 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public bool ForumDescending { get; set; }
 
+        
+            
+        [ProtoMember(620)]
+        [DataMember]
+        public bool Hide_Address_From_League { get; set; }
     }
 }

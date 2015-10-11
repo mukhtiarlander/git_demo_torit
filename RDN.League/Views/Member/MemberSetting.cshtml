@@ -16,18 +16,19 @@
     <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-cog"></i> Profile Settings</h3>
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-cog"></i>Profile Settings</h3>
             </div>
             <div class="panel-heading no-padding-bottom">
                 <div class="row">
                     <div class="col-xs-12">
-                        <ul class="nav nav-tabs" role="tablist" id="myTabs" style="margin-bottom:-1px;">
-                            @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>*@
-                            <li role="presentation" class="active margin-left-5"><a href="#Calendar" role="tab" data-toggle="tab"><i class="fa fa-calendar-o"></i> Calendar</a></li>
-                            <li role="presentation" class="margin-left-5"><a href="#Mobile" role="tab" data-toggle="tab"><i class="fa fa-mobile"></i> Mobile</a></li>
-                            <li role="presentation" class="margin-left-5"><a href="#Notifications" role="tab" data-toggle="tab"><i class="fa fa-envelope-o"></i> Notifications</a></li>
-                            <li role="presentation" class="margin-left-5"><a href="#Privacy" role="tab" data-toggle="tab"><i class="fa fa-shield"></i> Privacy</a></li>
-                            <li role="presentation" class="margin-left-5"><a href="#Forum" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i> Forum</a></li>
+                        <ul class="nav nav-tabs" role="tablist" id="myTabs" style="margin-bottom: -1px;">
+                            @*<li role="presentation"><a href="#Stats" role="tab" data-toggle="tab">Stats</a></li>
+                            *@
+                            <li role="presentation" class="active margin-left-5"><a href="#Calendar" role="tab" data-toggle="tab"><i class="fa fa-calendar-o"></i>Calendar</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Mobile" role="tab" data-toggle="tab"><i class="fa fa-mobile"></i>Mobile</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Notifications" role="tab" data-toggle="tab"><i class="fa fa-envelope-o"></i>Notifications</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Privacy" role="tab" data-toggle="tab"><i class="fa fa-shield"></i>Privacy</a></li>
+                            <li role="presentation" class="margin-left-5"><a href="#Forum" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>Forum</a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,8 +36,8 @@
             <div class="panel-body no-padding-bottom">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="Calendar">
-                        <h4 style="border-bottom:1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
-                            <i class="fa fa-calendar"></i> Calendar Settings
+                        <h4 style="border-bottom: 1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
+                            <i class="fa fa-calendar"></i>Calendar Settings
                         </h4>
                         <div class="form-label margin-bottom-5">
                             Default Calendar View
@@ -48,8 +49,8 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Mobile">
-                        <h4 style="border-bottom:1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
-                            <i class="fa fa-mobile-phone"></i> Mobile Alerts<br />
+                        <h4 style="border-bottom: 1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
+                            <i class="fa fa-mobile-phone"></i>Mobile Alerts<br />
                             <span class="text-muted"><small>Your team will be able to send you a quick message about something important.</small></span>
                         </h4>
                         <div class="form-label margin-bottom-5">
@@ -60,7 +61,7 @@
                             <div class="col-xs-12 col-sm-6 text-right">
                                 @if (Model.IsCarrierVerified)
                                 {
-                                    <span><i class="fa fa-check-circle"></i> Verified</span>
+                                    <span><i class="fa fa-check-circle"></i>Verified</span>
                                 }
                             </div>
                         </div>
@@ -69,21 +70,21 @@
                                 <small class="text-muted">We will not share your number; for more information, see our <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/privacy" target="_blank">Privacy Policy</a>. Fees May Apply</small>
                             </p>
                             <p>
-                                <button type="button"  class="btn btn-primary" onclick="javascript: VerifySMSCarrier(this)"><i class="fa fa-envelope-o"></i> Send Verification Code</button>
-                                
+                                <button type="button" class="btn btn-primary" onclick="javascript: VerifySMSCarrier(this)"><i class="fa fa-envelope-o"></i>Send Verification Code</button>
+
                             </p>
                         </div>
                         <div id="codeHtml" class="display-none margin-bottom-10">
                             <small>A Verification Code was sent to your mobile phone.  </small>
                             <div class="margin-bottom-5">Enter Verification Code:</div>
                             <input type="text" id="code" placeholder="Verification Code" class="form-control w200" />
-                            <button type="button" class="btn btn-primary margin-top-10" onclick="javascript: EnterCarrierCode(this)" >Verify</button>
-                            
+                            <button type="button" class="btn btn-primary margin-top-10" onclick="javascript: EnterCarrierCode(this)">Verify</button>
+
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="Notifications">
                         <h4 class="margin-bottom-10 padding-bottom-5">
-                            <i class="fa fa-envelope-o"></i> Email Notifications - <small><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Member_Settings#Notification_Settings">Help</a></small><br />
+                            <i class="fa fa-envelope-o"></i>Email Notifications - <small><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Member_Settings#Notification_Settings">Help</a></small><br />
                             <span class="text-muted"><small>Checking this first box will ENABLE an email notification to you outside of the forums section.</small></span>
                         </h4>
                         <table class="table">
@@ -97,7 +98,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" class="b text-center"><h4>League Forum</h4></td>
+                                <td colspan="2" class="b text-center">
+                                    <h4>League Forum</h4>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="b  text-right">Broadcasted Posts:</td>
@@ -127,7 +130,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" class="b text-center"><h4>Forum Groups</h4></td>
+                                <td colspan="2" class="b text-center">
+                                    <h4>Forum Groups</h4>
+                                </td>
                             </tr>
                             @foreach (var group in Model.GroupsApartOf)
                                         {
@@ -140,17 +145,17 @@
                                         </label>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="b  text-right">@group.GroupName New Post:</td>
-                                    <td>
-                                        <label>
-                                            @Html.CheckBox("group-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'group', '" + group.Id + "')" })
+                            <tr>
+                                <td class="b  text-right">@group.GroupName New Post:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBox("group-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'group', '" + group.Id + "')" })
                                             <small class="i">Turns On New Forum Posts</small>
-                                        </label>
-                                    </td>
-                                </tr>
+                                    </label>
+                                </td>
+                            </tr>
 
-                                        }
+                            }
 
 
                         </table>
@@ -158,7 +163,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="Privacy">
                         <h4 class="margin-bottom-10 padding-bottom-5">
-                            <i class="fa fa-shield"></i> Privacy Settings<br />
+                            <i class="fa fa-shield"></i>Privacy Settings<br />
                         </h4>
                         <table class="table">
                             <tr>
@@ -189,11 +194,20 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="b  text-right">Hide Date Of Birth From League:</td>
+                            <td class="b  text-right">Hide Date Of Birth From League:</td>
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.Hide_DOB_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_League + "')" })
                                         <small class="i">Only shows DOB to managers</small>
+                                    </label>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td class="b  text-right">Hide Address from League:</td>
+                                <td>
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.Hide_Address_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Address_From_League + "')" })
+                                        <small class="i">Only shows address to managers</small>
                                     </label>
                                 </td>
                             </tr>
@@ -204,14 +218,13 @@
                                         @Html.CheckBoxFor(x => x.Hide_DOB_From_Public, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_Public + "')" })
                                     </label>
                                 </td>
-                            </tr>
-
+                            </tr>                        
                         </table>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Forum">
-                        <h4 style="border-bottom:1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
-                            <i class="fa fa-files-o"></i> Forum Settings
+                        <h4 style="border-bottom: 1px solid #ddd" class="margin-bottom-10 padding-bottom-10">
+                            <i class="fa fa-files-o"></i>Forum Settings
                         </h4>
                         <div class="form-label margin-bottom-5">
                             <label>Order Messages as Latest First: @Html.CheckBoxFor(x => x.ForumDescending, new { @onchange = "Member.changeForumMessageOrderSetting(this)" })</label>
@@ -224,11 +237,11 @@
         </div>
     </div>
 </div>
-            <script type="text/javascript">
-                $("#tabs").tabs();
-                $("#CalendarViewDefault").change(function () {
-                    changeMemberSettingCalView(this.value);
-                });
-                $("#PhoneNumber").numeric({ negative: false, decimal: false });
-                $("#code").numeric({ negative: false, decimal: false });
-            </script>
+<script type="text/javascript">
+    $("#tabs").tabs();
+    $("#CalendarViewDefault").change(function () {
+        changeMemberSettingCalView(this.value);
+    });
+    $("#PhoneNumber").numeric({ negative: false, decimal: false });
+    $("#code").numeric({ negative: false, decimal: false });
+</script>
