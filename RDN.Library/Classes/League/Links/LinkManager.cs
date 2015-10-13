@@ -82,7 +82,11 @@ namespace RDN.Library.Classes.League.Links
                 var link = dc.Links.Where(x => x.LinkId == linkId && x.LinksForLeague.LeagueId == LinkForLeague).FirstOrDefault();
 
                 if (link != null)
-                { 
+                {
+                    if (!(link.Link.StartsWith("http://")))
+                    {
+                        link.Link = "http://" + link.Link;
+                    }
                     return new LinkManager {LinkId=link.LinkId, Link=link.Link, Notes=link.Notes,LinksAddByMember=link.LinksAddByMember.MemberId,LinksForLeague=link.LinksForLeague.LeagueId};
                 }
             }
@@ -106,6 +110,10 @@ namespace RDN.Library.Classes.League.Links
                 {
                     foreach (var item in links)
                     {
+                        if (!(item.Link.StartsWith("http://")))
+                        {
+                            item.Link = "http://" + item.Link;
+                        }
                         itemLists.Add(new LinkManager { LinkId=item.LinkId,Link = item.Link, Notes = item.Notes, LinksAddByMember = item.LinksAddByMember.MemberId, LinksForLeague = item.LinksForLeague.LeagueId });
                     }
                 }

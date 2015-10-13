@@ -1080,6 +1080,7 @@ namespace RDN.Library.Classes.Calendar
                             DaysOfWeek = ev.DaysOfWeekReocurring,
                             MonthlyInterval = ev.MonthlyIntervalReocurring
                         };
+                        aEvent.Anniversary = new Anniversary() { Day = DateTime.UtcNow.Day, Month = DateTime.UtcNow.Month };
                         var schedule = new Schedule(aEvent);
 
                         var range = new DateRange()

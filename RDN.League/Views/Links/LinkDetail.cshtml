@@ -2,15 +2,7 @@
 
 @{
     ViewBag.Title = "View Link";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var linkURL = string.Empty;
-    if (Model.Link.IndexOf("http") > -1 || Model.Link.IndexOf("https") > -1)
-    {
-        linkURL = Model.Link;
-    }else{
-        linkURL = "http://"+Model.Link;
-    }
+    Layout = "~/Views/Shared/_Layout.cshtml";  
 }
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
@@ -26,28 +18,30 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12">
-                        <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.Link</h3>
+                        <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i>View Link </h3>
                     </div>
                 </div>
-                <div class="text-muted">View Link </div>
             </div>
             <div class="panel-body no-padding-top">             
-                <div class="col-xs-12 col-sm-6 text-left" >                    
-                    <label class="form-label margin-top-25"><b> <a target="_blank" href="@Url.Content(linkURL)">
-                                                    <i class="fa fa-external-link"></i> @Model.Link
-                                                </a></b>                     
-                    </label>
+                <div class="row">
+                  
+                    <div class="col-xs-12 col-sm-6 text-left nowrap">                    
+                        <label class="form-label margin-top-25">
+                                <a target="_blank" href="@Url.Content(Model.Link)">
+                                    <i class="fa fa-external-link"></i> @Model.Link
+                                </a>                            
+                        </label>
+                    </div>
                 </div> 
-                <div class="col-xs-12 col-sm-6 text-left ">    
-                    <b>Notes</b>                 
-                    <br />
-                    <label class="form-label" style="word-wrap: break-word;"> @Html.Raw(Model.Notes)</label>                
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 text-left ">
+                        <b>Notes</b>
+                        <br />
+                        <label class="form-label" style="word-wrap: break-word;"> @Html.Raw(Model.Notes)</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-   
-</script>

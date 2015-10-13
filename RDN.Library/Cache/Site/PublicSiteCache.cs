@@ -16,7 +16,7 @@ namespace RDN.Library.Cache.Site
         public static List<CurrentGameJson> GetPastGames()
         {
             var cached = GetCache(HttpContext.Current.Cache);
-            if (cached.PastGames == null)
+            if (cached.PastGames == null || cached.PastGames.Count==0)
             {
                 cached.PastGames = RDN.Library.Classes.Game.Game.GetPastWeeksGames();
                 UpdateCache(cached);

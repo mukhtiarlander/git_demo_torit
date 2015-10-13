@@ -188,14 +188,14 @@ else
 
                                 @if (attend != null && calEvent.AllowSelfCheckIn)
                                 {
-                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name','@checkInStatusId')"
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-check-square fa-lg"></i>
                                     </button>
                                 }
                                 else if (calEvent.AllowSelfCheckIn && calEvent.IsCurrentMemberApartOfEvent || (calEvent.AllowSelfCheckIn && isApartOfEvent != null))
                                 {
-                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId', '@calEvent.Name')"
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-square-o fa-lg"></i>
                                     </button>

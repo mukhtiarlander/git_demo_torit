@@ -104,6 +104,25 @@ namespace RDN.League.Controllers
 
             try
             {
+                PaymentGateway pg = new PaymentGateway();
+
+                var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.AddSubscriptionOwnerId);
+
+                if (bi != null && bi.InvoiceId != Guid.Empty)
+                {
+                    var result =
+                        pg.StartInvoiceWizard()
+                            .Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe,
+                                LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                            .SetInvoiceId(bi.InvoiceId)
+                            .FinalizeInvoice();
+
+                    //clears the member cache to update all cache repos of the league members.
+                    MemberCache.ClearLeagueMembersCache(add.AddSubscriptionOwnerId);
+                    MemberCache.ClearLeagueMembersApiCache(add.AddSubscriptionOwnerId);
+                }
+
+
                 string paymentProvider = Request.Form["PaymentType"].ToString();
                 string articleNumberForSubscription = "none";
 
@@ -153,7 +172,7 @@ namespace RDN.League.Controllers
                     lengthOfDays = ts.Days;
                 }
 
-                PaymentGateway pg = new PaymentGateway();
+            
                 var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription

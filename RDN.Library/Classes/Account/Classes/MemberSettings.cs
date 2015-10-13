@@ -359,6 +359,7 @@ namespace RDN.Library.Classes.Account.Classes
                 s.Hide_DOB_From_Public = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_DOB_From_Public);
                 s.Hide_Email_From_League = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_Email_From_League);
                 s.Hide_Phone_Number_From_League = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_Phone_Number_From_League);
+                s.Hide_Address_From_League = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_Address_From_League);
                 s.ForumDescending = settings.ForumDescending;
                 return s;
             }

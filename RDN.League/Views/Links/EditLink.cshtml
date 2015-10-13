@@ -19,7 +19,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
-                            <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> @Model.Link</h3>
+                            <h3 style="margin-top:5px !important"><i class="fa fa-cube"></i> Edit Link</h3>
                         </div>
                         <div class="col-xs-12 col-sm-6 text-right">
                             <a class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?')" title="Delete Link Item" href="@Url.Content("~/league/links/delete/" + Model.LinkId + "/" + Model.LinksForLeague.ToString().Replace("-", ""))">
@@ -27,7 +27,6 @@
                             </a>
                         </div>
                     </div>
-                    <div class="text-muted"> Edit Link</div>
                 </div>
                 <div class="panel-body no-padding-top">
                     <div class="row">
@@ -70,7 +69,7 @@
             mode: "textareas",
             elements: "elm2",
             theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
         });
     });
 

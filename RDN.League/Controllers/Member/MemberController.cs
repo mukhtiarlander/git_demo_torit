@@ -157,6 +157,7 @@ namespace RDN.League.Controllers
                 display.Settings.Hide_DOB_From_Public = display.Settings.Hide_DOB_From_Public;
                 display.Settings.Hide_Email_From_League = display.Settings.Hide_Email_From_League;
                 display.Settings.Hide_Phone_Number_From_League = display.Settings.Hide_Phone_Number_From_League;
+                display.Settings.Hide_Address_From_League = display.Settings.Hide_Address_From_League;
                 display.Settings.DoYouDerby = !display.IsNotConnectedToDerby;
                 display.Settings.ForumDescending = display.Settings.ForumDescending;
                 ViewBag.CalendarView = RDN.League.Classes.Enums.EnumExt.ToSelectList(display.Settings.CalendarViewDefault);
@@ -303,7 +304,7 @@ namespace RDN.League.Controllers
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Success;
-                    message.Message = "Successfully Updated Profile.";
+                    message.Message = "Successfully Updated";
                     this.AddMessage(message);
                 }
                 var memid = RDN.Library.Classes.Account.User.GetMemberId();
