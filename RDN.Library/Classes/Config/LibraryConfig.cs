@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using RDN.Library.Classes.Site.Enums;
+using RDN.Library.Cache;
 
 namespace RDN.Library.Classes.Config
 {
@@ -14,7 +15,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["PublicSite"];
+                return SiteCache.GetConfigurationValue("PublicSite");
             }
         }
 
@@ -22,15 +23,15 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteMainEmail"];
+                return SiteCache.GetConfigurationValue("WebsiteMainEmail");
             }
         }
 
         public static string DefaultEmailSubject
         {
             get
-            {
-                return ConfigurationManager.AppSettings["DefaultEmailSubject"];
+            {               
+                return SiteCache.GetConfigurationValue("DefaultEmailSubject");
             }
         }
 
@@ -38,29 +39,29 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["FacebookPageName2"];
+                return SiteCache.GetConfigurationValue("FacebookPageName2");
             }
         }
 
         public static string TwitterConsumerKey
         {
             get
-            {
-                return ConfigurationManager.AppSettings["TwitterConsumerKey"];
+            {                
+                return SiteCache.GetConfigurationValue("TwitterConsumerKey");
             }
         }
         public static string FacebookPageId2
         {
             get
-            {
-                return ConfigurationManager.AppSettings["FacebookPageId2"];
+            {   
+                return SiteCache.GetConfigurationValue("FacebookPageId2");
             }
         }
         public static string FacebookUrl
         {
             get
-            {
-                return ConfigurationManager.AppSettings["FacebookUrl"];
+            {   
+                return SiteCache.GetConfigurationValue("FacebookUrl");
             }
         }
 
@@ -68,38 +69,38 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["BlogSite"];
+                return SiteCache.GetConfigurationValue("BlogSite");
             }
         }
 
         public static string MainDomain
         {
             get
-            {
-                return ConfigurationManager.AppSettings["MainDomain"];
+            {   
+                return SiteCache.GetConfigurationValue("MainDomain");
             }
         }
 
         public static string TwitterConsumerSecret
         {
             get
-            {
-                return ConfigurationManager.AppSettings["TwitterConsumerSecret"];
+            {                
+                return SiteCache.GetConfigurationValue("TwitterConsumerSecret");
             }
         }
         public static string TwitterToken
         {
             get
             {
-                return ConfigurationManager.AppSettings["TwitterToken"];
+               return SiteCache.GetConfigurationValue("TwitterToken");
             }
         }
 
         public static string TwitterTokenSecret
         {
             get
-            {
-                return ConfigurationManager.AppSettings["TwitterTokenSecret"];
+            {   
+                return SiteCache.GetConfigurationValue("TwitterTokenSecret");
             }
         }
 
@@ -107,14 +108,14 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ThemeColors"];
+                return SiteCache.GetConfigurationValue("ThemeColors");
             }
         }
 
         public static bool IsProduction
         {
             get
-            {
+            { 
                 return Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
             }
         }
@@ -122,15 +123,15 @@ namespace RDN.Library.Classes.Config
         public static string DefaultPictureName
         {
             get
-            {
-                return ConfigurationManager.AppSettings["DefaultPictureName"];
+            {  
+                return SiteCache.GetConfigurationValue("DefaultPictureName");
             }
         }
         public static string ConnectionStringName
         {
             get
             {
-                return ConfigurationManager.AppSettings["ConnectionStringName"];
+                return SiteCache.GetConfigurationValue("ConnectionStringName");             
             }
         }
 
@@ -138,7 +139,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["InternalSite"];
+                return SiteCache.GetConfigurationValue("InternalSite");     
             }
         }
 
@@ -146,7 +147,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ImagesBaseUrl"];
+               return SiteCache.GetConfigurationValue("ImagesBaseUrl");     
             }
         }
 
@@ -155,7 +156,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ImagesBaseSaveLocation"];
+                return SiteCache.GetConfigurationValue("ImagesBaseSaveLocation");                
             }
         }
 
@@ -164,15 +165,15 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ApiSite"];
+                return SiteCache.GetConfigurationValue("ApiSite");                  
             }
         }
 
         public static string AdminSite
         {
             get
-            {
-                return ConfigurationManager.AppSettings["AdminSite"];
+            {   
+                return SiteCache.GetConfigurationValue("AdminSite");   
             }
         }
 
@@ -180,22 +181,22 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return (SiteType) Enum.Parse(typeof(SiteType), ConfigurationManager.AppSettings["SiteType"]);
+                return (SiteType)Enum.Parse(typeof(SiteType), SiteCache.GetConfigurationValue("SiteType"));
             }
         }
 
         public static string StripeApiPublicKey
         {
             get
-            {
-                return ConfigurationManager.AppSettings["StripeApiPublicKey"];
+            { 
+                return SiteCache.GetConfigurationValue("StripeApiPublicKey");     
             }
         }
         public static string StripeConnectKey
         {
             get
             {
-                return ConfigurationManager.AppSettings["StripeConnectKey"];
+                return SiteCache.GetConfigurationValue("StripeConnectKey");                   
             }
         }
 
@@ -203,7 +204,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["PaymentMode"];
+                return SiteCache.GetConfigurationValue("PaymentMode");                  
             }
         }
 
@@ -211,7 +212,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteName"];
+                return SiteCache.GetConfigurationValue("WebsiteName");                 
             }
         }
 
@@ -219,7 +220,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ListLoadingCount"];
+                return SiteCache.GetConfigurationValue("ListLoadingCount");                   
             }
         }
 
@@ -227,7 +228,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["LeagueUrl"];
+                return SiteCache.GetConfigurationValue("LeagueUrl");                      
             }
         }
 
@@ -235,7 +236,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["SportName"];
+                return SiteCache.GetConfigurationValue("SportName");                    
             }
         }
 
@@ -243,7 +244,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteShortName"];
+                return SiteCache.GetConfigurationValue("WebsiteShortName");                     
             }
         }
 
@@ -251,7 +252,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["CompanyAddress"];
+                return SiteCache.GetConfigurationValue("CompanyAddress");   
             }
         }
 
@@ -259,7 +260,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["EmailSignature"];
+                return SiteCache.GetConfigurationValue("EmailSignature");                   
             }
         }
 
@@ -267,7 +268,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteSlogan"];
+                return SiteCache.GetConfigurationValue("WebsiteSlogan");                   
             }
         }
 
@@ -275,7 +276,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["TournamentPublicUrl"];
+                return SiteCache.GetConfigurationValue("TournamentPublicUrl");  
             }
         }
 
@@ -283,7 +284,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultThemeColor"];
+                return SiteCache.GetConfigurationValue("DefaultThemeColor");  
             }
         }
 
@@ -291,7 +292,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["EventPublicUrl"];
+                return SiteCache.GetConfigurationValue("EventPublicUrl");  
             }
         }
 
@@ -299,7 +300,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["LeaguesPublicUrl"];
+                return SiteCache.GetConfigurationValue("LeaguesPublicUrl");                 
             }
         }
 
@@ -307,15 +308,15 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["MembersPublicUrl"];
+                return SiteCache.GetConfigurationValue("MembersPublicUrl");                
             }
         }
 
         public static string NameOfMembers
         {
             get
-            {
-                return ConfigurationManager.AppSettings["NameOfMembers"];
+            {               
+                return SiteCache.GetConfigurationValue("NameOfMembers");    
             }
         }
 
@@ -323,7 +324,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["TournamentsPublicUrl"];
+                return SiteCache.GetConfigurationValue("TournamentsPublicUrl");                
             }
         }
 
@@ -331,7 +332,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ShopSite"];
+                return SiteCache.GetConfigurationValue("ShopSite");                   
             }
         }
 
@@ -339,7 +340,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["MemberPublicUrl"];
+                return SiteCache.GetConfigurationValue("MemberPublicUrl");                 
             }
         }
 
@@ -348,7 +349,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["LogoUrl"];
+                return ConfigurationManager.AppSettings["LogoUrl"];                     
             }
         }
 
@@ -357,7 +358,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["SiteEmail"];
+                return SiteCache.GetConfigurationValue("SiteEmail");                      
             }
         }
 
@@ -365,7 +366,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["FromEmailName"];
+                return SiteCache.GetConfigurationValue("FromEmailName");                  
             }
         }
 
@@ -373,7 +374,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["StripeApiKey"];
+                return SiteCache.GetConfigurationValue("StripeApiKey");                 
             }
         }
 
@@ -381,7 +382,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["NameOfMember"];
+                return SiteCache.GetConfigurationValue("NameOfMember");                
             }
         }
 
@@ -389,7 +390,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["MemberName"];
+                return SiteCache.GetConfigurationValue("MemberName");                  
             }
         }
 
@@ -397,7 +398,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["ApiKey"];
+                return SiteCache.GetConfigurationValue("ApiKey");                       
             }
         }
 
@@ -405,7 +406,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultInfoEmail"];
+                return SiteCache.GetConfigurationValue("DefaultInfoEmail");               
             }
         }
 
@@ -413,7 +414,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["SupportSite"];
+                return SiteCache.GetConfigurationValue("SupportSite");              
             }
         }
 
@@ -421,7 +422,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultAdminEmailAdmin"];
+               return SiteCache.GetConfigurationValue("DefaultAdminEmail");                             
             }
         }
 
@@ -429,7 +430,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultPhoneNumber"];
+                return SiteCache.GetConfigurationValue("DefaultPhoneNumber");                             
             }
         }
 
@@ -437,7 +438,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultKrisWorlidgeEmailAdmin"];
+                return SiteCache.GetConfigurationValue("DefaultKrisWorlidgeEmailAdmin"); 
             }
         }
 
@@ -445,7 +446,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultEmailFromName"];
+                return SiteCache.GetConfigurationValue("DefaultEmailFromName"); 
             }
         }
 
@@ -453,7 +454,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultEmailMessage"];
+                return SiteCache.GetConfigurationValue("DefaultEmailMessage");              
             }
         }
 
@@ -461,21 +462,21 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["TextMessageEmail"];
+                return SiteCache.GetConfigurationValue("TextMessageEmail");                             
             }
         }
         public static string AdminPhoneNumber
         {
             get
             {
-                return ConfigurationManager.AppSettings["AdminPhoneNumber"];
+                return SiteCache.GetConfigurationValue("AdminPhoneNumber");                             
             }
         }
         public static string WebsiteTitleDefault
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteTitleDefault"];
+                return SiteCache.GetConfigurationValue("WebsiteTitleDefault");                                           
             }
         }
 
@@ -483,7 +484,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteSloganDefault"];
+                return SiteCache.GetConfigurationValue("WebsiteSloganDefault");                  
             }
         }
 
@@ -491,7 +492,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["WebsiteTitleDefaultStore"];
+                return SiteCache.GetConfigurationValue("WebsiteTitleDefaultStore");                  
             }
         }
         //public static string LogoURL
@@ -506,7 +507,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["PaypalIPNHandler"];
+                return SiteCache.GetConfigurationValue("PaypalIPNHandler"); 
             }
         }
 
@@ -514,50 +515,36 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return new Guid(ConfigurationManager.AppSettings["DEFAULT_SCOTTS_USER_ID"]);
+                return new Guid(SiteCache.GetConfigurationValue("DEFAULT_SCOTTS_USER_ID"));
             }
         }
         public static Guid DEFAULT_JAMIES_USER_ID
         {
             get
             {
-                return new Guid(ConfigurationManager.AppSettings["DEFAULT_JAMIES_USER_ID"]);
+                return new Guid(SiteCache.GetConfigurationValue("DEFAULT_JAMIES_USER_ID"));
             }
         }
         public static Guid DEFAULT_ADMIN_USER_ID
         {
             get
             {
-                return new Guid(ConfigurationManager.AppSettings["DEFAULT_ADMIN_USER_ID"]);
+                return new Guid(SiteCache.GetConfigurationValue("DEFAULT_ADMIN_USER_ID"));
             }
         }
         public static Guid DEFAULT_RDN_FORUM_ID
         {
             get
             {
-                return new Guid( ConfigurationManager.AppSettings["DEFAULT_RDN_FORUM_ID"]);
+                return new Guid( SiteCache.GetConfigurationValue("DEFAULT_RDN_FORUM_ID"));
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public static Guid SiteStoreID
         {
             get
             {
-                return new Guid(ConfigurationManager.AppSettings["SiteStoreID"]);
+                return new Guid(SiteCache.GetConfigurationValue("SiteStoreID"));
             }
         }
         
@@ -573,11 +560,9 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DocumentsSaveFolder"];
+                return SiteCache.GetConfigurationValue("DocumentsSaveFolder");          
             }
         }
-        
-        
         
         public static string JS_VERSION
         {
@@ -604,7 +589,7 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["DataFolder"];
+                return SiteCache.GetConfigurationValue("DataFolder");
             }
         }
         public static string ImageFolder
@@ -620,14 +605,15 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["SportNameForUrl"];
+                return SiteCache.GetConfigurationValue("SportNameForUrl");
             }
         }
+
         public static string SportNamePlusMemberNameForUrl
         {
             get
             {
-                return ConfigurationManager.AppSettings["SportNamePlusMemberNameForUrl"];
+                return SiteCache.GetConfigurationValue("SportNamePlusMemberNameForUrl");
             }
         }
 
@@ -635,12 +621,8 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["SportNamePlusMembersNameForUrl"];
+                return SiteCache.GetConfigurationValue("SportNamePlusMembersNameForUrl");
             }
         }
-       
-
-
-
     }
 }
