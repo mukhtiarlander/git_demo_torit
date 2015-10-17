@@ -27,14 +27,28 @@
     });
 });
 
+var menu_placement = "right";
+
 function ToggleSideMenu() {
-    if ($("#mainNavbar").hasClass("slideInLeft")) {
-        $("#mainNavbar").removeClass("slideInLeft");
-        $("#mainNavbar").addClass("slideOutLeft");
+    if (menu_placement == "right") {
+        if ($("#mainNavbar").hasClass("slideInRight")) {
+            $("#mainNavbar").removeClass("slideInRight");
+            $("#mainNavbar").addClass("slideOutRight");
+        }
+        else {
+            $("#mainNavbar").removeClass("slideOutRight");
+            $("#mainNavbar").addClass("slideInRight").show();
+        }
     }
-    else {
-        $("#mainNavbar").removeClass("slideOutLeft");
-        $("#mainNavbar").addClass("slideInLeft").show();
+    else if (menu_placement == "left") {
+        if ($("#mainNavbar").hasClass("slideInLeft")) {
+            $("#mainNavbar").removeClass("slideInLeft");
+            $("#mainNavbar").addClass("slideOutLeft");
+        }
+        else {
+            $("#mainNavbar").removeClass("slideOutLeft");
+            $("#mainNavbar").addClass("slideInLeft").show();
+        }
     }
 }
 

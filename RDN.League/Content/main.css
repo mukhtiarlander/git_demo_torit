@@ -1216,7 +1216,7 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
 #btn-side-menu-toggle
 {
     padding:8px 10px 6px 10px;
-    float:left;
+    float:right;
     text-decoration:none;
     border-radius:3px;
     margin:6px;
@@ -1235,6 +1235,7 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
     #mainNavbar {
         display:none;
         position: fixed;
+        right:15px;
         width: 250px;
         border-top:none;
         min-height: 100%;
@@ -1257,6 +1258,14 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
     .slideOutLeft {
       -webkit-animation-name: slideOutLeft;
       animation-name: slideOutLeft;
+    }
+     .slideInRight {
+      -webkit-animation-name: slideInRight;
+      animation-name: slideInRight;
+    }
+    .slideOutRight {
+      -webkit-animation-name: slideOutRight;
+      animation-name: slideOutRight;
     }
     .animated {
         -webkit-animation-duration: 0.3s;
@@ -1317,3 +1326,55 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
   }
 }
 
+@-webkit-keyframes slideInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
+@-webkit-keyframes slideOutRight {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+}
