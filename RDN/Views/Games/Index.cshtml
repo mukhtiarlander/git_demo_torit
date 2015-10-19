@@ -1,96 +1,111 @@
 ﻿@model List<RDN.Portable.Models.Json.Games.CurrentGameJson>
 @{
-    ViewBag.Title = "The Last Seven Days of "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Games";
+    ViewBag.Title = "The Last Seven Days of " + @RDN.Library.Classes.Config.LibraryConfig.SportName + " Games";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row margin-top-50">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-10">
+                    This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName Games
+                </h3>
+            </div>
+            <div class="panel-body padding-5 padding-top-15">
+                <div class="mainList" id="mainList">
+                    <div class="game-grid">
+                        @foreach (RDN.Portable.Models.Json.Games.CurrentGameJson game in Model)
+                        {
+                        <div class="game-grid-item">
+                            <div class="thumbnail full-width bg-lighter">
+                                <div class="caption">
+                                    <h4 class="no-margin-top text-center">
+                                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
+                                            @game.GameName
+                                        </a>
+                                    </h4>
+                                    <small>
+                                        @game.StartTime.ToShortDateString()
+                                    </small>
+                                    @if (game.RuleSet == "MADE")
+                                    {
+                                        <a href="http://www.skatemade.org/" target="_blank" class="pull-right">
+                                            @game.RuleSet
+                                        </a>
+                                    }
+                                    else if (game.RuleSet == "WFTDA")
+                                    {
+                                        <a href="http://wftda.com/" target="_blank" class="pull-right">
+                                            @game.RuleSet
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="pull-right">@game.RuleSet</span>
+                                    }
+                                </div>
+                                <div class="text-center padding-top-5 padding-bottom-5 row no-margin" style="border-top:1px solid #eee">
+                                    <div class="col-xs-6 no-padding text-center">
+                                        @if (!String.IsNullOrEmpty(game.Team1LogoUrl))
+                                        {
+                                            <img src="@game.Team1LogoUrl" alt="@game.Team1Name" class="thumbnail-sm img-rounded padding-5" />
+                                        }
 
-<div class="page-header">
-    <h2>
-        This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName Games
-    </h2>
-</div>
-@foreach (RDN.Portable.Models.Json.Games.CurrentGameJson game in Model)
-{
-    <div class="col-sm-4 col-md-3">
-        <div class="thumbnail">
 
-            <div class="caption">
-                <h4>
-                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
-                        @game.GameName
+                                        @if (game.Team1Score > game.Team2Score)
+                                        {
+                                            <span class="label label-warning margin-right-5">
+                                                @game.Team1Name - @game.Team1Score
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-default margin-right-5">
+                                                @game.Team1Name - @game.Team1Score
+                                            </span>
+                                        }
+                                    </div>
+                                    <div class="col-xs-6 no-padding text-center">
+                                        @if (!String.IsNullOrEmpty(game.Team2LogoUrl))
+                                        {
+                                            <img src="@game.Team2LogoUrl" alt="@game.Team2Name" class="thumbnail-sm img-rounded padding-5" />
+                                        }
+                                        @if (game.Team2Score > game.Team1Score)
+                                        {
+                                            <span class="label label-warning margin-right-5">
+                                                @game.Team2Name - @game.Team2Score
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-default margin-right-5">
+                                                @game.Team2Name - @game.Team2Score
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+            {
+                <div class="panel-footer text-center">
+                    <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" class="btn btn-primary">
+                        Download Thor's Hammer @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard
                     </a>
-                </h4>
-                <small>
-                    @game.StartTime.ToShortDateString()
-                </small>
-            </div>
-            <div class="col-xs-12">
-                @if (!String.IsNullOrEmpty(game.Team1LogoUrl))
-                {
-                    <img src="@game.Team1LogoUrl" alt="@game.Team1Name" class="thumbnail-sm img-rounded padding-5" />
-                }
-                <span class="gsPTeamName">@game.Team1Name </span>
-                @if (game.Team1Score > game.Team2Score)
-                {
-                    <span class="gsPTeamScore bold u">@game.Team1Score</span>
-                }
-                else
-                { <span class="gsPTeamScore">@game.Team1Score</span>
-                }
-            </div>
-            <div class="col-xs-12">
-
-                @if (!String.IsNullOrEmpty(game.Team2LogoUrl))
-                {
-                    <img src="@game.Team2LogoUrl" alt="@game.Team2Name" class="thumbnail-sm img-rounded padding-5" />
-
-                }
-                            <span class="gsPTeamName">@game.Team2Name</span>
-                @if (game.Team2Score > game.Team1Score)
-                {
-                    <span class="gsPTeamScore bold u">@game.Team2Score</span>
-                }
-                else
-                { <span class="gsPTeamScore">@game.Team2Score</span>
-                }
-
-            </div>
-            <div class="text-center">
-                @if (game.RuleSet == "MADE")
-                {
-                    <a href="http://www.skatemade.org/" target="_blank">
-                        @game.RuleSet
-                    </a>
-                }
-                else if (game.RuleSet == "WFTDA")
-                {
-                    <a href="http://wftda.com/" target="_blank">
-                        @game.RuleSet
-                    </a>
-                }
-                else
-                {
-                    @game.RuleSet
-                }
-            </div>
-
-
+                </div>
+            }
         </div>
     </div>
-
-}
-<div class="clearfix">
 </div>
 
-
-<div class="text-center">
-
-    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
-    {
-        <div>
-            <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" class="btn btn-primary">
-                Download Thor's Hammer @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard
-            </a>
-        </div>
-    }
-</div><br /><br />
+<script>
+    $(document).ready(function () {
+        $('.game-grid').imagesLoaded().progress(function () {
+            $('.game-grid').masonry();
+        });
+    });
+</script>

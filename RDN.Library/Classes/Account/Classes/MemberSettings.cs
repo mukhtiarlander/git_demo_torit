@@ -254,7 +254,42 @@ namespace RDN.Library.Classes.Account.Classes
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return false;
+        }
+        
+        /// <summary>
+        /// Change Order of Groups
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <param name="newOrderOfGroups"></param>
+        /// <returns></returns>
+        public static bool ChangeForumGroupsOrder(Guid memberId, Guid leagueId, string newOrderOfGroups)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var leagueMember = dc.LeagueMembers.Where(x => x.Member.MemberId == memberId && x.League.LeagueId == leagueId).FirstOrDefault();
+                
+                leagueMember.ForumGroupOrder = newOrderOfGroups;
+                int c = dc.SaveChanges();
+                return c > 0;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
             return false;
+        }
+
+        public static string GetForumGroupsOrder(Guid memberId, Guid leagueId)
+        {
+            var dc = new ManagementContext();
+            var leagueMember = dc.LeagueMembers.Where(x => x.Member.MemberId == memberId && x.League.LeagueId == leagueId).FirstOrDefault();
+
+            if (leagueMember != null)
+            {
+                return leagueMember.ForumGroupOrder;
+            }
+            return "";
         }
 
         public static bool ChangeCalendarViewSetting(CalendarDefaultViewEnum viewType, Guid memberId)

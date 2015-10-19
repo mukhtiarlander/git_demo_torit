@@ -54,15 +54,17 @@ namespace RDN.Controllers
             {
 
                 var Data = RequestFactory.GetData(id);
-                if (!String.IsNullOrEmpty(Data.Description))
+                if (Data != null && !String.IsNullOrEmpty(Data.Description))
                 {
                     Data.Description = Data.Description.Replace(Environment.NewLine, "<br/>");
+                    Data.UrlToRequest = Library.Classes.Config.LibraryConfig.InternalSite + "/officiating/requests";
+                    Data.UrlToContact = Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/" + GroupOwnerTypeEnum.officiating.ToString() + "/" + Data.RequestCreator.ToString().Replace("-", "");
                 }
-
-                Data.UrlToRequest = Library.Classes.Config.LibraryConfig.InternalSite + "/officiating/requests";
-                Data.UrlToContact = Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/" + GroupOwnerTypeEnum.officiating.ToString() + "/" + Data.RequestCreator.ToString().Replace("-", "");
+                else
+                {
+                  return RedirectToAction("OfficiatingRequests");
+                }
                 return View(Data);
-
             }
             catch (Exception exception)
             {

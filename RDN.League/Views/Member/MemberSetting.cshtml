@@ -229,11 +229,33 @@
                         <div class="form-label margin-bottom-5">
                             <label>Order Messages as Latest First: @Html.CheckBoxFor(x => x.ForumDescending, new { @onchange = "Member.changeForumMessageOrderSetting(this)" })</label>
                         </div>
+                        <div id="memberGroups">
+                            @foreach (var group in Model.GroupsApartOf)
+                            {
+                                <div id="updateGroupTd-@group.Id">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading no-padding padding-5">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-10 padding-top-5">
+                                                    <span class="font16">
+                                                        <i class="fa fa-question-circle"></i> @group.GroupName
+                                                    </span>
+                                                </div>
+                                                <div id='editQuestionId' class="col-xs-12 col-sm-2 text-right">
+                                                    <span class="btn btn-sm btn-default sortableHandle" title="Sort Question/Drag and Drop"><i class="fa fa-arrows"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
 
-                @Html.HiddenFor(x => x.MemberId)
             </div>
+
+            @Html.HiddenFor(x => x.MemberId)
         </div>
     </div>
 </div>
@@ -244,4 +266,12 @@
     });
     $("#PhoneNumber").numeric({ negative: false, decimal: false });
     $("#code").numeric({ negative: false, decimal: false });
+
+    $("#memberGroups").sortable({
+        handle: '.sortableHandle',
+        update: function (event, ui) {
+            var idsInOrder = JSON.stringify($("#memberGroups").sortable("toArray"));
+            Member.SaveResortedGroup(idsInOrder);
+        }
+    }).disableSelection();
 </script>
