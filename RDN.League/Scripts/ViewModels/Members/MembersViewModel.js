@@ -116,4 +116,17 @@
             }
         });
     }
+
+    this.SaveResortedGroup = function (sortedIds) {
+        $.getJSON("/member/SaveResortedOrderOfGroups", { newIds: sortedIds }, function (result) {
+            if (result.isSuccess === true) {
+                $('.bottom-right').notify({
+                    message: { text: 'New order saved! ' },
+                    fadeOut: { enabled: true, delay: 3000 }
+                }).show();
+            }
+            else {
+            }
+        });
+    }
 };
