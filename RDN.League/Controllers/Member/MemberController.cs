@@ -126,6 +126,35 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult SaveResortedOrderOfGroups(string newIds)
+        {
+            try
+            {
+                bool success = false;
+                Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+                Guid leagueId = MemberCache.GetLeagueIdOfMember(memId);
+
+                var strings = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(newIds);
+                var id = new long[strings.Length];
+                string newOrder = "";
+                for (int i = 0; i < strings.Length; i++)
+                {
+                    newOrder += Convert.ToInt64(numberRgx.Match(strings[i]).Value);
+                    if (i + 1 != strings.Length)
+                    {
+                        newOrder += ":";
+                    }
+                }
+                success = MemberSettingsFactory.ChangeForumGroupsOrder(memId, leagueId, newOrder);
+
+                return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
 
         [LeagueAuthorize(EmailVerification = true)]
         public ActionResult MemberSetting()
@@ -133,6 +162,7 @@ namespace RDN.League.Controllers
             try
             {
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+                Guid leagueId = MemberCache.GetLeagueIdOfMember(memId);
                 var display = MemberCache.GetMemberDisplay(memId);
 
                 if (display.Settings == null)
@@ -150,8 +180,7 @@ namespace RDN.League.Controllers
                 display.Settings.EmailForumBroadcasts = display.EmailForumBroadcasts;
                 display.Settings.EmailForumNewPost = display.EmailForumNewPost;
                 display.Settings.EmailForumWeeklyRoundup = display.EmailForumWeeklyRoundup;
-                display.Settings.EmailMessagesReceived = display.EmailMessagesReceived;
-                display.Settings.GroupsApartOf = MemberCache.GetGroupsApartOf(memId);
+                display.Settings.EmailMessagesReceived = display.EmailMessagesReceived;                
                 display.Settings.CurrentLeagueId = display.CurrentLeagueId;
                 display.Settings.Hide_DOB_From_League = display.Settings.Hide_DOB_From_League;
                 display.Settings.Hide_DOB_From_Public = display.Settings.Hide_DOB_From_Public;
@@ -162,6 +191,35 @@ namespace RDN.League.Controllers
                 display.Settings.ForumDescending = display.Settings.ForumDescending;
                 ViewBag.CalendarView = RDN.League.Classes.Enums.EnumExt.ToSelectList(display.Settings.CalendarViewDefault);
                 ViewBag.ServiceProviders = RDN.League.Classes.Enums.EnumExt.ToSelectListValue(display.Settings.ServiceProvider);
+
+                //order groups by user preferences
+                string groupsOrderString = MemberSettingsFactory.GetForumGroupsOrder(memId, leagueId);
+                if (!string.IsNullOrWhiteSpace(groupsOrderString))
+                {
+                    List<long> groupsOrder = groupsOrderString.Split(':').Select(long.Parse).ToList();
+                    var groups = MemberCache.GetGroupsApartOf(memId);
+                    var groupsOrdered = (from i in groupsOrder
+                                        join o in groups on i equals o.Id
+                                        select o).ToList();
+                    //make sure that all the groups are part of the result
+                    if (groups.Count > groupsOrdered.Count)
+                    {
+                        // if not add the unsorted groups at the end
+                        foreach (var group in groups)
+                        {
+                            if (!groupsOrdered.Contains(group))
+                            {
+                                groupsOrdered.Add(group);
+                            }
+                        }
+                    }
+                    display.Settings.GroupsApartOf = groupsOrdered;
+                }
+                else
+                {
+                    display.Settings.GroupsApartOf = MemberCache.GetGroupsApartOf(memId);
+                }
+                
                 return View(display.Settings);
             }
             catch (Exception exception)
