@@ -44,6 +44,8 @@ namespace RDN.Library.DataModels.League
         public byte LeagueOwnersEnum { get; set; }
         public int LeagueOwnersEnums { get; set; }
 
+        public string ForumGroupOrder { get; set; }
+
         #region references
         public LeagueMemberClass SkaterClass { get; set; }
         [Required]

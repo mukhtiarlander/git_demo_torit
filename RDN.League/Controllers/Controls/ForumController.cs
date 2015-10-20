@@ -801,6 +801,40 @@ namespace RDN.League.Controllers
 
                     if (!String.IsNullOrEmpty(categoryId))
                         topics.CategoryId = Convert.ToInt64(categoryId);
+
+                    #region order groups by user preferences
+                    Guid leagueId = MemberCache.GetLeagueIdOfMember(memId);
+                    string groupsOrderString = RDN.Library.Classes.Account.Classes.MemberSettingsFactory.GetForumGroupsOrder(memId, leagueId);
+                    if (!string.IsNullOrWhiteSpace(groupsOrderString))
+                    {
+                        List<long> groupsOrder = new List<long>();
+                        groupsOrder.Add(0); // default Forum
+                        var ids = groupsOrderString.Split(':').Select(long.Parse).ToList();
+                        foreach(var i in ids)
+                        {
+                            groupsOrder.Add(i);
+                        }
+                        var groups = topics.GroupTopics;
+                        var groupsOrdered = (from i in groupsOrder
+                                             join o in groups on i equals o.GroupId
+                                             select o).ToList();
+                        //make sure that all the groups are part of the result
+                        if (groups.Count > groupsOrdered.Count)
+                        {
+                            // if not add the unsorted groups at the end
+                            foreach (var group in groups)
+                            {
+                                if (!groupsOrdered.Contains(group))
+                                {
+                                    groupsOrdered.Add(group);
+                                }
+                            }
+                        }
+
+                        topics.GroupTopics = groupsOrdered;
+                    }
+                    #endregion
+
                     return View(topics);
                 }
                 Forum forum = new Forum();

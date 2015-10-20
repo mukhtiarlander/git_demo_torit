@@ -225,7 +225,11 @@ new { controller = "Member", action = "ChangeEmailNotificationSetting" } // Para
 "Member/ChangeForumMessageOrderSetting", // URL with parameters
 new { controller = "Member", action = "ChangeForumMessageOrderSetting" } // Parameter defaults
 );
-            
+            routes.MapRoute(
+"SaveResortedOrderOfGroups", // Route name
+"Member/SaveResortedOrderOfGroups", // URL with parameters
+new { controller = "Member", action = "SaveResortedOrderOfGroups" } // Parameter defaults
+);
             routes.MapRoute(
 "MemberRetireSelf", // Route name
 "Member/RetireSelf", // URL with parameters
