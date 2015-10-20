@@ -21,6 +21,7 @@ namespace RDN.Library.DataModels.League
         /// <summary>
         /// declares the member type for them.  Inactive, Active etc...
         /// </summary>
+        [Obsolete]
         public int MemberType { get; set; }
 
         /// <summary>
