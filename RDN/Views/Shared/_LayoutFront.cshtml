@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 @using StackExchange.Profiling;
 @using RDN.Library.Cache
-@{   
+@{
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     var leaguethemecolor = MemberCache.GetLeagueThemeColor(MemberCache.GetLeagueIdOfMember(memId));
 }
@@ -48,43 +48,47 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox" style="max-height:500px; overflow:hidden;">
-                <div class="item">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/13.jpg")" alt="Roster Management - Hanson Images" />
-                    <div class="carousel-caption">
-                    </div>
-                </div>
-                <div class="item active">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/12.jpg")" alt="Made For Derby, Built By Derby - PhilosoFear" />
-                    <div class="carousel-caption">
-                    </div>
-                </div>
 
-                <div class="item">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/14.jpg")" alt="Official Management - Hanson Images" />
-                    <div class="carousel-caption">
+                @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                {
+                    <div class="item">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/13.jpg")" alt="Roster Management - Hanson Images" />
+                        <div class="carousel-caption">
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/15.jpg")" alt="Calendar and Attendance Tracking - Hanson Images" />
-                    <div class="carousel-caption">
+                    <div class="item active">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/12.jpg")" alt="Made For @RDN.Library.Classes.Config.LibraryConfig.SportName, Built By @RDN.Library.Classes.Config.LibraryConfig.SportName - PhilosoFear" />
+                        <div class="carousel-caption">
+                        </div>
                     </div>
-                </div>
 
-                <div class="item">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/17.jpg")" alt="Groups, Teams and Committee Management - @RDN.Library.Classes.Config.LibraryConfig.SportName On Film" />
-                    <div class="carousel-caption">
+                    <div class="item">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/14.jpg")" alt="Official Management - Hanson Images" />
+                        <div class="carousel-caption">
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/18.jpg")" alt="Live Games Online, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Scoreboard - PhilosoFear" />
-                    <div class="carousel-caption">
+                    <div class="item">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/15.jpg")" alt="Calendar and Attendance Tracking - Hanson Images" />
+                        <div class="carousel-caption">
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <img src="@Url.Content("~/Content/ImageSlides/images/11.jpg")" alt="Forums For Communicating - Roller Derby On Film" />
-                    <div class="carousel-caption">
+
+                    <div class="item">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/17.jpg")" alt="Groups, Teams and Committee Management - Roller Derby On Film" />
+                        <div class="carousel-caption">
+                        </div>
                     </div>
-                </div>
+                    <div class="item">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/18.jpg")" alt="Live Games Online, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Scoreboard - PhilosoFear" />
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="@Url.Content("~/Content/ImageSlides/images/11.jpg")" alt="Forums For Communicating - Roller Derby On Film" />
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                }
 
             </div>
             <div class="text-center col-sm-12 ontopCarousel">
@@ -96,16 +100,18 @@
                         @RDN.Library.Classes.Config.LibraryConfig.WebsiteSlogan
                     </small>
                 </h1>
-                @if (!User.Identity.IsAuthenticated) { 
-                <div class="affix-bottom">
-                    <a href="@Url.Content("~/signup")" class="btn btn-success btn-lg">Sign Me Up</a>
-                </div>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="affix-bottom">
+                        <a href="@Url.Content("~/signup")" class="btn btn-success btn-lg">Sign Me Up</a>
+                    </div>
                 }
-                else { 
+                else
+                {
 
-                <div class="affix-bottom">
-                    <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite" class="btn btn-success btn-lg">Take Me To My League</a>
-                </div>
+                    <div class="affix-bottom">
+                        <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite" class="btn btn-success btn-lg">Take Me To My League</a>
+                    </div>
                 }
             </div>
         </div>
@@ -127,33 +133,33 @@
 
         //currentGamesViewModel.initialize();
 
-      //  (function () {
-      //      var a = document.createElement('a');
-      //      a.setAttribute('id', 'uservoice-feedback-tab');
-      //      a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
-      //      a.setAttribute('target', '_blank');
-      //      a.style.cssText = [
-      //'position: fixed',
-      //'top: 45%',
-      //'width: 25px',
-      //'height: 90px',
-      //'margin: -45px 0 0',
-      //'right: 0',
-      //'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
-      //'border: outset 1px #39B4D7',
-      //'border-right: none'
-      //      ].join(';');
-      //      document.body.appendChild(a);
-      //  })();
+        //  (function () {
+        //      var a = document.createElement('a');
+        //      a.setAttribute('id', 'uservoice-feedback-tab');
+        //      a.setAttribute('href', 'http://rdnation.uservoice.com?lang=en&referer=' + encodeURIComponent(location.host + location.pathname));
+        //      a.setAttribute('target', '_blank');
+        //      a.style.cssText = [
+        //'position: fixed',
+        //'top: 45%',
+        //'width: 25px',
+        //'height: 90px',
+        //'margin: -45px 0 0',
+        //'right: 0',
+        //'background: #39B4D7 url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png) 0 0 no-repeat',
+        //'border: outset 1px #39B4D7',
+        //'border-right: none'
+        //      ].join(';');
+        //      document.body.appendChild(a);
+        //  })();
 
     </script>
     @*<a id="uservoice-feedback-tab" href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail?subject=@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Feedback"
-       target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
-        margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png);
-        background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px;
-        border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000;
-        border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;">
-    </a>*@
+           target="_blank" style="position: fixed; top: 45%; width: 25px; height: 90px;
+            margin: -45px 0px 0px; right: 0px; background-image: url(https://cdn.uservoice.com/images/widgets/en/feedback_tab_white.png);
+            background-color: #882f96; border-style: outset none outset outset; border-top-width: 1px;
+            border-bottom-width: 1px; border-left-width: 1px; border-top-color: #000; border-bottom-color: #000;
+            border-left-color: #000; background-position: 0px 0px; background-repeat: no-repeat no-repeat;">
+        </a>*@
     <div id="fb-root">
     </div>
     <script>
