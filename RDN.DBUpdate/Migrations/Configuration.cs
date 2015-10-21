@@ -44,6 +44,18 @@ namespace RDN.DBUpdate.Migrations
     }
 
 
+    internal sealed class CSite : DbMigrationsConfiguration<Common.Site.DataModels.Context.SiteContext>
+    {
+        public CSite()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = false;
+
+        }
+
+    }
+
+
     //internal sealed class CRN : DbMigrationsConfiguration<RNManagementContext>
     //{
     //    public CRN()
