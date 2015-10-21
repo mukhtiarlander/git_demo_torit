@@ -9,6 +9,7 @@ namespace RDN.Library.Classes.Site.Enums
     public enum SiteType
     {
         RollerDerby = 0,
-        Soccer = 1
+        Soccer = 1,
+        localhost = 2
     }
 }
