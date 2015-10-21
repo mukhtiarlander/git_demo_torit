@@ -146,7 +146,7 @@ namespace RDN.League.Controllers
                     }
                 }
                 success = MemberSettingsFactory.ChangeForumGroupsOrder(memId, leagueId, newOrder);
-
+                
                 return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
