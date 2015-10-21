@@ -49,7 +49,7 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox" style="max-height:500px; overflow:hidden;">
 
-                @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby || RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.localhost)
                 {
                     <div class="item">
                         <img src="@Url.Content("~/Content/ImageSlides/images/13.jpg")" alt="Roster Management - Hanson Images" />
