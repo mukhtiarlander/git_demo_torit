@@ -436,7 +436,11 @@ namespace RDN.League.Controllers
                 }
             }
 
-            return Json(Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid)));
+            var result = Messages.SaveMembersToMessage(member_ids, Convert.ToInt64(groupid));
+
+            MessagesCache.Clear(Convert.ToInt64(groupid), HttpContext.Cache);
+
+            return Json(result);
 
 
         }
