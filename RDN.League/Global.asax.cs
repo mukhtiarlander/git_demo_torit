@@ -212,6 +212,11 @@ new { controller = "Scoreboard", action = "ManageGame", id = UrlParameter.Option
         "member/retireprofile", // URL with parameters
         new { controller = "Member", action = "RetireProfile" } // Parameter defaults
         );
+            routes.MapRoute(
+      "UnRetireProfile", // Route name
+      "member/unretireprofile", // URL with parameters
+      new { controller = "Member", action = "UnRetireProfile" } // Parameter defaults
+      );
 
 
             routes.MapRoute(
@@ -236,6 +241,11 @@ new { controller = "Member", action = "SaveResortedOrderOfGroups" } // Parameter
 new { controller = "Member", action = "RetireSelf" } // Parameter defaults
 );
             routes.MapRoute(
+"MemberUnRetireSelf", // Route name
+"Member/UnRetireSelf", // URL with parameters
+new { controller = "Member", action = "UnRetireSelf" } // Parameter defaults
+);
+            routes.MapRoute(
 "MemberVerifySms", // Route name
 "member/verifysms", // URL with parameters
 new { controller = "Member", action = "VerifySMS" } // Parameter defaults
@@ -256,11 +266,7 @@ new { controller = "Member", action = "SetPrivacySetting" } // Parameter default
 new { controller = "Member", action = "VerifySMSCode" } // Parameter defaults
 );
 
-            routes.MapRoute(
-"MemberUnRetireSelf", // Route name
-"Member/UnRetireSelf", // URL with parameters
-new { controller = "Member", action = "UnRetireSelf" } // Parameter defaults
-);
+           
 
             routes.MapRoute(
 "MemberEditAdmin", // Route name

@@ -1,8 +1,43 @@
-﻿
+﻿@model RDN.Portable.Classes.Account.Classes.MemberDisplay
 @{
-    ViewBag.Title = "UnRetireProfile";
+    ViewBag.Title = "UnRetire Your Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li class="active">UnRetire Profile</li>
+</ol>
 
-<h2>UnRetireProfile</h2>
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-bottom-15 margin-top-5"><i class="fa fa-key"></i> UnRetire profile of @Model.DerbyName</h3>
+            </div>
+            <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label">
+                               By unretiring your account, you are bringing your profile and information back onto RDNation. Do you want to UnRetire Your Profile?
+                            </label>
+                        </div>                       
+                    </div>
+                </div>
+                <div class="panel-footer text-center">					
+					<br/>
+                     <a class="btn btn-success btnUnRetireYourProfile"  title="UnRetire Your Profile">
+                                            <i class="fa fa-trash"></i> UnRetire Your Profile
+                                        </a>
+                </div>
+                @Html.HiddenFor(x => x.MemberId)
+                @Html.HiddenFor(x => x.UserId)
+                @Html.HiddenFor(x => x.DerbyName)            
+        </div>
+    </div>
+</div>
 
+<script type="text/javascript">
+    $(function () {
+        $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, Member.UnRetireYourProfile);
+    });
+</script>
