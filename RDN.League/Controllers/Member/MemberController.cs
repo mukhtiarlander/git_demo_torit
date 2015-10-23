@@ -146,7 +146,7 @@ namespace RDN.League.Controllers
                     }
                 }
                 success = MemberSettingsFactory.ChangeForumGroupsOrder(memId, leagueId, newOrder);
-
+                
                 return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -855,6 +855,24 @@ namespace RDN.League.Controllers
         [Authorize]
         [LeagueAuthorize(EmailVerification = true)]
         public ActionResult RetireProfile()
+        {
+            try
+            {
+                Guid memberId = RDN.Library.Classes.Account.User.GetMemberId();
+
+                var mem = RDN.Library.Cache.MemberCache.GetMemberDisplay(memberId);
+                return View(mem);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+        }
+
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true)]
+        public ActionResult UnRetireProfile()
         {
             try
             {

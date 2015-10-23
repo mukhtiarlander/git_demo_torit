@@ -36,6 +36,9 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     if (data.success) {
+                        $("#unRetireProfile").removeClass('hide');
+                        $("#unRetireProfile").show();
+                        $("#retireprofile").addClass('hide');
                         $('.bottom-right').notify({
                             message: { text: 'Your Account has been Retired.' },
                             fadeOut: { enabled: true, delay: 3000 }
@@ -129,4 +132,32 @@
             }
         });
     }
+
+    this.UnRetireYourProfile = function (btn) {
+        $(btn).remove();
+        $.ajax({
+            url: '/member/unretireself',
+            type: 'POST',
+            dataType: 'json',
+            data: {},
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.success) {                   
+                    $("#retireprofile").removeClass('hide');
+                    $("#retireprofile").show();
+                    $("#unRetireProfile").addClass('hide');
+                    $('.bottom-right').notify({
+                        message: { text: 'UnRetire Successful' },
+                        fadeOut: { enabled: true, delay: 3000 }
+                    }).show();
+                    return false;
+                }
+                else {
+                    alert("Something happened.  Try again later.");
+                }
+            }
+        });
+        return false;
+    };
+
 };

@@ -42,7 +42,7 @@ namespace RDN.Library.Classes.Messages
                 {
                     lock (ThisLock)
                     {
-                 
+
                         dataObject = (MessagesCache)cache["MessagesCache" + groupId];
 
                         if (dataObject == null)
@@ -77,6 +77,21 @@ namespace RDN.Library.Classes.Messages
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return null;
+        }
+
+        public static void Clear(long groupId, System.Web.Caching.Cache cache)
+        {
+            try
+            {
+                lock (ThisLock)
+                {
+                    cache.Remove("MessagesCache" + groupId);
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
         }
 
     }

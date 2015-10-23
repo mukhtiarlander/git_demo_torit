@@ -270,6 +270,8 @@ namespace RDN.Library.Classes.Account.Classes
                 var leagueMember = dc.LeagueMembers.Where(x => x.Member.MemberId == memberId && x.League.LeagueId == leagueId).FirstOrDefault();
                 
                 leagueMember.ForumGroupOrder = newOrderOfGroups;
+                leagueMember.League = leagueMember.League;
+                leagueMember.Member = leagueMember.Member;
                 int c = dc.SaveChanges();
                 return c > 0;
             }

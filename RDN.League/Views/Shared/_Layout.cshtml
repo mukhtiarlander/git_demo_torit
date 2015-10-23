@@ -28,6 +28,14 @@
     {
         games_cnt += ManagementCache.GetOfficiatingRequestsCount();
     }
+    
+    string retiredCss=string.Empty;
+    string unretiredCss = "hide";
+    //check to see member is retired then apply css for Retire/UnRetire Profile link into Account Menu
+    if(member.IsRetired){
+        retiredCss = "hide";
+        unretiredCss = string.Empty;
+    }
 }
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -474,11 +482,11 @@
                                 <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite" title="Help" target="_blank">
                                     <i class="fa fa-question-circle"></i> Help
                                 </a>
-                            </li>
-                            @if (!member.IsRetired)
-                            {
-                                <li><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-user"></i> Retire Your Profile</a></li>
-                            }
+                            </li>                         
+                             
+                             <li id="retireprofile" class="@retiredCss"><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-user"></i> Retire Your Profile</a></li>                          
+                             <li id="unRetireProfile" class="@unretiredCss"><a href="@Url.Content("~/member/unretireprofile")"><i class="fa fa-user"></i> UnRetire Your Profile</a></li>
+                            
                         </ul>
                     </li>
 

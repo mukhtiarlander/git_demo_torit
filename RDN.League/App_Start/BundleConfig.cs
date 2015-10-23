@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using RDN.Library.Classes.Config;
+using System.Web;
 using System.Web.Optimization;
 
 namespace RDN.League
@@ -78,6 +79,17 @@ namespace RDN.League
                 //,
                 //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));
+
+
+            if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/rdnation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Soccer)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/snation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.localhost)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/localhost.js"));
+
+
+
             BundleTable.EnableOptimizations = true;
         }
     }
