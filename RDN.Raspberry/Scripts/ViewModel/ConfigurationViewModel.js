@@ -15,6 +15,7 @@ function Edit(obj) {
     $("#txtValue_" + id).show();
     $("#txtDescription_" + id).show();
     $("#SaveCancel_" + id).show();
+    $("#SaveCancel_" + id).css("display", "-moz-box");    
     $(".label_" + id).css("display", "none");
     $("#EditDelete_" + id).hide();
 }

@@ -22,14 +22,24 @@
         
         <table>
             <tr>
+                <th> </th>
                 <th>Key </th>
                 <th>Value</th>
-                <th>Description</th>
-                <th> </th>
+                <th>Description</th>               
             </tr>
             @foreach (var item in Model.Items)
             {
                 <tr>
+                   <td class="valign">
+                        <div id="EditDelete_@item.ID" style="display:-moz-box">
+                            <input class="button" type="button" id="Edit_@item.ID" onclick="Edit(this)" value="Edit">
+                            <input class="button" type="button" id="Delete_@item.ID" onclick="DeleteConfirm(this)" value="Delete">
+                        </div>
+                        <div id="SaveCancel_@item.ID" style="display:none;">
+                            <input class="button" id="Save_@item.ID" type="button" onclick="Save(this)" value="Save">
+                            <input class="button" id="Cancel_@item.ID" type="button" onclick="Cancel(this)" value="Cancel">
+                        </div>
+                    </td>
                     <td class="valign">                       
                         <label class="label_@item.ID">@item.Key</label>
                         <input type="text" value="@item.Key" name="@item.Key" id="txtKey_@item.ID" class="Display" />
@@ -41,17 +51,7 @@
                     <td class="valign">                       
                         <label title="@item.Discription" class="label_@item.ID">@item.Discription</label>
                         <textarea name="txtDiscription" cols="30" rows="4" id="txtDescription_@item.ID"  class="Display">@item.Discription</textarea>
-                    </td>
-                    <td class="valign">
-                        <div id="EditDelete_@item.ID">
-                            <input class="button" type="button" id="Edit_@item.ID" onclick="Edit(this)" value="Edit">
-                            <input class="button" type="button" id="Delete_@item.ID" onclick="DeleteConfirm(this)" value="Delete">
-                        </div>
-                        <div id="SaveCancel_@item.ID" style="display:none">
-                            <input class="button" id="Save_@item.ID" type="button" onclick="Save(this)" value="Save">
-                            <input class="button" id="Cancel_@item.ID" type="button" onclick="Cancel(this)" value="Cancel">
-                        </div>
-                    </td>
+                    </td>                 
                     
                 </tr>
             }
