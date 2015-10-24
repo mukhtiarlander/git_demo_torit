@@ -1190,13 +1190,6 @@ namespace RDN.League.Controllers
                 var display = MemberCache.GetMemberDisplay(memId);
                 bool isAdminOfLeague=RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
               
-                bool isAddressHide = false;
-                if (display.Settings.Hide_Address_From_League)
-                {
-                    if(isAdminOfLeague)
-                        isAddressHide = true;
-                }
-
                 ViewBag.LeagueName = league.Name;
                 ViewBag.LeagueId = league.LeagueId.ToString().Replace("-", "");
                 List<SkaterJson> Members = new List<SkaterJson>();
@@ -1205,20 +1198,24 @@ namespace RDN.League.Controllers
                 foreach (var mem in mems)
                 {
 
+                    
                     var memObj = new SkaterJson { DerbyName = mem.DerbyName };
 
                     if (mem.ContactCard != null && mem.ContactCard.Addresses.FirstOrDefault() != null)
                     {
                         var add = mem.ContactCard.Addresses.FirstOrDefault();
-                        //check to see login user is accessible to see Address then provide its respective values 
-                        if (isAddressHide || !display.Settings.Hide_Address_From_League)
+                       
+                        //check to see login user is accessible to see Address then provide its respective values                        
+                        if (!mem.Settings.Hide_Address_From_League && isAdminOfLeague)
                         {
                             memObj.Address1 = add.Address1;
                             memObj.Address2 = add.Address2;
-                            memObj.City = add.CityRaw;
-                            memObj.State = add.StateRaw;
-                            memObj.Zip = add.Zip;
                         }
+
+                        memObj.City = add.CityRaw;
+                        memObj.State = add.StateRaw;
+                        memObj.Zip = add.Zip;
+
                         memObj.Country = add.Country;
                         if (add.Coords != null)
                         {
