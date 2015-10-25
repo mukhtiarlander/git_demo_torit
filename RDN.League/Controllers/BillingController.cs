@@ -106,22 +106,7 @@ namespace RDN.League.Controllers
             {
                 PaymentGateway pg = new PaymentGateway();
 
-                var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.AddSubscriptionOwnerId);
-
-                if (bi != null && bi.InvoiceId != Guid.Empty)
-                {
-                    var result =
-                        pg.StartInvoiceWizard()
-                            .Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe,
-                                LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
-                            .SetInvoiceId(bi.InvoiceId)
-                            .FinalizeInvoice();
-
-                    //clears the member cache to update all cache repos of the league members.
-                    MemberCache.ClearLeagueMembersCache(add.AddSubscriptionOwnerId);
-                    MemberCache.ClearLeagueMembersApiCache(add.AddSubscriptionOwnerId);
-                }
-
+               
 
                 string paymentProvider = Request.Form["PaymentType"].ToString();
                 string articleNumberForSubscription = "none";
@@ -204,10 +189,22 @@ namespace RDN.League.Controllers
                     })
                         .FinalizeInvoice();
 
+                //succesfully charged.
+                var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.AddSubscriptionOwnerId);
+
+                if (bi != null && bi.InvoiceId != Guid.Empty)
+                {
+                    var result =
+                        pg.StartInvoiceWizard()
+                            .Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe,
+                                LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                            .SetInvoiceId(bi.InvoiceId)
+                            .FinalizeInvoice();
+                }
                 //clears the member cache to update all cache repos of the league members.
                 MemberCache.ClearLeagueMembersCache(add.AddSubscriptionOwnerId);
                 MemberCache.ClearLeagueMembersApiCache(add.AddSubscriptionOwnerId);
-                //succesfully charged.
+
                 if (f.Status == InvoiceStatus.Subscription_Running)
                     return Redirect(Url.Content("~/billing/league/receipt/" + f.InvoiceId.ToString().Replace("-", "")));
                 else if (f.Status == InvoiceStatus.Pending_Payment_From_Paypal)
