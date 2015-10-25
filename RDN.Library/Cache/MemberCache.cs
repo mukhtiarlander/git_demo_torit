@@ -56,6 +56,7 @@ namespace RDN.Library.Cache
         public RDN.Library.Classes.Federation.Federation CurrentFederation { get; set; }
         public bool IsAdmin { get; set; }
         public List<Document> LeagueDocuments { get; set; }
+        public List<Document> LeagueArchivedDocuments { get; set; }
 
         MemberCache()
         {
@@ -1207,6 +1208,29 @@ namespace RDN.Library.Cache
             }
             return new List<Document>();
         }
+        public static List<Document> GetLeagueArchivedDocuments(Guid memberId)
+        {
+            try
+            {
+                var cached = GetCache(memberId, false);
+                if (cached != null)
+                {
+                    if (cached.LeagueArchivedDocuments.Count == 0)
+                    {
+                        cached.LeagueArchivedDocuments = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocuments(cached.CurrentLeague.LeagueId, true);
+                        UpdateCache(cached);
+                    }
+                    return cached.LeagueArchivedDocuments;
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return new List<Document>();
+        }
+
+
         public static List<Document> ClearLeagueDocument(Guid memberId)
         {
             try
@@ -1215,6 +1239,7 @@ namespace RDN.Library.Cache
                 if (cached != null)
                 {
                     cached.LeagueDocuments = new List<Document>();
+                    cached.LeagueArchivedDocuments = new List<Document>();
                     UpdateCache(cached);
                     return cached.LeagueDocuments;
                 }
@@ -1432,6 +1457,7 @@ namespace RDN.Library.Cache
                             dataObject.CurrentLeagueCalendarId = RDN.Library.Classes.Calendar.CalendarFactory.GetCalendarIdOfLeague(dataObject.CurrentLeague.LeagueId);
                             dataObject.CurrentLeagueStoreInfo = RDN.Library.Classes.Store.StoreGateway.GetStoreIdsFromInternalId(dataObject.CurrentLeague.LeagueId);
                             dataObject.LeagueDocuments = new List<Document>();
+                            dataObject.LeagueArchivedDocuments = new List<Document>();
                             if (DateTime.UtcNow > dataObject.CurrentLeague.SubscriptionPeriodEnds)
                                 dataObject.IsCurrentLeagueSubscriptionPaid = false;
                             else

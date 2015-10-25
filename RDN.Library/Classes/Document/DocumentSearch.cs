@@ -178,9 +178,17 @@ namespace RDN.Library.Classes.Document
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 IEnumerable<Document> docs = null;
                 if (!isArchived)
-                    docs = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocumentRepository(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
+                    docs = MemberCache.GetLeagueDocuments(memId);
                 else
-                    docs = RDN.Library.Classes.Document.DocumentRepository.GetArchivedDocuments(leagueId, memId, folderId, groupId).Documents.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
+                    docs = MemberCache.GetLeagueArchivedDocuments(memId);
+
+                if (folderId > 0)
+                    docs = docs.Where(x => x.DocumentName != null && x.Folder != null && x.Folder.FolderId == folderId && x.DocumentName.ToLower().Contains(text));
+                else if(groupId > 0)
+                    docs = docs.Where(x => x.DocumentName != null && x.GroupId == groupId && x.GroupId == groupId && x.DocumentName.ToLower().Contains(text));
+                else
+                    docs = docs.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
+
 
                 foreach (var document in docs)
                 {
