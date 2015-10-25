@@ -391,6 +391,10 @@ namespace RDN.League.Controllers
                 edit.StartedSkating = member.StartedSkating;
                 edit.StoppedSkating = member.StoppedSkating;
                 edit.InsuranceNumbers = member.InsuranceNumbers;
+                edit.Website = member.Website;
+                edit.Twitter = member.Twitter;
+                edit.Instagram = member.Instagram;
+                edit.Facebook = member.Facebook;
 
                 if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
                 {
@@ -523,6 +527,28 @@ namespace RDN.League.Controllers
                 edit.PlayerNumber = member.PlayerNumber;
                 edit.WeightLbs = member.WeightLbs;
                 edit.IsRetired = member.IsRetired;
+
+                if (!String.IsNullOrEmpty(member.Website))
+                {
+                    if (!member.Website.ToLower().StartsWith("http://") &&
+                        !member.Website.ToLower().StartsWith("https://"))
+                    {
+                        member.Website = "http://" + member.Website;
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(member.Facebook))
+                {
+                    if (!member.Facebook.ToLower().StartsWith("http://") &&
+                        !member.Facebook.ToLower().StartsWith("https://"))
+                    {
+                        member.Facebook = "http://" + member.Facebook;
+                    }
+                }
+                edit.Twitter = member.Twitter;
+                edit.Instagram = member.Instagram;
+                edit.Facebook = member.Facebook;
+                edit.Website = member.Website;
 
                 edit.Address = member.Address;
                 edit.Address2 = member.Address2;

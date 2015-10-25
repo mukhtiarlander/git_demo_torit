@@ -2120,6 +2120,12 @@ namespace RDN.Library.Classes.Account
                 member.Bio = mem.Bio;
                 member.Gender = Convert.ToInt32(mem.Gender);
                 member.WeightInLbs = mem.WeightLbs;
+
+                member.Website = mem.Website;
+                member.Twitter = mem.Twitter;
+                member.Instagram = mem.Instagram;
+                member.Facebook = mem.Facebook;
+
                 if (mem.DOB != null && mem.DOB > DateTime.Now.AddYears(-200))
                     member.DateOfBirth = mem.DOB;
                 else
@@ -2347,6 +2353,10 @@ namespace RDN.Library.Classes.Account
                 if (user != null)
                     mem.UserName = user.UserName;
                 mem.IsNotConnectedToDerby = member.IsNotConnectedToDerby;
+                mem.Website = member.Website;
+                mem.Twitter = member.Twitter;
+                mem.Instagram = member.Instagram;
+                mem.Facebook = member.Facebook;
 
                 mem.Email = ExtractEmailFromContactCard(member);
                 if (member.ContactCard.Addresses.Count > 0)
@@ -2374,6 +2384,7 @@ namespace RDN.Library.Classes.Account
                 mem.Bio = member.Bio;
                 mem.DefaultPositionType = (DefaultPositionEnum)Enum.Parse(typeof(DefaultPositionEnum), member.PositionType.ToString());
                 mem.BioHtml = member.Bio;
+           
 
                 if (member.DateOfBirth.HasValue)
                     mem.DOB = member.DateOfBirth.Value;

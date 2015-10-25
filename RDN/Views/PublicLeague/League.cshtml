@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    iframe[id^='twitter-widget-0']{ width:100% !important;}
+</style>
+
 <div class="page-header">
     @if (Model.Logo != null)
     {
@@ -28,7 +32,7 @@
         {
             <a href="@Model.Website" class="" target="_blank">@Model.Website</a>
         }
-        </div>
+    </div>
     <div class="row text-center">
         @if (!String.IsNullOrEmpty(Model.Facebook))
         {
@@ -59,6 +63,10 @@
     <ul class="nav nav-tabs" role="tablist" id="myTabs">
         <li role="presentation" class="active"><a href="#membersTab" role="tab" data-toggle="tab">Members</a></li>
         <li role="presentation"><a href="#calendarTab" role="tab" data-toggle="tab">Calendar</a></li>
+       @if (!string.IsNullOrEmpty(Model.Twitter))
+       {
+           <li role="presentation"><a href="#socialTab" role="tab" data-toggle="tab">Social</a></li>
+       }
         @*<li role="presentation"><a href="#tweetTab" role="tab" data-toggle="tab">Tweets</a></li>*@
     </ul>
 
@@ -75,15 +83,15 @@
 
                     <div class="col-sm-4 col-md-3">
                         <div class="thumbnail">
-                         
+
                             <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.LeagueMembers[i].DerbyName) + "/" + Model.LeagueMembers[i].MemberId.ToString().Replace("-", ""))">
                                 @if (Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault() != null)
                                 {
-                                    <img style="max-height:200px" alt="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
+                                <img style="max-height:200px" alt="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().Alt" src="@Model.LeagueMembers[i].Photos.Where(x => x.IsPrimaryPhoto == true).LastOrDefault().ImageUrl" />
                                 }
                                                                 else
                                 {
-                                    <img style="max-height:200px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
+                                <img style="max-height:200px" src="@Url.Content("~/content/" + RDN.Library.Classes.Config.LibraryConfig.DefaultPictureName)" alt="default picture" />
                                 }
                             </a>
                             <div class="caption">
@@ -95,9 +103,9 @@
 
 
                             </div>
-                            
+
                         </div>
-                        
+
                     </div>
 
                 }
@@ -113,18 +121,26 @@
             <div id="calendar" class="calendarDisplay">
             </div>
         </div>
+
+       @if (!string.IsNullOrEmpty(Model.Twitter))
+       {
+           string tweeturl = "https://twitter.com/" + Model.Twitter;
+        <div id="Social" class="tab-pane">
+            <a class="twitter-timeline" href="@tweeturl" data-widget-id="658149577141325824" data-screen-name="@Model.Twitter">Tweets about @Model.Twitter</a>
+            <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+        </div>
+       }
         @*<div role="tabpanel" class="tab-pane active" id="tweetTab">
-            <br />
-            <div id="tweet">
-            </div>
-        </div>*@
+                <br />
+                <div id="tweet">
+                </div>
+            </div>*@
     </div>
 </div>
 
+<script type="text/javascript" async src="http://platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
-        @*LeagueViewModel.LoadTweets("@Model.Twitter");*@
 
         var date = new Date();
         var d = date.getDate();
