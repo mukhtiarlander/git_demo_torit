@@ -551,7 +551,7 @@ namespace RDN.League.Controllers
 
                 //league.Federations = federations.Select(item => new SelectListItem { Text = item.Value, Value = item.Key.ToString() }).ToList();
                 model.Countries = countries.Select(item => new SelectListItem { Text = item.Value, Value = item.Key.ToString() }).ToList();
-
+                //if the league already exists.
                 if (model.LeagueId != new Guid())
                 {
                     var memberId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -568,16 +568,33 @@ namespace RDN.League.Controllers
                 else
                 {
                     var memberId = RDN.Library.Classes.Account.User.GetMemberId();
-                    var errors = RDN.Library.Classes.League.LeagueFactory.CreateLeague((new Guid()).ToString(), model.Name, model.PhoneNumber, model.Email, string.Empty, model.Country, model.State, model.City, model.TimeZone);
-                    if (errors.Count == 0)
+                    if (LibraryConfig.SiteType == SiteType.RollerDerby)
                     {
-                        model.Created = true;
-                        MemberCache.Clear(memberId);
-                        MemberCache.ClearApiCache(memberId);
+                        var errors = RDN.Library.Classes.League.LeagueFactory.CreateLeague((new Guid()).ToString(), model.Name, model.PhoneNumber, model.Email, string.Empty, model.Country, model.State, model.City, model.TimeZone);
+                        if (errors.Errors.Count == 0)
+                        {
+                            model.Created = true;
+                            MemberCache.Clear(memberId);
+                            MemberCache.ClearApiCache(memberId);
+                        }
+                        else
+                        {
+                            model.Created = false;
+                        }
                     }
                     else
                     {
-                        model.Created = false;
+                        var errors = RDN.Library.Classes.League.LeagueFactory.CreateAndApproveLeague((new Guid()).ToString(), model.Name, model.PhoneNumber, model.Email, string.Empty, model.Country, model.State, model.City, model.TimeZone);
+                        if (errors.Errors.Count == 0)
+                        {
+                            model.Created = true;
+                            MemberCache.Clear(memberId);
+                            MemberCache.ClearApiCache(memberId);
+                        }
+                        else
+                        {
+                            model.Created = false;
+                        }
                     }
                 }
             }
@@ -1188,23 +1205,23 @@ namespace RDN.League.Controllers
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
                 var display = MemberCache.GetMemberDisplay(memId);
-                bool isAdminOfLeague=RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
-              
+                bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
+
                 ViewBag.LeagueName = league.Name;
                 ViewBag.LeagueId = league.LeagueId.ToString().Replace("-", "");
                 List<SkaterJson> Members = new List<SkaterJson>();
-                var mems = MemberCache.GetLeagueMembers(memId, league.LeagueId);                
+                var mems = MemberCache.GetLeagueMembers(memId, league.LeagueId);
 
                 foreach (var mem in mems)
                 {
 
-                    
+
                     var memObj = new SkaterJson { DerbyName = mem.DerbyName };
 
                     if (mem.ContactCard != null && mem.ContactCard.Addresses.FirstOrDefault() != null)
                     {
                         var add = mem.ContactCard.Addresses.FirstOrDefault();
-                       
+
                         //check to see login user is accessible to see Address then provide its respective values                        
                         if (!mem.Settings.Hide_Address_From_League && isAdminOfLeague)
                         {

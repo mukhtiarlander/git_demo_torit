@@ -707,7 +707,7 @@ namespace RDN.Library.Classes.Account
                 // The save resultet in 0 records. Indicating that something went wrong. Delete the already inserted username in the membership system and return
                 SendEmailVerification(emailVerificationCode, email, derbyName, password);
 
-                if (positionType == Convert.ToInt32(DefaultPositionEnum.Writer_For_Rollin_News))
+                if (positionType == Convert.ToInt32(DefaultPositionEnum.Writer_For_Sport_News))
                 {
                     SendEmailAboutNewRollinNewsWriter(email, derbyName);
                 }

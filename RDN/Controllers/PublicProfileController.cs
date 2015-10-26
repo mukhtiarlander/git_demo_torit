@@ -24,6 +24,8 @@ namespace RDN.Controllers
                 model.CurrentPage = page.Value;
             model.PageSize = DEFAULT_PAGE_SIZE;
             model.NumberOfRecords = SiteCache.GetNumberOfMembersSignedUp();
+            if (model.NumberOfRecords < 1023)
+                model.NumberOfRecords = 1023;
             model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
 
             var output = FillMembersModel(model);

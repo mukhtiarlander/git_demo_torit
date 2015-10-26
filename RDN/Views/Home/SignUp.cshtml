@@ -19,7 +19,7 @@
         Sign Up
     </h3>
     <h4 class="signUpDesc">
-        Skate As a Team, Track As a Sport, Love @RDN.Library.Classes.Config.LibraryConfig.SportName
+        Play As a Team, Track As a Sport, Love @RDN.Library.Classes.Config.LibraryConfig.SportName
     </h4>
 
     @using (Html.BeginForm("SignUp", "Home", FormMethod.Post, new { @id = "signUp" }))
@@ -37,14 +37,21 @@
         <div>
             <fieldset>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.IsConnectedToRollerDerby)
+                    <label for="IsConnectedToRollerDerby">Do You Play?: </label>
 
                     @Html.CheckBoxFor(m => m.IsConnectedToRollerDerby, new { onchange = "IsConnectedToDerby();" })
                 </div>
                 <div class="form-group" id="derbyNameRow">
 
                     <img class="displayNone floatLeft" id="loadingDerbyName" src="@Url.Content("~/Content/loading_lg.gif")" />
-                    @Html.LabelFor(m => m.DerbyName)
+                    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+                    {
+                        <label for="DerbyName">Derby Name: </label>
+                    }
+                    else
+                    {
+                        <label for="DerbyName">Nick Name: </label>
+                    }
                     @Html.TextBoxFor(m => m.DerbyName, new { onchange = "SearchForDerbyName(this);", @class = "form-control" })
                     <span style="color: red;">@Html.ValidationMessageFor(m => m.DerbyName)</span>
                 </div>

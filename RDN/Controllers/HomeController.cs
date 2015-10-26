@@ -140,8 +140,12 @@ namespace RDN.Controllers
         {
             HomeModel model = new HomeModel();
             model.LeagueCount = SiteCache.GetNumberOfLeaguesSignedUp();
+            if (model.LeagueCount < 126)
+                model.LeagueCount = 126;
             model.RandomLeagues = SiteCache.GetAllPublicLeagues().Where(x => !String.IsNullOrEmpty(x.LogoUrl)).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
             model.MemberCount = SiteCache.GetNumberOfMembersSignedUp();
+            if (model.MemberCount < 1023)
+                model.MemberCount = 1023;
             model.RandomSkaters = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
                 .Where(x => !x.photoUrl.Contains("roller-girl"))
                 .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
@@ -265,7 +269,7 @@ namespace RDN.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {                   
+                {
                     var user = Membership.GetUser(model.Email);
                     if (user != null)
                     {
@@ -276,7 +280,7 @@ namespace RDN.Controllers
                         return View(model);
                     }
 
-                    ViewBag.IsEmailExists = false;                
+                    ViewBag.IsEmailExists = false;
                 }
             }
             catch (Exception exception)
@@ -293,8 +297,7 @@ namespace RDN.Controllers
             RegisterModel model = new RegisterModel();
             NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(Request.Url.Query);
             string updated = nameValueCollection["u"];
-            List<DefaultPositionEnum> positions = Enum.GetValues(typeof(DefaultPositionEnum))
-                                                           .Cast<DefaultPositionEnum>().ToList();
+            List<DefaultPositionEnum> positions = Enum.GetValues(typeof(DefaultPositionEnum)).Cast<DefaultPositionEnum>().ToList();
 
             //need to remove the first position from the list.
             positions.RemoveAt(0);
@@ -307,9 +310,16 @@ namespace RDN.Controllers
 
             ViewBag.Positions = new SelectList(list, "Value", "Text");
 
-            List<GenderEnum> genders = Enum.GetValues(typeof(GenderEnum))
-                                                           .Cast<GenderEnum>().ToList();
+            List<GenderEnum> genders = Enum.GetValues(typeof(GenderEnum)).Cast<GenderEnum>().ToList();
             genders.RemoveAt(0);
+
+            if (LibraryConfig.SiteType != Library.Classes.Site.Enums.SiteType.RollerDerby)
+            {
+                genders.Clear();
+                genders.Add(GenderEnum.Male);
+                genders.Add(GenderEnum.Female);
+            }
+
             var listGenders = (from a in genders
                                select new SelectListItem
                                {
@@ -336,8 +346,8 @@ namespace RDN.Controllers
 
                 if (!String.IsNullOrEmpty(model.Email) && (model.Email.Contains("@163.com") || model.Email.Contains("@tom.com") || model.Email.Contains("@126.com")))
                 {
-                    
-                    ModelState.AddModelError("", "That Domain name has been banned from "+ LibraryConfig.WebsiteShortName+", if you think this is in Error, please contact us.");
+
+                    ModelState.AddModelError("", "That Domain name has been banned from " + LibraryConfig.WebsiteShortName + ", if you think this is in Error, please contact us.");
                     return View(model);
                 }
                 var id = StoreGateway.GetShoppingCartId(HttpContext);
@@ -355,9 +365,16 @@ namespace RDN.Controllers
 
                 ViewBag.Positions = new SelectList(list, "Value", "Text");
 
-                List<GenderEnum> genders = Enum.GetValues(typeof(GenderEnum))
-                                                           .Cast<GenderEnum>().ToList();
+                List<GenderEnum> genders = Enum.GetValues(typeof(GenderEnum)).Cast<GenderEnum>().ToList();
                 genders.RemoveAt(0);
+
+                if (LibraryConfig.SiteType != Library.Classes.Site.Enums.SiteType.RollerDerby)
+                {
+                    genders.Clear();
+                    genders.Add(GenderEnum.Male);
+                    genders.Add(GenderEnum.Female);
+                }
+
                 var listGenders = (from a in genders
                                    select new SelectListItem
                                    {
@@ -365,7 +382,6 @@ namespace RDN.Controllers
                                        Value = ((int)a).ToString()
                                    });
                 ViewBag.Genders = new SelectList(listGenders, "Value", "Text");
-
 
                 List<NewUserEnum> result = new List<NewUserEnum>();
                 //p=f&returnSite=store&ReturnUrl
@@ -401,7 +417,7 @@ namespace RDN.Controllers
                     else if (site == "rollinNews")
                     {
                         if (!String.IsNullOrEmpty(site) && !String.IsNullOrEmpty(url))
-                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION+ url);
+                            return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION + url);
                         else if (!String.IsNullOrEmpty(site))
                             return Redirect(RollinNewsConfig.WEBSITE_DEFAULT_LOCATION);
 
@@ -465,12 +481,12 @@ namespace RDN.Controllers
                 {
                     if (model.Email.Contains("@163.com") || model.Email.Contains("@tom.com") || model.Email.Contains("@126.com"))
                     {
-                        ModelState.AddModelError("", "That Domain name has been banned from "+LibraryConfig.WebsiteShortName+", if you think this is in Error, please contact us.");
+                        ModelState.AddModelError("", "That Domain name has been banned from " + LibraryConfig.WebsiteShortName + ", if you think this is in Error, please contact us.");
                         return View(model);
                     }
                     if (Membership.ValidateUser(model.Email, model.Password))
                     {
-                        
+
                         setCookie(model.Email, model.RememberMe);
 
                         if (id != null)
@@ -480,7 +496,7 @@ namespace RDN.Controllers
                         {
                             string url;
                             if (returnSite == "league")
-                            {                                
+                            {
                                 url = LibraryConfig.InternalSite;
                                 if (!String.IsNullOrEmpty(returnUrl))
                                     url += returnUrl;
@@ -619,7 +635,7 @@ namespace RDN.Controllers
             {
                 //if its a post from the zebra forum.
                 if (actionName.Contains("yaf_"))
-                    Response.Redirect("http://zebras."+ LibraryConfig.MainDomain +  "/"+actionName);
+                    Response.Redirect("http://zebras." + LibraryConfig.MainDomain + "/" + actionName);
                 else if (HttpContext.Request.Url.AbsoluteUri.Contains("wiki." + LibraryConfig.MainDomain))
                     Response.Redirect(LibraryConfig.WikiSite);
                 else

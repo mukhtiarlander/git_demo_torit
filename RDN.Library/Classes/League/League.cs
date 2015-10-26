@@ -1494,6 +1494,18 @@ namespace RDN.Library.Classes.League
             return new Guid();
         }
 
+        public static CreateLeagueResponse CreateAndApproveLeague(string federationIdRaw, string leagueName, string contactTelephone, string contactEmail, string additionalInformation, string countryIdRaw, string state, string city, double timeZone)
+        {
+            CreateLeagueResponse response = CreateLeague(federationIdRaw, leagueName, contactTelephone, contactEmail, additionalInformation, countryIdRaw, state, city, timeZone);
+            if (response.Errors.Count > 0)
+                return response;
+
+            var result = Library.Classes.Admin.League.League.ApproveLeague(response.PendingLeagueId.ToString());
+
+            return response;
+        }
+
+
         /// <summary>
         /// Adds a league to the league pendings. No physical league is created. This has to be approved by an admin before it's turned into a physical league.
         /// </summary>
@@ -1506,15 +1518,17 @@ namespace RDN.Library.Classes.League
         /// <param name="state"></param>
         /// <param name="city"></param>
         /// <returns></returns>
-        public static List<CreateLeagueEnum> CreateLeague(string federationIdRaw, string leagueName, string contactTelephone, string contactEmail, string additionalInformation, string countryIdRaw, string state, string city, double timeZone)
+        public static CreateLeagueResponse CreateLeague(string federationIdRaw, string leagueName, string contactTelephone, string contactEmail, string additionalInformation, string countryIdRaw, string state, string city, double timeZone)
         {
+            CreateLeagueResponse response = new CreateLeagueResponse();
+
             int countryId;
             Guid federationId;
 
             // Parse the ids and check that the required fields have values
-            var output = CheckCreateLeague(federationIdRaw, leagueName, contactEmail, countryIdRaw, state, out countryId, out federationId);
-            if (output.Count > 0) // Something was not ok, return
-                return output;
+            response.Errors = CheckCreateLeague(federationIdRaw, leagueName, contactEmail, countryIdRaw, state, out countryId, out federationId);
+            if (response.Errors.Count > 0) // Something was not ok, return
+                return response;
             try
             {
                 // Get the federation and country, if one of them fails, return
@@ -1529,8 +1543,8 @@ namespace RDN.Library.Classes.League
                 var country = dc.Countries.FirstOrDefault(x => x.CountryId.Equals(countryId));
                 if (country == null)
                 {
-                    output.Add(CreateLeagueEnum.Country_Invalid);
-                    return output;
+                    response.Errors.Add(CreateLeagueEnum.Country_Invalid);
+                    return response;
                 }
 
                 // Get information about possible duplicates, for each league check the addresses to see if it matches addresses of leagues that already exists
@@ -1600,7 +1614,9 @@ namespace RDN.Library.Classes.League
 
                 var result = dc.SaveChanges();
                 if (result == 0)
-                    output.Add(CreateLeagueEnum.Error_Save);
+                    response.Errors.Add(CreateLeagueEnum.Error_Save);
+
+                response.PendingLeagueId = pending.LeagueId;
 
                 var emailData = new Dictionary<string, string>
                                 {
@@ -1609,15 +1625,13 @@ namespace RDN.Library.Classes.League
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailSubject + " A league has been created", emailData, layout: EmailServer.EmailServerLayoutsEnum.NewLeagueAdmin);
 
-                // ToDo: To be removed
-                //Util.Email.SendEmail(false, LibraryConfig.DEFAULT_ADMIN_EMAIL, "ContactLeague creation", "A new league has been created a needs to be verified, league name: " + leagueName);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
 
-            return output;
+            return response;
         }
         public static List<CreateLeagueEnum> CreateLeagueFromFederation(string federationIdRaw, string leagueName, string contactTelephone, string contactEmail, string additionalInformation, string countryIdRaw, string state, string city)
         {
@@ -2090,7 +2104,7 @@ namespace RDN.Library.Classes.League
                 string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memDb.Name + " logo-") + timeOfSave.ToFileTimeUtc() + "_thumb" + info.Extension;
 
                 string url = LibraryConfig.ImagesBaseUrl + "/leagues/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation+ @"\leagues\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation + @"\leagues\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
                 //creates the directory for the image
                 if (!Directory.Exists(imageLocationToSave))
                     Directory.CreateDirectory(imageLocationToSave);

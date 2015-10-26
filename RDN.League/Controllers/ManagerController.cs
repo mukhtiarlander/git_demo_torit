@@ -24,6 +24,7 @@ using RDN.Library.Classes.Location;
 using RDN.Library.Classes.Error;
 using RDN.Library.Util;
 using RDN.Library.Classes.Config;
+using RDN.Library.Classes.League.Classes;
 
 namespace RDN.League.Controllers
 {
@@ -824,7 +825,7 @@ namespace RDN.League.Controllers
                             result.Add(new SiteMessage
                                            {
                                                MessageType = SiteMessageType.Error,
-                                               Message = "We couldn't find your verfication Id, Have you already Verified with "+LibraryConfig.WebsiteShortName+"? You should be able to use "+LibraryConfig.WebsiteShortName+" now."
+                                               Message = "We couldn't find your verfication Id, Have you already Verified with " + LibraryConfig.WebsiteShortName + "? You should be able to use " + LibraryConfig.WebsiteShortName + " now."
                                            });
                             break;
                         case VerifyEmailEnum.Code_Invalid:
@@ -891,12 +892,12 @@ namespace RDN.League.Controllers
             return result;
         }
 
-        private List<SiteMessage> CreateLeagueErrors(IEnumerable<CreateLeagueEnum> list)
+        private List<SiteMessage> CreateLeagueErrors(CreateLeagueResponse list)
         {
             var result = new List<SiteMessage>();
             try
             {
-                foreach (CreateLeagueEnum item in list)
+                foreach (CreateLeagueEnum item in list.Errors)
                 {
                     switch (item)
                     {

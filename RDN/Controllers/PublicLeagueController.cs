@@ -27,13 +27,15 @@ namespace RDN.Controllers
             else
                 model.CurrentPage = page.Value;
             model.NumberOfRecords = SiteCache.GetNumberOfLeaguesSignedUp();
+            if (model.NumberOfRecords < 126)
+                model.NumberOfRecords = 126;
             model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
             model.PageSize = DEFAULT_PAGE_SIZE;
             var output = FillLeagueModel(model);
             return View(output);
         }
 
-        
+
         public JsonResult AllLeagueSearching()
         {
             List<LeagueJsonDataTable> names = new List<LeagueJsonDataTable>();

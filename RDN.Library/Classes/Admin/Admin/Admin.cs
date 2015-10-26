@@ -31,12 +31,12 @@ namespace RDN.Library.Classes.Admin.Admin
     {
         public static bool SaveNextAdminMessage(string message)
         {
-            EmailServerManager email = new EmailServerManager();
+            EmailServerManager email = new EmailServerManager(string.Empty);
             return email.SaveNextAdminMessage(message);
         }
         public static List<Common.EmailServer.Library.Database.Emails.AdminEmailMessage> GetLastAdminEmailMessages(int count)
         {
-            EmailServerManager email = new EmailServerManager();
+            EmailServerManager email = new EmailServerManager(string.Empty);
             return email.GetLastAdminEmailMessages(count);
         }
 
