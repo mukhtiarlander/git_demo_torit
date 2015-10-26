@@ -377,12 +377,12 @@ namespace RDN.Library.Classes.Document
             }
             return null;
         }
-        public static List<Document> GetLeagueDocuments(Guid leagueId)
+        public static List<Document> GetLeagueDocuments(Guid leagueId, bool isArchived = false)
         {
             try
             {
                 var dc = new ManagementContext();
-                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
+                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false && x.IsArchived == isArchived).ToList();
                 List<Document> docs = new List<Document>();
                 foreach (var d in docsDb)
                     docs.Add(LeagueDocument.DisplayDocument(d, true));
@@ -394,6 +394,7 @@ namespace RDN.Library.Classes.Document
             }
             return new List<Document>();
         }
+
         public static List<Document> GetLeagueDocumentsAll(Guid leagueId)
         {
             try

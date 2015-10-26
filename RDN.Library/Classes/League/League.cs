@@ -696,7 +696,7 @@ namespace RDN.Library.Classes.League
                 else
                     leagueTemp.Twitter = league.Twitter;
                 if (!String.IsNullOrEmpty(league.Instagram) && !league.Instagram.Contains("http://"))
-                    leagueTemp.Instagram = "http://" + league.Instagram;
+                    leagueTemp.Instagram = league.Instagram;
                 else
                     leagueTemp.Instagram = league.Instagram;
                 if (!String.IsNullOrEmpty(league.Facebook) && !league.Facebook.Contains("http://"))

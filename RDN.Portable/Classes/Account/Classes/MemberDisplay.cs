@@ -324,6 +324,22 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public long TotalForumPostsCount { get; set; }
 
+        [ProtoMember(171)]
+        [DataMember]
+        public string Website { get; set; }
+
+        [ProtoMember(172)]
+        [DataMember]
+        public string Instagram { get; set; }
+
+        [ProtoMember(173)]
+        [DataMember]
+        public string Twitter { get; set; }
+
+        [ProtoMember(174)]
+        [DataMember]
+        public string Facebook { get; set; }
+
         public List<InsuranceNumber> InsuranceNumbers { get; set; }
     }
 }

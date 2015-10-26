@@ -56,6 +56,12 @@ namespace RDN.Library.DataModels.Member
         //true == they are just some random person.
         public bool IsNotConnectedToDerby { get; set; }
 
+
+        public string Website { get; set; }
+        public string Instagram { get; set; }
+        public string Twitter { get; set; }
+        public string Facebook { get; set; }
+
         public string Bio { get; set; }
         public int WeightInLbs { get; set; }
         public int HeightInches { get; set; }

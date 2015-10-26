@@ -1,4 +1,5 @@
-﻿@using RDN.Library.Cache
+﻿@using iTextSharp.text.pdf.qrcode
+@using RDN.Library.Cache
 @model RDN.Portable.Classes.Account.Classes.MemberDisplay
 @{
     ViewBag.Title = Model.DerbyName + " (" + Model.PlayerNumber + ")";
@@ -72,6 +73,10 @@
                                     }
                                     <li class="margin-left-5"><a href="#Contacts">Contacts</a></li>
                                     <li class="margin-left-5"><a href="#Memberships">Memberships</a></li>
+                                    @if (!string.IsNullOrEmpty(Model.Twitter))
+                                    {
+                                        <li class="margin-left-5"><a href="#Social">Social</a></li>
+                                    }
                                 </ul>
                                 <div class="tab-content padding-15">
                                     <div class="tab-pane active" id="Personal">
@@ -355,6 +360,15 @@
                                             }
                                         </div>
                                     </div>
+
+                                    @if (!string.IsNullOrEmpty(Model.Twitter))
+                                    {
+                                        string tweeturl = "https://twitter.com/" + Model.Twitter;
+                                        <div id="Social" class="tab-pane">
+                                            <a class="twitter-timeline" href="@tweeturl" data-widget-id="658149577141325824" data-screen-name="@Model.Twitter">Tweets about @Model.Twitter</a>
+                                            <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

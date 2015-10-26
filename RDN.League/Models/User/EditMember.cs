@@ -75,6 +75,12 @@ namespace RDN.League.Models.User
         [AllowHtml]
         public string Bio { get; set; }
 
+        public string Website { get; set; }
+        public string Instagram { get; set; }
+        public string Twitter { get; set; }
+        public string Facebook { get; set; }
+
+
         public List<InsuranceNumber> InsuranceNumbers { get; set; }
     }
 }
