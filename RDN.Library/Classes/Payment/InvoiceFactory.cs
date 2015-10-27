@@ -1049,6 +1049,7 @@ namespace RDN.Library.Classes.Payment
                 var myCustomer = new StripeCustomerCreateOptions();
                 myCustomer.Source = new StripeSourceOptions();
                 myCustomer.Description = LibraryConfig.ConnectionStringName;
+
                 //myCustomer.Source.Description = LibraryConfig.ConnectionStringName;
                 if (invoice.InvoiceBilling != null)
                 {
@@ -1095,14 +1096,14 @@ namespace RDN.Library.Classes.Payment
                 myCustomer.Metadata = new Dictionary<string, string>();
                 myCustomer.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
 
-                var customerService = new StripeCustomerService();
+                var customerService = new StripeCustomerService(LibraryConfig.StripeApiKey);
                 StripeCustomer stripeCustomer = customerService.Create(myCustomer);
 
                 var subscriptionOptions = new StripeSubscriptionCreateOptions();
                 subscriptionOptions.Metadata = new Dictionary<string, string>();
                 subscriptionOptions.Metadata.Add(ConnectionStringName, LibraryConfig.ConnectionStringName);
                 subscriptionOptions.PlanId = planId;
-                var subscriptionService = new StripeSubscriptionService();
+                var subscriptionService = new StripeSubscriptionService(LibraryConfig.StripeApiKey);
                 StripeSubscription stripeSubscription = subscriptionService.Create(stripeCustomer.Id, planId, subscriptionOptions);
 
                 invoice.PaymentProviderCustomerId = stripeCustomer.Id;
@@ -1136,7 +1137,7 @@ namespace RDN.Library.Classes.Payment
                     invoice.BasePriceForItems = invoice.BasePriceForItems;
                     invoice.Merchant = invoice.Merchant;
 
-                    var subscriptionService = new StripeSubscriptionService();
+                    var subscriptionService = new StripeSubscriptionService(LibraryConfig.StripeApiKey);
                     subscriptionService.Cancel(invoice.PaymentProviderCustomerId, invoice.Subscription.PlanId);
                     int c = dc.SaveChanges();
                     return c > 0;
@@ -1145,8 +1146,6 @@ namespace RDN.Library.Classes.Payment
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
-                if (exception.Message.Contains("Your card was declined"))
-                    invoiceReturn.Status = InvoiceStatus.Card_Was_Declined;
             }
             return false;
         }
