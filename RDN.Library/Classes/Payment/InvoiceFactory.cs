@@ -1314,7 +1314,7 @@ namespace RDN.Library.Classes.Payment
                 ReceiverList receiverList = new ReceiverList();
                 //RDNation as a reciever
                 Receiver recSite = new Receiver(invoice.Subscription.Price);
-                recSite.email = LibraryConfig.DefaultAdminEmail;
+                recSite.email = LibraryConfig.PaypalPaymentEmail;
                 //if we modify this invoiceID, 
                 //you need to modify this code here: 
                 recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName;
@@ -1378,17 +1378,17 @@ namespace RDN.Library.Classes.Payment
                     ReceiverList receiverList = new ReceiverList();
                     //RDNation as a reciever
                     Receiver recSite = new Receiver(invoice.FinancialData.BasePriceForItems);
-                    recSite.email = LibraryConfig.DefaultAdminEmail;
+                    recSite.email = LibraryConfig.PaypalPaymentEmail;
 
                     //make sure RDNation can be paid.
-                    if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
+                    if (LibraryConfig.PaypalPaymentEmail != merchant.PaypalEmail)
                         recSite.primary = true;
 
                     recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ": " + invoice.Paywall.Description;
                     recSite.paymentType = PaymentTypeEnum.SERVICE.ToString();
                     receiverList.receiver.Add(recSite);
                     //no need to add a second receiver if the seller is RDNation
-                    if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
+                    if (LibraryConfig.PaypalPaymentEmail != merchant.PaypalEmail)
                     {
                         Receiver recLeague = new Receiver(invoice.FinancialData.PriceSubtractingSiteFees);
                         recLeague.amount = invoice.FinancialData.PriceSubtractingSiteFees;
@@ -1401,7 +1401,7 @@ namespace RDN.Library.Classes.Payment
                     }
                     PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), invoice.Paywall.PaywallLocation, Currency.USD.ToString(), receiverList, LibraryConfig.PublicSite + UrlManager.PAYWALL_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
                     //no need to note primary if RDNation is the seller.
-                    if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
+                    if (LibraryConfig.PaypalPaymentEmail != merchant.PaypalEmail)
                         req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
 
                     req.memo = invoice.Paywall.Description;
@@ -1467,15 +1467,15 @@ namespace RDN.Library.Classes.Payment
                         ReceiverList receiverList = new ReceiverList();
                         //RDNation as a reciever
                         Receiver recSite = new Receiver(invoice.FinancialData.BasePriceForItems + invoice.FinancialData.ShippingCost);
-                        recSite.email = LibraryConfig.DefaultAdminEmail;
-                        if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
+                        recSite.email = LibraryConfig.PaypalPaymentEmail;
+                        if (LibraryConfig.PaypalPaymentEmail != merchant.PaypalEmail)
                             recSite.primary = true;
                         //if we modify this invoiceID, 
                         //you need to modify this code here: 
                         recSite.invoiceId = invoice.InvoiceId.ToString().Replace("-", "") + ":" + LibraryConfig.ConnectionStringName + ": Payment to " + merchant.ShopName;
                         recSite.paymentType = PaymentTypeEnum.GOODS.ToString();
                         receiverList.receiver.Add(recSite);
-                        if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
+                        if (LibraryConfig.PaypalPaymentEmail != merchant.PaypalEmail)
                         {
                             Receiver recLeague = new Receiver(invoice.FinancialData.PriceSubtractingSiteFees);
                             recLeague.amount = invoice.FinancialData.PriceSubtractingSiteFees;
@@ -1489,7 +1489,7 @@ namespace RDN.Library.Classes.Payment
                         }
 
                         PayRequest req = new PayRequest(new RequestEnvelope("en_US"), ActionTypeEnum.PAY.ToString(), LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_CART_URL + merchant.MerchantId.ToString().Replace("-", ""), invoice.Currency, receiverList, LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_RECEIPT_URL + invoice.InvoiceId.ToString().Replace("-", ""));
-                        if (LibraryConfig.DefaultAdminEmail != merchant.PaypalEmail)
+                        if (LibraryConfig.PaypalPaymentEmail != merchant.PaypalEmail)
                             req.feesPayer = FeesPayerEnum.PRIMARYRECEIVER.ToString();
                         req.memo = "Payment to " + merchant.ShopName + ": " + invoice.InvoiceId.ToString().Replace("-", "");
                         req.reverseAllParallelPaymentsOnError = false;
@@ -1716,7 +1716,7 @@ namespace RDN.Library.Classes.Payment
                         //RDNation as a reciever
                         Receiver recSite = new Receiver(duesItem.PriceAfterFees);
 
-                        recSite.email = LibraryConfig.DefaultAdminEmail;
+                        recSite.email = LibraryConfig.PaypalPaymentEmail;
                         recSite.primary = true;
 
                         //if we modify this invoiceID, 
@@ -1775,7 +1775,7 @@ namespace RDN.Library.Classes.Payment
                         }
                         else
                         {
-                            if (resp.error.FirstOrDefault().message.Contains(LibraryConfig.DefaultAdminEmail + " is restricted"))
+                            if (resp.error.FirstOrDefault().message.Contains(LibraryConfig.PaypalPaymentEmail + " is restricted"))
                             {
                                 output.Status = InvoiceStatus.Paypal_Email_Not_Confirmed;
 

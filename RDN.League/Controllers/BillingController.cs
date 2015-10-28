@@ -106,7 +106,7 @@ namespace RDN.League.Controllers
             {
                 PaymentGateway pg = new PaymentGateway();
 
-               
+
 
                 string paymentProvider = Request.Form["PaymentType"].ToString();
                 string articleNumberForSubscription = "none";
@@ -157,17 +157,17 @@ namespace RDN.League.Controllers
                     lengthOfDays = ts.Days;
                 }
 
-            
+
                 var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
                     .SetSubscription(new InvoiceSubscription
                     {
                         ArticleNumber = articleNumberForSubscription,
-                        Description = "RDN League portal subscription",
-                        DescriptionRecurring = "Fee for RDN League portal subscription",
-                        Name = "RDN Member portal",
-                        NameRecurring = "RDN Member portal recurring",
-                        DigitalPurchaseText = "You have now access to RDN League portal",
+                        Description = LibraryConfig.WebsiteShortName + " League portal subscription",
+                        DescriptionRecurring = "Fee for " + LibraryConfig.WebsiteShortName + " League portal subscription",
+                        Name = LibraryConfig.WebsiteShortName + " Member portal",
+                        NameRecurring = LibraryConfig.WebsiteShortName + " Member portal recurring",
+                        DigitalPurchaseText = "You have now access to " + LibraryConfig.WebsiteShortName + " League portal",
                         Price = price,
                         SubscriptionPeriodStripe = subStripe,
                         SubscriptionPeriodLengthInDays = lengthOfDays,
@@ -323,7 +323,7 @@ namespace RDN.League.Controllers
             var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(new Guid(leagueId));
 
             bi.StripeKey = "Stripe.setPublishableKey('" + LibraryConfig.StripeApiPublicKey + "');";
-            
+
 
             return View(bi);
         }

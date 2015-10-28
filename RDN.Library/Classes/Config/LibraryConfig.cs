@@ -426,6 +426,14 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string PaypalPaymentEmail
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("PaypalPaymentEmail");
+            }
+        }
+
         public static string DefaultPhoneNumber
         {
             get
