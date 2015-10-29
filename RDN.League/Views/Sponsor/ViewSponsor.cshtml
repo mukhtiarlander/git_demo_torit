@@ -19,8 +19,8 @@
                         <h3 style="margin-top:5px !important"><i class="fa fa-money"></i> @Model.SponsorName</h3>
                     </div>
                     <div class="col-xs-6 text-right">
-						<a title="Use Code" class="btn btn-info btn-sm" data-bind="click: useCode">
-							<i class="fa fa-cogs"></i> I Used (<span data-bind="text: usedCount"></span>)
+						<a title="Use Code" class="btn btn-info btn-sm" data-bind="click: Sponsors.UseCode">
+							<i class="fa fa-cogs"></i> I Used (<span data-bind="text: Sponsors.usedCount"></span>)
 						</a>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
-		var vm = new SponsorsViewModel('@Model.UsedCount', @Model.SponsorId, '@Model.SponsorForLeague.ToString().Replace("-", "")');
-		ko.applyBindings(vm);
+		Sponsors.Initialize('@Model.UsedCount', @Model.SponsorId, '@Model.SponsorForLeague.ToString().Replace("-", "")');
+		ko.applyBindings(Sponsors);
 	});
 </script>
