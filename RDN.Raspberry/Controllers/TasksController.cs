@@ -35,24 +35,24 @@ namespace RDN.Raspberry.Controllers
             //{
             //    ErrorDatabaseManager.AddException(exception, GetType());
             //}
-            try
-            {
-                //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
-                AutomatedTask.SetLeagueOfTheWeek();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, GetType());
-            }
-            try
-            {
-                //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
-                AutomatedTask.SetSkaterOfTheWeek();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, GetType());
-            }
+            //try
+            //{
+            //    //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
+            //    AutomatedTask.SetLeagueOfTheWeek();
+            //}
+            //catch (Exception exception)
+            //{
+            //    ErrorDatabaseManager.AddException(exception, GetType());
+            //}
+            //try
+            //{
+            //    //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
+            //    AutomatedTask.SetSkaterOfTheWeek();
+            //}
+            //catch (Exception exception)
+            //{
+            //    ErrorDatabaseManager.AddException(exception, GetType());
+            //}
             try
             {
                 task.emailsNotFilled = AutomatedTask.EmailNotFilledOutProfile();

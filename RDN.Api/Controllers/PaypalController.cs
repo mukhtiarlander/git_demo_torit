@@ -1,7 +1,10 @@
 ﻿using Common.Site.Controllers;
+using log4net;
+using Newtonsoft.Json;
 using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Payment.Paypal;
+using RDN.Portable.Classes.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +16,19 @@ namespace RDN.Api.Controllers
 {
     public class PaypalController : BaseController
     {
+        private static readonly ILog logger = LogManager.GetLogger("PaypalLogger");
+
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult InsertIPNNotification(PayPalMessage message)
         {
             try
             {
+                logger.Info("InsertIPNNotificationRequest" + HttpContext.Request.Headers.Get(ApiManager.ApiKey));
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                logger.Info("InsertIPNNotification" + JsonConvert.SerializeObject(message));
 
                 return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.InsertIpnNotification(message) }, JsonRequestBehavior.AllowGet);
             }
@@ -35,8 +43,11 @@ namespace RDN.Api.Controllers
         {
             try
             {
+                logger.Info("CompletePaymentRequest" + HttpContext.Request.Headers.Get(ApiManager.ApiKey));
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                logger.Info("CompletePayment" + JsonConvert.SerializeObject(message));
 
                 return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.CompletePayment(message) }, JsonRequestBehavior.AllowGet);
             }
@@ -51,8 +62,11 @@ namespace RDN.Api.Controllers
         {
             try
             {
+                logger.Info("PendingPaymentRequest" + HttpContext.Request.Headers.Get(ApiManager.ApiKey));
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                logger.Info("PendingPayment" + JsonConvert.SerializeObject(message));
 
                 return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.PendingPayment(message) }, JsonRequestBehavior.AllowGet);
             }
@@ -68,8 +82,11 @@ namespace RDN.Api.Controllers
         {
             try
             {
+                logger.Info("FailedPaymentRequest" + HttpContext.Request.Headers.Get(ApiManager.ApiKey));
                 if (!IsAuthenticated)
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                logger.Info("FailedPayment" + JsonConvert.SerializeObject(message));
 
                 return Json(new GenericResponse() { IsSuccess = PaypalManagerDb.FailedPayment(message) }, JsonRequestBehavior.AllowGet);
             }
@@ -84,6 +101,9 @@ namespace RDN.Api.Controllers
         {
             try
             {
+                logger.Info("Test");
+          
+
                 return Json(new GenericResponse() { IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
