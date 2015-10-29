@@ -2480,6 +2480,7 @@ namespace RDN.Library.Classes.Account
                         {
                             mem.LeagueOwnersEnum = l.LeagueOwnersEnum;
                             mem.DoesReceiveLeagueNotifications = !league.TurnOffEmailNotifications;
+							mem.Settings.ForumGroupOrder = league.ForumGroupOrder;
                         }
                         if (league.SkaterClass != null)
                             l.SkaterClass = league.SkaterClass.ClassId;

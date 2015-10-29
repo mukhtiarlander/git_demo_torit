@@ -106,7 +106,7 @@
         }).error(function () {
         });
     };
-    this.changeForumMessageOrderSetting = function (cb) {
+    this.ChangeForumMessageOrderSetting = function (cb) {
         var isChecked = $(cb).is(":checked");
         $.getJSON("/member/ChangeForumMessageOrderSetting", { checkedUnCheck: isChecked }, function (result) {
             if (result.isSuccess === true) {

@@ -94,5 +94,12 @@ namespace RDN.Portable.Classes.Account.Classes
         [ProtoMember(620)]
         [DataMember]
         public bool Hide_Address_From_League { get; set; }
+
+		/// <summary>
+		/// Sort order of Forum Groups
+		/// </summary>
+		[ProtoMember(621)]
+		[DataMember]
+		public string ForumGroupOrder { get; set; }
     }
 }

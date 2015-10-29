@@ -267,12 +267,17 @@ namespace RDN.Library.Classes.Account.Classes
             try
             {
                 var dc = new ManagementContext();
-                var leagueMember = dc.LeagueMembers.Where(x => x.Member.MemberId == memberId && x.League.LeagueId == leagueId).FirstOrDefault();
-                
+				var leagueMember = dc.LeagueMembers.Where(x => x.Member.MemberId == memberId && x.League.LeagueId == leagueId).FirstOrDefault();
+				
                 leagueMember.ForumGroupOrder = newOrderOfGroups;
-                leagueMember.League = leagueMember.League;
-                leagueMember.Member = leagueMember.Member;
-                int c = dc.SaveChanges();
+				leagueMember.League = leagueMember.League;
+				leagueMember.Member = leagueMember.Member;                
+				
+				int c = dc.SaveChanges();
+				if (c > 0)
+				{
+					MemberCache.UpdateForumGroupOrderCache(memberId, newOrderOfGroups);
+				}
                 return c > 0;
             }
             catch (Exception exception)
@@ -281,19 +286,7 @@ namespace RDN.Library.Classes.Account.Classes
             }
             return false;
         }
-
-        public static string GetForumGroupsOrder(Guid memberId, Guid leagueId)
-        {
-            var dc = new ManagementContext();
-            var leagueMember = dc.LeagueMembers.Where(x => x.Member.MemberId == memberId && x.League.LeagueId == leagueId).FirstOrDefault();
-
-            if (leagueMember != null)
-            {
-                return leagueMember.ForumGroupOrder;
-            }
-            return "";
-        }
-
+		
         public static bool ChangeCalendarViewSetting(CalendarDefaultViewEnum viewType, Guid memberId)
         {
             try

@@ -1493,5 +1493,23 @@ namespace RDN.Library.Cache
             }
             return null;
         }
+
+		public static MemberCache UpdateForumGroupOrderCache(Guid memberId, string newOrder)
+		{
+			try
+			{
+				var cached = GetCache(memberId, false);
+				if (cached != null)
+				{
+					cached.memberDisplay.Settings.ForumGroupOrder = newOrder;
+					return UpdateCache(cached);
+				}
+			}
+			catch (Exception exception)
+			{
+				ErrorDatabaseManager.AddException(exception, exception.GetType());
+			}
+			return null;
+		}
     }
 }
