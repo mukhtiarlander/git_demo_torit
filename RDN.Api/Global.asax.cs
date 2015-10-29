@@ -11,6 +11,7 @@ using RDN.Library.Cache.Singletons;
 using System.Configuration;
 using RDN.Library.Classes.Payment.Enums;
 using RDN.Library.Classes.Config;
+using log4net.Config;
 
 namespace RDN.Api
 {
@@ -84,6 +85,7 @@ namespace RDN.Api
 
         protected void Application_Start()
         {
+            XmlConfigurator.Configure();
             ErrorInitializer.Initialize();
             AreaRegistration.RegisterAllAreas();
 
