@@ -349,11 +349,19 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["LogoUrl"];                     
+                return SiteCache.GetConfigurationValue("LogoURL");                     
             }
         }
 
+        public static string LogoUrl500
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("LogoUrl500");
+            }
+        }
 
+        
         public static string SiteEmail
         {
             get
