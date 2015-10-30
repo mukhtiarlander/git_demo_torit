@@ -361,6 +361,22 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string LogoUrl250
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("LogoUrl250");
+            }
+        }
+
+        public static string FaviIcon
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("FaviIcon");
+            }
+        }
+
         
         public static string SiteEmail
         {
