@@ -51,35 +51,29 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
-                            <label class="form-label">Name</label>
+                            <label class="form-label b">Name</label>
                             <div class="margin-bottom-20">
                                 @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                             </div>
                         </div>
 
-                        <div class="col-xs-12">
-                            <label class="form-label">Groups <span class="i"><a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Creating_An_Event">Group only events</a></span></label>
-                            <div class="margin-bottom-20">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" style="float:left;">
-                                            <span class="recipientsNames b">Entire League</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-default pull-right" type="button">
-                                            <i class="fa fa-users "></i> Change Group <span class="caret"></span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="displayNone groupMemberLists" id="groupMemberLists">
-                                    <ul id="groupList" class="list-unstyled"></ul>
-                                </div>
-                            </div>
-                        </div>
+						<div class="col-xs-12">
+							<label class="form-label b">Groups <span class="i"><a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Creating_An_Event">Group only events</a></span></label>
+							<button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-xs btn-warning pull-right" type="button">
+								<i class="fa fa-users "></i> Change Group <span class="caret"></span>
+							</button>
+							<div class="margin-bottom-20 margin-top-5">
+								<div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 margin-bottom-10" style="background:none">
+									<span class="label label-primary font12 padding-top-5">Entire League</span>
+								</div>
+								<div class="displayNone padding-left-10" id="groupMemberLists">
+									<ul id="groupList" class="list-unstyled"></ul>
+								</div>
+							</div>
+						</div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">Location</label>
+                            <label class="form-label b">Location</label>
                             <div class="margin-bottom-20">
                                 <div class="input-group">
                                     @Html.DropDownListFor(x => x.SelectedLocationId, Model.Locations, "Choose Location...", new { @class = "form-control" })
@@ -91,7 +85,7 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">Event Type</label>
+                            <label class="form-label b">Event Type</label>
                             <div class="margin-bottom-20">
                                 <div class="input-group">
                                     @Html.DropDownListFor(x => x.SelectedEventTypeId, Model.EventTypes, "Choose Event Type...", new { @onchange = "EventTypeChanged(this)", @class = "form-control" })
@@ -117,7 +111,7 @@
                         </div>
 
                         <div class="col-xs-12">
-                            <label class="form-label">Event Type Color</label>
+                            <label class="form-label b">Event Type Color</label>
                             <div class="margin-bottom-20">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6">
@@ -132,21 +126,21 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">Start Date & Time</label>
+                            <label class="form-label b">Start Date & Time</label>
                             <div class="margin-bottom-20">
                                 @Html.TextBoxFor(x => x.StartDateDisplay, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
                             </div>
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">End Date & Time</label>
+                            <label class="form-label b">End Date & Time</label>
                             <div class="margin-bottom-20">
                                 @Html.TextBoxFor(x => x.EndDateDisplay, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
                             </div>
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">Repeat</label>
+                            <label class="form-label b">Repeat</label>
                             <div class="margin-bottom-20">
                                 <label>
                                     @Html.CheckBoxFor(x => x.IsReoccurring, new { @onchange = "IsReoccuringEvent(this)", @class = "alignLeft", @data_toggle = "modal", @data_target = "#myModal" })
@@ -156,7 +150,7 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">Is Public Event</label>
+                            <label class="form-label b">Is Public Event</label>
                             <div class="margin-bottom-20">
                                 <label>
                                     @Html.CheckBoxFor(x => x.IsPublicEvent, new { @class = "alignLeft", @onchange = "PublicEventChangeCalendar(this)" })
@@ -171,7 +165,7 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">
+                            <label class="form-label b">
                                 Ticket Url
                             </label>
                             <div class="margin-bottom-20">
@@ -181,7 +175,7 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">
+                            <label class="form-label b">
                                 Link
                             </label>
                             <div class="margin-bottom-20">
@@ -191,7 +185,7 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">
+                            <label class="form-label b">
                                 Allow Self Check In
                             </label>
                             <div class="margin-bottom-20">
@@ -203,7 +197,7 @@
                         </div>
 
                         <div class="col-xs-12 col-md-6">
-                            <label class="form-label">
+                            <label class="form-label b">
                                 Broadcast
                             </label>
                             <div class="margin-bottom-20">
@@ -212,7 +206,7 @@
                         </div>
 
                         <div class="col-xs-12">
-                            <label class="form-label">
+                            <label class="form-label b">
                                 Event Information
                             </label>
                             <div class="margin-bottom-20">
@@ -238,7 +232,7 @@
                             </div>
                             <div class="modal-body no-padding-bottom">
                                 <div class="well">
-                                    <label class="form-label">
+                                    <label class="form-label b">
                                         Repeat
                                     </label>
                                     <div>
@@ -246,7 +240,7 @@
                                     </div>
                                 </div>
                                 <div class="well">
-                                    <label id="repeatsOnRow" class="form-label">On</label>
+                                    <label id="repeatsOnRow" class="form-label b">On</label>
                                     <div id="repeatsOnRowSel">
                                         <div class="displayNone checkboxError" id="selectDate">Please Select a Day</div>
                                         <label>@Html.CheckBoxFor(x => x.IsSunday, new { @onchange = "ChangeSummaryOfRepeatedEvent(true)" })&nbsp;S&nbsp;</label>
@@ -269,7 +263,7 @@
                                     </div>
                                 </div>
                                 <div class="well no-margin-bottom">
-                                    <label class="form-label">Ends</label>
+                                    <label class="form-label b">Ends</label>
                                     <div>
                                         <label class="margin-left-15 margin-bottom-10">
                                             @Html.RadioButtonFor(m => m.EndsWhen, EndsWhenReoccuringEnum.Never.ToString(), new { @checked = "checked", @onchange = "ChangeSummaryOfRepeatedEvent(true)" })
