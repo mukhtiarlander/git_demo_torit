@@ -1,6 +1,6 @@
 ﻿@model RDN.Library.Classes.League.BoutList
 @{
-    ViewBag.Title = "Add Bout Challenge";
+    ViewBag.Title = "Add Game Challenge";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
@@ -9,16 +9,16 @@
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
-    <li class="active">Request for Bout Challenge</li>
+    <li class="active">Request for Game Challenge</li>
 </ol>
 
 <div class="row">
     <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-paper-plane"></i> Request for Bout Challenge</h3>
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-paper-plane"></i> Request for Game Challenge</h3>
                 <span class="text-muted">
-                    Add a bout challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
+                    Add a Game Challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
                 </span>
             </div>
             @using (Html.BeginForm("BoutChallengeRequest", "BoutChallenge", FormMethod.Post, new { @id = "addNewRequest" }))

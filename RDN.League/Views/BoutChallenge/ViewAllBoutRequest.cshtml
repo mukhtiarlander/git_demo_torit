@@ -1,6 +1,6 @@
 ﻿@model List<RDN.Library.Classes.League.BoutList>
 @{
-    ViewBag.Title = "All Bout Challenge Request";
+    ViewBag.Title = "All Game Challenge Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -11,14 +11,14 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li class="active">Bout Challenges</li>
+    <li class="active">Game Challenges</li>
 </ol>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-6">
-                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-thumbs-up"></i> Bout Challenges</h3>
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-thumbs-up"></i> Game Challenges</h3>
             </div>
             <div class="col-xs-6 text-right">
                 @if (isAdminOfLeague)
@@ -29,8 +29,8 @@
                 }
             </div>
         </div>
-        <span class="text-muted"> Bout Challenges are a way for your league to connect with another league around the world.
-            By adding a bout challenge request, your asking other leagues to come bout with you on a certain weekend.
+        <span class="text-muted"> Game Challenges are a way for your league to connect with another league around the world.
+            By adding a Game Challenge request, your asking other leagues to come bout with you on a certain weekend.
             Each request should be closed when the challenge has been accepted.  Requests are shown to every league within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName.</span>
     </div>
     <div class="panel-body scroll-x">

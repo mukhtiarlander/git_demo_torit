@@ -6,7 +6,7 @@
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
-    <li class="active">Edit Bout Challenge</li>
+    <li class="active">Edit Game Challenge</li>
 </ol>
 
 
@@ -16,7 +16,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-6 col-md-8">
-                        <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-pencil"></i> Edit Request for Bout Challenge</h3>        
+                        <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-pencil"></i> Edit Request for Game Challenge</h3>        
                     </div>
                     <div class="col-xs-6 col-md-4 text-right">
                         <a class="btn btn-warning btn-sm" onclick="return confirm('Close the Request Because You Found a League?')" title="Close Request" href="@Url.Content("~/boutchallenge/close/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <span class="text-muted">
-                    Edit/Close a bout challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
+                    Edit/Close a Game Challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
                 </span>
             </div>
             @using (Html.BeginForm("EditBoutRequest", "BoutChallenge", FormMethod.Post, new { @id = "editRequest" }))
