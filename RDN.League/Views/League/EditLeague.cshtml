@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Edit " + Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    SelectList themes = new SelectList(System.Configuration.ConfigurationManager.AppSettings["ThemeColors"].ToString().Split(','));
+    SelectList themes = new SelectList(RDN.Library.Classes.Config.LibraryConfig.ThemeColors.Split(','));
 }
 
 <ol class="breadcrumb">
@@ -30,7 +30,7 @@
                             }
                             else
                             {
-                                <img style="width: 100%; max-width:400px" src="@Url.Content("~/Content/images/Rollerball_pink_s100.png")" alt="RDNation Logo" />
+                                <img style="width: 100%; max-width:400px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl500" alt="Logo" />
                             }
                             <input class="btn btn-default margin-top-10 margin-bottom-10" style="width: 100%; max-width: 400px; margin-left:auto;margin-right:auto"  type="file" name="file" id="file" accept="image/*" />
                         </div>

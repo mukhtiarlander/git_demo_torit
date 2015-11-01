@@ -330,7 +330,7 @@ namespace RDN.Library.DataModels.Context
 
         public static void SetDataContext(string databaseConnectionName)
         {
-            System.Web.HttpContext.Current.Items["DatabaseConnectionName"] = databaseConnectionName;
+            System.Web.HttpContext.Current.Items["ManagementDatabaseConnectionName"] = databaseConnectionName;
         }
 
         public static ManagementContext DataContext

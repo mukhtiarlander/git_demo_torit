@@ -17,12 +17,13 @@ using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Email;
 using Common.Site.AppConfig;
 using RDN.Portable.Classes.Url;
+using log4net;
 
 namespace RDN.Library.Classes.Payment
 {
     public class StripeHandler
     {
-
+        private static readonly ILog logger = LogManager.GetLogger("StripeLogger");
         /// <summary>
         /// no need to do anything here just yet.
         /// I think when leagues start changing their subscriptions, we will need to update this code to change the plan
@@ -58,6 +59,7 @@ namespace RDN.Library.Classes.Payment
                     if (inv.Customer != null && inv.Metadata.Count > 0)
                     {
                         connectionStringName = inv.Customer.Metadata[InvoiceFactory.ConnectionStringName];
+                        logger.Info("connectionString" + connectionStringName);
                         ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                         config.GetElement(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
@@ -180,6 +182,7 @@ namespace RDN.Library.Classes.Payment
                     if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
                         ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
+                        logger.Info("connectionString" + inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
                     StripeSubscriptionDb custDb = new StripeSubscriptionDb();
@@ -246,6 +249,7 @@ namespace RDN.Library.Classes.Payment
                     if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
                         ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
+                        logger.Info("connectionString" + inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
@@ -326,6 +330,7 @@ namespace RDN.Library.Classes.Payment
                     if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
                         ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
+                        logger.Info("connectionString" + inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                         CustomConfigurationManager config = new CustomConfigurationManager(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         email = new EmailManagerApi(config.GetSubElement(StaticConfig.ApiBaseUrl).Value, config.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
@@ -412,6 +417,7 @@ namespace RDN.Library.Classes.Payment
         {
             try
             {
+                string connectionStringName = "";
                 EmailManagerApi email = null;
                 var dc = new ManagementContext();
                 RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb even = new RDN.Library.DataModels.PaymentGateway.Stripe.StripeEventDb();
@@ -426,9 +432,11 @@ namespace RDN.Library.Classes.Payment
 
                     if (inv.Customer != null && inv.Customer.Metadata.Count > 0)
                     {
-                        ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
+                        connectionStringName = inv.Customer.Metadata[InvoiceFactory.ConnectionStringName];
+                        ManagementContext.SetDataContext(connectionStringName);
+                        logger.Info("connectionString" + connectionStringName);
                         dc = ManagementContext.DataContext;
-                        CustomConfigurationManager config = new CustomConfigurationManager(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
+                        CustomConfigurationManager config = new CustomConfigurationManager(connectionStringName);
                         email = new EmailManagerApi(config.GetSubElement(StaticConfig.ApiBaseUrl).Value, config.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
                     }
                     StripeChargeDb nnv = new StripeChargeDb();
@@ -475,9 +483,9 @@ namespace RDN.Library.Classes.Payment
                     if (invoice == null)
                     {
                         if (email == null)
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE:"+connectionStringName+": Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
                         else
-                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE:" + connectionStringName + ": Invoice Not Found, Can't Be Confirmed", inv.CustomerId + " " + inv.ToString() + json);
                     }
                     else
                     {
@@ -486,9 +494,9 @@ namespace RDN.Library.Classes.Payment
                             //update league subscription
                             League.LeagueFactory.UpdateLeagueSubscriptionPeriod(invoice.Subscription.ValidUntil, true, invoice.Subscription.InternalObject);
                             if (email == null)
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE:" + connectionStringName + ": Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                             else
-                                email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                                email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE:" + connectionStringName + ": Subscription Updated!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                         }
 
                         invoice.InvoicePaid = true;
@@ -496,9 +504,9 @@ namespace RDN.Library.Classes.Payment
                         invoice.InvoiceStatusUpdated = DateTime.UtcNow;
                         invoice.Merchant = invoice.Merchant;
                         if (email == null)
-                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                            EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE:" + connectionStringName + ": New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                         else
-                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE: New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
+                            email.SendEmailAsync(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "STRIPE:" + connectionStringName + ": New Payment Made!!", invoice.InvoiceId + " Amount:" + inv.Amount + ":" + inv.ToString() + json);
                     }
                 }
                 dc.StripeEvents.Add(even);
@@ -531,6 +539,7 @@ namespace RDN.Library.Classes.Payment
                     if (inv.Customer != null && inv.Customer.Metadata != null && inv.Customer.Metadata.Count > 0)
                     {
                         ManagementContext.SetDataContext(inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
+                        logger.Info("connectionString" + inv.Customer.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
                     StripeInvoiceDb nnv = new StripeInvoiceDb();
@@ -586,6 +595,7 @@ namespace RDN.Library.Classes.Payment
                     if (cust.Metadata != null && cust.Metadata.Count > 0)
                     {
                         ManagementContext.SetDataContext(cust.Metadata[InvoiceFactory.ConnectionStringName]);
+                        logger.Info("connectionString" + cust.Metadata[InvoiceFactory.ConnectionStringName]);
                         dc = ManagementContext.DataContext;
                     }
 
@@ -613,7 +623,7 @@ namespace RDN.Library.Classes.Payment
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: json);
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: json );
             }
             return false;
         }
@@ -642,7 +652,7 @@ namespace RDN.Library.Classes.Payment
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: json);
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: json );
             }
             return card;
         }

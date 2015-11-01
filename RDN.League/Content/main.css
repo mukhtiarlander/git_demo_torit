@@ -246,9 +246,13 @@ input.error { border-color: Red; border-style: solid; border-width: 1px; }
     #feedback_tab.Red { background-color: #E7573E !important; }
         #feedback_tab.Red > a:hover { background-color: #BF3117; }
 
-    /* Green Feedback Tab */
-    #feedback_tab.Green { background-color: #8CC152 !important; }
+            /* Green Feedback Tab */
+    #feedback_tab.Green { background-color: #058900 !important; }
         #feedback_tab.Green > a:hover { background-color: #5E8631; }
+
+    /* LightGreen Feedback Tab */
+    #feedback_tab.Light_Green { background-color: #8CC152 !important; }
+        #feedback_tab.Light_Green > a:hover { background-color: #5E8631; }
 
     /* Violet Feedback Tab */
     #feedback_tab.Violet { background-color: #2c3e50 !important; }
@@ -344,12 +348,12 @@ input.error { border-color: Red; border-style: solid; border-width: 1px; }
 #navbar-theme.Green #btn-side-menu-toggle:hover, .btn-menu-toggle:focus { background-color: #5E8631 !important; }
 
 @media (max-width: 767px) {
-    #navbar-theme.Green #mainNavbar { background-color: #8CC152 !important; }
+    #navbar-theme.Green #mainNavbar { background-color: #058900 !important; }
 }
 
 #navbar-theme.Green .navbar-inverse .navbar-nav > .open > a { background-color: #5E8631; }
 
-#navbar-theme.Green .navbar-inverse { background-color: #8CC152; border-color: #8CC152; }
+#navbar-theme.Green .navbar-inverse { background-color: #058900; border-color: #058900; }
 
     #navbar-theme.Green .navbar-inverse .navbar-toggle:hover, #navbar-theme.Green .navbar-inverse .navbar-toggle:focus { background-color: #5E8631; }
 
@@ -358,7 +362,28 @@ input.error { border-color: Red; border-style: solid; border-width: 1px; }
     #navbar-theme.Green .navbar-inverse .navbar-toggle { border-color: #5E8631; }
 
 @media (max-width: 767px) {
-    #navbar-theme.Green .navbar-nav .open .dropdown-menu { background-color: #71A23C; }
+    #navbar-theme.Green .navbar-nav .open .dropdown-menu { background-color: #059700; }
+}
+
+/* LightGreen Theme */
+#navbar-theme.Light_Green #btn-side-menu-toggle:hover, .btn-menu-toggle:focus { background-color: #5E8631 !important; }
+
+@media (max-width: 767px) {
+    #navbar-theme.Light_Green #mainNavbar { background-color: #8CC152 !important; }
+}
+
+#navbar-theme.Light_Green .navbar-inverse .navbar-nav > .open > a { background-color: #5E8631; }
+
+#navbar-theme.Light_Green .navbar-inverse { background-color: #8CC152; border-color: #8CC152; }
+
+    #navbar-theme.Light_Green .navbar-inverse .navbar-toggle:hover, #navbar-theme.Light_Green .navbar-inverse .navbar-toggle:focus { background-color: #5E8631; }
+
+    #navbar-theme.Light_Green .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form { border-color: #5E8631; }
+
+    #navbar-theme.Light_Green .navbar-inverse .navbar-toggle { border-color: #5E8631; }
+
+@media (max-width: 767px) {
+    #navbar-theme.Light_Green .navbar-nav .open .dropdown-menu { background-color: #059700; }
 }
 
 /* Violet Theme */

@@ -803,8 +803,8 @@ namespace RDN.League.Controllers
                         topics.CategoryId = Convert.ToInt64(categoryId);
 
                     #region order groups by user preferences
-                    Guid leagueId = MemberCache.GetLeagueIdOfMember(memId);
-                    string groupsOrderString = RDN.Library.Classes.Account.Classes.MemberSettingsFactory.GetForumGroupsOrder(memId, leagueId);
+					var memberDisplay = MemberCache.GetMemberDisplay(memId);
+					string groupsOrderString = memberDisplay.Settings.ForumGroupOrder; 
                     if (!string.IsNullOrWhiteSpace(groupsOrderString))
                     {
                         List<long> groupsOrder = new List<long>();

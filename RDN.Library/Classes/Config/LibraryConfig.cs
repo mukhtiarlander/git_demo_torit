@@ -349,11 +349,35 @@ namespace RDN.Library.Classes.Config
         {
             get
             {
-                return ConfigurationManager.AppSettings["LogoUrl"];                     
+                return SiteCache.GetConfigurationValue("LogoURL");                     
             }
         }
 
+        public static string LogoUrl500
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("LogoUrl500");
+            }
+        }
 
+        public static string LogoUrl250
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("LogoUrl250");
+            }
+        }
+
+        public static string FaviIcon
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("FaviIcon");
+            }
+        }
+
+        
         public static string SiteEmail
         {
             get
@@ -423,6 +447,14 @@ namespace RDN.Library.Classes.Config
             get
             {
                return SiteCache.GetConfigurationValue("DefaultAdminEmail");                             
+            }
+        }
+
+        public static string PaypalPaymentEmail
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("PaypalPaymentEmail");
             }
         }
 

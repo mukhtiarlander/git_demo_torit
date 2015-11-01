@@ -162,7 +162,6 @@ namespace RDN.League.Controllers
             try
             {
                 Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
-                Guid leagueId = MemberCache.GetLeagueIdOfMember(memId);
                 var display = MemberCache.GetMemberDisplay(memId);
 
                 if (display.Settings == null)
@@ -193,7 +192,7 @@ namespace RDN.League.Controllers
                 ViewBag.ServiceProviders = RDN.League.Classes.Enums.EnumExt.ToSelectListValue(display.Settings.ServiceProvider);
 
                 //order groups by user preferences
-                string groupsOrderString = MemberSettingsFactory.GetForumGroupsOrder(memId, leagueId);
+				string groupsOrderString = display.Settings.ForumGroupOrder;
                 if (!string.IsNullOrWhiteSpace(groupsOrderString))
                 {
                     List<long> groupsOrder = groupsOrderString.Split(':').Select(long.Parse).ToList();

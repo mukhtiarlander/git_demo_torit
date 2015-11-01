@@ -23,12 +23,13 @@ using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Email;
 using RDN.Library.Classes.Api.Paypal;
 using Newtonsoft.Json;
+using log4net;
 
 namespace RDN.Library.Classes.Payment.Paypal
 {
     public class IPNHandler
     {
-
+        private static readonly ILog logger = LogManager.GetLogger("PaypalLogger");
         public bool IsLive { get; set; }
         public string PostUrl { get; set; }
 
@@ -56,12 +57,16 @@ namespace RDN.Library.Classes.Payment.Paypal
                 PostUrl = PaypalPayment.GetBaseUrl(isLive);
                 PaypalMessage = this.FillIPNProperties(context);
 
-                if (!String.IsNullOrEmpty(PaypalMessage.ConfigurationName))
+                logger.Info(JsonConvert.SerializeObject(PaypalMessage));
+
+                if (String.IsNullOrEmpty(PaypalMessage.ConfigurationName))
                     PaypalMessage.ConfigurationName = "RDN";
 
                 _configManager = new CustomConfigurationManager(PaypalMessage.ConfigurationName);
                 _emailManager = new EmailManagerApi(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
                 _paypalManager = new PaypalManagerApi(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value, _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
+
+                logger.Info(_configManager.GetSubElement(StaticConfig.ApiBaseUrl).Value + ":" + _configManager.GetSubElement(StaticConfig.ApiAuthenticationKey).Value);
             }
             catch (Exception exception)
             {
@@ -76,7 +81,12 @@ namespace RDN.Library.Classes.Payment.Paypal
 
         public void SendIPNNotificationToApi()
         {
-            _paypalManager.InsertIPNNotification(PaypalMessage);
+            var success = _paypalManager.InsertIPNNotification(PaypalMessage);
+
+            logger.Info("SendIPNNotificationToApi" + JsonConvert.SerializeObject(success));
+
+            if (!success.IsSuccess)
+                _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: IPN Message didn't Send", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
         }
 
 
@@ -133,7 +143,13 @@ namespace RDN.Library.Classes.Payment.Paypal
                         switch (PaypalMessage.PaymentStatus)
                         {
                             case "Completed":
-                                _paypalManager.CompletePayment(PaypalMessage);
+                                var completePayment = _paypalManager.CompletePayment(PaypalMessage);
+
+                                logger.Info("CompletePayment" + JsonConvert.SerializeObject(completePayment));
+
+                                if (!completePayment.IsSuccess)
+                                    _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Payment Didn't Complete", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+
                                 return true;
                             case "Pending":
                                 switch (PaypalMessage.PendingReason)
@@ -148,12 +164,20 @@ namespace RDN.Library.Classes.Payment.Paypal
                                     case "verify":
                                     case "other":
                                     default:
-                                        _paypalManager.PendingPayment(PaypalMessage);
+                                        var pendingPayment = _paypalManager.PendingPayment(PaypalMessage);
+                                        logger.Info("CompletePayment" + JsonConvert.SerializeObject(pendingPayment));
+                                        if (!pendingPayment.IsSuccess)
+                                            _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Payment Didn't Pend", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
                                         return true;
                                 }
                             case "Failed":
                             case "Denied":
-                                _paypalManager.FailedPayment(PaypalMessage);
+
+                                var failedPayment = _paypalManager.FailedPayment(PaypalMessage);
+                                logger.Info("FailedPayment" + JsonConvert.SerializeObject(failedPayment));
+                                if (!failedPayment.IsSuccess)
+                                    _emailManager.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, LibraryConfig.DefaultAdminEmail, "Paypal: Payment Didn't Pend", PaypalMessage.ToString(), Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);
+
                                 return true;
                             default:
                                 if (PaypalMessage.Status == "COMPLETED")

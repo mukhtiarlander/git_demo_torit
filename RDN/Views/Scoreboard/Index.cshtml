@@ -8,7 +8,12 @@
     <title>Free @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard by @RDN.Library.Classes.Config.LibraryConfig.WebsiteName</title>
     <link href="@Url.Content("~/Content/Scoreboard.css?v=" + RDN.Library.Classes.Config.LibraryConfig.CSS_VERSION)" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="http://gettopup.com/releases/latest/top_up-min.js"></script>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    
+    <link rel="icon" type="image/png" href="@RDN.Library.Classes.Config.LibraryConfig.FaviIcon" />
+    <!--[if IE]>
+    <link rel="shortcut icon" href="@RDN.Library.Classes.Config.LibraryConfig.FaviIcon" type="image/vnd.microsoft.icon" />
+    <![endif]-->
+
     <script type="text/javascript">
         TopUp.addPresets({
             "#screenshots_table a": {
@@ -47,7 +52,7 @@
                 </div>
             </div>
             <div class="cMR">
-                <img src="@Url.Content("~/Content/Rollerball_pink_s500.png")" width="300px"
+                <img src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl500" width="300px"
                      alt="@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName logo" />
             </div>
         </div>
@@ -976,7 +981,7 @@
         </div>
         <div style="font-size: 1.3em; text-align: center;">
             <center>
-                <img width="200px" src="@Url.Content("~/Content/Rollerball_pink_s500.png")" /></center>
+                <img width="200px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl500" /></center>
             Made in the America
         </div>
         <br />
