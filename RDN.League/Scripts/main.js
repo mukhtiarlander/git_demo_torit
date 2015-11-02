@@ -347,7 +347,7 @@ function GetFileSize(bytes, si) {
 function GetDocumentTags(ownerId) {
     $.getJSON("/document/GetDocumentTags", { docOwnerId: ownerId }, function (result) {
         if (result.isSuccess === true) {
-            var tags = JSON.parse(result.tags);
+            var tags = result.tags;
             $.each(tags, function (index, value) {
                 $('#Tags').tagsinput('add', value.label);
             });

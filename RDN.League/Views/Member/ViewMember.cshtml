@@ -39,7 +39,7 @@
                             <i>@Model.PlayerNumber</i>
                         </p>
                         <p>
-                            @Model.Email
+                            <a href="mailto:@Model.Email" target="_blank">@Model.Email</a>
                         </p>
                         @*<div class="row text-center">
                                 @if (isAdminOfLeague || !Model.Settings.Hide_Email_From_League || Model.MemberId == memId)
