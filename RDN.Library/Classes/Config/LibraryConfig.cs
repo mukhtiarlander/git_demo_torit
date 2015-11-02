@@ -81,6 +81,14 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string GoogleAnalyticsTrackingId
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("GoogleAnalyticsTrackingId");
+            }
+        }
+
         public static string TwitterConsumerSecret
         {
             get
