@@ -80,6 +80,9 @@ namespace RDN.Portable.Classes.Contacts
         [ProtoMember(21)]
         [DataMember]
         public bool IsDefault { get; set; }
+        [ProtoMember(22)]
+        [DataMember]
+        public bool IsViewableToLeagueMember { get; set; }
 
 
         public ContactDisplayBasic()

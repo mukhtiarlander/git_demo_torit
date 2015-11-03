@@ -828,6 +828,7 @@ namespace RDN.Library.Classes.League
                         c.ContactId = con.Contact.ContactId;
                         c.FirstName = con.Contact.Firstname;
                         c.LastName = con.Contact.Lastname;
+                        c.IsViewableToLeagueMember = con.Contact.IsViewableToLeagueMember;
                         c.ContactTypeForOrg = (ContactTypeForOrganizationEnum)con.ContactTypeEnum;
                         c.ContactTypeSelected = c.ContactTypeForOrg.ToString();
                         if (con.Contact.ContactCard.Addresses.FirstOrDefault() != null)
