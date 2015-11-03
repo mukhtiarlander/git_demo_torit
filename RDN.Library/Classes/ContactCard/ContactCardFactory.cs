@@ -105,8 +105,8 @@ namespace RDN.Library.Classes.ContactCard
 
                 if (coords != null)
                 {
-                    add.Coords.Latitude = coords.Latitude;
-                    add.Coords.Longitude = coords.Longitude;
+                    add.Coords.Latitude = double.IsNaN(coords.Latitude) ? 0 : coords.Latitude;
+                    add.Coords.Longitude = double.IsNaN(coords.Longitude) ? 0 : coords.Latitude;
                 }
                 else
                 {
