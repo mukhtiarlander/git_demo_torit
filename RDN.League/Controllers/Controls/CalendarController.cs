@@ -79,9 +79,9 @@ namespace RDN.League.Controllers
                     {
                         try
                         {
-                            reportSheet.Cells[rowReport, 1].Value = attendee.MemberName;
-                            reportSheet.Cells[rowReport, 2].Value = attendee.MemberNumber;
-                            reportSheet.Cells[rowReport, 3].Value = attendee.FullName;
+                            reportSheet.Cells[rowReport, 1].Value = attendee.DerbyName;
+                            reportSheet.Cells[rowReport, 2].Value = attendee.PlayerNumber;
+                            reportSheet.Cells[rowReport, 3].Value = attendee.RealName;
 
                             switch (attendee.PointType)
                             {
@@ -123,9 +123,9 @@ namespace RDN.League.Controllers
                     {
                         try
                         {
-                            reportSheet.Cells[rowReport, 1].Value = attendee.MemberName;
-                            reportSheet.Cells[rowReport, 2].Value = attendee.MemberNumber;
-                            reportSheet.Cells[rowReport, 3].Value = attendee.FullName;
+                            reportSheet.Cells[rowReport, 1].Value = attendee.DerbyName;
+                            reportSheet.Cells[rowReport, 2].Value = attendee.PlayerNumber;
+                            reportSheet.Cells[rowReport, 3].Value = attendee.RealName;
 
                             rowReport += 1;
                         }
@@ -1367,8 +1367,8 @@ namespace RDN.League.Controllers
                         try
                         {
                             string memberName = "NONAME";
-                            if (!String.IsNullOrEmpty(attendee.MemberName))
-                                memberName = attendee.MemberName;
+                            if (!String.IsNullOrEmpty(attendee.DerbyName))
+                                memberName = attendee.DerbyName;
 
                             reportSheet.Cells[rowReport, 1].Value = memberName;
                             ExcelWorksheet ws;
@@ -1449,8 +1449,8 @@ namespace RDN.League.Controllers
                             reportSheet.Cells[rowReport, 4].Formula = "=C" + rowReport + " / B" + rowReport;
                             reportSheet.Cells[rowReport, 5].Value = RDN.Utilities.Dates.DateTimeExt.ToHumanReadableHours(attendee.TotalHoursAttendedEventType);
 
-                            memberSheet.Cells[memberRow, 1].Value = attendee.MemberName;
-                            memberSheet.Cells[memberRow, 2].Value = attendee.FullName;
+                            memberSheet.Cells[memberRow, 1].Value = attendee.DerbyName;
+                            memberSheet.Cells[memberRow, 2].Value = attendee.RealName;
 
                             var tempRow = memberRow;
                             if (attendee.EventTypes != null && attendee.EventTypes.Count > 0)

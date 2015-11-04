@@ -237,11 +237,11 @@
                                 {
                                         <tr class="reportingRow">
                                             <td>
-                                                @Model.Attendees[i].MemberNumber
+                                                @Model.Attendees[i].PlayerNumber
                                             </td>
                                             <td>
-                                                <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">@Model.Attendees[i].MemberName</a><br />
-                                                @Model.Attendees[i].FullName
+                                                <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].DerbyName))">@Model.Attendees[i].SiteName</a><br />
+                                                @Model.Attendees[i].SiteName
                                             </td>
                                             <td class="no-wrap">
                                                 @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
@@ -314,7 +314,7 @@
                                             }
                                             </td>
                                             <td>
-                                                @if (Model.Attendees[i].MemberName == "Velocirapture")
+                                                @if (Model.Attendees[i].SiteName == "Velocirapture")
                                             { }
                                                 @foreach (var type in Model.Attendees[i].EventTypes.OrderBy(x => x.CalendarEventTypeId))
                                             {
@@ -442,14 +442,12 @@
                                 {
                                     <tr class="reportingRow">
                                         <td class="text-center">
-                                            @Model.Attendees[i].MemberNumber
+                                            @Model.Attendees[i].PlayerNumber
                                         </td>
                                         <td>
-                                            <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">
-                                                @Model.Attendees[i].MemberName
+                                            <a target="_blank" href="@Url.Content("~/Member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].DerbyName))">
+                                                @Model.Attendees[i].SiteName
                                             </a>
-                                            <br />
-                                            @Model.Attendees[i].FullName
                                         </td>
                                         <td class="text-center">
                                             <label class="label label-success padding-5">@Model.Attendees[i].TotalPoints</label>
@@ -710,10 +708,10 @@
                                                             {
                                                                 <tr>
                                                                     <td>
-                                                                        <a target="_blank" href="@Url.Content("~/Member/" + attendee.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(attendee.MemberName))">
-                                                                            @attendee.MemberName
+                                                                        <a target="_blank" href="@Url.Content("~/Member/" + attendee.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(attendee.DerbyName))">
+                                                                            @attendee.SiteName
                                                                         </a>
-                                                                        @attendee.FullName
+                                                                        
                                                                     </td>
                                                                     <td>
                                                                         @RDN.Utilities.Enums.EnumExt.ToFreindlyName(attendee.PointType)

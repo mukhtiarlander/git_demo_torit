@@ -195,7 +195,7 @@ namespace RDN.Library.Classes.Calendar.Report
                     report.Events.Add(blah);
                 }
 
-                report.Attendees = report.Attendees.OrderBy(x => x.MemberName).ToList();
+                report.Attendees = report.Attendees.OrderBy(x => x.SiteName).ToList();
                 report.TotalEventsCount = report.Events.Count;
             }
             catch (Exception exception)
@@ -225,9 +225,10 @@ namespace RDN.Library.Classes.Calendar.Report
                 {
                     MembersReport nAtt = new MembersReport();
                     nAtt.MemberId = att.Attendant.MemberId;
-                    nAtt.MemberName = att.Attendant.DerbyName;
-                    nAtt.FullName = att.Attendant.Firstname + " " + att.Attendant.Lastname;
-                    nAtt.MemberNumber = att.Attendant.PlayerNumber;
+                    nAtt.DerbyName = att.Attendant.DerbyName;
+                    nAtt.Firstname = att.Attendant.Firstname;
+                    nAtt.LastName = att.Attendant.Lastname;
+                    nAtt.PlayerNumber = att.Attendant.PlayerNumber;
                     nAtt.PointType = (CalendarEventPointTypeEnum)Enum.Parse(typeof(CalendarEventPointTypeEnum), att.PointTypeEnum.ToString());
                     nAtt.SecondaryPointType = (CalendarEventPointTypeEnum)Enum.Parse(typeof(CalendarEventPointTypeEnum), att.SecondaryPointTypeEnum.ToString());
                     nAtt.Availability = (AvailibilityEnum)Enum.Parse(typeof(AvailibilityEnum), att.AvailibityEnum.ToString());
@@ -428,9 +429,11 @@ namespace RDN.Library.Classes.Calendar.Report
                 MembersReport nAtt = new MembersReport();
                 var attendant = calEvent.Attendees.Where(x => x.Attendant.MemberId == mem.MemberId).FirstOrDefault();
                 nAtt.MemberId = mem.MemberId;
-                nAtt.MemberName = mem.DerbyName;
-                nAtt.FullName = mem.Firstname + " " + mem.LastName;
-                nAtt.MemberNumber = mem.PlayerNumber;
+              
+                nAtt.DerbyName = mem.DerbyName;
+                nAtt.Firstname = mem.Firstname;
+                nAtt.LastName = mem.LastName;
+                nAtt.PlayerNumber = mem.PlayerNumber;
 
                 if (attendant != null)
                 {
@@ -599,7 +602,7 @@ namespace RDN.Library.Classes.Calendar.Report
                             eventType.TotalTimesBeenTardy += 1;
                             //eventType.TotalTimesAttendedEventType += 1;
                         }
-                        if (attend.MemberName == "Velocirapture" || attend.MemberName == "Slamtana Lopez")
+                        if (attend.DerbyName == "Velocirapture" || attend.DerbyName== "Slamtana Lopez")
                         { }
                         eventType.TotalPointsPossibleForEventTypeFromAllEventsOfType = evTp.TotalPointsPossible * eventTypeCount;
                         if (eventType.TotalTimesAttendedEventType > 0 && eventTypeCount > 0)

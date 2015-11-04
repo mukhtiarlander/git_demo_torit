@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.Controls.Calendar.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,74 +11,64 @@ namespace RDN.Portable.Classes.Controls.Calendar
 {
     [ProtoContract]
     [DataContract]
-    public class CalendarAttendance
+    public class CalendarAttendance : MemberDisplayBasic
     {
-        [ProtoMember(1)]
+        [ProtoMember(1001)]
         [DataMember]
         public long AttedanceId { get; set; }
-        [ProtoMember(2)]
-        [DataMember]
-        public Guid MemberId { get; set; }
-        [ProtoMember(3)]
-        [DataMember]
-        public string MemberName { get; set; }
-        [ProtoMember(4)]
-        [DataMember]
-        public string FullName { get; set; }
-        [ProtoMember(5)]
-        [DataMember]
-        public string MemberNumber { get; set; }
-        [ProtoMember(6)]
+      
+        [ProtoMember(1006)]
         [DataMember]
         public string Note { get; set; }
-        [ProtoMember(7)]
+        [ProtoMember(1007)]
         [DataMember]
         public CalendarEventPointTypeEnum PointType { get; set; }
-        [ProtoMember(8)]
+        [ProtoMember(1008)]
         [DataMember]
         public CalendarEventPointTypeEnum SecondaryPointType { get; set; }
-        [ProtoMember(9)]
+        [ProtoMember(1009)]
         [DataMember]
         public bool IsCheckedIn { get; set; }
-        [ProtoMember(10)]
+        [ProtoMember(1010)]
         [DataMember]
         public int TotalPoints { get; set; }
-        [ProtoMember(11)]
+        [ProtoMember(1011)]
         [DataMember]
         public long TotalHoursAttendedEventType { get; set; }
-        [ProtoMember(12)]
+        [ProtoMember(1012)]
         [DataMember]
         public double PointsAverage { get; set; }
-        [ProtoMember(13)]
+        [ProtoMember(1013)]
         [DataMember]
         public int PointsForEvent { get; set; }
-        [ProtoMember(14)]
+        [ProtoMember(1014)]
         [DataMember]
         public Enums.AvailibilityEnum Availability { get; set; }
-        [ProtoMember(15)]
+        [ProtoMember(1015)]
         [DataMember]
         public string AvailableNotes { get; set; }
-        [ProtoMember(16)]
+        [ProtoMember(1016)]
         [DataMember]
         public int AdditionalPoints { get; set; }
         /// <summary>
         /// readable points.
         /// </summary>
-        [ProtoMember(17)]
+        [ProtoMember(1017)]
         [DataMember]
         public string PointsStringForReading { get; set; }
         public CalendarAttendance()
         { }
-        public CalendarAttendance(long attendanceId, Guid memberId, string fullName, string memberName, string note, Enums.CalendarEventPointTypeEnum pointType, Enums.CalendarEventPointTypeEnum secondaryPoints, string memberNumber, bool isCheckedIn, Enums.AvailibilityEnum availability, string availableNote)
+        public CalendarAttendance(long attendanceId, Guid memberId, string firstName, string lastName, string memberName, string note, Enums.CalendarEventPointTypeEnum pointType, Enums.CalendarEventPointTypeEnum secondaryPoints, string memberNumber, bool isCheckedIn, Enums.AvailibilityEnum availability, string availableNote)
         {
             this.AttedanceId = attendanceId;
             this.MemberId = memberId;
-            this.MemberName = memberName;
-            this.FullName = fullName;
+            this.DerbyName = memberName;
+            this.Firstname= firstName;
+            this.LastName = lastName;
             this.Note = note;
             this.PointType = pointType;
             this.SecondaryPointType = secondaryPoints;
-            this.MemberNumber = memberNumber;
+            this.PlayerNumber= memberNumber;
             this.IsCheckedIn = isCheckedIn;
             this.Availability = availability;
             this.AvailableNotes = availableNote;

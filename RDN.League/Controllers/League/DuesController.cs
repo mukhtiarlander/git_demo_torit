@@ -723,11 +723,12 @@ namespace RDN.League.Controllers
         [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult PayDuesOnlinePayPal(DuesPortableModel duesModel)
         {
+            Guid memberId = RDN.Library.Classes.Account.User.GetMemberId();
             try
             {
                 if (!String.IsNullOrEmpty(Request.Form["DuesItemId"]))
                 {
-                    Guid memberId = RDN.Library.Classes.Account.User.GetMemberId();
+                    
                     var mem = MemberCache.GetMemberDisplay(memberId);
                     var dues2 = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(Request.Form["DuesItemId"]), duesModel.DuesId, memberId);
                     if (dues2 != null)
@@ -768,7 +769,7 @@ namespace RDN.League.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, GetType());
             }
-            return Redirect(Url.Content("~/dues/league/" + duesModel.LeagueOwnerId.ToString().Replace("-", "")) + "?u=" + SiteMessagesEnum.sww.ToString());
+            return Redirect(Url.Content("~/dues/member/" + duesModel.LeagueOwnerId.ToString().Replace("-", "") + "/" + memberId.ToString().Replace("-", "")) + "?u=" + SiteMessagesEnum.ppldnc.ToString());
         }
         #region reports
         /// <summary>

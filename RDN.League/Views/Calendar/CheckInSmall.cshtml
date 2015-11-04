@@ -158,8 +158,7 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <button type="button" id="checkInMember" class="btn btn-primary text-center" 
-                               onclick="javascript:Calendar.checkInMemberSmall()" >
+                        <button type="button" id="checkInMember" class="btn btn-primary text-center"                                onclick="javascript:Calendar.checkInMemberSmall()" >
                             <i class="fa fa-check-circle"></i> Check In Member
                         </button>
                     </div>
@@ -206,11 +205,11 @@
                                          @(i + 1).
                                      </td>
                                      <td>
-                                         @attendees[i].MemberNumber
+                                         @attendees[i].PlayerNumber
                                      </td>
                                      <td>
-                                         <a target="_blank" href="@Url.Content("~/member/" + attendees[i].MemberId.ToString().Replace("-", "") + "/" + attendees[i].MemberName)">
-                                             @attendees[i].MemberName
+                                         <a target="_blank" href="@Url.Content("~/member/" + attendees[i].MemberId.ToString().Replace("-", "") + "/" + attendees[i].DerbyName)">
+                                             @attendees[i].DerbyName
                                          </a>
                                      </td>
                                      <td>
@@ -224,7 +223,7 @@
                                          @attendees[i].PointsStringForReading
                                      </td>
                                      <td>
-                                         <button type="button" class="btn btn-danger btn-sm" onclick="javascript:Calendar.checkInRemoveSmall(this,'@attendees[i].MemberId', '@attendees[i].MemberName.Replace("'", "")')"><i class="fa fa-trash"></i></button>
+                                         <button type="button" class="btn btn-danger btn-sm" onclick="javascript:Calendar.checkInRemoveSmall(this,'@attendees[i].MemberId', '@attendees[i].DerbyName.Replace("'", "")')"><i class="fa fa-trash"></i></button>
                                      </td>
                                  </tr>
                                  if (!String.IsNullOrEmpty(attendees[i].Note))

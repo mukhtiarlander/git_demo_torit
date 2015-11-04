@@ -442,11 +442,11 @@
                                                                 @(i + 1).
                                                             </td>
                                                             <td>
-                                                                @available[i].MemberNumber
+                                                                @available[i].PlayerNumber
                                                             </td>
                                                             <td>
-                                                                <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( available[i].MemberName))">
-                                                                    @available[i].MemberName
+                                                                <a target="_blank" href="@Url.Content("~/member/" + available[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( available[i].DerbyName))">
+                                                                    @available[i].DerbyName
                                                                 </a>
                                                             </td>
                                                             <td>
@@ -522,11 +522,11 @@
                                                                 @(i + 1).
                                                             </td>
                                                             <td>
-                                                                @checkedIn[i].MemberNumber
+                                                                @checkedIn[i].PlayerNumber
                                                             </td>
                                                             <td>
-                                                                <a target="_blank" href="@Url.Content("~/member/" + checkedIn[i].MemberId.ToString().Replace("-", "") + "/" + checkedIn[i].MemberName)">
-                                                                    @checkedIn[i].MemberName
+                                                                <a target="_blank" href="@Url.Content("~/member/" + checkedIn[i].MemberId.ToString().Replace("-", "") + "/" + checkedIn[i].DerbyName)">
+                                                                    @checkedIn[i].DerbyName
                                                                 </a>
                                                             </td>
                                                             <td>

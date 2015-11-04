@@ -68,7 +68,7 @@ namespace RDN.League.Models.Calendar
                 this.AllowSelfCheckIn = calEvent.AllowSelfCheckIn;
                 this.IsCurrentMemberApartOfEvent = calEvent.IsCurrentMemberApartOfEvent;
                 this.EventType = calEvent.EventType;
-                this.Attendees = calEvent.Attendees.OrderBy(x => x.MemberName).ToList();
+                this.Attendees = calEvent.Attendees.OrderBy(x => x.DerbyName).ToList();
                 this.IsPublicEvent = calEvent.IsPublicEvent;
                 this.CalendarItemId = calEvent.CalendarItemId;
                 this.CalendarId = calEvent.CalendarId;

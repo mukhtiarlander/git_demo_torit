@@ -163,11 +163,11 @@
                                         @(counter += 1).
                                     </td>
                                     <td class="center">
-                                        @Model.Attendees[i].MemberNumber
+                                        @Model.Attendees[i].PlayerNumber
                                     </td>
                                     <td>
-                                        <a target="_blank" href="@Url.Content("~/member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].MemberName))">
-                                            @Model.Attendees[i].MemberName
+                                        <a target="_blank" href="@Url.Content("~/member/" + Model.Attendees[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Attendees[i].DerbyName))">
+                                            @Model.Attendees[i].SiteName
                                         </a>
                                     </td>
                                     <td id="@Model.Attendees[i].MemberId">
@@ -201,15 +201,15 @@
                                     }
                                     </td>
                                     <td id="@Model.Attendees[i].MemberId-checkin-cell">
-                                        @if (!String.IsNullOrEmpty(Model.Attendees[i].MemberName))
+                                        @if (!String.IsNullOrEmpty(Model.Attendees[i].SiteName))
                                     {
                                         if (!Model.Attendees[i].IsCheckedIn)
                                         {
-                                            <input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.Attendees[i].MemberId    ', '@Model.Attendees[i].MemberName.Replace("'", "")    ')" />
+                                            <input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.Attendees[i].MemberId    ', '@Model.Attendees[i].SiteName.Replace("'", "")    ')" />
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-warning btn-sm" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.Attendees[i].MemberId', '@Model.Attendees[i].MemberName.Replace("'", "")')">Remove</button>
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.Attendees[i].MemberId', '@Model.Attendees[i].SiteName.Replace("'", "")')">Remove</button>
                                         }
                                     }
                                     </td>
@@ -222,11 +222,11 @@
                                         @(counter += 1).
                                     </td>
                                     <td class="center">
-                                        @Model.MembersToCheckIn[i].MemberNumber
+                                        @Model.MembersToCheckIn[i].PlayerNumber
                                     </td>
                                     <td>
-                                        <a target="_blank" href="@Url.Content("~/member/" + Model.MembersToCheckIn[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MembersToCheckIn[i].MemberName))">
-                                            @Model.MembersToCheckIn[i].MemberName
+                                        <a target="_blank" href="@Url.Content("~/member/" + Model.MembersToCheckIn[i].MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.MembersToCheckIn[i].DerbyName))">
+                                            @Model.MembersToCheckIn[i].SiteName
                                         </a>
                                     </td>
                                     <td id="@Model.MembersToCheckIn[i].MemberId">
@@ -290,15 +290,15 @@
                                     }
                                     </td>
                                     <td id="@Model.MembersToCheckIn[i].MemberId-checkin-cell">
-                                    @if (!String.IsNullOrEmpty(Model.MembersToCheckIn[i].MemberName))
+                                    @if (!String.IsNullOrEmpty(Model.MembersToCheckIn[i].SiteName))
                                     {
                                         if (!Model.MembersToCheckIn[i].IsCheckedIn)
                                         {
-                                            <input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.MembersToCheckIn[i].MemberId    ', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")    ')" />
+                                            <input type="button" class="btn btn-primary btn-sm" value="Check In" onclick="javascript:Calendar.checkInMemberLarge(this,'@Model.MembersToCheckIn[i].MemberId    ', '@Model.MembersToCheckIn[i].SiteName.Replace("'", "")    ')" />
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.MembersToCheckIn[i].MemberId', '@Model.MembersToCheckIn[i].MemberName.Replace("'", "")')">Remove Check In</button>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="javascript:Calendar.checkInRemoveLarge(this,'@Model.MembersToCheckIn[i].MemberId', '@Model.MembersToCheckIn[i].SiteName.Replace("'", "")')">Remove Check In</button>
                                         }
                                     }
                                     </td>

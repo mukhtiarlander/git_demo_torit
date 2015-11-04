@@ -1,5 +1,6 @@
 ﻿using ProtoBuf;
 using RDN.Portable.Classes.Account.Enums;
+using RDN.Portable.Classes.Controls.Calendar;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace RDN.Portable.Classes.Account.Classes
     [ProtoContract]
     [DataContract]
     [DebuggerDisplay("[{this.MemberId} {this.DerbyName}]")]
+    [ProtoInclude(1000, typeof(CalendarAttendance))]
     [ProtoInclude(900, typeof(MemberDisplayMessage))]
     [ProtoInclude(800, typeof(MemberDisplayEdit))]
     [ProtoInclude(700, typeof(MemberDisplayDues))]
@@ -93,8 +95,11 @@ namespace RDN.Portable.Classes.Account.Classes
                     return Firstname;
             }
         }
-
-        public string FullName
+        /// <summary>
+        /// users real name.
+        /// First Last
+        /// </summary>
+        public string RealName
         {
             get
             {
@@ -106,6 +111,44 @@ namespace RDN.Portable.Classes.Account.Classes
                     return Firstname;
                 else
                     return LastName;
+            }
+        }
+        /// <summary>
+        /// users nickname plus real name.
+        /// NICKNAME [First Last]
+        /// </summary>
+        public string SiteName
+        {
+            get
+            {
+                string name = string.Empty;
+                if (!String.IsNullOrEmpty(DerbyName))
+                {
+                    name = DerbyName;
+                }
+                if (!String.IsNullOrEmpty(Firstname) && !String.IsNullOrEmpty(LastName))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                        name += " [" + Firstname + " " + LastName + "]";
+                    else
+                        name = Firstname + " " + LastName;
+                }
+                else if (!String.IsNullOrEmpty(Firstname))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                        name += " [" + Firstname + "]";
+                    else
+                        name = Firstname;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(name))
+                        name += " [" + LastName + "]";
+                    else
+                        name = LastName;
+                }
+
+                return name;
             }
         }
 

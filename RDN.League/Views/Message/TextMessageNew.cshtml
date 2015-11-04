@@ -107,19 +107,10 @@
                                     {
                                         <div class="col-xs-12 col-sm-6">
                                             <label class="no-bold">
-                                                @if (!String.IsNullOrEmpty(mem.FullName))
-                                                {
-                                                    @Html.CheckBox(mem.MemberId.ToString(), new { @class = "cbm", @derbyname = mem.DerbyName + " [" + mem.FullName + "]", @onchange = "Messages.SelectRecipient(this, '" + mem.MemberId + "','" + mem.DerbyName + " [" + mem.FullName + "]')" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.CheckBox(mem.MemberId.ToString(), new { @class = "cbm", @derbyname = mem.DerbyName, @onchange = "Messages.SelectRecipient(this, '" + mem.MemberId + "','" + mem.DerbyName + "')" })
-                                                }
+
+                                                @Html.CheckBox(mem.MemberId.ToString(), new { @class = "cbm", @derbyname = mem.SiteName, @onchange = "Messages.SelectRecipient(this, '" + mem.MemberId + "','" + mem.SiteName + "')" })
                                                 <span id="@mem.MemberId.ToString()-name">
-                                                    @mem.DerbyName  @if (!String.IsNullOrEmpty(mem.FullName))
-                                                    {
-                                                        <span>[@(mem.FullName)]</span>
-                                                    }
+                                                    @mem.SiteName
                                                 </span>
 
                                             </label>

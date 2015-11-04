@@ -270,7 +270,7 @@ namespace RDN.Library.Classes.Calendar
                 }
                 catch (Exception exception)
                 {
-                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " "+ repeatFrequencySelected.ToString() +":"+ endsOnDateReoccuring + " " + endsWhen.ToString());
+                    ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " " + repeatFrequencySelected.ToString() + ":" + endsOnDateReoccuring + " " + endsWhen.ToString());
                 }
             }
             return reoccurringEventId;
@@ -577,10 +577,12 @@ namespace RDN.Library.Classes.Calendar
                         {
                             RDN.Portable.Classes.Controls.Calendar.CalendarAttendance a = new Portable.Classes.Controls.Calendar.CalendarAttendance();
                             a.MemberId = mem.MemberId;
-                            a.MemberName = mem.DerbyName;
                             a.IsCheckedIn = false;
-                            a.FullName = mem.Firstname + " " + mem.LastName;
-                            a.MemberNumber = mem.PlayerNumber;
+                            a.DerbyName = mem.DerbyName;
+                            a.Firstname = mem.Firstname;
+                            a.LastName = mem.LastName;
+                            a.PlayerNumber = mem.PlayerNumber;
+
                             ev.MembersApartOfEvent.Add(a);
                             ev.MembersToCheckIn.Add(a);
                         }
@@ -970,10 +972,13 @@ namespace RDN.Library.Classes.Calendar
                         {
                             RDN.Portable.Classes.Controls.Calendar.CalendarAttendance a = new RDN.Portable.Classes.Controls.Calendar.CalendarAttendance();
                             a.MemberId = mem.MemberId;
-                            a.MemberName = mem.DerbyName;
+
                             a.IsCheckedIn = false;
-                            a.FullName = mem.Firstname + " " + mem.LastName;
-                            a.MemberNumber = mem.PlayerNumber;
+
+                            a.DerbyName = mem.DerbyName;
+                            a.Firstname = mem.Firstname;
+                            a.LastName = mem.LastName;
+                            a.PlayerNumber = mem.PlayerNumber;
                             ev.MembersApartOfEvent.Add(a);
                             ev.MembersToCheckIn.Add(a);
                         }
@@ -987,10 +992,12 @@ namespace RDN.Library.Classes.Calendar
                     {
                         RDN.Portable.Classes.Controls.Calendar.CalendarAttendance a = new Portable.Classes.Controls.Calendar.CalendarAttendance();
                         a.MemberId = members[i].MemberId;
-                        a.MemberName = members[i].DerbyName;
+
                         a.IsCheckedIn = false;
-                        a.FullName = members[i].Firstname + " " + members[i].LastName;
-                        a.MemberNumber = members[i].PlayerNumber;
+                        a.DerbyName = members[i].DerbyName;
+                        a.Firstname = members[i].Firstname;
+                        a.LastName = members[i].LastName;
+                        a.PlayerNumber = members[i].PlayerNumber;
                         ev.MembersApartOfEvent.Add(a);
                         ev.MembersToCheckIn.Add(a);
                     }
@@ -1016,12 +1023,13 @@ namespace RDN.Library.Classes.Calendar
                     {
                         AttedanceId = att.CalendarAttendanceId,
                         MemberId = att.Attendant.MemberId,
-                        FullName = att.Attendant.Firstname + " " + att.Attendant.Lastname,
-                        MemberName = att.Attendant.DerbyName,
+                        Firstname = att.Attendant.Firstname,
+                        LastName = att.Attendant.Lastname,
+                        DerbyName = att.Attendant.DerbyName,
                         Note = att.Note,
                         PointType = (CalendarEventPointTypeEnum)Enum.Parse(typeof(CalendarEventPointTypeEnum), att.PointTypeEnum.ToString()),
                         SecondaryPointType = (CalendarEventPointTypeEnum)Enum.Parse(typeof(CalendarEventPointTypeEnum), att.SecondaryPointTypeEnum.ToString()),
-                        MemberNumber = att.Attendant.PlayerNumber,
+                        PlayerNumber = att.Attendant.PlayerNumber,
                         AdditionalPoints = att.AdditionalPoints,
                         Availability = (AvailibilityEnum)Enum.Parse(typeof(AvailibilityEnum), att.AvailibityEnum.ToString()),
                         AvailableNotes = att.AvailabilityNote,
@@ -1827,8 +1835,10 @@ namespace RDN.Library.Classes.Calendar
                 {
                     RDN.Portable.Classes.Controls.Calendar.CalendarAttendance a = new Portable.Classes.Controls.Calendar.CalendarAttendance();
                     a.MemberId = att.Attendant.MemberId;
-                    a.MemberName = att.Attendant.DerbyName;
-                    a.FullName = att.Attendant.Firstname + " " + att.Attendant.Lastname;
+                    a.DerbyName = att.Attendant.DerbyName;
+                    a.Firstname = att.Attendant.Firstname;
+
+                    a.LastName = att.Attendant.Lastname;
                     a.AttedanceId = att.CalendarAttendanceId;
                     a.Note = att.Note;
                     a.PointType = (CalendarEventPointTypeEnum)Enum.Parse(typeof(CalendarEventPointTypeEnum), att.PointTypeEnum.ToString());
@@ -1851,7 +1861,7 @@ namespace RDN.Library.Classes.Calendar
                         {
                             RDN.Portable.Classes.Controls.Calendar.CalendarAttendance a = new RDN.Portable.Classes.Controls.Calendar.CalendarAttendance();
                             a.MemberId = mem.MemberId;
-                            a.MemberName = mem.DerbyName;
+                            a.DerbyName= mem.DerbyName;
                             if (calEvent.MembersApartOfEvent.Where(x => x.MemberId == a.MemberId).FirstOrDefault() == null)
                                 calEvent.MembersApartOfEvent.Add(a);
                         }

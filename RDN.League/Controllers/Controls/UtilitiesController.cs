@@ -199,7 +199,7 @@ namespace RDN.League.Controllers
                                 {
                                     picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageThumbUrl : "",
                                     name = xx.DerbyName,
-                                    realname = xx.FullName,
+                                    realname = xx.RealName,
                                     id = xx.MemberId
                                 }).Take(10).ToList();
             namesFound.AddRange(searchLeague);
@@ -248,7 +248,7 @@ namespace RDN.League.Controllers
                                 {
                                     picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageThumbUrl : "",
                                     name = xx.DerbyName,
-                                    realname = xx.FullName,
+                                    realname = xx.RealName,
                                     id = xx.MemberId
                                 }).Take(10).ToList();
             namesFound.AddRange(searchLeague);
