@@ -146,5 +146,25 @@ namespace RDN.League.Controllers
             return Redirect("~/?u=" + SiteMessagesEnum.sww);
         }
 
+        [Authorize]
+        public ActionResult ViewContact(string type, Guid contactId)
+        {
+            try
+            {
+                if (type == ContactTypeEnum.league.ToString())
+                {
+                    var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                    var league = MemberCache.GetLeagueOfMember(memId);
+                    ContactDisplayBasic con = league.Contacts.FirstOrDefault(x => x.ContactId == contactId);
+                    return View(con);
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Redirect("~/?u=" + SiteMessagesEnum.sww);
+        }
+
     }
 }

@@ -108,6 +108,11 @@
                         @Html.TextBoxFor(x => x.Link, new { @type = "text", @class = "form-control" })
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="margin-top-30">
+                        @Html.CheckBoxFor(x => x.IsViewableToLeagueMember) League Members can View Contact
+                    </label>
+                </div>
                 <div class="col-xs-12">
                     <label class="form-label margin-top-10">Notes <small class="text-muted"><i>Optional</i></small></label>
                     @Html.TextArea("Notes", Model.Notes != null ? Model.Notes.ToString() : "", new { id = "wmd-input", @class = "form-control full-width" })

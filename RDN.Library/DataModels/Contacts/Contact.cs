@@ -25,6 +25,8 @@ namespace RDN.Library.DataModels.Contacts
         public string CompanyName { get; set; }
         public string Link { get; set; }
 
+        public bool IsViewableToLeagueMember { get; set; }
+
         #region Constructor
         public Contact()
         {

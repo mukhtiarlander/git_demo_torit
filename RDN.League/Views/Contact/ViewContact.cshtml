@@ -1,0 +1,116 @@
+﻿@using RDN.League.Classes.Enums
+@model RDN.Portable.Classes.Contacts.ContactDisplayBasic
+@{
+    ViewBag.Title = "Edit Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/" + Model.ContactType + "/contacts")">Contacts</a></li>
+    <li class="active">View Contact</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-eye"></i> View Contact</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>First Name</b></label>
+                    <div>
+                        <label class="form-label"> @Model.FirstName</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Last Name</b> </label>
+                    <div>
+                        <label class="form-label"> @Model.LastName</label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Company Name</b></label>
+                    <div>
+                        <label class="form-label"> @Model.CompanyName</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Contact Type</b></label>
+                    <div>
+                        <div class="input-group">
+                            <label class="form-label"> @Model.ContactTypeSelected</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Email </b></label>
+                    <div>
+                        <a href="mailto:@Model.Email" target="_blank">@Model.Email</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Phone Number </b></label>
+                    <div>
+                        <label class="form-label"> @Model.PhoneNumber</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Address Line 1 </b></label>
+                    <div>
+                        <label class="form-label"> @Model.Address1</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Address Line 2 </b></label>
+                    <div>
+                        <label class="form-label"> @Model.Address1</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>City </b></label>
+                    <div>
+                        <label class="form-label"> @Model.CityRaw</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>State </b></label>
+                    <div>
+                        <label class="form-label"> @Model.StateRaw</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Zip Code </b></label>
+                    <div>
+                        <label class="form-label"> @Model.Zip</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Country </b></label>
+                    <div>
+                        <label class="form-label"> @Model.CountryName</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <label class="form-label margin-top-10"><b>Link </b></label>
+                    <div>
+                        <a href="@Model.Link"> @Model.Link</a>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <label class="form-label margin-top-10"><b>Notes </b></label>
+                    <label class="form-label"> @Model.Notes</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

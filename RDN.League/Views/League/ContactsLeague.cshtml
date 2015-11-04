@@ -4,12 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(RDN.Library.Classes.Account.User.GetMemberId());
 }
-
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Contacts</li>
 </ol>
-
 <div class="panel panel-default margin-top-20">
     <div class="panel-heading">
         <div class="row">
@@ -34,7 +32,7 @@
                     <th></th>
                     <th>Type</th>
                     <th>
-                         Name
+                        Name
                     </th>
                     <th>Company</th>
                     <th>
@@ -55,9 +53,17 @@
 
                     <tr>
                         <td>
+
+                            @if (Model.Contacts[i].IsViewableToLeagueMember)
+                            {
+                                <a class="btn btn-xs btn-info" href="@Url.Content("~/contact/view/" + Model.Contacts[i].ContactType + "/" + Model.Contacts[i].ContactId.ToString().Replace("-", ""))"
+                                   data-toggle="tooltip" data-placement="top" title="View Contact">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            }
                             @if (isAdminOfLeague)
                             {
-                                <a class="btn btn-xs btn-info" href="@Url.Content("~/contact/edit/" + Model.Contacts[i].ContactType + "/" + Model.Contacts[i].ContactId.ToString().Replace("-", ""))"
+                                <a class="btn btn-xs btn-success" href="@Url.Content("~/contact/edit/" + Model.Contacts[i].ContactType + "/" + Model.Contacts[i].ContactId.ToString().Replace("-", ""))"
                                    data-toggle="tooltip" data-placement="top" title="Manage Contact">
                                     <i class="fa fa-pencil"></i>
                                 </a>
@@ -79,7 +85,6 @@
                                 <a href="mailto:@Model.Contacts[i].Email">@Model.Contacts[i].Email</a>
                             }
                         </td>
-
                         <td>
                             @if (Model.Contacts[i].ContactCard.Addresses.FirstOrDefault() != null)
                             {
@@ -117,9 +122,7 @@
             </tbody>
         </table>
     </div>
-
-    </div>
-
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({
@@ -136,5 +139,5 @@
         $('#members_filter').css('padding-right', '20px');
         $('[data-toggle="tooltip"]').tooltip();
     });
-    
+
 </script>

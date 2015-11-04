@@ -41,6 +41,7 @@ namespace RDN.Library.Classes.Contacts
                 con.Contact.Firstname = contact.FirstName;
                 con.Contact.Lastname = contact.LastName;
                 con.Contact.Link = contact.Link;
+                con.Contact.IsViewableToLeagueMember = contact.IsViewableToLeagueMember;
 
                 int countryId = Convert.ToInt32(contact.CountryId);
                 ContactCard.ContactCardFactory.UpdateAddressToContact(contact.Address1, contact.Address2, contact.CityRaw, contact.StateRaw, contact.Zip, AddressTypeEnum.None, con.Contact.ContactCard, dc.Countries.Where(x => x.CountryId == countryId).FirstOrDefault());
@@ -71,6 +72,7 @@ namespace RDN.Library.Classes.Contacts
                 con.Firstname = contact.FirstName;
                 con.Lastname = contact.LastName;
                 con.Link = contact.Link;
+                con.IsViewableToLeagueMember = contact.IsViewableToLeagueMember;
                 con.ContactCard = new DataModels.ContactCard.ContactCard();
                 if (!String.IsNullOrEmpty(contact.Address1) || !String.IsNullOrEmpty(contact.Address2) || !String.IsNullOrEmpty(contact.CityRaw) || !String.IsNullOrEmpty(contact.StateRaw))
                 {
