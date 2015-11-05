@@ -2357,6 +2357,7 @@ namespace RDN.Library.Classes.Account
                 mem.Twitter = member.Twitter;
                 mem.Instagram = member.Instagram;
                 mem.Facebook = member.Facebook;
+                mem.YearStartedSkating = member.YearStartedSkating;
 
                 mem.Email = ExtractEmailFromContactCard(member);
                 if (member.ContactCard.Addresses.Count > 0)

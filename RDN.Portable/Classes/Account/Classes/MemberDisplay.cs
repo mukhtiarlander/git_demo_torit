@@ -340,6 +340,10 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public string Facebook { get; set; }
 
+        [ProtoMember(175)]
+        [DataMember]
+        public DateTime? YearStartedSkating { get; set; }
+
         public List<InsuranceNumber> InsuranceNumbers { get; set; }
     }
 }

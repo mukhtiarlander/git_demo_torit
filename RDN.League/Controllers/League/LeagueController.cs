@@ -1272,9 +1272,16 @@ namespace RDN.League.Controllers
                 model.LeagueId = league.LeagueId;
                 model.SavedReports = new SelectList(LeagueReportBuilder.GetReports(league.LeagueId), "ReportId", "Name");
                 model.ColumnsAvailable = Enum.GetValues(typeof(MembersReportEnum)).Cast<MembersReportEnum>().OrderBy(x => x.ToString()).ToList();
-                if (SiteType.RollerDerby != LibraryConfig.SiteType)
+                if (SiteType.RollerDerby == LibraryConfig.SiteType)
+                {
+                    model.ColumnsAvailable.Add(MembersReportEnum.Started_Skating_Date);
+                }
+                else
+                {
+                    model.ColumnsAvailable.Add(MembersReportEnum.Started_Playing_Date);
                     model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Name);
-
+                }
+                  
                 return View(model);
             }
             catch (Exception exception)
