@@ -7,8 +7,7 @@
     this.IsFinishedScrolling = ko.observable(false);
     this.SearchText = ko.observable();
     this.ListCountPull = ko.observable();
-    var lastLeagueSearch = "";
-
+    
     this.LoadLeagueList = function (count) {
         thisViewModel.ListCountPull(count);
         thisViewModel.page(0);
@@ -40,25 +39,11 @@
         getItems(thisViewModel.ListCountPull(), true);
     };
 
-    var delay = (function () {
-        var timer = 0;
-        return function (callback, ms) {
-            clearTimeout(timer);
-            timer = setTimeout(callback, ms);
-        };
-    })();
-
-
     function getItems(cnt, isSearch) {
         if (thisViewModel.SearchText() != null) {
             var text = thisViewModel.SearchText();
             thisViewModel.SearchText(text.trim());
         }
-        if (lastLeagueSearch == thisViewModel.SearchText()) return;
-        var waitTime = 0;
-        if (isSearch)
-            waitTime = 1500;
-        delay(function () {
             if (!thisViewModel.pendingRequest() && !thisViewModel.IsFinishedScrolling()) {
                 thisViewModel.pendingRequest(true);
                 $.ajax({
@@ -67,7 +52,6 @@
                     data: { p: thisViewModel.page(), c: cnt, s: thisViewModel.SearchText() },
                     dataType: "json",
                     success: function (data) {
-                        lastLeagueSearch = thisViewModel.SearchText();
                         if (data.leagues.length > 0) {
                             if (!isSearch) {
                                 ko.utils.arrayForEach(data.leagues, function (entry) {
@@ -87,7 +71,5 @@
                 });
 
             }
-        }, waitTime);
     }
-
 }
