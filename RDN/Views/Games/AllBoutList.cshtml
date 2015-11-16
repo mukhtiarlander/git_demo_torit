@@ -38,7 +38,7 @@
             {
                 <tr >
                     <td class="text-center">
-                        <a href="@Url.Content("~/bout-challenge/view/" + b.ChallengeId)">View </a>
+                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/bout-challenge/view/" + b.ChallengeId)"><i class="fa fa-eye"></i> View</a>
 
                     </td>
 
@@ -72,8 +72,8 @@
                         @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
                     </td>
                     <td>
-                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + b.LeagueId.ToString().Replace("-", ""))" title="Contact">
-                            <i class="fa fa-envelope fa-3x"></i>
+                        <a class="btn btn-primary btn-xs" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + b.LeagueId.ToString().Replace("-", ""))" title="Contact">
+                            <i class="fa fa-envelope"></i> Contact
                         </a>
 
                     </td>
@@ -87,6 +87,6 @@
 
     <div class="col-xs-offset-1">
         <a href="'@RDN.Library.Classes.Config.LibraryConfig.InternalSite'boutchallenge/view/all" class="btn btn-success">Add A Challenge</a>
-    </div>
+    </div>  
 
 <br /><br />
