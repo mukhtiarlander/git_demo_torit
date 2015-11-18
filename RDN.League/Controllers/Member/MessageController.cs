@@ -219,6 +219,11 @@ namespace RDN.League.Controllers
                     model.Recipients = Messages.GetConnectedCalEventRecipient(new Guid(id));
                     model.Title = "Public Event: ";
                 }
+                else if (model.OwnerType == GroupOwnerTypeEnum.group)
+                {
+                    model.Recipients = Messages.GetConnectedGroupRecipients(new Guid(id));
+                    model.Title = "Group: ";
+                }
                 else
                 {
                     model.Recipients = Messages.GetConnectedMembersOfGroup(new Guid(id));
@@ -302,6 +307,10 @@ namespace RDN.League.Controllers
                 else if (OwnerType == GroupOwnerTypeEnum.calevent)
                 {
                     recList = Messages.GetConnectedCalEventRecipient(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
+                }
+                else if (OwnerType == GroupOwnerTypeEnum.group)
+                {
+                    recList = Messages.GetConnectedGroupRecipients(new Guid(memberId)).Select(x => new KeyValuePair<Guid, string>(x.MemberId, x.Name)).ToList();
                 }
                 //var memId = new Guid(memberId);
                 //var member = RDN.Library.Classes.Account.User.GetMemberWithMemberId(memId);
