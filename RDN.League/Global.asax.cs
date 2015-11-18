@@ -393,33 +393,39 @@ new { controller = "Game", action = "ViewGame" } // Parameter defaults
 );
             routes.MapRoute(
 "BoutChallenge", // Route name
-"boutchallenge/add/request", // URL with parameters
-new { controller = "BoutChallenge", action = "BoutChallengeRequest" } // Parameter defaults
+"{url}/add/request", // URL with parameters
+new { controller = "BoutChallenge", action = "BoutChallengeRequest" }, // Parameter defaults
+new { url = "(bout|game)challenge" } 
 );
             routes.MapRoute(
 "ViewAllRequest", // Route name
-"boutchallenge/view/all", // URL with parameters
-new { controller = "BoutChallenge", action = "ViewAllBoutRequest" } // Parameter defaults
+"{url}/view/all", // URL with parameters
+new { controller = "BoutChallenge", action = "ViewAllBoutRequest" }, // Parameter defaults
+new { url = "(bout|game)challenge" } 
 );
             routes.MapRoute(
 "EditRequest", // Route name
-"boutchallenge/edit/{id}/{leagueId}", // URL with parameters
-new { controller = "BoutChallenge", action = "EditBoutRequest" } // Parameter defaults
+"{url}/edit/{id}/{leagueId}", // URL with parameters
+new { controller = "BoutChallenge", action = "EditBoutRequest" }, // Parameter defaults
+new { url = "(bout|game)challenge" } 
 );
             routes.MapRoute(
 "DeleteRequest", // Route name
-"boutchallenge/delete/{id}/{leagueId}", // URL with parameters
-new { controller = "BoutChallenge", action = "DeleteBoutRequest" } // Parameter defaults
+"{url}/delete/{id}/{leagueId}", // URL with parameters
+new { controller = "BoutChallenge", action = "DeleteBoutRequest" }, // Parameter defaults
+new { url = "(bout|game)challenge" } 
 );
             routes.MapRoute(
 "CloseRequest", // Route name
-"boutchallenge/close/{id}/{leagueId}", // URL with parameters
-new { controller = "BoutChallenge", action = "CloseBoutRequest" } // Parameter defaults
+"{url}/close/{id}/{leagueId}", // URL with parameters
+new { controller = "BoutChallenge", action = "CloseBoutRequest" }, // Parameter defaults
+new { url = "(bout|game)challenge" } 
 );
             routes.MapRoute(
 "ViewEvent", // Route name
-"boutchallenge/view/{ChallengeId}/{leagueId}", // URL with parameters
-new { controller = "BoutChallenge", action = "ViewEvent" } // Parameter defaults
+"{url}/view/{ChallengeId}/{leagueId}", // URL with parameters
+new { controller = "BoutChallenge", action = "ViewEvent" }, // Parameter defaults
+new { url = "(bout|game)challenge" } 
 );
 
 
