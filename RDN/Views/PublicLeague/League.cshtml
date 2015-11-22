@@ -1,4 +1,5 @@
 ﻿@using RDN.Library.Classes.Calendar.Enums;
+@using RDN.Portable.Classes.League.Enums;
 @model RDN.Portable.Classes.League.Classes.League
 @{
     ViewBag.Title = Model.Name;
@@ -68,6 +69,22 @@
            <li role="presentation"><a href="#socialTab" role="tab" data-toggle="tab">Social</a></li>
        }
         @*<li role="presentation"><a href="#tweetTab" role="tab" data-toggle="tab">Tweets</a></li>*@
+        @if (Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Team).Count() > 0)
+        {
+            <li role="presentation"><a href="#teamsTab" role="tab" data-toggle="tab">Teams</a></li>
+        }
+        @if (Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Committee).Count() > 0)
+        {
+            <li role="presentation"><a href="#committeesTab" role="tab" data-toggle="tab">Committees</a></li>
+        }
+        @if (Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Referees).Count() > 0)
+        {
+            <li role="presentation"><a href="#refereesTab" role="tab" data-toggle="tab">Referees</a></li>
+        }
+        @if (Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Coaches).Count() > 0)
+        {
+            <li role="presentation"><a href="#coachesTab" role="tab" data-toggle="tab">Coaches</a></li>
+        }
     </ul>
 
     <div class="tab-content">
@@ -135,6 +152,94 @@
                 <div id="tweet">
                 </div>
             </div>*@
+        @{
+            var publicGroupTeams = Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Team);
+            if (publicGroupTeams.Count() > 0)
+            {
+                <div role="tabpanel" class="tab-pane active" id="teamsTab">
+                    <br />
+                    <div id="teams" class="teamsDisplay">
+                        <ul class="list-unstyled">
+                            @foreach (var group in publicGroupTeams)
+                            {
+                                <li>
+                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                        <i class="fa fa-envelope"></i> 
+                                    </a>
+                                    @group.GroupName
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        }
+        @{
+            var publicGroupCommittees = Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Committee);
+            if (publicGroupCommittees.Count() > 0)
+            {
+                <div role="tabpanel" class="tab-pane active" id="committeesTab">
+                    <br />
+                    <div id="committees" class="committeesDisplay">
+                        <ul class="list-unstyled">
+                            @foreach (var group in publicGroupCommittees)
+                            {
+                                <li>
+                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                    @group.GroupName
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        }
+        @{
+            var publicGroupReferees = Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Referees);
+            if (publicGroupReferees.Count() > 0)
+            {
+                <div role="tabpanel" class="tab-pane active" id="refereesTab">
+                    <br />
+                    <div id="committees" class="committeesDisplay">
+                        <ul class="list-unstyled">
+                            @foreach (var group in publicGroupReferees)
+                            {
+                                <li>
+                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                    @group.GroupName
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        }
+        @{
+            var publicGroupCoaches = Model.Groups.Where(group => group.IsPublicToWorld == true && group.GroupTypeEnum == LeagueGroupTypeEnum.Coaches);
+            if (publicGroupCoaches.Count() > 0)
+            {
+                <div role="tabpanel" class="tab-pane active" id="coachesTab">
+                    <br />
+                    <div id="coaches" class="coachesDisplay">
+                        <ul class="list-unstyled">
+                            @foreach (var group in publicGroupCoaches)
+                            {
+                                <li>
+                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                    @group.GroupName
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        }
     </div>
 </div>
 

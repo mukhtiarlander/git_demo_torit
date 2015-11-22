@@ -3,165 +3,168 @@
     ViewBag.Title = "View Challenge Details";
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li> <a href="@Url.Content("~/game-challenge/view/all")">All Bout Requests</a></li>
+    <li>Game Challenge For @Model.LeagueName</li>
+</ol>
 
-
-<div class="fixedContainer">
-    <div class="fixedlinksContainter">
-        <div class="backLink">
-            < <a  href="@Url.Content("~/bout-challenge/view/all")">All Bout Requests </a>
-        </div>
-    </div>
-           <div class="tvChanges">
-            <div class="navIcons">
-                <a title="Contact" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + Model.LeagueId.ToString().Replace("-", ""))">
-                    <img  src="@Url.Content("~/Content/images/icons/contact.png")"  />Contact
-                </a>
+<div class="row margin-bottom-10">
+    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-7">
+                        <h3 class="margin-top-10"><i class="fa fa-ticket"></i> Game Challenge For @Model.LeagueName</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 text-right">
+                        <a class="btn btn-default btn-sm margin-top-5" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + Model.LeagueId.ToString().Replace("-", ""))">
+                            <i class="fa fa-envelope"></i> Contact
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-    <div class="fixedCenterContainter">
-        <div class="fixTitle c  ">
-            Game Challenge For @Model.LeagueName
-        </div>
-       
-        <div class="divider"></div>
+            <div class="panel-body no-padding-bottom">
+                <div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>Location:</label>
+                            <div>
+                               @Model.Location
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label> Crowd Size:</label>
+                            <div>
+                                @Model.CrowdSize
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>Start Date of Game:</label>
+                            <div>
+                                @Model.StartDateOfEvent.ToShortDateString()
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>End Date of Game:</label>
+                            <div>
+                               @Model.EndDateOfEvent.ToShortDateString()
+                            </div>
+                        </div>
+                    </div>
+              
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Current Ranking:
+                            </label>
+                            <div>
+                                @Model.CurrentRanking
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Travel Stipend Amount:
+                            </label>
+                            <div>
+                                @Model.TravelStipendAmount
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Can Offer Travel Stipend:
 
-        <div>
-            <table class="addForumPostTbl">
-
-                <tr>
-                    <td class="b alRight" style="width:300px;">Location:
-                    </td>
-                    <td class="vRTD">
-                        @Model.Location
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Start Date of Game:
-                    </td>
-                    <td class="vRTD">
-                        @Model.StartDateOfEvent.ToShortDateString()
-                    </td>
-                </tr>
-                @if (Model.EndDateOfEvent > new DateTime()) { 
-                <tr>
-                    <td class="b alRight">End Date of Game:
-                    </td>
-                    <td class="vRTD">
-                        @Model.EndDateOfEvent.ToShortDateString()
-                    </td>
-                </tr>
-                }
-                <tr>
-                    <td class="b alRight">Crowd Size:
-                    </td>
-                    <td class="vRTD">
-                        @Model.CrowdSize
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Current Ranking:</td>
-                    <td class="vRTD">
-                        @Model.CurrentRanking
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Can Offer Travel Stipend:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsOfferTravelStipend)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                        else
-                        { 
-                        <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Travel Stipend Amount:
-                    </td>
-                    <td class="vRTD">
-                        @Model.TravelStipendAmount
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="b alRight">Live Online:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsStreamLive)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                       <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Offer Housing:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsSkaterHousingOffered)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                    <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Hang Over Bout Offered:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsHangOverBoutOffered)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                      <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                  <tr>
-                    <td class="b alRight">Is Away Game:
-                    </td>
-                    <td class="vRTD">
-                        @if (Model.IsAwayGame)
-                        { 
-                            <img src="@Url.Content("~/Content/images/greenCheck.png")" />
-                        }
-                            else
-                        { 
-                      <img width="20px" src="@Url.Content("~/Content/images/icons/deleteMark.png")" />
-                        }
-                    </td>
-                </tr>
-                  
-                <tr>
-                    <td class="b alRight">Rule Set:
-                    </td>
-                    <td class="vRTD">
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)                 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="b alRight">Event Note:
-                    </td>
-                    <td class="largeInput"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        @Html.Raw(Model.EventInformation)
-                    </td>
-                </tr>
-            </table>
+                                @if (Model.IsOfferTravelStipend)
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle-o"></i>
+                                }
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Live Online:
+                                @if (Model.IsStreamLive)
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle-o"></i>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Offer Housing:
+                                @if (Model.IsSkaterHousingOffered)
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle-o"></i>
+                                }
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Hang Over Bout Offered:
+                                @if (Model.IsHangOverBoutOffered)
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle-o"></i>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Is Away Game:
+                                @if (Model.IsAwayGame)
+                                {
+                                    <i class="fa fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle-o"></i>
+                                }
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 margin-bottom-15">
+                            <label>
+                                Rule Set:
+                            </label>
+                            <div>
+                              @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)        
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>
+                            Event Note:
+                        </label>
+                        <div>
+                            @Html.Raw(Model.EventInformation)
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+

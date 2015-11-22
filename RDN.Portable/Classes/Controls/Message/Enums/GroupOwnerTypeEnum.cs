@@ -18,6 +18,7 @@ namespace RDN.Portable.Classes.Controls.Message.Enums
         league = 7,
         jobboard = 8,
         officiating = 9,
-        person = 10
+        person = 10,
+        group = 11
     }
 }

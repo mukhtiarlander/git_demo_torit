@@ -34,6 +34,7 @@
                     <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(receipt.Status)</td>
                     <td class="text-right">$@receipt.AmountPaid.ToString("N2")</td>
                     <td class="text-center">@receipt.Expires.ToShortDateString()</td>
+                    <td style="display:none;" >@receipt.Expires.Ticks.ToString()</td>
                 </tr>
             }
         </table>
@@ -44,7 +45,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#receipts').dataTable({
-            "aaSorting": [[2, "desc"]],
+            "aaSorting": [[4, "desc"]],
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": true,

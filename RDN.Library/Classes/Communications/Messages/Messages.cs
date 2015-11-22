@@ -339,6 +339,33 @@ namespace RDN.Library.Classes.Messages
             return members;
         }
 
+        /// <summary>
+        /// gets members that are defined as Owner or Moderator
+        /// </summary>
+        public static List<MemberDisplayBasic> GetConnectedGroupRecipients(Guid guid)
+        {  
+            List<MemberDisplayBasic> members = new List<MemberDisplayBasic>();
+            try
+            {
+                var league = League.LeagueFactory.GetLeague(guid);
+                if (league != null)
+                {
+                    foreach (var group in league.Groups)
+                    {
+                        var ownersModerators = group.GroupMembers.Where(mem => mem.MemberAccessLevelEnum == GroupMemberAccessLevelEnum.Owner || mem.MemberAccessLevelEnum == GroupMemberAccessLevelEnum.Moderator);
+                        foreach (var member in ownersModerators)
+                        {
+                            members.Add(member);
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return members;
+        }
 
         public static void AddNewMessageToGroup(long groupId, Guid ownerMemberId, string message)
         {

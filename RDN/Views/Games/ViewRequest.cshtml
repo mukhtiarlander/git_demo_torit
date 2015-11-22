@@ -6,7 +6,6 @@
 }
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/officiating-requests/view/all")">Contacts</a></li>
     <li class="active">Officiating Request Details</li>
 </ol>
 <div class="row margin-bottom-10">
@@ -96,22 +95,22 @@
                         </div>
                         <div class="col-xs-12 col-sm-6 margin-bottom-10">
                             <label>
-                                Is Regulation: @Html.CheckBox("IsRegulation", Model.IsRegulation, new { @disabled = "disabled" })
+                                Is Regulation: @if (Model.IsRegulation) { <i class="fa fa-check-circle"></i> } else { <i class="fa fa-times-circle-o"></i> }
                             </label>
                         </div>
                         <div class="col-xs-12 col-sm-6 margin-bottom-10">
                             <label>
-                                Evaluations Provided: @Html.CheckBox("Evaluation", Model.EvaluationsProvided, new { @disabled = "disabled" })
+                                Evaluations Provided: @if (Model.EvaluationsProvided) { <i class="fa fa-check-circle"></i> } else { <i class="fa fa-times-circle-o"></i> }
                             </label>
                         </div>
                         <div class="col-xs-12 col-sm-6 margin-bottom-10">
                             <label>
-                                Snacks Provided?: @Html.CheckBox("IsSnacksProvided", Model.IsSnacksProvided, new { @disabled = "disabled" })
+                                Snacks Provided?: @if (Model.IsSnacksProvided) { <i class="fa fa-check-circle"></i> } else { <i class="fa fa-times-circle-o"></i> }
                             </label>
                         </div>
                         <div class="col-xs-12 col-sm-6 margin-bottom-10">
                             <label>
-                                Reimbursement?: @Html.CheckBox("IsReimbursement", Model.IsReimbursement, new { @disabled = "disabled" })
+                                Reimbursement?: @if (Model.IsReimbursement) { <i class="fa fa-check-circle"></i> } else { <i class="fa fa-times-circle-o"></i> }
                             </label>
                         </div>
                     </div>

@@ -140,14 +140,16 @@ namespace RDN
    new { controller = "Games", action = "ViewRequest" } 
 );
             routes.MapRoute(
-   "ViewAllChallenges", 
-   "bout-challenge/view/all", 
-   new { controller = "Games", action = "AllBoutList" } 
+   "ViewAllChallenges",
+   "{url}/view/all", 
+   new { controller = "Games", action = "AllBoutList" },
+   new { url = "(bout|game)-challenge" }
 );
             routes.MapRoute(
    "ViewChallengeDetails", // Route name
-   "bout-challenge/view/{ChallengeId}", 
-   new { controller = "Games", action = "ViewBoutEvent" } 
+   "{url}/view/{ChallengeId}",
+   new { controller = "Games", action = "ViewBoutEvent" },
+   new { url = "(bout|game)-challenge" } 
 );
 
 

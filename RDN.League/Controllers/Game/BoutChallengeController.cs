@@ -125,12 +125,12 @@ namespace RDN.League.Controllers
                 var token = FacebookData.GetLatestAccessToken();
 
                 FacebookFactory.Initialize(token).GetPageAuthorization(LibraryConfig.FacebookPageName2, LibraryConfig.FacebookPageId2)
-                       .PostToFanPage("Game Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/bout-challenge/view/" + executeId, "", "", "", "", "");
+                       .PostToFanPage("Game Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/game-challenge/view/" + executeId, "", "", "", "", "");
                 try
                 {
 
                     TwitterManager.Initialize(LibraryConfig.TwitterConsumerKey, LibraryConfig.TwitterConsumerSecret, LibraryConfig.TwitterToken, LibraryConfig.TwitterTokenSecret)
-                              .SendMessage("Game Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/bout-challenge/view/" + executeId);
+                              .SendMessage("Game Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/game-challenge/view/" + executeId);
                 }
                 catch (Exception exception)
                 {
