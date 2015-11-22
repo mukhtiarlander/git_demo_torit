@@ -76,6 +76,8 @@ namespace RDN.Library.DataModels.Member
         public DateTime? YearStartedSkating { get; set; }
         public DateTime? YearStoppedSkating { get; set; }
 
+        public long MemberType { get; set; } 
+
         public Guid CurrentLeagueId { get; set; }
 
         public string DayJob { get; set; }

@@ -81,6 +81,10 @@ namespace RDN.Portable.Classes.Account.Classes
         [DataMember]
         public string ThumbUrl { get; set; }
 
+        [ProtoMember(19)]
+        [DataMember]
+        public MemberType MemberType { get; set; }
+
         public string Age { get { return ((DateTime.UtcNow - DOB).TotalDays / 365).ToString("N0"); } }
 
         public bool DidVote { get; set; }

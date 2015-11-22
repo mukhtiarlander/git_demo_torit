@@ -2120,6 +2120,7 @@ namespace RDN.Library.Classes.Account
                 member.Bio = mem.Bio;
                 member.Gender = Convert.ToInt32(mem.Gender);
                 member.WeightInLbs = mem.WeightLbs;
+                member.MemberType = (long)mem.MemberType;
 
                 member.Website = mem.Website;
                 member.Twitter = mem.Twitter;
@@ -2358,6 +2359,7 @@ namespace RDN.Library.Classes.Account
                 mem.Instagram = member.Instagram;
                 mem.Facebook = member.Facebook;
                 mem.YearStartedSkating = member.YearStartedSkating;
+                mem.MemberType = (MemberType)Enum.Parse(typeof(MemberType), member.MemberType.ToString());
 
                 mem.Email = ExtractEmailFromContactCard(member);
                 if (member.ContactCard.Addresses.Count > 0)
