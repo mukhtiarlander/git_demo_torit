@@ -30,6 +30,7 @@ namespace RDN.Library.Classes.League.Classes
                 doc.MimeType = GetDocumentMimeType(docsDb.Name);
                 doc.SaveLocation = docsDb.Document.SaveLocation;
                 doc.FullText = docsDb.Document.FullText;
+                doc.IsArchive = docsDb.IsArchived;
                 doc.HasScannedText = docsDb.Document.HasScannedText;
                 if (docsDb.Group != null)
                 {

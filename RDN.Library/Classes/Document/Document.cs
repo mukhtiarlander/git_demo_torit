@@ -34,6 +34,7 @@ namespace RDN.Library.Classes.Document
         public bool HasScannedText { get; set; }
         public int SearchMatches { get; set; }
         public bool IsRemoved { get; set; }
+        public bool IsArchive { get; set; }
         public Document()
         {
             Folder = new Folder();

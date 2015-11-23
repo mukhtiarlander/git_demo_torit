@@ -177,10 +177,9 @@ namespace RDN.Library.Classes.Document
 
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 IEnumerable<Document> docs = null;
-                if (!isArchived)
-                    docs = MemberCache.GetLeagueDocuments(memId);
-                else
-                    docs = MemberCache.GetLeagueArchivedDocuments(memId);
+              
+                    docs = MemberCache.GetLeagueDocuments(memId, isArchived);
+               
 
                 if (folderId > 0)
                     docs = docs.Where(x => x.DocumentName != null && x.Folder != null && x.Folder.FolderId == folderId && x.DocumentName.ToLower().Contains(text));

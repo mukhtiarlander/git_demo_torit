@@ -377,12 +377,12 @@ namespace RDN.Library.Classes.Document
             }
             return null;
         }
-        public static List<Document> GetLeagueDocuments(Guid leagueId, bool isArchived = false)
+        public static List<Document> GetLeagueDocuments(Guid leagueId)
         {
             try
             {
                 var dc = new ManagementContext();
-                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false && x.IsArchived == isArchived).ToList();
+                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
                 List<Document> docs = new List<Document>();
                 foreach (var d in docsDb)
                     docs.Add(LeagueDocument.DisplayDocument(d, true));
