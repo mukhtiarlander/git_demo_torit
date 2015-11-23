@@ -46,10 +46,10 @@ namespace RDN.Library.Classes.AutomatedTask
         {
             try
             {
-                var emailData = new Dictionary<string, string> { 
-                        { "derbyname", "Veggie D" }, 
-                        { "sportAndProfileName", LibraryConfig.SportName + " "+ LibraryConfig.MemberName }, 
-                        { "publicProfile", RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  }, 
+                var emailData = new Dictionary<string, string> {
+                        { "derbyname", "Veggie D" },
+                        { "sportAndProfileName", LibraryConfig.SportName + " "+ LibraryConfig.MemberName },
+                        { "publicProfile", RDN.Library.Classes.Config.LibraryConfig.PublicSite +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly("Veggie D") + "/0525b20627d849d2a881c9a42b42d53a"  },
                         { "editProfileLink",RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/login?returnSite=league&ReturnUrl=%2fmember%2fedit" } };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, "spoiledtechie@gmail.com", "Your Profile Is Still Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
@@ -291,6 +291,8 @@ namespace RDN.Library.Classes.AutomatedTask
                         List<Member> newMembers = new List<Member>();
 
                         emailTask.LastRun = DateTime.UtcNow;
+                        dc.SaveChanges();
+
                         var members = dc.Members.Where(x => x.AspNetUserId != null && x.AspNetUserId != new Guid()).Where(x => x.Retired == false).Where(x => x.PlayerNumber == null || x.PlayerNumber == "").ToList();
 
                         var secondMembers = dc.Members.Where(x => x.AspNetUserId != null && x.AspNetUserId != new Guid()).Where(x => x.Retired == false).Where(x => x.Photos.Count == 0).ToList();
@@ -304,7 +306,7 @@ namespace RDN.Library.Classes.AutomatedTask
                             }
                         }
 
-                        dc.SaveChanges();
+
 
 
                         foreach (var mem in newMembers)
@@ -312,13 +314,13 @@ namespace RDN.Library.Classes.AutomatedTask
                             try
                             {
                                 var user = System.Web.Security.Membership.GetUser((object)mem.AspNetUserId);
-                                var emailData = new Dictionary<string, string> { 
-                        { "derbyname", mem.DerbyName }, 
-                        { "sportAndProfileName", LibraryConfig.SportName + " "+ LibraryConfig.MemberName }, 
-                        { "publicProfile", LibraryConfig.PublicSite +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "") }, 
+                                var emailData = new Dictionary<string, string> {
+                        { "derbyname", mem.DerbyName },
+                        { "sportAndProfileName", LibraryConfig.SportName + " "+ LibraryConfig.MemberName },
+                        { "publicProfile", LibraryConfig.PublicSite +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMemberNameForUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName) + "/" + mem.MemberId.ToString().Replace("-", "") },
                         { "editProfileLink",LibraryConfig.InternalSite +"/member/edit" } };
 
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName,LibraryConfig.DefaultEmailSubject + " Your " + RDN.Library.Classes.Config.LibraryConfig.SportName + " Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " Your " + RDN.Library.Classes.Config.LibraryConfig.SportName + " Profile Is Empty", emailData, layout: EmailServer.EmailServerLayoutsEnum.EmailUnFilledProfilesTask, priority: EmailPriority.Normal);
                                 emailsSent += 1;
                             }
                             catch (Exception exception)
@@ -326,7 +328,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                 Error.ErrorDatabaseManager.AddException(exception, exception.GetType());
                             }
                         }
-                        
+
                     }
                 }
             }
@@ -382,8 +384,8 @@ namespace RDN.Library.Classes.AutomatedTask
                         var leagueEmail = League.LeagueFactory.GetLeagueOwners(league.LeagueId);
                         var emailDataLeague = new Dictionary<string, string>
                                         {
-                                            { "derbyname", league.Name}, 
-                                            { "text", "Your League has been named Rollin News League of the Week.  Congrats!"}, 
+                                            { "derbyname", league.Name},
+                                            { "text", "Your League has been named Rollin News League of the Week.  Congrats!"},
                                             { "link", RollinNewsConfig.WEBSITE_DEFAULT_LOCATION}
                                         };
                         for (int i = 0; i < leagueEmail.Count; i++)
@@ -449,8 +451,8 @@ namespace RDN.Library.Classes.AutomatedTask
                         var user = Membership.GetUser(mem.AspNetUserId);
                         var emailDataMember = new Dictionary<string, string>
                                         {
-                                            { "derbyname", mem.DerbyName}, 
-                                            { "text", "You have been named Rollin News Member of the Week.  Congrats!"}, 
+                                            { "derbyname", mem.DerbyName},
+                                            { "text", "You have been named Rollin News Member of the Week.  Congrats!"},
                                             { "link", RollinNewsConfig.WEBSITE_DEFAULT_LOCATION}
                                         };
                         EmailServer.EmailServer.SendEmail(RollinNewsConfig.DEFAULT_ADMIN_EMAIL, RollinNewsConfig.DEFAULT_EMAIL_FROM_NAME, user.UserName, LibraryConfig.DefaultEmailSubject + " You are Member of the Week!", emailDataMember, EmailServerLayoutsEnum.RNMemberLeagueOfTheWeek, EmailPriority.Normal);
@@ -538,8 +540,8 @@ namespace RDN.Library.Classes.AutomatedTask
 
                                     var emailData = new Dictionary<string, string>
                                         {
-                                            { "firstLastName",firstName +" " +lastName}, 
-                                            { "linkforReview", link}, 
+                                            { "firstLastName",firstName +" " +lastName},
+                                            { "linkforReview", link},
                                             { "nameOfItem",message.Items.FirstOrDefault().Name }
                                         };
 
@@ -613,7 +615,7 @@ namespace RDN.Library.Classes.AutomatedTask
                                             {
                                                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "derbyname",mem.DerbyName}, 
+                                            { "derbyname",mem.DerbyName},
                                         };
                                                 emailsSent += 1;
                                                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, user.UserName, LibraryConfig.DefaultEmailSubject + " Getting Started", emailData, EmailServer.EmailServerLayoutsEnum.RDNWelcomeMessageInviteMembers);
@@ -732,8 +734,8 @@ namespace RDN.Library.Classes.AutomatedTask
                                 var user = System.Web.Security.Membership.GetUser((object)mem.AspNetUserId);
                                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "derbyname",mem.DerbyName}, 
-                                            { "membersWhoSentMessages", membersWhoSentThisMemberAMessage}, 
+                                            { "derbyname",mem.DerbyName},
+                                            { "membersWhoSentMessages", membersWhoSentThisMemberAMessage},
                                             { "viewConversationLink",LibraryConfig.InternalSite + UrlManager.VIEW_MESSAGES_INBOX_MEMBER + mem.MemberId.ToString().Replace("-","") }
                                         };
 
@@ -857,8 +859,8 @@ namespace RDN.Library.Classes.AutomatedTask
                                         {
                                             var emailData = new Dictionary<string, string>
                                         {
-                                            { "derbyname",message.Key.DerbyName}, 
-                                            { "forumTopics", forumTopics.ToString()}, 
+                                            { "derbyname",message.Key.DerbyName},
+                                            { "forumTopics", forumTopics.ToString()},
                                             { "viewConversationLink", LibraryConfig.InternalSite + UrlManager.LEAGUE_FORUM_URL + message.boxes.FirstOrDefault().Topic.Forum.ForumId.ToString().Replace("-", "") }
                                         };
                                             emailsSent += 1;
@@ -966,8 +968,8 @@ namespace RDN.Library.Classes.AutomatedTask
 
                                                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "name", member.Member.DerbyName }, 
-                                            { "leaguename", fee.LeagueOwner.Name }, 
+                                            { "name", member.Member.DerbyName },
+                                            { "leaguename", fee.LeagueOwner.Name },
                                             { "duedate", due.PayBy.ToShortDateString() },
                                             { "paymentneeded", due.CostOfFee.ToString("N2")},
                                             { "paymentOnlineText",  Dues.DuesFactory.GeneratePaymentOnlineText(fee.AcceptPaymentsOnline, fee.LeagueOwner.LeagueId)}
@@ -1087,8 +1089,8 @@ namespace RDN.Library.Classes.AutomatedTask
 
                         try
                         {
-                            var emailData = new Dictionary<string, string> { 
-                        { "errorCount", dc.ErrorExceptions.Count().ToString()+" "+LibraryConfig.AdminSite+"/Admin/Errors" }, 
+                            var emailData = new Dictionary<string, string> {
+                        { "errorCount", dc.ErrorExceptions.Count().ToString()+" "+LibraryConfig.AdminSite+"/Admin/Errors" },
                         { "feedbackCount", dc.ScoreboardFeedback.Count().ToString() +" "+LibraryConfig.AdminSite+"/Admin/Feedback"},
                          { "memberCount", dc.Members.Count().ToString() },
                           { "userCount", dc.Members.Where(x=>x.AspNetUserId != new Guid()).Count().ToString() },
@@ -1182,8 +1184,8 @@ namespace RDN.Library.Classes.AutomatedTask
                                     }
                                     if (!String.IsNullOrEmpty(email))
                                     {
-                                        var emailData = new Dictionary<string, string> { 
-                        { "FeeDate", DateTime.UtcNow.AddDays(5).ToLongDateString()}, 
+                                        var emailData = new Dictionary<string, string> {
+                        { "FeeDate", DateTime.UtcNow.AddDays(5).ToLongDateString()},
                         { "FeeCost", "$.50 Cents"},
                          { "ItemName",item.Name },
                           { "name",  name },
@@ -1265,9 +1267,9 @@ namespace RDN.Library.Classes.AutomatedTask
                                     }
                                     if (!String.IsNullOrEmpty(email))
                                     {
-                                        var emailData = new Dictionary<string, string> { 
-                                                 { "name",  name }, 
-                                                 { "link",  LibraryConfig.InternalSite}, 
+                                        var emailData = new Dictionary<string, string> {
+                                                 { "name",  name },
+                                                 { "link",  LibraryConfig.InternalSite},
                                                 };
 
                                         EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultEmailMessage, LibraryConfig.DefaultEmailFromName, email, LibraryConfig.DefaultEmailSubject + " Your Shop Isn't Published", emailData, layout: EmailServer.EmailServerLayoutsEnum.ShopIsNotPublished, priority: EmailPriority.Normal);
@@ -1342,9 +1344,9 @@ namespace RDN.Library.Classes.AutomatedTask
                                     }
                                     if (!String.IsNullOrEmpty(email))
                                     {
-                                        var emailData = new Dictionary<string, string> { 
-                                                 { "name",  name }, 
-                                                 { "link", LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_SHOP_URL + item.MerchantId.ToString().Replace("-","") +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( item.ShopName)}, 
+                                        var emailData = new Dictionary<string, string> {
+                                                 { "name",  name },
+                                                 { "link", LibraryConfig.ShopSite + UrlManager.STORE_MERCHANT_SHOP_URL + item.MerchantId.ToString().Replace("-","") +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly( item.ShopName)},
                                                  { "itemsCount",  AmountOfItemsNotPublished.ToString() }
                                                 };
 
@@ -1455,7 +1457,7 @@ namespace RDN.Library.Classes.AutomatedTask
                     {
 
                         emailTask.LastRun = DateTime.UtcNow;
-
+                        dc.SaveChanges();
                         try
                         {
                             emailsSent = RDN.Library.Classes.Account.User.ResendAllEmailVerificationsInQueue();
@@ -1464,7 +1466,7 @@ namespace RDN.Library.Classes.AutomatedTask
                         {
                             Error.ErrorDatabaseManager.AddException(exception, exception.GetType());
                         }
-                        dc.SaveChanges();
+
                     }
                 }
             }

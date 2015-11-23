@@ -123,6 +123,9 @@ namespace RDN.Raspberry.Controllers
                         case MassEmailEnum.AllEmailsToSendMontlyUpdatesTo:
                             result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForMonthlyBroadcasts(model.Subject, model.HtmlBody, model.TestEmail);
                             break;
+                        case MassEmailEnum.SubscribersAndWebScraped:
+                            result = Library.Classes.Admin.Admin.Admin.SendToSubscribersAndWebScrapedList(model.Subject, model.HtmlBody, model.TestEmail);
+                            break;
                         case MassEmailEnum.AllLeaguesWorldWide:
                             result = Library.Classes.Admin.Admin.Admin.SendMassScoreboardEmailsForLeaguesWorldWide(model.IsMassSendVerified, model.Subject, model.HtmlBody, model.TestEmail);
                             break;
@@ -281,11 +284,11 @@ namespace RDN.Raspberry.Controllers
                 var countries = Library.Classes.Location.LocationFactory.GetCountriesDictionary();
                 foreach (var country in countries)
                     model.Countries.Add(new SelectListItem
-                                            {
-                                                Text = country.Value,
-                                                Value = country.Key.ToString(),
-                                                Selected = country.Key.ToString() == model.CountryId
-                                            });
+                    {
+                        Text = country.Value,
+                        Value = country.Key.ToString(),
+                        Selected = country.Key.ToString() == model.CountryId
+                    });
             }
 
             if (model.Associations == null || model.Associations.Count == 0)

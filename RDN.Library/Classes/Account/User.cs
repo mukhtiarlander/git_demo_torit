@@ -559,10 +559,10 @@ namespace RDN.Library.Classes.Account
             try
             {
                 string link = LibraryConfig.PublicSite + UrlManager.WEBSITE_VALIDATE_DERBY_NAME + memberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(derbyName);
-                var emailData = new Dictionary<string, string> { 
-                        { "derbyname", derbyName }, 
-                        { "leaguename", leagueName}, 
-                                { "WebsiteName", LibraryConfig.WebsiteName}, 
+                var emailData = new Dictionary<string, string> {
+                        { "derbyname", derbyName },
+                        { "leaguename", leagueName},
+                                { "WebsiteName", LibraryConfig.WebsiteName},
                         { "link", link  } };
 
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, memberEmail, LibraryConfig.DefaultEmailSubject + " " + LibraryConfig.NameOfMember + " Profile Created", emailData, layout: EmailServer.EmailServerLayoutsEnum.LeagueCreatedMemberProfile, priority: EmailPriority.Normal);
@@ -816,11 +816,13 @@ namespace RDN.Library.Classes.Account
                     output.Add(NewUserEnum.Password_IsEmpty);
                 else
                     if (password.Length < 6)
-                        output.Add(NewUserEnum.Password_TooShort);
+                    output.Add(NewUserEnum.Password_TooShort);
 
-                firstname = firstname.Trim();
+
                 if (string.IsNullOrEmpty(firstname))
                     output.Add(NewUserEnum.Firstname_IsEmpty);
+                else
+                    firstname = firstname.Trim();
 
                 if (firstname.Length < 2)
                     output.Add(NewUserEnum.Firstname_TooShort);
@@ -991,7 +993,7 @@ namespace RDN.Library.Classes.Account
                                             { "name", derbyName },
                                             { "oldEmail", oldEmail},
                                             { "newEmail", email}
-                                            
+
                                           };
 
 
@@ -1011,8 +1013,8 @@ namespace RDN.Library.Classes.Account
             {
                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "name", derbyName }, 
-                                            { "email", email }, 
+                                            { "name", derbyName },
+                                            { "email", email },
                                             { "code", emailVerificationCode.ToString() },
                                             { "validationurl", LibraryConfig.PublicSite + UrlManager.WEBSITE_LOST_PASSWORD_RESET_LOCATION }
                                         };
@@ -1032,10 +1034,10 @@ namespace RDN.Library.Classes.Account
 
                 var emailData = new Dictionary<string, string>
                                         {
-                                            { "name", derbyName }, 
-                                            { "email", email }, 
+                                            { "name", derbyName },
+                                            { "email", email },
                                             { "text", "Please Go to Rollin News and Add as Contributor"},
- { "link", RollinNewsConfig.WEBSITE_DEFAULT_LOCATION}, 
+ { "link", RollinNewsConfig.WEBSITE_DEFAULT_LOCATION},
 
                                         };
                 var users = Roles.GetUsersInRole(RolesConfig.CHIEF_ROLE);
@@ -1064,8 +1066,8 @@ namespace RDN.Library.Classes.Account
                 {
                     var emailData = new Dictionary<string, string>
                                         {
-                                            { "name", derbyName }, 
-                                            { "email", email }, 
+                                            { "name", derbyName },
+                                            { "email", email },
                                             { "code", emailVerificationCode.ToString() },
                                             { "validationurl", LibraryConfig.InternalSite + UrlManager.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") }
                                         };
@@ -1075,8 +1077,8 @@ namespace RDN.Library.Classes.Account
                 {
                     var emailData = new Dictionary<string, string>
                                         {
-                                            { "name", derbyName }, 
-                                            { "email", email }, 
+                                            { "name", derbyName },
+                                            { "email", email },
                                             { "code", emailVerificationCode.ToString().Replace("-","") },
                                             { "validationurl", LibraryConfig.InternalSite + UrlManager.WEBSITE_VALIDATE_ACCOUNT_WITH_EMAIL_LOCATION +"/"+ emailVerificationCode.ToString().Replace("-","") },
                                             { "password", password }
@@ -1143,11 +1145,11 @@ namespace RDN.Library.Classes.Account
                 var memberId = record.Member.MemberId;
 
                 var memberEmail = new RDN.Library.DataModels.ContactCard.Email
-                                      {
-                                          ContactCard = record.Member.ContactCard,
-                                          EmailAddress = record.EmailAddress,
-                                          IsDefault = true
-                                      };
+                {
+                    ContactCard = record.Member.ContactCard,
+                    EmailAddress = record.EmailAddress,
+                    IsDefault = true
+                };
 
                 // Set all (current) emails default to false. Default means that this is this member primary contact email.
                 var emails = record.Member.ContactCard.Emails.Where(x => x.IsDefault.Equals(true));
@@ -1422,7 +1424,7 @@ namespace RDN.Library.Classes.Account
         public static DataModels.Member.Member GetMemberWithUserId(Guid userId)
         {
             var dc = new ManagementContext();
-             return dc.Members.FirstOrDefault(x => x.AspNetUserId.Equals(userId));
+            return dc.Members.FirstOrDefault(x => x.AspNetUserId.Equals(userId));
         }
         public static DataModels.Member.Member GetMemberWithLoginEmail(string email)
         {
@@ -1502,7 +1504,7 @@ namespace RDN.Library.Classes.Account
             try
             {
                 var dc = new ManagementContext();
-                var members = dc.Members.Include("Leagues.League.Logo").Where(x => x.IsNotConnectedToDerby == false && x.IsProfileRemovedFromPublic == false).ToList().OrderBy(x=>x.DerbyName);
+                var members = dc.Members.Include("Leagues.League.Logo").Where(x => x.IsNotConnectedToDerby == false && x.IsProfileRemovedFromPublic == false).ToList().OrderBy(x => x.DerbyName);
 
                 List<SkaterJson> mems = new List<SkaterJson>();
                 try
@@ -1771,128 +1773,121 @@ namespace RDN.Library.Classes.Account
 
         public static bool AddMemberPhotoForGame(Guid gameId, Stream fileStream, string nameOfFile, Guid gameMemberId, MemberTypeEnum memberType)
         {
-            try
+            var dc = new ManagementContext();
+            string name = String.Empty;
+            Guid id = new Guid();
+            GameMember member = null;
+            GameOfficial official = null;
+            if (memberType == MemberTypeEnum.Skater)
             {
-                var dc = new ManagementContext();
-                string name = String.Empty;
-                Guid id = new Guid();
-                GameMember member = null;
-                GameOfficial official = null;
-                if (memberType == MemberTypeEnum.Skater)
+                member = dc.GameMembers.Where(x => x.GameMemberId == gameMemberId && x.Team.Game.GameId == gameId).FirstOrDefault();
+                if (member == null)
+                    return false;
+                name = member.MemberName;
+                id = member.MemberLinkId;
+            }
+            else if (memberType == MemberTypeEnum.Referee)
+            {
+                official = dc.GameOfficials.Where(x => x.GameOfficialId == gameMemberId && x.Game.GameId == gameId).FirstOrDefault();
+                if (official == null)
+                    return false;
+                name = official.MemberName;
+                id = official.MemberLinkId;
+            }
+
+            //time stamp for the save location
+            DateTime timeOfSave = DateTime.UtcNow;
+            FileInfo info = new FileInfo(nameOfFile);
+            //the file name when we save it
+            string url = LibraryConfig.ImagesBaseUrl + "/games/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
+            string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation + @"\games\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
+            //creates the directory for the image
+            if (!Directory.Exists(imageLocationToSave))
+                Directory.CreateDirectory(imageLocationToSave);
+
+            string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+            string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " " + LibraryConfig.SportNameForUrl + "-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+
+            string urlMain = url + fileName;
+            string urlThumb = url + fileNameThumb;
+            string imageLocationToSaveMain = imageLocationToSave + fileName;
+            string imageLocationToSaveThumb = imageLocationToSave + fileNameThumb;
+
+            bool isLinkedToMainMember = false;
+
+            if (id != new Guid())
+            {
+                var memMain = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
+                if (memMain != null)
                 {
-                    member = dc.GameMembers.Where(x => x.GameMemberId == gameMemberId && x.Team.Game.GameId == gameId).FirstOrDefault();
-                    if (member == null)
-                        return false;
-                    name = member.MemberName;
-                    id = member.MemberLinkId;
-                }
-                else if (memberType == MemberTypeEnum.Referee)
-                {
-                    official = dc.GameOfficials.Where(x => x.GameOfficialId == gameMemberId && x.Game.GameId == gameId).FirstOrDefault();
-                    if (official == null)
-                        return false;
-                    name = official.MemberName;
-                    id = official.MemberLinkId;
-                }
+                    fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
 
-                //time stamp for the save location
-                DateTime timeOfSave = DateTime.UtcNow;
-                FileInfo info = new FileInfo(nameOfFile);
-                //the file name when we save it
-                string url = LibraryConfig.ImagesBaseUrl + "/games/" + timeOfSave.Year + "/" + timeOfSave.Month + "/" + timeOfSave.Day + "/";
-                string imageLocationToSave = LibraryConfig.ImagesBaseSaveLocation + @"\games\" + timeOfSave.Year + @"\" + timeOfSave.Month + @"\" + timeOfSave.Day + @"\";
-                //creates the directory for the image
-                if (!Directory.Exists(imageLocationToSave))
-                    Directory.CreateDirectory(imageLocationToSave);
+                    fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " " + LibraryConfig.SportNameForUrl + "-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
 
-                string fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
-                string fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(name + " " + LibraryConfig.SportNameForUrl + "-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
+                    urlMain = url + fileName;
+                    urlThumb = url + fileNameThumb;
+                    imageLocationToSaveMain = imageLocationToSave + fileName;
+                    imageLocationToSaveThumb = imageLocationToSave + fileNameThumb;
 
-                string urlMain = url + fileName;
-                string urlThumb = url + fileNameThumb;
-                string imageLocationToSaveMain = imageLocationToSave + fileName;
-                string imageLocationToSaveThumb = imageLocationToSave + fileNameThumb;
+                    isLinkedToMainMember = true;
 
-                bool isLinkedToMainMember = false;
-
-                if (id != new Guid())
-                {
-                    var memMain = dc.Members.Where(x => x.MemberId == id).FirstOrDefault();
-                    if (memMain != null)
-                    {
-                        fileName = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " " + LibraryConfig.SportNameForUrl + "-") + timeOfSave.ToFileTimeUtc() + info.Extension;
-
-                        fileNameThumb = RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(memMain.DerbyName + " " + LibraryConfig.SportNameForUrl + "-thumb-") + timeOfSave.ToFileTimeUtc() + info.Extension;
-
-                        urlMain = url + fileName;
-                        urlThumb = url + fileNameThumb;
-                        imageLocationToSaveMain = imageLocationToSave + fileName;
-                        imageLocationToSaveThumb = imageLocationToSave + fileNameThumb;
-
-                        isLinkedToMainMember = true;
-
-                        RDN.Library.DataModels.Member.MemberPhoto image = new RDN.Library.DataModels.Member.MemberPhoto();
-                        image.ImageUrl = urlMain;
-                        image.SaveLocation = imageLocationToSaveMain;
-                        image.SaveLocationThumb = imageLocationToSaveThumb;
-                        image.ImageUrlThumb = urlThumb;
-                        image.IsPrimaryPhoto = false;
-                        image.IsVisibleToPublic = true;
-                        image.Member = memMain;
-                        memMain.Photos.Add(image);
-                    }
-                }
-                //if it is, we won't actually save the picture in the game member table..
-                if (isLinkedToMainMember == false && member != null)
-                {
-                    url += fileName;
-                    imageLocationToSave += fileName;
-
-                    GameMemberPhoto image = new GameMemberPhoto();
+                    RDN.Library.DataModels.Member.MemberPhoto image = new RDN.Library.DataModels.Member.MemberPhoto();
                     image.ImageUrl = urlMain;
                     image.SaveLocation = imageLocationToSaveMain;
                     image.SaveLocationThumb = imageLocationToSaveThumb;
                     image.ImageUrlThumb = urlThumb;
-
-                    image.IsPrimaryPhoto = true;
+                    image.IsPrimaryPhoto = false;
                     image.IsVisibleToPublic = true;
-                    image.Member = member;
-                    member.Photos.Add(image);
+                    image.Member = memMain;
+                    memMain.Photos.Add(image);
                 }
-
-                if (isLinkedToMainMember == false && official != null)
-                {
-                    url += fileName;
-                    imageLocationToSave += fileName;
-
-                    GameOfficialPhoto image = new GameOfficialPhoto();
-                    image.ImageUrl = urlMain;
-                    image.SaveLocation = imageLocationToSaveMain;
-                    image.SaveLocationThumb = imageLocationToSaveThumb;
-                    image.ImageUrlThumb = urlThumb;
-                    image.IsPrimaryPhoto = true;
-                    image.IsVisibleToPublic = true;
-                    image.Official = official;
-                    official.Photos.Add(image);
-                }
-
-                using (var newfileStream = new FileStream(imageLocationToSaveMain, FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    fileStream.CopyTo(newfileStream);
-                }
-                Image thumbImg = Image.FromStream(fileStream);
-                Image thumb = RDN.Utilities.Drawing.Images.ScaleDownImage(thumbImg, 300, 300);
-                thumb.Save(imageLocationToSaveThumb);
-                //saves the photo to the DB.
-                dc.SaveChanges();
-
-                return true;
             }
-            catch (Exception exception)
+            //if it is, we won't actually save the picture in the game member table..
+            if (isLinkedToMainMember == false && member != null)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
+                url += fileName;
+                imageLocationToSave += fileName;
+
+                GameMemberPhoto image = new GameMemberPhoto();
+                image.ImageUrl = urlMain;
+                image.SaveLocation = imageLocationToSaveMain;
+                image.SaveLocationThumb = imageLocationToSaveThumb;
+                image.ImageUrlThumb = urlThumb;
+
+                image.IsPrimaryPhoto = true;
+                image.IsVisibleToPublic = true;
+                image.Member = member;
+                member.Photos.Add(image);
             }
-            return false;
+
+            if (isLinkedToMainMember == false && official != null)
+            {
+                url += fileName;
+                imageLocationToSave += fileName;
+
+                GameOfficialPhoto image = new GameOfficialPhoto();
+                image.ImageUrl = urlMain;
+                image.SaveLocation = imageLocationToSaveMain;
+                image.SaveLocationThumb = imageLocationToSaveThumb;
+                image.ImageUrlThumb = urlThumb;
+                image.IsPrimaryPhoto = true;
+                image.IsVisibleToPublic = true;
+                image.Official = official;
+                official.Photos.Add(image);
+            }
+
+            using (var newfileStream = new FileStream(imageLocationToSaveMain, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                fileStream.CopyTo(newfileStream);
+            }
+            Image thumbImg = Image.FromStream(fileStream);
+            Image thumb = RDN.Utilities.Drawing.Images.ScaleDownImage(thumbImg, 300, 300);
+            thumb.Save(imageLocationToSaveThumb);
+            //saves the photo to the DB.
+            dc.SaveChanges();
+
+            return true;
+
         }
 
         public static bool UnRetireMember(Guid memberId)
@@ -2387,7 +2382,7 @@ namespace RDN.Library.Classes.Account
                 mem.Bio = member.Bio;
                 mem.DefaultPositionType = (DefaultPositionEnum)Enum.Parse(typeof(DefaultPositionEnum), member.PositionType.ToString());
                 mem.BioHtml = member.Bio;
-           
+
 
                 if (member.DateOfBirth.HasValue)
                     mem.DOB = member.DateOfBirth.Value;
@@ -2483,7 +2478,7 @@ namespace RDN.Library.Classes.Account
                         {
                             mem.LeagueOwnersEnum = l.LeagueOwnersEnum;
                             mem.DoesReceiveLeagueNotifications = !league.TurnOffEmailNotifications;
-							mem.Settings.ForumGroupOrder = league.ForumGroupOrder;
+                            mem.Settings.ForumGroupOrder = league.ForumGroupOrder;
                         }
                         if (league.SkaterClass != null)
                             l.SkaterClass = league.SkaterClass.ClassId;
