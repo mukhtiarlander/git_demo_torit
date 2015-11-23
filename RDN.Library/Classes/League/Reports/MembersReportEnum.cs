@@ -39,7 +39,9 @@ namespace RDN.Library.Classes.League.Reports
         Daughter = 30,
         Partner = 31,
         Sibling = 32,
-        Derby_Name = 33
+        Derby_Name = 33,
+        Started_Skating_Date=34,
+        Started_Playing_Date = 35
         //Groups = 15
 
     }

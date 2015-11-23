@@ -51,7 +51,7 @@ namespace RDN.Library.Classes.Account.Classes
                         memTemp.Gender = gen;
                     memTemp.LastName = mem.Member.Lastname;
                     memTemp.MemberId = mem.Member.MemberId;
-
+                    memTemp.YearStartedSkating = mem.Member.YearStartedSkating;
                     memTemp.PlayerNumber = mem.Member.PlayerNumber;
                     memTemp.DayJob = mem.Member.DayJob;
 

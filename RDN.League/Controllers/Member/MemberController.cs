@@ -394,6 +394,7 @@ namespace RDN.League.Controllers
                 edit.Twitter = member.Twitter;
                 edit.Instagram = member.Instagram;
                 edit.Facebook = member.Facebook;
+                edit.MemberType = member.MemberType;
 
                 if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
                 {
@@ -526,6 +527,41 @@ namespace RDN.League.Controllers
                 edit.PlayerNumber = member.PlayerNumber;
                 edit.WeightLbs = member.WeightLbs;
                 edit.IsRetired = member.IsRetired;
+
+
+                edit.MemberType = 0;
+                bool none = false;
+                if (Request.Form[MemberType.None.ToString()] != null)
+                    none = Request.Form[MemberType.None.ToString()].Contains("true");
+                bool player = false;
+                if (Request.Form[MemberType.Player.ToString()] != null)
+                    player = Request.Form[MemberType.Player.ToString()].Contains("true");
+                bool Coach = false;
+                if (Request.Form[MemberType.Coach.ToString()] != null)
+                    Coach = Request.Form[MemberType.Coach.ToString()].Contains("true");
+                bool Volunteer = false;
+                if (Request.Form[MemberType.Volunteer.ToString()] != null)
+                    Volunteer = Request.Form[MemberType.Volunteer.ToString()].Contains("true");
+                bool Referee = false;
+                if (Request.Form[MemberType.Referee.ToString()] != null)
+                    Referee = Request.Form[MemberType.Referee.ToString()].Contains("true");
+                bool Official = false;
+                if (Request.Form[MemberType.Official.ToString()] != null)
+                    Official = Request.Form[MemberType.Official.ToString()].Contains("true");
+
+                if (none)
+                    edit.MemberType |= MemberType.None;
+                if (player)
+                    edit.MemberType |= MemberType.Player;
+                if (Coach)
+                    edit.MemberType |= MemberType.Coach;
+                if (Volunteer)
+                    edit.MemberType |= MemberType.Volunteer;
+                if (Referee)
+                    edit.MemberType |= MemberType.Referee;
+                if (Official)
+                    edit.MemberType |= MemberType.Official;
+                
 
                 if (!String.IsNullOrEmpty(member.Website))
                 {

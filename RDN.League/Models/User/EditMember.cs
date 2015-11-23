@@ -61,7 +61,7 @@ namespace RDN.League.Models.User
         public Guid LeagueId { get; set; }
         public string LeagueName { get; set; }
         public string PhoneNumber { get; set; }
-
+        public MemberType MemberType { get; set; } 
         public int Country { get; set; }
         public SelectList Countries { get; set; }
 

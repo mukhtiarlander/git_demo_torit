@@ -1,4 +1,5 @@
 ﻿@using RDN.Portable.Classes.Account.Classes;
+@using RDN.Portable.Classes.Account.Enums
 @model MemberDisplay
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -105,10 +106,18 @@
                 </div>
 
             </div>
-
-
-
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">Member Type</div>
+                    <div class="panel-body">
+                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName((MemberType)Model.MemberType)
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div role="tabpanel" class="tab-pane  well " id="membership">

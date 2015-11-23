@@ -11,6 +11,7 @@ namespace RDN.Portable.Classes.League.Enums
         Team = 1,
         Group = 2,
         Committee = 3,
-        Referees = 4
+        Referees = 4,
+        Coaches = 5
     }
 }
