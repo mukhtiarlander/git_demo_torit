@@ -73,7 +73,7 @@ namespace RDN.Library.Cache
         public List<LeagueGroup> LeagueGroups { get; set; }
         public List<Tournament> Tournaments { get; set; }
         public List<MemberDisplayBasic> MemberIdsForUserNames { get; set; }
-        public List<Common.Site.Classes.Configations.SiteConfiguration> SiteConfiguration{set;get;}
+        public List<Common.Site.Classes.Configations.SiteConfiguration> SiteConfiguration { set; get; }
 
         public static Document GetDocument(Guid documentId)
         {
@@ -1295,14 +1295,22 @@ namespace RDN.Library.Cache
         {
             try
             {
-                var cached = GetCache(HttpContext.Current.Cache);
-                if (cached.SiteConfiguration == null || cached.SiteConfiguration.Count()==0)
+                if (HttpContext.Current != null)
                 {
-                    Common.Site.Classes.Configations.ConfigurationManager configManager=new ConfigurationManager();
-                    cached.SiteConfiguration = configManager.GetConfigurations();                  
-                    UpdateCache(cached);
+                    var cached = GetCache(HttpContext.Current.Cache);
+                    if (cached.SiteConfiguration == null || cached.SiteConfiguration.Count() == 0)
+                    {
+                        Common.Site.Classes.Configations.ConfigurationManager configManager = new ConfigurationManager();
+                        cached.SiteConfiguration = configManager.GetConfigurations();
+                        UpdateCache(cached);
+                    }
+                    return cached.SiteConfiguration;
                 }
-                return cached.SiteConfiguration;
+                else
+                {
+                    Common.Site.Classes.Configations.ConfigurationManager configManager = new ConfigurationManager();
+                    return configManager.GetConfigurations();
+                }
             }
             catch (Exception e)
             {
@@ -1313,7 +1321,7 @@ namespace RDN.Library.Cache
 
         public static string GetConfigurationValue(string key)
         {
-           return GetConfiguration().Where(item=>item.Key==key).FirstOrDefault().Value;
+            return GetConfiguration().Where(item => item.Key == key).FirstOrDefault().Value;
         }
     }
 }

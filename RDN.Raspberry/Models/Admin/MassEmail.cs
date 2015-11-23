@@ -19,7 +19,8 @@ namespace RDN.Raspberry.Models.Admin
         AllLeaguesThatDontExistWithinSite = 8,
         AllLeagueOwners = 9,
         AllEmailsToSendMontlyUpdatesTo = 10,
-        Role = 11
+        Role = 11,
+        SubscribersAndWebScraped = 12
     }
 
     public class MassEmail

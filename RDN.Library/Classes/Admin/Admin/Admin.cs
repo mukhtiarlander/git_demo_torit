@@ -61,19 +61,19 @@ namespace RDN.Library.Classes.Admin.Admin
             var dc = new ManagementContext();
             var leagues = dc.ContactLeagues.Include("Country").Include("LeagueAddresses").Include("LeagueAssociation").Include("LeagueType").OrderBy(x => x.Country.Name).OrderBy(x => x.Name).Skip(recordsToSkip).Take(numberOfRecordsToPull).ToList();
             return leagues.Select(league => new ContactLeague
-                                                {
-                                                    Addresses = league.LeagueAddresses.Select(x => new ContactLeagueAddress { Email = x.EmailAddress, IsMain = x.IsMain }).ToList(),
-                                                    Association = string.Format("({0}) {1}", league.LeagueAssociation.Short, league.LeagueAssociation.Name),
-                                                    City = league.City,
-                                                    Country = league.Country.Name,
-                                                    Created = league.Created,
-                                                    Facebook = league.Facebook,
-                                                    HomePage = league.HomePage,
-                                                    LeagueId = league.LeagueId,
-                                                    LeagueType = string.Format("({0}) {1}", league.LeagueType.Short, league.LeagueType.Name),
-                                                    Name = league.Name,
-                                                    Comment = league.Comments
-                                                }).ToList();
+            {
+                Addresses = league.LeagueAddresses.Select(x => new ContactLeagueAddress { Email = x.EmailAddress, IsMain = x.IsMain }).ToList(),
+                Association = string.Format("({0}) {1}", league.LeagueAssociation.Short, league.LeagueAssociation.Name),
+                City = league.City,
+                Country = league.Country.Name,
+                Created = league.Created,
+                Facebook = league.Facebook,
+                HomePage = league.HomePage,
+                LeagueId = league.LeagueId,
+                LeagueType = string.Format("({0}) {1}", league.LeagueType.Short, league.LeagueType.Name),
+                Name = league.Name,
+                Comment = league.Comments
+            }).ToList();
         }
 
         public static CreateLeagueContactEnum CreateContactLeague(string name, string associationIdRaw, string leagueTypeIdRaw, string countryIdRaw, string state, string city, string homePage, string facebook, string primaryEmails, string emails, string comments)
@@ -88,17 +88,17 @@ namespace RDN.Library.Classes.Admin.Admin
             var type = dc.ContactLeagueTypes.FirstOrDefault(x => x.LeagueTypeId.Equals(leagueTypeId));
 
             var contactLeague = new Library.DataModels.Admin.LeagueContacts.ContactLeague
-                                    {
-                                        City = city,
-                                        Comments = comments,
-                                        Country = country,
-                                        Facebook = facebook,
-                                        HomePage = homePage,
-                                        Name = name,
-                                        LeagueAssociation = association,
-                                        LeagueType = type,
-                                        State = state
-                                    };
+            {
+                City = city,
+                Comments = comments,
+                Country = country,
+                Facebook = facebook,
+                HomePage = homePage,
+                Name = name,
+                LeagueAssociation = association,
+                LeagueType = type,
+                State = state
+            };
 
             if (!string.IsNullOrEmpty(primaryEmails))
             {
@@ -217,6 +217,50 @@ namespace RDN.Library.Classes.Admin.Admin
                 EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, testEmail, LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                 return true;
             }
+        }
+
+
+        public static bool SendToSubscribersAndWebScrapedList(string subject, string body, string testEmail)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var UnSubscribedEmails = dc.NonSubscribersList.Select(x => x.EmailToRemoveFromList.ToLower()).ToList();
+
+                var emails = new List<String>();
+
+                var email10 = dc.SubscribersList.Where(x => x.EmailToAddToList.Length > 2).Select(x => x.EmailToAddToList.ToLower()).ToList();
+                emails.AddRange(email10);
+
+                emails = emails.Distinct().ToList();
+                for (int i = 0; i < emails.Count; i++)
+                {
+                    try
+                    {
+
+                        if (!UnSubscribedEmails.Contains(emails[i].Trim()))
+                        {
+                            if (Utilities.EmailValidator.Validate(emails[i]))
+                            {
+                                var emailData = new Dictionary<string, string> { { "body", body } };
+
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emails[i], LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ErrorDatabaseManager.AddException(e, e.GetType(), errorGroup: ErrorGroupEnum.Database, additionalInformation: emails[i] + ":" + i);
+                    }
+
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                ErrorDatabaseManager.AddException(e, e.GetType(), errorGroup: ErrorGroupEnum.Database);
+            }
+            return false;
         }
 
         public static bool SendMassEmailsForMonthlyBroadcasts(string subject, string body, string testEmail)
