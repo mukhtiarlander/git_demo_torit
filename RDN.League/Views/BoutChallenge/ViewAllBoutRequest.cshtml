@@ -23,7 +23,7 @@
             <div class="col-xs-6 text-right">
                 @if (isAdminOfLeague)
                 {
-                    <a class="btn btn-sm btn-primary margin-top-5" title="Add Members" href="@Url.Content("~/boutchallenge/add/request")">
+                    <a class="btn btn-sm btn-primary margin-top-5" title="Add Members" href="@Url.Content("~/gamechallenge/add/request")">
                         <i class="fa fa-plus-circle"></i> Request
                     </a>
                 }
@@ -63,11 +63,11 @@
                         <td>
                             @if (isAdminOfLeague && leagueId == b.LeagueId)
                             {
-                                <a class="btn btn-xs btn-success" href="@Url.Content("~/boutchallenge/edit/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit </a> <a class="btn btn-xs btn-info" href="@Url.Content("~/boutchallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+                                <a class="btn btn-xs btn-success" href="@Url.Content("~/gamechallenge/edit/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit </a> <a class="btn btn-xs btn-info" href="@Url.Content("~/gamechallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
                             }
                             else
                             {
-                                <a class="btn btn-xs btn-info" href="@Url.Content("~/boutchallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+                                <a class="btn btn-xs btn-info" href="@Url.Content("~/gamechallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
                             }
                         </td>
 

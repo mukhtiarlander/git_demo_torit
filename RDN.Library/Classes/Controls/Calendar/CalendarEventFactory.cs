@@ -43,7 +43,7 @@ namespace RDN.Library.Classes.Calendar
         {
         }
 
-        public static Guid UpdateEventReOcurring(Guid calId, Guid reoccurringEventId, DateTime startDate, DateTime endDate, Guid locationId, string eventName, string link, string notes, bool AllowSelfCheckIn, FrequencyTypeEnum repeatFrequencySelected, bool sunday, bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, EndsWhenReoccuringEnum endsWhen, DateTime endsOnDateReoccuring, long selectedEventTypeId, int monthlyIntervalId, string hexColor, bool isEventPublic, List<long> groupIds, Guid memId)
+        public static Guid UpdateEventReOcurring(Guid calId, Guid reoccurringEventId, DateTime startDate, DateTime endDate, Guid locationId, string eventName, string link, string notes, bool AllowSelfCheckIn, FrequencyTypeEnum repeatFrequencySelected, bool sunday, bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, EndsWhenReoccuringEnum endsWhen, int endsOnOcurrences, DateTime endsOnDateReoccuring, long selectedEventTypeId, int monthlyIntervalId, string hexColor, bool isEventPublic, List<long> groupIds, Guid memId)
         {
             bool editColorsOfAllEvents = false;
             bool editGroupsOfAllEvents = false;
@@ -56,21 +56,44 @@ namespace RDN.Library.Classes.Calendar
                 ev.LastDateEventsWereCreated = startDate.AddDays(-1);
                 try
                 {
+                    //need to know how many days so we can know when to end the reoccuring event in the calendar
+                    int howManyDays = 0;
                     int daysOfWeek = 0;
                     if (sunday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Sun;
+                    }
                     if (monday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Mon;
+                    }
                     if (tuesday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Tue;
+                    }
                     if (wednesday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Wed;
+                    }
                     if (thursday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Thu;
+                    }
                     if (friday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Fri;
+                    }
                     if (saturday)
+                    {
+                        howManyDays += 1;
                         daysOfWeek += (int)DayOfWeekEnum.Sat;
+                    }
 
                     ScheduleWidget.ScheduledEvents.Event aEvent = null;
                     if (repeatFrequencySelected == FrequencyTypeEnum.Monthly)
@@ -98,19 +121,24 @@ namespace RDN.Library.Classes.Calendar
 
                     if (endsWhen == EndsWhenReoccuringEnum.Never)
                     {
-                        ev.EndReocurring = DateTime.UtcNow.AddYears(1);
+                        ev.EndReocurring = DateTime.UtcNow.AddYears(2);
+                    }
+                    else if (endsWhen == EndsWhenReoccuringEnum.After)
+                    {
+                        if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Daily)
+                            ev.EndReocurring = startDate.AddDays(endsOnOcurrences);
+                        else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Monthly)
+                            ev.EndReocurring = startDate.AddMonths(endsOnOcurrences);
+                        else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Weekly)
+                        {
+                            int daysToAdd = (endsOnOcurrences / howManyDays) * 7;
+                            
+                            ev.EndReocurring = startDate.AddDays(daysToAdd);
+                        }
                     }
                     else if (endsWhen == EndsWhenReoccuringEnum.On)
                     {
-                        if (endsOnDateReoccuring != new DateTime())
-                            ev.EndReocurring = endsOnDateReoccuring;
-                        else
-                        {
-                            //if this breaks, then the if statement above is wrong... Must change to match
-                            //1/1/0001 12:00:00 AM
-                            ErrorDatabaseManager.AddException(new Exception("NewDateTime" + new DateTime()), new Exception().GetType(), additionalInformation: startDate + " " + endDate + " " + endsOnDateReoccuring + " " + endsWhen.ToString());
-                            ev.EndReocurring = null;
-                        }
+                        ev.EndReocurring = endsOnDateReoccuring;
                     }
                     // we delete all the events if the reoccuring event is modified.
                     //so that we have a fresh date.
@@ -196,10 +224,6 @@ namespace RDN.Library.Classes.Calendar
 
                     ev.EventType = dc.CalendarEventTypes.Where(x => x.CalendarEventTypeId == selectedEventTypeId && x.IsRemoved == false).FirstOrDefault();
 
-
-
-
-
                     if (editColorsOfAllEvents)
                     {
                         foreach (var eventReoccure in ev.ReoccuringEvents.Where(x => x.IsRemovedFromCalendar == false))
@@ -236,7 +260,8 @@ namespace RDN.Library.Classes.Calendar
                         else
                             range.EndDateTime = endDate.AddMonths(1);
 
-                        foreach (var date in schedule.Occurrences(range))
+                        var occurences = schedule.Occurrences(range).ToList();
+                        foreach (var date in occurences)
                         {
 
                             DateTime endDateEv = new DateTime();
@@ -517,6 +542,8 @@ namespace RDN.Library.Classes.Calendar
                     ev.EndDateReoccurring = e.EndReocurring.GetValueOrDefault();
                     ev.EndDateReoccurringDisplay = e.EndReocurring.GetValueOrDefault().ToShortDateString();
                 }
+
+                ev.OccurrencesTillEnd = aEvent.NumberOfOccurrencesThatWasLastSet.GetValueOrDefault();
                 ev.StartDateReoccurring = e.StartReocurring;
                 ev.StartDateReoccurringDisplay = e.StartReocurring.ToShortDateString() + " " + e.StartReocurring.ToShortTimeString();
                 ev.EventReoccurring = aEvent;
@@ -1556,21 +1583,21 @@ namespace RDN.Library.Classes.Calendar
                 if (repeatFrequencySelected == FrequencyTypeEnum.Monthly)
                 {
                     aEvent = new ScheduleWidget.ScheduledEvents.Event()
-                   {
-                       Title = eventName,
-                       FrequencyTypeOptions = repeatFrequencySelected,
-                       DaysOfWeek = daysOfWeek,
-                       MonthlyInterval = monthlyIntervalId
-                   };
+                    {
+                        Title = eventName,
+                        FrequencyTypeOptions = repeatFrequencySelected,
+                        DaysOfWeek = daysOfWeek,
+                        MonthlyInterval = monthlyIntervalId
+                    };
                 }
                 else
                 {
                     aEvent = new ScheduleWidget.ScheduledEvents.Event()
-                   {
-                       Title = eventName,
-                       FrequencyTypeOptions = repeatFrequencySelected,
-                       DaysOfWeek = daysOfWeek
-                   };
+                    {
+                        Title = eventName,
+                        FrequencyTypeOptions = repeatFrequencySelected,
+                        DaysOfWeek = daysOfWeek
+                    };
 
                     if (repeatFrequencySelected == FrequencyTypeEnum.Yearly)
                         aEvent.Anniversary = new Anniversary() { Day = DateTime.Now.Day, Month = DateTime.Now.Month };
@@ -1861,7 +1888,7 @@ namespace RDN.Library.Classes.Calendar
                         {
                             RDN.Portable.Classes.Controls.Calendar.CalendarAttendance a = new RDN.Portable.Classes.Controls.Calendar.CalendarAttendance();
                             a.MemberId = mem.MemberId;
-                            a.DerbyName= mem.DerbyName;
+                            a.DerbyName = mem.DerbyName;
                             if (calEvent.MembersApartOfEvent.Where(x => x.MemberId == a.MemberId).FirstOrDefault() == null)
                                 calEvent.MembersApartOfEvent.Add(a);
                         }

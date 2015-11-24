@@ -1214,30 +1214,25 @@ namespace RDN.League.Controllers
 
                 foreach (var mem in mems)
                 {
-
-
                     var memObj = new SkaterJson { DerbyName = mem.DerbyName };
-
-                    if (mem.ContactCard != null && mem.ContactCard.Addresses.FirstOrDefault() != null)
+                    if (mem.Settings == null || !mem.Settings.Hide_Address_From_League || isAdminOfLeague)
                     {
-                        var add = mem.ContactCard.Addresses.FirstOrDefault();
-
-                        //check to see login user is accessible to see Address then provide its respective values                        
-                        if (!mem.Settings.Hide_Address_From_League && isAdminOfLeague)
+                        if (mem.ContactCard != null && mem.ContactCard.Addresses.FirstOrDefault() != null)
                         {
+                            var add = mem.ContactCard.Addresses.FirstOrDefault();
+
                             memObj.Address1 = add.Address1;
                             memObj.Address2 = add.Address2;
-                        }
+                            memObj.City = add.CityRaw;
+                            memObj.State = add.StateRaw;
+                            memObj.Zip = add.Zip;
 
-                        memObj.City = add.CityRaw;
-                        memObj.State = add.StateRaw;
-                        memObj.Zip = add.Zip;
-
-                        memObj.Country = add.Country;
-                        if (add.Coords != null)
-                        {
-                            memObj.Latitude = add.Coords.Latitude.ToString();
-                            memObj.Longitude = add.Coords.Longitude.ToString();
+                            memObj.Country = add.Country;
+                            if (add.Coords != null)
+                            {
+                                memObj.Latitude = add.Coords.Latitude.ToString();
+                                memObj.Longitude = add.Coords.Longitude.ToString();
+                            }
                         }
                     }
                     var photo = mem.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault();
@@ -1247,10 +1242,7 @@ namespace RDN.League.Controllers
                         memObj.ThumbUrl = photo.ImageThumbUrl;
                     }
                     Members.Add(memObj);
-
-
                 }
-
                 return View(Members);
             }
             catch (Exception exception)
@@ -1281,7 +1273,7 @@ namespace RDN.League.Controllers
                     model.ColumnsAvailable.Add(MembersReportEnum.Started_Playing_Date);
                     model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Name);
                 }
-                  
+
                 return View(model);
             }
             catch (Exception exception)

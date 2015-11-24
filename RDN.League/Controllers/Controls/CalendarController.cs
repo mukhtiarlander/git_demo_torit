@@ -262,7 +262,7 @@ namespace RDN.League.Controllers
                 else
                     cal.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)cal.RepeatsFrequencySelectedId));
 
-                cal.EndsOccurences = "0";
+                cal.EndsOccurences = 1;
                 List<string> repeatCount = new List<string>();
                 for (int i = 1; i < 50; i++)
                 {
@@ -306,7 +306,7 @@ namespace RDN.League.Controllers
                     monthlyIntervalId = Convert.ToInt32(eventUpdated.MonthlyIntervalId);
                 FrequencyTypeEnum frequency = (FrequencyTypeEnum)Enum.Parse(typeof(FrequencyTypeEnum), eventUpdated.RepeatsFrequencySelectedId);
                 EndsWhenReoccuringEnum endsWhenn = (EndsWhenReoccuringEnum)Enum.Parse(typeof(EndsWhenReoccuringEnum), eventUpdated.EndsWhen);
-                var calEvent = CalendarEventFactory.UpdateEventReOcurring(eventUpdated.CalendarId, eventUpdated.CalendarItemId, Convert.ToDateTime(eventUpdated.StartDateDisplay), Convert.ToDateTime(eventUpdated.EndDateDisplay), new Guid(eventUpdated.SelectedLocationId), eventUpdated.Name, eventUpdated.Link, eventUpdated.Notes, eventUpdated.AllowSelfCheckIn, frequency, eventUpdated.IsSunday, eventUpdated.IsMonday, eventUpdated.IsTuesday, eventUpdated.IsWednesday, eventUpdated.IsThursday, eventUpdated.IsFriday, eventUpdated.IsSaturday, endsWhenn, endsWhenn == EndsWhenReoccuringEnum.On ? Convert.ToDateTime(eventUpdated.EndsDate) : new DateTime(), Convert.ToInt64(eventUpdated.SelectedEventTypeId), monthlyIntervalId, eventUpdated.ColorTempSelected, eventUpdated.IsPublicEvent, listOfGroupIds, memId);
+                var calEvent = CalendarEventFactory.UpdateEventReOcurring(eventUpdated.CalendarId, eventUpdated.CalendarItemId, Convert.ToDateTime(eventUpdated.StartDateDisplay), Convert.ToDateTime(eventUpdated.EndDateDisplay), new Guid(eventUpdated.SelectedLocationId), eventUpdated.Name, eventUpdated.Link, eventUpdated.Notes, eventUpdated.AllowSelfCheckIn, frequency, eventUpdated.IsSunday, eventUpdated.IsMonday, eventUpdated.IsTuesday, eventUpdated.IsWednesday, eventUpdated.IsThursday, eventUpdated.IsFriday, eventUpdated.IsSaturday, endsWhenn, eventUpdated.EndsOccurences, endsWhenn == EndsWhenReoccuringEnum.On ? Convert.ToDateTime(eventUpdated.EndsDate) : new DateTime(), Convert.ToInt64(eventUpdated.SelectedEventTypeId), monthlyIntervalId, eventUpdated.ColorTempSelected, eventUpdated.IsPublicEvent, listOfGroupIds, memId);
                 if (MemberCache.GetCalendarDefaultView(memId) == CalendarDefaultViewEnum.List_View)
                     return Redirect(Url.Content("~/calendar/" + eventUpdated.CalendarType + "/" + eventUpdated.CalendarId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.re));
                 else
@@ -359,6 +359,9 @@ namespace RDN.League.Controllers
 
                 var repeatsFrequency = (from ScheduleWidget.Enums.FrequencyTypeEnum d in Enum.GetValues(typeof(ScheduleWidget.Enums.FrequencyTypeEnum))
                                         where d.ToString() != "None"
+                                        where d.ToString() != "EveryWeekDay"
+                                        where d.ToString() != "EveryMonWedFri"
+                                        where d.ToString() != "EveryTuTh"
                                         select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = FrequencyTypeEnum.Weekly == d });
                 if (String.IsNullOrEmpty(cal.RepeatsFrequencySelectedId))
                     cal.RepeatsFrequencyDropDown = new SelectList(repeatsFrequency, "Value", "Text", ((object)2));
@@ -372,7 +375,7 @@ namespace RDN.League.Controllers
                 else
                     cal.MonthlyInterval = new SelectList(montlhyInterval, "Value", "Text", ((object)cal.MonthlyIntervalId));
 
-                cal.EndsOccurences = "0";
+                cal.EndsOccurences = calEvent.OccurrencesTillEnd;
                 List<string> repeatCount = new List<string>();
                 for (int i = 1; i < 50; i++)
                 {
@@ -856,7 +859,7 @@ namespace RDN.League.Controllers
                                        select new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString(), Selected = MonthlyIntervalEnum.First == d });
                 post.MonthlyInterval = new SelectList(montlhyInterval, "Value", "Text", ((object)1));
 
-                post.EndsOccurences = "0";
+                post.EndsOccurences = 0;
                 List<string> repeatCount = new List<string>();
                 for (int i = 1; i < 50; i++)
                 {

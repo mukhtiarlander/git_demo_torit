@@ -150,8 +150,9 @@
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ScheduleWidget">
-      <HintPath>..\packages\ScheduleWidget.2.4.0\lib\NET40\ScheduleWidget.dll</HintPath>
+    <Reference Include="ScheduleWidget, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScheduleWidget.2.5.0\lib\NET40\ScheduleWidget.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stripe.net, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

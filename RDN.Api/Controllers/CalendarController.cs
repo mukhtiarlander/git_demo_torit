@@ -265,7 +265,7 @@ namespace RDN.Api.Controllers
                                 break;
                         }
 
-                        var calEvent = CalendarEventFactory.UpdateEventReOcurring(ob.CalendarId, ob.CalendarItemId, ob.StartDate, ob.EndDate, ob.Location.LocationId, ob.Name, ob.Link, ob.Notes, ob.AllowSelfCheckIn, frequency, ob.IsSunday, ob.IsMonday, ob.IsTuesday, ob.IsWednesday, ob.IsThursday, ob.IsFriday, ob.IsSaturday, ob.EndsWhenReoccuringEnum, ob.EndsWhenReoccuringEnum == EndsWhenReoccuringEnum.On ? Convert.ToDateTime(ob.EndDateReoccurring) : new DateTime(), ob.EventType.CalendarEventTypeId, 0, ob.ColorTempSelected, ob.IsPublicEvent, ob.GroupsForEvent.Select(x => x.Id).ToList(), mem.MemberId);
+                        var calEvent = CalendarEventFactory.UpdateEventReOcurring(ob.CalendarId, ob.CalendarItemId, ob.StartDate, ob.EndDate, ob.Location.LocationId, ob.Name, ob.Link, ob.Notes, ob.AllowSelfCheckIn, frequency, ob.IsSunday, ob.IsMonday, ob.IsTuesday, ob.IsWednesday, ob.IsThursday, ob.IsFriday, ob.IsSaturday, ob.EndsWhenReoccuringEnum, ob.OccurrencesTillEnd, ob.EndsWhenReoccuringEnum == EndsWhenReoccuringEnum.On ? Convert.ToDateTime(ob.EndDateReoccurring) : new DateTime(), ob.EventType.CalendarEventTypeId, 0, ob.ColorTempSelected, ob.IsPublicEvent, ob.GroupsForEvent.Select(x => x.Id).ToList(), mem.MemberId);
                         ob.IsSuccessful = true;
                         return Json(ob, JsonRequestBehavior.AllowGet);
                     }

@@ -70,7 +70,7 @@ namespace RDN.League.Controllers.League
                 var executeId = RequestFactory.Add_New_Request(oRequest);
                 ManagementCache.AddOfficiatingRequestsCount(1);
 
-                
+                try { 
                 var token = FacebookData.GetLatestAccessToken();
 
                 FacebookFactory.Initialize(token).GetPageAuthorization(Library.Classes.Config.LibraryConfig.FacebookPageName2, Library.Classes.Config.LibraryConfig.FacebookPageId2)
@@ -80,7 +80,11 @@ namespace RDN.League.Controllers.League
                 TwitterManager.Initialize(Library.Classes.Config.LibraryConfig.TwitterConsumerKey, Library.Classes.Config.LibraryConfig.TwitterConsumerSecret, Library.Classes.Config.LibraryConfig.TwitterToken, Library.Classes.Config.LibraryConfig.TwitterTokenSecret)
                           .SendMessage("Officials Request: " + oRequest.TeamsPlaying + " @ " + oRequest.Date.GetValueOrDefault().ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/officiating-requests/view/" + executeId);
 
-
+                }
+                catch (Exception exception)
+                {
+                    ErrorDatabaseManager.AddException(exception, exception.GetType());
+                }
 
 
             }

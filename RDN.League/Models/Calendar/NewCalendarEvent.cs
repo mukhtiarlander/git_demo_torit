@@ -48,7 +48,7 @@ namespace RDN.League.Models.Calendar
         //ends on and after dates
         public string EndsWhen { get; set; }
         public string EndsDate { get; set; }
-        public string EndsOccurences { get; set; }
+        public int EndsOccurences { get; set; }
         public Guid LeagueId { get; set; }
         public SelectList ColorList { get; set; }
 

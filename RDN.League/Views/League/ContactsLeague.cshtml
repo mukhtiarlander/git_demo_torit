@@ -54,7 +54,7 @@
                     <tr>
                         <td>
 
-                            @if (Model.Contacts[i].IsViewableToLeagueMember)
+                            @if (Model.Contacts[i].IsViewableToLeagueMember || isAdminOfLeague)
                             {
                                 <a class="btn btn-xs btn-info" href="@Url.Content("~/contact/view/" + Model.Contacts[i].ContactType + "/" + Model.Contacts[i].ContactId.ToString().Replace("-", ""))"
                                    data-toggle="tooltip" data-placement="top" title="View Contact">
