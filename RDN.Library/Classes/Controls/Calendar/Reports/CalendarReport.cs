@@ -32,6 +32,8 @@ namespace RDN.Library.Classes.Calendar.Report
         public int TotalPointsAllowed { get; set; }
         public int TotalEventsCount { get; set; }
 
+        public bool HideReport { get; set; }
+
         public List<EventTypeForReport> EventTypesReport { get; set; }
         public MembersReport MemberReport { get; set; }
 
@@ -96,14 +98,23 @@ namespace RDN.Library.Classes.Calendar.Report
                 report.TotalPointsAllowed = 0;
                 TimeSpan daysReporting = endDate - startDate;
                 report.DaysBackwards = daysReporting.Days;
-
+                report.HideReport = cal.HideReport;
 
                 report.NotPresentForCheckIn = cal.NotPresentCheckIn;
                 List<DataModels.Calendar.CalendarEvent> events = new List<DataModels.Calendar.CalendarEvent>();
                 List<MemberDisplay> members = new List<MemberDisplay>();
                 if (group == 0) //no grops were selected
                 {
-                    members = MemberCache.GetLeagueMembers(memId, leagueId);
+                    if (cal.HideReport)
+                    {
+                        var member = MemberCache.GetMemberDisplay(memId);
+                        members.Add(member);
+                    }
+                    else
+                    {
+                        members = MemberCache.GetLeagueMembers(memId, leagueId);
+                    }
+                   
                     events = cal.CalendarEvents.Where(x => x.IsInUTCTime).Where(x => x.StartDate >= startDateUtc).Where(x => x.EndDate < endDateUtc).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList();
                     events.AddRange(cal.CalendarEvents.Where(x => x.IsInUTCTime == false).Where(x => x.StartDate >= report.StartDateSelected).Where(x => x.EndDate < report.EndDateSelected).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList());
                 }
@@ -197,6 +208,7 @@ namespace RDN.Library.Classes.Calendar.Report
 
                 report.Attendees = report.Attendees.OrderBy(x => x.SiteName).ToList();
                 report.TotalEventsCount = report.Events.Count;
+                
             }
             catch (Exception exception)
             {

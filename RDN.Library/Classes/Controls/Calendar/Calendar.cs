@@ -808,6 +808,7 @@ namespace RDN.Library.Classes.Calendar
                 cal.NotPresentCheckIn = calendar.NotPresentCheckIn;
                 cal.DisableStartSkatingDays = calendar.DisableSkatingStartDates;
                 cal.DisableBirthdaysFromShowing = calendar.DisableBirthdays;
+                cal.HideReport = calendar.HideReport;
                 cal.TimeZoneSelection = dc.TimeZone.Where(x => x.ZoneId == calendar.TimeZoneId).FirstOrDefault();
                 if (cal.TimeZoneSelection != null)
                     cal.TimeZone = cal.TimeZoneSelection.GMTOffset;
@@ -947,7 +948,8 @@ namespace RDN.Library.Classes.Calendar
                                  xx.CalendarImportTypeEnum,
                                  xx.TimeZone,
                                  xx.TimeZoneSelection,
-                                 xx.IsCalendarInUTC
+                                 xx.IsCalendarInUTC,
+                                 xx.HideReport
                              }).FirstOrDefault();
 
                 if (calDb == null)
@@ -964,8 +966,9 @@ namespace RDN.Library.Classes.Calendar
                 if (calDb.TimeZoneSelection != null)
                     newCal.TimeZoneId = calDb.TimeZoneSelection.ZoneId;
                 newCal.TimeZone = (int)calDb.TimeZone;
-
+                newCal.HideReport = calDb.HideReport;
                 newCal.TimeZones = Classes.Location.TimeZoneFactory.GetTimeZones();
+           
 
                 newCal.IsCalendarInUTC = calDb.IsCalendarInUTC;
 
@@ -1203,6 +1206,12 @@ namespace RDN.Library.Classes.Calendar
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return new Guid();
+        }
+
+        public static bool IsCalendarHide(Guid CalendarId)
+        {
+            var dc = new ManagementContext();
+            return dc.Calendar.First(x => x.CalendarId == CalendarId).HideReport;
         }
     }
 }

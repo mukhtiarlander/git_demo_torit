@@ -93,6 +93,10 @@ namespace RDN.Portable.Classes.Controls.Calendar
         [DataMember]
         public Guid UserId { get; set; }
 
+        [ProtoMember(23)]
+        [DataMember]
+        public bool HideReport { get; set; }
+
         
 
         public Calendar()
