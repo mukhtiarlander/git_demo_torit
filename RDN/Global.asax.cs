@@ -66,13 +66,13 @@ namespace RDN
             routes.MapRoute(
               "tournamentHome", // Route name
               "{rollerderbytournament}/{id}/{name}", // URL with parameters
-              new { controller = "Tournament", action = "TournamentHome"}, // Parameter defaults
+              new { controller = "Tournament", action = "TournamentHome" }, // Parameter defaults
               new { rollerderbytournament = "(roller-derby|soccer)-tournament", id = "[a-zA-Z0-9]+" }
           );
             routes.MapRoute(
           "tournaments", // Route name
           "{url}", // URL with parameters
-          new { controller = "Tournament", action = "Tournaments" } ,
+          new { controller = "Tournament", action = "Tournaments" },
             new { url = "(roller-derby|soccer)-tournaments" });
 
             routes.MapRoute(
@@ -103,7 +103,7 @@ namespace RDN
             routes.MapRoute(
               "Gameid", // Route name
               "{url}/{id}", // URL with parameters
-              new { controller = "Game", action = "Index"},  // Parameter defaults
+              new { controller = "Game", action = "Index" },  // Parameter defaults
               new { url = "(roller-derby|soccer)-game", id = "[a-zA-Z0-9]+" }
           );
 
@@ -118,7 +118,7 @@ namespace RDN
             routes.MapRoute(
                 "Games", // Route name
                 "{url}", // URL with parameters
-                new { controller = "Games", action = "Index", id = UrlParameter.Optional } ,
+                new { controller = "Games", action = "Index", id = UrlParameter.Optional },
                 new { url = "(roller-derby|soccer)-games" }
             );
 
@@ -137,11 +137,11 @@ namespace RDN
             routes.MapRoute(
    "ViewRequest", // Route name
    "officiating-requests/view/{id}", // URL with parameters
-   new { controller = "Games", action = "ViewRequest" } 
+   new { controller = "Games", action = "ViewRequest" }
 );
             routes.MapRoute(
    "ViewAllChallenges",
-   "{url}/view/all", 
+   "{url}/view/all",
    new { controller = "Games", action = "AllBoutList" },
    new { url = "(bout|game)-challenge" }
 );
@@ -149,7 +149,7 @@ namespace RDN
    "ViewChallengeDetails", // Route name
    "{url}/view/{ChallengeId}",
    new { controller = "Games", action = "ViewBoutEvent" },
-   new { url = "(bout|game)-challenge" } 
+   new { url = "(bout|game)-challenge" }
 );
 
 
@@ -253,7 +253,7 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             routes.MapRoute(
             "AllLogos", // Route name
             "{url}", // URL with parameters
-            new { controller = "PublicLogos", action = "AllLogos" } ,
+            new { controller = "PublicLogos", action = "AllLogos" },
             new { url = "(roller-derby|soccer)-logos" }
                     );
 
@@ -355,6 +355,15 @@ new { controller = "Home", action = "Error" } // Parameter defaults
 
             #endregion
 
+            #region email
+
+            routes.MapRoute(
+       "UnSubscribe", // Route name
+       "email/unsubscribe/{email}/{listType}/{id}", // URL with parameters
+       new { controller = "Email", action = "UnSubscribe" } // Parameter defaults
+               );
+            #endregion
+
             routes.MapRoute(
              "Default", // Route name
              "{action}", // URL with parameters
@@ -376,14 +385,14 @@ new { controller = "Home", action = "Error" } // Parameter defaults
  new { controller = "BruiseBash", action = "Index" } // Parameter defaults
  );
             routes.MapRoute(
-                //bruisebase/about
+//bruisebase/about
 "BruiseBash", // Route name
 "bruisebash/{action}", // URL with parameters
 new { controller = "BruiseBash", action = "Index" } // Parameter defaults
 );
 
             routes.MapRoute(
-                //bruisebase/about
+//bruisebase/about
 "BruiseBashViewBruise", // Route name
 "bruisebash/bruise/{id}/{title}", // URL with parameters
 new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
@@ -415,7 +424,7 @@ new { controller = "BruiseBash", action = "ViewBruise" } // Parameter defaults
         {
             string url = HttpContext.Current.Request.Url.AbsoluteUri;
             // Code that runs when an unhandled error occurs
-            if (!url.Contains("wiki." +LibraryConfig.MainDomain ) && !url.Contains("Utilities/AddNodeToSiteMap") && !url.Contains("com/member/register") && !url.Contains(".php") && !url.Contains(".cgi") && !url.Contains(".asp") && !url.Contains("blogs/load/recent") && !url.Contains("user/register") && !url.Contains("Scoreboard/Download"))
+            if (!url.Contains("wiki." + LibraryConfig.MainDomain) && !url.Contains("Utilities/AddNodeToSiteMap") && !url.Contains("com/member/register") && !url.Contains(".php") && !url.Contains(".cgi") && !url.Contains(".asp") && !url.Contains("blogs/load/recent") && !url.Contains("user/register") && !url.Contains("Scoreboard/Download"))
             {
                 // Get the exception object.
                 Exception exc = Server.GetLastError();

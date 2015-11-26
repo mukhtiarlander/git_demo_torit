@@ -156,7 +156,22 @@ namespace RDN.League.Controllers
                     ts = now.AddMonths(12) - DateTime.UtcNow;
                     lengthOfDays = ts.Days;
                 }
+                try
+                {
+                    var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.AddSubscriptionOwnerId);
 
+                    if (bi != null && bi.InvoiceId != Guid.Empty)
+                    {
+                        var result = pg.StartInvoiceWizard()
+                                .Initalize(LibraryConfig.SiteStoreID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
+                                .SetInvoiceId(bi.InvoiceId)
+                                .FinalizeInvoice();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ErrorDatabaseManager.AddException(exception, exception.GetType());
+                }
 
                 var f = pg.StartInvoiceWizard().Initalize(LibraryConfig.SiteStoreID, "USD", provider, LibraryConfig.IsProduction, ChargeTypeEnum.Subscription)
                     .SetInvoiceId(Guid.NewGuid())
@@ -190,17 +205,7 @@ namespace RDN.League.Controllers
                         .FinalizeInvoice();
 
                 //succesfully charged.
-                var bi = RDN.Library.Classes.Billing.Classes.LeagueBilling.GetCurrentBillingStatus(add.AddSubscriptionOwnerId);
 
-                if (bi != null && bi.InvoiceId != Guid.Empty)
-                {
-                    var result =
-                        pg.StartInvoiceWizard()
-                            .Initalize(LibraryConfig.SiteStoreID, "USD", PaymentProvider.Stripe,
-                                LibraryConfig.IsProduction, ChargeTypeEnum.Cancel_Subscription)
-                            .SetInvoiceId(bi.InvoiceId)
-                            .FinalizeInvoice();
-                }
                 //clears the member cache to update all cache repos of the league members.
                 MemberCache.ClearLeagueMembersCache(add.AddSubscriptionOwnerId);
                 MemberCache.ClearLeagueMembersApiCache(add.AddSubscriptionOwnerId);

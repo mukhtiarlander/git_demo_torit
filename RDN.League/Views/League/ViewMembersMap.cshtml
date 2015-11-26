@@ -4,10 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool isAdminOfLeague = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
-    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);    
-    
-  }
+    bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 
+}
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Members Map</li>
@@ -16,7 +15,7 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-12 col-sm-6">
-                <h3 style="margin-top:5px !important"><i class="fa fa-map-marker"></i> Members For @ViewBag.LeagueName</h3>
+                <h3 style="margin-top:5px !important"><i class="fa fa-map-marker"></i> Map of Members</h3>
             </div>
             <div class="col-xs-12 col-sm-6 text-right">
                 @if (isAdminOfLeague)
@@ -42,11 +41,11 @@
                 }
             </div>
         </div>
-        <div class="text-muted">Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName can be considered against the law in some countries.  Members only granted these rights to Managers of the league and not to anyone else.  Please stay within the law.</div>
+        
     </div>
     <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
-    </div>  
+    </div>
     <div class="panel-body">
         <div class="panel panel-default">
             <div class="panel-body no-padding">
@@ -76,23 +75,31 @@
                                 </td>
                                 <td> @(i + 1)<span>.</span></td>
                                 <td>
-                                    @Model[i].DerbyName                                
-                                
-                                 
-                                   @if (!String.IsNullOrEmpty(Model[i].Address1))
+                                    @Model[i].DerbyName
+
+
+                                    @if (!String.IsNullOrEmpty(Model[i].Address1))
                                     {
                                         <br />
                                         @Model[i].Address1 @Model[i].Address2
-                                        <br />
+
                                     }
-                                    @if(!String.IsNullOrEmpty(Model[i].City) &&!String.IsNullOrEmpty(Model[i].State) && !String.IsNullOrEmpty(Model[i].Zip)){
-                                    @Model[i].City @Model[i].State @Model[i].Zip
+                                    @if (!String.IsNullOrEmpty(Model[i].City) && !String.IsNullOrEmpty(Model[i].State) && !String.IsNullOrEmpty(Model[i].Zip))
+                                    {
+                                        <br />
+
+                                        <span>@Model[i].City,</span> @Model[i].State<span> </span>@Model[i].Zip
+                                    }
+                                    else if (!String.IsNullOrEmpty(Model[i].State) && !String.IsNullOrEmpty(Model[i].Zip))
+                                    {
+                                        <br />
+                                        @Model[i].State<span> </span>@Model[i].Zip
                                     }
                                     @if (!String.IsNullOrEmpty(Model[i].Latitude) && Model[i].Latitude != "0" && Model[i].Longitude != "0")
                                     {
 
                                         <script type="text/javascript">
-                                            $(document).ready(function () {                                                
+                                            $(document).ready(function () {
                                                 var memData = "@Model[i].DerbyName|@Model[i].Address1@Model[i].Address2|@Model[i].City|@Model[i].State|@Model[i].Zip|@Model[i].ThumbUrl||@Model[i].photoUrl";
                                                 createmarkerforMembers('@Model[i].Longitude', '@Model[i].Latitude', memData, '@(i + 1)');
                                             });

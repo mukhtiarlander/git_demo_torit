@@ -56,7 +56,17 @@
                         </button>
                         <div class="margin-bottom-20 margin-top-5">
                             <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 margin-bottom-10" style="background:none">
+                                @if (Model.GroupsForEvent.Count == 0)
+                                {
                                 <span class="label label-primary font12 padding-top-5">Entire League</span>
+                                }
+                                else
+                                {
+                                    foreach (var group in Model.GroupsForEvent)
+                                    {
+                                        <span class="label label-primary font12 padding-top-5">@group.GroupName</span>
+                                    }
+                                }
                             </div>
                             <div class="displayNone padding-left-10" id="groupMemberLists">
                                 <ul id="groupList" class="list-unstyled"></ul>

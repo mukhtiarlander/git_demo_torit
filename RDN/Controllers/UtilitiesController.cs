@@ -150,7 +150,7 @@ namespace RDN.Controllers
         {
             //don't want the sitemap to have lostpassword links.
             //Verify  Name
-            if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login"))
+            if (!url.Contains("%") && !url.Contains("c=") && !url.Contains("lostpassword") && !url.Contains("verifyname") && !url.Contains("receipt") && !url.Contains("returnsite") && !url.Contains("returnurl") && !url.Contains("problem.error") && !url.Contains("returnsite") && !url.Contains("login") && !url.Contains("email") && !url.Contains("@"))
                 SitemapHelper.AddNode(url, modified);
             return Json(new { answer = true }, JsonRequestBehavior.AllowGet);
         }

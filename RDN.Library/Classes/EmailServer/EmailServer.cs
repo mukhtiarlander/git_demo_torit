@@ -7,6 +7,7 @@ using RDN.Library.Classes.Error;
 using System;
 using Common.EmailServer.Library.Classes.Email;
 using RDN.Library.Classes.Config;
+using Common.EmailServer.Library.Classes.Subscription;
 
 namespace RDN.Library.Classes.EmailServer
 {
@@ -170,11 +171,14 @@ namespace RDN.Library.Classes.EmailServer
         public static bool AddEmailToUnsubscribeList(string email)
         {
             var dc = new ManagementContext();
+            var check = dc.NonSubscribersList.Where(x => x.EmailToRemoveFromList == email).FirstOrDefault();
+            if (check != null)
+                return true;
             NonSubscribersList non = new NonSubscribersList();
             non.EmailToRemoveFromList = email;
             dc.NonSubscribersList.Add(non);
-            dc.SaveChanges();
-            return true;
+            int c = dc.SaveChanges();
+            return c > 0;
         }
 
         public static bool AddEmailToSubscriberList(string email)
@@ -184,6 +188,15 @@ namespace RDN.Library.Classes.EmailServer
             non.EmailToAddToList = email;
             dc.SubscribersList.Add(non);
             dc.SaveChanges();
+            return true;
+        }
+
+        public static bool ValidateEmailOnSubscriptionList(long id, string email)
+        {
+            var dc = new ManagementContext();
+            var item = dc.SubscribersList.Where(x => x.UnSubscribeId == id && x.EmailToAddToList == email).FirstOrDefault();
+            if (item == null)
+                return false;
             return true;
         }
 
@@ -220,6 +233,20 @@ namespace RDN.Library.Classes.EmailServer
         /// <param name="properties">Email properties. Each property is defined as a key/value item. A property can for instance be body/{value] and then that will be parsed into the layout at the place of the %body% tag</param>
         /// <param name="layout">The layout name. For available names, open the database and look inside the table RDN_EmailServer_EmailLayouts</param>
         /// <param name="priority"></param>
+        public static bool SendEmail(string from, string displayNameFrom, Subscriber to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important, string databaseConnectionName = null)
+        {
+            try
+            {
+                if (!properties.ContainsKey("UnSubscribe"))
+                    properties.Add("UnSubscribe", "<a href=\"" + LibraryConfig.PublicSite + "/email/unsubscribe/" + to.Email + "/" + (long)to.ListType + "/" + to.SubscriberId + "\">UnSubscribe</a>");
+                return SendEmail(from, displayNameFrom, to.Email, subject, properties, layout, priority, databaseConnectionName);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: to.Email);
+            }
+            return false;
+        }
         public static bool SendEmail(string from, string displayNameFrom, string to, string subject, Dictionary<string, string> properties, EmailServerLayoutsEnum layout = EmailServerLayoutsEnum.Default, EmailPriority priority = EmailPriority.Important, string databaseConnectionName = null)
         {
             try
@@ -236,6 +263,8 @@ namespace RDN.Library.Classes.EmailServer
                     properties.Add("DefaultInfoEmail", LibraryConfig.DefaultInfoEmail);
                 if (!properties.ContainsKey("EmailSignature"))
                     properties.Add("EmailSignature", LibraryConfig.EmailSignature);
+                if (!properties.ContainsKey("UnSubscribe"))
+                    properties.Add("UnSubscribe", "");
 
                 EmailServerManager email = new EmailServerManager(databaseConnectionName);
                 return email.SaveEmailToSend(from, displayNameFrom, to, subject, properties, layout.ToString(), priority == EmailPriority.Important ? Common.EmailServer.Library.Classes.Enums.EmailPriority.Important : Common.EmailServer.Library.Classes.Enums.EmailPriority.Normal);

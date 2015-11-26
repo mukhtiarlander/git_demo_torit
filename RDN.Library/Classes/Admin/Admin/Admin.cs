@@ -23,7 +23,7 @@ using RDN.Portable.Config;
 using RDN.Library.DataModels.Admin.Email;
 using Common.EmailServer.Library.Classes.Email;
 using RDN.Library.Classes.Config;
-
+using Common.EmailServer.Library.Classes.Subscription;
 
 namespace RDN.Library.Classes.Admin.Admin
 {
@@ -225,22 +225,30 @@ namespace RDN.Library.Classes.Admin.Admin
             try
             {
                 var dc = new ManagementContext();
-                var UnSubscribedEmails = dc.NonSubscribersList.Select(x => x.EmailToRemoveFromList.ToLower()).ToList();
+                var UnSubscribedEmails = (from xx in dc.NonSubscribersList
+                                          select xx.EmailToRemoveFromList.ToLower()).ToList();
 
-                var emails = new List<String>();
+                var emails = new List<Subscriber>();
 
-                var email10 = dc.SubscribersList.Where(x => x.EmailToAddToList.Length > 2).Select(x => x.EmailToAddToList.ToLower()).ToList();
-                emails.AddRange(email10);
+                var emails2 = (from xx in dc.SubscribersList
+                               where xx.EmailToAddToList.Length > 2
+                               select new Subscriber
+                               {
+                                   Email = xx.EmailToAddToList.ToLower(),
+                                   SubscriberId = xx.UnSubscribeId,
+                                   ListType = SubscriptionServiceType.SubscriptionList
+                               }).ToList();
+
+                emails.AddRange(emails2);
 
                 emails = emails.Distinct().ToList();
                 for (int i = 0; i < emails.Count; i++)
                 {
                     try
                     {
-
-                        if (!UnSubscribedEmails.Contains(emails[i].Trim()))
+                        if (!UnSubscribedEmails.Contains(emails[i].Email.Trim()))
                         {
-                            if (Utilities.EmailValidator.Validate(emails[i]))
+                            if (Utilities.EmailValidator.Validate(emails[i].Email))
                             {
                                 var emailData = new Dictionary<string, string> { { "body", body } };
 
