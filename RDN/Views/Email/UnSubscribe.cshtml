@@ -1,0 +1,25 @@
+﻿@model RDN.Models.Email.EmailOutModel
+@{
+    ViewBag.Title = "UnSubscribe";
+    Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+}
+<br />
+
+<h2 class="center c">UnSubscribe from @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</h2>
+
+<br />
+<h3 class="center c">
+    
+    @if (Model.Successful)
+    { <span style="color:green;">Successfully</span> }
+    else
+    {
+        <span class="Red" style="color:red;">UnSuccessfully</span>
+    }
+   removed @Model.Email subscription.
+</h3>
+<br />
+@if (!Model.Successful)
+{
+    <h4>Please contact @RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail for more information. </h4>
+}

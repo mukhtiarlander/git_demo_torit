@@ -359,7 +359,7 @@ new { controller = "Home", action = "Error" } // Parameter defaults
 
             routes.MapRoute(
        "UnSubscribe", // Route name
-       "email/unsubscribe/{email}/{listType}", // URL with parameters
+       "email/unsubscribe/{email}/{listType}/{id}", // URL with parameters
        new { controller = "Email", action = "UnSubscribe" } // Parameter defaults
                );
             #endregion

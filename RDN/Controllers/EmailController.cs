@@ -1,4 +1,6 @@
-﻿using RDN.Library.Classes.EmailServer;
+﻿using Common.EmailServer.Library.Classes.Subscription;
+using RDN.Library.Classes.EmailServer;
+using RDN.Models.Email;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +12,19 @@ namespace RDN.Controllers
     public class EmailController : Controller
     {
         // GET: Email
-        public ActionResult UnSubscribe(string email, string listType)
+        public ActionResult UnSubscribe(string email, string listType, string id)
         {
-            var typeList = (SubscriptionServiceType)Enum.Parse(typeof(SubscriptionServiceType), listType);
+            EmailOutModel outModel = new EmailOutModel();
+            outModel.Email = email;
+            var typeList = (SubscriptionServiceType)Convert.ToInt64(listType);
 
-            if (typeList == SubscriptionServiceType.subscription)
+            if (typeList == SubscriptionServiceType.SubscriptionList)
             {
-                ViewBag.Successful = EmailServer.AddEmailToUnsubscribeList(email);
-
+                if (EmailServer.ValidateEmailOnSubscriptionList(Convert.ToInt64(id), email.Trim()))
+                    outModel.Successful = EmailServer.AddEmailToUnsubscribeList(email);
             }
 
-
-
-            return View();
+            return View(outModel);
         }
     }
 }

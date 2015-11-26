@@ -281,6 +281,7 @@
     <Compile Include="Models\Account\RegisterASPMembership.cs" />
     <Compile Include="Models\Account\SignUpBeta.cs" />
     <Compile Include="Models\BruiseBash\BruiseBashAddModel.cs" />
+    <Compile Include="Models\Email\EmailOutModel.cs" />
     <Compile Include="Models\Enums\EnumExt.cs" />
     <Compile Include="Models\Helpers\Messages.cs" />
     <Compile Include="Models\Home\HomeModel.cs" />
@@ -537,11 +538,11 @@
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Email\UnSubscribe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Account\" />
-    <Folder Include="Views\Email\" />
     <Folder Include="Views\Iframe\" />
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +557,10 @@
     <Content Include="Views\Game\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
+      <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
+      <Name>Common.EmailServer.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RDN.Library\RDN.Library.csproj">
       <Project>{3E02A029-A093-48FC-B1CC-07F98B3FC056}</Project>
       <Name>RDN.Library</Name>
