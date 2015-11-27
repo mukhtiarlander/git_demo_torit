@@ -1267,6 +1267,7 @@ namespace RDN.League.Controllers
                 if (SiteType.RollerDerby == LibraryConfig.SiteType)
                 {
                     model.ColumnsAvailable.Add(MembersReportEnum.Started_Skating_Date);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Started_Playing_Date);
                 }
                 else
                 {
