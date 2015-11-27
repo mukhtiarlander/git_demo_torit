@@ -154,11 +154,11 @@
             {
                 <div role="tabpanel" class="tab-pane active" id="teamsTab">
                     <br />
-                    <div id="teams" class="teamsDisplay">
+                    <div id="teams" class="teamsDisplay col-md-8 col-md-offset-2">
                         <ul class="list-unstyled">
                             @foreach (var group in publicGroupTeams)
                             {
-                                <li>
+                                <li class="fa-3x">
                                     <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i> 
                                     </a>
@@ -176,11 +176,11 @@
             {
                 <div role="tabpanel" class="tab-pane active" id="committeesTab">
                     <br />
-                    <div id="committees" class="committeesDisplay">
+                    <div id="committees" class="committeesDisplay col-md-8 col-md-offset-2">
                         <ul class="list-unstyled">
                             @foreach (var group in publicGroupCommittees)
                             {
-                                <li>
+                                <li class="fa-3x">
                                     <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i>
                                     </a>
@@ -198,11 +198,11 @@
             {
                 <div role="tabpanel" class="tab-pane active" id="refereesTab">
                     <br />
-                    <div id="committees" class="committeesDisplay">
+                    <div id="referees" class="refereesDisplay col-md-8 col-md-offset-2">
                         <ul class="list-unstyled">
                             @foreach (var group in publicGroupReferees)
                             {
-                                <li>
+                                <li class="fa-3x">
                                     <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i>
                                     </a>
@@ -220,11 +220,11 @@
             {
                 <div role="tabpanel" class="tab-pane active" id="coachesTab">
                     <br />
-                    <div id="coaches" class="coachesDisplay">
+                    <div id="coaches" class="coachesDisplay col-md-8 col-md-offset-2">
                         <ul class="list-unstyled">
                             @foreach (var group in publicGroupCoaches)
                             {
-                                <li>
+                                <li class="fa-3x">
                                     <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i>
                                     </a>
