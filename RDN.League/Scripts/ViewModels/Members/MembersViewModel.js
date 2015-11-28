@@ -161,3 +161,17 @@
     };
 
 };
+
+$(document).ready(function () {
+    $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, Member.UnRetireYourProfile);
+
+    $("#myTabs li a").bind("click", function (e) {
+        var href = $(this).attr('href');
+        $("#tabs").load(href);
+        window.location.hash = href;
+        e.preventDefault();
+    });
+    if (window.location.hash != "") {
+        $('#myTabs li a[href="' + window.location.hash + '"]').click()
+    }
+});
