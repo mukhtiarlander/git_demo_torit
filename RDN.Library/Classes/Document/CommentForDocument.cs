@@ -97,6 +97,22 @@ namespace RDN.Library.Classes.Document
             }
             return new List<DocumentTag>();
         }
+        public static List<DocumentTag> FetchLeagueTags(Guid leagueId)
+        {
+            try
+            {
+                var dc = new ManagementContext();               
+                return
+                    dc.DocumentTags.Where(x => x.LeagueDocument.League.LeagueId == leagueId  && x.IsRemoved == false)
+                        .ToList();
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return new List<DocumentTag>();
+        }
+
         public static bool UpdateLeagueTags(long ownerId, string tags)
         {
             try
