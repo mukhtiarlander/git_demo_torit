@@ -161,3 +161,7 @@
     };
 
 };
+
+$(document).ready(function () {
+    $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, Member.UnRetireYourProfile);
+});
