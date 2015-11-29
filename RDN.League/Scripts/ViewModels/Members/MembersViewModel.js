@@ -35,9 +35,7 @@
                 data: {},
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
-                    if (data.success) {
-                        $("#unRetireProfile").removeClass('hide');
-                        $("#unRetireProfile").show();
+                    if (data.success) {                        
                         $("#retireprofile").addClass('hide');
                         $('.bottom-right').notify({
                             message: { text: 'Your Account has been Retired.' },
@@ -142,9 +140,7 @@
             data: {},
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                if (data.success) {                   
-                    $("#retireprofile").removeClass('hide');
-                    $("#retireprofile").show();
+                if (data.success) {                                       
                     $("#unRetireProfile").addClass('hide');
                     $('.bottom-right').notify({
                         message: { text: 'UnRetire Successful' },
