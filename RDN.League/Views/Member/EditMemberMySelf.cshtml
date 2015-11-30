@@ -161,11 +161,6 @@
                                                Member Type
                                             </div>
                                             <div class="form-inline">
-                                                <label for="@MemberType.None" class="margin-10">
-                                                    @Html.CheckBox(MemberType.None.ToString(), Model.MemberType.HasFlag(MemberType.None))
-                                                    @EnumExt.ToFreindlyName(MemberType.None)
-                                                </label>
-                                              
                                                 <label for="@MemberType.Player" class="margin-10">
                                                     @Html.CheckBox(MemberType.Player.ToString(), Model.MemberType.HasFlag(MemberType.Player))
                                                     @EnumExt.ToFreindlyName(MemberType.Player)

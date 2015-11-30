@@ -1259,6 +1259,7 @@ namespace RDN.League.Controllers
             try
             {
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                var member = MemberCache.GetMemberDisplay(memId);
                 var groups = MemberCache.GetLeagueGroupsOfMember(memId);
                 cal.GroupsForReport = groups;
                 cal.CalendarId = new Guid(id);
@@ -1267,6 +1268,11 @@ namespace RDN.League.Controllers
                 cal.DaysBackwards = 60;
                 cal.StartDateSelected = DateTime.UtcNow;
                 cal.EndDateSelected = DateTime.UtcNow;
+                cal.HideReport = CalendarFactory.IsCalendarHide(new Guid(id));
+                cal.MemberReport = new MembersReport();
+                cal.MemberReport.DerbyName = member.DerbyName;
+                cal.MemberReport.Firstname = member.Firstname;
+                cal.MemberReport.LastName = member.LastName;
                 cal.StartDateSelectedDisplay = DateTime.UtcNow.AddDays(-60).ToShortDateString();
                 cal.EndDateSelectedDisplay = DateTime.UtcNow.ToShortDateString();
             }

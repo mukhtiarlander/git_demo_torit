@@ -13,6 +13,7 @@
     var isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
     var isAttendance = MemberCache.IsAttendanceManager(memId);
+    var isPermission = MemberCache.IsAttendanceManagerOrBetterOfLeague(memId);
 }
 
 <ol class="breadcrumb">
@@ -67,34 +68,43 @@
 
                 @using (Html.BeginForm("CalendarReport", "Calendar"))
                 {
-                    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                        <div class="well">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label class="form-label">Groups</label>
-                                    <div class="margin-top-5">
-                                        <div class="input-group input-group-sm margin-bottom-10">
-                                            <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 no-margin-bottom" style="background:#fff">
-                                                <span class="label label-primary font12 padding-top-5">Entire League</span>
-                                            </div>
-                                            <span class="input-group-btn">
-                                                <button onclick="Calendar.ExpandGroupMemberList()" class="btn btn-warning" type="button">
-                                                    <i class="fa fa-users "></i> Change Group <span class="caret"></span>
-                                                </button>
-                                            </span>
+                        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <label class="form-label">Groups</label>
+                                        <div class="margin-top-5">
+                                           @if (!Model.HideReport && isPermission  ) 
+                                           {
+                                               <div class="input-group input-group-sm margin-bottom-10">
+                                                   <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 no-margin-bottom" style="background: #fff">
+                                                       <span class="label label-primary font12 padding-top-5">Entire League</span>
+                                                   </div>
+                                                   <span class="input-group-btn">
+                                                       <button onclick=" Calendar.ExpandGroupMemberList() " class="btn btn-warning" type="button">
+                                                           <i class="fa fa-users "></i> Change Group <span class="caret"></span>
+                                                       </button>
+                                                   </span>x
+                                               </div>
+                                               <div class="displayNone padding-left-10" id="groupMemberLists">
+                                                   <ul id="groupList" class="list-unstyled"></ul>
+                                               </div>
+                                               <div id="pullGroupEvents" class="displayNone col-xs-12">
+                                                   <label> @Html.CheckBoxFor(x => x.PullGroupEventsOnly) <span class="i">reports only on events attached to the chosen group.</span> </label>
+                                               </div>
+                                               @Html.HiddenFor(x => x.ToGroupIds)
+                                           }
+                                           else
+                                           {
+                                              <span>Reporting on
+                                               @Model.MemberReport.DerbyName   @Model.MemberReport.Firstname  @Model.MemberReport.LastName</span> 
+                                           }
                                         </div>
-                                        <div class="displayNone padding-left-10" id="groupMemberLists">
-                                            <ul id="groupList" class="list-unstyled"></ul>
-                                        </div>
-                                        <div id="pullGroupEvents" class="displayNone col-xs-12">
-                                            <label> @Html.CheckBoxFor(x => x.PullGroupEventsOnly) <span class="i">reports only on events attached to the chosen group.</span> </label>
-                                        </div>
-                                        @Html.HiddenFor(x => x.ToGroupIds)
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
                     <div class="col-xs-12 col-sm-8 col-md-5">
                         <div class="well padding-bottom-5">
                             <div class="row">

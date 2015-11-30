@@ -35,9 +35,7 @@
                 data: {},
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
-                    if (data.success) {
-                        $("#unRetireProfile").removeClass('hide');
-                        $("#unRetireProfile").show();
+                    if (data.success) {                        
                         $("#retireprofile").addClass('hide');
                         $('.bottom-right').notify({
                             message: { text: 'Your Account has been Retired.' },
@@ -142,9 +140,7 @@
             data: {},
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                if (data.success) {                   
-                    $("#retireprofile").removeClass('hide');
-                    $("#retireprofile").show();
+                if (data.success) {                                       
                     $("#unRetireProfile").addClass('hide');
                     $('.bottom-right').notify({
                         message: { text: 'UnRetire Successful' },
@@ -161,3 +157,17 @@
     };
 
 };
+
+$(document).ready(function () {
+    $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, Member.UnRetireYourProfile);
+
+    $("#myTabs li a").bind("click", function (e) {
+        var href = $(this).attr('href');
+        $("#tabs").load(href);
+        window.location.hash = href;
+        e.preventDefault();
+    });
+    if (window.location.hash != "") {
+        $('#myTabs li a[href="' + window.location.hash + '"]').click()
+    }
+});
