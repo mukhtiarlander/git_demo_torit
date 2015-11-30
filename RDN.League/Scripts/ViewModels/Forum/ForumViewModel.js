@@ -50,6 +50,7 @@
         row.append(zeroColumn);
 
         var firstColumn = $(document.createElement('td'));
+        firstColumn.attr('data-title', 'Topic');
         firstColumn.attr('id', "forum-title-" + item.TopicId);
         var forumLink = $(document.createElement('a'));
         if (result.IsRead === false)
@@ -65,18 +66,22 @@
         row.append(firstColumn);
 
         var catColumn = $(document.createElement('td'));
-
+        catColumn.attr('data-title', 'Category');
 
         var catLink = $(document.createElement('span'));
         catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')" });
 
-        catLink.html(item.Category);
+        if (item.Category != null && item.Category.length != 0)
+            catLink.html(item.Category);
+        else
+            catLink.html("&nbsp;");
         catLink.addClass("hyperlink");
 
         catColumn.append(catLink);
         row.append(catColumn);
 
         var thirdColumn = $(document.createElement('td'));
+        thirdColumn.attr('data-title', 'Started By');
         var memberLink = $(document.createElement('a'));
         if (item.ForumOwnerTypeEnum === "league")
             memberLink.attr({ href: leagueHost + "member/" + item.CreatedByMember.MemberId.replace(/-/g, "") + "/" + item.CreatedByMember.DerbyNameUrl });
@@ -90,15 +95,18 @@
         row.append(thirdColumn);
 
         var fourthColumn = $(document.createElement('td'));
+        fourthColumn.attr('data-title', 'Posts');
         fourthColumn.append(item.Replies);
         row.append(fourthColumn);
 
         var fifthColumn = $(document.createElement('td'));
+        fifthColumn.attr('data-title', 'Views');
         fifthColumn.append(item.ViewCount);
         row.append(fifthColumn);
         tableBody.append(row);
 
         var sixColumn = $(document.createElement('td'));
+        sixColumn.attr('data-title', 'Last Post');
         var memberByLink = $(document.createElement('a'));
         if (item.ForumOwnerTypeEnum === "league")
             memberLink.attr({ href: leagueHost + "member/" + item.LastPostByMember.MemberId.replace(/-/g, "") + "/" + item.LastPostByMember.DerbyNameUrl });
@@ -112,7 +120,7 @@
         row.append(sixColumn);
 
         var sevenColumn = $(document.createElement('td'));
-        sevenColumn.addClass('vertical-middle');
+        sevenColumn.addClass('vertical-middle fullwidth text-center');
         if (item.IsManagerOfTopic) {
 
             sevenColumn.append('<a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move"  href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '"><i class="fa fa-arrows"></i></a>');
@@ -247,6 +255,7 @@
                 $(this).toggleClass("active", false);
             });
             $(link).toggleClass("active", true);
+            $("#lbl_forum_tab_selected").html($(link).html());
             $("#loading").toggleClass("display-none", false);
             $("#currentGroupId").val(gId);
             $("#newPost").attr("href", "/forum/new/" + $("#type").val() + "/" + thisViewModel.forumId + "/" + gId);
