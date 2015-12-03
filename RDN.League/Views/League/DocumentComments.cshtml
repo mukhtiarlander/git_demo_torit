@@ -5,6 +5,7 @@
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool manager = RDN.Library.Cache.MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
+
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/league/documents/" + Model.OwnerId.ToString().Replace("-", ""))">Documents</a></li>
@@ -23,7 +24,7 @@
                 <div class="margin-bottom-5">Tags</div>
                 <div class="row ">
                     <div class="col-xs-12 margin-bottom-10">
-                        <input type="text" placeholder="Add Tags" id="Tags" class="form-control" data-role="tagsinput">
+                        <input type="text" placeholder="Add Tags" id="Tags" class="form-control" data-provide="typeahead">
                     </div>
                 </div>
                 <div class="text-right">
@@ -81,13 +82,13 @@
             "aoColumns": [null, null, { "sType": "natural" }, null]
         });
         $('#Tags').tagsinput({
-            tagClass: 'big',
             maxChars: 10,
             maxTags: 5,
             allowDuplicates: false,
             trimValue: true,
-            itemValue: 'id',
-            itemText: 'label'
+            typeahead: {
+                source: "@ViewBag.DocumentTags".split(",")
+            }
 
         });
 

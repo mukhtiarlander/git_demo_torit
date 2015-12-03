@@ -307,7 +307,6 @@ namespace RDN.League.Controllers
                 {
                     CommentForDocument.AddTagToDocumentTag(docId, docOwnerId, tagItem);
                 }
-                MemberCache.ClearLeagueDocument(memId);
                 return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -336,7 +335,7 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
-
+        
         [Authorize]
         public ActionResult DeleteFolderFromLeagueDocuments(Guid leagueId, int folderId)
         {

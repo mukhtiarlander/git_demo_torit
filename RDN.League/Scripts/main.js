@@ -1322,13 +1322,15 @@ function WaiveDues(button, memId) {
     var collected = $("#" + memId + "-Collected");
     var paidButton = $("#" + memId + "-button");
     var amount = amountButton.val();
+    var noteText = $("#" + memId + "-Dues-Notes");
+    var note = $("#" + memId + "-Dues-Notes").val()
 
-    $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: "" }, function (result) {
+    $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: note }, function (result) {
         if (result.isSuccess === true) {
         } else {
         }
     }).error(function () {
-        $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: "" }, function (result) {
+        $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: note }, function (result) {
             if (result.isSuccess === true) {
             } else {
             }
@@ -1336,6 +1338,7 @@ function WaiveDues(button, memId) {
     });
 
     amountButton.remove();
+    $(noteText).remove();
     $(button).remove();
     sendReminderButton.remove();
     paidButton.remove();
@@ -1354,13 +1357,17 @@ function PayDues(button, memId) {
     var collected = $("#" + memId + "-Collected");
     var waiveButton = $("#" + memId + "-waive-button");
     var amount = amountButton.val();
+    var noteText = $("#" + memId + "-Dues-Notes");
+    var note = $("#" + memId + "-Dues-Notes").val()
+
+
     if (parseFloat(amount) > parseFloat(0)) {
-        $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: "" }, function (result) {
+        $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: note }, function (result) {
             if (result.isSuccess === true) {
             } else {
             }
         }).error(function () {
-            $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: "" }, function (result) {
+            $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: note }, function (result) {
                 if (result.isSuccess === true) {
                 } else {
                 }
@@ -1372,9 +1379,11 @@ function PayDues(button, memId) {
             $(button).remove();
             waiveButton.remove();
             sendReminderButton.remove();
+            $(noteText).remove();
         }
         else {
             amountButton.val((parseFloat(due.text().replace(/,/g, '')) - parseFloat(amount)).toFixed(2));
+            $(noteText).val('');
         }
         collected.text((parseFloat(collected.text().replace(/,/g, '')) + parseFloat(amount)).toFixed(2));
         due.text((parseFloat(due.text().replace(/,/g, '')) - parseFloat(amount)).toFixed(2));
