@@ -577,9 +577,36 @@ namespace RDN.League.Controllers
                     if (!member.Facebook.ToLower().StartsWith("http://") &&
                         !member.Facebook.ToLower().StartsWith("https://"))
                     {
-                        member.Facebook = "http://" + member.Facebook;
+                        member.Facebook = "https://" + member.Facebook;
                     }
                 }
+                if (member.Twitter.ToLower().StartsWith("http://") || member.Twitter.ToLower().StartsWith("https://"))
+                {
+                    var segments = new Uri(member.Twitter).Segments;
+                    if (segments.Count() > 1)
+                    {
+                        var twitterName = segments.Last();
+                        member.Twitter = twitterName;
+                    }
+                    else
+                    {
+                        member.Twitter = string.Empty;
+                    }
+                }
+                if (member.Instagram.ToLower().StartsWith("http://") || member.Instagram.ToLower().StartsWith("https://"))
+                {
+                    var segments = new Uri(member.Instagram).Segments;
+                    if (segments.Count() > 1)
+                    {
+                        var instagramName = segments.Last();
+                        member.Instagram = instagramName;
+                    }
+                    else
+                    {
+                        member.Instagram = string.Empty;
+                    }
+                }
+
                 edit.Twitter = member.Twitter;
                 edit.Instagram = member.Instagram;
                 edit.Facebook = member.Facebook;
