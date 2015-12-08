@@ -29,10 +29,9 @@
     }
 
     this.LoadMemberStats = function () {
-        apiUrl = "http://localhost:16106/"; //REMOVE THIS ON PRODUCTION
+
         $.ajax({
-            type: "POST",
-            url: apiUrl + "Skater/GetAllSkaters",
+            url: "http://localhost:16106/Skater/GetAllSkaters", //apiUrl + "Skater/GetAllSkaters", //USE THIS ON PRODUCTION
             data: {p:0, c:1000000, s: ""},
             dataType: "json",
             success: function (data) {

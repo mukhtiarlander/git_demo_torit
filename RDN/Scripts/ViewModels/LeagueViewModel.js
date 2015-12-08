@@ -23,10 +23,8 @@
     }
 
     this.LoadLeagueStats = function () {
-        apiUrl = "http://localhost:16106/"; //REMOVE THIS ON PRODUCTION
         $.ajax({
-            type: "POST",
-            url: apiUrl + "League/GetLeagueStats",
+            url: "http://localhost:16106/League/GetLeagueStats", // apiUrl + "League/GetLeagueStats",//USE THIS ON PRODUCTION
             dataType: "json",
             success: function (data) {                
                 if (data.leaguesData.length > 0) {

@@ -11,7 +11,7 @@
     }
 </style>
 <div class=" text-center">
-    <h2> @Model.Model.NumberOfRecords.ToString("N0") @RDN.Library.Classes.Config.LibraryConfig.SportName Leagues World Wide</h2>
+    <h2> <span data-bind="text: LeaguesStats().length"></span> @RDN.Library.Classes.Config.LibraryConfig.SportName Leagues World Wide</h2>
 </div>
 <div class="row">
     <div class="col-sm-offset-3 col-sm-6 col-xs-12">
@@ -87,7 +87,9 @@
 
     $(document).ready(function () {
         ko.applyBindings(LeagueViewModel);
-        LeagueViewModel.LoadLeagueList('@RDN.Library.Classes.Config.LibraryConfig.ListLoadingCount');
+        LeagueViewModel.LoadLeagueStats();
+        LeagueViewModel.LoadLeagueList('@RDN.Library.Classes.Config.LibraryConfig.ListLoadingCount'); 
+        
 
         $(window).resize(function () {
             var w = $("#mapDiv").width();
