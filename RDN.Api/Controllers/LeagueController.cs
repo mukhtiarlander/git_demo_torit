@@ -411,5 +411,27 @@ namespace RDN.Api.Controllers
             return Json(new LeagueJsonDataTable(), JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetLeagueStats()
+        {
+            List<LeagueJsonDataTable> leages = new List<LeagueJsonDataTable>();
+            leages = SiteCache.GetAllPublicLeagues();
+            return Json(new
+            {
+                leaguesData = (from l in leages
+                             select new[]
+                        {
+                        Convert.ToString(l.lon),
+                        Convert.ToString(l.lat),
+                        l.LeagueName,
+                        l.City,
+                        l.State,
+                        l.Country,
+                        l.LogoUrlThumb,
+                        Convert.ToString(l.Membercount),
+                        l.LeagueUrl
+                        }).ToArray()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

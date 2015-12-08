@@ -7,6 +7,7 @@
     this.IsFinishedScrolling = ko.observable(false);
     this.SearchText = ko.observable();
     this.ListCountPull = ko.observable();
+    this.MembersStats = ko.observableArray([]);
 
     this.LoadMemberList = function (count) {
         thisViewModel.ListCountPull(count);
@@ -25,6 +26,26 @@
         thisViewModel.pendingRequest(false);
         thisViewModel.page(0);
         getItems(thisViewModel.ListCountPull(), true);
+    }
+
+    this.LoadMemberStats = function () {
+        apiUrl = "http://localhost:16106/"; //REMOVE THIS ON PRODUCTION
+        $.ajax({
+            type: "POST",
+            url: apiUrl + "Skater/GetAllSkaters",
+            data: {p:0, c:1000000, s: ""},
+            dataType: "json",
+            success: function (data) {
+                if (data.members.length > 0) {
+                    thisViewModel.MembersStats(data.members);
+                } else {
+                    thisViewModel.MembersStats.removeAll();
+                }
+            },
+            error: function () {
+                alert("Error!");
+            }
+        });
     }
 
     function getItems(cnt, isSearch) {
