@@ -6,6 +6,7 @@ using System.Text;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Account.Classes;
 using RDN.Library.Classes.Admin.Account;
+using RDN.Library.Classes.Document;
 using RDN.Library.Classes.Document.Enums;
 using RDN.Library.Classes.Error;
 using RDN.Library.DataModels.Context;
@@ -73,7 +74,9 @@ namespace RDN.Library.Classes.League.Classes
                                          PlayerNumber = co.Commentor.PlayerNumber
                                      };
                             }
-
+                            var leagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
+                            var lstTags = CommentForDocument.FetchLeagueTags(leagueId).Select(x => x.Tag.TagName);
+                            string.Join(",", lstTags);
                             doc.Comments.Add(comment);
                         }
                     }
