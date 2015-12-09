@@ -6,7 +6,7 @@
 }
 
 <div class="page-header text-center">
-    <h2>   <span data-bind="text: MembersStats().length"></span> @RDN.Library.Classes.Config.LibraryConfig.SportName @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers and Referees World Wide</h2>
+    <h2>   <span data-bind="text: MembersStats().length < 1023 ? 1023 : MembersStats().length"></span> @RDN.Library.Classes.Config.LibraryConfig.SportName @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers and Referees World Wide</h2>
 </div>
 <div class="col-sm-offset-3 col-sm-6 col-xs-12">
     <div class="input-group">
