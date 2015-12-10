@@ -74,11 +74,13 @@ namespace RDN.Library.Classes.League.Classes
                                          PlayerNumber = co.Commentor.PlayerNumber
                                      };
                             }
-                            var leagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                            var lstTags = CommentForDocument.FetchLeagueTags(leagueId).Select(x => x.Tag.TagName);
-                            string.Join(",", lstTags);
+                           
                             doc.Comments.Add(comment);
                         }
+
+                      
+                        var lstTags = CommentForDocument.FetchLeagueTags(doc.OwnerId).Select(x => x.Tag.TagName);
+                        doc.LeagueTags = string.Join(",", lstTags);
                     }
                     catch (Exception exception)
                     {
