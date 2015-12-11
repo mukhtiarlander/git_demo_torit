@@ -29,10 +29,8 @@
     }
 
     this.LoadMemberStats = function () {
-
         $.ajax({
-            url: "http://localhost:16106/Skater/GetAllSkaters", //apiUrl + "Skater/GetAllSkaters", //USE THIS ON PRODUCTION
-            data: {p:0, c:1000000, s: ""},
+            url: "http://localhost:16106/Skater/GetAllSkatersStats", //apiUrl + "Skater/GetAllSkatersStats", //USE THIS ON PRODUCTION
             dataType: "json",
             success: function (data) {
                 if (data.members.length > 0) {

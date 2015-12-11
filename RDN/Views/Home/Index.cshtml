@@ -11,7 +11,14 @@
         <br />
         <!-- ko foreach: LeaguesStats -->
             <!-- ko if: $index() < 4 -->
+            @if (!RDN.Library.Classes.Config.LibraryConfig.IsProduction)
+            {
+                <img data-bind="attr: { src: 'http://i.imgur.com/ObzYN0I.png', alt: $data[2] }" class="col-xs-6  col-lg-3 img-rounded">
+            }
+            else
+            {
                 <img data-bind="attr: { src: $data[6], alt: $data[2] }" class="col-xs-6  col-lg-3 img-rounded">
+            }
             <!-- /ko -->            
         <!-- /ko -->
     </div>
@@ -22,10 +29,17 @@
         <div>Keep track of all your members</div>
         <br />
         <!-- ko foreach: MembersStats -->
-            <!-- ko if: $index() < 4 && photoUrl.indexOf('roller-girl') < 0 && photoUrl.indexOf('roller-person') < 0 -->
+            <!-- ko if: $index() < 4 -->
+            @if (!RDN.Library.Classes.Config.LibraryConfig.IsProduction)
+            {
+                <img data-bind="attr: { src: 'http://i.imgur.com/ObzYN0I.png', alt: DerbyName }" class="col-xs-6  col-lg-3 img-rounded">
+            }
+            else
+            {
                 <img data-bind="attr: { src: photoUrl, alt: DerbyName }" class="col-xs-6  col-lg-3 img-rounded">
+            }
             <!-- /ko -->
-        <!-- /ko -->
+        <!-- /ko -->        
     </div>
 </div>
 <br />

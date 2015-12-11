@@ -34,6 +34,30 @@ namespace RDN.Api.Controllers
 
             return Json(new { members = names }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetAllSkatersStats()
+        {
+            List<SkaterJson> names = new List<SkaterJson>();
+            try
+            {
+                names = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                        .Where(x => !x.photoUrl.Contains("roller-girl"))
+                        .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
+                //minim 4
+                if (names.Count < 4)
+                {
+                    names.AddRange(SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                        .Where(x => x.photoUrl.Contains("roller-girl") || x.photoUrl.Contains("roller-person"))
+                        .OrderBy(x => Guid.NewGuid()).Take(4 - names.Count).ToList());
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+
+            return Json(new { members = names }, JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// 
         /// </summary>
