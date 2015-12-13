@@ -126,6 +126,8 @@ else
                         var mem = calEvent.Attendees.FirstOrDefault(x => x.MemberId == memId);
                         var checkInStatus = mem != null ? ((CalendarEventPointTypeEnum)mem.PointType).ToFreindlyName() : (CalendarEventPointTypeEnum.None).ToFreindlyName();
                         var checkInStatusId = mem != null ? (int)mem.PointType : 0;
+                        var checkInSecondaryStatus = mem != null ?  mem.SecondaryPointType == CalendarEventPointTypeEnum.Tardy : false;
+                        var note = mem != null ? mem.Note : string.Empty;
                         var rsvpStatus = mem != null ? ((AvailibilityEnum)mem.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
                         string className = "";
                         if (checkInStatusId == 1)
@@ -188,14 +190,14 @@ else
 
                                 @if (attend != null && calEvent.AllowSelfCheckIn)
                                 {
-                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId')"
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-note="@note" data-tardy="@checkInSecondaryStatus" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-check-square fa-lg"></i>
                                     </button>
                                 }
                                 else if (calEvent.AllowSelfCheckIn && calEvent.IsCurrentMemberApartOfEvent || (calEvent.AllowSelfCheckIn && isApartOfEvent != null))
                                 {
-                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId')"
+                                    <button class="btn btn-default btn-sm @className" id="@calEvent.CalendarItemId" data-note="@note" data-tardy="@checkInSecondaryStatus" data-attendance="@checkInStatus" onclick="javascript:checkIntoEvent('checkInPopUp','@Model.CalendarId','@calEvent.CalendarItemId')"
                                             data-container="body" data-toggle="popover" data-html="true">
                                         <i class="fa fa-square-o fa-lg"></i>
                                     </button>
