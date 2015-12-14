@@ -364,6 +364,20 @@ new { controller = "Home", action = "Error" } // Parameter defaults
                );
             #endregion
 
+            #region cordova
+            routes.MapRoute(
+                "CordovaSetCookies", // Route name
+                "Cordova/SetPlatformCookie/{platform}", // URL with parameters
+                new { controller = "Cordova", action = "SetPlatformCookie" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "CordovaTest", // Route name
+                "Cordova/Test", // URL with parameters
+                new { controller = "Cordova", action = "Index" } // Parameter defaults
+            );
+            #endregion
+
             routes.MapRoute(
              "Default", // Route name
              "{action}", // URL with parameters

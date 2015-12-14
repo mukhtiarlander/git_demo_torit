@@ -183,7 +183,7 @@
                             Event Information
                         </label>
                         <div class="margin-bottom-20">
-                            @Html.TextArea("Notes", string.Empty, new
+                            @Html.TextAreaFor(x=>x.Notes,  new
                        {
                            id = "wmd-input",
                            @class = "center"
