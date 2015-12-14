@@ -124,7 +124,7 @@ namespace RDN.Raspberry.Controllers
                             result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForMonthlyBroadcasts(model.Subject, model.HtmlBody, model.TestEmail);
                             break;
                         case MassEmailEnum.SubscribersAndWebScraped:
-                            result = Library.Classes.Admin.Admin.Admin.SendToSubscribersAndWebScrapedList(model.Subject, model.HtmlBody, model.TestEmail);
+                            result = Library.Classes.Admin.Admin.Admin.SendToSubscribersAndWebScrapedList(model.Subject, model.HtmlBody, model.TestEmail, model.IsSubjectLineRemoved);
                             break;
                         case MassEmailEnum.AllLeaguesWorldWide:
                             result = Library.Classes.Admin.Admin.Admin.SendMassScoreboardEmailsForLeaguesWorldWide(model.IsMassSendVerified, model.Subject, model.HtmlBody, model.TestEmail);
