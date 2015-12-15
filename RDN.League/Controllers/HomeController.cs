@@ -83,16 +83,17 @@ namespace RDN.League.Controllers
                     ErrorDatabaseManager.AddException(new Exception("Member Was Null"), GetType(), additionalInformation: memId.ToString());
                     return Redirect("~/account/logout");
                 }
-                if (member.DefaultPositionType == DefaultPositionEnum.The_Owner_of_a_Federation &&
-                    !MemberCache.IsOwnerOfFederation(memId))
-                {
-                    SiteMessage message = new SiteMessage();
-                    message.Link = UrlHelper.GenerateContentUrl("~/Federation/Setup", HttpContext);
-                    message.MessageType = SiteMessageType.Info;
-                    message.LinkText = "Please Setup Your Federation";
-                    this.AddMessage(message);
-                }
-                else if (member.DefaultPositionType == DefaultPositionEnum.The_Owner_of_a_Team_League &&
+                //if (member.DefaultPositionType == DefaultPositionEnum.The_Owner_of_a_Federation &&
+                //    !MemberCache.IsOwnerOfFederation(memId))
+                //{
+                //    SiteMessage message = new SiteMessage();
+                //    message.Link = UrlHelper.GenerateContentUrl("~/Federation/Setup", HttpContext);
+                //    message.MessageType = SiteMessageType.Info;
+                //    message.LinkText = "Please Setup Your Federation";
+                //    this.AddMessage(message);
+                //}
+                //else 
+                if (member.DefaultPositionType == DefaultPositionEnum.The_Owner_of_a_Team_League &&
            MemberCache.GetLeagueIdOfMember(memId) == new Guid())
                 {
                     SiteMessage message = new SiteMessage();
