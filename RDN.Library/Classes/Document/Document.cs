@@ -35,6 +35,8 @@ namespace RDN.Library.Classes.Document
         public int SearchMatches { get; set; }
         public bool IsRemoved { get; set; }
         public bool IsArchive { get; set; }
+        public string LeagueTags { get; set; }
+
         public Document()
         {
             Folder = new Folder();

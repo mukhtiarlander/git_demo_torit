@@ -12,6 +12,7 @@ using RDN.Library.Classes.Location;
 using RDN.League.Models.Calendar;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.Account.Classes;
+using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Util.Enums;
 using RDN.Utilities.Dates;
 using RDN.League.Models.Utilities;
@@ -1269,7 +1270,7 @@ namespace RDN.League.Controllers
                 cal.StartDateSelected = DateTime.UtcNow;
                 cal.EndDateSelected = DateTime.UtcNow;
                 cal.HideReport = CalendarFactory.IsCalendarHide(new Guid(id));
-                cal.MemberReport = new MembersReport();
+                cal.MemberReport = new MemberDisplayBasic();
                 cal.MemberReport.DerbyName = member.DerbyName;
                 cal.MemberReport.Firstname = member.Firstname;
                 cal.MemberReport.LastName = member.LastName;

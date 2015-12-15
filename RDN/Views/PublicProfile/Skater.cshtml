@@ -24,11 +24,30 @@
         <h4> @Model.PlayerNumber</h4>
     </div>
 </div>
+<div class="row text-center">
+    @if (!String.IsNullOrEmpty(Model.Facebook))
+    {
+        <a href="@Model.Facebook" class="" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+    }
+    @if (!String.IsNullOrEmpty(Model.Instagram))
+    {
+        <a href="https://www.instagram.com/@Model.Instagram" class="" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+    }
+    @if (!String.IsNullOrEmpty(Model.Twitter))
+    {
+        <a href="https://www.twitter.com/@Model.Twitter" class="" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+    }
+   
+</div>
 
 
 <ul class="nav nav-tabs" role="tablist" id="myTabs">
     <li role="presentation" class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
     <li role="presentation"><a href="#membership" role="tab" data-toggle="tab">Memberships</a></li>
+    @if (!string.IsNullOrEmpty(Model.Twitter))
+    {
+        <li role="presentation"><a href="#social" role="tab" data-toggle="tab">Social</a></li>
+    }
 </ul>
 
 <div class="tab-content">
@@ -158,5 +177,5 @@
         </div>
 
     </div>
-</div>
+        </div>
 <br /><br />

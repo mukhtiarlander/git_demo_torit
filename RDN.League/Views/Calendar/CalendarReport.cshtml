@@ -13,7 +13,7 @@
     var isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
     bool isEventsCourd = MemberCache.IsEventsCourdinatorOrBetterOfLeague(memId);
     var isAttendance = MemberCache.IsAttendanceManager(memId);
-    var isPermission = MemberCache.IsAttendanceManagerOrBetterOfLeague(memId);
+    var IsAttendanceManagerOrBetter = MemberCache.IsAttendanceManagerOrBetterOfLeague(memId);
 }
 
 <ol class="breadcrumb">
@@ -74,7 +74,7 @@
                                     <div class="col-xs-12">
                                         <label class="form-label">Groups</label>
                                         <div class="margin-top-5">
-                                           @if (!Model.HideReport && isPermission  ) 
+                                           @if (!Model.HideReport && IsAttendanceManagerOrBetter) 
                                            {
                                                <div class="input-group input-group-sm margin-bottom-10">
                                                    <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 no-margin-bottom" style="background: #fff">

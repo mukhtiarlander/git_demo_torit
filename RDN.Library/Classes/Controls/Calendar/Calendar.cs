@@ -327,8 +327,7 @@ namespace RDN.Library.Classes.Calendar
                     att.Note = note;
                     att.PointTypeEnum = Convert.ToInt32(pointType);
                     att.AdditionalPoints = additionalPoints;
-                    if (isTardy)
-                        att.SecondaryPointTypeEnum = Convert.ToInt32(CalendarEventPointTypeEnum.Tardy);
+                    att.SecondaryPointTypeEnum = isTardy ? Convert.ToInt32(CalendarEventPointTypeEnum.Tardy) : Convert.ToInt32(CalendarEventPointTypeEnum.None);
                     dc.CalendarAttendance.Add(att);
                     dc.SaveChanges();
                 }
@@ -338,8 +337,7 @@ namespace RDN.Library.Classes.Calendar
                     mem.PointTypeEnum = Convert.ToInt32(pointType);
                     mem.Note = note;
                     mem.AdditionalPoints = additionalPoints;
-                    if (isTardy)
-                        mem.SecondaryPointTypeEnum = Convert.ToInt32(CalendarEventPointTypeEnum.Tardy);
+                    mem.SecondaryPointTypeEnum = isTardy ? Convert.ToInt32(CalendarEventPointTypeEnum.Tardy) : Convert.ToInt32(CalendarEventPointTypeEnum.None);
                     dc.SaveChanges();
                 }
                 return true;
@@ -968,7 +966,7 @@ namespace RDN.Library.Classes.Calendar
                 newCal.TimeZone = (int)calDb.TimeZone;
                 newCal.HideReport = calDb.HideReport;
                 newCal.TimeZones = Classes.Location.TimeZoneFactory.GetTimeZones();
-           
+
 
                 newCal.IsCalendarInUTC = calDb.IsCalendarInUTC;
 

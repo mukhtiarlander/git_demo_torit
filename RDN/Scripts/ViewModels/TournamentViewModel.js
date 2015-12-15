@@ -5,15 +5,17 @@
     this.tournamentName = ko.observable("");
     this.pictures = ko.observableArray([]);
     this.chats = ko.observableArray([]);
-
-    this.CountDown = ko.observable("00:00:00:00");
+    $("#countdown-text").html("00:00:00:00");
+    //this.CountDown = ko.observable("00:00:00:00");
 
     this.InitiateTournamentCountdown = function (seconds) {
         var myCounter = new Countdown({
             seconds: seconds,  // number of seconds to count down
             onUpdateStatus: function (sec) {
                 var time = secondsToTime(sec);
-                thisViewModel.CountDown(time.d + ":" + time.h + ":" + time.m + ":" + time.s);
+                console.dir(time);
+                //thisViewModel.CountDown(time.d + ":" + time.h + ":" + time.m + ":" + time.s);
+                $("#countdown-text").html(time.d + ":" + time.h + ":" + time.m + ":" + time.s);
 
             }, // callback for each second
             onCounterEnd: function () { } // final action

@@ -35,7 +35,7 @@ namespace RDN.Library.Classes.Calendar.Report
         public bool HideReport { get; set; }
 
         public List<EventTypeForReport> EventTypesReport { get; set; }
-        public MembersReport MemberReport { get; set; }
+        public MemberDisplayBasic MemberReport { get; set; }
 
         public List<EventForReport> Events { get; set; }
         public List<MembersReport> Attendees { get; set; }

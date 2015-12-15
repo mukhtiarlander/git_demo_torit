@@ -222,10 +222,10 @@
             if (result.isSuccess === true) {
                 $(result.groups).each(function () {
                     if (currentIds.indexOf(this[1]) === -1)
-                        gList.append("<li><label style='font-weight:normal'><input groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0] + "</label></li>");
+                        gList.append("<li><label style='font-weight:normal'><input groupName='" + this[0].replace(/'/g, "") + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0].replace(/'/g, "") + "</label></li>");
                     else { // if the group already is in the event.
-                        gList.append("<li><label style='font-weight:normal'><input  checked='checked' groupName='" + this[0] + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0] + "</label></li>");
-                        var group = { name: this[0], idd: this[1] };
+                        gList.append("<li><label style='font-weight:normal'><input  checked='checked' groupName='" + this[0].replace(/'/g, "") + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0].replace(/'/g, "") + "</label></li>");
+                        var group = { name: this[0].replace(/'/g,""), idd: this[1] };
                         groupsSelectedIds.push(group);
                     }
                 });

@@ -1496,6 +1496,11 @@ function checkIntoEvent(idOfPopUp, calId, evenId) {
         checkInStatusId = "3";
     if (status == "Excused")
         checkInStatusId = "4";
+    var tardy = $("#" + eventId).attr("data-tardy").toLocaleLowerCase();
+    var result = tardy == "true" ? true : false;
+    var note = $("#" + eventId).attr("data-note");
+    $(".popover-content #notes").val(note);
+    $(".popover-content #IsTardy").prop('checked', result);
     $(".popover-content #checkInSelection").val(checkInStatusId).change();
 }
 
@@ -1544,6 +1549,8 @@ function checkInMemberToEvent() {
     var noted = $(".popover-content #notes").val();
     var selectedItem = $(".popover-content #checkInSelection option:selected").val();
     var selectedItemText = $(".popover-content #checkInSelection option:selected").text();
+    var isTardy = $(".popover-content #IsTardy").is(':checked');
+    var note = $(".popover-content #notes").val();
     if (selectedItem === "") {
         $('.bottom-right').notify({
             message: { text: 'Please Select Check In Type. ' },
@@ -1552,8 +1559,7 @@ function checkInMemberToEvent() {
         }).show();
         return;
     }
-    var isTardy = $(".popover-content #IsTardy").is(':checked');
-
+  
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
@@ -1561,6 +1567,8 @@ function checkInMemberToEvent() {
             $("#" + eventId).children('i').toggleClass("fa-check-square", true);
             $("#" + eventId).attr("data-attendance", selectedItemText);
             $("#" + eventId).attr('data-original-title', selectedItemText);
+            $("#" + eventId).attr('data-tardy', isTardy);
+            $("#" + eventId).attr('data-note', note);
             SetCheckInButtonColor(eventId, selectedItemText);
             $('.bottom-right').notify({
                 message: { text: 'Checked In! ' },

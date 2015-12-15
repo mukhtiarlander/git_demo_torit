@@ -74,7 +74,7 @@
             {
                 <tr class="@(b.RequestId % 2 == 0 ? "tr1" : "tr0")">
                     <td>
-                        <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)">View </a>
+                        <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)" class="btn btn-primary">View </a>
                     </td>
                     <td>
                         @Truncate(b.TeamsPlaying, 23)

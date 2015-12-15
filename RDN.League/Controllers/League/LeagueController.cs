@@ -2249,9 +2249,6 @@ namespace RDN.League.Controllers
             try
             {
                 var doc = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocument(documentId, leagueDocumentId);
-                var leagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                var lstTags = CommentForDocument.FetchLeagueTags(leagueId).Select(x => x.Tag.TagName);
-                ViewBag.DocumentTags = string.Join(",", lstTags);
                 return View(doc);
             }
             catch (Exception exception)

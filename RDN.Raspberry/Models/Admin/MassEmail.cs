@@ -25,6 +25,10 @@ namespace RDN.Raspberry.Models.Admin
 
     public class MassEmail
     {
+        /// <summary>
+        /// removes the [RDNation] from the subject line.
+        /// </summary>
+        public bool IsSubjectLineRemoved { get; set; }
         public bool IsMassSendVerified { get; set; }
         public string TestEmail { get; set; }
         public string Subject { get; set; }
