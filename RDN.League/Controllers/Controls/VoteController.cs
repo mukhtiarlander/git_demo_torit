@@ -116,7 +116,10 @@ namespace RDN.League.Controllers.UI
                 var polls = VotingFactory.GetPollV2(new Guid(leagueId), Convert.ToInt64(pollid), mem);
 
                 if (polls.IsDeleted)
+                {
+                    TempData["infoMessage"] = "That poll has since been removed.";
                     return Redirect(Url.Content("~/poll/" + leagueId + "?u=" + SiteMessagesEnum.cl));
+                }
 
                 if (!String.IsNullOrEmpty(polls.Description))
                 {
