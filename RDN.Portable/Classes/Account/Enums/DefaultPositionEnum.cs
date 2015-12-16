@@ -11,7 +11,7 @@ namespace RDN.Portable.Classes.Account.Enums
         CompletedInitialRegistration = 0,
         The_Owner_of_a_Team_League = 1,
         A_Player = 2,
-        The_Owner_of_a_Federation = 3,
+        //The_Owner_of_a_Federation = 3,
         Referee = 4,
         Official = 5,
         Other = 6,
