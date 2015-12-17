@@ -114,8 +114,6 @@
     </div>
 </div>
 
-<div class='notifications top-right'></div>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $('#members').dataTable({
@@ -127,16 +125,6 @@
             "bAutoWidth": false,
             "aaSorting": []
         });
-
-        var infoMessage = '@TempData["infoMessage"]';
-        if (infoMessage) {
-            $('.top-right').notify({
-                message: { text: infoMessage },
-                fadeOut: { enabled: true, delay: 4000 },
-                type: "danger"
-            }).show();
-        }
-
     });
 </script>
 
