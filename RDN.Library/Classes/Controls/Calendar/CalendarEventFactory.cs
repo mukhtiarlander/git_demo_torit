@@ -132,7 +132,7 @@ namespace RDN.Library.Classes.Calendar
                         else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Weekly)
                         {
                             int daysToAdd = (endsOnOcurrences / howManyDays) * 7;
-                            
+
                             ev.EndReocurring = startDate.AddDays(daysToAdd);
                         }
                     }
@@ -1769,7 +1769,7 @@ namespace RDN.Library.Classes.Calendar
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " " + repeatFrequencySelected.ToString() + ":" + endsOnDateReoccuring + " " + endsWhen.ToString());
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: startDate + " " + endDate + " " + repeatFrequencySelected.ToString() + ":" + endsOnDateReoccuring + " " + endsWhen.ToString() + ":" + endsOnOcurrences);
             }
             return ev.CalendarItemId;
         }

@@ -22,7 +22,7 @@ namespace RDN.Library.Classes.League.Reports
         League_Departure_Date = 13,
         Day_Job = 14,
         Email = 15,
-        Phone_Number=16,
+        Phone_Number = 16,
         Mom = 17,
         Dad = 18,
         Step_Dad = 19,
@@ -40,8 +40,9 @@ namespace RDN.Library.Classes.League.Reports
         Partner = 31,
         Sibling = 32,
         Derby_Name = 33,
-        Started_Skating_Date=34,
-        Started_Playing_Date = 35
+        Started_Skating_Date = 34,
+        Started_Playing_Date = 35,
+        Derby_Number = 36
         //Groups = 15
 
     }

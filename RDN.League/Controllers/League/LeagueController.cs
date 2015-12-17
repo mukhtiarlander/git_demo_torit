@@ -1273,6 +1273,7 @@ namespace RDN.League.Controllers
                 {
                     model.ColumnsAvailable.Add(MembersReportEnum.Started_Playing_Date);
                     model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Name);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Number);
                 }
 
                 return View(model);
