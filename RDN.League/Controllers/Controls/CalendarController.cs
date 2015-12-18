@@ -914,8 +914,14 @@ namespace RDN.League.Controllers
                 if (!newEvent.IsReoccurring)
                     eventIdd = CalendarEventFactory.CreateNewEvent(newEvent.CalendarId, newEvent.StartDate, newEvent.EndDate, new Guid(newEvent.SelectedLocationId), newEvent.Name, newEvent.Link, newEvent.Notes, newEvent.AllowSelfCheckIn, newEvent.IsPublicEvent, false, new Guid(), Convert.ToInt64(newEvent.SelectedEventTypeId), newEvent.BroadcastEvent, newEvent.TicketUrl, newEvent.ColorTempSelected, listOfGroupIds, memId);
                 else
-                    eventIdd = CalendarEventFactory.CreateNewEventReOcurring(newEvent.CalendarId, newEvent.StartDate, newEvent.EndDate, new Guid(newEvent.SelectedLocationId), newEvent.Name, newEvent.Link, newEvent.Notes, newEvent.AllowSelfCheckIn, frequency, newEvent.IsSunday, newEvent.IsMonday, newEvent.IsTuesday, newEvent.IsWednesday, newEvent.IsThursday, newEvent.IsFriday, newEvent.IsSaturday, endsWhenn, Convert.ToInt32(newEvent.EndsOccurences), endsWhenn == EndsWhenReoccuringEnum.On ? Convert.ToDateTime(newEvent.EndsDate) : new DateTime(), Convert.ToInt64(newEvent.SelectedEventTypeId), newEvent.BroadcastEvent, newEvent.IsPublicEvent, monthlyIntervalId, newEvent.TicketUrl, newEvent.ColorTempSelected, listOfGroupIds, memId);
+                {
+                    DateTime endsDate = new DateTime();
+                    if (endsWhenn == EndsWhenReoccuringEnum.On)
+                        DateTime.TryParse(newEvent.EndsDate, out endsDate);
 
+
+                    eventIdd = CalendarEventFactory.CreateNewEventReOcurring(newEvent.CalendarId, newEvent.StartDate, newEvent.EndDate, new Guid(newEvent.SelectedLocationId), newEvent.Name, newEvent.Link, newEvent.Notes, newEvent.AllowSelfCheckIn, frequency, newEvent.IsSunday, newEvent.IsMonday, newEvent.IsTuesday, newEvent.IsWednesday, newEvent.IsThursday, newEvent.IsFriday, newEvent.IsSaturday, endsWhenn, Convert.ToInt32(newEvent.EndsOccurences), endsDate, Convert.ToInt64(newEvent.SelectedEventTypeId), newEvent.BroadcastEvent, newEvent.IsPublicEvent, monthlyIntervalId, newEvent.TicketUrl, newEvent.ColorTempSelected, listOfGroupIds, memId);
+                }
                 if (createAnother)
                 {
                     return Redirect(Url.Content("~/calendar/new/" + newEvent.CalendarType.ToString().Replace("-", "") + "/" + newEvent.CalendarId.ToString().Replace("-", "") + "/true"));
@@ -932,7 +938,7 @@ namespace RDN.League.Controllers
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: newEvent.SelectedLocationId);
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: newEvent.SelectedLocationId + ":" + newEvent.EndsDate + ":" + newEvent.StartTime + ":" + newEvent.EndDate);
             }
 
             if (MemberCache.GetCalendarDefaultView(RDN.Library.Classes.Account.User.GetUserId()) == CalendarDefaultViewEnum.List_View)

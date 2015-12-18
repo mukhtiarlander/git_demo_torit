@@ -78,6 +78,7 @@ namespace RDN.Library.Classes.League
                                         reportSheet.Cells[row, column].Value = league.LeagueMembers[i].DerbyName;
                                         break;
                                     case MembersReportEnum.Number:
+                                    case MembersReportEnum.Derby_Number:
                                         reportSheet.Cells[row, column].Value = league.LeagueMembers[i].PlayerNumber;
                                         break;
                                     case MembersReportEnum.First_Name:

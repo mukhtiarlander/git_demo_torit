@@ -220,7 +220,7 @@ namespace RDN.Library.Classes.Admin.Admin
         }
 
 
-        public static bool SendToSubscribersAndWebScrapedList(string subject, string body, string testEmail)
+        public static bool SendToSubscribersAndWebScrapedList(string subject, string body, string testEmail, bool isSubjectLineRemoved)
         {
             try
             {
@@ -252,7 +252,10 @@ namespace RDN.Library.Classes.Admin.Admin
                             {
                                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emails[i], LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                                if (!isSubjectLineRemoved)
+                                    subject = LibraryConfig.DefaultEmailSubject + " " + subject;
+
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emails[i], subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                             }
                         }
                     }
