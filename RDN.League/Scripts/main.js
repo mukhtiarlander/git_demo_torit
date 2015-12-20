@@ -1324,6 +1324,7 @@ function WaiveDues(button, memId) {
     var amount = amountButton.val();
     var noteText = $("#" + memId + "-Dues-Notes");
     var note = $("#" + memId + "-Dues-Notes").val()
+    var dueNote = $("#"+memId+"-Due-Note-Text");
 
     $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: note }, function (result) {
         if (result.isSuccess === true) {
@@ -1336,13 +1337,15 @@ function WaiveDues(button, memId) {
             }
         })
     });
-
+    
     amountButton.remove();
     $(noteText).remove();
     $(button).remove();
     sendReminderButton.remove();
     paidButton.remove();
+    $(dueNote).removeClass('hide').addClass("dueNote-Display");
 
+    $(dueNote).text(note);
     collected.text("Waived");
     due.text(parseFloat('0.00').toFixed(2));
 }
@@ -1358,8 +1361,8 @@ function PayDues(button, memId) {
     var waiveButton = $("#" + memId + "-waive-button");
     var amount = amountButton.val();
     var noteText = $("#" + memId + "-Dues-Notes");
-    var note = $("#" + memId + "-Dues-Notes").val()
-
+    var note = $("#" + memId + "-Dues-Notes").val();
+    var dueNoteSpan = $("#" + memId + "-Due-Note-Text");
 
     if (parseFloat(amount) > parseFloat(0)) {
         $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: note }, function (result) {
@@ -1380,6 +1383,8 @@ function PayDues(button, memId) {
             waiveButton.remove();
             sendReminderButton.remove();
             $(noteText).remove();
+            $(dueNoteSpan).removeClass('hide').addClass('dueNote-Display');
+            $(dueNoteSpan).text(note);
         }
         else {
             amountButton.val((parseFloat(due.text().replace(/,/g, '')) - parseFloat(amount)).toFixed(2));
