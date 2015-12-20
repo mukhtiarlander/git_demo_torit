@@ -85,14 +85,14 @@ namespace RDN.Utilities.Strings
         {
             if (!String.IsNullOrEmpty(text))
             {
-                return text.Replace("%", "").Replace(">", "").Replace("<", "").Replace("\"", "").Replace("$", "").Replace(")", "").Replace("(", "").Replace("=", "").Replace("&", "").Replace("*", "").Replace("`", "").Replace("!", "").Replace(".", " ").Replace(":", " ").Replace("?", "").Replace("'", "").Replace("/", " ").Replace(@"\", " ").Replace(",", " ").Replace("+", " ").Trim().Replace("#", "").Replace("´", "").Replace(" ", "-").Replace("--", "-");
+                return text.Replace("[", "").Replace("]", "").Replace("%", "").Replace(">", "").Replace("<", "").Replace("\"", "").Replace("$", "").Replace(")", "").Replace("(", "").Replace("=", "").Replace("&", "").Replace("*", "").Replace("`", "").Replace("!", "").Replace(".", " ").Replace(":", " ").Replace("?", "").Replace("'", "").Replace("/", " ").Replace(@"\", " ").Replace(",", " ").Replace("+", " ").Trim().Replace("#", "").Replace("´", "").Replace(" ", "-").Replace("--", "-");
             } return string.Empty;
         }
         public static string ToAXDFriendly(this string text)
         {
             if (!String.IsNullOrEmpty(text))
             {
-                return text.Replace("%", "").Replace(">", "").Replace("<", "").Replace("$", "").Replace(")", "").Replace("(", "").Replace("=", "").Replace("&", "").Replace("*", "").Replace("`", "").Replace("!", "").Replace(":", " ").Replace("?", "").Replace("'", "").Replace("/", " ").Replace(@"\", " ").Replace(",", " ").Trim().Replace("#", "").Replace("´", "").Replace("--", "-");
+                return text.Replace("[", "").Replace("]", "").Replace("%", "").Replace(">", "").Replace("<", "").Replace("$", "").Replace(")", "").Replace("(", "").Replace("=", "").Replace("&", "").Replace("*", "").Replace("`", "").Replace("!", "").Replace(":", " ").Replace("?", "").Replace("'", "").Replace("/", " ").Replace(@"\", " ").Replace(",", " ").Trim().Replace("#", "").Replace("´", "").Replace("--", "-");
             } return string.Empty;
         }
         public static string ToInternetFriendly(this string text)
