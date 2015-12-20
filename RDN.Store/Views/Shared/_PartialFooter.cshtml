@@ -25,8 +25,8 @@
                 <a class="footerLink" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite">@RDN.Library.Classes.Config.LibraryConfig.WebsiteName</a>
             </li>
         </ul>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    </div>   
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <a class="footerSocialLink fs20" href="https://plus.google.com/b/100003183552108454392/">
             <i class="fa fa-google-plus-square"></i>
         </a>
@@ -44,9 +44,11 @@
         
 
 </div>
-<div class="copyRight text-center">
-    <p>
+<div class="copyRight">
+    @Html.Partial("_PartialFooterLink")
+    <div class="text-center"><p>
         Site design / logo © @DateTime.Now.Year @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName inc;
     </p>
     All league logos are copywritten per their respective copyright holders.
+        </div>
 </div>

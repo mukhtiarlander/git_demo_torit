@@ -14,6 +14,7 @@ using RDN.Library.Classes.Federation.Enums;
 using System.Net;
 using RDN.Library.Classes.Messages;
 using RDN.Library.Classes.Forum;
+using RDN.Library.Classes.Config;
 
 namespace RDN.Raspberry.Controllers
 {
@@ -35,24 +36,27 @@ namespace RDN.Raspberry.Controllers
             //{
             //    ErrorDatabaseManager.AddException(exception, GetType());
             //}
-            //try
-            //{
-            //    //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
-            //    AutomatedTask.SetLeagueOfTheWeek();
-            //}
-            //catch (Exception exception)
-            //{
-            //    ErrorDatabaseManager.AddException(exception, GetType());
-            //}
-            //try
-            //{
-            //    //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
-            //    AutomatedTask.SetSkaterOfTheWeek();
-            //}
-            //catch (Exception exception)
-            //{
-            //    ErrorDatabaseManager.AddException(exception, GetType());
-            //}
+            if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
+            {
+                try
+                {
+                    //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
+                    AutomatedTask.SetLeagueOfTheWeek();
+                }
+                catch (Exception exception)
+                {
+                    ErrorDatabaseManager.AddException(exception, GetType());
+                }
+                try
+                {
+                    //Commented By Khalid:on 10.01.2014 mm.dd.yyyy.In my solution the method does not exist.
+                    AutomatedTask.SetSkaterOfTheWeek();
+                }
+                catch (Exception exception)
+                {
+                    ErrorDatabaseManager.AddException(exception, GetType());
+                }
+            }
             try
             {
                 task.emailsNotFilled = AutomatedTask.EmailNotFilledOutProfile();
@@ -165,7 +169,7 @@ namespace RDN.Raspberry.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, GetType());
             }
-            
+
             try
             {
                 AutomatedTask.EmailAdminsAboutAutomationWorking(task);

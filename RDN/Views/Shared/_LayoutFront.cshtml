@@ -26,6 +26,7 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     @System.Web.Optimization.Scripts.Render("~/bundles/properties")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
+    @Common.CordovaModules.CordovaHelper.Instance.GetCordovaScript(Request)
     <link rel="apple-touch-icon" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
     <link rel="apple-touch-icon" sizes="72x72" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
     <link rel="apple-touch-icon" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
@@ -170,8 +171,7 @@
 
     </div>
     <div class="container-fluid footer">
-        @*@Html.Partial("_PartialFooter")*@
-        <br /><br /><br /><br /><br />
+        @Html.Partial("_PartialFooterLink")
     </div>
     <script type="text/JavaScript">
         AddSiteMapNode(location.href, true);

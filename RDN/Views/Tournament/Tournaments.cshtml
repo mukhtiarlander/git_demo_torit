@@ -3,78 +3,86 @@
     ViewBag.Title = @RDN.Library.Classes.Config.LibraryConfig.SportName + " Tournaments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="page-header">
-    <h2>
-        @RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments
-    </h2>
-</div>
-<div class="col-xs-offset-1">
-    <a href="'@RDN.Library.Classes.Config.LibraryConfig.InternalSite'tournament/create" class="btn btn-success">Add A Tournament</a>
-</div>
-<br />
-<table class="table table-striped table-bordered table-hover" id="tourns">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Location</th>
-            <th>Class</th>
-            <th>Games</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tourny in Model)
-        {
-            <tr>
-                <td>
-                    @if (tourny.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+        <li class="active">@RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments</li>
+    </ol>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3 class="margin-top-5">@RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments</h3>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite/tournament/create" class="btn btn-success">Add A Tournament</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body no-padding">
+            <table class="table table-striped table-hover table-condensed no-margin-bottom margin-top-10" id="tourns">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Location</th>
+                        <th>Class</th>
+                        <th>Games</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tourny in Model)
                     {
-                        <img src="@tourny.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl" class="thumbnail-sm img-rounded" alt="Logo" />
-                    }
-                </td>
-                <td>
-                    <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.TournamentPublicUrl + tourny.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(tourny.Name))">
-                        
-                        @tourny.Name
-                    </a>
-                </td>
-                <td>@tourny.StartDateDisplay</td>
-                <td>@tourny.EndDateDisplay</td>
-                <td>
-                    @if (!String.IsNullOrEmpty(tourny.City))
-                    {
-                        <span>@tourny.City,</span>
-                    }
-                    @if (!String.IsNullOrEmpty(tourny.State))
-                    {
-                        <span>@tourny.State,</span>
-                    }
-                    @if (!String.IsNullOrEmpty(tourny.Country))
-                    {
-                        @tourny.Country
-                    }
+                        <tr>
+                            <td>
+                                @if (tourny.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
+                                {
+                                    <img src="@tourny.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl" class="thumbnail-sm img-rounded" alt="Logo" />
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.TournamentPublicUrl + tourny.Id.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(tourny.Name))">
 
-                    (<a href="http://www.bing.com/maps/default.aspx?q=@tourny.Address+@tourny.Address2,+@tourny.City,+@tourny.State+@tourny.ZipCode+@tourny.Country" target="_blank">View</a>)
-                </td>
-                <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(tourny.TournamentClass)</td>
-                <td>@tourny.Games.Count</td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div class="col-xs-offset-1">
-    <a href="'@RDN.Library.Classes.Config.LibraryConfig.TournamentPublicUrl'tournament/create" class="btn btn-success">Add A Tournament</a>
-</div>
-<br />
+                                    @tourny.Name
+                                </a>
+                            </td>
+                            <td>@tourny.StartDateDisplay</td>
+                            <td>@tourny.EndDateDisplay</td>
+                            <td>
+                                @if (!String.IsNullOrEmpty(tourny.City))
+                                {
+                                    <span>@tourny.City,</span>
+                                }
+                                @if (!String.IsNullOrEmpty(tourny.State))
+                                {
+                                    <span>@tourny.State,</span>
+                                }
+                                @if (!String.IsNullOrEmpty(tourny.Country))
+                                {
+                                    @tourny.Country
+                                }
+
+                                (<a href="http://www.bing.com/maps/default.aspx?q=@tourny.Address+@tourny.Address2,+@tourny.City,+@tourny.State+@tourny.ZipCode+@tourny.Country" target="_blank">View</a>)
+                            </td>
+                            <td>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(tourny.TournamentClass)</td>
+                            <td>@tourny.Games.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
-<div class="gpSBVersion">
-    Want to Show Your Games LIVE on @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName For Free?
-    <br />
-    <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">
-        Download Thor's Hammer @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard
-    </a>
+    <div class="gpSBVersion well">
+        Want to Show Your Games LIVE on @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName For Free?
+        <br />
+        <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">
+         <i class="fa fa-download"></i> Download Thor's Hammer @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard
+        </a>
+    </div>
 </div>
+
 

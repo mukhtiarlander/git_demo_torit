@@ -27,7 +27,7 @@ namespace Scoreboard.Library.Classes.Reports.Wftda
         {
             try
             {
-                PopulateIBRF();
+                PopulateIGRF();
                 PopulateScore();
                 PopulatePenalties();
                 PopulateLineUps();
@@ -513,28 +513,28 @@ namespace Scoreboard.Library.Classes.Reports.Wftda
                 ErrorViewModel.Save(exception, exception.GetType());
             }
         }
-        private void PopulateIBRF()
+        private void PopulateIGRF()
         {
             try
             {
-                var reportSheet = _excelWorkbook.Workbook.Worksheets.Where(x => x.Name == "IBRF").FirstOrDefault();
+                var reportSheet = _excelWorkbook.Workbook.Worksheets.Where(x => x.Name == "IGRF").FirstOrDefault();
                 int row = 3;
                 reportSheet.Cells[3, 2].Value = GameViewModel.Instance.GameLocation;
                 reportSheet.Cells[3, 8].Value = GameViewModel.Instance.GameCity;
                 reportSheet.Cells[3, 10].Value = GameViewModel.Instance.GameState;
                 if (GameViewModel.Instance.GameDate != null)
-                    reportSheet.Cells[5, 2].Value = GameViewModel.Instance.GameDate.ToString("yyyy-MM-dd");
+                    reportSheet.Cells[7, 2].Value = GameViewModel.Instance.GameDate.ToString("yyyy-MM-dd");
                 if (GameViewModel.Instance.GameDate != null && GameViewModel.Instance.HasGameStarted)
-                    reportSheet.Cells[5, 8].Value = GameViewModel.Instance.GameDate.ToShortTimeString();
-                if (GameViewModel.Instance.GameEndDate != null && GameViewModel.Instance.HasGameEnded)
-                    reportSheet.Cells[5, 11].Value = GameViewModel.Instance.GameEndDate.ToShortTimeString();
+                    reportSheet.Cells[7, 8].Value = GameViewModel.Instance.GameDate.ToShortTimeString();
+                //if (GameViewModel.Instance.GameEndDate != null && GameViewModel.Instance.HasGameEnded)
+                //    reportSheet.Cells[5, 11].Value = GameViewModel.Instance.GameEndDate.ToShortTimeString();
 
-                reportSheet.Cells[8, 2].Value = GameViewModel.Instance.Team1.LeagueName;
-                reportSheet.Cells[8, 8].Value = GameViewModel.Instance.Team2.LeagueName;
-                reportSheet.Cells[9, 2].Value = GameViewModel.Instance.Team1.TeamName;
-                reportSheet.Cells[9, 8].Value = GameViewModel.Instance.Team2.TeamName;
+                reportSheet.Cells[10, 2].Value = GameViewModel.Instance.Team1.LeagueName;
+                reportSheet.Cells[10, 8].Value = GameViewModel.Instance.Team2.LeagueName;
+                reportSheet.Cells[11, 2].Value = GameViewModel.Instance.Team1.TeamName;
+                reportSheet.Cells[11, 8].Value = GameViewModel.Instance.Team2.TeamName;
 
-                row = 11;
+                row = 14;
                 foreach (var member in GameViewModel.Instance.Team1.TeamMembers)
                 {
                     if (!String.IsNullOrEmpty(member.SkaterNumber) && member.SkaterNumber.Length > 4)
@@ -544,7 +544,7 @@ namespace Scoreboard.Library.Classes.Reports.Wftda
                     reportSheet.Cells[row, 3].Value = member.SkaterName;
                     row += 1;
                 }
-                row = 11;
+                row = 14;
                 foreach (var member in GameViewModel.Instance.Team2.TeamMembers)
                 {
                     if (!String.IsNullOrEmpty(member.SkaterNumber) && member.SkaterNumber.Length > 4)
@@ -554,48 +554,146 @@ namespace Scoreboard.Library.Classes.Reports.Wftda
                     reportSheet.Cells[row, 9].Value = member.SkaterName;
                     row += 1;
                 }
-                row = 32;
+                row = 80;
                 if (GameViewModel.Instance.Officials != null)
                 {
                     if (GameViewModel.Instance.Officials.Referees != null)
                     {
                         foreach (var referee in GameViewModel.Instance.Officials.Referees)
                         {
-                            if (row < 36)
+                            //determine the row
+                            row = -1;
+                            if (referee.RefereeType == RefereeTypeEnum.Head_Ref)
+                            {
+                                row = 80;                               
+                            }
+                            else if (referee.RefereeType == RefereeTypeEnum.Pack_Ref)
+                            {
+                                row = 81;
+                            }
+                            else if (referee.RefereeType == RefereeTypeEnum.Jam_Ref_Team_1)
+                            {
+                                row = 82;
+                            }
+                            else if (referee.RefereeType == RefereeTypeEnum.Jam_Ref_Team_2)
+                            {
+                                row = 83;
+                            }
+                            else if (referee.RefereeType == RefereeTypeEnum.Outside_Pack_Ref)
+                            {
+                                row = 84;
+                                while (reportSheet.Cells[row, 1].Value != null && !string.IsNullOrEmpty(reportSheet.Cells[row, 1].Value.ToString()))
+                                {
+                                    row++;
+                                    if (row > 86)
+                                    {
+                                        row = -1; // some out of the range value 
+                                        break;
+                                    }
+                                }
+                            }
+                            else if (referee.RefereeType == RefereeTypeEnum.Not_Selected)
+                            {
+                                row = 87;
+                            }
+
+                            //check is a row was been found
+                            if (row > 79 && row < 88)
                             {
                                 reportSheet.Cells[row, 1].Value = referee.SkaterName;
-                                reportSheet.Cells[row, 3].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(referee.RefereeType);
-                                reportSheet.Cells[row, 4].Value = referee.League;
-                                reportSheet.Cells[row, 5].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(referee.Cert);
-                            }
-                            else
-                            {
-                                reportSheet.Cells[row - 4, 6].Value = referee.SkaterName;
-                                reportSheet.Cells[row - 4, 9].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(referee.RefereeType);
-                                reportSheet.Cells[row - 4, 10].Value = referee.League;
-                                reportSheet.Cells[row - 4, 12].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(referee.Cert);
-                            }
-                            row += 1;
+                                //reportSheet.Cells[row, 4].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(referee.RefereeType); //value already exists in excel
+                                reportSheet.Cells[row, 8].Value = referee.League;
+                                reportSheet.Cells[row, 10].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(referee.Cert);
+                            }                            
                         }
-                        row = 49;
+                        //add head referee to section 3.
+                        row = 53;
                         var head = GameViewModel.Instance.Officials.Referees.Where(x => x.RefereeType == RefereeTypeEnum.Head_Ref).FirstOrDefault();
                         if (head != null)
                             reportSheet.Cells[row, 2].Value = head.SkaterName;
                     }
                     if (GameViewModel.Instance.Officials.Nsos != null)
                     {
+                        // add head NSO to section 3
+                        row = 53;
                         var nsoHead = GameViewModel.Instance.Officials.Nsos.Where(x => x.RefereeType == NSOTypeEnum.Head_NSO).FirstOrDefault();
                         if (nsoHead != null)
                             reportSheet.Cells[row, 8].Value = nsoHead.SkaterName;
 
-                        row = 56;
+
                         foreach (var nso in GameViewModel.Instance.Officials.Nsos)
                         {
-                            reportSheet.Cells[row, 1].Value = nso.SkaterName;
-                            reportSheet.Cells[row, 4].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(nso.RefereeType);
-                            reportSheet.Cells[row, 8].Value = nso.League;
-                            reportSheet.Cells[row, 10].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(nso.Cert);
-                            row += 1;
+                            row = -1;
+                            if (nso.RefereeType == NSOTypeEnum.Head_NSO)
+                            {
+                                row = 60;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Penalty_Tracker)
+                            {
+                                row = 61;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Penalty_Wrangler)
+                            {
+                                row = 62;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Whiteboard)
+                            {
+                                row = 63;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Jam_Timer)
+                            {
+                                row = 64;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Scorekeeper_Team_1)
+                            {
+                                row = 65;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Scorekeeper_Team_2)
+                            {
+                                row = 66;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Scoreboard_Operator)
+                            {
+                                row = 67;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Penalty_Box_Manager)
+                            {
+                                row = 68;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Penalty_Box_Timer)
+                            {
+                                row = 69;
+                                if(reportSheet.Cells[row, 1].Value != null && !string.IsNullOrEmpty(reportSheet.Cells[row, 1].Value.ToString()))
+                                {
+                                    row = 70;
+                                    if (reportSheet.Cells[row, 1].Value != null && !string.IsNullOrEmpty(reportSheet.Cells[row, 1].Value.ToString()))
+                                        row = -1; //both rows are filed
+                                }
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Lineup_Tracker_Team_1)
+                            {
+                                row = 71;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Lineup_Tracker_Team_2)
+                            {
+                                row = 72;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.NSO)
+                            {
+                                row = 73;
+                            }
+                            else if (nso.RefereeType == NSOTypeEnum.Period_Timer)
+                            {
+                                row = 74;
+                            }
+
+                            if (row > 59 && row < 75)
+                            {
+                                reportSheet.Cells[row, 1].Value = nso.SkaterName;
+                                //reportSheet.Cells[row, 4].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(nso.RefereeType);
+                                reportSheet.Cells[row, 8].Value = nso.League;
+                                reportSheet.Cells[row, 10].Value = RDN.Utilities.Enums.EnumExt.ToFreindlyName(nso.Cert);
+                            }
                         }
                     }
                 }

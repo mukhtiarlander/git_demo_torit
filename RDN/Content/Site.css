@@ -42,7 +42,7 @@ body { background-color: #fff; font-family: Circular,"Helvetica Neue",Helvetica,
 
 
 .padding-5 { padding: 5px; }
-
+.padding-10{padding:10px;}
 
 .bg-black { background-color: #000; }
 .bg-white{ background-color: #fff; }
@@ -68,29 +68,17 @@ a.olControlZoomIn { border-radius: 4px 4px 0 0; }
 .imgCenter { display: block; margin-left: auto; margin-right: auto; }
 
 .timer { font-family: "League Gothic", Arial; -webkit-font-smoothing: antialiased !important; }
-.countdown { padding: 1em; background-color:rgba(0, 0, 0, 0.7); }
+.countdown { padding: 1em; background-color:white; margin-bottom:10px;color:#444}
     .countdown .labels { text-align: center; margin-bottom: 0.5em; }
-        .countdown .labels span { display: inline-block; width: 50px; font-family: 'Avenir Next'; color: #efefef; font-size: 0.8125em; background: none; padding: 0; margin: 5px 0; text-align: center; }
+        .countdown .labels span { display: inline-block; width: 50px; color: #444; font-size: 12px; background: none; padding: 0; margin: 5px 0; text-align: center; }
 
-@media (min-width: 168px) {
-.countdown { margin: 0px auto; position:absolute;width:100%;}    
-.tick { font-size: 2em; }
-}
+.countdown .tick { font-size: 40px;color:#111 }
 
-@media (min-width: 368px) {
-    
-    .tick { font-size: 3em; }
-}
-
-@media (min-width: 768px) {
-    .countdown {  position: absolute; right: 20px; width: 400px; }
-    .tick { font-size: 4em; }
-}
 
 .ul-inlineList { list-style:none; }
     .ul-inlineList li { display:inline-block; }
 
-.chatMessage { border-bottom: 1px solid #c0c0c0; padding: 3px; }
+.chatMessage { border-bottom: 1px solid #e5e5e5; padding: 10px; }
 .chatMessageProfile {   }
 .chatMessageContent { }
 
@@ -220,6 +208,7 @@ border: 1px solid #34BC9B;
 .padding-top-15{padding-top:15px;}
 .margin-top-10{margin-top:10px}
 .margin-bottom-10{margin-bottom:10px}
+.margin-bottom-20{margin-bottom:20px}
 .margin-5{margin:5px}
 .no-margin-top{margin-top:0px}
 .no-padding{padding:0px}
@@ -228,9 +217,11 @@ border: 1px solid #34BC9B;
 .margin-top-5{margin-top:5px}
 .margin-right-5{margin-right:5px;}
 .margin-bottom-15{margin-bottom:15px;}
+.no-margin-bottom{margin-bottom:0px}
 .no-padding-bottom{padding-bottom:0px !important}
 .padding-top-5{padding-top:5px;} 
 .padding-bottom-5{padding-bottom:5px;}
+.full-width{width:100%;}
 
 .game-grid-item >.thumbnail{ -webkit-box-shadow: 0 4px 6px -6px black;-moz-box-shadow: 0 4px 6px -6px black;box-shadow: 0 4px 6px -6px black;}
 .game-grid-item {width:25%;padding-left:10px; padding-right:10px}
@@ -251,3 +242,33 @@ border: 1px solid #34BC9B;
 }
 
 iframe[id^='twitter-widget-0']{ width:100% !important;}
+
+/*CSS for footer site link**/
+#footer-sites a {
+    color:#bbb;
+    font-size:12px;
+    cursor:pointer;
+    text-decoration: none;
+}
+#footer-sites tr td {
+    text-align:left;
+}
+#footer-sites ol {
+    list-style-type: none;
+}
+
+.font12 {
+    font-size: 12px;
+}
+
+.padding-left-15 {
+    padding-left: 15px;
+}
+
+.padding-bottom-5 {
+    padding-bottom: 5px;
+}
+.padding-top-5
+{
+    padding-top: 5px
+}

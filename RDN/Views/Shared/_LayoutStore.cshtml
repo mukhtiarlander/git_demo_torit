@@ -25,6 +25,7 @@
 @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
 @System.Web.Optimization.Scripts.Render("~/bundles/properties")
 @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
+@Common.CordovaModules.CordovaHelper.Instance.GetCordovaScript(Request)
     <script type="text/javascript">
 
     (function (i, s, o, g, r, a, m) {

@@ -525,6 +525,11 @@ namespace RDN.League.Controllers
             return View(model);
         }
 
+        public ActionResult Join() {
+
+            return View();
+        }
+
 
     }
 }

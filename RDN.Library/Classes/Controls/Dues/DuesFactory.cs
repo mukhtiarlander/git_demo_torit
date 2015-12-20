@@ -1064,10 +1064,11 @@ namespace RDN.Library.Classes.Dues
                     }
                     due.DuesFees.Add(item);
                 }
-                //check to see Next or Previous Due Item required if so then make database call to get due collection 
+                //if request comes from Next/Previous click from DueItem then make call to set Next or Previous Due Item of current Due.
+                // isNextPreviousDueRequired is option paramerter added to set NextPreviousDueItem properties of Due.
                 if (isNextPreviousDueRequired == true)
                 {
-                    GetNextPreviousDueItem(duesItemId, due);
+                    SetNextPreviousDueItem(duesItemId, due);
                 }
 
                 return due;
@@ -1079,36 +1080,20 @@ namespace RDN.Library.Classes.Dues
             return null;
         }
 
-        private static void GetNextPreviousDueItem(long duesItemId, DuesPortableModel due)
+        /// <summary>
+        /// Set Previous and Next Due of dueItem.
+        /// </summary>
+        /// <param name="duesItemId"></param>
+        /// <param name="due"></param>
+        private static void SetNextPreviousDueItem(long duesItemId, DuesPortableModel due)
         {
             //get the collection of all the dues of the League
             var dueCollection = GetDuesItemCollection(due.LeagueOwnerId);
 
             if (dueCollection != null)
             {
-                int currentItemIndex = dueCollection.FindIndex(item => item.Equals(Convert.ToInt64(duesItemId)));
-
-                if (currentItemIndex >= 0)
-                {
-                    if (currentItemIndex == 0) //check to see its first element
-                    {
-                        if (dueCollection.Count > 1)
-                            due.NextDueItem = dueCollection.ElementAt(currentItemIndex + 1);
-                        else
-                            due.NextDueItem = 0;
-                        due.PreviousDueItem = 0;
-                    }
-                    else if (currentItemIndex != 0 && (currentItemIndex + 1 != dueCollection.Count))
-                    {
-                        due.NextDueItem = dueCollection.ElementAt(currentItemIndex + 1);
-                        due.PreviousDueItem = dueCollection.ElementAt(currentItemIndex - 1);
-                    }
-                    else //check to see its last element
-                    {
-                        due.NextDueItem = 0;
-                        due.PreviousDueItem = dueCollection.ElementAt(currentItemIndex - 1);
-                    }
-                }
+                due.NextDueItem = dueCollection.OrderByDescending(n => n).FirstOrDefault(n => duesItemId > n);
+                due.PreviousDueItem = dueCollection.OrderBy(n => n).FirstOrDefault(n => duesItemId < n); 
             }
         }
 
