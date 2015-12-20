@@ -3359,7 +3359,7 @@ namespace RDNScoreboard
                 if (result == true)
                 {
                     WftdaReport wftda = new WftdaReport();
-                    wftda.Initialize().SetSaveFileName(dlg.FileName).SetOpenFileName(@"Resources/stats-book-03-2013.xlsx").Export();
+                    wftda.Initialize().SetSaveFileName(dlg.FileName).SetOpenFileName(@"Resources/wftda-statsbook-us-letter.xlsx").Export();
                 }
             }
             catch (Exception exception)
