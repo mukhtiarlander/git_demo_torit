@@ -1294,7 +1294,6 @@ namespace RDN.League.Controllers
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
         public ActionResult CalendarReport(CalendarReport report)
         {
-            CalendarReport cal = new CalendarReport();
             try
             {
                 long groupId = 0;
@@ -1308,30 +1307,30 @@ namespace RDN.League.Controllers
                 }
                 if (HttpContext.Request.Form["byDate"] != null || HttpContext.Request.Form["byDateExport"] != null)
                 {
-                    cal = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, Convert.ToDateTime(report.StartDateSelectedDisplay), Convert.ToDateTime(report.EndDateSelectedDisplay), groupId, report.PullGroupEventsOnly);
+                    report = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, Convert.ToDateTime(report.StartDateSelectedDisplay), Convert.ToDateTime(report.EndDateSelectedDisplay), groupId, report.PullGroupEventsOnly);
                 }
                 else if (HttpContext.Request.Form["byDays"] != null || HttpContext.Request.Form["byDaysExport"] != null)
                 {
                     DateTime dt = DateTime.UtcNow.AddDays(-report.DaysBackwards);
-                    cal = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, dt, DateTime.UtcNow, groupId, report.PullGroupEventsOnly);
+                    report = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, dt, DateTime.UtcNow, groupId, report.PullGroupEventsOnly);
                 }
 
-                cal.StartDateSelectedDisplay = cal.StartDateSelected.ToShortDateString();
-                cal.EndDateSelectedDisplay = cal.EndDateSelected.ToShortDateString();
-                cal.IsSubmitted = true;
+                report.StartDateSelectedDisplay = report.StartDateSelected.ToShortDateString();
+                report.EndDateSelectedDisplay = report.EndDateSelected.ToShortDateString();
+                report.IsSubmitted = true;
 
                 if (HttpContext.Request.Form["byDateExport"] != null || HttpContext.Request.Form["byDaysExport"] != null)
                 {
-                    return ExportExcelReport(cal);
+                    return ExportExcelReport(report);
                 }
 
-                return View(cal);
+                return View(report);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: report.EndDateSelectedDisplay + ":" + report.StartDateSelectedDisplay);
             }
-            return View(cal);
+            return View(report);
         }
         /// <summary>
         /// exports the calendar report to the excel spreadsheet.
