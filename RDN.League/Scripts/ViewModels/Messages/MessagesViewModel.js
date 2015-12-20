@@ -123,7 +123,7 @@
 
         var markup;
         if (repo.picture != '')
-            markup = '<img src="' + repo.picture + '" class="w30 round-corners"/> ' + repo.name;
+            markup = '<img src="' + repo.picture + '" class="w40 h40 round-corners"/> ' + repo.name;
         else
             markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + repo.name;
         return markup;
@@ -184,7 +184,7 @@
             resultsFormatter: function (item) {
                 var markup = '<li>';
                 if (item.picture != '')
-                    markup += '<img src="' + item.picture + '" class="w20 round-corners"/> ';
+                    markup += '<img src="' + item.picture + '" class="w40 h40 round-corners"/> ';
                 else
                     markup += '<i class="fa fa-user fa-lg text-muted"></i> ';
                 if (item.name && item.realname)
