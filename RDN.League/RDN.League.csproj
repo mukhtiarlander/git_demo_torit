@@ -149,6 +149,7 @@
     <Reference Include="System.Device">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Linq" />
     <Reference Include="System.Net.Http">
       <Private>True</Private>
     </Reference>
@@ -274,6 +275,7 @@
     <Compile Include="Controllers\League\LinksController.cs" />
     <Compile Include="Controllers\League\OfficiatingController.cs" />
     <Compile Include="Controllers\League\OrganizationController.cs" />
+    <Compile Include="Controllers\League\RosterController.cs" />
     <Compile Include="Controllers\League\SponsorController.cs" />
     <Compile Include="Controllers\League\SubscriptionsController.cs" />
     <Compile Include="Controllers\League\TaskController.cs" />
@@ -317,6 +319,7 @@
     <Compile Include="Models\Game\GameModel.cs" />
     <Compile Include="Models\Game\RegisterTournamentModel.cs" />
     <Compile Include="Models\Game\RequestGamePlace.cs" />
+    <Compile Include="Models\Helpers\EnumerationHelper.cs" />
     <Compile Include="Models\Helpers\HtmlExt.cs" />
     <Compile Include="Models\Helpers\ImageHelper.cs" />
     <Compile Include="Models\Helpers\List.cs" />
@@ -338,6 +341,7 @@
     <Compile Include="Models\OutModel\EmptyModel.cs" />
     <Compile Include="Models\OutModel\GenericEnumerableModel.cs" />
     <Compile Include="Models\OutModel\GenericSingleModel.cs" />
+    <Compile Include="Models\Roster\RosterModel.cs" />
     <Compile Include="Models\Store\DisplayStoreModel.cs" />
     <Compile Include="Models\Store\StoreItemDisplayModel.cs" />
     <Compile Include="Models\Team\CreateTeam.cs" />
@@ -857,6 +861,7 @@
     <Content Include="Scripts\Sites\localhost.js" />
     <Content Include="Scripts\Sites\snation.js" />
     <Content Include="Scripts\Sites\rdnation.js" />
+    <Content Include="Scripts\Sortable.min.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\anchor\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\autolink\plugin.min.js" />
@@ -962,6 +967,10 @@
     <Content Include="Views\Location\EditLocation.cshtml" />
     <Content Include="Views\Member\UnRetireProfile.cshtml" />
     <Content Include="Views\Contact\ViewContact.cshtml" />
+    <Content Include="Views\Roster\AddNewRoster.cshtml" />
+    <Content Include="Views\Roster\ViewRosters.cshtml" />
+    <Content Include="Views\Roster\ViewRoster.cshtml" />
+    <Content Include="Views\Roster\EditRoster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\img\" />

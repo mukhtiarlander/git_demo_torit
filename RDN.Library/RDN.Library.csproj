@@ -321,6 +321,7 @@
     <Compile Include="Classes\Payment\Striped\StripeResponse.cs" />
     <Compile Include="Classes\RN\Communication\Email.cs" />
     <Compile Include="Classes\RN\RSS\RSSFactory.cs" />
+    <Compile Include="Classes\Roster\RosterManager.cs" />
     <Compile Include="Classes\Site\Enums\SiteType.cs" />
     <Compile Include="Classes\Social\Enums\SiteTypeEnum.cs" />
     <Compile Include="Classes\Social\Facebook\Classes\FacebookMessage.cs" />
@@ -716,6 +717,9 @@
     <Compile Include="DataModels\RN\RSS\RSSFeedTags.cs" />
     <Compile Include="DataModels\RN\RSS\RSSFeed.cs" />
     <Compile Include="DataModels\RN\RSS\RSSFeedCategory.cs" />
+    <Compile Include="DataModels\Roster\Roster.cs" />
+    <Compile Include="DataModels\Roster\RosterMember.cs" />
+    <Compile Include="Classes\Roster\Roster.cs" />
     <Compile Include="DataModels\Social\SocialAuthKeys.cs" />
     <Compile Include="DataModels\Scoreboard\ScoreboardFeedback.cs" />
     <Compile Include="DataModels\Scoreboard\ScoreboardInstance.cs" />
@@ -761,6 +765,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Util\KeyValueHelper.cs" />
     <Compile Include="Util\SiteMessage.cs" />
     <Compile Include="Util\Markdown.cs" />
     <Compile Include="Util\Enum\SiteMessagesEnum.cs" />

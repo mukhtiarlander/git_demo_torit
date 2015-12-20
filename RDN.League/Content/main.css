@@ -2318,72 +2318,116 @@ iframe[id^='twitter-widget-0'] {
     }
 }
 
-  /* Responsive Tables CSS - Start */
+/* Responsive Tables CSS - Start */
 
 @media only screen and (max-width: 800px) {
-        /* Force table to not be like tables anymore */
-        #forum-tables table,
-        #forum-tables thead,
-        #forum-tables tbody,
-        #forum-tables th,
-        #forum-tables td,
-        #forum-tables tr {
+    /* Force table to not be like tables anymore */
+    #forum-tables table,
+    #forum-tables thead,
+    #forum-tables tbody,
+    #forum-tables th,
+    #forum-tables td,
+    #forum-tables tr {
         display: block;
-        }
-         
+    }
+
         /* Hide table headers (but not display: none;, for accessibility) */
         #forum-tables thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
         }
-         
-        #forum-tables tr { border: 1px solid #ccc; }
-          
-        #forum-tables td {
+
+    #forum-tables tr {
+        border: 1px solid #ccc;
+    }
+
+    #forum-tables td {
         /* Behave like a "row" */
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
         padding-left: 40%;
         white-space: normal;
-        }
-        #forum-tables td.fullwidth
-        {
+    }
+
+        #forum-tables td.fullwidth {
             padding-left: 10px !important;
         }
-         
+
         #forum-tables td:before {
-        /* Now like a table header */
-        position: absolute;
-        /* Top/left values mimic padding */
-        top: 6px;
-        left: 6px;
-        width: 35%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 35%;
+            padding-right: 10px;
+            white-space: nowrap;
+            font-weight: bold;
         }
-         
+
         /*
         Label the data
         */
-        #forum-tables td:before { content: attr(data-title); }
+        #forum-tables td:before {
+            content: attr(data-title);
         }
+}
 /* Responsive Tables CSS - End */
 
 /*Start CSS for footer website links*/
 #footer-sites a {
-    color:#bbb;
-    font-size:12px;
-    cursor:pointer;
+    color: #bbb;
+    font-size: 12px;
+    cursor: pointer;
     text-decoration: none;
 }
+
 #footer-sites tr td {
-    text-align:left;
+    text-align: left;
 }
+
 #footer-sites ol {
     list-style-type: none;
 }
 /*End CSS for footer website links*/
 
+
+
+.roster ol.vertical {
+    height: 20em;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+}
+ 
+    .roster ol.vertical li {
+        display: block;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid #cccccc;
+        color: #0088cc;
+        background: #eeeeee;
+    }
+
+.roster ol {
+    list-style-type: none;
+}
+
+body.dragging, body.dragging * {
+    cursor: move !important;
+}
+
+
+.roster.dragged {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    z-index: 2000;
+}
+
+.roster ol.simple_with_animation li {
+    cursor: pointer;
+}
