@@ -2318,60 +2318,6 @@ iframe[id^='twitter-widget-0'] {
     }
 }
 
-  /* Responsive Tables CSS - Start */
-
-@media only screen and (max-width: 800px) {
-        /* Force table to not be like tables anymore */
-        #forum-tables table,
-        #forum-tables thead,
-        #forum-tables tbody,
-        #forum-tables th,
-        #forum-tables td,
-        #forum-tables tr {
-        display: block;
-        }
-         
-        /* Hide table headers (but not display: none;, for accessibility) */
-        #forum-tables thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-        }
-         
-        #forum-tables tr { border: 1px solid #ccc; }
-          
-        #forum-tables td {
-        /* Behave like a "row" */
-        border: none;
-        border-bottom: 1px solid #eee;
-        position: relative;
-        padding-left: 40%;
-        white-space: normal;
-        }
-        #forum-tables td.fullwidth
-        {
-            padding-left: 10px !important;
-        }
-         
-        #forum-tables td:before {
-        /* Now like a table header */
-        position: absolute;
-        /* Top/left values mimic padding */
-        top: 6px;
-        left: 6px;
-        width: 35%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-        }
-         
-        /*
-        Label the data
-        */
-        #forum-tables td:before { content: attr(data-title); }
-        }
-/* Responsive Tables CSS - End */
-
 /*Start CSS for footer website links*/
 #footer-sites a {
     color:#bbb;
