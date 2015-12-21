@@ -327,6 +327,11 @@
 
                                                 </a>
                                             </li>
+                                            @*<li>
+                                                <a href="@Url.Content("~/league/rosters/all")" title="Rosters">
+                                                    <i class="fa fa-users"></i>Rosters
+                                                </a>
+                                            </li>*@
 
                                         </ul>
                                     </div>
@@ -536,12 +541,9 @@
                 </div>
             }
         </div>
-        <a class="btn btn-info btn-lg margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite "><i class="fa fa-shopping-cart"></i>Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
-        <div class="white padding-bottom-10">
-            Questions, Comments or Concerns? Feel Free to Email us at <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail</a>
-        </div>
-        @* Footer WebSite Section*@
-       @Html.Partial("_PartialFooterLink")
+        <a class="btn btn-info margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite "><i class="fa fa-shopping-cart"></i>Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
+        
+       @Html.Partial("_PartialFooter")
     </div>
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
     <div id="feedback_tab" style="" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">

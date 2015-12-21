@@ -25,6 +25,7 @@ namespace Scoreboard.Library.ViewModel.Officials.Enums
         Volunteer = 15,
         Scorekeeper_Team_2 = 16,
         Lineup_Tracker_Team_2 = 17,
-        Official_Review_Tracker = 18
+        Official_Review_Tracker = 18,
+        Period_Timer = 19
     }
 }

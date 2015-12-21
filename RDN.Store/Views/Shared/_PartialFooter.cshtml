@@ -1,54 +1,69 @@
-﻿<div class="row padding-top-20 margin-top-30">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-lg-offset-1">
-        <ul>
+﻿<br />
+<div class="container">
+    <div class="text-center">
+        <ul class="list-inline ">
             <li>
-                <a class="footerLink" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/about")"><i class="fa fa-group"></i> About</a>
+                <a class="footerLink" href="@Url.Content(" ~/about")">about</a>
+            </li>
+            <li><a class="footerLink" href="@RDN.Library.Classes.Config.LibraryConfig.BlogSite">blog</a></li>
+            <li>
+                <a class="footerLink" href="@Url.Content(" ~/privacy")">privacy policy</a>
+            </li>
+            <li>
+                <a class="footerLink" href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite">help</a>
+            </li>
+            <li>
+                <a class="footerLink" href="@Url.Content(" ~/about/contact")">contact</a>
+            </li>
+            <li>
+                <a class="footerLink" href="@Url.Content(" ~/about/contact")">feedback always welcome</a>
             </li>
         </ul>
-        <ul>
-            <li>
-                <a class="footerLink" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/privacy")"><i class="fa fa-shield"></i> Privacy policy</a>
-            </li>
-        </ul>
-        <ul>
-            <li>
-                <a class="footerLink" href="@RDN.Library.Classes.Config.LibraryConfig.BlogSite"><i class="fa fa-pencil-square-o"></i> Blog</a>
-            </li>
-        </ul>
-        <ul>
-            <li>
-                <a class="footerLink" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/about/contact")"><i class="fa fa-envelope-o"></i> Contact</a>
-            </li>
-        </ul>
-        <ul>
-            <li>
-                <a class="footerLink" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite">@RDN.Library.Classes.Config.LibraryConfig.WebsiteName</a>
-            </li>
-        </ul>
-    </div>   
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <a class="footerSocialLink fs20" href="https://plus.google.com/b/100003183552108454392/">
-            <i class="fa fa-google-plus-square"></i>
-        </a>
-        <a class="footerSocialLink fs20" href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl">
-            <i class="fa fa-facebook-square"></i>
-        </a>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <div class="hFBLike">
-            <div class="fb-like-box" data-href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl" data-width="292"
-                    data-colorscheme="dark" data-show-faces="false" data-stream="false" data-header="false">
+    <div>
+        <div class="col-xs-4">
+            <h3>@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</h3>
+            <address>
+                12960A Grays Pointe Rd<br>
+                Fairfax, VA 22033 USA
+            </address>
+
+            <div>Email: <a href="mailto:'@RDN.Library.Classes.Config.LibraryConfig.WebsiteMainEmail'">@RDN.Library.Classes.Config.LibraryConfig.WebsiteMainEmail</a></div>
+
+        </div>
+        <div class="col-xs-4">
+            <h4>
+                Our Sites
+            </h4>
+
+            <div>
+                <a href="https://rdnation.com" target="_blank">Roller Derby Nation</a>
+            </div>
+            <div>
+                <a href="https://snation.com" target="_blank">Soccer Nation</a>
             </div>
         </div>
-    </div>
-        
+        <div class="col-xs-4">
+            <h4>
+                Fun and Connect
+            </h4>
 
-</div>
-<div class="copyRight">
-    @Html.Partial("_PartialFooterLink")
-    <div class="text-center"><p>
-        Site design / logo © @DateTime.Now.Year @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName inc;
-    </p>
-    All league logos are copywritten per their respective copyright holders.
+            <div>
+                <a class="facebook-icon" href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl"><i class="fa fa-facebook-square fa-3x"></i></a>
+                <a class="google-plus-icon" href="https://plus.google.com/b/100003183552108454392/"><i class="fa fa-google-plus fa-3x"></i></a>
+            </div>
+            <div><a class="footerLink" href="@Url.Content(" ~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-logos")">derby logos</a></div>
+
+            <div><a class="footerLink b" href="http://zebras.@RDN.Library.Classes.Config.LibraryConfig.MainDomain">Zebras Unite!</a></div>
+
         </div>
+        <div class="clearfix"></div>
+        <div class="copyRight text-center">
+            site design / logo © @DateTime.Now.Year @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName inc;
+            <br />
+            <div class="tc">All league logos are copywritten per their respective copyright holders.</div>
+        </div>
+
+    </div>
+    <br /><br />
 </div>

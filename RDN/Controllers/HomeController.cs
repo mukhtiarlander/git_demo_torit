@@ -139,17 +139,6 @@ namespace RDN.Controllers
         public ActionResult Index()
         {
             HomeModel model = new HomeModel();
-            model.LeagueCount = SiteCache.GetNumberOfLeaguesSignedUp();
-            if (model.LeagueCount < 126)
-                model.LeagueCount = 126;
-            model.RandomLeagues = SiteCache.GetAllPublicLeagues().Where(x => !String.IsNullOrEmpty(x.LogoUrl)).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
-            model.MemberCount = SiteCache.GetNumberOfMembersSignedUp();
-            if (model.MemberCount < 1023)
-                model.MemberCount = 1023;
-            model.RandomSkaters = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
-                .Where(x => !x.photoUrl.Contains("roller-girl"))
-                .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
-
             return View(model);
         }
 

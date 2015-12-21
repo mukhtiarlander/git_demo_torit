@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml" 
              Startup="Application_Startup" 
+             x:Name="App"
              >
     <Application.Resources>
         <ControlTemplate x:Key="loadingAnimation">

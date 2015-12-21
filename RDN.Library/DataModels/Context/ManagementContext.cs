@@ -11,6 +11,7 @@ using RDN.Library.DataModels.Member;
 using RDN.Library.DataModels.Game;
 using RDN.Library.DataModels.PaymentGateway.Invoices;
 using RDN.Library.DataModels.PaymentGateway.Merchants;
+using RDN.Library.DataModels.Roster;
 using RDN.Library.DataModels.Store;
 using RDN.Library.DataModels.Team;
 using RDN.Library.DataModels.Scoreboard;
@@ -255,6 +256,11 @@ namespace RDN.Library.DataModels.Context
 
         // **************** AutomatedTasks **************** \\
         public DbSet<AutomatedTasks.TaskForRunning> AutomatedTasks { get; set; }
+
+        // **************** Rosters **************** \\
+        public DbSet<Roster.Roster> Rosters { get; set; }
+        public DbSet<Roster.RosterMember> RosterMembers { get; set; }
+
 
         // **************** Calendar **************** \\
         public DbSet<Calendar.Calendar> Calendar { get; set; }

@@ -141,6 +141,7 @@
                               @if (!Model.Members[i].isPaidFull){
                               <input class="form-control input-sm" style="width:135px;margin:0 auto" id="@Model.Members[i].MemberId-Dues-Notes" type="text" value="" />
                               }
+                            <span id="@Model.Members[i].MemberId-Due-Note-Text" class="hide"></span>                             
                         </td>
                         <td class="vertical-middle">
                             @if (!Model.Members[i].isPaidFull)

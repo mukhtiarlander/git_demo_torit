@@ -194,7 +194,7 @@ namespace RDN.Api.Controllers
                         MemberDisplayAPI m = new MemberDisplayAPI();
                         if (members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
                             m.ThumbUrl = members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl;
-                        
+
                         m.DerbyName = members[i].DerbyName;
                         m.DerbyNameUrl = members[i].DerbyNameUrl;
                         m.DOB = members[i].DOB;
@@ -249,7 +249,7 @@ namespace RDN.Api.Controllers
                         MemberDisplayBasic m = new MemberDisplayBasic();
                         if (members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
                             m.ThumbUrl = members[i].Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageThumbUrl;
-                        
+
                         m.DerbyName = members[i].DerbyName;
                         m.Firstname = members[i].Firstname;
                         m.LastName = members[i].LastName;
@@ -409,6 +409,28 @@ namespace RDN.Api.Controllers
             }
 
             return Json(new LeagueJsonDataTable(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetLeagueStats()
+        {
+            List<LeagueJsonDataTable> leages = new List<LeagueJsonDataTable>();
+            leages = SiteCache.GetAllPublicLeagues().OrderBy(x => Guid.NewGuid()).ToList();
+            return Json(new
+            {
+                leaguesData = (from l in leages
+                               select new[]
+                          {
+                        Convert.ToString(l.lon),
+                        Convert.ToString(l.lat),
+                        l.LeagueName,
+                        l.City,
+                        l.State,
+                        l.Country,
+                        l.LogoUrlThumb,
+                        Convert.ToString(l.Membercount),
+                        l.LeagueUrl
+                        }).ToArray()
+            }, JsonRequestBehavior.AllowGet);
         }
 
     }

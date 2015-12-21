@@ -139,6 +139,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PayPalCoreSDK.1.6.1\lib\net451\PayPalCoreSDK.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ScheduleWidget, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ScheduleWidget.2.5.0\lib\NET40\ScheduleWidget.dll</HintPath>
       <Private>True</Private>
@@ -149,6 +153,7 @@
     <Reference Include="System.Device">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Linq" />
     <Reference Include="System.Net.Http">
       <Private>True</Private>
     </Reference>
@@ -274,6 +279,7 @@
     <Compile Include="Controllers\League\LinksController.cs" />
     <Compile Include="Controllers\League\OfficiatingController.cs" />
     <Compile Include="Controllers\League\OrganizationController.cs" />
+    <Compile Include="Controllers\League\RosterController.cs" />
     <Compile Include="Controllers\League\SponsorController.cs" />
     <Compile Include="Controllers\League\SubscriptionsController.cs" />
     <Compile Include="Controllers\League\TaskController.cs" />
@@ -317,6 +323,7 @@
     <Compile Include="Models\Game\GameModel.cs" />
     <Compile Include="Models\Game\RegisterTournamentModel.cs" />
     <Compile Include="Models\Game\RequestGamePlace.cs" />
+    <Compile Include="Models\Helpers\EnumerationHelper.cs" />
     <Compile Include="Models\Helpers\HtmlExt.cs" />
     <Compile Include="Models\Helpers\ImageHelper.cs" />
     <Compile Include="Models\Helpers\List.cs" />
@@ -338,6 +345,7 @@
     <Compile Include="Models\OutModel\EmptyModel.cs" />
     <Compile Include="Models\OutModel\GenericEnumerableModel.cs" />
     <Compile Include="Models\OutModel\GenericSingleModel.cs" />
+    <Compile Include="Models\Roster\RosterModel.cs" />
     <Compile Include="Models\Store\DisplayStoreModel.cs" />
     <Compile Include="Models\Store\StoreItemDisplayModel.cs" />
     <Compile Include="Models\Team\CreateTeam.cs" />
@@ -857,6 +865,7 @@
     <Content Include="Scripts\Sites\localhost.js" />
     <Content Include="Scripts\Sites\snation.js" />
     <Content Include="Scripts\Sites\rdnation.js" />
+    <Content Include="Scripts\Sortable.min.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\anchor\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\autolink\plugin.min.js" />
@@ -962,8 +971,12 @@
     <Content Include="Views\Location\EditLocation.cshtml" />
     <Content Include="Views\Member\UnRetireProfile.cshtml" />
     <Content Include="Views\Contact\ViewContact.cshtml" />
+    <Content Include="Views\Roster\AddNewRoster.cshtml" />
+    <Content Include="Views\Roster\ViewRosters.cshtml" />
+    <Content Include="Views\Roster\ViewRoster.cshtml" />
+    <Content Include="Views\Roster\EditRoster.cshtml" />
     <Content Include="Views\Federation\Join.cshtml" />
-    <Content Include="Views\Shared\_PartialFooterLink.cshtml" />
+    <Content Include="Views\Shared\_PartialFooter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\img\" />
