@@ -33,6 +33,7 @@ namespace RDN.League
                         "~/Scripts/FullCalendar/gcal.js",
                          "~/Scripts/select2/select2.min.js",
                            "~/Scripts/typeahead.js",
+                             "~/Scripts/Sortable.min.js",
                          "~/Scripts/jquery.slimscroll.min.js"
 
                         ));

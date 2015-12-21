@@ -156,10 +156,11 @@
         return false;
     };
 
+    this.InitializeUnRetireProfile = function () {
+        $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, this.UnRetireYourProfile);
+    }
 };
-
-$(document).ready(function () {
-    $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, Member.UnRetireYourProfile);
+$(document).ready(function () {   
 
     $("#myTabs li a").bind("click", function (e) {
         var href = $(this).attr('href');

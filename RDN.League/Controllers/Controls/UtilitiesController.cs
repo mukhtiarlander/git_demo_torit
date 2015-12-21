@@ -221,7 +221,7 @@ namespace RDN.League.Controllers
                            {
                                link = Url.Content("~/Member/" + xx.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(xx.DerbyName)),
                                picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
-                               name = xx.DerbyName,
+                               name = xx.SiteName,
                                id = xx.MemberId
                            }).Take(5).ToList();
             return Json(new_members, JsonRequestBehavior.AllowGet);

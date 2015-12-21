@@ -914,8 +914,14 @@ namespace RDN.League.Controllers
                 if (!newEvent.IsReoccurring)
                     eventIdd = CalendarEventFactory.CreateNewEvent(newEvent.CalendarId, newEvent.StartDate, newEvent.EndDate, new Guid(newEvent.SelectedLocationId), newEvent.Name, newEvent.Link, newEvent.Notes, newEvent.AllowSelfCheckIn, newEvent.IsPublicEvent, false, new Guid(), Convert.ToInt64(newEvent.SelectedEventTypeId), newEvent.BroadcastEvent, newEvent.TicketUrl, newEvent.ColorTempSelected, listOfGroupIds, memId);
                 else
-                    eventIdd = CalendarEventFactory.CreateNewEventReOcurring(newEvent.CalendarId, newEvent.StartDate, newEvent.EndDate, new Guid(newEvent.SelectedLocationId), newEvent.Name, newEvent.Link, newEvent.Notes, newEvent.AllowSelfCheckIn, frequency, newEvent.IsSunday, newEvent.IsMonday, newEvent.IsTuesday, newEvent.IsWednesday, newEvent.IsThursday, newEvent.IsFriday, newEvent.IsSaturday, endsWhenn, Convert.ToInt32(newEvent.EndsOccurences), endsWhenn == EndsWhenReoccuringEnum.On ? Convert.ToDateTime(newEvent.EndsDate) : new DateTime(), Convert.ToInt64(newEvent.SelectedEventTypeId), newEvent.BroadcastEvent, newEvent.IsPublicEvent, monthlyIntervalId, newEvent.TicketUrl, newEvent.ColorTempSelected, listOfGroupIds, memId);
+                {
+                    DateTime endsDate = new DateTime();
+                    if (endsWhenn == EndsWhenReoccuringEnum.On)
+                        DateTime.TryParse(newEvent.EndsDate, out endsDate);
 
+
+                    eventIdd = CalendarEventFactory.CreateNewEventReOcurring(newEvent.CalendarId, newEvent.StartDate, newEvent.EndDate, new Guid(newEvent.SelectedLocationId), newEvent.Name, newEvent.Link, newEvent.Notes, newEvent.AllowSelfCheckIn, frequency, newEvent.IsSunday, newEvent.IsMonday, newEvent.IsTuesday, newEvent.IsWednesday, newEvent.IsThursday, newEvent.IsFriday, newEvent.IsSaturday, endsWhenn, Convert.ToInt32(newEvent.EndsOccurences), endsDate, Convert.ToInt64(newEvent.SelectedEventTypeId), newEvent.BroadcastEvent, newEvent.IsPublicEvent, monthlyIntervalId, newEvent.TicketUrl, newEvent.ColorTempSelected, listOfGroupIds, memId);
+                }
                 if (createAnother)
                 {
                     return Redirect(Url.Content("~/calendar/new/" + newEvent.CalendarType.ToString().Replace("-", "") + "/" + newEvent.CalendarId.ToString().Replace("-", "") + "/true"));
@@ -932,7 +938,7 @@ namespace RDN.League.Controllers
             }
             catch (Exception exception)
             {
-                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: newEvent.SelectedLocationId);
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: newEvent.SelectedLocationId + ":" + newEvent.EndsDate + ":" + newEvent.StartTime + ":" + newEvent.EndDate);
             }
 
             if (MemberCache.GetCalendarDefaultView(RDN.Library.Classes.Account.User.GetUserId()) == CalendarDefaultViewEnum.List_View)
@@ -1288,7 +1294,6 @@ namespace RDN.League.Controllers
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, HasPaidSubscription = true)]
         public ActionResult CalendarReport(CalendarReport report)
         {
-            CalendarReport cal = new CalendarReport();
             try
             {
                 long groupId = 0;
@@ -1302,30 +1307,30 @@ namespace RDN.League.Controllers
                 }
                 if (HttpContext.Request.Form["byDate"] != null || HttpContext.Request.Form["byDateExport"] != null)
                 {
-                    cal = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, Convert.ToDateTime(report.StartDateSelectedDisplay), Convert.ToDateTime(report.EndDateSelectedDisplay), groupId, report.PullGroupEventsOnly);
+                    report = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, Convert.ToDateTime(report.StartDateSelectedDisplay), Convert.ToDateTime(report.EndDateSelectedDisplay), groupId, report.PullGroupEventsOnly);
                 }
                 else if (HttpContext.Request.Form["byDays"] != null || HttpContext.Request.Form["byDaysExport"] != null)
                 {
                     DateTime dt = DateTime.UtcNow.AddDays(-report.DaysBackwards);
-                    cal = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, dt, DateTime.UtcNow, groupId, report.PullGroupEventsOnly);
+                    report = RDN.Library.Classes.Calendar.Report.CalendarReport.GetReportForCalendar(report.CalendarId, report.EntityName, dt, DateTime.UtcNow, groupId, report.PullGroupEventsOnly);
                 }
 
-                cal.StartDateSelectedDisplay = cal.StartDateSelected.ToShortDateString();
-                cal.EndDateSelectedDisplay = cal.EndDateSelected.ToShortDateString();
-                cal.IsSubmitted = true;
+                report.StartDateSelectedDisplay = report.StartDateSelected.ToShortDateString();
+                report.EndDateSelectedDisplay = report.EndDateSelected.ToShortDateString();
+                report.IsSubmitted = true;
 
                 if (HttpContext.Request.Form["byDateExport"] != null || HttpContext.Request.Form["byDaysExport"] != null)
                 {
-                    return ExportExcelReport(cal);
+                    return ExportExcelReport(report);
                 }
 
-                return View(cal);
+                return View(report);
             }
             catch (Exception exception)
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: report.EndDateSelectedDisplay + ":" + report.StartDateSelectedDisplay);
             }
-            return View(cal);
+            return View(report);
         }
         /// <summary>
         /// exports the calendar report to the excel spreadsheet.

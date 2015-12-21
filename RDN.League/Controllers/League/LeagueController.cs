@@ -1266,13 +1266,14 @@ namespace RDN.League.Controllers
                 model.ColumnsAvailable = Enum.GetValues(typeof(MembersReportEnum)).Cast<MembersReportEnum>().OrderBy(x => x.ToString()).ToList();
                 if (SiteType.RollerDerby == LibraryConfig.SiteType)
                 {
-                    model.ColumnsAvailable.Add(MembersReportEnum.Started_Skating_Date);
+                    
                     model.ColumnsAvailable.Remove(MembersReportEnum.Started_Playing_Date);
                 }
                 else
                 {
-                    model.ColumnsAvailable.Add(MembersReportEnum.Started_Playing_Date);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Started_Skating_Date);
                     model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Name);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Number);
                 }
 
                 return View(model);

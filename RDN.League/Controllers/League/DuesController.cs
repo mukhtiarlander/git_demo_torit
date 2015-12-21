@@ -192,11 +192,12 @@ namespace RDN.League.Controllers
 
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
-                bool isNextPreviousDueRequired=true;
+                bool isNextPreviousDueItemRequired=true;
+                
                 if (league != null)
                     SetCulture(league.CultureSelected);
 
-                var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId(), isNextPreviousDueRequired);
+                var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId(), isNextPreviousDueItemRequired);
 
                 return View(dues);
             }
@@ -381,8 +382,8 @@ namespace RDN.League.Controllers
         {
             try
             {
-                bool isNextPreviousDueRequired = true;
-                var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId(),isNextPreviousDueRequired);
+                
+                var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
 
                 ViewBag.Saved = false;
                 return View(dues);
@@ -491,12 +492,6 @@ namespace RDN.League.Controllers
                     message.Message = "Did You know you can accept Dues Payments online?  Go to the settings to get started.";
                     this.AddMessage(message);
                 }
-
-                TempData.Remove("DueItemId");
-
-                TempData.Add("DueItemId", dues.DuesFees.OrderBy(item => item.DuesItemId).Select(DItem => DItem.DuesItemId).ToList());
-
-                TempData.Keep("DueItemId");
 
                 return View(dues);
             }

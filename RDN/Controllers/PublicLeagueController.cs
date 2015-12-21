@@ -19,20 +19,9 @@ namespace RDN.Controllers
     {
         private readonly int DEFAULT_PAGE_SIZE = 100;
 
-        public ActionResult AllLeagues(int? page)
+        public ActionResult AllLeagues()
         {
-            var model = new SimpleModPager<LeagueJsonDataTable>();
-            if (page == null)
-                model.CurrentPage = 1;
-            else
-                model.CurrentPage = page.Value;
-            model.NumberOfRecords = SiteCache.GetNumberOfLeaguesSignedUp();
-            if (model.NumberOfRecords < 126)
-                model.NumberOfRecords = 126;
-            model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
-            model.PageSize = DEFAULT_PAGE_SIZE;
-            var output = FillLeagueModel(model);
-            return View(output);
+            return View();
         }
 
 
@@ -63,7 +52,7 @@ namespace RDN.Controllers
                         n.State,
                         n.Country,
                         "true",
-                        n.DateFounded.Year.ToString(), 
+                        n.DateFounded.Year.ToString(),
                         n.Facebook,
                          n.Instagram,
                           n.Membercount.ToString(),
@@ -74,29 +63,7 @@ namespace RDN.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// converts the large league list into a single model to display on the view.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="federationId"></param>
-        /// <returns></returns>
-        private GenericSingleModel<SimpleModPager<LeagueJsonDataTable>> FillLeagueModel(SimpleModPager<LeagueJsonDataTable> model)
-        {
-            for (var i = 1; i <= model.NumberOfPages; i++)
-                model.Pages.Add(new SelectListItem
-                {
-                    Text = i.ToString(),
-                    Value = i.ToString(),
-                    Selected = i == model.CurrentPage
-                });
-            var output = new GenericSingleModel<SimpleModPager<LeagueJsonDataTable>> { Model = model };
-
-            output.Model.Items = SiteCache.GetAllPublicLeagues(DEFAULT_PAGE_SIZE, (model.CurrentPage - 1));
-            if (output.Model.Items == null)
-                output.Model.Items = new List<LeagueJsonDataTable>();
-            return output;
-        }
-
+      
         public ActionResult League(string name, string id)
         {
             var league = SiteCache.GetLeague(new Guid(id));

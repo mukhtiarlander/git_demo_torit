@@ -2354,7 +2354,7 @@ namespace RDN.Library.Classes.Account
                 mem.Instagram = member.Instagram;
                 mem.Facebook = member.Facebook;
                 mem.YearStartedSkating = member.YearStartedSkating;
-                mem.MemberType = (MemberType)Enum.Parse(typeof(MemberType), member.MemberType.ToString());
+                mem.MemberType = (MemberType)member.MemberType;
 
                 mem.Email = ExtractEmailFromContactCard(member);
                 if (member.ContactCard.Addresses.Count > 0)

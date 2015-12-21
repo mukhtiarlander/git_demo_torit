@@ -4,26 +4,42 @@
     Layout = "~/Views/Shared/_LayoutFront.cshtml";
 }
 <br />
-<div class="row text-center">
+<div class="row text-center" id="leaguesStats">
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="bold">Join over @Model.LeagueCount.ToString("N0") leagues from around the world</h3>
+        <h3 class="bold">Join over <span data-bind="text: LeaguesStats().length < 126 ? 126 : LeaguesStats().length"></span> leagues from around the world</h3>
         <div>Manage every part of your league</div>
         <br />
-        @foreach (var league in Model.RandomLeagues)
-        {
-            <img src="@league.LogoUrl" alt="@league.LeagueName" class="col-xs-6  col-lg-3 img-rounded">
-        }
+        <!-- ko foreach: LeaguesStats -->
+            <!-- ko if: $index() < 4 -->
+            @if (!RDN.Library.Classes.Config.LibraryConfig.IsProduction)
+            {
+                <img data-bind="attr: { src: 'http://i.imgur.com/ObzYN0I.png', alt: $data[2] }" class="col-xs-6  col-lg-3 img-rounded">
+            }
+            else
+            {
+                <img data-bind="attr: { src: $data[6], alt: $data[2] }" class="col-xs-6  col-lg-3 img-rounded">
+            }
+            <!-- /ko -->            
+        <!-- /ko -->
     </div>
 </div><br />
-<div class="row text-center">
+<div class="row text-center" id="membersStats">
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="bold">Join over @Model.MemberCount.ToString("N0") people from around the world</h3>
+        <h3 class="bold">Join over <span data-bind="text: MembersStats().length < 1023 ? 1023 : MembersStats().length"></span> people from around the world</h3>
         <div>Keep track of all your members</div>
         <br />
-        @foreach (var league in Model.RandomSkaters)
-        {
-            <img src="@league.photoUrl" alt="@league.DerbyName" class="col-xs-6 col-lg-3 img-rounded">
-        }
+        <!-- ko foreach: MembersStats -->
+            <!-- ko if: $index() < 4 -->
+            @if (!RDN.Library.Classes.Config.LibraryConfig.IsProduction)
+            {
+                <img data-bind="attr: { src: 'http://i.imgur.com/ObzYN0I.png', alt: DerbyName }" class="col-xs-6  col-lg-3 img-rounded">
+            }
+            else
+            {
+                <img data-bind="attr: { src: photoUrl, alt: DerbyName }" class="col-xs-6  col-lg-3 img-rounded">
+            }
+            <!-- /ko -->
+        <!-- /ko -->        
     </div>
 </div>
 <br />
@@ -109,3 +125,13 @@
 </div>
 <br />
 <div class="clearfix"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        ko.applyBindings(LeagueViewModel, document.getElementById("leaguesStats"));
+        LeagueViewModel.LoadLeagueStats();
+        ko.applyBindings(MemberViewModel, document.getElementById("membersStats"));
+        MemberViewModel.LoadMemberStats();
+    });
+
+</script>
