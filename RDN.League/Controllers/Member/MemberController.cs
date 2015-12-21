@@ -146,7 +146,7 @@ namespace RDN.League.Controllers
                     }
                 }
                 success = MemberSettingsFactory.ChangeForumGroupsOrder(memId, leagueId, newOrder);
-                
+
                 return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -179,7 +179,7 @@ namespace RDN.League.Controllers
                 display.Settings.EmailForumBroadcasts = display.EmailForumBroadcasts;
                 display.Settings.EmailForumNewPost = display.EmailForumNewPost;
                 display.Settings.EmailForumWeeklyRoundup = display.EmailForumWeeklyRoundup;
-                display.Settings.EmailMessagesReceived = display.EmailMessagesReceived;                
+                display.Settings.EmailMessagesReceived = display.EmailMessagesReceived;
                 display.Settings.CurrentLeagueId = display.CurrentLeagueId;
                 display.Settings.Hide_DOB_From_League = display.Settings.Hide_DOB_From_League;
                 display.Settings.Hide_DOB_From_Public = display.Settings.Hide_DOB_From_Public;
@@ -192,14 +192,14 @@ namespace RDN.League.Controllers
                 ViewBag.ServiceProviders = RDN.League.Classes.Enums.EnumExt.ToSelectListValue(display.Settings.ServiceProvider);
 
                 //order groups by user preferences
-				string groupsOrderString = display.Settings.ForumGroupOrder;
+                string groupsOrderString = display.Settings.ForumGroupOrder;
                 if (!string.IsNullOrWhiteSpace(groupsOrderString))
                 {
                     List<long> groupsOrder = groupsOrderString.Split(':').Select(long.Parse).ToList();
                     var groups = MemberCache.GetGroupsApartOf(memId);
                     var groupsOrdered = (from i in groupsOrder
-                                        join o in groups on i equals o.Id
-                                        select o).ToList();
+                                         join o in groups on i equals o.Id
+                                         select o).ToList();
                     //make sure that all the groups are part of the result
                     if (groups.Count > groupsOrdered.Count)
                     {
@@ -218,7 +218,7 @@ namespace RDN.League.Controllers
                 {
                     display.Settings.GroupsApartOf = MemberCache.GetGroupsApartOf(memId);
                 }
-                
+
                 return View(display.Settings);
             }
             catch (Exception exception)
@@ -450,7 +450,7 @@ namespace RDN.League.Controllers
                 edit.MemberId = member.MemberId;
                 edit.UserId = member.UserId;
                 edit.PhoneNumber = member.PhoneNumber;
-             
+
 
                 edit.PlayerNumber = member.PlayerNumber;
                 edit.WeightLbs = member.WeightLbs;
@@ -561,26 +561,18 @@ namespace RDN.League.Controllers
                     edit.MemberType |= MemberType.Referee;
                 if (Official)
                     edit.MemberType |= MemberType.Official;
-                
 
-                if (!String.IsNullOrEmpty(member.Website))
+
+                if (!String.IsNullOrEmpty(member.Website) && !member.Website.ToLower().StartsWith("http://") && !member.Website.ToLower().StartsWith("https://"))
                 {
-                    if (!member.Website.ToLower().StartsWith("http://") &&
-                        !member.Website.ToLower().StartsWith("https://"))
-                    {
-                        member.Website = "http://" + member.Website;
-                    }
+                    member.Website = "http://" + member.Website;
                 }
 
-                if (!String.IsNullOrEmpty(member.Facebook))
+                if (!String.IsNullOrEmpty(member.Facebook) && !member.Facebook.ToLower().StartsWith("http://") && !member.Facebook.ToLower().StartsWith("https://"))
                 {
-                    if (!member.Facebook.ToLower().StartsWith("http://") &&
-                        !member.Facebook.ToLower().StartsWith("https://"))
-                    {
-                        member.Facebook = "https://" + member.Facebook;
-                    }
+                    member.Facebook = "https://" + member.Facebook;
                 }
-                if (member.Twitter.ToLower().StartsWith("http://") || member.Twitter.ToLower().StartsWith("https://"))
+                if (!String.IsNullOrEmpty(member.Twitter) && (member.Twitter.ToLower().StartsWith("http://") || member.Twitter.ToLower().StartsWith("https://")))
                 {
                     var segments = new Uri(member.Twitter).Segments;
                     if (segments.Count() > 1)
@@ -593,7 +585,7 @@ namespace RDN.League.Controllers
                         member.Twitter = string.Empty;
                     }
                 }
-                if (member.Instagram.ToLower().StartsWith("http://") || member.Instagram.ToLower().StartsWith("https://"))
+                if (!String.IsNullOrEmpty(member.Instagram) && (member.Instagram.ToLower().StartsWith("http://") || member.Instagram.ToLower().StartsWith("https://")))
                 {
                     var segments = new Uri(member.Instagram).Segments;
                     if (segments.Count() > 1)
@@ -939,7 +931,7 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
-       
+
         [Authorize]
         [LeagueAuthorize(EmailVerification = true)]
         public ActionResult RetireProfile()

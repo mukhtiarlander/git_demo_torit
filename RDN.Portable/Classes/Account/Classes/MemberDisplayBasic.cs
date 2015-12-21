@@ -144,7 +144,7 @@ namespace RDN.Portable.Classes.Account.Classes
                     else
                         name = Firstname;
                 }
-                else
+                else if (!String.IsNullOrEmpty(LastName))
                 {
                     if (!string.IsNullOrEmpty(name))
                         name += " [" + LastName + "]";

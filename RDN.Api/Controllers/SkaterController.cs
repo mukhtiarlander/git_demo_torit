@@ -38,15 +38,16 @@ namespace RDN.Api.Controllers
         public JsonResult GetAllSkatersStats()
         {
             List<SkaterJson> names = new List<SkaterJson>();
+            var skaters = SiteCache.GetAllPublicMembers().OrderBy(x => Guid.NewGuid()).ToList();
             try
             {
-                names = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                names = skaters.Where(x => !String.IsNullOrEmpty(x.photoUrl))
                         .Where(x => !x.photoUrl.Contains("roller-girl"))
                         .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
                 //minim 4
                 if (names.Count < 4)
                 {
-                    names.AddRange(SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                    names.AddRange(skaters.Where(x => !String.IsNullOrEmpty(x.photoUrl))
                         .Where(x => x.photoUrl.Contains("roller-girl") || x.photoUrl.Contains("roller-person"))
                         .OrderBy(x => Guid.NewGuid()).Take(4 - names.Count).ToList());
                 }
