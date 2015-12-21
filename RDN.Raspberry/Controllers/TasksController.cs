@@ -23,7 +23,7 @@ namespace RDN.Raspberry.Controllers
 
         public ActionResult DoUpgrade()
         {
-            return Json(new { result = Forum.UpdateForumPostCount() }, JsonRequestBehavior.AllowGet);
+            return Json(new { result = SubscriptionFactory.DoUpgrade() }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult RunAutomatedTasks()
         {

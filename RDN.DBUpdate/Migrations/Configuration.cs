@@ -21,9 +21,20 @@ namespace RDN.DBUpdate.Migrations
 
     }
 
-    internal sealed class CEmail : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailServerContext>
+    internal sealed class CEmail : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailContext>
     {
         public CEmail()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = false;
+
+        }
+
+    }
+
+    internal sealed class CEmailServer : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailServerContext>
+    {
+        public CEmailServer()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = false;

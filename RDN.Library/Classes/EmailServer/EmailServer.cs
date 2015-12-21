@@ -7,7 +7,8 @@ using RDN.Library.Classes.Error;
 using System;
 using Common.EmailServer.Library.Classes.Email;
 using RDN.Library.Classes.Config;
-using Common.EmailServer.Library.Classes.Subscription;
+using Common.EmailServer.Library.Database.Context;
+using Common.EmailServer.Library.Classes.Subscribe;
 
 namespace RDN.Library.Classes.EmailServer
 {
@@ -124,49 +125,7 @@ namespace RDN.Library.Classes.EmailServer
     }
     public static class EmailServer
     {
-        public static bool ChangeEmailFromThenTo(string oldEmail, string newEmail)
-        {
-            var dc = new ManagementContext();
 
-            var emails = dc.ScoreboardFeedback.Where(x => x.Email == oldEmail).FirstOrDefault();
-            if (emails != null)
-            {
-                emails.Email = newEmail;
-                dc.SaveChanges();
-                return true;
-            }
-            var email2 = dc.ScoreboardDownloads.Where(x => x.Email == oldEmail).FirstOrDefault();
-            if (email2 != null)
-            {
-                email2.Email = newEmail;
-                dc.SaveChanges();
-                return true;
-            }
-            var emails3 = dc.RefRoster.Where(x => x.FacebookLink == oldEmail).FirstOrDefault();
-            if (emails3 != null)
-            {
-                emails3.FacebookLink = newEmail;
-                dc.SaveChanges();
-                return true;
-            }
-            var emails4 = dc.ContactLeagueAddresses.Where(x => x.EmailAddress == oldEmail).FirstOrDefault();
-            if (emails4 != null)
-            {
-                emails4.EmailAddress = newEmail;
-                emails4.ContactLeague = emails4.ContactLeague;
-                dc.SaveChanges();
-                return true;
-            }
-
-            var emails5 = dc.EmailsForAllEntities.Where(x => x.EmailAddress == oldEmail).FirstOrDefault();
-            if (emails4 != null)
-            {
-                emails4.EmailAddress = newEmail;
-                dc.SaveChanges();
-                return true;
-            }
-            return false;
-        }
 
         public static bool AddEmailToUnsubscribeList(string email)
         {
@@ -238,7 +197,7 @@ namespace RDN.Library.Classes.EmailServer
             try
             {
                 if (!properties.ContainsKey("UnSubscribe"))
-                    properties.Add("UnSubscribe", "<a href=\"" + LibraryConfig.PublicSite + "/email/unsubscribe/" + to.Email + "/" + (long)to.ListType + "/" + to.SubscriberId + "\">UnSubscribe</a>");
+                    properties.Add("UnSubscribe", "<a href=\"" + LibraryConfig.PublicSite + "/email/unsubscribe/" + to.Email + "/" + (long)to.SubscriberType + "/" + to.SubscriberId + "\">UnSubscribe</a>");
                 return SendEmail(from, displayNameFrom, to.Email, subject, properties, layout, priority, databaseConnectionName);
             }
             catch (Exception exception)

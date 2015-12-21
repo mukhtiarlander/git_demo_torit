@@ -117,9 +117,13 @@ namespace RDN.Library.DataModels.Context
         public DbSet<LeagueAssociation> ContactLeagueAssociations { get; set; }
         public DbSet<LeagueType> ContactLeagueTypes { get; set; }
         public DbSet<Admin.Download.ScoreboardDownload> ScoreboardDownloads { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<Admin.RefContacts.RefMasterRoster> RefRoster { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<ContactCard.Email> EmailsForAllEntities { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<NonSubscribersList> NonSubscribersList { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<SubscribersList> SubscribersList { get; set; }
         public DbSet<AdminEmailMessages> AdminEmailMessages { get; set; }
         [Obsolete("Use Common")]
@@ -166,6 +170,7 @@ namespace RDN.Library.DataModels.Context
 
 
         // **************** Scoreboard **************** \\
+        
         public DbSet<ScoreboardFeedback> ScoreboardFeedback { get; set; }
         public DbSet<ScoreboardInstance> ScoreboardInstance { get; set; }
 
