@@ -30,7 +30,7 @@
 
     this.LoadMemberStats = function () {
         $.ajax({
-            url: "http://localhost:16106/Skater/GetAllSkatersStats", //apiUrl + "Skater/GetAllSkatersStats", //USE THIS ON PRODUCTION
+            url: apiUrl + "Skater/GetAllSkatersStats", //USE THIS ON PRODUCTION
             dataType: "json",
             success: function (data) {
                 if (data.members.length > 0) {
@@ -40,7 +40,6 @@
                 }
             },
             error: function () {
-                alert("Error!");
             }
         });
     }
