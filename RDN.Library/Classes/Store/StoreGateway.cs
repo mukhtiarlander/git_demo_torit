@@ -583,6 +583,8 @@ namespace RDN.Library.Classes.Store
                         si.SizesEnum += Convert.ToInt32(StoreItemShirtSizesEnum.Small);
                     if (storeItem.HasXXLarge)
                         si.SizesEnum += Convert.ToInt32(StoreItemShirtSizesEnum.XX_Large);
+                    if (storeItem.HasXXXLarge)
+                        si.SizesEnum += Convert.ToInt32(StoreItemShirtSizesEnum.XXX_Large);
 
                     //removes any colors not being used anymore.
                     List<int> colors = new List<int>();
@@ -803,6 +805,8 @@ namespace RDN.Library.Classes.Store
                         si.SizesEnum += Convert.ToInt32(StoreItemShirtSizesEnum.Small);
                     if (storeItem.HasXXLarge)
                         si.SizesEnum += Convert.ToInt32(StoreItemShirtSizesEnum.XX_Large);
+                    if (storeItem.HasXXXLarge)
+                        si.SizesEnum += Convert.ToInt32(StoreItemShirtSizesEnum.XXX_Large);
 
                     if (!String.IsNullOrEmpty(storeItem.ColorTempSelected))
                     {

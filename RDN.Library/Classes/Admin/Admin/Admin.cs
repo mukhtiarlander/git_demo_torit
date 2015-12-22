@@ -323,7 +323,7 @@ namespace RDN.Library.Classes.Admin.Admin
             }
             return false;
         }
-        public static bool SendSportsPlexesMassEmail(string subject, string body, string testEmail, bool removeSubjectLine)
+        public static bool SendSportsPlexesMassEmail(string subject, string body, string testEmail, bool isSubjectLineRemoved)
         {
             try
             {
@@ -344,11 +344,10 @@ namespace RDN.Library.Classes.Admin.Admin
                             {
                                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                                string subjectLine = LibraryConfig.DefaultEmailSubject + " " + subject;
-                                if (removeSubjectLine)
-                                    subjectLine = subject;
+                                if (!isSubjectLineRemoved)
+                                    subject = LibraryConfig.DefaultEmailSubject + " " + subject;
 
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, subscribers[i], subjectLine, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, subscribers[i], subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                             }
                         }
                     }

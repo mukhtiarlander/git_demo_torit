@@ -301,6 +301,7 @@ namespace RDN.League.Controllers
                 display.HasMedium = storeItem.HasMedium;
                 display.HasSmall = storeItem.HasSmall;
                 display.HasXXLarge = storeItem.HasXXLarge;
+                display.HasXXXLarge= storeItem.HasXXXLarge;
                 display.ItemTypeEnum = (int)storeItem.ItemType;
                 display.ColorTempSelected = storeItem.ColorsSelected;
 
@@ -391,6 +392,11 @@ namespace RDN.League.Controllers
                         sizes.Add(RDN.Portable.Util.Enums.EnumExt.ToFreindlyName(StoreItemShirtSizesEnum.XX_Large), Convert.ToInt32(StoreItemShirtSizesEnum.XX_Large));
                         model.HasXXLarge = true;
                     }
+                    if (model.ItemSize.HasFlag(StoreItemShirtSizesEnum.XXX_Large))
+                    {
+                        sizes.Add(RDN.Portable.Util.Enums.EnumExt.ToFreindlyName(StoreItemShirtSizesEnum.XXX_Large), Convert.ToInt32(StoreItemShirtSizesEnum.XXX_Large));
+                        model.HasXXXLarge = true;
+                    }
 
                     model.ItemSizes = new SelectList(sizes);
                 }
@@ -432,6 +438,7 @@ namespace RDN.League.Controllers
                 display.HasMedium = storeItem.HasMedium;
                 display.HasSmall = storeItem.HasSmall;
                 display.HasXXLarge = storeItem.HasXXLarge;
+                display.HasXXXLarge = storeItem.HasXXXLarge;
                 display.ItemTypeEnum = storeItem.ItemTypeEnum;
                 display.ItemType = storeItem.ItemType;
                 display.ColorTempSelected = storeItem.ColorsSelected;
