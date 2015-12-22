@@ -17,14 +17,18 @@
     };
     this.SetUpDocumentsSection = function () {
         $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
+            var isDeletebuttonVisible = false;
             thisViewModel.documentId = '';
             $.each($("#documents tbody tr"), function (index, tr) {
                 if ($(tr).find(":checkbox").is(":checked")) {
+                    if (isDeletebuttonVisible != true) {
+                        if ($(tr).find(":checkbox").attr("data-documentOwner") != null)
+                            isDeletebuttonVisible = $(tr).find(":checkbox").attr("data-documentOwner").toLowerCase() == "true" ? true : false;
+                    }
                     thisViewModel.documentId += parseInt($(tr).attr("id").replace(/[\D]/g, ""), 10) + ",";
                 }
             });
             thisViewModel.documentId = thisViewModel.documentId.substr(0, thisViewModel.documentId.length - 1);
-
 
             if ($("#documents tbody tr").find(":checkbox:checked").length == 0) {
                 $("#doc-rename-btn").toggleClass("display-none", true);
@@ -35,13 +39,15 @@
             else if ($("#documents tbody tr").find(":checkbox:checked").length == 1) {
                 $("#doc-archive-btn").toggleClass("display-none", false);
                 $("#doc-rename-btn").toggleClass("display-none", false);
-                $("#doc-delete-btn").toggleClass("display-none", false);
+                if (isDeletebuttonVisible) {
+                    $("#doc-delete-btn").toggleClass("display-none", false);
+                }
                 $("#doc-move-ddl").toggleClass("display-none", false);
             }
             else {
                 $("#doc-archive-btn").toggleClass("display-none", false);
                 $("#doc-rename-btn").toggleClass("display-none", true);
-                $("#doc-delete-btn").toggleClass("display-none", false);
+                $("#doc-delete-btn").toggleClass("display-none", true);
                 $("#doc-move-ddl").toggleClass("display-none", false);
             }
 
@@ -259,7 +265,8 @@
         row.attr("name", item.DocumentName);
         var checkColumn = $(document.createElement('td'));
         var cbId = "cb-" + item.OwnerDocId;
-        checkColumn.append('<input type="checkbox" id="' + cbId + '"   />');
+        var isUploaderMember = item.IsUploaderMember;
+        checkColumn.append('<input type="checkbox" id="' + cbId + '"  data-documentOwner="' + isUploaderMember + '"   />');
         row.append(checkColumn);
 
         var firstColumn = $(document.createElement('td'));

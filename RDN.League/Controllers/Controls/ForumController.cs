@@ -999,7 +999,8 @@ namespace RDN.League.Controllers
                         id = Forum.GetFederatonIdOfForum(model.ForumId);
                     if (id != new Guid())
                     {
-                        var doc = DocumentRepository.UploadLeagueDocument(id, model.File.InputStream, model.File.FileName, "Forum Files");
+                        var memId = RDN.Library.Classes.Account.User.GetMemberId();
+                        var doc = DocumentRepository.UploadLeagueDocument(id,memId, model.File.InputStream, model.File.FileName, "Forum Files");
                         FileInfo fi = new FileInfo(doc.SaveLocation);
 
                         result = serializer.Serialize(

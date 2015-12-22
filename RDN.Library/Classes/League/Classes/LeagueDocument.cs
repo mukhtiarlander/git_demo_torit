@@ -32,6 +32,7 @@ namespace RDN.Library.Classes.League.Classes
                 doc.SaveLocation = docsDb.Document.SaveLocation;
                 doc.FullText = docsDb.Document.FullText;
                 doc.IsArchive = docsDb.IsArchived;
+                doc.UploaderMemberId = docsDb.UploaderMember != null ? docsDb.UploaderMember.MemberId : Guid.Empty;
                 doc.HasScannedText = docsDb.Document.HasScannedText;
                 if (docsDb.Group != null)
                 {
@@ -77,8 +78,6 @@ namespace RDN.Library.Classes.League.Classes
                            
                             doc.Comments.Add(comment);
                         }
-
-                      
                         var lstTags = CommentForDocument.FetchLeagueTags(doc.OwnerId).Select(x => x.Tag.TagName);
                         doc.LeagueTags = string.Join(",", lstTags);
                     }
