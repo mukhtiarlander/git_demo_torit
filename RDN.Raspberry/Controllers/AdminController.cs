@@ -18,8 +18,7 @@ using RDN.Utilities.Error;
 using RDN.Portable.Config;
 using RDN.Library.Classes.Config;
 using RDN.Library.Classes.Api.Paypal;
-
-
+using Common.EmailServer.Library.Classes.Subscribe;
 
 namespace RDN.Raspberry.Controllers
 {
@@ -37,7 +36,7 @@ namespace RDN.Raspberry.Controllers
         [HttpPost]
         public ActionResult AddEmailToSubscriberList(IdModel mod)
         {
-            mod.IsSuccess = Library.Classes.EmailServer.EmailServer.AddEmailToSubscriberList(mod.Id);
+            mod.IsSuccess = SubscriberManager.AddSubscriber(SubscriberType.ManuallyAdded, mod.Id);
             return View(mod);
         }
         [Authorize]
@@ -52,7 +51,7 @@ namespace RDN.Raspberry.Controllers
         [HttpPost]
         public ActionResult AddEmailToNonSubscriberList(IdModel mod)
         {
-            mod.IsSuccess = Library.Classes.EmailServer.EmailServer.AddEmailToUnsubscribeList(mod.Id);
+            mod.IsSuccess = SubscriberManager.AddUnSubscriber(mod.Id);
             return View(mod);
         }
         [ValidateInput(false)]
@@ -86,7 +85,7 @@ namespace RDN.Raspberry.Controllers
         [HttpPost]
         public ActionResult ChangeEmailFromThenTo(IdModel mod)
         {
-            mod.IsSuccess = Library.Classes.EmailServer.EmailServer.ChangeEmailFromThenTo(mod.Id, mod.Id2);
+            mod.IsSuccess = SubscriberManager.ChangeEmailFromThenTo(mod.Id, mod.Id2);
             return View(mod);
         }
 
@@ -122,6 +121,9 @@ namespace RDN.Raspberry.Controllers
                     {
                         case MassEmailEnum.AllEmailsToSendMontlyUpdatesTo:
                             result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForMonthlyBroadcasts(model.Subject, model.HtmlBody, model.TestEmail);
+                            break;
+                        case MassEmailEnum.SportsPlexes:
+                            result = Library.Classes.Admin.Admin.Admin.SendSportsPlexesMassEmail(model.Subject, model.HtmlBody, model.TestEmail, model.IsSubjectLineRemoved);
                             break;
                         case MassEmailEnum.SubscribersAndWebScraped:
                             result = Library.Classes.Admin.Admin.Admin.SendToSubscribersAndWebScrapedList(model.Subject, model.HtmlBody, model.TestEmail, model.IsSubjectLineRemoved);
@@ -413,46 +415,7 @@ namespace RDN.Raspberry.Controllers
             return output;
         }
 
-        //[Authorize]
-        //public ActionResult ErrorsOld()
-        //{
-        //    var model = new SimplePager<Exception>();
-        //    model.CurrentPage = 1;
-        //    model.NumberOfRecords = Library.ViewModel.ErrorServerViewModel.GetNumberOfExceptions();
-        //    model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / 20);
 
-        //    var output = FillErrorModelOld(model);
-        //    return View(output);
-        //}
-
-        //[Authorize]
-        //[HttpPost]
-        //public ActionResult ErrorsOld(SimplePager<RDN_Errors_Log> model)
-        //{
-        //    if (model.ItemToDelete > 0)
-        //    {
-        //        Library.ViewModel.ErrorServerViewModel.DeleteError(model.ItemToDelete);
-        //        model.NumberOfRecords--;
-        //        model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / 20);
-        //    }
-
-        //    var output = FillErrorModelOld(model);
-        //    return View(output);
-        //}
-
-        //private GenericSingleModel<SimplePager<RDN_Errors_Log>> FillErrorModelOld(SimplePager<RDN_Errors_Log> model)
-        //{
-        //    for (var i = 1; i <= model.NumberOfPages; i++)
-        //        model.Pages.Add(new SelectListItem
-        //        {
-        //            Text = i.ToString(),
-        //            Value = i.ToString(),
-        //            Selected = i == model.CurrentPage
-        //        });
-        //    var output = new GenericSingleModel<SimplePager<RDN_Errors_Log>> { Model = model };
-        //    output.Model.Items = Library.ViewModel.ErrorServerViewModel.GetExceptions((model.CurrentPage - 1) * 20, 20);
-        //    return output;
-        //}
 
         [Authorize]
         public ActionResult Feedback()
