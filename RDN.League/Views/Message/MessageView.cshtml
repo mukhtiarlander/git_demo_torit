@@ -23,11 +23,11 @@
                 <h3 class="margin-bottom-5 margin-top-5">
                     @if (String.IsNullOrEmpty(Model.Title))
                     {
-                    <span>Private: @Model.FromName</span>
+                        <span>Private: @Model.FromName</span>
                     }
                     else
                     {
-                    <span>Private: @Model.Title</span>
+                        <span>Private: @Model.Title</span>
                     }
                 </h3>
             </div>
@@ -35,33 +35,34 @@
                 @foreach (var message in Model.Messages.OrderBy(x => x.MessageCreated))
                 {
 
-                if (lastDateShown != @message.MessageCreated.ToShortDateString())
-                {
-                <div class=" margin-top-10 margin-bottom-10">
-                    <span class="label label-default">@message.MessageCreated.ToShortDateString() </span>
-                </div>
-                }
-                if (lastIdShown != message.FromId.ToString())
-                {
-                <div class="b margin-top-10 margin-bottom-5">@message.FromName</div>
-                }
+                    if (lastDateShown != @message.MessageCreated.ToShortDateString())
+                    {
+                        <div class=" margin-top-10 margin-bottom-10">
+                            <span class="label label-default">@message.MessageCreated.ToShortDateString() </span>
+                        </div>
+                    }
+                    if (lastIdShown != message.FromId.ToString())
+                    {
+                        <div class="b margin-top-10 margin-bottom-5">@message.FromName</div>
+                    }
 
-                if (lastIdShown != message.FromId.ToString())
-                {
-                <div style="border-top:1px solid #eee; height:5px;"></div>
-                }
-                <div class="text-muted">
-                    @Html.Nl2Br(message.MessageTextHtml)
-                </div>
+                    if (lastIdShown != message.FromId.ToString())
+                    {
+                        <div style="border-top:1px solid #eee; height:5px;"></div>
+                    }
+                    <div class="text-muted">
+                        @Html.Nl2Br(message.MessageTextHtml)
+                    </div>
 
-                lastIdShown = message.FromId.ToString();
-                lastDateShown = message.MessageCreated.ToShortDateString();
-                lastMessageId = message.MessageId;
+                    lastIdShown = message.FromId.ToString();
+                    lastDateShown = message.MessageCreated.ToShortDateString();
+                    lastMessageId = message.MessageId;
                 }
 
             </div>
             <div class="panel-footer">
-                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply...", @class = "form-control" })
+                @*RDN-2317 -- Message Reply Box Number of Row Changed*@
+                @Html.TextArea("inputNewMessage", new { @placeholder = "Write a reply...", @class = "form-control", @rows = "5" })
                 <div class="padding-top-5 text-right">
                     <button name="submit" id="submit" type="submit" class="btn btn-success"
                             onclick="javascript: PostInternalMessage()">
@@ -95,22 +96,22 @@
             <div id="message-member-list" class="panel-body no-padding-bottom">
                 @if (Model.Recipients.Count > 0)
                 {
-                foreach (var mem in Model.Recipients.OrderBy(x => x.SiteName))
-                {
-                <div class="margin-bottom-10">
-                    @if (mem.HasNotReadConversation)
+                    foreach (var mem in Model.Recipients.OrderBy(x => x.SiteName))
                     {
-                    <i class="fa fa-envelope"></i>
-                    }
-                    else
+                        <div class="margin-bottom-10">
+                            @if (mem.HasNotReadConversation)
                     {
-                    <i class="fa fa-envelope-o"></i>
+                                <i class="fa fa-envelope"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-envelope-o"></i>
+                            }
+                            &nbsp;&nbsp;<a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
+                                @mem.SiteName
+                            </a>
+                        </div>
                     }
-                    &nbsp;&nbsp;<a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
-                    @mem.SiteName
-                    </a>
-                </div>
-                }
                 }
             </div>
         </div>
@@ -119,7 +120,8 @@
 <script>
     $(document).ready(function () {
         var height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
-        $("#messagesAdd").height(height - 330);
+        // RDN-2317 -- Message Reply Box Number of Row Changed (Value changed from 330 t0 390)
+        $("#messagesAdd").height(height - 390);
         $("#messagesAdd").scrollTop($("#messagesAdd")[0].scrollHeight);
     });
 
