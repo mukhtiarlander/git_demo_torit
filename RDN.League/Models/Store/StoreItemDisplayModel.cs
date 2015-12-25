@@ -28,6 +28,7 @@ namespace RDN.League.Models.Store
         public bool HasLarge { get; set; }
         public bool HasExtraLarge { get; set; }
         public bool HasXXLarge { get; set; }
+        public bool HasXXXLarge { get; set; }
 
         public StoreItemDisplayModel()
         {

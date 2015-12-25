@@ -14,6 +14,7 @@ namespace RDN.Portable.Classes.Store.Enums
         Medium = 4,
         Large = 8,
         X_Large = 16,
-        XX_Large = 32
+        XX_Large = 32,
+        XXX_Large = 64
     }
 }

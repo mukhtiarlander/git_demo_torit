@@ -323,36 +323,37 @@ namespace RDN.Library.Classes.Admin.Admin
             }
             return false;
         }
-        public static bool SendSportsPlexesMassEmail(string subject, string body, string testEmail)
+        public static bool SendSportsPlexesMassEmail(string subject, string body, string testEmail, bool isSubjectLineRemoved)
         {
             try
             {
                 var dc = new ManagementContext();
-                List<string> emails = new List<string>();
+            
 
                 var subscribers = SubscriberManager.GetSubscribersToEmail(SubscriberType.SportsPlex);
-                emails.AddRange(subscribers.Select(x => x.Email).ToList());
-                emails = emails.Distinct().ToList();
-
+               
                 var unSubscribedEmails = SubscriberManager.GetUnSubscribedList().Select(x => x.Email).ToList();
 
-                for (int i = 0; i < emails.Count; i++)
+                for (int i = 0; i < subscribers.Count; i++)
                 {
                     try
                     {
-                        if (!unSubscribedEmails.Contains(emails[i].Trim()))
+                        if (!unSubscribedEmails.Contains(subscribers[i].Email.Trim()))
                         {
-                            if (Utilities.EmailValidator.Validate(emails[i]))
+                            if (Utilities.EmailValidator.Validate(subscribers[i].Email))
                             {
                                 var emailData = new Dictionary<string, string> { { "body", body } };
 
-                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emails[i], LibraryConfig.DefaultEmailSubject + " " + subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
+                                if (!isSubjectLineRemoved)
+                                    subject = LibraryConfig.DefaultEmailSubject + " " + subject;
+
+                                EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, subscribers[i], subject, emailData, layout: EmailServer.EmailServerLayoutsEnum.Blank, priority: EmailPriority.Normal);
                             }
                         }
                     }
                     catch (Exception e)
                     {
-                        ErrorDatabaseManager.AddException(e, e.GetType(), errorGroup: ErrorGroupEnum.Database, additionalInformation: emails[i] + ":" + i);
+                        ErrorDatabaseManager.AddException(e, e.GetType(), errorGroup: ErrorGroupEnum.Database, additionalInformation: subscribers[i].Email + ":" + i);
                     }
 
                 }
