@@ -6,6 +6,12 @@ namespace RDN.Library.Classes.Roster
 {
     public class Roster
     {
+        public Roster()
+        {
+            RosterMembers = new List<KeyValueHelper>();
+            Members = new List<KeyValueHelper>();
+        }
+
         public long RosterId { get; set; }
 
         public string RosterName { get; set; }

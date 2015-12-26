@@ -77,17 +77,16 @@ namespace RDN.Library.Classes.Roster
             return null;
         }
 
-        public static Roster GetLeagueRoster(long linkId, Guid leagueId)
+        public static Roster GetLeagueRoster(long rosterId, Guid leagueId)
         {
-            List<Roster> itemRosters = new List<Roster>();
             try
             {
                 var dc = new ManagementContext();
 
-                var roster = dc.Rosters.FirstOrDefault(x => x.League.LeagueId == leagueId);
-                var firstOrDefault = roster.RosterMembers.FirstOrDefault();
-                if (firstOrDefault != null)
+                var roster = dc.Rosters.FirstOrDefault(x => x.League.LeagueId == leagueId && x.RosterId == rosterId);
+                if (roster != null)
                 {
+                    var rosterMember = roster.RosterMembers.FirstOrDefault();
                     var item = new Roster()
                     {
                         RosterId = roster.RosterId,
@@ -95,7 +94,7 @@ namespace RDN.Library.Classes.Roster
                         GameDate = roster.GameDate,
                         LeagueId = roster.League.LeagueId,
                         RuleSetsUsedEnum = roster.RuleSetsUsedEnum,
-                        InsuranceTypeId = firstOrDefault.InsuranceType,
+                        InsuranceTypeId = rosterMember != null ? rosterMember.InsuranceType : 0,
                         RosterSize = roster.RosterMembers.Count()
                     };
                     var rosterMembers = roster.RosterMembers.Select(x => new KeyValueHelper()
@@ -103,7 +102,6 @@ namespace RDN.Library.Classes.Roster
                         Id = x.Member.MemberId,
                         Name = x.Member.Name
                     }).ToList();
-
                     item.RosterMembers = rosterMembers;
                     return item;
                 }

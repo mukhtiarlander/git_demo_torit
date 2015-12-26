@@ -159,16 +159,16 @@
     this.InitializeUnRetireProfile = function () {
         $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, this.UnRetireYourProfile);
     }
-};
-$(document).ready(function () {   
 
-    $("#myTabs li a").bind("click", function (e) {
-        var href = $(this).attr('href');
-        $("#tabs").load(href);
-        window.location.hash = href;
-        e.preventDefault();
-    });
-    if (window.location.hash != "") {
-        $('#myTabs li a[href="' + window.location.hash + '"]').click()
+    this.InitializeSettings = function () {
+        $("#myTabs li a").bind("click", function (e) {
+            var href = $(this).attr('href');
+            $("#tabs").load(href);
+            window.location.hash = href;
+            e.preventDefault();
+        });
+        if (window.location.hash != "") {
+            $('#myTabs li a[href="' + window.location.hash + '"]').click()
+        }
     }
-});
+};
