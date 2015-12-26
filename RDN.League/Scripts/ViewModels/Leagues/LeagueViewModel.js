@@ -364,4 +364,56 @@
         tableBody.append(row);
     };
 
+    this.DeleteJoinFederation = function (element, federation, mem) {
+        $.getJSON("/Federation/DeleteJoinedFederation", { federationId: federation, leagueId: mem }, function (result) {
+            if (result.isSuccess) {
+                $(element).parent().parent().parent().remove();
+                $('.bottom-right').notify({
+                    message: { text: 'Deleted! ' },
+                    fadeOut: { enabled: true, delay: 3000 }
+                }).show();
+            }
+        }).error(function () {
+            $('.bottom-right').notify({
+                message: { text: 'Something Happened, Try again later. ' },
+                fadeOut: { enabled: true, delay: 3000 },
+                type: "danger"
+            }).show();
+        });
+    };
+
+    this.ValidateFederationAlreadyJoined = function (event, federationId, leagueId) {
+        if ($("#SelectedFederation").val().length > 0) {
+            $.getJSON("/Federation/ValidateFederationAlradyJoin", { federationId: $("#SelectedFederation").val(), leagueId: leagueId }, function (result) {
+                if (result.isExists) {
+                    alert("Selected Federation Already Joined for the League");
+                    return false;
+                }
+                $("#formJoinFederation").unbind('submit').submit();
+            }).error(function () {
+                $('.bottom-right').notify({
+                    message: { text: 'Something Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 3000 },
+                    type: "danger"
+                }).show();
+            });
+        }
+    };
+
+    this.InitilizeFederationValidation = function (leagueId) {
+        $('#formJoinFederation').submit(function (event) {
+            event.preventDefault();
+            League.ValidateFederationAlreadyJoined(event, $("#SelectedFederation").val(), leagueId);
+        });
+    };
+
+    this.InitilizeFederationDelete = function (leagueId) {
+        $("button[data-group]").each(function () {
+            var button = $(this);
+            var federationId = $(button).attr("data-group");
+            $(button).btsConfirmButton({ msg: "Confirm Delete" }, function (e) {
+                League.DeleteJoinFederation(button, federationId, leagueId);
+            });
+        });
+    };
 }

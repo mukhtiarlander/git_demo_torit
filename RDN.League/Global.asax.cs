@@ -464,6 +464,12 @@ new { url = "(bout|game)challenge" }
 "Federation/Member/Edit/{id}/{name}", // URL with parameters
 new { controller = "Federation", action = "EditMember", name = UrlParameter.Optional } // Parameter defaults
 );
+
+            routes.MapRoute(
+          "FederationJoinView", // Route name
+          "Federation/Join", // URL with parameters
+          new { controller = "Federation", action = "Join", name = UrlParameter.Optional } // Parameter defaults
+          );
             #endregion
 
             #region teamRoutes
