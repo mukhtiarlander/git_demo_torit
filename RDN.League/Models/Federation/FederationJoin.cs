@@ -9,7 +9,7 @@ namespace RDN.League.Models.Federation
 {
     public class FederationJoin
     {
-
+                 
         public SelectList Federations { set; get; }
 
         [Required(ErrorMessage="Select a Federation to Join")]       
