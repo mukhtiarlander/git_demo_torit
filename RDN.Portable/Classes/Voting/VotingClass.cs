@@ -103,7 +103,10 @@ namespace RDN.Portable.Classes.Voting
         [DataMember]
         public bool DidCurrentMemberVoted { get; set; }
 
-
+        // RDN-2319-Make Poll totally Secret
+        [ProtoMember(228)]
+        [DataMember]
+        public bool OnlyShowResults { get; set; }
 
 
         //[ProtoMember(23)]
