@@ -64,7 +64,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.IsDeleted = false;
                 voting.IsPublic = poll.IsPublic;
                 voting.IsPollAnonymous = poll.IsPollAnonymous;
-                voting.OnlyShowResults = poll.OnlyShowResults; // RDN-2319-Make Poll totally Secret
+                voting.OnlyShowResults = poll.OnlyShowResults;
 
                 voting.LeagueOwner = dc.Leagues.Where(x => x.LeagueId == member.CurrentLeagueId).FirstOrDefault();
                 voting.Description = poll.Description;
@@ -340,7 +340,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.Title = poll.Title;
                 voting.Description = poll.Description;
                 voting.IsOpenToLeague = poll.IsOpenToLeague;
-                voting.OnlyShowResults = poll.OnlyShowResults; // RDN-2319-Make Poll totally Secret
+                voting.OnlyShowResults = poll.OnlyShowResults;
                 foreach (var member in poll.Voters)
                 {
                     voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == member.MemberId).FirstOrDefault() });
@@ -647,7 +647,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 v.IsClosed = voting.IsClosed;
                 v.VotingId = voting.VotingId;
                 v.IsPollAnonymous = voting.IsPollAnonymous;
-                v.OnlyShowResults = voting.OnlyShowResults; // RDN-2319-Make Poll totally Secret 
+                v.OnlyShowResults = voting.OnlyShowResults;
                 v.LeagueId = leagueId.ToString().Replace("-", "");
                 //making due for old polls.
 

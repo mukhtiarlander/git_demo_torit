@@ -222,24 +222,8 @@
 
 <script type="text/javascript">
     simpleIdTwo = 6;
-    $("#PollsAdd").validate({
-        rules: {
-            Question: "required"
-        }
-    });
     $(document).ready(function () {
-        $("#checkAll").attr("checked", "checked");
-        toggleCheckedForRecipients($("#checkAll"));
-
-        tinymce.init({
-            mode: "textareas",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
-            elements: "wmd-input",
-            language: "en",
-            relative_urls: false,
-        });
+        Polls.InitializeCreatePoll();
     });
-
 </script>
 

@@ -255,26 +255,5 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Polls.Initialize('@Model.VotingId');
-
-    });
-    $("#PollsAdd").validate({
-        rules: {
-            AnswerType: "required"
-        }
-    });
-    $("#pollQuestions").sortable({
-        handle: '.sortableHandle',
-        update: function (event, ui) {
-            var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
-            Polls.SaveResortedPoll(idsInOrder);
-        }
-    }).disableSelection();
-    $(function () {
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
-        });
     });
 </script>
