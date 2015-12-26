@@ -327,11 +327,11 @@
 
                                                 </a>
                                             </li>
-                                            @*<li>
+                                            <li>
                                                 <a href="@Url.Content("~/league/rosters/all")" title="Rosters">
                                                     <i class="fa fa-users"></i>Rosters
                                                 </a>
-                                            </li>*@
+                                            </li>
 
                                         </ul>
                                     </div>
@@ -362,7 +362,16 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div>                                 
+
+                                        <ul class="multi-column-dropdown">
+                                            <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Federation</li>
+                                            <li>
+                                                <a href="@Url.Content("~/Federation/join")" title="Join Federation">
+                                                    <i class="fa fa-check-circle"></i>Join
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </ul>
                         </li>
@@ -542,8 +551,8 @@
             }
         </div>
         <a class="btn btn-info margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite "><i class="fa fa-shopping-cart"></i>Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
-        
-       @Html.Partial("_PartialFooter")
+
+        @Html.Partial("_PartialFooter")
     </div>
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
     <div id="feedback_tab" style="" class="@(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)">

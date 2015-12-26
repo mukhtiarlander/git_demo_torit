@@ -284,5 +284,10 @@
             var idsInOrder = JSON.stringify($("#memberGroups").sortable("toArray"));
             Member.SaveResortedGroup(idsInOrder);
         }
-    }).disableSelection();   
+    }).disableSelection();
+
+    $(function () {
+        Member.InitializeSettings();
+    });
+
 </script>

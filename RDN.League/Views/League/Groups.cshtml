@@ -26,8 +26,8 @@
                     <a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/add/")">
                         <i class="fa fa-plus-circle"></i> Add Group
                     </a>
-					<a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/edit/")">
-						<i class="fa"></i> Edit All
+                    <a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/edit/")">
+                        <i class="fa"></i> Edit All
                     </a>
                     <a class="btn btn-default btn-sm" onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
                         <i class="fa fa-download"></i> Export
@@ -56,9 +56,10 @@
         <table class="table table-hover table-condensedas" id="members">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Group Name</th>
                     <th>
-                       Members
+                        Members
                     </th>
                     <th>
                         Type
@@ -67,7 +68,7 @@
                         Email
                     </th>
                     <th class="text-center">
-                       Public
+                        Public
                     </th>
                     <th>
                     </th>
@@ -76,7 +77,8 @@
             <tbody>
                 @for (int i = 0; i < Model.Groups.Count; i++)
                 {
-                    <tr class="group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
+                    <tr data-toggle="collapse" data-parent="#members" data-target="#group-row-@Model.Groups[i].Id" class="accordion-toggle collapsed group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
+                        <td class="text-center"><i class="accordion-toggle-indicators glyphicon glyphicon-chevron-right"></i></td>
                         <td>@Model.Groups[i].GroupName</td>
                         <td>@Model.Groups[i].GroupMembers.Count</td>
                         <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>
@@ -101,8 +103,8 @@
                     </tr>
                     if (@Model.Groups[i].GroupMembers.Count > 0)
                     {
-                        <tr class="group-row-@Model.Groups[i].Id" style="background-color:white">
-                            <td colspan="6" style="padding:10px;">
+                        <tr id="group-row-@Model.Groups[i].Id" class="accordian-body collapse group-row-@Model.Groups[i].Id" style="background-color:white">
+                            <td colspan="7" style="padding:10px;">
                                 <div class="panel panel-default no-margin">
                                     <table class="table table-condensedas">
                                         <thead>
@@ -155,21 +157,8 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
-        $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bSort": true,
-            "bInfo": false,
-            "oLanguage": { "sSearch": "" },
-            "bAutoWidth": false
-        });
-        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+        League.InitializeGroups();
     });
-
 </script>

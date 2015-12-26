@@ -17,9 +17,19 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <h3 class="margin-top-5"><i class="fa fa-user"></i> View Roster</h3>
                     </div>
+                    @using (Html.BeginForm("ExportRoster", "Roster", FormMethod.Post, new { @id = "RosterReport" }))
+                    {
+                        @Html.HiddenFor(model => model.RosterId)
+                        @Html.HiddenFor(model => model.LeagueId)
+                        <div class="col-xs-6">
+                            <button class="btn btn-warning pull-right" onclick="document.getElementById('RosterReport').submit();">
+                                <i class="fa fa-download"> </i> Export
+                            </button>
+                        </div>
+                    }
                 </div>
                 <div class="text-muted"> Details of the Roster.</div>
             </div>
@@ -60,8 +70,8 @@
                     <label class="form-label margin-top-10"><b>  @(((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetsUsedEnum).ToString()) </b></label>
                 </div>
             </div>
-            </div>
         </div>
     </div>
+</div>
 </div>
 

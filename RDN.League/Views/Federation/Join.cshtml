@@ -1,1 +1,70 @@
-﻿
+﻿@model RDN.League.Models.Federation.FederationJoin
+@{  
+    ViewBag.Title = "Join a Federation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+    var leagueId = RDN.Library.Cache.MemberCache.GetLeagueOfMember(memId).LeagueId;
+}
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/Federation/Join")">Federations</a></li>
+    <li class="active">Join</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-10"><i class="fa fa-check-circle"></i>Federations, Join a Federation</h3>
+            </div>
+            <div class="panel-body no-padding">
+                @using (Html.BeginForm("Join", "Federation", FormMethod.Post, new { id="formJoinFederation"}))
+                {
+              
+                    <div class="form-label padding-left-5 margin-top-5">
+                        Join a Federation
+                    </div>
+
+                    <div class="col-xs-12 col-md-11 padding-left-5 padding-right-5">
+                        @Html.DropDownListFor(x => x.SelectedFederation, Model.Federations, "None", new { tabindex = "2", @class = "full-width" })
+                        @Html.ValidationMessageFor(m => m.SelectedFederation, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-12 col-md-1 text-right padding-right-5 no-padding-left">
+                        <button class="btn btn-success btn-sm" type="submit" value="" tabindex="6"><i class="fa fa-save"></i> Join</button>
+                    </div>
+                }
+                <div class="col-md-12 margin-top-5 padding-left-5">
+                    Current Federations
+                </div>
+                <table class="table table-hover no-margin-bottom full-width margin-top-5">
+                    @foreach (var federation in Model.League.Federations)
+                    {
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-10">
+                                        @federation.FederationName
+                                    </div>
+                                    <div class="col-xs-12 col-md-2 text-right">
+                                        <button type="button" class="btn btn-xs btn-danger" data-group="@federation.FederationId" ><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {       
+         League.InitilizeFederationDelete("@leagueId");
+         League.InitilizeFederationValidation("@leagueId");      
+    });
+
+</script>
+

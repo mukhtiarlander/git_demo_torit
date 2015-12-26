@@ -83,15 +83,26 @@ namespace RDN.Portable.Classes.Federation
         [ProtoMember(22)]
         [DataMember]
         public List<MemberDisplayFederation> Members { get; set; }
+        
         [ProtoMember(23)]
         [DataMember]
         public List<League.Classes.League> Leagues { get; set; }
+
+        [ProtoMember(24)]
+        [DataMember]
+        public List<FederationDisplay> Federations { get; set; }
+
+        [ProtoMember(25)]
+        [DataMember]
+        public League.Classes.League League { get; set; }
 
         public FederationDisplay()
         {
             Members = new List<MemberDisplayFederation>();
             Leagues = new List<League.Classes.League>();
-        }
+            Federations = new List<FederationDisplay>();
+            League = new League.Classes.League();
+        }  
     }
 
 }
