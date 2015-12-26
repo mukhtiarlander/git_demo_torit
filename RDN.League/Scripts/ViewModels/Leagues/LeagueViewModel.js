@@ -2,6 +2,25 @@
     var thisViewModel = this;
     var documentId;
     var Archived = false;
+    this.ToggleGroupsGridChevron =  function(e) {
+        $(e.target).prev().find("i.accordion-toggle-indicators").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+    };
+    this.InitializeGroups = function () {
+        $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
+        $('#members').on('hidden.bs.collapse', toggleGroupsGridChevron);
+        $('#members').on('show.bs.collapse', toggleGroupsGridChevron);
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "oLanguage": { "sSearch": "" },
+            "bAutoWidth": false
+        });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+    };
     this.ChangeGroupOfFolderSettings = function (dropDown, folderId) {
         $("#img-" + folderId).toggleClass("displayNone", true);
         var owner = $("#OwnerId");

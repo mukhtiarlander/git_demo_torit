@@ -7,11 +7,6 @@
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
 
-@*<style>
-    tr.accordion-toggle .accordion-toggle-indicators .glyphicon-chevron-right:before { content: "\e114"; }
-    tr.accordion-toggle.collapsed .accordion-toggle-indicators .glyphicon-chevron-right:before { content: "\e080"; }
-</style>*@
-
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Members</li>
@@ -162,26 +157,8 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
-    function toggleGroupsGridChevron(e) {
-        $(e.target).prev().find("i.accordion-toggle-indicators").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-    }
     $(document).ready(function () {
-        $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
-        $('#members').on('hidden.bs.collapse', toggleGroupsGridChevron);
-        $('#members').on('show.bs.collapse', toggleGroupsGridChevron);
-        $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bSort": true,
-            "bInfo": false,
-            "oLanguage": { "sSearch": "" },
-            "bAutoWidth": false
-        });
-        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+        League.InitializeGroups();
     });
-
 </script>
