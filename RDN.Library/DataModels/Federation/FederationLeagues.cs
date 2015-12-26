@@ -28,6 +28,7 @@ namespace RDN.Library.DataModels.Federation
 
         public DateTime? MembershipDate { get; set; }
 
+        public bool  IsRemoved { get; set; }
 
         #region references
         [Required]
