@@ -7,6 +7,11 @@
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
 
+@*<style>
+    tr.accordion-toggle .accordion-toggle-indicators .glyphicon-chevron-right:before { content: "\e114"; }
+    tr.accordion-toggle.collapsed .accordion-toggle-indicators .glyphicon-chevron-right:before { content: "\e080"; }
+</style>*@
+
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Members</li>
@@ -26,8 +31,8 @@
                     <a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/add/")">
                         <i class="fa fa-plus-circle"></i> Add Group
                     </a>
-					<a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/edit/")">
-						<i class="fa"></i> Edit All
+                    <a class="btn btn-primary btn-sm" href="@Url.Content("~/league/groups/edit/")">
+                        <i class="fa"></i> Edit All
                     </a>
                     <a class="btn btn-default btn-sm" onclick="document.getElementById('MembersReport').submit();" title="Export Roster">
                         <i class="fa fa-download"></i> Export
@@ -56,9 +61,10 @@
         <table class="table table-hover table-condensedas" id="members">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Group Name</th>
                     <th>
-                       Members
+                        Members
                     </th>
                     <th>
                         Type
@@ -67,7 +73,7 @@
                         Email
                     </th>
                     <th class="text-center">
-                       Public
+                        Public
                     </th>
                     <th>
                     </th>
@@ -76,7 +82,8 @@
             <tbody>
                 @for (int i = 0; i < Model.Groups.Count; i++)
                 {
-                    <tr class="group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
+                    <tr data-toggle="collapse" data-parent="#members" data-target="#group-row-@Model.Groups[i].Id" class="accordion-toggle collapsed group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
+                        <td class="text-center"><i class="accordion-toggle-indicators glyphicon glyphicon-chevron-right"></i></td>
                         <td>@Model.Groups[i].GroupName</td>
                         <td>@Model.Groups[i].GroupMembers.Count</td>
                         <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>
@@ -101,8 +108,8 @@
                     </tr>
                     if (@Model.Groups[i].GroupMembers.Count > 0)
                     {
-                        <tr class="group-row-@Model.Groups[i].Id" style="background-color:white">
-                            <td colspan="6" style="padding:10px;">
+                        <tr id="group-row-@Model.Groups[i].Id" class="accordian-body collapse group-row-@Model.Groups[i].Id" style="background-color:white">
+                            <td colspan="7" style="padding:10px;">
                                 <div class="panel panel-default no-margin">
                                     <table class="table table-condensedas">
                                         <thead>
@@ -157,8 +164,13 @@
 
 
 <script type="text/javascript">
+    function toggleGroupsGridChevron(e) {
+        $(e.target).prev().find("i.accordion-toggle-indicators").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+    }
     $(document).ready(function () {
         $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
+        $('#members').on('hidden.bs.collapse', toggleGroupsGridChevron);
+        $('#members').on('show.bs.collapse', toggleGroupsGridChevron);
         $('#members').dataTable({
             "aaSorting": [[1, "asc"]],
             "bPaginate": false,
