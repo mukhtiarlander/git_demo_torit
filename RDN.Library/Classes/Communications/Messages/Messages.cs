@@ -963,6 +963,7 @@ namespace RDN.Library.Classes.Messages
                 if (group.Recipients.Where(x => x.IsRemovedFromGroup == false).Count() == 0)
                     group.IsDeleted = true;
                 int c = dc.SaveChanges();
+                MemberCache.AddMessageCountToCache(-1, rec.Recipient.MemberId);
                 return c > 0;
             }
             catch (Exception exception)
