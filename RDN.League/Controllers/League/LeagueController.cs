@@ -1271,7 +1271,6 @@ namespace RDN.League.Controllers
                 model.ColumnsAvailable = Enum.GetValues(typeof(MembersReportEnum)).Cast<MembersReportEnum>().OrderBy(x => x.ToString()).ToList();
                 if (SiteType.RollerDerby == LibraryConfig.SiteType)
                 {
-
                     model.ColumnsAvailable.Remove(MembersReportEnum.Started_Playing_Date);
                 }
                 else
@@ -2085,7 +2084,6 @@ namespace RDN.League.Controllers
             try
             {
                 var league = RDN.Library.Classes.League.LeagueFactory.GetLeague(MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()));
-
                 return View(league);
             }
             catch (Exception exception)
