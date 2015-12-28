@@ -954,6 +954,7 @@ namespace RDN.Library.Classes.Messages
                 foreach (var mess in message)
                 {
                     dc.MessageInbox.Remove(mess);
+                    MemberCache.AddMessageCountToCache(-1, ownerId);
                 }
 
                 var group = (from xx in dc.GroupMessages
@@ -963,7 +964,6 @@ namespace RDN.Library.Classes.Messages
                 if (group.Recipients.Where(x => x.IsRemovedFromGroup == false).Count() == 0)
                     group.IsDeleted = true;
                 int c = dc.SaveChanges();
-                MemberCache.AddMessageCountToCache(-1, rec.Recipient.MemberId);
                 return c > 0;
             }
             catch (Exception exception)
