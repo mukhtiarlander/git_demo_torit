@@ -700,7 +700,8 @@ namespace RDN.Library.Classes.Controls.Voting
             try
             {
                 var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
-
+                // RDN - 1210 - Poll is closed then return false or not found
+                if (voting == null || voting.IsClosed) { return false; }
                 foreach (var question in voting.Questions)
                 {
                     try
