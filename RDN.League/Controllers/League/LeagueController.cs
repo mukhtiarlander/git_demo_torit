@@ -1271,6 +1271,7 @@ namespace RDN.League.Controllers
                 model.ColumnsAvailable = Enum.GetValues(typeof(MembersReportEnum)).Cast<MembersReportEnum>().OrderBy(x => x.ToString()).ToList();
                 if (SiteType.RollerDerby == LibraryConfig.SiteType)
                 {
+
                     model.ColumnsAvailable.Remove(MembersReportEnum.Started_Playing_Date);
                 }
                 else
