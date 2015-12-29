@@ -2085,6 +2085,7 @@ namespace RDN.League.Controllers
             try
             {
                 var league = RDN.Library.Classes.League.LeagueFactory.GetLeague(MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId()));
+
                 return View(league);
             }
             catch (Exception exception)
