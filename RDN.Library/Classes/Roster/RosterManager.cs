@@ -52,7 +52,6 @@ namespace RDN.Library.Classes.Roster
 
         public static List<Roster> GetLeagueRosters(Guid leagueId)
         {
-            List<Roster> itemRosters = new List<Roster>();
             try
             {
                 var dc = new ManagementContext();
@@ -64,7 +63,7 @@ namespace RDN.Library.Classes.Roster
                     GameDate = c.GameDate,
                     LeagueId = c.League.LeagueId,
                     RuleSetsUsedEnum = c.RuleSetsUsedEnum,
-                    RosterSize = c.RosterMembers.Count()
+                    RosterSize = c.RosterMembers.Count(x => x.IsRemoved == false)
                 }).ToList();
 
 
@@ -86,7 +85,7 @@ namespace RDN.Library.Classes.Roster
                 var roster = dc.Rosters.FirstOrDefault(x => x.League.LeagueId == leagueId && x.RosterId == rosterId);
                 if (roster != null)
                 {
-                    var rosterMember = roster.RosterMembers.FirstOrDefault();
+                    var rosterMember = roster.RosterMembers.FirstOrDefault(x => x.IsRemoved == false);
                     var item = new Roster()
                     {
                         RosterId = roster.RosterId,
@@ -95,9 +94,9 @@ namespace RDN.Library.Classes.Roster
                         LeagueId = roster.League.LeagueId,
                         RuleSetsUsedEnum = roster.RuleSetsUsedEnum,
                         InsuranceTypeId = rosterMember != null ? rosterMember.InsuranceType : 0,
-                        RosterSize = roster.RosterMembers.Count()
+                        RosterSize = roster.RosterMembers.Count(x => x.IsRemoved == false)
                     };
-                    var rosterMembers = roster.RosterMembers.Select(x => new KeyValueHelper()
+                    var rosterMembers = roster.RosterMembers.Where(x=>x.IsRemoved == false).Select(x => new KeyValueHelper()
                     {
                         Id = x.Member.MemberId,
                         Name = x.Member.Name
@@ -119,7 +118,7 @@ namespace RDN.Library.Classes.Roster
             {
 
                 var dc = new ManagementContext();
-                var rosterObj = dc.Rosters.Where(x => x.RosterId == roster.RosterId).FirstOrDefault();
+                var rosterObj = dc.Rosters.FirstOrDefault(x => x.RosterId == roster.RosterId);
                 if (rosterObj == null)
                     return false;
                 rosterObj.RosterName = roster.RosterName;
@@ -127,13 +126,13 @@ namespace RDN.Library.Classes.Roster
                 rosterObj.League = dc.Leagues.FirstOrDefault(x => x.LeagueId == roster.LeagueId);
                 rosterObj.RuleSetsUsedEnum = roster.RuleSetsUsedEnum;
                 var rosterMemberIds = roster.RosterMemberIds.Split(',').ToList().ConvertAll(Guid.Parse);
-                var rosterMembersToRemove = rosterObj.RosterMembers.Where(x => !rosterMemberIds.Contains(x.Member.MemberId));
-                var existingrosterMembers = rosterObj.RosterMembers.Where(x => rosterMemberIds.Contains(x.Member.MemberId));
-                dc.RosterMembers.RemoveRange(rosterMembersToRemove);
+                var rosterMembersToRemove = rosterObj.RosterMembers.Where(x =>  x.IsRemoved == false && !rosterMemberIds.Contains(x.Member.MemberId));
+                var existingrosterMembers = rosterObj.RosterMembers.Where(x =>  x.IsRemoved == false && rosterMemberIds.Contains(x.Member.MemberId));
+                rosterMembersToRemove.ForEach(x => x.IsRemoved = true);
                 existingrosterMembers.ForEach(x => x.InsuranceType = roster.InsuranceTypeId);
                 foreach (var memId in rosterMemberIds)
                 {
-                    if (!rosterObj.RosterMembers.Any(x => x.Member.MemberId == memId))
+                    if (!rosterObj.RosterMembers.Any(x => x.Member.MemberId == memId && x.IsRemoved == false))
                     {
                         var rosterMember = new RosterMember();
                         rosterMember.Member = dc.Members.FirstOrDefault(x => x.MemberId == memId);
