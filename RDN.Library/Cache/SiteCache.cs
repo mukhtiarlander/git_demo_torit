@@ -738,7 +738,7 @@ namespace RDN.Library.Cache
                     UpdateCache(cached);
                 }
                 if (!String.IsNullOrEmpty(alphaCharacter))
-                    return cached.PublicLeagues.Where(x => x.LeagueName.ToLower().StartsWith(alphaCharacter)).Skip(page * count).Take(count).ToList();
+                    return cached.PublicLeagues.Where(x => string.IsNullOrEmpty(alphaCharacter) || x.LeagueName.ToLower().StartsWith(alphaCharacter) || x.RuleSetsPlayed.ToLower().StartsWith(alphaCharacter)).Skip(page * count).Take(count).ToList();
 
                 return cached.PublicLeagues.Skip(page * count).Take(count).ToList();
             }
@@ -1000,6 +1000,7 @@ namespace RDN.Library.Cache
                     (x.LeagueName != null && x.LeagueName.ToLower().Contains(searchString))
                     || (x.State != null && x.State.ToLower().Contains(searchString))
                     || (x.City != null && x.City.ToLower().Contains(searchString))
+                    || (x.RuleSetsPlayed != null && x.RuleSetsPlayed.ToLower().Contains(searchString))
                     ).Skip(page * count).Take(count).ToList();
             }
             catch (Exception exception)

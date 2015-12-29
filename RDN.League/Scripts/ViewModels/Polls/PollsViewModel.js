@@ -1,9 +1,44 @@
-﻿var Polls = new function () {    
+﻿var Polls = new function () {
     var thisViewModel = this;
     thisViewModel.PollId = "";
+    this.InitializeCreatePoll = function () {
+        $("#PollsAdd").validate({ rules: { Question: "required" } });
+        $("#checkAll").attr("checked", "checked");
+        toggleCheckedForRecipients($("#checkAll"));
+        tinymce.init({
+            mode: "textareas",
+            theme: "modern",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+            elements: "wmd-input",
+            language: "en",
+            relative_urls: false,
+        });
+    };
     this.Initialize = function (pollId) {
         thisViewModel.PollId = pollId;
+        $("#PollsAdd").validate({ rules: { AnswerType: "required" } });
+        $("#pollQuestions").sortable({
+            handle: '.sortableHandle', update: function (event, ui) {
+                var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
+                Polls.SaveResortedPoll(idsInOrder);
+            }
+        }).disableSelection();
+        $(function () {
+            tinymce.init({
+                mode: "textareas",
+                elements: "elm2",
+                theme: "modern",
+                plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+            });
+        });
     }
+    this.InitializeViewPolls = function () {
+        $("#PollsAdd").validate({
+            rules: {
+                AnswerType: "required"
+            }
+        });
+    };
 
     this.AddQuestionToPoll = function () {
         var isMultipleAnswers = $("#multipleOptionsInput").is(":checked");

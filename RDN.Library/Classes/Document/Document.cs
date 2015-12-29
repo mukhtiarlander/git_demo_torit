@@ -35,6 +35,9 @@ namespace RDN.Library.Classes.Document
         public bool IsArchive { get; set; }
         public string LeagueTags { get; set; }
         public Guid UploaderMemberId { get; set; }
+        /// <summary>
+        /// Member who Uploaded the file.
+        /// </summary>
         public bool IsUploaderMember { get; set; }
 
         public Document()
