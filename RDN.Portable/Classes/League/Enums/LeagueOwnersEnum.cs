@@ -22,6 +22,7 @@ namespace RDN.Portable.Classes.League.Enums
         Attendance = 1024,
         Polls = 2048,
         Inventory = 4096,
-        Sponsorship = 8192
+        Sponsorship = 8192,
+        Roster = 16384
     }
 }

@@ -104,6 +104,9 @@
                         <th class="center">
                             @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Sponsorship)
                         </th>
+                        <th class="center">
+                            @RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Roster)
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,6 +168,9 @@
                             </td>
                             <td class="text-center">
                                 <input type="checkbox" id="@Model.Model.Items[i].MemberId-sponsor" @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Sponsorship) ? "checked='checked'" : "") />
+                            </td>
+                            <td class="text-center">
+                                <input type="checkbox" id="@Model.Model.Items[i].MemberId-roster" @(Model.Model.Items[i].LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Roster) ? "checked='checked'" : "") />
                             </td>
                         </tr>
                 }
@@ -267,6 +273,9 @@
             </li>
             <li>
                 <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Sponsorship)</b> - Can manage sponsors, add remove and edit all sponsorship information.
+            </li>
+            <li>
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Roster)</b> - Can manage rosters, add remove and edit all roster information.
             </li>
         </ul>
     </div>

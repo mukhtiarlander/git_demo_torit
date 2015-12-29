@@ -31,6 +31,7 @@ namespace RDN.League.Models.Filters
         public bool IsGroupModerator { get; set; }
         public bool IsInventoryTracker { get; set; }
         public bool IsSponsorship { get; set; }
+        public bool IsRoster { get; set; }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -126,6 +127,10 @@ namespace RDN.League.Models.Filters
 
             if (IsSponsorship)
                 if (MemberCache.IsSponsorshipOrBetterOfLeague(memberId))
+                    return;
+
+            if (IsRoster)
+                if (MemberCache.IsRosterManagerOrBetter(memberId))
                     return;
 
             //we redirect here because they weren't the required above managers...
