@@ -64,6 +64,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.IsDeleted = false;
                 voting.IsPublic = poll.IsPublic;
                 voting.IsPollAnonymous = poll.IsPollAnonymous;
+                voting.OnlyShowResults = poll.OnlyShowResults;
 
                 voting.LeagueOwner = dc.Leagues.Where(x => x.LeagueId == member.CurrentLeagueId).FirstOrDefault();
                 voting.Description = poll.Description;
@@ -135,8 +136,8 @@ namespace RDN.Library.Classes.Controls.Voting
                 {
                     var emailData = new Dictionary<string, string>
                                         {
-                                            { "derbyname",derbyName}, 
-                                            { "FromUserName", createdByMemberName }, 
+                                            { "derbyname",derbyName},
+                                            { "FromUserName", createdByMemberName },
                                                                                         { "viewPollLink",                                               LibraryConfig.InternalSite +"/poll/votev2/"+leagueId.ToString().Replace("-","") +"/" +pollId}
                                         };
                     var user = System.Web.Security.Membership.GetUser((object)userId);
@@ -339,6 +340,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.Title = poll.Title;
                 voting.Description = poll.Description;
                 voting.IsOpenToLeague = poll.IsOpenToLeague;
+                voting.OnlyShowResults = poll.OnlyShowResults;
                 foreach (var member in poll.Voters)
                 {
                     voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == member.MemberId).FirstOrDefault() });
@@ -645,6 +647,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 v.IsClosed = voting.IsClosed;
                 v.VotingId = voting.VotingId;
                 v.IsPollAnonymous = voting.IsPollAnonymous;
+                v.OnlyShowResults = voting.OnlyShowResults;
                 v.LeagueId = leagueId.ToString().Replace("-", "");
                 //making due for old polls.
 
@@ -700,7 +703,8 @@ namespace RDN.Library.Classes.Controls.Voting
             try
             {
                 var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
-
+                // RDN - 1210 - Poll is closed then return false or not found
+                if (voting == null || voting.IsClosed) { return false; }
                 foreach (var question in voting.Questions)
                 {
                     try

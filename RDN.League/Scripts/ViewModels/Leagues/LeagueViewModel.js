@@ -35,6 +35,24 @@
         $("#img-" + folderId).toggleClass("displayNone", false);
     };
     this.SetUpDocumentsSection = function () {
+         $('#documents').dataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter" : false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "aoColumns": [null, null, null, null, null, {
+"           sType": "natural"
+            }, { "sType": "natural" }],
+            "aaSorting": []
+            });
+        $('#documentUpload').MultiFile({
+                    list: '#fileUpload-list'
+                    });
+                $('#doc-delete-btn').btsConfirmButton({ msg: "Confirm Delete" }, League.DeleteDocument);
+                $('#doc-archive-btn').btsConfirmButton({ msg : "Confirm Archive"
+            }, League.ArchiveDocument);
+
         $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
             var isDeletebuttonVisible = false;
             thisViewModel.documentId = '';
