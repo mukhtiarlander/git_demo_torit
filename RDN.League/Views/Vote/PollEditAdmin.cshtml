@@ -71,6 +71,12 @@
                        })
                         </div>
                     </div>
+                    <div class="col-xs-12 margin-top-10">
+                        <div>
+                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                        </div>
+                    </div>
+
                     <div class="col-xs-12" style="position:initial">
                         @if (Model.IsPollAnonymous)
                         { <label class="form-label margin-top-10">Anonymous Questions & Answers</label> }
@@ -145,7 +151,7 @@
                                                             }
                                                         </div>
                                                         <div class="col-xs-12">
-                                                            @if (!Model.IsPollAnonymous && !Model.OnlyShowResults)
+                                                            @if (!Model.IsPollAnonymous)
                                                             {
                                                                 if (question.Votes.Where(x => x.AnswerIds.Contains(answer.AnswerId)).Count() > 0)
                                                                 {
@@ -196,46 +202,30 @@
                             }
                         </div>
                     </div>
-                    @if (Model.OnlyShowResults)
-                    {
-                        @Html.HiddenFor(x => x.OnlyShowResults)
-                        <div class="col-xs-12">
-                            <div><i class="fa fa-check-circle"></i> Only Showing Results<span class="text-muted"><i> Hides members that didn't vote to everyone.</i></span></div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <label class="form-label col-xs-3">
-                                    Didn't Vote
-                                </label>
-                            </div>
-                            <div>
-                                <div class="row panel panel-default no-margin">
-                                    <div class="panel-body padding-10 padding-bottom-5">
-                                        @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.DerbyName))
-                                        {
-                                            <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
-                                                <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
-                                            </span>
-                                        }
-                                    </div>
-                                    <div id="EditPollSelectedMembersDiv" class="panel-footer pull-left full-width display-none padding-10 padding-bottom-5">
 
-                                    </div>
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <label class="form-label col-xs-3">
+                                Didn't Vote
+                            </label>
+                            <div class="col-xs-9 text-right">
+                                <button class="btn btn-warning btn-xs" type="button" onclick="SendEmailPollNotification('@Model.LeagueId','@Model.VotingId')"><i class="fa fa-envelope"></i> Re-Send Email Notifications</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row panel panel-default no-margin">
+                                <div class="panel-body padding-10 padding-bottom-5">
+                                    @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.DerbyName))
+                                    {
+                                        <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
+                                            <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                                        </span>
+                                    }
+                                </div>
+                                <div id="EditPollSelectedMembersDiv" class="panel-footer pull-left full-width display-none padding-10 padding-bottom-5">
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 margin-top-5">
-                            <div>
-                                <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Only Show Results </label><span class="text-muted"><i>Hides members that didn't vote to everyone.</i></span>
-                            </div>
-                        </div>
-                    }
-                    <div class="col-xs-12">
-                        <div>
-                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
                         </div>
                     </div>
                 </div>
