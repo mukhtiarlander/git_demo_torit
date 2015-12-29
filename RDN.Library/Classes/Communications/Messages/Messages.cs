@@ -954,7 +954,6 @@ namespace RDN.Library.Classes.Messages
                 foreach (var mess in message)
                 {
                     dc.MessageInbox.Remove(mess);
-                    MemberCache.AddMessageCountToCache(-1, ownerId);
                 }
 
                 var group = (from xx in dc.GroupMessages
