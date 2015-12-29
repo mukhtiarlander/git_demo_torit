@@ -38,8 +38,12 @@ namespace RDN.Api.Controllers
         public JsonResult GetAllSkatersStats()
         {
             List<SkaterJson> names = new List<SkaterJson>();
+            int nrOfMembers = 0;
             try
             {
+                nrOfMembers = SiteCache.GetNumberOfMembersSignedUp();
+                if (nrOfMembers < 1023)
+                    nrOfMembers = 1023;
                 names = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
                         .Where(x => !x.photoUrl.Contains("roller-girl"))
                         .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
@@ -56,7 +60,7 @@ namespace RDN.Api.Controllers
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
 
-            return Json(new { members = names }, JsonRequestBehavior.AllowGet);
+            return Json(new { members = names, memberCount = nrOfMembers }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 

@@ -6,7 +6,7 @@
 <br />
 <div class="row text-center" id="leaguesStats">
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="bold">Join over <span data-bind="text: LeaguesStats().length < 126 ? 126 : LeaguesStats().length"></span> leagues from around the world</h3>
+        <h3 class="bold">Join over <span data-bind="text: LeaguesCount"></span> leagues from around the world</h3>
         <div>Manage every part of your league</div>
         <br />
         <!-- ko foreach: LeaguesStats -->
@@ -25,7 +25,7 @@
 </div><br />
 <div class="row text-center" id="membersStats">
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="bold">Join over <span data-bind="text: MembersStats().length < 1023 ? 1023 : MembersStats().length"></span> people from around the world</h3>
+        <h3 class="bold">Join over <span data-bind="text:  MembersCount"></span> people from around the world</h3>
         <div>Keep track of all your members</div>
         <br />
         <!-- ko foreach: MembersStats -->
