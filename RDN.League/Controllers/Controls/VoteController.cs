@@ -330,6 +330,12 @@ namespace RDN.League.Controllers.UI
 
                 var poll = VotingFactory.GetPollV2(league.LeagueId, vote.VotingId, mem);
 
+                if (poll == null)
+                    return Redirect(Url.Content("~/poll/" + league.LeagueId + "?u=" + SiteMessagesEnum.na));
+
+                if (poll.IsClosed)
+                    return Redirect(Url.Content("~/poll/" + league.LeagueId + "?u=" + SiteMessagesEnum.cl));
+
                 List<VotingQuestionClass> questions = new List<VotingQuestionClass>();
                 foreach (var question in poll.Questions)
                 {
@@ -361,7 +367,14 @@ namespace RDN.League.Controllers.UI
                 }
 
                 var polls = VotingFactory.AddVoteV2(new Guid(vote.LeagueId), vote.VotingId, questions, mem);
-                return Redirect(Url.Content("~/poll/" + vote.LeagueId + "?u=" + SiteMessagesEnum.sv));
+                if (polls)
+                {
+                    return Redirect(Url.Content("~/poll/" + vote.LeagueId + "?u=" + SiteMessagesEnum.sv));
+                }
+                else
+                {
+                    return Redirect(Url.Content("~/poll/" + league.LeagueId + "?u=" + SiteMessagesEnum.cl));
+                }
             }
             catch (Exception exception)
             {
