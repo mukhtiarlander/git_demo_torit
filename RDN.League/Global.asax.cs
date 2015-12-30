@@ -433,6 +433,13 @@ new { url = "(bout|game)challenge" }
             #endregion
 
             #region FederationRoutes
+
+            routes.MapRoute(
+        "federationjoinview", // Route name
+        "federation/join", // URL with parameters
+        new { controller = "Federation", action = "Join", name = UrlParameter.Optional } // Parameter defaults
+        );
+
             routes.MapRoute(
              "FederationLeague", // Route name
              "Federation/League/{id}/{name}", // URL with parameters
@@ -465,11 +472,7 @@ new { url = "(bout|game)challenge" }
 new { controller = "Federation", action = "EditMember", name = UrlParameter.Optional } // Parameter defaults
 );
 
-            routes.MapRoute(
-          "FederationJoinView", // Route name
-          "Federation/Join", // URL with parameters
-          new { controller = "Federation", action = "Join", name = UrlParameter.Optional } // Parameter defaults
-          );
+          
             #endregion
 
             #region teamRoutes

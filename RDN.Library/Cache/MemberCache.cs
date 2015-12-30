@@ -274,7 +274,7 @@ namespace RDN.Library.Cache
             {
                 var cached = GetCache(memberId, true);
                 if (cached.memberDisplay != null)
-                    if (cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Roster) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Manager) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Owner) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Roster))
+                    if (cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Secretary) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Manager) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Owner) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Roster))
                         return true;
             }
             catch (Exception exception)
