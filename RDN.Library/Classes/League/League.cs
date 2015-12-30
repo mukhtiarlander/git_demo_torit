@@ -160,8 +160,8 @@ namespace RDN.Library.Classes.League
 
                         var emailData = new Dictionary<string, string>
                                         {
-                                            { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "days", daysToExpire.ToString() },
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL },
                                             { "leagueSubscriptionLink", LibraryConfig.InternalSite+ UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
@@ -181,8 +181,8 @@ namespace RDN.Library.Classes.League
 
                         var emailData = new Dictionary<string, string>
                                         {
-                                            { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager.LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "days", daysToExpire.ToString() },
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager.LEAGUE_SUBSCRIPTION_SERVICES_URL },
                                             { "leagueSubscriptionLink",  LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                                                                    };
                         foreach (var email in emails)
@@ -201,8 +201,8 @@ namespace RDN.Library.Classes.League
 
                         var emailData = new Dictionary<string, string>
                                         {
-                                            { "days", daysToExpire.ToString() }, 
-                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL }, 
+                                            { "days", daysToExpire.ToString() },
+                                            { "infomormationalVideo", LibraryConfig.PublicSite + UrlManager .LEAGUE_SUBSCRIPTION_SERVICES_URL },
                                             { "leagueSubscriptionLink", LibraryConfig.InternalSite + UrlManager.LEAGUE_SUBSCRIPTION_RESUBSUBSCRIBE + league.LeagueId.ToString().Replace("-","") }
                                         };
                         foreach (var email in emails)
@@ -216,8 +216,8 @@ namespace RDN.Library.Classes.League
 
                         var adminEmailData = new Dictionary<string, string>
                                         {
-                                            { "days", daysToExpire.ToString() }, 
-                                            { "leagueName", league.Name}, 
+                                            { "days", daysToExpire.ToString() },
+                                            { "leagueName", league.Name},
                                             { "leagueEmail", emails.ToArray().ToString()},
                                             { "leaguePhoneNumber", phoneNumber},
                                             {"link",LibraryConfig.AdminSite + UrlManager.LEAGUE_SUBSCRIPTION_LINK_FOR_ADMIN}
@@ -262,7 +262,8 @@ namespace RDN.Library.Classes.League
                     if (!String.IsNullOrEmpty(owner.Email))
                         emails.Add(owner.Email);
                 }
-            } return emails;
+            }
+            return emails;
         }
         /// <summary>
         /// gets the leagues phone number with the current league datamodel
@@ -1235,7 +1236,7 @@ namespace RDN.Library.Classes.League
             {
                 qu = qu.ToLower();
                 var mems = SiteCache.GetAllPublicLeagues();
-                return mems.Where(x => x.LeagueName.ToLower().Contains(qu)).AsParallel().OrderBy(x => x.LeagueName).Skip(page * count).Take(count).ToList();
+                return mems.Where(x => string.IsNullOrEmpty(qu) || x.LeagueName.ToLower().Contains(qu) || x.RuleSetsPlayed.ToLower().Contains(qu)).AsParallel().OrderBy(x => x.LeagueName).Skip(page * count).Take(count).ToList();
             }
             catch (Exception exception)
             {
@@ -1428,12 +1429,12 @@ namespace RDN.Library.Classes.League
 
                 var contactCard = new DataModels.ContactCard.ContactCard();
                 var add = new Address
-                  {
-                      Country = count,
-                      StateRaw = state,
-                      CityRaw = city,
-                      TimeZone = timeZone
-                  };
+                {
+                    Country = count,
+                    StateRaw = state,
+                    CityRaw = city,
+                    TimeZone = timeZone
+                };
                 var coords = GeocodingManager.FindLatLongOfAddress(add.Address1, add.Address2, add.Zip, add.CityRaw, add.StateRaw, add.Country != null ? add.Country.Name : string.Empty);
                 if (coords != null)
                 {
@@ -1598,19 +1599,19 @@ namespace RDN.Library.Classes.League
 
                 // Add a new league to the pending leagues
                 var pending = new Pending
-                                  {
-                                      LeagueName = leagueName,
-                                      AdditionalInformation = additionalInformation,
-                                      ContactEmail = contactEmail,
-                                      ContactTelephone = contactTelephone,
-                                      Creator = User.GetMember(ref dc),
-                                      LogInformation = logInformation,
-                                      Country = country,
-                                      StateRaw = state,
-                                      CityRaw = city,
-                                      Federation = federation,
-                                      TimeZone = timeZone
-                                  };
+                {
+                    LeagueName = leagueName,
+                    AdditionalInformation = additionalInformation,
+                    ContactEmail = contactEmail,
+                    ContactTelephone = contactTelephone,
+                    Creator = User.GetMember(ref dc),
+                    LogInformation = logInformation,
+                    Country = country,
+                    StateRaw = state,
+                    CityRaw = city,
+                    Federation = federation,
+                    TimeZone = timeZone
+                };
                 dc.LeaguePendings.Add(pending);
 
                 var result = dc.SaveChanges();
@@ -1903,13 +1904,13 @@ namespace RDN.Library.Classes.League
                     var email = member.Member.ContactCard.Emails.FirstOrDefault(x => x.IsDefault);
                     if (email == null)
                         output.Add(new ViewMember
-                                       {
-                                           MemberId = member.Member.MemberId,
-                                           Firstname = member.Member.Firstname,
-                                           DerbyName = member.Member.DerbyName,
-                                           PlayerNumber = member.Member.PlayerNumber,
-                                           //Team = team
-                                       });
+                        {
+                            MemberId = member.Member.MemberId,
+                            Firstname = member.Member.Firstname,
+                            DerbyName = member.Member.DerbyName,
+                            PlayerNumber = member.Member.PlayerNumber,
+                            //Team = team
+                        });
                     else
                         output.Add(new ViewMember
                         {
@@ -2042,8 +2043,8 @@ namespace RDN.Library.Classes.League
                 var mem = MemberCache.GetMemberDisplay(leagueMember.Member.MemberId);
                 if (mem != null && !String.IsNullOrEmpty(mem.Email) && c > 0)
                 {
-                    var emailData = new Dictionary<string, string> { 
-                        { "derbyname", leagueMember.Member.DerbyName }, 
+                    var emailData = new Dictionary<string, string> {
+                        { "derbyname", leagueMember.Member.DerbyName },
                         { "leagueName", leagueMember.League.Name},
                         { "ownerType", RDN.Utilities.Enums.EnumExt.ToFreindlyName( ownerType) } };
 

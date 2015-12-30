@@ -17,6 +17,8 @@ namespace RDN.Library.DataModels.Roster
 
          public int InsuranceType { get; set; }
 
+         public bool IsRemoved { get; set; }
+
          #region references
          [Required]
          public virtual Roster Roster { get; set; }

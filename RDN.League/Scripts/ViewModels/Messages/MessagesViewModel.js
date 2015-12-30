@@ -221,4 +221,9 @@
             }
         });
     }
+    this.InitializeMessageView = function () {
+        var height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
+        $("#messagesAdd").height(height - 390);
+        $("#messagesAdd").scrollTop($("#messagesAdd")[0].scrollHeight);
+    };
 }

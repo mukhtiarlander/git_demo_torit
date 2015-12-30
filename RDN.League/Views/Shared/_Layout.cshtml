@@ -365,11 +365,11 @@
 
                                         <ul class="multi-column-dropdown">
                                             <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Federation</li>
-                                            <li>
-                                                <a href="@Url.Content("~/Federation/join")" title="Join Federation">
+                                            @if (isSec){<li>
+                                                <a href="@Url.Content("~/federation/join")" title="Join Federation">
                                                     <i class="fa fa-check-circle"></i>Join
                                                 </a>
-                                            </li>
+                                            </li>}
                                         </ul>
                                     </div>
                                 </div>

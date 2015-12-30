@@ -526,6 +526,8 @@ namespace RDN.League.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsSecretary = true, IsManager = true)]
         public ActionResult Join()
         {
 
@@ -544,6 +546,8 @@ namespace RDN.League.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsSecretary = true, IsManager = true)]
         public ActionResult Join(FederationJoin model)
         {
             FederationJoin federationJoin = new FederationJoin();
@@ -557,7 +561,8 @@ namespace RDN.League.Controllers
 
             return View();
         }
-
+        
+        [Authorize] [LeagueAuthorize(EmailVerification = true, IsSecretary = true, IsManager = true)]
         public ActionResult DeleteJoinedFederation(Guid federationId, Guid leagueId)
         {
             var issuccess = false;
