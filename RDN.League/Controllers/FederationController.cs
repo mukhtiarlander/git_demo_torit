@@ -578,7 +578,12 @@ namespace RDN.League.Controllers
             return Json(new { isSuccess = issuccess }, JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// Validate Federation going to Join already joined or not
+        /// </summary>
+        /// <param name="federationId"></param>
+        /// <param name="leagueId"></param>
+        /// <returns></returns>
         public ActionResult ValidateFederationAlradyJoin(Guid federationId, Guid leagueId)
         {
             bool isFederationAlreadyJoin = Federation.ValidateFederationAlradyJoin(federationId, leagueId);
