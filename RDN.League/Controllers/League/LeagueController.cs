@@ -633,7 +633,10 @@ namespace RDN.League.Controllers
                         MemberCache.ClearLeagueMembersApiCache(leagueId);
                     }
                     else
+                    {
                         league.IsSuccess = false;
+                        league.Message = "League code couldn't be found, please ask your league for the correct code.";
+                    }
                 }
                 else
                 {
