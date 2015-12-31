@@ -744,7 +744,8 @@ namespace RDN.Library.Classes.Federation
 
                 if (federation != null)
                 {
-                    federation.League.Federations.FirstOrDefault(item => item.League.LeagueId == leagueId && item.Federation.FederationId==federationId).IsRemoved = true;
+                    federation= federation.League.Federations.Where(item => item.League.LeagueId == leagueId && item.Federation.FederationId==federationId).FirstOrDefault();
+                    federation.IsRemoved = true;
                     federation.LastModified = DateTime.Now;
                 }
 

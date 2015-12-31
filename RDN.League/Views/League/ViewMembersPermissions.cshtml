@@ -296,7 +296,7 @@
             "oLanguage": { "sSearch": "" },
         });
         $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
-         @for (int i = 0; i < Model.Model.Items.Count; i++)
+        @for (int i = 0; i < Model.Model.Items.Count; i++)
          {
              if (isOwner)
              {
@@ -337,11 +337,14 @@
               <text>$("#@Model.Model.Items[i].MemberId-inventory").change(function () {
             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'inventory');
         });</text>
-            <text>$("#@Model.Model.Items[i].MemberId-sponsor").change(function () {
+             <text>$("#@Model.Model.Items[i].MemberId-sponsor").change(function () {
             SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'sponsor');
+        });</text>
+              <text>$("#@Model.Model.Items[i].MemberId-roster").change(function () {
+            SetLeagueOwnership(this, '@Model.Model.Items[i].MemberId', 'roster');
         });</text>
          }
         $("#double-scroll").doubleScroll();
     });
-   
+
 </script>
