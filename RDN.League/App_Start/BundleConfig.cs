@@ -50,7 +50,8 @@ namespace RDN.League
                         "~/Scripts/ViewModels/Polls/PollsViewModel.js",
                         "~/Scripts/ViewModels/Tournament/TournamentViewModel.js",
                         "~/Scripts/ViewModels/Dues/DuesViewModel.js",
-						"~/Scripts/ViewModels/Sponsors/SponsorsViewModel.js"
+						"~/Scripts/ViewModels/Sponsors/SponsorsViewModel.js",
+                        "~/Scripts/ViewModels/Rosters/RostersViewModel.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

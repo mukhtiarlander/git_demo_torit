@@ -1324,7 +1324,7 @@ function WaiveDues(button, memId) {
     var amount = amountButton.val();
     var noteText = $("#" + memId + "-Dues-Notes");
     var note = $("#" + memId + "-Dues-Notes").val()
-    var dueNote = $("#"+memId+"-Due-Note-Text");
+    var dueNote = $("#" + memId + "-Due-Note-Text");
 
     $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: note }, function (result) {
         if (result.isSuccess === true) {
@@ -1337,7 +1337,7 @@ function WaiveDues(button, memId) {
             }
         })
     });
-    
+
     amountButton.remove();
     $(noteText).remove();
     $(button).remove();
@@ -1564,7 +1564,7 @@ function checkInMemberToEvent() {
         }).show();
         return;
     }
-  
+
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
         if (result.isSuccess === true) {
@@ -1739,6 +1739,7 @@ function AddAnotherAnswerToPoll() {
     var input = $(document.createElement('input'));
     input.attr("type", "text");
     input.addClass('form-control');
+    input.attr("tabindex", simpleIdTwo);
     input.attr("id", "answer" + simpleIdTwo + "Input");
 
     div.append(lbl).append(input);
@@ -1848,7 +1849,13 @@ function AddPollAnswerCreate() {
     //$("#createPollPopup").fadeIn("fast");
     //$("#createPollPopup").center();
     //$("#questionInput").focus();
-    $("#createPollPopup1").modal('show');
+    $("#createPollPopup1").on('shown.bs.modal', function (e) {
+        var dialogBoxObj = $(e.target);
+        dialogBoxObj.find("#questionInput").focus();
+    }).on('hide.bs.modal', function (e) {
+        var dialogBoxObj = $(e.target);
+        dialogBoxObj.find("#addAnswerToAnswersListPopup").scrollTop(0);
+    }).modal('show');
 }
 
 

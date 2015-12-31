@@ -7,7 +7,7 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/league/roster/all")">Rosters</a></li>
+    <li><a href="@Url.Content("~/league/rosters/all")">Rosters</a></li>
     <li class="active">Edit roster</li>
 </ol>
 <div class="row">
@@ -31,7 +31,7 @@
                         <div class="col-xs-12">
                             <label class="form-label margin-top-10">Game Date</label>
                             <div>
-                                @Html.TextBoxFor(x => x.GameDate, new { @type = "text", @class = "form-control" })
+                                @Html.TextBoxFor(x => x.GameDate, "{0:MM/dd/yyyy}", new { @type = "text", @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-xs-12 margin-10">
@@ -81,7 +81,6 @@
 </div>
 
 <script>
-
     $("#EditRoster").validate({
         rules: {
             RosterName: "required",
@@ -91,45 +90,8 @@
             RuleSetsUsedEnum: "required"
         }
     });
-    $('#GameDate').datepicker({ dateFormat: 'mm-dd-yy' });
-    var group = $("ol.simple_with_animation").sortable({
-        group: 'simple_with_animation',
-        pullPlaceholder: false,
-        onDrop: function ($item, container, _super) {
-            var $clonedItem = $('<li/>').css({ height: 0 });
-            $item.before($clonedItem);
-            $clonedItem.animate({ 'height': $item.height() });
-
-            $item.animate($clonedItem.position(), function () {
-                $clonedItem.detach();
-                _super($item, container);
-                var arrMembers = [];
-                $("#rosterMembers").children().each(function (i) {
-                    var li = $(this);
-                    var id = li.attr("data-id");
-                    if (id != "" && id != "@Guid.Empty") {
-                        arrMembers.push(id);
-                    }
-                });
-                $("#RosterMemberIds").val(arrMembers.join(","));
-            });
-        },
-        onDragStart: function ($item, container, _super) {
-            var offset = $item.offset(),
-                pointer = container.rootGroup.pointer;
-            adjustment = {
-                left: pointer.left - offset.left,
-                top: pointer.top - offset.top
-            };
-            _super($item, container);
-        },
-        onDrag: function ($item, position) {
-            $item.css({
-                left: position.left - adjustment.left,
-                top: position.top - adjustment.top
-            });
-        }
+    $(document).ready(function () {
+        Roster.InitializeEditRoster();
     });
-
 </script>
 

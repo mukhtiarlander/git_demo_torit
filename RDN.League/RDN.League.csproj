@@ -315,6 +315,7 @@
     <Compile Include="Models\Enum\EnumClass.cs" />
     <Compile Include="Models\Federation\FederationDisplay.cs" />
     <Compile Include="Models\Federation\FederationHome.cs" />
+    <Compile Include="Models\Federation\FederationJoin.cs" />
     <Compile Include="Models\Federation\RegisterFederation.cs" />
     <Compile Include="Models\Filters\Authorize.cs" />
     <Compile Include="Models\Filters\FederationAuthorize.cs" />
@@ -948,6 +949,7 @@
     <Content Include="Scripts\ViewModels\Members\MembersViewModel.js" />
     <Content Include="Scripts\ViewModels\Messages\MessagesViewModel.js" />
     <Content Include="Scripts\ViewModels\Polls\PollsViewModel.js" />
+    <Content Include="Scripts\ViewModels\Rosters\RostersViewModel.js" />
     <Content Include="Scripts\ViewModels\Sponsors\SponsorsViewModel.js" />
     <Content Include="Scripts\ViewModels\Tournament\TournamentViewModel.js" />
     <Content Include="Scripts\wmd-customized.js" />
@@ -977,6 +979,7 @@
     <Content Include="Views\Roster\EditRoster.cshtml" />
     <Content Include="Views\Federation\Join.cshtml" />
     <Content Include="Views\Shared\_PartialFooter.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\img\" />

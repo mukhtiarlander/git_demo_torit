@@ -1,0 +1,65 @@
+﻿@using RDN.League.Models.Account
+@model LogOnModel
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="text-center page-header">
+    <h3>
+        @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName helps you connect with your fans, manage your teams and view your stats.
+    </h3>
+</div>
+<div class="text-center col-sm-6 visible-sm visible-lg visible-md">
+    <img src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl500" class="thumbnail-lg img-responsive centerIt" />
+</div>
+
+<div class="col-sm-5 ">
+    <h3 class="signUpTitle">
+        Login
+    </h3>
+    <h4 class="signUpDesc">
+        Play As a Team, Track As a Sport, Love @RDN.Library.Classes.Config.LibraryConfig.SportName
+    </h4>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+
+        <div>
+            <fieldset>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    <span style="color: red;">@Html.ValidationMessageFor(m => m.Email)</span>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    <span style="color: red;">@Html.ValidationMessageFor(m => m.Password)</span>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RememberMe)
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    <span style="color: red;">@Html.ValidationMessageFor(m => m.RememberMe)</span>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Login" />
+                    <a href="@Url.Content("~/Recover")">Lost Password?</a>
+                </div>
+            </fieldset>
+        </div>
+    }
+</div>
+<br /><br />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Email").focus();
+        $("#Email").val($("#Email").val());
+    });
+</script>
+

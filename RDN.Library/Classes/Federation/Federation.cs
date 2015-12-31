@@ -18,6 +18,7 @@ using RDN.Portable.Classes.Imaging;
 using RDN.Portable.Classes.Federation;
 using RDN.Portable.Classes.Forum.Enums;
 using RDN.Library.Classes.Config;
+using System.Data.Linq;
 
 namespace RDN.Library.Classes.Federation
 {
@@ -25,6 +26,7 @@ namespace RDN.Library.Classes.Federation
     {
         public Guid FederationId { get; set; }
         public string FederationName { get; set; }
+        public bool IsRemoved { set; get; }
 
 
         public static List<string> SearchForFederationName(string q, int limit)
@@ -411,6 +413,7 @@ namespace RDN.Library.Classes.Federation
                     Federation f = new Federation();
                     f.FederationId = league.Federation.FederationId;
                     f.FederationName = league.Federation.Name;
+
                     feds.Add(f);
                 }
                 return feds;
@@ -687,5 +690,82 @@ namespace RDN.Library.Classes.Federation
         //}
 
 
+        public static FederationDisplay GetLeagueFederationsByLeagueId(Guid id)
+        {
+            FederationDisplay fedsDisplay = new FederationDisplay();
+
+            var dc = new ManagementContext();
+
+            //get the list of federations 
+            var federations = dc.Federations.ToList();
+            foreach (var federation in federations)
+            {
+                fedsDisplay.Federations.Add(new FederationDisplay { FederationId = federation.FederationId, FederationName = federation.Name });
+            }
+
+            //get the league federations 
+            var leaguesFederations =( from fl in dc.FederationLeagues
+                                     join f in dc.Federations on fl.Federation.FederationId equals f.FederationId
+                                     where (fl.League.LeagueId == id && fl.IsRemoved == false)
+                                     select new { fl.Federation.FederationId,fl.Federation.Name }).ToList();
+
+            foreach (var leagueFederation in leaguesFederations)
+            {
+                fedsDisplay.League.Federations.Add(new FederationDisplay { FederationId = leagueFederation.FederationId, FederationName = leagueFederation.Name });
+            }
+
+            return fedsDisplay;
+        }
+
+        public static bool JoinFederation(Guid federationId, Guid leagueId)
+        {
+
+            var dc = new ManagementContext();
+
+            DataModels.Federation.FederationLeague federationLeague = new FederationLeague();
+
+            federationLeague.League = dc.Leagues.Where(x => x.LeagueId == leagueId).FirstOrDefault();
+            federationLeague.Federation = dc.Federations.Where(x => x.FederationId == federationId).FirstOrDefault();
+
+            dc.FederationLeagues.Add(federationLeague);
+
+            int result = dc.SaveChanges();
+
+            return result > 0 ? true : false;
+        }
+
+        public static bool DeleteLeagueFederation(Guid federationId, Guid leagueId)
+        {
+            var dc = new ManagementContext();
+
+            try
+            {
+                FederationLeague federation = dc.FederationLeagues.Where(x => x.Federation.FederationId == federationId && x.League.LeagueId == leagueId).FirstOrDefault<FederationLeague>();
+
+                if (federation != null)
+                {
+                    federation= federation.League.Federations.Where(item => item.League.LeagueId == leagueId && item.Federation.FederationId==federationId).FirstOrDefault();
+                    federation.IsRemoved = true;
+                    federation.LastModified = DateTime.Now;
+                }
+
+               int result=  dc.SaveChanges();
+
+                return result > 0;
+            }catch(Exception ex){}
+            return false;
+        }
+
+        public static bool ValidateFederationAlradyJoin(Guid federationId, Guid leagueId)
+        {
+            var dc = new ManagementContext();
+            var federationLeague = dc.FederationLeagues.Where(fl => fl.Federation.FederationId == federationId && fl.League.LeagueId == leagueId && fl.IsRemoved==false).FirstOrDefault();
+
+            if (federationLeague != null)
+                return true;
+
+            return false;   
+        }
     }
+    
 }

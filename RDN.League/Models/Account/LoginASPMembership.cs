@@ -11,7 +11,7 @@ namespace RDN.League.Models.Account
     {
         [Required]
         [Display(Name = "Email")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

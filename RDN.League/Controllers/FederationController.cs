@@ -16,6 +16,7 @@ using System.Web.Security;
 using RDN.Portable.Classes.Account.Classes;
 using RDN.Portable.Classes.API.Federation;
 using RDN.Library.Classes.Config;
+using RDN.Library.Util.Enum;
 
 namespace RDN.League.Controllers
 {
@@ -525,11 +526,64 @@ namespace RDN.League.Controllers
             return View(model);
         }
 
-        public ActionResult Join() {
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsSecretary = true, IsManager = true)]
+        public ActionResult Join()
+        {
+
+            FederationJoin federationJoin = new FederationJoin();
+
+            var memberid = Library.Classes.Account.User.GetMemberId();
+            var league = MemberCache.GetLeagueOfMember(memberid);
+
+            var federations = Federation.GetLeagueFederationsByLeagueId(league.LeagueId);
+
+            federationJoin.Federations = new SelectList(federations.Federations, "FederationId", "FederationName");
+
+            federationJoin.League.Federations = federations.League.Federations;
+
+            return View(federationJoin);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [LeagueAuthorize(EmailVerification = true, IsSecretary = true, IsManager = true)]
+        public ActionResult Join(FederationJoin model)
+        {
+            FederationJoin federationJoin = new FederationJoin();
+            var memberid = Library.Classes.Account.User.GetMemberId();
+            var league = MemberCache.GetLeagueOfMember(memberid);  
+
+            bool isSuccess=Federation.JoinFederation(new Guid(model.SelectedFederation), league.LeagueId);
+
+            if (isSuccess)
+               return  RedirectToAction("Join");
 
             return View();
         }
+        
+        [Authorize] [LeagueAuthorize(EmailVerification = true, IsSecretary = true, IsManager = true)]
+        public ActionResult DeleteJoinedFederation(Guid federationId, Guid leagueId)
+        {
+            var issuccess = false;
+            try
+            {
+                 issuccess = Federation.DeleteLeagueFederation(federationId, leagueId);               
+            }
+
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = issuccess }, JsonRequestBehavior.AllowGet);
+        }
 
 
+        public ActionResult ValidateFederationAlradyJoin(Guid federationId, Guid leagueId)
+        {
+            bool isFederationAlreadyJoin = Federation.ValidateFederationAlradyJoin(federationId, leagueId);
+
+           return Json(new { isExists = isFederationAlreadyJoin }, JsonRequestBehavior.AllowGet);           
+        }
     }
 }
