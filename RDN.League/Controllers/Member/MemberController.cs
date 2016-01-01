@@ -62,6 +62,24 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ChangeMemberSettingNavigationDirection(string status)
+        {
+            try
+            {
+                Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
+                NavigationDefaultViewEnum navigationDirection = (NavigationDefaultViewEnum)Enum.Parse(typeof(NavigationDefaultViewEnum), status);
+                bool success = MemberSettingsFactory.ChangeNavigationDirectionSetting(navigationDirection, memId);
+                RDN.Library.Cache.MemberCache.Clear(memId);
+                MemberCache.ClearApiCache(memId);
+                return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+
         [Authorize]
         public ActionResult ChangeEmailNotificationSetting(string groupLeague, string id, string checkedUnCheck)
         {
@@ -168,6 +186,7 @@ namespace RDN.League.Controllers
                 {
                     display.Settings = new MemberSettingsClass();
                     display.Settings.CalendarViewDefault = CalendarDefaultViewEnum.List_View;
+                    display.Settings.NavigationDirection = NavigationDefaultViewEnum.Right;
                 }
                 display.Settings.DerbyName = display.DerbyName;
                 display.Settings.MemberId = display.MemberId;
@@ -190,6 +209,7 @@ namespace RDN.League.Controllers
                 display.Settings.ForumDescending = display.Settings.ForumDescending;
                 ViewBag.CalendarView = RDN.League.Classes.Enums.EnumExt.ToSelectList(display.Settings.CalendarViewDefault);
                 ViewBag.ServiceProviders = RDN.League.Classes.Enums.EnumExt.ToSelectListValue(display.Settings.ServiceProvider);
+                ViewBag.NavigationDirection = display.Settings.NavigationDirection;
 
                 //order groups by user preferences
                 string groupsOrderString = display.Settings.ForumGroupOrder;
