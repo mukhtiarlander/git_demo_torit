@@ -11,3 +11,15 @@
 .divShopPage .shop-info-detail span.divUpArrow { position: absolute; color: #E5E5E5; top: -14px; left: 30px; font-size: 18px; }
 .divShopPage .shop-info-detail.shop-info-description { border-radius: 5px; }
 .divShopPage .shop-address-info { padding: 10px 15px; margin-bottom: 3px; background-color: #f5f5f1; border-radius: 5px; margin-bottom: 15px; border: 1px solid #E5E5E5; }
+.divShopPage .listing-wrapper { position: relative; clear: both; z-index: 1; }
+.divShopPage .listing-wrapper .listings { list-style: none; padding: 0; }
+.divShopPage .listing-wrapper .listings .listing-card { float: left; width: 175px; height: 185px; padding: 6px; background-color: #fff; border: 1px solid #ECECEC; margin: 0 7px 7px 7px; position: relative; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-thumb { }
+.divShopPage .listing-wrapper .listings .listing-card .listing-thumb img { display: block; height: 135px; width: 100%; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-detail { margin-top: 5px; position: absolute; left: 5px; bottom: 5px; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-detail .listing-title { margin-bottom: 0; line-height: 15px; text-align: left; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-detail .listing-title a { display: block; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 90%; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-detail .listing-maker { width: 50%; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-detail .listing-maker a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #B2B2B2; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-price { position: absolute; right: 5px; bottom: 5px; color: #78C042; line-height: 14px; text-align: right; width: 50%; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+.divShopPage .listing-wrapper .listings .listing-card .listing-price .currency-code { font-size: 9px; }
