@@ -117,9 +117,21 @@
         </div>
 
     </div>
+
+    <iframe id="form_target" name="form_target" style="display:none"></iframe>
+
+    <form id="img_form" action="/forum/postimageupload" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+        <input id="img_file" name="File" type="file">
+        @Html.HiddenFor(x => x.ForumId, new { data_val = "false" })
+        @Html.HiddenFor(x => x.ForumType, new { data_val = "false" })
+        <input id="img_submit" type="submit" />
+    </form> 
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
         Forum.SetupPost("Forum", '@Model.ForumId', '@Model.ForumType', '@Model.TopicId', '@Model.GroupId');
+    });
+    $('#img_file').change(function () {
+        $('#img_submit').click();
     });
 </script>
