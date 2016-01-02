@@ -1,4 +1,5 @@
-﻿using RDN.League.Models.Filters;
+﻿using Common.Sponsors.Classes;
+using RDN.League.Models.Filters;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Error;
 using RDN.Library.Classes.League;
@@ -37,7 +38,7 @@ namespace RDN.League.Controllers.League
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult AddSponsor(Sponsor sponsor)
+        public ActionResult AddSponsor(SponsorItem sponsor)
         {
 
             try
@@ -47,7 +48,7 @@ namespace RDN.League.Controllers.League
                 sponsor.SponsorForLeague = league.LeagueId;
                 sponsor.SponsorAddByMember = memId;
 
-                bool execute = RDN.Library.Classes.League.Sponsor.Add_New_Sponsor(sponsor);
+                bool execute = SponsorManager.Add_New_Sponsor(sponsor);
 
             }
             catch (Exception exception)
@@ -111,7 +112,7 @@ namespace RDN.League.Controllers.League
                     SetCulture(league.CultureSelected);
 
 
-                var sponsorLists = RDN.Library.Classes.League.Sponsor.GetSponsorList(league.LeagueId);
+                var sponsorLists = SponsorManager.GetSponsorList(league.LeagueId);
                 return View(sponsorLists);
             }
             catch (Exception exception)
@@ -138,7 +139,7 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 
-                var Data = RDN.Library.Classes.League.Sponsor.GetData(id, new Guid(leagueId));
+                var Data = SponsorManager.GetData(id, new Guid(leagueId));
 
                 return View(Data);
 
@@ -156,11 +157,11 @@ namespace RDN.League.Controllers.League
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult EditSponsor(Sponsor oSponsor)
+        public ActionResult EditSponsor(SponsorItem oSponsor)
         {
             try
             {
-                bool execute = RDN.Library.Classes.League.Sponsor.UpdateSponsorInfo(oSponsor);
+                bool execute = SponsorManager.UpdateSponsorInfo(oSponsor);
 
                 return Redirect(Url.Content("~/league/sponsors?u=" + SiteMessagesEnum.s));
             }
@@ -183,7 +184,7 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 
-                var Data = RDN.Library.Classes.League.Sponsor.DeleteSponsor(id, new Guid(leagueId));
+                var Data = SponsorManager.DeleteSponsor(id, new Guid(leagueId));
                 return Redirect(Url.Content("~/league/Sponsors?u=" + SiteMessagesEnum.de));
 
             }
@@ -209,7 +210,7 @@ namespace RDN.League.Controllers.League
                 if (league != null)
                     SetCulture(league.CultureSelected);
 
-                var Data = RDN.Library.Classes.League.Sponsor.GetData(id, new Guid(leagueId));
+                var Data = SponsorManager.GetData(id, new Guid(leagueId));
                 if (!String.IsNullOrEmpty(Data.Description))
                 {
                     Data.Description = Data.Description.Replace(Environment.NewLine, "<br/>");
@@ -234,7 +235,7 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 				long usedCount;
-                var Data = RDN.Library.Classes.League.Sponsor.UseCode(id, new Guid(leagueId), out usedCount);
+                var Data = SponsorManager.UseCode(id, new Guid(leagueId), out usedCount);
 				if (Data)
 				{
 					return Json(usedCount, JsonRequestBehavior.AllowGet);

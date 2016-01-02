@@ -8,6 +8,7 @@ using System.Text;
 
 namespace RDN.Library.DataModels.League
 {
+    [Obsolete]
     [Table("RDN_League_Sponsorship")]
     public class Sponsorship : InheritDb
     {
