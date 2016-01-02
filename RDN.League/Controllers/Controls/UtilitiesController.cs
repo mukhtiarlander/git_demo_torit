@@ -21,6 +21,7 @@ using MoreLinq;
 using RDN.Portable.Classes.Controls.Forum;
 using RDN.Library.Classes.Messages;
 using RDN.Portable.Classes.Account.Classes;
+using RDN.Library.Classes.Controls.Voting;
 
 namespace RDN.League.Controllers
 {
@@ -307,7 +308,25 @@ namespace RDN.League.Controllers
         }
 
 
-
+        public ActionResult SearchNamesAddToPoll(string q, string leagueID, string pollID)
+        {
+            List<MemberJson> new_members = new List<MemberJson>();
+            var added_members = VotingFactory.GetPollMembers(new Guid(leagueID), Convert.ToInt64(pollID));
+            var total_members = MemberCache.GetCurrentLeagueMembers(RDN.Library.Classes.Account.User.GetMemberId());
+            new_members = (from xx in total_members
+                           where ((xx.DerbyName != null && xx.DerbyName.ToLower().Contains(q))
+                           || (xx.Firstname != null && xx.Firstname.ToLower().Contains(q))
+                           || (xx.LastName != null && xx.LastName.ToLower().Contains(q)))
+                           && !added_members.Contains(xx.MemberId)
+                           select new MemberJson
+                           {
+                               link = Url.Content("~/Member/" + xx.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(xx.DerbyName)),
+                               picture = xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault() != null ? xx.Photos.Where(x => x.IsPrimaryPhoto == true).FirstOrDefault().ImageUrl : "",
+                               name = xx.SiteName,
+                               id = xx.MemberId
+                           }).Take(5).ToList();
+            return Json(new_members, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

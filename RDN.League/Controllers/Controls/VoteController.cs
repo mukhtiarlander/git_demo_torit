@@ -465,7 +465,7 @@ namespace RDN.League.Controllers.UI
                     if (didWork)
                         voting.Voters.Add(new MemberDisplayBasic() { MemberId = temp });
                 }
-                
+
                 var poll = VotingFactory.AddPoll(voting, mem);
                 return Redirect(Url.Content("~/poll/" + voting.LeagueId + "?u=" + SiteMessagesEnum.sag));
             }
@@ -567,6 +567,24 @@ namespace RDN.League.Controllers.UI
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
+        }
+
+        [HttpPost]
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsSecretary = true, IsPollManager = true)]
+        public JsonResult SaveMembersToPoll(string memberids, string leagueID, string pollID)
+        {
+            List<Guid> member_ids = new List<Guid>();
+            if (!String.IsNullOrEmpty(memberids))
+            {
+                foreach (string guid in memberids.Split(','))
+                {
+                    Guid tempMembeID = new Guid();
+                    bool didWork = Guid.TryParse(guid, out tempMembeID);
+                    if (didWork) { member_ids.Add(tempMembeID); }
+                }
+            }
+            var result = VotingFactory.SaveMembersToPoll(member_ids, new Guid(leagueID), Convert.ToInt64(pollID));
+            return Json(result);
         }
     }
 }

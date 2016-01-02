@@ -144,4 +144,74 @@
             alert('No Names have been selected');
         }
     }
+    this.formatRepo = function (repo) {
+        if (repo.loading) return repo.text;
+        var markup;
+        if (repo.picture != '')
+            markup = '<img src="' + repo.picture + '" class="w40 h40 round-corners"/> ' + repo.name;
+        else
+            markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + repo.name;
+        return markup;
+    };
+    this.formatRepoSelection = function (repo) {
+        return repo.name;
+    };
+    this.SaveMembersToPoll = function (leagueID, pollID) {
+        $.ajax({
+            url: '/Poll/SaveMembersToPoll',
+            type: 'POST',
+            data: 'memberids=' + $("#ddlMembersList").val() + '&leagueID=' + leagueID + '&pollID=' + pollID,
+            success: function (result) {
+                Polls.HideAddMemberPopup();
+                if (result == true) {
+                    var selected_members = $("#ddlMembersList").select2('data');
+                    for (var i = 0; i < selected_members.length; i++) {
+                        $("#message-member-list").append('<div class="margin-bottom-10"><i class="fa fa-times fa-lg"></i>&nbsp;&nbsp;<a href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></div>');
+                        $("#MembersListDontVoted").append('<span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee"><a target="_blank" href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></span>');
+                    }
+                }
+            },
+            error: function () { }
+        });
+
+    };
+    this.ShowAddMemberPopup = function (leagueID, pollID, searchURL) {
+        $("#btn_poll_add_member").on('shown.bs.popover', function () {
+            $(".js-data-example-ajax").select2({
+                ajax: {
+                    url: searchURL,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            leagueID: leagueID,
+                            pollID: pollID
+                        };
+                    },
+                    processResults: function (data, page) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: "Search Members..",
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                minimumInputLength: 1,
+                templateResult: Polls.formatRepo, // omitted for brevity, see the source of this page
+                templateSelection: Polls.formatRepoSelection // omitted for brevity, see the source of this page
+            }).select2("open");
+            $("#add_member_ddl_area").css("visibility", "initial");
+        }).popover({
+            html: true,
+            content: '<select id="ddlMembersList" class="js-data-example-ajax w200" multiple="multiple"></select>',
+            template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div id="add_member_ddl_area" class="popover-content" style="height:53px;overflow:hidden;visibility:hidden"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Polls.SaveMembersToPoll(\'' + leagueID + '\',\'' + pollID + '\');"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Polls.HideAddMemberPopup()">Close</button></div></div>',
+            title: "<i class='fa fa-plus-circle'></i> Add Member"
+        });
+    }
+    this.HideAddMemberPopup = function () {
+        $("#panel-members").popover('hide');
+        $("#btn_poll_add_member").popover('hide');
+    };
 }

@@ -11,7 +11,7 @@
 </ol>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1" style="position:initial">
+    <div class="col-xs-12 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
@@ -205,28 +205,30 @@
                     }
                     else
                     {
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <label class="form-label col-xs-3">
-                                    Didn't Vote
-                                </label>
-                            </div>
-                            <div>
-                                <div class="row panel panel-default no-margin">
-                                    <div class="panel-body padding-10 padding-bottom-5">
-                                        @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.DerbyName))
-                                        {
-                                            <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
-                                                <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
-                                            </span>
-                                        }
-                                    </div>
-                                    <div id="EditPollSelectedMembersDiv" class="panel-footer pull-left full-width display-none padding-10 padding-bottom-5">
-
+                        if (Model.Voters.Any(w => w.DidVote == true))
+                        {
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <label class="form-label col-xs-3">
+                                        Didn't Vote
+                                    </label>
+                                </div>
+                                <div>
+                                    <div class="row panel panel-default no-margin">
+                                        <div class="panel-body padding-10 padding-bottom-5" id="MembersListDontVoted">
+                                            @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.DerbyName))
+                                            {
+                                                <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
+                                                    <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div id="EditPollSelectedMembersDiv" class="panel-footer pull-left full-width display-none padding-10 padding-bottom-5">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div class="col-xs-12 margin-top-5">
                             <div>
                                 <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Only Show Results </label><span class="text-muted"><i>Hides members that didn't vote to everyone.</i></span>
@@ -248,7 +250,45 @@
             }
         </div>
     </div>
-
+    <div class="col-xs-12 col-sm-4">
+        <div id="panel-members" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h4 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> Members of Poll</h4>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <span id="btn_poll_add_member" data-container="body" data-toggle="popover" data-placement="left">
+                            <button class="btn btn-info btn-xs margin-top-5" onclick="Polls.ShowAddMemberPopup('@Model.LeagueId','@Model.VotingId','@Url.Action("SearchNamesAddToPoll", "Utilities")')">
+                                <i class="fa fa-plus-circle"></i> Add
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="message-member-list" class="panel-body no-padding-bottom">
+                @if (Model.Voters.Count > 0)
+                {
+                    foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
+                    {
+                        <div class="margin-bottom-10">
+                            @if (mem.DidVote)
+                            {
+                                <i class="fa fa-times fa-lg"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check fa-lg"></i>
+                            }
+                            <a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
+                                @mem.SiteName
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 
