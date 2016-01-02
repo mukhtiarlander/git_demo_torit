@@ -8,10 +8,10 @@
     <div class="col-xs-12 col-sm-4 col-md-2">
         <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
             <div class="list-group">
-                <a class="active list-group-item bg-color-silver" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName))">Shop Home</a>
+                <a class="@(ViewBag.Category == 0 ? "active" : "") list-group-item bg-color-silver" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName))">Shop Home</a>
                 @foreach (var category in Model.StoreCategories)
-            {
-                <a class="list-group-item" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName) + "?category=" + category.StoreItemCategoryId)">@category.Name</a>
+                {
+                    <a class="@(ViewBag.Category == category.StoreItemCategoryId ? "active" : "") list-group-item" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName) + "?category=" + category.StoreItemCategoryId)">@category.Name</a>
                 }
             </div>
         </div>
