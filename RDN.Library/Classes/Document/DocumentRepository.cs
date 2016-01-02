@@ -686,11 +686,15 @@ namespace RDN.Library.Classes.Document
                 {
                     foreach (var d in docsDb)
                     {
-                        if (d.SubscriptionPeriodEnds.Value.AddYears(2).Date.Subtract(DateTime.UtcNow.Date).Days < 0)
+                        //check see to current League have any docuement if so then move 
+                        if (d.Documents.Count > 0)
                         {
-                            foreach (var doc in d.Documents)
+                            if (d.SubscriptionPeriodEnds.Value.AddYears(2).Date.Subtract(DateTime.UtcNow.Date).Days < 0)
                             {
-                                DeleteOldDocument(doc.Document);
+                                foreach (var doc in d.Documents)
+                                {
+                                    DeleteOldDocument(doc.Document);
+                                }
                             }
                         }
                     }
