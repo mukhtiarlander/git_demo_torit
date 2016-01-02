@@ -1,0 +1,25 @@
+﻿@model RDN.Raspberry.Models.Utilities.IdModel
+@{
+    ViewBag.Title = "Delete Old League Documents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete Old League Documents</h2>
+
+@using (Html.BeginForm("DeleteOldLeagueDocuments", "League", FormMethod.Post))
+{
+
+    <input type="submit" class="primary" />
+    
+      
+    if (Model.IsDeleted)
+    { 
+        <br />
+    <br />
+    <div>Old League Documents has been deleted successfully.</div>    
+    <br />
+    <br />
+    }
+}
+
+
