@@ -71,12 +71,11 @@
 
 							@if (memId == b.RequestCreator)
 							{
-								<a class="btn btn-xs btn-success" href="@Url.Content("~/officiating/editrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>
-								<a class="btn btn-xs btn-warning" href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+								<a class="btn btn-xs btn-success pull-left" href="@Url.Content("~/officiating/editrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>
+								<a class="btn btn-xs btn-warning pull-left" href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
 							}
 							else
 							{
-
 								<a class="btn btn-xs btn-warning" href="@Url.Content("~/officiating/viewrequest/" + b.RequestId + "/" + b.RequestCreator.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
 							}
 						</td>
@@ -109,21 +108,45 @@
                         <td>
                             @b.NoRefNeded / @b.NonsoNeded
                         </td>
-                        <td>
-                            <label>@Html.CheckBox("IsReimbursed", b.IsReimbursement, new { @disabled = "disabled" })</label>
-
+                        <td class="text-center">
+                            @if (b.IsReimbursement)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
                         </td>
-                        <td>
-                            <label>@Html.CheckBox("IsRegulation", b.IsRegulation, new { @disabled = "disabled" })</label>
-
+                        <td class="text-center">
+                            @if (b.IsRegulation)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
                         </td>
-                        <td>
-                            <label>@Html.CheckBox("EvaluationsProvided", b.EvaluationsProvided, new { @disabled = "disabled" })</label>
+                        <td class="text-center">
+                            @if (b.EvaluationsProvided)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
                         </td>
-
-                        <td>
-                            <label>@Html.CheckBox("IsSnacksProvided", b.IsSnacksProvided, new { @disabled = "disabled" })</label>
-
+                        <td class="text-center">
+                            @if (b.IsSnacksProvided)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
                         </td>                        
                     </tr>
                 }
