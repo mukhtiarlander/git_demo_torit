@@ -37,6 +37,7 @@ namespace RDN.League.Controllers
                 if (MessagesCache.IsMemberOfGroup(Convert.ToInt64(groupId), RDN.Library.Classes.Account.User.GetMemberId(), HttpContext.Cache))
                 {
                     bool success = Messages.SetConversationAsDeleted(Convert.ToInt64(groupId), new Guid(memId));
+                    if (success) { MemberCache.AddMessageCountToCache(-1, new Guid(memId)); }
                     return Json(new { isSuccess = success }, JsonRequestBehavior.AllowGet);
                 }
             }

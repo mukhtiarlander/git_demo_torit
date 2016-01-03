@@ -833,7 +833,9 @@ namespace RDN.Library.Classes.Calendar
                     {
                         try
                         {
-                            var col = iCalendar.LoadFromUri(new Uri(cal.ImportFeedUrl)).FirstOrDefault();
+                            var iCalendarObj = iCalendar.LoadFromUri(new Uri(cal.ImportFeedUrl));
+                            if (iCalendarObj == null || iCalendarObj.Count <= 0) { return 0; }
+                            var col = iCalendarObj.FirstOrDefault();
                             DateTime MinDate = DateTime.UtcNow.AddYears(-1);
                             foreach (var even in col.Events)
                             {

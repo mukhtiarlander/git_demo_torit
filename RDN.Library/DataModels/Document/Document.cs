@@ -21,6 +21,8 @@ namespace RDN.Library.DataModels.Document
 
         public string FullText { get; set; }
         public bool HasScannedText { get; set; }
+
+        public bool IsDeleted { set; get; }
         public Document()
         {
 
