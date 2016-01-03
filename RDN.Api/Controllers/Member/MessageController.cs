@@ -27,6 +27,7 @@ namespace RDN.Api.Controllers.Member
                     if (MessagesCache.IsMemberOfGroup(Convert.ToInt64(groupId), mem.MemberId, HttpContext.Cache))
                     {
                         bool success = Messages.SetConversationAsDeleted(Convert.ToInt64(groupId), mem.MemberId);
+                        if (success) { MemberCache.AddMessageCountToCache(-1, mem.MemberId); }
                         return Json(new ConversationModel() { IsSuccessful = success }, JsonRequestBehavior.AllowGet);
                     }
                 }
