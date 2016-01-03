@@ -219,7 +219,7 @@
                                             @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.SiteName))
                                             {
                                                 <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
-                                                    <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
+                                                    <a target="_blank" href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
                                                 </span>
                                             }
                                         </div>
@@ -280,7 +280,7 @@
                             {
                                 <i class="fa fa-check fa-lg"></i>
                             }
-                            <a href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
+                            <a href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
                                 @mem.SiteName
                             </a>
                         </div>

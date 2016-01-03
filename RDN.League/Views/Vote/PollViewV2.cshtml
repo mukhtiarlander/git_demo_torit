@@ -154,7 +154,7 @@
                                         @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.SiteName))
                                         {
                                             <div class="col-xs-12 col-sm-4">
-                                                <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
+                                                <a target="_blank" href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
                                             </div>
                                         }
                                     </div>
