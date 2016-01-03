@@ -23,6 +23,7 @@ namespace RDN.Library.DataModels.Document
         public bool HasScannedText { get; set; }
 
         public bool IsDeleted { set; get; }
+
         public Document()
         {
 
