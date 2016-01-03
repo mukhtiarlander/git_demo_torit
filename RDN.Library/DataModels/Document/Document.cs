@@ -24,7 +24,7 @@ namespace RDN.Library.DataModels.Document
 
         public bool IsDeleted { set; get; }   
 
-         
+
 
         public Document()
         {
