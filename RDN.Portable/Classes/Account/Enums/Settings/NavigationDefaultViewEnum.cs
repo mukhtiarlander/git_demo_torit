@@ -7,9 +7,9 @@ namespace RDN.Portable.Classes.Account.Enums.Settings
 {
     public enum NavigationDefaultViewEnum
     {
-        //default view is the list
-        Left = 0,
-        //second view is the large calendar
-        Right = 1
+        /// default navigation side - Right
+        Right = 0,
+        /// navigation side - Left
+        Left = 1
     }
 }

@@ -62,6 +62,9 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [Authorize]
         public ActionResult ChangeMemberSettingNavigationDirection(string status)
         {
             try
@@ -207,10 +210,9 @@ namespace RDN.League.Controllers
                 display.Settings.Hide_Address_From_League = display.Settings.Hide_Address_From_League;
                 display.Settings.DoYouDerby = !display.IsNotConnectedToDerby;
                 display.Settings.ForumDescending = display.Settings.ForumDescending;
+                display.Settings.NavigationDirection = display.Settings.NavigationDirection;
                 ViewBag.CalendarView = RDN.League.Classes.Enums.EnumExt.ToSelectList(display.Settings.CalendarViewDefault);
                 ViewBag.ServiceProviders = RDN.League.Classes.Enums.EnumExt.ToSelectListValue(display.Settings.ServiceProvider);
-                ViewBag.NavigationDirection = display.Settings.NavigationDirection;
-
                 //order groups by user preferences
                 string groupsOrderString = display.Settings.ForumGroupOrder;
                 if (!string.IsNullOrWhiteSpace(groupsOrderString))

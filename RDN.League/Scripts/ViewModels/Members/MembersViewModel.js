@@ -160,7 +160,7 @@
         $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, this.UnRetireYourProfile);
     },
     this.ChangeNavigationDirectionSetting = function (state) {
-        $.getJSON("/member/ChangeMemberSettingNavigationDirection", { status: (state ? "Left" : "Right") }, function (result) {
+        $.post("/member/changemembersettingnavigationdirection", { status: (state ? "Left" : "Right") }, function (result) {
             if (result.isSuccess) {
                 $('.bottom-right').notify({
                     message: { text: 'Saved! ' },

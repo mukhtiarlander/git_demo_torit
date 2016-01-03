@@ -306,7 +306,7 @@ new { controller = "Member", action = "ChangeMemberSettingCalView" } // Paramete
 );
             routes.MapRoute(
 "MemberSettingsChangeNavigationDirection", // Route name
-"member/ChangeMemberSettingNavigationDirection", // URL with parameters
+"member/changemembersettingnavigationdirection", // URL with parameters
 new { controller = "Member", action = "ChangeMemberSettingNavigationDirection" } // Parameter defaults
 );
             routes.MapRoute(
