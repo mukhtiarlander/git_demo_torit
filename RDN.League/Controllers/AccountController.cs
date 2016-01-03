@@ -95,6 +95,10 @@ namespace RDN.League.Controllers
         //RDN-12345 -- Login Functionality Added Like RDN
         public ActionResult Login()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Redirect(LibraryConfig.InternalSite);
+            }
             return View(new LogOnModel { RememberMe = true });
         }
 

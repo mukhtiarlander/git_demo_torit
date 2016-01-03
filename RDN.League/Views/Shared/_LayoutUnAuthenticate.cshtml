@@ -1,0 +1,137 @@
+﻿@using RDN.League.Models.Helpers
+@using RDN.League.Models.Utilities
+@using RDN.League.Models.OutModel
+@using RDN.Library.Cache.ManagementSite
+@using RDN.Library.Cache
+@using RDN.Library.Classes
+@using StackExchange.Profiling;
+@{
+    var storeItems = SiteCache.GetRandomPublishedStoreItems(4);
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>
+        @if (ViewBag.Title == null)
+        {
+            @Html.Raw("Management - ")
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault
+        }
+        else
+        {    @ViewBag.Title
+            @Html.Raw(" - ")
+            @RDN.Library.Classes.Config.LibraryConfig.WebsiteTitleDefault
+        }
+    </title>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', '@RDN.Library.Classes.Config.LibraryConfig.GoogleAnalyticsTrackingId', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    @System.Web.Optimization.Styles.Render("~/Content/css")
+
+
+    <link rel="apple-touch-icon" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
+
+    <link rel="icon" type="image/png" href="@RDN.Library.Classes.Config.LibraryConfig.FaviIcon" />
+    <!--[if IE]>
+    <link rel="shortcut icon" href="@RDN.Library.Classes.Config.LibraryConfig.FaviIcon" type="image/vnd.microsoft.icon" />
+    <![endif]-->
+
+</head>
+<body id="navbar-theme" class="@RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor">
+    @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+
+    @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
+    @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <div class="navbar  navbar-inverse navbar-fixed-top yamm" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
+                <a class="navbar-brand" href="@Url.Content("~/")">
+                    <img alt="Brand" style="height:50px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
+                </a>
+            </div>
+            <div class="navbar-collapse animated" id="mainNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="http://@RDN.Library.Classes.Config.LibraryConfig.MainDomain">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="@Url.Action("Login","Account")" class="dropdown-toggle" data-toggle="dropdown">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="container">
+        @Html.Raw(MessageHelper.PrintMessages(((List<RDN.Library.Util.SiteMessage>)TempData["Messages"])))
+    </div>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <div class='notifications bottom-right'></div>
+    <div class="clearfix"></div>
+    <div class="container-fluid footer padding-top-15 padding-bottom-10 text-center">
+        <div class="row">
+            @foreach (var item in storeItems.StoreItems)
+            {
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail" style="background-color: #5B6A77; border-color: #8B9AA7">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                            @if (item.Photos.Count > 0 && item.Photos[0] != null)
+                            {
+                                <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
+                            }
+                        </a>
+                        <div class="caption">
+                            <p style="color: #f9f9f9; font-weight: bold; font-size: 20px;">
+
+                                @if (item.Currency == "USD")
+                                {<span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
+                            </p>
+                            <h4 style="color: #ddd">@item.NameTrimmed</h4>
+                            <p>
+                                <a style="color:#313940" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                            </p>
+                            <a class="btn btn-info btn-sm" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">Buy</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <a class="btn btn-info margin-bottom-10" href="@RDN.Library.Classes.Config.LibraryConfig.ShopSite "><i class="fa fa-shopping-cart"></i>Shops at @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
+
+        @Html.Partial("_PartialFooter")
+    </div>
+    <a href="#" class="scrollup" style="display: none;">Scroll</a>
+    <div id="feedback_tab" style="" class="@RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor">
+        <a href="mailto:@RDN.Library.Classes.Config.LibraryConfig.DefaultInfoEmail">
+            <i class="fa fa-envelope-o"></i>Contact
+        </a>
+        <a href="@RDN.Library.Classes.Config.LibraryConfig.SupportSite" target="_blank">
+            <i class="fa fa-question-circle"></i>Support
+        </a>
+    </div>
+    @MiniProfiler.RenderIncludes()
+</body>
+</html>
+
