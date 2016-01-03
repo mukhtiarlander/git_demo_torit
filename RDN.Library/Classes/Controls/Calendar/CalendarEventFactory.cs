@@ -1600,7 +1600,7 @@ namespace RDN.Library.Classes.Calendar
                     };
 
                     if (repeatFrequencySelected == FrequencyTypeEnum.Yearly)
-                        aEvent.Anniversary = new Anniversary() { Day = DateTime.Now.Day, Month = DateTime.Now.Month };
+                        aEvent.Anniversary = new Anniversary() { Day = startDate.Day, Month = startDate.Month };
                 }
 
                 var dc = new ManagementContext();
@@ -1614,6 +1614,8 @@ namespace RDN.Library.Classes.Calendar
                         ev.EndReocurring = startDate.AddDays(endsOnOcurrences);
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Monthly)
                         ev.EndReocurring = startDate.AddMonths(endsOnOcurrences);
+                    else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Yearly)
+                        ev.EndReocurring = startDate.AddYears(endsOnOcurrences);
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Weekly)
                     {
                         int daysToAdd = (endsOnOcurrences / howManyDays) * 7;
