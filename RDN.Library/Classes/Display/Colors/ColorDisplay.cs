@@ -38,6 +38,46 @@ namespace RDN.Library.Classes.Colors
             }
             return false;
         }
+        public static bool AddLeagueColor(string nameOfColor, string colorHex, Guid leagueId)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                Color color = ColorTranslator.FromHtml(colorHex);
+                int arb = color.ToArgb();
+                var colorDb = dc.Colors.FirstOrDefault(x => x.ColorIdCSharp == arb);
+
+                //add color if doesn't exist
+                if (colorDb == null)
+                {                    
+                    DataModels.Color.Color co = new DataModels.Color.Color();
+                    co.ColorName = nameOfColor;
+                    co.ColorIdCSharp = arb;
+                    dc.Colors.Add(co);
+                    colorDb = co;
+                }
+                DataModels.League.League league = dc.Leagues.FirstOrDefault(x => x.LeagueId == leagueId);
+
+                var leagueColorDb = dc.LeagueColors.FirstOrDefault(x => x.League.LeagueId == leagueId && x.Color.ColorIdCSharp == arb);
+                //check to prevent duplicates
+                if (leagueColorDb == null)
+                {
+                    DataModels.League.LeagueColor leagueColor = new DataModels.League.LeagueColor();
+                    leagueColor.Color = colorDb;
+                    leagueColor.Created = DateTime.Now;
+                    leagueColor.League = league;
+                    dc.LeagueColors.Add(leagueColor);
+                    int c = dc.SaveChanges();
+                    return c > 0;
+                }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: nameOfColor + " " + colorHex);
+            }
+            return false;
+        }
 
         public static List<ColorDisplay> GetColors()
         {
