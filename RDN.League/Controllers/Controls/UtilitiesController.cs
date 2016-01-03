@@ -307,7 +307,8 @@ namespace RDN.League.Controllers
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [HttpPost]
+        [Authorize]
         public ActionResult SearchNamesAddToPoll(string q, string leagueID, string pollID)
         {
             List<MemberJson> new_members = new List<MemberJson>();

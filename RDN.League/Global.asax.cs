@@ -1265,8 +1265,8 @@ new { controller = "Vote", action = "PollViewAdmin" } // Parameter defaults
 );
             routes.MapRoute(
 "SaveMembersToPoll", // Route name
-"Poll/SaveMembersToPoll",
-new { controller = "Vote", action = "SaveMembersToPoll" }
+"poll/addmemberstopoll",
+new { controller = "Vote", action = "AddMembersToPoll" }
 );
             routes.MapRoute(
 "Polls", // Route name

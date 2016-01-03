@@ -144,21 +144,19 @@
             alert('No Names have been selected');
         }
     }
-    this.formatRepo = function (repo) {
-        if (repo.loading) return repo.text;
+    this.formatMemberInSuggestionList = function (value) {
+        if (value.loading) return value.text;
         var markup;
-        if (repo.picture != '')
-            markup = '<img src="' + repo.picture + '" class="w40 h40 round-corners"/> ' + repo.name;
+        if (value.picture != '')
+            markup = '<img src="' + value.picture + '" class="w40 h40 round-corners"/> ' + value.name;
         else
-            markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + repo.name;
+            markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + value.name;
         return markup;
     };
-    this.formatRepoSelection = function (repo) {
-        return repo.name;
-    };
-    this.SaveMembersToPoll = function (leagueID, pollID) {
+    this.formatMemberSelectionSuggestionList = function (value) { return value.name; };
+    this.AddMembersToPoll = function (leagueID, pollID) {
         $.ajax({
-            url: '/Poll/SaveMembersToPoll',
+            url: '/poll/addmemberstopoll',
             type: 'POST',
             data: 'memberids=' + $("#ddlMembersList").val() + '&leagueID=' + leagueID + '&pollID=' + pollID,
             success: function (result) {
@@ -181,6 +179,8 @@
                 ajax: {
                     url: searchURL,
                     dataType: 'json',
+                    type: "POST",
+                    /// RDN - 5 - A request is being triggered on every key stroke but delay 250 milliseconds for send new request
                     delay: 250,
                     data: function (params) {
                         return {
@@ -199,14 +199,14 @@
                 placeholder: "Search Members..",
                 escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
                 minimumInputLength: 1,
-                templateResult: Polls.formatRepo, // omitted for brevity, see the source of this page
-                templateSelection: Polls.formatRepoSelection // omitted for brevity, see the source of this page
+                templateResult: Polls.formatMemberInSuggestionList,
+                templateSelection: Polls.formatMemberSelectionSuggestionList
             }).select2("open");
             $("#add_member_ddl_area").css("visibility", "initial");
         }).popover({
             html: true,
             content: '<select id="ddlMembersList" class="js-data-example-ajax w200" multiple="multiple"></select>',
-            template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div id="add_member_ddl_area" class="popover-content" style="height:53px;overflow:hidden;visibility:hidden"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Polls.SaveMembersToPoll(\'' + leagueID + '\',\'' + pollID + '\');"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Polls.HideAddMemberPopup()">Close</button></div></div>',
+            template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div id="add_member_ddl_area" class="popover-content" style="height:53px;overflow:hidden;visibility:hidden"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Polls.AddMembersToPoll(\'' + leagueID + '\',\'' + pollID + '\');"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Polls.HideAddMemberPopup()">Close</button></div></div>',
             title: "<i class='fa fa-plus-circle'></i> Add Member"
         });
     }

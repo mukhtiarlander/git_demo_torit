@@ -571,7 +571,7 @@ namespace RDN.League.Controllers.UI
 
         [HttpPost]
         [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsSecretary = true, IsPollManager = true)]
-        public JsonResult SaveMembersToPoll(string memberids, string leagueID, string pollID)
+        public JsonResult AddMembersToPoll(string memberids, string leagueID, string pollID)
         {
             List<Guid> member_ids = new List<Guid>();
             if (!String.IsNullOrEmpty(memberids))
@@ -583,7 +583,7 @@ namespace RDN.League.Controllers.UI
                     if (didWork) { member_ids.Add(tempMembeID); }
                 }
             }
-            var result = VotingFactory.SaveMembersToPoll(member_ids, new Guid(leagueID), Convert.ToInt64(pollID));
+            var result = VotingFactory.AddMembersToPoll(member_ids, new Guid(leagueID), Convert.ToInt64(pollID));
             return Json(result);
         }
     }

@@ -573,21 +573,6 @@ namespace RDN.Library.Classes.Controls.Voting
                     m.DidVote = true;
                     v.Voters.Add(m);
                 }
-                ///// RDN - 5 --- Not Understand Why Code Added Like this because it was adding all members of leaguge to poll even if they dnt invited to for poll voting
-                //var league = MemberCache.GetLeagueOfMember(mem);
-                //for (int i = 0; i < league.LeagueMembers.Count; i++)
-                //{
-                //    if (v.Voters.Any(model => model.MemberId.Equals(league.LeagueMembers[i].MemberId))) { continue; }
-                //    v.Voters.Add(new MemberDisplay()
-                //    {
-                //        MemberId = league.LeagueMembers[i].MemberId,
-                //        Firstname = league.LeagueMembers[i].Firstname,
-                //        LastName = league.LeagueMembers[i].LastName,
-                //        DerbyName = league.LeagueMembers[i].DerbyName,
-                //        DidVote = false
-                //    });
-                //}
-                //= MemberCache.GetLeagueMembers(mem, leagueId);
                 foreach (var question in voting.Questions.OrderBy(x => x.QuestionSortId))
                 {
                     VotingQuestionClass q = new VotingQuestionClass();
@@ -808,7 +793,7 @@ namespace RDN.Library.Classes.Controls.Voting
             return memberids;
         }
 
-        public static bool SaveMembersToPoll(List<Guid> memberIDs, Guid leagueId, long pollId)
+        public static bool AddMembersToPoll(List<Guid> memberIDs, Guid leagueId, long pollId)
         {
             var dc = new ManagementContext();
             try
@@ -817,6 +802,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 if (voting == null) { return false; }
                 foreach (Guid memberid in memberIDs)
                 {
+                    if (voting.Voters.Any(model => model.Member.MemberId.Equals(memberid))) { continue; }
                     voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == memberid).FirstOrDefault() });
                 }
                 int c = dc.SaveChanges();

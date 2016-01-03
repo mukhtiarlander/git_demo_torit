@@ -216,10 +216,10 @@
                                 <div>
                                     <div class="row panel panel-default no-margin">
                                         <div class="panel-body padding-10 padding-bottom-5" id="MembersListDontVoted">
-                                            @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.DerbyName))
+                                            @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.SiteName))
                                             {
                                                 <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
-                                                    <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                                                    <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
                                                 </span>
                                             }
                                         </div>
@@ -269,7 +269,7 @@
             <div id="message-member-list" class="panel-body no-padding-bottom">
                 @if (Model.Voters.Count > 0)
                 {
-                    foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
+                    foreach (var mem in Model.Voters.OrderBy(x => x.SiteName))
                     {
                         <div class="margin-bottom-10">
                             @if (mem.DidVote)
