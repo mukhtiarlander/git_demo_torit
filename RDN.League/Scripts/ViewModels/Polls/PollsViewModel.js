@@ -8,7 +8,8 @@
         tinymce.init({
             mode: "textareas",
             theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,textcolor colorpicker",
+            toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
             elements: "wmd-input",
             language: "en",
             relative_urls: false,
@@ -28,7 +29,8 @@
                 mode: "textareas",
                 elements: "elm2",
                 theme: "modern",
-                plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+                plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,textcolor colorpicker",
+                toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
             });
         });
     }
