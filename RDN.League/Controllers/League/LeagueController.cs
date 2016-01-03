@@ -1054,6 +1054,11 @@ namespace RDN.League.Controllers
                             else
                                 leag.DepartureDate = null;
                         }
+                        else
+                        {
+                            //RDN - 2315 - Clear Departure Date Fix. - If nothing set to Input Textbox then HttpContext.Request.Form[leag.LeagueId + "-LEAGUEDepartureDate"] ==  ""
+                            leag.DepartureDate = null;
+                        }
 
                         if (!String.IsNullOrEmpty(HttpContext.Request.Form[leag.LeagueId + "-LEAGUEPassedWrittenExam"]))
                         {

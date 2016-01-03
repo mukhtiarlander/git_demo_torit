@@ -85,7 +85,14 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 text-right b">Is Regulation:</div>
                             <div class="col-xs-12 col-sm-6">
-                                <label>@Html.CheckBox("IsRegulation", Model.IsRegulation, new { @disabled = "disabled" })</label>
+                                @if (Model.IsRegulation)
+                                {
+                                    <i class="fa fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times"></i>
+                                }
                             </div>
                         </div>
                       
@@ -94,7 +101,14 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 text-right b">Evaluations Provided:</div>
                             <div class="col-xs-12 col-sm-6">
-                                <label>@Html.CheckBox("Evaluation", Model.EvaluationsProvided, new { @disabled = "disabled" })</label>
+                                @if (Model.EvaluationsProvided)
+                                {
+                                    <i class="fa fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times"></i>
+                                }
                             </div>
                         </div>
                     </div>
@@ -102,7 +116,14 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 text-right b">Snacks Provided?:</div>
                             <div class="col-xs-12 col-sm-6">
-                                <label>@Html.CheckBox("IsSnacksProvided", Model.IsSnacksProvided, new { @disabled = "disabled" }) </label>
+                                @if (Model.IsSnacksProvided)
+                                {
+                                    <i class="fa fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times"></i>
+                                }
                             </div>
                         </div>
                     </div>
@@ -126,7 +147,14 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 text-right b">Reimbursement?:</div>
                             <div class="col-xs-12 col-sm-6">
-                                <label>@Html.CheckBox("IsReimbursement", Model.IsReimbursement, new { @disabled = "disabled" })</label>
+                                @if (Model.IsReimbursement)
+                                {
+                                    <i class="fa fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times"></i>
+                                }
                             </div>
                         </div>
                     </div>
