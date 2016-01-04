@@ -270,7 +270,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
                                                 @Model.Games[i].GameDate.ToString("MM/dd/yyyy")
                                             </td>
                                             <td>
-                                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
+                                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.GameUrl+"/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
                                                     @Model.Games[i].GameName
                                                 </a>
                                             </td>

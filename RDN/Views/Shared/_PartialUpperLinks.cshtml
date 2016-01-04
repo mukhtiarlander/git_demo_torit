@@ -26,7 +26,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">The Nation<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-federations")">Federations</a></li>
-                        <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-leagues">Leagues</a></li>
+                        <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.LeaguesUrl">@RDN.Library.Classes.Config.LibraryConfig.TeamsName</a></li>
                         <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNamePlusMembersNameForUrl">@RDN.Library.Classes.Config.LibraryConfig.NameOfMembers</a></li>
                         <li><a href="@Url.Content("~/officiating-requests/view/all")">Officials</a></li>
                     </ul>
@@ -34,7 +34,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-games")">View</a></li>
+                        <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.GamesUrl)">View</a></li>
                         @if (RDN.Library.Classes.Config.LibraryConfig.SiteType== RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
                         {
                             <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">Scoreboard</a></li>

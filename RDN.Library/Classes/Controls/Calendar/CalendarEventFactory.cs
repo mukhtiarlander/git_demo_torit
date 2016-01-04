@@ -1912,7 +1912,7 @@ namespace RDN.Library.Classes.Calendar
                         calEvent.OrganizersName = owner.League.Name;
                         if (owner.League.Logo != null)
                             calEvent.ImageUrl = owner.League.Logo.ImageUrlThumb;
-                        calEvent.OrganizerUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
+                        calEvent.OrganizerUrl = RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
                         break;
                     }
                 }
