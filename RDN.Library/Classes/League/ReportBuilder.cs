@@ -121,8 +121,7 @@ namespace RDN.Library.Classes.League
                                         break;
                                     case MembersReportEnum.Started_Date:
                                     case MembersReportEnum.Started_Skating_Date:
-                                    case MembersReportEnum.Started_Date:
-                                        reportSheet.Cells[row, column].Value = league.LeagueMembers[i].YearStartedSkating.HasValue ? league.LeagueMembers[i].YearStartedSkating.Value.ToShortDateString() : string.Empty;
+                                                                            reportSheet.Cells[row, column].Value = league.LeagueMembers[i].YearStartedSkating.HasValue ? league.LeagueMembers[i].YearStartedSkating.Value.ToShortDateString() : string.Empty;
                                         break;
 
                                 }
