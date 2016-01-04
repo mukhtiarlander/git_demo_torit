@@ -280,6 +280,7 @@ namespace RDN.Raspberry.Controllers
         public ActionResult DeleteOldLeagueDocuments()
         {
             IdModel repo = new IdModel();
+
             return View(repo);
         }
 
