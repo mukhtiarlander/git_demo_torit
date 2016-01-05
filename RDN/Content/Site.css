@@ -1,5 +1,8 @@
 ﻿
-.fb-like { padding: 8px; }
+.fb-like { padding: 0 8px 8px 0; }
+
+/* --- Some Content Will be hidden behind header because of fixed header -- given this solution bootstrarp also */
+body { padding-top: 51px; } 
 
 body { background-color: #fff; font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.43; color: #565a5c; -webkit-font-smoothing: antialiased; }
 
@@ -68,11 +71,11 @@ a.olControlZoomIn { border-radius: 4px 4px 0 0; }
 .imgCenter { display: block; margin-left: auto; margin-right: auto; }
 
 .timer { font-family: "League Gothic", Arial; -webkit-font-smoothing: antialiased !important; }
-.countdown { padding: 1em; background-color:white; margin-bottom:10px;color:#444}
+.countdown { background-color:white; color:#444}
     .countdown .labels { text-align: center; margin-bottom: 0.5em; }
-        .countdown .labels span { display: inline-block; width: 50px; color: #444; font-size: 12px; background: none; padding: 0; margin: 5px 0; text-align: center; }
+        .countdown .labels span { display: inline-block; width: 55px; color: #444; font-size: 12px; background: none; padding: 0; margin: 5px 0; text-align: center; }
 
-.countdown .tick { font-size: 40px;color:#111 }
+.countdown .tick { font-size: 40px;color:#111; line-height: 30px; }
 
 
 .ul-inlineList { list-style:none; }

@@ -140,23 +140,26 @@
                         }
                         else
                         {
-                            <div class="row">
-                                <label class="form-label col-xs-6">
-                                    Didn't Vote
-                                </label>
-                                <div class="col-xs-6 text-right">
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row panel panel-default no-margin h150 scroll">
-                                    @foreach (var mem in Model.Voters.OrderBy(x => x.DerbyName))
-                                {
-                                    <div class="col-xs-12 col-sm-4">
-                                        <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
+                            if (Model.Voters.Any(w => w.DidVote == true))
+                            {
+                                <div class="row">
+                                    <label class="form-label col-xs-6">
+                                        Didn't Vote
+                                    </label>
+                                    <div class="col-xs-6 text-right">
                                     </div>
-                                }
                                 </div>
-                            </div>
+                                <div>
+                                    <div class="row panel panel-default no-margin h150 scroll">
+                                        @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.SiteName))
+                                        {
+                                            <div class="col-xs-12 col-sm-4">
+                                                <a target="_blank" href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
                         }
                     </div>
                     <div class="col-xs-12 margin-top-5">

@@ -286,7 +286,7 @@ namespace RDN.Library.Classes.Account.Classes
             }
             return false;
         }
-		
+
         public static bool ChangeCalendarViewSetting(CalendarDefaultViewEnum viewType, Guid memberId)
         {
             try
@@ -299,6 +299,28 @@ namespace RDN.Library.Classes.Account.Classes
                     settings.Settings = new DataModels.Member.MemberSettings();
 
                 settings.Settings.CalendarViewSetting = (byte)viewType;
+                int c = dc.SaveChanges();
+                return c > 0;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
+
+        public static bool ChangeNavigationDirectionSetting(NavigationDefaultViewEnum viewType, Guid memberId)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                var settings = dc.Members.Include("Settings").Where(x => x.MemberId == memberId).FirstOrDefault();
+                if (settings == null)
+                    return false;
+                if (settings.Settings == null)
+                    settings.Settings = new DataModels.Member.MemberSettings();
+
+                settings.Settings.NavigationDirection = (byte)viewType;
                 int c = dc.SaveChanges();
                 return c > 0;
             }
@@ -384,6 +406,7 @@ namespace RDN.Library.Classes.Account.Classes
                     return new MemberSettingsClass();
                 MemberSettingsClass s = new MemberSettingsClass();
                 s.CalendarViewDefault = (CalendarDefaultViewEnum)settings.CalendarViewSetting;
+                s.NavigationDirection = (NavigationDefaultViewEnum)settings.NavigationDirection;
                 s.PrivacySettings = (MemberPrivacySettingsEnum)settings.MemberPrivacySettingsEnum;
                 s.Hide_DOB_From_League = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_DOB_From_League);
                 s.Hide_DOB_From_Public = s.PrivacySettings.HasFlag(MemberPrivacySettingsEnum.Hide_DOB_From_Public);
