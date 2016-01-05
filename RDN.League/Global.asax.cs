@@ -1264,6 +1264,11 @@ new { controller = "Vote", action = "PollToVoteV2" } // Parameter defaults
 new { controller = "Vote", action = "PollViewAdmin" } // Parameter defaults
 );
             routes.MapRoute(
+"SaveMembersToPoll", // Route name
+"poll/addmemberstopoll",
+new { controller = "Vote", action = "AddMembersToPoll" }
+);
+            routes.MapRoute(
 "Polls", // Route name
 "poll/{leagueId}", // URL with parameters
 new { controller = "Vote", action = "Polls" } // Parameter defaults
