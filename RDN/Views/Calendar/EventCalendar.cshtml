@@ -1,148 +1,175 @@
-﻿@using RDN.Library.Classes.Calendar.Enums
-@using RDN.Library.Cache
-@model RDN.Library.Classes.Controls.Calendar.CalendarEvent
+﻿@model RDN.Library.Classes.Controls.Calendar.CalendarEvent
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (!String.IsNullOrEmpty(Model.LogoUrl))
-{
-    <div class="row">
-        <div class="col-xs-12 col-md-12 col-sm-12 bg-black">
-            <img src="@Model.LogoUrl" class="imgMaxSize imgCenter  img-responsive" />
-            @*<img src="/Content/ImageSlides/images/13.jpg" class="imgMaxSize imgCenter img-responsive" />*@
-        </div>
-    </div>
-}
-<div class="row">
-    <div class="col-xs-12 col-md-3 col-sm-3 col-sm-offset-1">
-        <h3 class="no-margin-bottom margin-top-10">@Model.Name</h3>
-        <div>
-            @if (!String.IsNullOrEmpty(Model.OrganizersName))
-            {
-                <div class="evWebSite"><span class="i">By </span><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.OrganizersName) + "/" + Model.OrganizersId.ToString().Replace("-", ""))">@Model.OrganizersName</a></div>
-            }
-        </div>
-        <div class="margin-top-5">
-            <span class="fa fa-calendar fa-lg"></span><b> @Model.StartDate.ToString("MMM dd, yyyy")</b> @Model.StartDate.ToString("ddd") @Model.StartDate.ToShortTimeString()
-        </div>
-        @if (Model.Location != null)
-            {
-            <div class="margin-top-5">
-                @if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
-                {
-                    <h5>
-                        <b>@Model.Location.LocationName</b><span> in </span>
-                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
-                        {
-                            @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>
-                        }
-                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
-                        {
-                            @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw
-                        }
-                        <a href="http://www.bing.com/maps/default.aspx?q=@Model.Location.Contact.Addresses.FirstOrDefault().Address1+@Model.Location.Contact.Addresses.FirstOrDefault().Address2,+@Model.Location.Contact.Addresses.FirstOrDefault().CityRaw,+@Model.Location.Contact.Addresses.FirstOrDefault().StateRaw+@Model.Location.Contact.Addresses.FirstOrDefault().Zip+@Model.Location.Contact.Addresses.FirstOrDefault().Country" target="_blank"><span class="fa fa-map-marker fa-bold fa-lg"></span> </a>
-                    </h5>
-                }
-                else
-                {
-                    <span> @Model.Location.LocationName </span>
-                }
-            </div>
+<div class="page-header ">
+    <h2>
+        @Model.Name
+    </h2>
+    <div>
+        @if (!String.IsNullOrEmpty(Model.OrganizersName))
+        {
+            <div class="evWebSite"><span class="i">By </span><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.OrganizersName) + "/" + Model.OrganizersId.ToString().Replace("-", ""))">@Model.OrganizersName</a></div>
         }
     </div>
-    <div class="col-xs-12 col-md-3 col-lg-3">
-        <div class="countdown white">
-            @if (Model.GetTotalSecondsToEvent > 0)
-            {
-                <h4 class="text-center margin-top-10"><span class="fa fa-clock-o"></span> Event Start In</h4>
-                <div data-bind="text: CountDown" class="timer tick text-center"></div>
-                <div class="labels"><span>DAYS</span><span>HOURS</span><span>MINS</span><span>SEC</span></div>
-            }
-            @if (!String.IsNullOrEmpty(Model.TicketUrl))
-            {
-                <a href="@Model.TicketUrl" class="btn btn-primary col-xs-8 col-xs-offset-2" target="_blank">Find Tickets</a>
-            }
-        </div>
+    <div>
+        <b> @Model.StartDate.ToString("MMM dd, yyyy")</b> @Model.StartDate.ToString("ddd") @Model.StartDate.ToShortTimeString()
     </div>
-    <div class="col-xs-12 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1">
-        <div class="col-xs-12 col-md-12 col-lg-12">
-            <h4 class="text-left pull-left margin-right-5">Save To</h4>
-            <a title="Google Event" href="@Model.GoogleCalendarUrl" class="pull-left margin-right-5 margin-top-5" target="_blank">
-                <i class="fa fa-google-plus-square fa-2x"></i>
-            </a>
-            @if (!Model.IsReoccurring)
+    @if (Model.Location != null)
+    {
+        <div class="bold">
+            @if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
             {
-                using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm", @class = "pull-left margin-top-5" }))
+
+                <a href="http://www.bing.com/maps/default.aspx?q=@Model.Location.Contact.Addresses.FirstOrDefault().Address1+@Model.Location.Contact.Addresses.FirstOrDefault().Address2,+@Model.Location.Contact.Addresses.FirstOrDefault().CityRaw,+@Model.Location.Contact.Addresses.FirstOrDefault().StateRaw+@Model.Location.Contact.Addresses.FirstOrDefault().Zip+@Model.Location.Contact.Addresses.FirstOrDefault().Country" target="_blank">@Model.Location.LocationName</a>                <span> in </span>
+
+                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
                 {
-                    <i class="fa fa-calendar fa-2x cursor" onclick="document.getElementById('createNewEventForm').submit();"></i>
-                    @Html.HiddenFor(x => x.CalendarItemId)
-                    @Html.HiddenFor(x => x.Name)
+                    @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>
                 }
+                if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
+                {
+                    @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw
+                }
+
+            }
+            else
+            {
+
+                <span> @Model.Location.LocationName </span>
+
             }
         </div>
-        <div class="col-xs-12 col-md-12 col-lg-12">
-            <h4 class="text-left margin-right-5 margin-top-10">Share It</h4>
-            <div class="fb-like pull-left" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
-            <div class="fb-share-button pull-left margin-right-5" data-layout="box_count"></div>
-            <div class="g-plusone pull-left margin-right-5" data-size="tall"></div>
-            <script type="text/javascript" src="//www.redditstatic.com/button/button2.js?newwindow=1"></script>
-            <a class="twitter-share-button pull-left margin-top-5" href="https://twitter.com/share" data-text="@Model.Name" data-count="vertical">Tweet</a>
-            <div class="clearfix"></div>
+    }
+
+
+</div>
+<div class="row bg-black text-center" style="min-height:200px;">
+    @if (!String.IsNullOrEmpty(Model.LogoUrl))
+    {
+        <div class="col-xs-10 col-xs-offset-1">
+            <img src="@Model.LogoUrl" class="imgMaxSize imgCenter  img-responsive" />
+            @*<img src="http://www.nasa.gov/images/content/746366main_20130503_173046_4096_0131.jpg" class="imgMaxSize imgCenter  img-responsive" />*@
+        </div>
+    }
+    <div class="countdown white">
+        @if (Model.GetTotalSecondsToEvent > 0)
+        {
+            <h2 class="text-center">Event Countdown</h2>
+            <span data-bind="text: CountDown" class="timer tick "></span>
+            <div class="labels"><span>DAYS</span><span>HOURS</span><span>MINS</span><span>SEC</span></div>
+        }
+        @if (!String.IsNullOrEmpty(Model.TicketUrl))
+        {
+            <a href="@Model.TicketUrl" class="btn btn-primary col-xs-8 col-xs-offset-2" target="_blank">Find Tickets</a>
+        }
+    </div>
+
+
+</div>
+
+<div class="row">
+    <h3 class="text-center">Event Information</h3>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div class="well well-lg bg-white">
+            @Html.Raw(Model.NotesHtml)
         </div>
     </div>
 </div>
-@if (string.IsNullOrEmpty(Model.NotesHtml))
-{
-    <div class="row">
-        <div class="col-xs-12 col-sm-10 col-sm-offset-1 margin-bottom-10">
-            <h3 class="text-left no-margin-top">Event Information</h3>
-            <div>
-                @Html.Raw(Model.NotesHtml)
-            </div>
-        </div>
-    </div>
-}
 <div class="row">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1 margin-bottom-10">
-        <h3 class="text-left no-margin-top">Talk About It</h3>
-        <div id="chatTab">
-            <div class="gameChatControl">
-                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    <h3 class="text-center">Save It</h3>
+    <ul class="ul-inlineList text-center">
+        <li>
+            <a title="Google Event" href="@Model.GoogleCalendarUrl" target="_blank">
+                <i class="fa fa-google-plus-square fa-5x"></i>
+            </a>
+        </li>
+        <li>
+            @if (!Model.IsReoccurring)
+            {
+                using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm" }))
                 {
-                    <textarea id="chat" name="chat" rows="2" class="gameInputChat" style="width:100%;"></textarea>
-                    <input name="submit" id="submit" type="submit" value="Comment" class="btn btn-primary pull-right" onclick="javascript: EventViewModel.postConversation()" />
+                    <i class="fa fa-calendar  fa-5x cursor" onclick="document.getElementById('createNewEventForm').submit();"></i>
+                    @Html.HiddenFor(x => x.CalendarItemId)
+                    @Html.HiddenFor(x => x.Name)
+
                 }
-                else
-                {
-                    <span class="i evComment">Must Be Logged in to leave a comment.</span>
-                }
-            </div>
+            }
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <h3 class="text-center">Share It</h3>
+    <ul class="ul-inlineList text-center">
+        <li>
+            <div class="fb-like" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
+        </li>
+        <li>
+            <div class="fb-share-button" data-layout="box_count"></div>
+        </li>
+        <li>
+            <a class="twitter-share-button"
+               href="https://twitter.com/share"
+               data-text="@Model.Name"
+               data-count="vertical">
+                Tweet
+            </a>
+        </li>
+        <li>
+            <script type="text/javascript" src="//www.redditstatic.com/button/button2.js?newwindow=1"></script>
+        </li>
+        <li>
+            <div class="g-plusone" data-size="tall"></div>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <h3 class="text-center">Talk About It</h3>
+    <div id="chatTab" class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+
+        <div class="gameChatControl">
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                <textarea id="chat" name="chat" rows="2" class="gameInputChat" style="width:100%;"></textarea>
+                <input name="submit" id="submit" type="submit" value="Comment" class="btn btn-primary pull-right"
+                       onclick="javascript: EventViewModel.postConversation()" />
+            }
+            else
+            { <span class="i evComment">Must Be Logged in to leave a comment.</span>
+            }
+
         </div>
         <div class="clearfix"></div>
-        <div id="chatMessages" data-bind="foreach: chats">
-            <div class="chatMessage">
-                <div data-bind="if: MemberProfilePicUrl " class="pull-left padding-5">
-                    <img data-bind="attr:{src: MemberProfilePicUrl }" class="thumbnail-sm pull-left" />
-                </div>
-                <div class="chatMessageProfile">
-                    <b><span data-bind="text: MemberName"></span></b>
-                </div>
-                <div class="chatMessageContent">
-                    <span data-bind="text: Chat"></span>
-                </div>
-                <small>
+        <div class="row well well-lg bg-white">
 
-                    <span data-bind="text: CreatedDisplay"></span>
-                </small>
-                <div class="clearfix">
+            <div id="chatMessages" data-bind="foreach: chats">
+                <div class="chatMessage">
+                    <div data-bind="if: MemberProfilePicUrl " class="pull-left padding-5">
+                        <img data-bind="attr:{src: MemberProfilePicUrl }" class="thumbnail-sm pull-left" />
+                    </div>
+                    <div class="chatMessageProfile">
+                        <b><span data-bind="text: MemberName"></span></b>
+                    </div>
+                    <div class="chatMessageContent">
+                        <span data-bind="text: Chat"></span>
+                    </div>
+                    <small>
+
+                        <span data-bind="text: CreatedDisplay"></span>
+                    </small>
+                    <div class="clearfix">
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 <script type="text/javascript">
     ko.applyBindings(EventViewModel);
+
     EventViewModel.initialize("@Model.CalendarItemId.ToString().Replace("-", "")");
     EventViewModel.InitiateEventCountdown('@Model.GetTotalSecondsToEvent');
 </script>
