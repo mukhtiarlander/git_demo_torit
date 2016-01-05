@@ -4,96 +4,113 @@
     ViewBag.Title = Model.ShopName;
     Layout = "~/Views/Shared/_LayoutAbout.cshtml";
 }
-<div class="backLinks">
-    <a href="@Url.Content("~/")">Home</a> > @Model.ShopName
-</div>
-<div>
-    <div class="categoriesContainer">
-        <div class="categories">
-            <div class="catHead">Shop</div>
-            <ul class="catList">
-                <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName))">Shop Home</a></li>
+<div class="row divShopPage">
+    <div class="col-xs-12 col-sm-4 col-md-2">
+        <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
+            <div class="list-group">
+                <a class="@(ViewBag.Category == 0 ? "active" : "") list-group-item bg-color-silver" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName))">Shop Home</a>
                 @foreach (var category in Model.StoreCategories)
                 {
-
-                    <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName) + "?category=" + category.StoreItemCategoryId)">@category.Name</a></li>
+                    <a class="@(ViewBag.Category == category.StoreItemCategoryId ? "active" : "") list-group-item" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName) + "?category=" + category.StoreItemCategoryId)">@category.Name</a>
                 }
-            </ul>
+            </div>
         </div>
-        <div class="shopInfo">
-            <div class="catHead">Info</div>
-            <div class="shopInfoItem"><a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite/messages/new/shop/@Model.MerchantId.ToString().Replace("-", "")">Contact Seller</a></div>
+        <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
+            @if (Model.Location != null && Model.Location.Contact != null && Model.Location.Contact.Addresses.FirstOrDefault() != null)
+            {
+            <div class="shop-address-info">
+                <div class="shopMainAddress">
+                    <h6 class="fa fa-map-marker">
+                        <b>Shop Address</b>
+                    </h6>
+                    <p>
+                        @Model.Location.Contact.Addresses.FirstOrDefault().Address1<br />
+                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Address2))
+                            {
+                        @Model.Location.Contact.Addresses.FirstOrDefault().Address2<br />
+                            }
+                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
+                            {
+                        @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>}
+                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
+                            {
+                        @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw
+                            }
+                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Zip))
+                            {
+                        @Model.Location.Contact.Addresses.FirstOrDefault().Zip<br />
+                            }
+                        @if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Country))
+                            {
+                        @Model.Location.Contact.Addresses.FirstOrDefault().Country
+                            }
+                    </p>
+                </div>
+            </div>
+            }
         </div>
     </div>
-    <div class="shopHomeMain">
-        <div class="shopMainContainer">
-            <span class="shopMainName"><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName))">@Model.ShopName</a></span><br />
-            <div class="shopMainDescription">@Model.Description</div>
-            @if (Model.Location != null)
+    <div class="col-xs-12 col-sm-8 col-md-10">
+        <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
+            <div class="shop-info">
+                <table class="shop-info-table">
+                    <tbody>
+                        <tr>
+                            <td class="name-title">
+                                <h1 class="shop-name">
+                                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + Model.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.ShopName))">@Model.ShopName</a>
+                                </h1>
+                            </td>
+                            <td class="shop-contact">
+                                <a class="btn btn-primary pull-right margin-right-10" target="_blank" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.InternalSite+"/messages/new/shop/"+ Model.MerchantId.ToString().Replace("-", ""))">Contact Seller</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @if (!String.IsNullOrEmpty(Model.WelcomeMessage))
             {
-                <div class="shopMainAddress">
-                    @if (Model.Location.Contact != null)
-                    {
-                        if (Model.Location.Contact.Addresses.FirstOrDefault() != null)
-                        {
-                            @Model.Location.Contact.Addresses.FirstOrDefault().Address1<br />
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Address2))
-                            {
-                                @Model.Location.Contact.Addresses.FirstOrDefault().Address2<br />
-                            }
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().CityRaw))
-                            {
-                                @Model.Location.Contact.Addresses.FirstOrDefault().CityRaw<span>,</span>}
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().StateRaw))
-                            {
-                                @Model.Location.Contact.Addresses.FirstOrDefault().StateRaw
-                            }
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Zip))
-                            {
-                                @Model.Location.Contact.Addresses.FirstOrDefault().Zip
-                            }
-                            if (!String.IsNullOrEmpty(Model.Location.Contact.Addresses.FirstOrDefault().Country))
-                            {
-                                <br />@Model.Location.Contact.Addresses.FirstOrDefault().Country
-                            }
-                        }
-                    }
+                <div class="shop-info-detail">
+                    <span class="fa fa-caret-up divUpArrow" aria-hidden="true"></span>
+                    <div class="shopHomeWelcome">@Model.WelcomeMessage</div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div class="shop-info-detail shop-info-description no-margin-bottom">
+                    @Model.Description
                 </div>
             }
         </div>
-        @if (!String.IsNullOrEmpty(Model.WelcomeMessage))
-        {
-            <div class="shopHomeWelcome">@Model.WelcomeMessage</div>
-        }
-    </div>
-    <div class="mainList">
-        @foreach (var item in Model.StoreItems)
-        {
-            <div class="storeItem">
-                <div class="storeItemInner">
-                    <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
-                        <div class="storeItemPhoto center">
-                            @if (item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto) != null)
-                            {
-                                <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
-                            }
-                        </div>
-                    </a>
-                    <div class="storeItemTitle">
-                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
-                    </div>
-                    <div class="storeItemN">
-                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
-                    </div>
-                    <div class="storeItemPrice">
-                        @if (item.Currency == "USD")
-                        { <span>$</span>}@item.Price.ToString("N2") <span class="usd">@item.Currency</span>
-                    </div>
-
-                    <div class="clear">
-                    </div>
-                </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
+            <div class="listing-wrapper">
+                <ul class="clear listings">
+                    @foreach (var item in Model.StoreItems)
+                    {
+                        <li id="@item.StoreItemId" class="listing-card">
+                            <a class="listing-thumb" title="@item.Name" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
+                                @if (item.Photos.Any(x => x.IsPrimaryPhoto))
+                                {
+                                    <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" width:160px; max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
+                                }
+                            </a>
+                            <div class="listing-detail">
+                                <div class="listing-title">
+                                    <a title="@item.Name" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.NameTrimmed</a>
+                                </div>
+                                <div class="listing-maker">
+                                    <a title="@item.Store.Name" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + item.Store.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Store.Name))">@item.Store.NameTrimmed</a>
+                                </div>
+                            </div>
+                            <div class="listing-price">
+                                @if (item.Currency == "USD")
+                                {<span class="currency-symbol">$</span>}<span class="currency-value">@item.Price.ToString("N2")</span>
+                                <span class="currency-code">@item.Currency</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
             </div>
-        }
+        </div>
     </div>
 </div>

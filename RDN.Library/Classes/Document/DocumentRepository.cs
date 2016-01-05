@@ -691,7 +691,9 @@ namespace RDN.Library.Classes.Document
                         {
                             if (d.SubscriptionPeriodEnds.Value.AddYears(2).Date.Subtract(DateTime.UtcNow.Date).Days < 0)
                             {
+                                //find all the active docs from list of League Documents 
                                 var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
+
                                 foreach (var doc in activeDocs)
                                 {
                                     DeleteOldDocument(doc.Document);

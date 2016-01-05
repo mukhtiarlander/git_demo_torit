@@ -305,6 +305,11 @@ new { controller = "Member", action = "MemberSetting" } // Parameter defaults
 new { controller = "Member", action = "ChangeMemberSettingCalView" } // Parameter defaults
 );
             routes.MapRoute(
+"MemberSettingsChangeNavigationDirection", // Route name
+"member/changemembersettingnavigationdirection", // URL with parameters
+new { controller = "Member", action = "ChangeMemberSettingNavigationDirection" } // Parameter defaults
+);
+            routes.MapRoute(
 "MemberContacts", // Route name
 "member/contacts/{id}", // URL with parameters
 new { controller = "Member", action = "MemberContacts", id = UrlParameter.Optional } // Parameter defaults
@@ -1262,6 +1267,11 @@ new { controller = "Vote", action = "PollToVoteV2" } // Parameter defaults
 "PollViewAdmin", // Route name
 "poll/view/{leagueId}/{pollid}", // URL with parameters
 new { controller = "Vote", action = "PollViewAdmin" } // Parameter defaults
+);
+            routes.MapRoute(
+"SaveMembersToPoll", // Route name
+"poll/addmemberstopoll",
+new { controller = "Vote", action = "AddMembersToPoll" }
 );
             routes.MapRoute(
 "Polls", // Route name

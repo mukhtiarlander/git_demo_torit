@@ -240,6 +240,22 @@ namespace RDN.Library.Classes.Config
             }
         }
 
+        public static string LeaguesUrl
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("LeaguesUrl");
+            }
+        }
+
+        public static string TeamsName       {
+            get
+            {
+                return SiteCache.GetConfigurationValue("TeamsName");
+            }
+        }
+
+
         public static string SportName
         {
             get
@@ -521,7 +537,7 @@ namespace RDN.Library.Classes.Config
         }
 
         public static string WebsiteSloganDefault
-        {
+        { 
             get
             {
                 return SiteCache.GetConfigurationValue("WebsiteSloganDefault");                  
@@ -664,5 +680,58 @@ namespace RDN.Library.Classes.Config
                 return SiteCache.GetConfigurationValue("SportNamePlusMembersNameForUrl");
             }
         }
+
+
+        public static string GameUrl
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("GameUrl");
+            }
+        }
+
+
+        public static string GamesUrl
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("GamesUrl");
+            }
+        }
+
+
+        public static string RefereeUrl
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("RefereeUrl");
+            }
+        }
+
+
+        public static string RefereesUrl
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("RefereesUrl");
+            }
+        }
+
+        public static string GamesName
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("GamesName");
+            }
+        }
+        public static string ImageSlidesLocation
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("ImageSlidesLocation");
+            }
+        }
+
+
     }
 }
