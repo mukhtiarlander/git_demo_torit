@@ -27,10 +27,9 @@
     });
 });
 
-var menu_placement = "right";
-
-function ToggleSideMenu() {
-    if (menu_placement == "right") {
+function ToggleSideMenu(menu_placement) {
+    if (menu_placement.toUpperCase() == "RIGHT") {
+        $("#mainNavbar").css({ "right": "15px" });
         if ($("#mainNavbar").hasClass("slideInRight")) {
             $("#mainNavbar").removeClass("slideInRight");
             $("#mainNavbar").addClass("slideOutRight");
@@ -40,7 +39,8 @@ function ToggleSideMenu() {
             $("#mainNavbar").addClass("slideInRight").show();
         }
     }
-    else if (menu_placement == "left") {
+    else if (menu_placement.toUpperCase() == "LEFT") {
+        $("#mainNavbar").css({ "left": "15px" });
         if ($("#mainNavbar").hasClass("slideInLeft")) {
             $("#mainNavbar").removeClass("slideInLeft");
             $("#mainNavbar").addClass("slideOutLeft");

@@ -305,6 +305,11 @@ new { controller = "Member", action = "MemberSetting" } // Parameter defaults
 new { controller = "Member", action = "ChangeMemberSettingCalView" } // Parameter defaults
 );
             routes.MapRoute(
+"MemberSettingsChangeNavigationDirection", // Route name
+"member/changemembersettingnavigationdirection", // URL with parameters
+new { controller = "Member", action = "ChangeMemberSettingNavigationDirection" } // Parameter defaults
+);
+            routes.MapRoute(
 "MemberContacts", // Route name
 "member/contacts/{id}", // URL with parameters
 new { controller = "Member", action = "MemberContacts", id = UrlParameter.Optional } // Parameter defaults
