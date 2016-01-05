@@ -5,7 +5,7 @@ body { overflow-x: hidden; /* Prevent scroll on narrow devices */ }
 .messages { color: #000; padding: 3px; margin: 0px 5px 5px 5px; width: 100%; border: 1px solid #000000; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
 .mNotify { font-weight: bold; }
 .messages a:active, .messages a:hover, .messages a { color: #000; }
-.footer { background-color: #313940; }
+.footer { background-color: #000; }
 .white { color: #fff; }
 .navIcon img { height: 25px; max-width: 25px; padding-right: 5px; }
 .imgMaxSize { max-height: 500px; }
@@ -1321,11 +1321,7 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
 .pager span, .pager a { margin: 4px 3px; }
 .pager a {  }
 
-.footerLink{color:#8B9AA7;font-size:15px;}
-.footerSocialLink:hover,.footerSocialLink:focus,.footerSocialLink:active,.footerLink:hover,.footerLink:focus,.footerLink:active{color:white;text-decoration:none}
-.footerSocialLink{color:#8B9AA7;font-size:25px;}
-.footerLink:hover,.footerLink:focus,.footerLink:active{color:white;text-decoration:none}
-.copyRight{background-color:rgb(32,37,43);color:#ddd;padding:10px;}
+
 .top-border-light{border-top:1px solid #f2f2f2}
 .top-border-dark{border-top:1px solid #ccc}
 .left-border-light{border-left:1px solid #f2f2f2}
@@ -1378,3 +1374,16 @@ div.token-input-dropdown-facebook { position: absolute; width: 400px; background
 .no-image{width:120px; height:120px;background-color:#eee;border:1px dashed #ccc;}
 .no-image div{margin-top:calc(50% - 12px);text-align:center}
 .cart-item-details{min-height:90px !important;border-bottom:1px solid #eee;margin-bottom:10px;}
+
+#footer-sites a {
+    color:#bbb;
+    font-size:12px;
+    cursor:pointer;
+    text-decoration: none;
+}
+#footer-sites tr td {
+    text-align:left;
+}
+#footer-sites ol {
+    list-style-type: none;
+}

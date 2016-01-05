@@ -36,6 +36,8 @@ namespace RDN.Library.DataModels.Calendar
         public bool DisableBirthdaysFromShowing { get; set; }
         public bool DisableStartSkatingDays { get; set; }
 
+        public bool HideReport { get; set; }
+
         public virtual TimeZone.TimeZone TimeZoneSelection { get; set; }
         public virtual ICollection<CalendarEvent> CalendarEvents { get; set; }
         public virtual ICollection<CalendarEventReoccuring> CalendarEventsReocurring { get; set; }

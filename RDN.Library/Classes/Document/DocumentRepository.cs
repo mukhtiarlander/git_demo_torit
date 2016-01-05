@@ -25,6 +25,9 @@ namespace RDN.Library.Classes.Document
         public List<Document> Documents { get; set; }
         public List<LeagueGroup> Groups { get; set; }
         public List<LeagueGroup> GroupsApartOf { get; set; }
+
+
+
         /// <summary>
         /// here just for the setttings page of the documents section.
         /// </summary>
@@ -45,7 +48,7 @@ namespace RDN.Library.Classes.Document
         /// <param name="fileStream"></param>
         /// <param name="nameOfFile"></param>
         /// <returns>document id of the league</returns>
-        public static Document UploadLeagueDocument(Guid leagueId, Stream fileStream, string nameOfFile, string folderName = "", long groupId = 0, long folderId = 0)
+        public static Document UploadLeagueDocument(Guid leagueId, Guid memId, Stream fileStream, string nameOfFile, string folderName = "", long groupId = 0, long folderId = 0)
         {
             try
             {
@@ -89,6 +92,7 @@ namespace RDN.Library.Classes.Document
                 if (folderName != "")
                     docL.Category = folderDb;
                 docL.Name = info.Name;
+                docL.UploaderMember = dc.Members.FirstOrDefault(x => x.MemberId == memId);
                 if (groupId > 0)
                     docL.Group = dc.LeagueGroups.Where(x => x.Id == groupId).FirstOrDefault();
                 if (folderId > 0)
@@ -611,6 +615,14 @@ namespace RDN.Library.Classes.Document
                     {
                         bool addDocDirtyBit = false;
                         var document = LeagueDocument.DisplayDocument(doc, false);
+                        if (document.UploaderMemberId != Guid.Empty)
+                        {
+                            if (document.UploaderMemberId == memId)
+                            {
+                                document.IsUploaderMember = true;
+                            }
+                        }
+
                         //check if the document is apart of a group.
                         if (document.Folder != null && document.Folder.GroupId > 0)
                         {
@@ -662,5 +674,61 @@ namespace RDN.Library.Classes.Document
             return null;
         }
 
+        public static bool DeleteOldLeagueDocuments()
+        {
+            try
+            {
+                List<RDN.Portable.Classes.League.Classes.League> leagues = new List<Portable.Classes.League.Classes.League>();
+                var dc = new ManagementContext();
+                var docsDb = dc.Leagues.Include("Documents").Where(x => x.SubscriptionPeriodEnds != null).ToList();
+
+                if (docsDb != null)
+                {
+                    foreach (var d in docsDb)
+                    {
+                        //check see to current League have any docuement if so then move 
+                        if (d.Documents.Count > 0)
+                        {
+                            if (d.SubscriptionPeriodEnds.Value.AddYears(2).Date.Subtract(DateTime.UtcNow.Date).Days < 0)
+                            {
+                                //find all the active docs from list of League Documents 
+                                var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
+
+                                foreach (var doc in activeDocs)
+                                {
+                                    DeleteOldDocument(doc.Document);
+                                }
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
+
+        private static bool DeleteOldDocument(DataModels.Document.Document doc)
+        {
+            var dc = new ManagementContext();
+            int c = 0;
+
+            var document = dc.Documents.Where(d => d.DocumentId == doc.DocumentId).FirstOrDefault();
+
+            if (document != null)
+            {
+                FileInfo file = new FileInfo(document.SaveLocation);
+                if (file.Exists)
+                    file.Delete();
+
+                document.IsDeleted = true;
+
+                c = dc.SaveChanges();
+            }
+            return c > 0 ? true : false;
+        }
     }
 }

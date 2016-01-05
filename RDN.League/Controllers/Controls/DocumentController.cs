@@ -237,6 +237,7 @@ namespace RDN.League.Controllers
                 var folderId = HttpContext.Request.Form["uploadDocsDD"];
                 long gId = 0;
                 long fId = 0;
+                var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 if (!String.IsNullOrEmpty(folderId))
                 {
                     if (folderId.Contains("G-"))
@@ -251,10 +252,11 @@ namespace RDN.League.Controllers
                         if (file != null && file.ContentLength > 0)
                         {
                             additionalInfo += file.FileName + ":";
-                            DocumentRepository.UploadLeagueDocument(repo.OwnerId, file.InputStream, file.FileName, groupId: gId, folderId: fId);
+                          
+                            DocumentRepository.UploadLeagueDocument(repo.OwnerId,memId, file.InputStream, file.FileName, groupId: gId, folderId: fId);
                         }
                     }
-                    MemberCache.ClearLeagueDocument(RDN.Library.Classes.Account.User.GetMemberId());
+                    MemberCache.ClearLeagueDocument(memId);
                     return Redirect("~/league/documents/" + repo.OwnerId.ToString().Replace("-", "") + "?u=" + SiteMessagesEnum.s);
                 }
             }
@@ -307,7 +309,6 @@ namespace RDN.League.Controllers
                 {
                     CommentForDocument.AddTagToDocumentTag(docId, docOwnerId, tagItem);
                 }
-                MemberCache.ClearLeagueDocument(memId);
                 return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -336,7 +337,7 @@ namespace RDN.League.Controllers
             }
             return Json(new { isSuccess = false }, JsonRequestBehavior.AllowGet);
         }
-
+        
         [Authorize]
         public ActionResult DeleteFolderFromLeagueDocuments(Guid leagueId, int folderId)
         {

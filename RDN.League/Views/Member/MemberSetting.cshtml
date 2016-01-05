@@ -1,5 +1,6 @@
 ﻿@model RDN.Portable.Classes.Account.Classes.MemberSettingsClass
 @using RDN.Portable.Classes.Account.Enums
+@using RDN.Portable.Classes.Account.Enums.Settings
 @{
     ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -74,12 +75,19 @@
 
                             </p>
                         </div>
-                        <div id="codeHtml" class="display-none margin-bottom-10">
+                        <div id="codeHtml" class="display-none">
                             <small>A Verification Code was sent to your mobile phone.  </small>
                             <div class="margin-bottom-5">Enter Verification Code:</div>
                             <input type="text" id="code" placeholder="Verification Code" class="form-control w200" />
                             <button type="button" class="btn btn-primary margin-top-10" onclick="javascript: EnterCarrierCode(this)">Verify</button>
 
+                        </div>
+                        <h4 style="border-bottom: 1px solid #ddd" class="margin-bottom-10 padding-bottom-10 margin-top-30">
+                            <i class="fa fa-mobile-phone"></i>Mobile Menu Navigation<br />
+                            <span class="text-muted"><small>Move the Mobile Navigation Menu from Right to Left and Left to Right used primarially by left handed individuals.</small></span>
+                        </h4>
+                        <div class="margin-bottom-10">
+                            <input type="checkbox" name="navigation-direction" @(Model.NavigationDirection == NavigationDefaultViewEnum.Left ? "checked" : "") data-on-text="Left" data-off-text="Right" data-off-color="primary">
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="Notifications">
@@ -135,7 +143,7 @@
                                 </td>
                             </tr>
                             @foreach (var group in Model.GroupsApartOf)
-                                        {
+                            {
                                 <tr>
                                     <td class="b  text-right">@group.GroupName Broadcasts:</td>
                                     <td>
@@ -145,15 +153,15 @@
                                         </label>
                                     </td>
                                 </tr>
-                            <tr>
-                                <td class="b  text-right">@group.GroupName New Post:</td>
-                                <td>
-                                    <label>
-                                        @Html.CheckBox("group-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'group', '" + group.Id + "')" })
+                                <tr>
+                                    <td class="b  text-right">@group.GroupName New Post:</td>
+                                    <td>
+                                        <label>
+                                            @Html.CheckBox("group-" + group.Id, @group.DoesReceiveGroupNotificationsCurrentMember, new { @onchange = "changeEmailNotification(this, 'group', '" + group.Id + "')" })
                                             <small class="i">Turns On New Forum Posts</small>
-                                    </label>
-                                </td>
-                            </tr>
+                                        </label>
+                                    </td>
+                                </tr>
 
                             }
 
@@ -194,7 +202,7 @@
                                 </td>
                             </tr>
                             <tr>
-                            <td class="b  text-right">Hide Date Of Birth From League:</td>
+                                <td class="b  text-right">Hide Date Of Birth From League:</td>
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.Hide_DOB_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_League + "')" })
@@ -202,7 +210,7 @@
                                     </label>
                                 </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td class="b  text-right">Hide Address from League:</td>
                                 <td>
                                     <label>
@@ -218,7 +226,7 @@
                                         @Html.CheckBoxFor(x => x.Hide_DOB_From_Public, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_Public + "')" })
                                     </label>
                                 </td>
-                            </tr>                        
+                            </tr>
                         </table>
                     </div>
 
@@ -229,9 +237,9 @@
                         <div class="form-label margin-bottom-5">
                             <label>Order Messages as Latest First: @Html.CheckBoxFor(x => x.ForumDescending, new { @onchange = "Member.ChangeForumMessageOrderSetting(this)" })</label>
                         </div>
-						<div>
-							<label>Reorder Forum Groups</label>
-						</div>
+                        <div>
+                            <label>Reorder Forum Groups</label>
+                        </div>
                         <div id="memberGroups">
                             @foreach (var group in Model.GroupsApartOf)
                             {
@@ -263,30 +271,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#tabs").tabs();
-    $("#CalendarViewDefault").change(function () {
-        changeMemberSettingCalView(this.value);
-    });
-    $("#PhoneNumber").numeric({ negative: false, decimal: false });
-    $("#code").numeric({ negative: false, decimal: false });
-
-    $("#memberGroups").sortable({
-        handle: '.sortableHandle',
-        update: function (event, ui) {
-            var idsInOrder = JSON.stringify($("#memberGroups").sortable("toArray"));
-            Member.SaveResortedGroup(idsInOrder);
-        }
-    }).disableSelection();
-
-    $(document).ready(function () {      
-        $("#myTabs li a").bind("click", function (e) {            
-            var href = $(this).attr('href');            
-            $("#tabs").load(href);
-            window.location.hash = href;
-            e.preventDefault();
-        });
-        if (window.location.hash != "") {
-            $('#myTabs li a[href="' + window.location.hash + '"]').click()
-        }
+    $(document).ready(function () {
+        Member.InitializeSettings();
     });
 </script>

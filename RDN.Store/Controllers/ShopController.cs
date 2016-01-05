@@ -27,6 +27,7 @@ namespace RDN.Store.Controllers
                 }
                 StoreGateway sg = new StoreGateway();
                 item = sg.GetPublicStore(new Guid(id), cat);
+                ViewBag.Category = cat;
             }
             catch (Exception exception)
             {

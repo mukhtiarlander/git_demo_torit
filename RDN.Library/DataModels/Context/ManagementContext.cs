@@ -11,6 +11,7 @@ using RDN.Library.DataModels.Member;
 using RDN.Library.DataModels.Game;
 using RDN.Library.DataModels.PaymentGateway.Invoices;
 using RDN.Library.DataModels.PaymentGateway.Merchants;
+using RDN.Library.DataModels.Roster;
 using RDN.Library.DataModels.Store;
 using RDN.Library.DataModels.Team;
 using RDN.Library.DataModels.Scoreboard;
@@ -117,9 +118,13 @@ namespace RDN.Library.DataModels.Context
         public DbSet<LeagueAssociation> ContactLeagueAssociations { get; set; }
         public DbSet<LeagueType> ContactLeagueTypes { get; set; }
         public DbSet<Admin.Download.ScoreboardDownload> ScoreboardDownloads { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<Admin.RefContacts.RefMasterRoster> RefRoster { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<ContactCard.Email> EmailsForAllEntities { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<NonSubscribersList> NonSubscribersList { get; set; }
+        [Obsolete("Use Common")]
         public DbSet<SubscribersList> SubscribersList { get; set; }
         public DbSet<AdminEmailMessages> AdminEmailMessages { get; set; }
         [Obsolete("Use Common")]
@@ -166,6 +171,7 @@ namespace RDN.Library.DataModels.Context
 
 
         // **************** Scoreboard **************** \\
+        
         public DbSet<ScoreboardFeedback> ScoreboardFeedback { get; set; }
         public DbSet<ScoreboardInstance> ScoreboardInstance { get; set; }
 
@@ -250,6 +256,11 @@ namespace RDN.Library.DataModels.Context
 
         // **************** AutomatedTasks **************** \\
         public DbSet<AutomatedTasks.TaskForRunning> AutomatedTasks { get; set; }
+
+        // **************** Rosters **************** \\
+        public DbSet<Roster.Roster> Rosters { get; set; }
+        public DbSet<Roster.RosterMember> RosterMembers { get; set; }
+
 
         // **************** Calendar **************** \\
         public DbSet<Calendar.Calendar> Calendar { get; set; }

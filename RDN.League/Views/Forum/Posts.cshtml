@@ -41,11 +41,11 @@ else
     <div class="panel panel-default margin-top-20">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-12 col-sm-5">
                     <h3 class="margin-top-5 pull-left"><i class="fa fa-files-o"></i> Forum</h3>
                     <span id="header-loading" class="margin-left-15 margin-top-10 pull-left display-none" > <i class="fa fa-spinner fa-spin fa-lg"></i></span>
                 </div>
-                <div class="col-xs-8 text-right">
+                <div class="col-xs-12 col-sm-7 text-right">
                     <a class="btn btn-default btn-sm  margin-top-5" title="Settings" id="postSettingLink" href="@Url.Content("~/forum/settings/" + @Model.ForumId.ToString().Replace("-", "") + "/" + Model.CurrentGroup.GroupId)">
                         <i class="fa fa-cogs"></i> Settings
                     </a>
@@ -62,12 +62,12 @@ else
         <div class="panel-heading no-padding-bottom">
             <div class="row">
                 <div class="col-xs-12">
-                    <ul class="nav nav-tabs" id="GroupTopicsTabs" style="margin-bottom:-1px;">
+                    <ul class="nav nav-tabs hidden-xs visible-sm visible-md visible-lg" id="GroupTopicsTabs" style="margin-bottom:-1px;">
                         @for (int i = 0; i < Model.GroupTopics.Count; i++)
                         {
                             if (subPaid || Model.GroupTopics[i].GroupId == 0)
                             {
-                                <li class="margin-left-5 @(Model.GroupTopics[i].GroupId == Model.CurrentGroup.GroupId ? "active" : "")">
+                                <li class="@(Model.GroupTopics[i].GroupId == Model.CurrentGroup.GroupId ? "active" : "")">
                                     <a href="javascript:void(0)" onclick="Forum.changeForumGroup(this, '@Model.GroupTopics[i].GroupId', '@Model.ForumId')">
                                         @Model.GroupTopics[i].GroupName 
                                         @if(Model.GroupTopics[i].UnreadTopics > 0)
@@ -79,17 +79,46 @@ else
                             }
                         }
                     </ul>
+                    <ul id="myTabs" class="nav nav-tabs visible-xs hidden-sm hidden-md hidden-lg" role="tablist"  style="margin-bottom:-1px;"> 
+                         <li role="presentation" class="dropdown active"> 
+                            <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents" aria-expanded="false">
+                                <span id="lbl_forum_tab_selected">
+                                    @Model.GroupTopics[0].GroupName
+                                    @if (Model.GroupTopics[0].UnreadTopics > 0)
+                                    {
+                                        <span class="label label-primary">@Model.GroupTopics[0].UnreadTopics</span>
+                                    }
+                                </span> <span class="caret"></span>
+                             </a> 
+                            <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"> 
+                              @for (int i = 0; i < Model.GroupTopics.Count; i++)
+                              {
+                                  if (subPaid || Model.GroupTopics[i].GroupId == 0)
+                                  {
+                                    <li class="@(Model.GroupTopics[i].GroupId == Model.CurrentGroup.GroupId ? "active" : "")">
+                                        <a href="javascript:void(0)" onclick="Forum.changeForumGroup(this, '@Model.GroupTopics[i].GroupId', '@Model.ForumId')">
+                                            @Model.GroupTopics[i].GroupName
+                                            @if (Model.GroupTopics[i].UnreadTopics > 0)
+                                            {
+                                                <span class="label label-primary">@Model.GroupTopics[i].UnreadTopics</span>
+                                            }
+                                        </a>
+                                    </li>
+                                  }
+                              }
+                            </ul>
+                         </li>
+                     </ul>
                 </div>
             </div>
         </div>
-        <div class="panel-heading" style="background-color:white">
+        <div class="panel-heading no-padding-bottom" style="background-color:white">
             <div class="row">
-                <div class="col-xs-12">
-                    
-
-                    <input class="form-control pull-right" type="text" id="groupSearch" placeholder="Search.." style="width:200px" />
-                  
-                    <select id="forumCategories" onchange="Forum.changeForumCategories(this)" class="pull-right margin-right-10">
+                <div class="col-xs-12 col-sm-4 col-sm-offset-4 col-md-3 col-md-offset-6 col-lg-2 col-lg-offset-8 margin-bottom-10">
+                    <input class="form-control full-width" type="text" id="groupSearch" placeholder="Search.."/>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 margin-bottom-10">
+                    <select id="forumCategories" onchange="Forum.changeForumCategories(this)" class="full-width">
                         <option value="0" selected="selected">Select Category</option>
                         @foreach (var cat in Model.Categories)
                         {
@@ -101,7 +130,7 @@ else
                 </div>
             </div>
         </div>
-        <div class="panel-body scroll-x">
+        <div class="panel-body padding-10">
             <table class="table table-hover no-margin-bottom">
                 <thead>
                     <tr>
@@ -109,16 +138,16 @@ else
                         <th>
                             Topic
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             Category
                         </th>
-                        <th>
+                       <th class="hidden-xs">
                             Started By
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             Posts
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             Views
                         </th>
                         <th>
@@ -131,7 +160,7 @@ else
                     @foreach (var topic in Model.CurrentGroup.Topics)
                     {
                         <tr class="@(topic.IsRead ? "" : "forum-read")">
-                            <td class="text-center vertical-middle" >
+                            <td class="text-center" style="display:inline-block" >
                                 @if (!topic.IsRead)
                                 {
                                     <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Mark As Read" onclick="javascript:MarkForumTopicAsRead(this, '@topic.TopicId')"><i class="fa fa-envelope"></i></button>
@@ -154,13 +183,14 @@ else
                                 }
 
                             </td>
-                            <td>
+                            <td  class="hidden-xs">
                                 @if (topic.Category != null)
                                 {
                                     <span class="hyperlink" onclick="Forum.changeForumCategoryLink('@topic.GroupId', '@topic.Category.CategoryId')">@topic.Category.CategoryName</span>
                                 }
+                                &nbsp;
                             </td>
-                            <td>
+                            <td  class="hidden-xs">
                                 @if (Model.Type == RDN.Portable.Classes.Forum.Enums.ForumOwnerTypeEnum.league)
                                 {
                                     <a target="_blank" href="@Url.Content("~/member/" + topic.CreatedByMember.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.CreatedByMember.DerbyName))">
@@ -176,10 +206,10 @@ else
                                 <br />
                                 <span class="text-muted font12">@topic.CreatedHuman</span>
                             </td>
-                            <td>
+                            <td class="hidden-xs">
                                 @topic.Replies
                             </td>
-                            <td>
+                            <td  class="hidden-xs">
                                 @topic.ViewCount
                             </td>
                             <td>
@@ -198,7 +228,7 @@ else
                                 <br />
                                 <span class="text-muted font12">@topic.LastPostHuman</span>
                             </td>
-                            <td class="vertical-middle">
+                            <td class="vertical-middle fullwidth text-center hidden-xs">
                                 @if (topic.IsManagerOfTopic)
                                 {
 
@@ -230,6 +260,54 @@ else
                                     }
                                     <button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="javascript:Forum.RemoveForumTopic(this, '@topic.TopicId')"><i class="fa fa-trash"></i></button>
                                 }
+                            </td>
+                            <td class="visible-xs hidden-sm hidden-md hidden-lg">
+                                  @if (topic.IsManagerOfTopic)
+                                  {
+                                <div class="dropdown">
+                                    <a class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown" role="button">
+                                        <i class="fa fa-cog"></i>
+                                    </a>
+                                    <ul class="dropdown-menu  pull-right">
+                                        <li>
+                                            <a  href="@Url.Content("~/forum/post/move/" + @Model.ForumId.ToString().Replace("-", "") + "/" + @topic.TopicId)"><i class="fa fa-arrows"></i> Move</a>
+                                        </li>
+                                         <li>
+                                            @if (topic.IsPinned)
+                                            {
+                                                <a href="javascript:void(0)" onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-thumb-tack fa-rotate-90"></i> UnPin</a>
+                                            }
+                                            else
+                                            {
+                                                <a  href="javascript:void(0)"  onclick="javascript:PinForumTopic(this, '@topic.TopicId', 'true')"><i class="fa fa-thumb-tack"></i> Pin</a>
+                                            }
+                                        </li>
+                                        <li>
+                                             @if (topic.IsLocked)
+                                             {
+                                                <a onclick="javascript:LockForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-unlock"></i> Unlock</a>
+                                             }
+                                             else
+                                             {
+                                                <a title="Lock" onclick="javascript:LockForumTopic(this, '@topic.TopicId', 'true')"><i class="fa fa-lock"></i> Lock</a>
+                                             }
+                                        </li>
+                                        <li>
+                                             @if (topic.IsArchived)
+                                             {
+                                                <a onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'false')"><i class="fa fa-folder-o"></i> UnArchive</a>
+                                             }
+                                             else
+                                             {
+                                                <a onclick="javascript:Forum.ArchiveForumTopic(this, '@topic.TopicId', 'true')"><i class="fa fa-archive"></i> Archive</a>
+                                             }
+                                        </li>
+                                        <li>
+                                            <a onclick="javascript:Forum.RemoveForumTopic(this, '@topic.TopicId')"><i class="fa fa-trash"></i> Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                  }
                             </td>
                         </tr>
                     }

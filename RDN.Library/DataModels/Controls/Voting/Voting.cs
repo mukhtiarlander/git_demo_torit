@@ -22,7 +22,8 @@ namespace RDN.Library.DataModels.Controls.Voting
         public bool IsPollAnonymous { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsClosed { get; set; }
-
+        /// RDN-2319-Make Poll totally Secret
+        public bool OnlyShowResults { get; set; }
 
         public virtual League.League LeagueOwner { get; set; }
 

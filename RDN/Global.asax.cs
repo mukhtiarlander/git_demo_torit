@@ -67,13 +67,13 @@ namespace RDN
               "tournamentHome", // Route name
               "{rollerderbytournament}/{id}/{name}", // URL with parameters
               new { controller = "Tournament", action = "TournamentHome" }, // Parameter defaults
-              new { rollerderbytournament = "(roller-derby|soccer)-tournament", id = "[a-zA-Z0-9]+" }
+              new { rollerderbytournament = "(roller-derby|soccer|swim)-tournament", id = "[a-zA-Z0-9]+" }
           );
             routes.MapRoute(
           "tournaments", // Route name
           "{url}", // URL with parameters
           new { controller = "Tournament", action = "Tournaments" },
-            new { url = "(roller-derby|soccer)-tournaments" });
+            new { url = "(roller-derby|soccer|swim)-tournaments" });
 
             routes.MapRoute(
               "apiGame", // Route name
@@ -104,14 +104,14 @@ namespace RDN
               "Gameid", // Route name
               "{url}/{id}", // URL with parameters
               new { controller = "Game", action = "Index" },  // Parameter defaults
-              new { url = "(roller-derby|soccer)-game", id = "[a-zA-Z0-9]+" }
+              new { url = "(roller-derby-game|soccer-game|swim-meet)", id = "[a-zA-Z0-9]+" }
           );
 
             routes.MapRoute(
                 "Game", // Route name
                 "{url}/{id}/{gameName}/{team1}/{team2}", // URL with parameters
                 new { controller = "Game", action = "Index", team1 = UrlParameter.Optional, team2 = UrlParameter.Optional }, // Parameter defaults
-                new { url = "(roller-derby|soccer)-game", id = "[a-zA-Z0-9]+" }
+                new { url = "(roller-derby-game|soccer-game|swim-meet)", id = "[a-zA-Z0-9]+" }
             );
 
 
@@ -119,14 +119,14 @@ namespace RDN
                 "Games", // Route name
                 "{url}", // URL with parameters
                 new { controller = "Games", action = "Index", id = UrlParameter.Optional },
-                new { url = "(roller-derby|soccer)-games" }
+                new { url = "(roller-derby-games|soccer-games|swim-meets)" }
             );
 
             routes.MapRoute(
     "Games2", // Route name
     "{url}", // URL with parameters
     new { controller = "Games", action = "Index", id = UrlParameter.Optional },
-                new { url = "(roller-derby|soccer)-game" }
+                new { url = "(roller-derby-game|soccer-game|swim-meet)" }
 );
 
             routes.MapRoute(
@@ -179,7 +179,7 @@ namespace RDN
         "scoreboard", // Route name
         "{url}", // URL with parameters
         new { controller = "Scoreboard", action = "Index" },
-                new { url = "(roller-derby|soccer)-scoreboard" }
+                new { url = "(roller-derby|soccer|swimming)-scoreboard" }
     );
             routes.MapRoute(
     "scoreboard2", // Route name
@@ -239,13 +239,13 @@ new { controller = "Home", action = "Error" } // Parameter defaults
          "CalendarEvent", // Route name
          "{url}/{name}/{id}", // URL with parameters
          new { controller = "Calendar", action = "EventCalendar" },
-            new { url = "(roller-derby|soccer)-event" }
+            new { url = "(roller-derby|soccer|swim)-event" }
                  );
             routes.MapRoute(
       "CalendarEvents", // Route name
       "{url}/{year}/{month}", // URL with parameters
       new { controller = "Calendar", action = "CalendarEvents", year = UrlParameter.Optional, month = UrlParameter.Optional },
-            new { url = "(roller-derby|soccer)-events" }
+            new { url = "(roller-derby|soccer|swim)-events" }
               );
             #endregion
 
@@ -254,7 +254,7 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             "AllLogos", // Route name
             "{url}", // URL with parameters
             new { controller = "PublicLogos", action = "AllLogos" },
-            new { url = "(roller-derby|soccer)-logos" }
+            new { url = "(roller-derby|soccer|swimming)-logos" }
                     );
 
 
@@ -262,26 +262,26 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             "AllSkaters", // Route name
             "{url}", // URL with parameters
             new { controller = "PublicProfile", action = "AllSkaters" },
-             new { url = "(roller-derby|soccer)-skaters" });
+             new { url = "(roller-derby-skaters|soccer-players|swimmers)" });
 
             routes.MapRoute(
           "PublicSkaterRedirect", // Route name
           "{url}/{id}", // URL with parameters
           new { controller = "PublicProfile", action = "SkaterRedirect" },
-            new { url = "(roller-derby|soccer)-skater" }
+            new { url = "(roller-derby-skater|soccer-player|swimmer)" }
                   );
             routes.MapRoute(
             "PublicSkater", // Route name
             "{url}/{name}/{id}", // URL with parameters
             new { controller = "PublicProfile", action = "Skater" },
-            new { url = "(roller-derby|soccer)-skater" }
+            new { url = "(roller-derby-skater|soccer-player|swimmer)" }
                     );
 
             routes.MapRoute(
            "PublicSkaterTwoEvils", // Route name
            "{url}/1/{name}/{id}", // URL with parameters
            new { controller = "PublicProfile", action = "SkaterTwoEvils" },
-            new { url = "(roller-derby|soccer)-skater" }
+            new { url = "(roller-derby-skater|soccer-player|swimmer)" }
                    );
 
 
@@ -289,54 +289,54 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             "AllRefs", // Route name
             "{url}", // URL with parameters
             new { controller = "PublicProfile", action = "AllRefs" },
-            new { url = "(roller-derby|soccer)-referees" }
+            new { url = "(roller-derby-referees|soccer-referees|swimming-officials)" }
                     );
 
             routes.MapRoute(
             "PublicRef", // Route name
             "{url}/{name}/{id}", // URL with parameters
             new { controller = "PublicProfile", action = "Ref", league = UrlParameter.Optional },
-            new { url = "(roller-derby|soccer)-referee" }
+            new { url = "(roller-derby-referee|soccer-referee|swimming-official)" }
                     );
             routes.MapRoute(
             "PublicFederation", // Route name
             "{url}/{name}/{id}", // URL with parameters
             new { controller = "PublicFederation", action = "Federation" },
-            new { url = "(roller-derby|soccer)-federation" }
+            new { url = "(roller-derby|soccer|swimming)-federation" }
                     );
             routes.MapRoute(
             "PublicFederations", // Route name
             "{url}", // URL with parameters
             new { controller = "PublicFederation", action = "AllFederations" },
-            new { url = "(roller-derby|soccer)-federations" }
+            new { url = "(roller-derby|soccer|swimming)-federations" }
                     );
 
             routes.MapRoute(
             "PublicLeagues", // Route name
             "{url}", // URL with parameters
             new { controller = "PublicLeague", action = "AllLeagues" },
-            new { url = "(roller-derby|soccer)-leagues" }// Parameter defaults
+            new { url = "(roller-derby-leagues|soccer-leagues|swim-teams)" }// Parameter defaults
                     );
 
             routes.MapRoute(
             "RegularDerbyLeague", // Route name
             "{url}/{name}/{id}", // URL with parameters
             new { controller = "PublicLeague", action = "League" },
-            new { url = "(roller-derby|soccer)-league" }
+            new { url = "(roller-derby-league|soccer-league|swim-team)" }
                     );
 
             routes.MapRoute(
             "PublicLeagueTwoEvils", // Route name
             "{url}/1/{name}/{id}", // URL with parameters
             new { controller = "PublicLeague", action = "LeagueTwoEvils" },
-            new { url = "(roller-derby|soccer)-league" }
+            new { url = "(roller-derby-league|soccer-league|swim-team)" }
                     );
 
             routes.MapRoute(
                         "PublicLeagueDerbyRoster", // Route name
                         "{url}/2/{name}/{id}", // URL with parameters
                         new { controller = "PublicLeague", action = "LeagueDerbyRoster" },
-            new { url = "(roller-derby|soccer)-league" }
+            new { url = "(roller-derby-league|soccer-league|swim-team)" }
                                 );
 
 
@@ -362,6 +362,20 @@ new { controller = "Home", action = "Error" } // Parameter defaults
        "email/unsubscribe/{email}/{listType}/{id}", // URL with parameters
        new { controller = "Email", action = "UnSubscribe" } // Parameter defaults
                );
+            #endregion
+
+            #region cordova
+            routes.MapRoute(
+                "CordovaSetCookies", // Route name
+                "Cordova/SetPlatformCookie/{platform}", // URL with parameters
+                new { controller = "Cordova", action = "SetPlatformCookie" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "CordovaTest", // Route name
+                "Cordova/Test", // URL with parameters
+                new { controller = "Cordova", action = "Index" } // Parameter defaults
+            );
             #endregion
 
             routes.MapRoute(

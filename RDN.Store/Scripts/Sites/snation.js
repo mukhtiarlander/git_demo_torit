@@ -1,1 +1,1 @@
-﻿var SportNameForUrl = "roller-derby";
+﻿var SportNameForUrl = "soccer";

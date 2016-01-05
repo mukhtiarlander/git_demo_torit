@@ -15,21 +15,9 @@ namespace RDN.Controllers
     {
         private readonly int DEFAULT_PAGE_SIZE = 100;
 
-        public ActionResult AllSkaters(int? page)
+        public ActionResult AllSkaters()
         {
-            var model = new SimpleModPager<SkaterJson>();
-            if (page == null)
-                model.CurrentPage = 1;
-            else
-                model.CurrentPage = page.Value;
-            model.PageSize = DEFAULT_PAGE_SIZE;
-            model.NumberOfRecords = SiteCache.GetNumberOfMembersSignedUp();
-            if (model.NumberOfRecords < 1023)
-                model.NumberOfRecords = 1023;
-            model.NumberOfPages = (int)Math.Ceiling((double)model.NumberOfRecords / DEFAULT_PAGE_SIZE);
-
-            var output = FillMembersModel(model);
-            return View(output);
+            return View();
         }
 
 
@@ -46,11 +34,11 @@ namespace RDN.Controllers
                 names = RDN.Library.Classes.Account.User.SearchPublicMembers("", 100);
             }
             return Json(new
-{
-    sEcho = HttpContext.Request.Params["sEcho"],
-    iTotalRecords = names.Count,
-    iTotalDisplayRecords = names.Count,
-    aaData = (
+            {
+                sEcho = HttpContext.Request.Params["sEcho"],
+                iTotalRecords = names.Count,
+                iTotalDisplayRecords = names.Count,
+                aaData = (
         from n in names
         select new[]
                     {
@@ -63,26 +51,13 @@ namespace RDN.Controllers
                         n.photoUrl,
                         "true"
                     }).ToArray()
-}, JsonRequestBehavior.AllowGet);
+            }, JsonRequestBehavior.AllowGet);
         }
 
 
 
 
-        private GenericSingleModel<SimpleModPager<SkaterJson>> FillMembersModel(SimpleModPager<SkaterJson> model)
-        {
-            for (var i = 1; i <= model.NumberOfPages; i++)
-                model.Pages.Add(new SelectListItem
-                {
-                    Text = i.ToString(),
-                    Value = i.ToString(),
-                    Selected = i == model.CurrentPage
-                });
-            var output = new GenericSingleModel<SimpleModPager<SkaterJson>> { Model = model };
 
-            output.Model.Items = RDN.Library.Classes.Account.User.GetAllPublicMembers((model.CurrentPage - 1) * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE);
-            return output;
-        }
 
         public ActionResult AllRefs()
         {

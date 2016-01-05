@@ -305,6 +305,11 @@ new { controller = "Member", action = "MemberSetting" } // Parameter defaults
 new { controller = "Member", action = "ChangeMemberSettingCalView" } // Parameter defaults
 );
             routes.MapRoute(
+"MemberSettingsChangeNavigationDirection", // Route name
+"member/changemembersettingnavigationdirection", // URL with parameters
+new { controller = "Member", action = "ChangeMemberSettingNavigationDirection" } // Parameter defaults
+);
+            routes.MapRoute(
 "MemberContacts", // Route name
 "member/contacts/{id}", // URL with parameters
 new { controller = "Member", action = "MemberContacts", id = UrlParameter.Optional } // Parameter defaults
@@ -433,6 +438,13 @@ new { url = "(bout|game)challenge" }
             #endregion
 
             #region FederationRoutes
+
+            routes.MapRoute(
+        "federationjoinview", // Route name
+        "federation/join", // URL with parameters
+        new { controller = "Federation", action = "Join", name = UrlParameter.Optional } // Parameter defaults
+        );
+
             routes.MapRoute(
              "FederationLeague", // Route name
              "Federation/League/{id}/{name}", // URL with parameters
@@ -464,6 +476,8 @@ new { url = "(bout|game)challenge" }
 "Federation/Member/Edit/{id}/{name}", // URL with parameters
 new { controller = "Federation", action = "EditMember", name = UrlParameter.Optional } // Parameter defaults
 );
+
+          
             #endregion
 
             #region teamRoutes
@@ -899,6 +913,30 @@ new { controller = "Organization", action = "ViewAllOrganization" } // Parameter
             new { controller = "Links", action = "EditLink" } // Parameter defaults
             );
 
+            routes.MapRoute(
+           "RosterNew", // Route name
+           "league/rosters/new/add", // URL with parameters
+           new { controller = "Roster", action = "AddNewRoster" } // Parameter defaults
+           );
+
+            routes.MapRoute(
+            "RosterEdit", // Route name
+            "league/rosters/edit/{id}/{leagueId}", // URL with parameters
+            new { controller = "Roster", action = "EditRoster" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "RosterView", // Route name
+                "league/rosters/view/{id}/{leagueId}", // URL with parameters
+                new { controller = "Roster", action = "ViewRoster" } // Parameter defaults
+                );
+
+            routes.MapRoute(
+            "RosterAll", // Route name
+            "league/rosters/all", // URL with parameters
+            new { controller = "Roster", action = "ViewRosters" } // Parameter defaults
+            );
+
 
             #endregion
 
@@ -1231,6 +1269,11 @@ new { controller = "Vote", action = "PollToVoteV2" } // Parameter defaults
 new { controller = "Vote", action = "PollViewAdmin" } // Parameter defaults
 );
             routes.MapRoute(
+"SaveMembersToPoll", // Route name
+"poll/addmemberstopoll",
+new { controller = "Vote", action = "AddMembersToPoll" }
+);
+            routes.MapRoute(
 "Polls", // Route name
 "poll/{leagueId}", // URL with parameters
 new { controller = "Vote", action = "Polls" } // Parameter defaults
@@ -1299,6 +1342,9 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
          new { controller = "Subscriptions", action = "EmailBlast" } // Parameter defaults
          );
             #endregion Subscription
+
+
+          
 
 
             routes.MapRoute(

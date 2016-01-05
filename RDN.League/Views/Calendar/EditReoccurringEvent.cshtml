@@ -17,11 +17,11 @@
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
-    <li><a href="@Url.Content(" ~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") ) ">Calendar</a></li>
+    <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") ) ">Calendar</a></li>
     }
     else
     {
-    <li><a href="@Url.Content(" ~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") )">Calendar</a></li>
+    <li><a href="@Url.Content("~/calendar/view/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") )">Calendar</a></li>
     }
 
     <li class="active">Update</li>
@@ -38,7 +38,7 @@
                 <div class="col-xs-6 text-right">
                     @if (isSec || isEventsCourd)
                     {
-                    <a class="btn btn-danger btn-sm" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" href="@Url.Content(" ~/calendar/event/delete/reoccur/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))"><i class="fa fa-remove"></i> Delete Reoccurring Events</a>
+                    <a class="btn btn-danger btn-sm" onclick="return confirm('Remove Event? Will Remove Event and All Points Associated')" href="@Url.Content("~/calendar/event/delete/reoccur/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.CalendarItemId.ToString().Replace("-", ""))"><i class="fa fa-remove"></i> Delete Reoccurring Events</a>
                     }
                 </div>
             </div>
@@ -88,7 +88,7 @@
                         <div class="input-group">
                             @Html.DropDownListFor(x => x.SelectedLocationId, Model.Locations, "Choose Location...", new { @class = "form-control" })
                             <span class="input-group-btn">
-                                <a class="btn btn-info" href="@Url.Content(" ~/location/new/" + Model.CalendarType + "/calendar/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Location</a>
+                                <a class="btn btn-info" href="@Url.Content("~/location/new/" + Model.CalendarType + "/calendar/" + Model.CalendarId.ToString().Replace("-", ""))">Add New Location</a>
                             </span>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                         <div class="input-group">
                             @Html.DropDownListFor(x => x.SelectedEventTypeId, Model.EventTypes, "Choose Event Type...", new { @onchange = "EventTypeChanged(this)", @class = "form-control" })
                             <span class="input-group-btn">
-                                <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content(" ~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
+                                <a class="btn btn-info" id="addNewEventTypeLink" href="@Url.Content("~/calendar/event-type/new/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "?returnUrl=" + HttpContext.Current.Request.Url)">Add New Event Type</a>
                             </span>
 
                         </div>
@@ -129,7 +129,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6">
                                 @if (isSec)
-                                { <span class="font14"> Add more colors under <a href="@Url.Content(" ~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                                { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                         Event Information
                     </label>
                     <div class="margin-bottom-20">
-                        @Html.TextArea("Notes", string.Empty, new
+                        @Html.TextAreaFor(x => x.Notes,  new
                         {
                         id = "wmd-input",
                         @class = "center"
@@ -231,7 +231,7 @@
         </div>
         <div class="panel-footer">
             <button type="submit" class="btn btn-primary" name="updateEvent"><i class="fa fa-save"></i> Update Event</button>
-            <a class="btn btn-default" href="@Url.Content(" ~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Cancel Event</a>
+            <a class="btn btn-default" href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", ""))">Cancel Event</a>
         </div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">

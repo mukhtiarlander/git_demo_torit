@@ -23,6 +23,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -294,6 +295,9 @@
     <Content Include="Scripts\masonry\imagesloaded.min.js" />
     <Content Include="Scripts\masonry\masonry.min.js" />
     <Content Include="Scripts\Sites\localhost.js" />
+    <Content Include="Scripts\Sites\bullockingnation.js" />
+    <Content Include="Scripts\Sites\oarnation.js" />
+    <Content Include="Scripts\Sites\swimdecknation.js" />
     <Content Include="Scripts\Sites\snation.js" />
     <Content Include="Scripts\Sites\rdnation.js" />
     <Content Include="Web.config">
@@ -366,6 +370,7 @@
     <Content Include="Views\Home\Sell.cshtml" />
     <Content Include="Views\Home\Review.cshtml" />
     <Content Include="Scripts\jquery.rateit.min.js.map" />
+    <Content Include="Views\Shared\_PartialFooterLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

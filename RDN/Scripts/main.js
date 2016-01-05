@@ -180,7 +180,7 @@ function CurrentGame(game) {
     this.ruleSet = ko.observable(game.RuleSet);
     this.isGameStreaming = ko.observable(game.IsLiveStreaming);
 
-    this.gameUrl = ko.observable("http://" + window.location.host + "/" + SportNameForUrl + "-game/" + game.GameId.replace(/-/g, "") + "/" + game.GameName.replace(/ /g, "-") + "/" + team1NTemp.replace(/ /g, "-") + "/" + team2NTemp.replace(/ /g, "-"));
+    this.gameUrl = ko.observable("http://" + window.location.host + "/" + GameUrl + "/" + game.GameId.replace(/-/g, "") + "/" + game.GameName.replace(/ /g, "-") + "/" + team1NTemp.replace(/ /g, "-") + "/" + team2NTemp.replace(/ /g, "-"));
 }
 var currentGamesTimer = $.timer(function () {
     currentGamesViewModel.PullCurrentGamesTicker();

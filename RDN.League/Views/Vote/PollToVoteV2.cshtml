@@ -36,30 +36,30 @@
                     </div>
                 </div>
             </div>
-@using (Html.BeginForm("VoteOnPollV2", "Vote", FormMethod.Post, new { @id = "VotePoll" }))
-                        {
+            @using (Html.BeginForm("VoteOnPollV2", "Vote", FormMethod.Post, new { @id = "VotePoll" }))
+            {
 
-            <div class="panel-body no-padding-top">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Title</label>
-                        <div>
-                            <b>@Model.Title</b>
+                <div class="panel-body no-padding-top">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Title</label>
+                            <div>
+                                <b>@Model.Title</b>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
-                        <div>
-                            <b>@Html.Raw(Model.Description)</b>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
+                            <div>
+                                <b>@Html.Raw(Model.Description)</b>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12">
-                        @if (Model.IsPollAnonymous)
-                        { <label class="form-label margin-top-10">Anonymous Questions & Answers</label> }
-                        else
-                        {   <label class="form-label margin-top-10">Questions & Answers</label> }
+                        <div class="col-xs-12">
+                            @if (Model.IsPollAnonymous)
+                            { <label class="form-label margin-top-10">Anonymous Questions & Answers</label> }
+                            else
+                            {   <label class="form-label margin-top-10">Questions & Answers</label> }
 
-                           <div id="pollQuestions">
+                            <div id="pollQuestions">
 
                                 @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
                                 {
@@ -72,30 +72,30 @@
                                             {<small class='text-muted'> - multiple choice</small> }
                                         </div>
                                         <div class="panel-body">
-                                                @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Single)
+                                            @if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Single)
+                                            {
+                                                foreach (var answer in question.Answers)
                                                 {
-                                                    foreach (var answer in question.Answers)
-                                                    {
-                                                        <div>
+                                                    <div>
                                                         <label>
                                                             <input type="radio" name="answer-@question.QuestionId" id="@answer.AnswerId" value="@answer.AnswerId" />
                                                             <b>@answer.Answer</b>
                                                         </label>
-                                                            </div>
-                                                    }
+                                                    </div>
                                                 }
-                                                else if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                                            }
+                                            else if (question.QuestionType == RDN.Portable.Classes.Voting.Enums.QuestionTypeEnum.Multiple)
+                                            {
+                                                foreach (var answer in question.Answers)
                                                 {
-                                                    foreach (var answer in question.Answers)
-                                                    {
-                                                        <div>
+                                                    <div>
                                                         <label>
                                                             <input type="checkbox" name="answer-@question.QuestionId-@answer.AnswerId" id="@answer.AnswerId" />
                                                             <b>@answer.Answer</b>
                                                         </label>
-                                                            </div>
-                                                    }
+                                                    </div>
                                                 }
+                                            }
                                         </div>
                                         <div class="panel-footer" style="background-color:#fff">
                                             <div class="row">
@@ -110,23 +110,21 @@
                                     </div>
                                 }
                             </div>
-                            
+
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-footer">
-                <button type="submit" class="btn btn-default btn-primary"><i class="fa fa-thumbs-o-up"></i> Vote</button>
-            </div>
-    @Html.HiddenFor(x => x.LeagueId)
-    @Html.HiddenFor(x => x.VotingId)
-                        }
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-primary"><i class="fa fa-thumbs-o-up"></i> Vote</button>
+                </div>
+                @Html.HiddenFor(x => x.LeagueId)
+                @Html.HiddenFor(x => x.VotingId)
+            }
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    $("#PollsAdd").validate({
-        rules: {
-            AnswerType: "required"
-        }
+    $(document).ready(function () {
+        Polls.InitializeViewPolls();
     });
 </script>

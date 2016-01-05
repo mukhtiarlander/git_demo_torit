@@ -27,10 +27,9 @@
     });
 });
 
-var menu_placement = "right";
-
-function ToggleSideMenu() {
-    if (menu_placement == "right") {
+function ToggleSideMenu(menu_placement) {
+    if (menu_placement.toUpperCase() == "RIGHT") {
+        $("#mainNavbar").css({ "right": "15px" });
         if ($("#mainNavbar").hasClass("slideInRight")) {
             $("#mainNavbar").removeClass("slideInRight");
             $("#mainNavbar").addClass("slideOutRight");
@@ -40,7 +39,8 @@ function ToggleSideMenu() {
             $("#mainNavbar").addClass("slideInRight").show();
         }
     }
-    else if (menu_placement == "left") {
+    else if (menu_placement.toUpperCase() == "LEFT") {
+        $("#mainNavbar").css({ "left": "15px" });
         if ($("#mainNavbar").hasClass("slideInLeft")) {
             $("#mainNavbar").removeClass("slideInLeft");
             $("#mainNavbar").addClass("slideOutLeft");
@@ -1322,13 +1322,16 @@ function WaiveDues(button, memId) {
     var collected = $("#" + memId + "-Collected");
     var paidButton = $("#" + memId + "-button");
     var amount = amountButton.val();
+    var noteText = $("#" + memId + "-Dues-Notes");
+    var note = $("#" + memId + "-Dues-Notes").val()
+    var dueNote = $("#" + memId + "-Due-Note-Text");
 
-    $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: "" }, function (result) {
+    $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: note }, function (result) {
         if (result.isSuccess === true) {
         } else {
         }
     }).error(function () {
-        $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: "" }, function (result) {
+        $.getJSON("/Dues/WaiveDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, memberId: memId, note: note }, function (result) {
             if (result.isSuccess === true) {
             } else {
             }
@@ -1336,10 +1339,13 @@ function WaiveDues(button, memId) {
     });
 
     amountButton.remove();
+    $(noteText).remove();
     $(button).remove();
     sendReminderButton.remove();
     paidButton.remove();
+    $(dueNote).removeClass('hide').addClass("dueNote-Display");
 
+    $(dueNote).text(note);
     collected.text("Waived");
     due.text(parseFloat('0.00').toFixed(2));
 }
@@ -1354,13 +1360,17 @@ function PayDues(button, memId) {
     var collected = $("#" + memId + "-Collected");
     var waiveButton = $("#" + memId + "-waive-button");
     var amount = amountButton.val();
+    var noteText = $("#" + memId + "-Dues-Notes");
+    var note = $("#" + memId + "-Dues-Notes").val();
+    var dueNoteSpan = $("#" + memId + "-Due-Note-Text");
+
     if (parseFloat(amount) > parseFloat(0)) {
-        $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: "" }, function (result) {
+        $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: note }, function (result) {
             if (result.isSuccess === true) {
             } else {
             }
         }).error(function () {
-            $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: "" }, function (result) {
+            $.getJSON("/Dues/PayDuesAmount", { duesId: DuesItemId, duesManagementId: duesManagementId, amountPaid: amount, memberId: memId, note: note }, function (result) {
                 if (result.isSuccess === true) {
                 } else {
                 }
@@ -1372,9 +1382,13 @@ function PayDues(button, memId) {
             $(button).remove();
             waiveButton.remove();
             sendReminderButton.remove();
+            $(noteText).remove();
+            $(dueNoteSpan).removeClass('hide').addClass('dueNote-Display');
+            $(dueNoteSpan).text(note);
         }
         else {
             amountButton.val((parseFloat(due.text().replace(/,/g, '')) - parseFloat(amount)).toFixed(2));
+            $(noteText).val('');
         }
         collected.text((parseFloat(collected.text().replace(/,/g, '')) + parseFloat(amount)).toFixed(2));
         due.text((parseFloat(due.text().replace(/,/g, '')) - parseFloat(amount)).toFixed(2));
@@ -1487,6 +1501,11 @@ function checkIntoEvent(idOfPopUp, calId, evenId) {
         checkInStatusId = "3";
     if (status == "Excused")
         checkInStatusId = "4";
+    var tardy = $("#" + eventId).attr("data-tardy").toLocaleLowerCase();
+    var result = tardy == "true" ? true : false;
+    var note = $("#" + eventId).attr("data-note");
+    $(".popover-content #notes").val(note);
+    $(".popover-content #IsTardy").prop('checked', result);
     $(".popover-content #checkInSelection").val(checkInStatusId).change();
 }
 
@@ -1535,6 +1554,8 @@ function checkInMemberToEvent() {
     var noted = $(".popover-content #notes").val();
     var selectedItem = $(".popover-content #checkInSelection option:selected").val();
     var selectedItemText = $(".popover-content #checkInSelection option:selected").text();
+    var isTardy = $(".popover-content #IsTardy").is(':checked');
+    var note = $(".popover-content #notes").val();
     if (selectedItem === "") {
         $('.bottom-right').notify({
             message: { text: 'Please Select Check In Type. ' },
@@ -1543,7 +1564,6 @@ function checkInMemberToEvent() {
         }).show();
         return;
     }
-    var isTardy = $(".popover-content #IsTardy").is(':checked');
 
     CloseAddedRow();
     $.getJSON("/Calendar/CheckSelfIntoEvent", { calendarId: calendarId, eventId: eventId, note: noted, eventTypePoints: selectedItem, isTardy: isTardy }, function (result) {
@@ -1552,6 +1572,8 @@ function checkInMemberToEvent() {
             $("#" + eventId).children('i').toggleClass("fa-check-square", true);
             $("#" + eventId).attr("data-attendance", selectedItemText);
             $("#" + eventId).attr('data-original-title', selectedItemText);
+            $("#" + eventId).attr('data-tardy', isTardy);
+            $("#" + eventId).attr('data-note', note);
             SetCheckInButtonColor(eventId, selectedItemText);
             $('.bottom-right').notify({
                 message: { text: 'Checked In! ' },
@@ -1717,6 +1739,7 @@ function AddAnotherAnswerToPoll() {
     var input = $(document.createElement('input'));
     input.attr("type", "text");
     input.addClass('form-control');
+    input.attr("tabindex", simpleIdTwo);
     input.attr("id", "answer" + simpleIdTwo + "Input");
 
     div.append(lbl).append(input);
@@ -1826,7 +1849,13 @@ function AddPollAnswerCreate() {
     //$("#createPollPopup").fadeIn("fast");
     //$("#createPollPopup").center();
     //$("#questionInput").focus();
-    $("#createPollPopup1").modal('show');
+    $("#createPollPopup1").on('shown.bs.modal', function (e) {
+        var dialogBoxObj = $(e.target);
+        dialogBoxObj.find("#questionInput").focus();
+    }).on('hide.bs.modal', function (e) {
+        var dialogBoxObj = $(e.target);
+        dialogBoxObj.find("#addAnswerToAnswersListPopup").scrollTop(0);
+    }).modal('show');
 }
 
 

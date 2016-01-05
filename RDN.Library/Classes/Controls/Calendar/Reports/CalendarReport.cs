@@ -32,8 +32,10 @@ namespace RDN.Library.Classes.Calendar.Report
         public int TotalPointsAllowed { get; set; }
         public int TotalEventsCount { get; set; }
 
+        public bool HideReport { get; set; }
+
         public List<EventTypeForReport> EventTypesReport { get; set; }
-        public MembersReport MemberReport { get; set; }
+        public MemberDisplayBasic MemberReport { get; set; }
 
         public List<EventForReport> Events { get; set; }
         public List<MembersReport> Attendees { get; set; }
@@ -96,14 +98,24 @@ namespace RDN.Library.Classes.Calendar.Report
                 report.TotalPointsAllowed = 0;
                 TimeSpan daysReporting = endDate - startDate;
                 report.DaysBackwards = daysReporting.Days;
-
+                report.HideReport = cal.HideReport;
 
                 report.NotPresentForCheckIn = cal.NotPresentCheckIn;
                 List<DataModels.Calendar.CalendarEvent> events = new List<DataModels.Calendar.CalendarEvent>();
                 List<MemberDisplay> members = new List<MemberDisplay>();
                 if (group == 0) //no grops were selected
                 {
-                    members = MemberCache.GetLeagueMembers(memId, leagueId);
+                    if (!cal.HideReport || MemberCache.IsAttendanceManagerOrBetterOfLeague(memId))
+                    {
+                        members = MemberCache.GetLeagueMembers(memId, leagueId);
+                    }
+                    else
+                    {
+                        var member = MemberCache.GetMemberDisplay(memId);
+                        members.Add(member);
+                        
+                    }
+
                     events = cal.CalendarEvents.Where(x => x.IsInUTCTime).Where(x => x.StartDate >= startDateUtc).Where(x => x.EndDate < endDateUtc).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList();
                     events.AddRange(cal.CalendarEvents.Where(x => x.IsInUTCTime == false).Where(x => x.StartDate >= report.StartDateSelected).Where(x => x.EndDate < report.EndDateSelected).Where(x => x.IsRemovedFromCalendar == false).Where(x => x.Groups.Count == 0).ToList());
                 }
@@ -197,6 +209,7 @@ namespace RDN.Library.Classes.Calendar.Report
 
                 report.Attendees = report.Attendees.OrderBy(x => x.SiteName).ToList();
                 report.TotalEventsCount = report.Events.Count;
+
             }
             catch (Exception exception)
             {
@@ -429,7 +442,7 @@ namespace RDN.Library.Classes.Calendar.Report
                 MembersReport nAtt = new MembersReport();
                 var attendant = calEvent.Attendees.Where(x => x.Attendant.MemberId == mem.MemberId).FirstOrDefault();
                 nAtt.MemberId = mem.MemberId;
-              
+
                 nAtt.DerbyName = mem.DerbyName;
                 nAtt.Firstname = mem.Firstname;
                 nAtt.LastName = mem.LastName;
@@ -602,7 +615,7 @@ namespace RDN.Library.Classes.Calendar.Report
                             eventType.TotalTimesBeenTardy += 1;
                             //eventType.TotalTimesAttendedEventType += 1;
                         }
-                        if (attend.DerbyName == "Velocirapture" || attend.DerbyName== "Slamtana Lopez")
+                        if (attend.DerbyName == "Velocirapture" || attend.DerbyName == "Slamtana Lopez")
                         { }
                         eventType.TotalPointsPossibleForEventTypeFromAllEventsOfType = evTp.TotalPointsPossible * eventTypeCount;
                         if (eventType.TotalTimesAttendedEventType > 0 && eventTypeCount > 0)

@@ -633,7 +633,10 @@ namespace RDN.League.Controllers
                         MemberCache.ClearLeagueMembersApiCache(leagueId);
                     }
                     else
+                    {
                         league.IsSuccess = false;
+                        league.Message = "League code couldn't be found, please ask your league for the correct code.";
+                    }
                 }
                 else
                 {
@@ -1051,6 +1054,11 @@ namespace RDN.League.Controllers
                             else
                                 leag.DepartureDate = null;
                         }
+                        else
+                        {
+                            //RDN - 2315 - Clear Departure Date Fix. - If nothing set to Input Textbox then HttpContext.Request.Form[leag.LeagueId + "-LEAGUEDepartureDate"] ==  ""
+                            leag.DepartureDate = null;
+                        }
 
                         if (!String.IsNullOrEmpty(HttpContext.Request.Form[leag.LeagueId + "-LEAGUEPassedWrittenExam"]))
                         {
@@ -1266,12 +1274,13 @@ namespace RDN.League.Controllers
                 model.ColumnsAvailable = Enum.GetValues(typeof(MembersReportEnum)).Cast<MembersReportEnum>().OrderBy(x => x.ToString()).ToList();
                 if (SiteType.RollerDerby == LibraryConfig.SiteType)
                 {
-                    model.ColumnsAvailable.Add(MembersReportEnum.Started_Skating_Date);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Started_Date);
                 }
                 else
                 {
-                    model.ColumnsAvailable.Add(MembersReportEnum.Started_Playing_Date);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Started_Skating_Date);
                     model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Name);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Derby_Number);
                 }
 
                 return View(model);
@@ -2248,7 +2257,6 @@ namespace RDN.League.Controllers
             try
             {
                 var doc = RDN.Library.Classes.Document.DocumentRepository.GetLeagueDocument(documentId, leagueDocumentId);
-
                 return View(doc);
             }
             catch (Exception exception)

@@ -268,6 +268,21 @@ namespace RDN.Library.Cache
             }
             return false;
         }
+        public static bool IsRosterManagerOrBetter(Guid memberId)
+        {
+            try
+            {
+                var cached = GetCache(memberId, true);
+                if (cached.memberDisplay != null)
+                    if (cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Secretary) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Manager) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Owner) || cached.memberDisplay.LeagueOwnersEnum.HasFlag(LeagueOwnersEnum.Roster))
+                        return true;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
         public static bool IsHeadRefOrBetterOfLeague(Guid memberId)
         {
             try

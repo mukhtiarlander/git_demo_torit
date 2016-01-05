@@ -10,7 +10,7 @@ namespace RDN.Utilities.Config
         /// <summary>
         /// Major.Minor.Revision
         /// </summary>
-        public static readonly string SCOREBOARD_VERSION_NUMBER = "2.2.9";
+        public static readonly string SCOREBOARD_VERSION_NUMBER = "2.3.0";
         public static readonly string SCOREBOARD_NAME = string.Format("Thor's Hammer Scoreboard by RDNation.com {0}", SCOREBOARD_VERSION_NUMBER);
 
         public static readonly string SCOREBOARD_NAME_NOSPACES = "Thors_Hammer";

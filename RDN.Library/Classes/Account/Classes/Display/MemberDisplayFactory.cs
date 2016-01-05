@@ -65,7 +65,6 @@ namespace RDN.Library.Classes.Account.Classes
                             memTemp.Carrier = (MobileServiceProvider)com.CarrierType;
                             memTemp.IsCarrierVerified = com.IsCarrierVerified;
                         }
-
                     }
                     if (mem.Member.ContactCard != null && mem.Member.ContactCard.Addresses.Count > 0)
                     {

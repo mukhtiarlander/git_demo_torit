@@ -231,7 +231,7 @@
                         {
                             <tr id="docRow-@doc.OwnerDocId" name="@doc.DocumentName" style="cursor:pointer">
                                 <td style="vertical-align:middle" class="text-center">
-                                    <input type="checkbox" id="cb-@doc.OwnerDocId" />
+                                    <input type="checkbox" id="cb-@doc.OwnerDocId"  data-documentOwner="@doc.IsUploaderMember" />
                                 </td>
                                 <td style="vertical-align:middle">
                                     @switch (doc.MimeType)
@@ -323,6 +323,7 @@
                                 <td id="rn-@doc.OwnerDocId" class="vertical-middle">
                                     <a href="@Url.Content("~/document/download/" + doc.DocumentId.ToString().Replace("-", ""))">@doc.DocumentName</a>
                                 </td>
+
                                 <td id="fn-@doc.OwnerDocId" class="vertical-middle">
                                     @if (doc.GroupId > 0)
                                     {
@@ -333,6 +334,7 @@
                                         <span>@doc.Folder.FolderName</span>
                                     }
                                 </td>
+
                                 <td class="vertical-middle">
                                     <a class="btn btn-xs btn-primary" title="Comments (@doc.CommentCount)" href="@Url.Content("~/league/document/comments/" + @doc.DocumentId.ToString().Replace("-", "") + "/" + @doc.OwnerDocId)">
                                         <i class="fa fa-comments"></i>
@@ -358,19 +360,6 @@
 <script type="text/javascript">
     $(document).ready(function () { // wait for document to load
         League.SetUpDocumentsSection();
-        $('#documents').dataTable({
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "aoColumns": [null, null, null, null, null, { "sType": "natural" }, { "sType": "natural" }],
-            "aaSorting": []
-        });
-        $('#documentUpload').MultiFile({
-            list: '#fileUpload-list'
-        });
-        $('#doc-delete-btn').btsConfirmButton({ msg: "Confirm Delete" }, League.DeleteDocument);
-        $('#doc-archive-btn').btsConfirmButton({ msg: "Confirm Archive" }, League.ArchiveDocument);
+       
     });
 </script>

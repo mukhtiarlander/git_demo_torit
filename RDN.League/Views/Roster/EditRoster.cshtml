@@ -1,0 +1,97 @@
+﻿@using System.Linq
+@model RDN.League.Models.Roster.RosterModel
+@{
+    ViewBag.Title = "EditRoster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/rosters/all")">Rosters</a></li>
+    <li class="active">Edit roster</li>
+</ol>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("EditRoster", "Roster", FormMethod.Post, new { @id = "EditRoster" }))
+        {
+            @Html.HiddenFor(x => x.RosterId);
+            @Html.HiddenFor(x => x.LeagueId);
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Add New Roster</h3>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Roster Name</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.RosterName, new { @type = "text", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Game Date</label>
+                            <div>
+                                @Html.TextBoxFor(x => x.GameDate, "{0:MM/dd/yyyy}", new { @type = "text", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 margin-10">
+                            <label class="form-label margin-top-10">Roster Members</label>
+                            <div>
+                                <div class="roster" style="width: 50%; float: left;border: 1px solid #cccccc;">
+                                    <ol class="simple_with_animation vertical">
+                                        @foreach (var roster in Model.Members)
+                                        {
+                                            <li data-id="@roster.Id" data-name="@roster.Name">@roster.Name</li>
+                                        }
+                                    </ol>
+
+                                </div>
+                                <div class="roster" style="width: 50%;float: left;border: 1px solid #cccccc">
+                                    <ol id="rosterMembers" class="simple_with_animation vertical">
+                                        @foreach (var roster in Model.RosterMembers)
+                                        {
+                                            <li data-id="@roster.Id" data-name="@roster.Name">@roster.Name</li>
+                                        }
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Insurance Type</label>
+                            <div>
+                                @Html.DropDownListFor(x => x.InsuranceTypeId, Model.InsuranceTypes, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="form-label margin-top-10">Ruleset</label>
+                            <div>
+                                @Html.DropDownListFor(x => x.RuleSetsUsedEnum, Model.RuleSets, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="updateRoster"><i class="fa fa-save"></i> Update</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/rosters/all")">Cancel</a>
+                </div>
+            </div>
+            @Html.HiddenFor(x => x.RosterMemberIds, new { name = "RosterMemberIds" });
+        }
+    </div>
+</div>
+
+<script>
+    $("#EditRoster").validate({
+        rules: {
+            RosterName: "required",
+            GameDate: { required: true, date: true },
+            EndDateDisplay: { required: true, date: true },
+            InsuranceTypeId: "required",
+            RuleSetsUsedEnum: "required"
+        }
+    });
+    $(document).ready(function () {
+        Roster.InitializeEditRoster();
+    });
+</script>
+

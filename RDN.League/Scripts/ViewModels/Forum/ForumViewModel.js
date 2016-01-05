@@ -50,6 +50,7 @@
         row.append(zeroColumn);
 
         var firstColumn = $(document.createElement('td'));
+
         firstColumn.attr('id', "forum-title-" + item.TopicId);
         var forumLink = $(document.createElement('a'));
         if (result.IsRead === false)
@@ -65,18 +66,21 @@
         row.append(firstColumn);
 
         var catColumn = $(document.createElement('td'));
-
-
+        catColumn.addClass("hidden-xs");
         var catLink = $(document.createElement('span'));
         catLink.attr({ onclick: "Forum.changeForumCategoryLink('" + item.GroupId + "', '" + item.CategoryId + "')" });
 
-        catLink.html(item.Category);
+        if (item.Category != null && item.Category.length != 0)
+            catLink.html(item.Category);
+        else
+            catLink.html("&nbsp;");
         catLink.addClass("hyperlink");
 
         catColumn.append(catLink);
         row.append(catColumn);
 
         var thirdColumn = $(document.createElement('td'));
+        thirdColumn.addClass("hidden-xs");
         var memberLink = $(document.createElement('a'));
         if (item.ForumOwnerTypeEnum === "league")
             memberLink.attr({ href: leagueHost + "member/" + item.CreatedByMember.MemberId.replace(/-/g, "") + "/" + item.CreatedByMember.DerbyNameUrl });
@@ -90,10 +94,12 @@
         row.append(thirdColumn);
 
         var fourthColumn = $(document.createElement('td'));
+        fourthColumn.addClass("hidden-xs");
         fourthColumn.append(item.Replies);
         row.append(fourthColumn);
 
         var fifthColumn = $(document.createElement('td'));
+        fifthColumn.addClass("hidden-xs");
         fifthColumn.append(item.ViewCount);
         row.append(fifthColumn);
         tableBody.append(row);
@@ -112,7 +118,7 @@
         row.append(sixColumn);
 
         var sevenColumn = $(document.createElement('td'));
-        sevenColumn.addClass('vertical-middle');
+        sevenColumn.addClass('vertical-middle fullwidth text-center  hidden-xs');
         if (item.IsManagerOfTopic) {
 
             sevenColumn.append('<a class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Move"  href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '"><i class="fa fa-arrows"></i></a>');
@@ -137,7 +143,36 @@
             sevenColumn.append('&nbsp;<button class="btn btn-default btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="javascript:Forum.RemoveForumTopic(this, \'' + item.TopicId + '\')"><i class="fa fa-trash"></i></button>');
         }
         row.append(sevenColumn);
+
         $('[data-toggle="tooltip"]').tooltip();
+
+        var eigthColumn = $(document.createElement('td'));
+        eigthColumn.addClass('visible-xs hidden-sm hidden-md hidden-lg');
+        if (item.IsManagerOfTopic) {
+            var htmlstr = "";
+            htmlstr += '<div class="dropdown"><a class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown" role="button"><i class="fa fa-cog"></i></a><ul class="dropdown-menu  pull-right">';
+            htmlstr += '<li><a  href="https://' + document.domain + '/forum/post/move/' + item.ForumId.replace(/-/g, "") + '/' + item.TopicId + '"><i class="fa fa-arrows"></i> Move</a></li>';
+
+            if (item.IsPinned)
+                htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-thumb-tack fa-rotate-90"></i> UnPin</a></li>';
+            else
+                htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:PinForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-thumb-tack"></i> Pin</a></li>';
+
+            if (item.IsLocked)
+                htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-unlock"></i> Unlock</a></li>';
+            else
+                 htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:LockForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-lock"></i> Lock</a></li>';
+
+            if (item.IsArchived)
+                htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + false + '\')"><i class="fa fa-folder-o"></i> UnArchive</a></li>';
+            else
+                htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:Forum.ArchiveForumTopic(this, \'' + item.TopicId + '\', \'' + true + '\')"><i class="fa fa-archive"></i> Archive</a></li>';
+
+            htmlstr += '<li><a href="javascript:void(0)" onclick="javascript:Forum.RemoveForumTopic(this, \'' + item.TopicId + '\')"><i class="fa fa-trash"></i> Delete</a></li>';
+            htmlstr += '</ul></div>';
+        }
+        eigthColumn.append(htmlstr);
+        row.append(eigthColumn);
     }
 
 
@@ -247,6 +282,7 @@
                 $(this).toggleClass("active", false);
             });
             $(link).toggleClass("active", true);
+            $("#lbl_forum_tab_selected").html($(link).html());
             $("#loading").toggleClass("display-none", false);
             $("#currentGroupId").val(gId);
             $("#newPost").attr("href", "/forum/new/" + $("#type").val() + "/" + thisViewModel.forumId + "/" + gId);
@@ -319,8 +355,9 @@
                 elements: "wmd-input",
                 theme: "modern",
                 content_css: '/content/tinymce/tinymce.content.css',
-                plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+                plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,image,textcolor colorpicker",
                 language: "en",
+                toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                 relative_urls: false,
                 uploadType: uploadType,
                 ForumId: forumId,

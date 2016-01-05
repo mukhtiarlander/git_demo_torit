@@ -24,6 +24,7 @@ namespace RDN.Library.Classes.Store.Classes
         public bool HasLarge { get; set; }
         public bool HasExtraLarge { get; set; }
         public bool HasXXLarge { get; set; }
+        public bool HasXXXLarge { get; set; }
         public string  ColorHex { get; set; }
         public int ColorAGB { get; set; }
 

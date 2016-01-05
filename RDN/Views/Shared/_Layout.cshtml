@@ -26,6 +26,7 @@
     @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
     @System.Web.Optimization.Scripts.Render("~/bundles/properties")
     @System.Web.Optimization.Scripts.Render("~/bundles/viewmodels")
+    @Common.CordovaModules.CordovaHelper.Instance.GetCordovaScript(Request)
     <script src="https://apis.google.com/js/platform.js" async=async defer=defer></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <link rel="apple-touch-icon" href="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
@@ -59,8 +60,7 @@
 
     </div>
     <div class="container-fluid footer">
-        @*@Html.Partial("_PartialFooter")*@
-        <br /><br /><br /><br /><br />
+        @Html.Partial("_PartialFooter")        
     </div>
     <script type="text/JavaScript">
         AddSiteMapNode(location.href, true);

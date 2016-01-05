@@ -1570,7 +1570,7 @@ namespace RDN.Library.Classes.Account
             var leag = mem.Leagues.Where(x => x.League.LeagueId == mem.CurrentLeagueId).FirstOrDefault();
             if (leag != null)
             {
-                m.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
+                m.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.MainDomain + "/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + "/"  + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
                 m.LeagueName = leag.League.Name;
                 m.LeagueId = leag.League.LeagueId.ToString().Replace("-", "");
                 if (leag.League.Logo != null)
@@ -2354,7 +2354,7 @@ namespace RDN.Library.Classes.Account
                 mem.Instagram = member.Instagram;
                 mem.Facebook = member.Facebook;
                 mem.YearStartedSkating = member.YearStartedSkating;
-                mem.MemberType = (MemberType)Enum.Parse(typeof(MemberType), member.MemberType.ToString());
+                mem.MemberType = (MemberType)member.MemberType;
 
                 mem.Email = ExtractEmailFromContactCard(member);
                 if (member.ContactCard.Addresses.Count > 0)

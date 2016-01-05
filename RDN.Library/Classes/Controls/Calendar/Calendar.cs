@@ -327,8 +327,7 @@ namespace RDN.Library.Classes.Calendar
                     att.Note = note;
                     att.PointTypeEnum = Convert.ToInt32(pointType);
                     att.AdditionalPoints = additionalPoints;
-                    if (isTardy)
-                        att.SecondaryPointTypeEnum = Convert.ToInt32(CalendarEventPointTypeEnum.Tardy);
+                    att.SecondaryPointTypeEnum = isTardy ? Convert.ToInt32(CalendarEventPointTypeEnum.Tardy) : Convert.ToInt32(CalendarEventPointTypeEnum.None);
                     dc.CalendarAttendance.Add(att);
                     dc.SaveChanges();
                 }
@@ -338,8 +337,7 @@ namespace RDN.Library.Classes.Calendar
                     mem.PointTypeEnum = Convert.ToInt32(pointType);
                     mem.Note = note;
                     mem.AdditionalPoints = additionalPoints;
-                    if (isTardy)
-                        mem.SecondaryPointTypeEnum = Convert.ToInt32(CalendarEventPointTypeEnum.Tardy);
+                    mem.SecondaryPointTypeEnum = isTardy ? Convert.ToInt32(CalendarEventPointTypeEnum.Tardy) : Convert.ToInt32(CalendarEventPointTypeEnum.None);
                     dc.SaveChanges();
                 }
                 return true;
@@ -808,6 +806,7 @@ namespace RDN.Library.Classes.Calendar
                 cal.NotPresentCheckIn = calendar.NotPresentCheckIn;
                 cal.DisableStartSkatingDays = calendar.DisableSkatingStartDates;
                 cal.DisableBirthdaysFromShowing = calendar.DisableBirthdays;
+                cal.HideReport = calendar.HideReport;
                 cal.TimeZoneSelection = dc.TimeZone.Where(x => x.ZoneId == calendar.TimeZoneId).FirstOrDefault();
                 if (cal.TimeZoneSelection != null)
                     cal.TimeZone = cal.TimeZoneSelection.GMTOffset;
@@ -834,7 +833,9 @@ namespace RDN.Library.Classes.Calendar
                     {
                         try
                         {
-                            var col = iCalendar.LoadFromUri(new Uri(cal.ImportFeedUrl)).FirstOrDefault();
+                            var iCalendarObj = iCalendar.LoadFromUri(new Uri(cal.ImportFeedUrl));
+                            if (iCalendarObj == null || iCalendarObj.Count <= 0) { return 0; }
+                            var col = iCalendarObj.FirstOrDefault();
                             DateTime MinDate = DateTime.UtcNow.AddYears(-1);
                             foreach (var even in col.Events)
                             {
@@ -947,7 +948,8 @@ namespace RDN.Library.Classes.Calendar
                                  xx.CalendarImportTypeEnum,
                                  xx.TimeZone,
                                  xx.TimeZoneSelection,
-                                 xx.IsCalendarInUTC
+                                 xx.IsCalendarInUTC,
+                                 xx.HideReport
                              }).FirstOrDefault();
 
                 if (calDb == null)
@@ -964,8 +966,9 @@ namespace RDN.Library.Classes.Calendar
                 if (calDb.TimeZoneSelection != null)
                     newCal.TimeZoneId = calDb.TimeZoneSelection.ZoneId;
                 newCal.TimeZone = (int)calDb.TimeZone;
-
+                newCal.HideReport = calDb.HideReport;
                 newCal.TimeZones = Classes.Location.TimeZoneFactory.GetTimeZones();
+
 
                 newCal.IsCalendarInUTC = calDb.IsCalendarInUTC;
 
@@ -1203,6 +1206,12 @@ namespace RDN.Library.Classes.Calendar
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
             return new Guid();
+        }
+
+        public static bool IsCalendarHide(Guid CalendarId)
+        {
+            var dc = new ManagementContext();
+            return dc.Calendar.First(x => x.CalendarId == CalendarId).HideReport;
         }
     }
 }

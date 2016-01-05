@@ -9,7 +9,7 @@ using RDN.Utilities.Config;
 using RDN.Portable.Config;
 using RDN.Portable.Classes.Utilities.Enums;
 using RDN.Library.Classes.Config;
-
+using Common.EmailServer.Library.Classes.Subscribe;
 
 namespace RDN.Library.Classes.Scoreboard
 {
@@ -35,6 +35,7 @@ namespace RDN.Library.Classes.Scoreboard
                 fb.Feedback = feedback;
                 fb.League = league;
                 fb.Email = email;
+                SubscriberManager.AddSubscriber(SubscriberType.ScoreboardFeedback, email);
                 fb.FeedbackTypeEnum = (byte)FeedbackTypeEnum.None;
                 fb.Instance = instance;
                 db.ScoreboardFeedback.Add(fb);
@@ -69,6 +70,7 @@ namespace RDN.Library.Classes.Scoreboard
                 fb.Created = DateTime.UtcNow;
                 fb.Feedback = feedback;
                 fb.League = league;
+                SubscriberManager.AddSubscriber(SubscriberType.ScoreboardDownloads, email);
                 fb.Email = email;
                 fb.FeedbackTypeEnum = (byte)FeedbackTypeEnum.None;
                 db.ScoreboardFeedback.Add(fb);

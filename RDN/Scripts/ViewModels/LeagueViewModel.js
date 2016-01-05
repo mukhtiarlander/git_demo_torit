@@ -25,7 +25,7 @@
 
     this.LoadLeagueStats = function () {
         $.ajax({
-            url: "http://localhost:16106/League/GetLeagueStats", // apiUrl + "League/GetLeagueStats",//USE THIS ON PRODUCTION
+            url: apiUrl + "League/GetLeagueStats",
             dataType: "json",
             success: function (data) {                
                 if (data.leaguesData.length > 0) {
@@ -36,7 +36,7 @@
                 }
             },
             error: function () {
-                alert("Error!");
+                
             }
         });
     }

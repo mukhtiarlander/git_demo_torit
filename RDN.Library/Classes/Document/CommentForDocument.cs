@@ -97,6 +97,20 @@ namespace RDN.Library.Classes.Document
             }
             return new List<DocumentTag>();
         }
+        public static List<DocumentTag> FetchLeagueTags(Guid leagueId)
+        {
+            try
+            {
+                var dc = new ManagementContext();
+                return dc.DocumentTags.Where(x => x.LeagueDocument.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return new List<DocumentTag>();
+        }
+
         public static bool UpdateLeagueTags(long ownerId, string tags)
         {
             try
@@ -107,7 +121,7 @@ namespace RDN.Library.Classes.Document
                     dc.DocumentTags.Where(
                         x =>
                             x.LeagueDocument.DocumentId == ownerId && x.IsRemoved == false &&
-                            !tagItems.Contains(x.Tag.TagName)).Select(x=>x.Id).ToArray();
+                            !tagItems.Contains(x.Tag.TagName)).Select(x => x.Id).ToArray();
                 var tagsToRemove = dc.DocumentTags.Where(x => tagsIdsToRemove.Contains(x.Id));
                 tagsToRemove.ForEach(x => x.IsRemoved = true);
                 int c = dc.SaveChanges();

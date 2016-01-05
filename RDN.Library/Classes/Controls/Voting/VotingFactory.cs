@@ -64,6 +64,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.IsDeleted = false;
                 voting.IsPublic = poll.IsPublic;
                 voting.IsPollAnonymous = poll.IsPollAnonymous;
+                voting.OnlyShowResults = poll.OnlyShowResults;
 
                 voting.LeagueOwner = dc.Leagues.Where(x => x.LeagueId == member.CurrentLeagueId).FirstOrDefault();
                 voting.Description = poll.Description;
@@ -135,8 +136,8 @@ namespace RDN.Library.Classes.Controls.Voting
                 {
                     var emailData = new Dictionary<string, string>
                                         {
-                                            { "derbyname",derbyName}, 
-                                            { "FromUserName", createdByMemberName }, 
+                                            { "derbyname",derbyName},
+                                            { "FromUserName", createdByMemberName },
                                                                                         { "viewPollLink",                                               LibraryConfig.InternalSite +"/poll/votev2/"+leagueId.ToString().Replace("-","") +"/" +pollId}
                                         };
                     var user = System.Web.Security.Membership.GetUser((object)userId);
@@ -339,6 +340,7 @@ namespace RDN.Library.Classes.Controls.Voting
                 voting.Title = poll.Title;
                 voting.Description = poll.Description;
                 voting.IsOpenToLeague = poll.IsOpenToLeague;
+                voting.OnlyShowResults = poll.OnlyShowResults;
                 foreach (var member in poll.Voters)
                 {
                     voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == member.MemberId).FirstOrDefault() });
@@ -571,19 +573,6 @@ namespace RDN.Library.Classes.Controls.Voting
                     m.DidVote = true;
                     v.Voters.Add(m);
                 }
-                var league = MemberCache.GetLeagueOfMember(mem);
-                for (int i = 0; i < league.LeagueMembers.Count; i++)
-                {
-                    v.Voters.Add(new MemberDisplay()
-                    {
-                        MemberId = league.LeagueMembers[i].MemberId,
-                        Firstname = league.LeagueMembers[i].Firstname,
-                        LastName = league.LeagueMembers[i].LastName,
-                        DerbyName = league.LeagueMembers[i].DerbyName,
-                        DidVote = false
-                    });
-                }
-                //= MemberCache.GetLeagueMembers(mem, leagueId);
                 foreach (var question in voting.Questions.OrderBy(x => x.QuestionSortId))
                 {
                     VotingQuestionClass q = new VotingQuestionClass();
@@ -641,10 +630,25 @@ namespace RDN.Library.Classes.Controls.Voting
                     }
                     v.Questions.Add(q);
                 }
+
+                /// RDN - 5 Added non voted Members
+                foreach (var voter in voting.Voters)
+                {
+                    if (v.Voters.Any(model => model.MemberId.Equals(voter.Member.MemberId))) { continue; }
+                    MemberDisplay m = new MemberDisplay();
+                    m.MemberId = voter.Member.MemberId;
+                    m.DerbyName = voter.Member.DerbyName;
+                    m.PlayerNumber = voter.Member.PlayerNumber;
+                    m.UserId = voter.Member.AspNetUserId;
+                    m.DidVote = false;
+                    v.Voters.Add(m);
+                }
+
                 v.Description = voting.Description;
                 v.IsClosed = voting.IsClosed;
                 v.VotingId = voting.VotingId;
                 v.IsPollAnonymous = voting.IsPollAnonymous;
+                v.OnlyShowResults = voting.OnlyShowResults;
                 v.LeagueId = leagueId.ToString().Replace("-", "");
                 //making due for old polls.
 
@@ -700,7 +704,8 @@ namespace RDN.Library.Classes.Controls.Voting
             try
             {
                 var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
-
+                // RDN - 1210 - Poll is closed then return false or not found
+                if (voting == null || voting.IsClosed) { return false; }
                 foreach (var question in voting.Questions)
                 {
                     try
@@ -770,5 +775,44 @@ namespace RDN.Library.Classes.Controls.Voting
             return false;
         }
 
+        public static List<Guid> GetPollMembers(Guid leagueId, long pollId)
+        {
+            List<Guid> memberids = new List<Guid>();
+            try
+            {
+                var dc = new ManagementContext();
+                var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
+                if (voting == null) { return null; }
+                memberids = (from xx in voting.Voters select xx.Member.MemberId).AsParallel().ToList();
+                if (memberids == null || memberids.Count <= 0) return null;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return memberids;
+        }
+
+        public static bool AddMembersToPoll(List<Guid> memberIDs, Guid leagueId, long pollId)
+        {
+            var dc = new ManagementContext();
+            try
+            {
+                var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
+                if (voting == null) { return false; }
+                foreach (Guid memberid in memberIDs)
+                {
+                    if (voting.Voters.Any(model => model.Member.MemberId.Equals(memberid))) { continue; }
+                    voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == memberid).FirstOrDefault() });
+                }
+                int c = dc.SaveChanges();
+                return c > 0;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
     }
 }

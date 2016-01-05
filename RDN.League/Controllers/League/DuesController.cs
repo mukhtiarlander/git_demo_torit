@@ -192,12 +192,12 @@ namespace RDN.League.Controllers
 
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
+                bool isNextPreviousDueItemRequired=true;
+                
                 if (league != null)
                     SetCulture(league.CultureSelected);
 
-                var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
-
-                GetNextPreviousDueItem(duesItemId, dues);
+                var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId(), isNextPreviousDueItemRequired);
 
                 return View(dues);
             }
@@ -206,48 +206,6 @@ namespace RDN.League.Controllers
                 ErrorDatabaseManager.AddException(exception, GetType());
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
-        }
-
-        [NonAction]
-        private void GetNextPreviousDueItem(string duesItemId, DuesPortableModel dues)
-        {
-            //get due item list by making database request  
-            //var dueCollection = DuesFactory.GetDuesItemCollection(dues.LeagueOwnerId);
-
-            List<long> dueCollection = null;
-             if (TempData["DueItemId"] != null)
-                {
-                    dueCollection = (List<long>)TempData["DueItemId"];
-
-                    TempData.Keep("DueItemId");
-                }
-
-             if (dueCollection != null)
-             {
-                 int currentItemIndex = dueCollection.FindIndex(item => item.Equals(Convert.ToInt64(duesItemId)));
-
-                 if (currentItemIndex >= 0)
-                 {
-                     if (currentItemIndex == 0) //check to see its first element
-                     {
-                         if (dueCollection.Count > 1)
-                             dues.NextDueItem = dueCollection.ElementAt(currentItemIndex + 1);
-                         else
-                             dues.NextDueItem = 0;
-                         dues.PreviousDueItem = 0;
-                     }
-                     else if (currentItemIndex != 0 && (currentItemIndex + 1 != dueCollection.Count))
-                     {
-                         dues.NextDueItem = dueCollection.ElementAt(currentItemIndex + 1);
-                         dues.PreviousDueItem = dueCollection.ElementAt(currentItemIndex - 1);
-                     }
-                     else //check to see its last element
-                     {
-                         dues.NextDueItem = 0;
-                         dues.PreviousDueItem = dueCollection.ElementAt(currentItemIndex - 1);
-                     }
-                 }
-             }
         }
 
         #region Classifications
@@ -423,10 +381,9 @@ namespace RDN.League.Controllers
         public ActionResult EditDuesItem(string duesItemId, string duesManagementId)
         {
             try
-            { 
+            {
+                
                 var dues = DuesFactory.GetDuesCollectionItem(Convert.ToInt64(duesItemId), new Guid(duesManagementId), RDN.Library.Classes.Account.User.GetMemberId());
-             
-                GetNextPreviousDueItem(duesItemId, dues);
 
                 ViewBag.Saved = false;
                 return View(dues);
@@ -535,12 +492,6 @@ namespace RDN.League.Controllers
                     message.Message = "Did You know you can accept Dues Payments online?  Go to the settings to get started.";
                     this.AddMessage(message);
                 }
-
-                TempData.Remove("DueItemId");
-
-                TempData.Add("DueItemId", dues.DuesFees.OrderBy(item => item.DuesItemId).Select(DItem => DItem.DuesItemId).ToList());
-
-                TempData.Keep("DueItemId");
 
                 return View(dues);
             }

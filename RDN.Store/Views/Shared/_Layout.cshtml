@@ -99,6 +99,18 @@
     {
         <script src="@Url.Content("~/Scripts/Sites/snation.js")" type="text/javascript"></script>
     }
+    else if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.Rowing)
+    {
+        <script src="@Url.Content("~/Scripts/Sites/oarnation.js")" type="text/javascript"></script>
+    }
+    else if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.Swimming)
+    {
+        <script src="@Url.Content("~/Scripts/Sites/swimdecknation.js")" type="text/javascript"></script>
+    }
+    else if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.Rugby)
+    {
+        <script src="@Url.Content("~/Scripts/Sites/bullockingnation.js")" type="text/javascript"></script>
+    }
     <script src="@Url.Content("~/Scripts/masonry/imagesloaded.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/masonry/masonry.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")" type="text/javascript"></script>

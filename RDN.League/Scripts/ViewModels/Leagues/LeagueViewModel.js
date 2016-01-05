@@ -2,6 +2,25 @@
     var thisViewModel = this;
     var documentId;
     var Archived = false;
+    this.ToggleGroupsGridChevron =  function(e) {
+        $(e.target).prev().find("i.accordion-toggle-indicators").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+    };
+    this.InitializeGroups = function () {
+        $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
+        $('#members').on('hidden.bs.collapse', toggleGroupsGridChevron);
+        $('#members').on('show.bs.collapse', toggleGroupsGridChevron);
+        $('#members').dataTable({
+            "aaSorting": [[1, "asc"]],
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "oLanguage": { "sSearch": "" },
+            "bAutoWidth": false
+        });
+        $('#members_filter input').addClass('form-control').attr("placeholder", "Search");
+    };
     this.ChangeGroupOfFolderSettings = function (dropDown, folderId) {
         $("#img-" + folderId).toggleClass("displayNone", true);
         var owner = $("#OwnerId");
@@ -16,15 +35,37 @@
         $("#img-" + folderId).toggleClass("displayNone", false);
     };
     this.SetUpDocumentsSection = function () {
+         $('#documents').dataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter" : false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "aoColumns": [null, null, null, null, null, {
+"           sType": "natural"
+            }, { "sType": "natural" }],
+            "aaSorting": []
+            });
+        $('#documentUpload').MultiFile({
+                    list: '#fileUpload-list'
+                    });
+                $('#doc-delete-btn').btsConfirmButton({ msg: "Confirm Delete" }, League.DeleteDocument);
+                $('#doc-archive-btn').btsConfirmButton({ msg : "Confirm Archive"
+            }, League.ArchiveDocument);
+
         $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
+            var isDeletebuttonVisible = false;
             thisViewModel.documentId = '';
             $.each($("#documents tbody tr"), function (index, tr) {
                 if ($(tr).find(":checkbox").is(":checked")) {
+                    if (isDeletebuttonVisible != true) {
+                        if ($(tr).find(":checkbox").attr("data-documentOwner") != null)
+                            isDeletebuttonVisible = $(tr).find(":checkbox").attr("data-documentOwner").toLowerCase() == "true" ? true : false;
+                    }
                     thisViewModel.documentId += parseInt($(tr).attr("id").replace(/[\D]/g, ""), 10) + ",";
                 }
             });
             thisViewModel.documentId = thisViewModel.documentId.substr(0, thisViewModel.documentId.length - 1);
-
 
             if ($("#documents tbody tr").find(":checkbox:checked").length == 0) {
                 $("#doc-rename-btn").toggleClass("display-none", true);
@@ -35,13 +76,15 @@
             else if ($("#documents tbody tr").find(":checkbox:checked").length == 1) {
                 $("#doc-archive-btn").toggleClass("display-none", false);
                 $("#doc-rename-btn").toggleClass("display-none", false);
-                $("#doc-delete-btn").toggleClass("display-none", false);
+                if (isDeletebuttonVisible) {
+                    $("#doc-delete-btn").toggleClass("display-none", false);
+                }
                 $("#doc-move-ddl").toggleClass("display-none", false);
             }
             else {
                 $("#doc-archive-btn").toggleClass("display-none", false);
                 $("#doc-rename-btn").toggleClass("display-none", true);
-                $("#doc-delete-btn").toggleClass("display-none", false);
+                $("#doc-delete-btn").toggleClass("display-none", true);
                 $("#doc-move-ddl").toggleClass("display-none", false);
             }
 
@@ -259,7 +302,8 @@
         row.attr("name", item.DocumentName);
         var checkColumn = $(document.createElement('td'));
         var cbId = "cb-" + item.OwnerDocId;
-        checkColumn.append('<input type="checkbox" id="' + cbId + '"   />');
+        var isUploaderMember = item.IsUploaderMember;
+        checkColumn.append('<input type="checkbox" id="' + cbId + '"  data-documentOwner="' + isUploaderMember + '"   />');
         row.append(checkColumn);
 
         var firstColumn = $(document.createElement('td'));
@@ -357,4 +401,56 @@
         tableBody.append(row);
     };
 
+    this.DeleteJoinFederation = function (element, federation, mem) {
+        $.getJSON("/Federation/DeleteJoinedFederation", { federationId: federation, leagueId: mem }, function (result) {
+            if (result.isSuccess) {
+                $(element).parent().parent().parent().remove();
+                $('.bottom-right').notify({
+                    message: { text: 'Deleted! ' },
+                    fadeOut: { enabled: true, delay: 3000 }
+                }).show();
+            }
+        }).error(function () {
+            $('.bottom-right').notify({
+                message: { text: 'Something Happened, Try again later. ' },
+                fadeOut: { enabled: true, delay: 3000 },
+                type: "danger"
+            }).show();
+        });
+    };
+
+    this.ValidateFederationAlreadyJoined = function (event, federationId, leagueId) {
+        if ($("#SelectedFederation").val().length > 0) {
+            $.getJSON("/Federation/ValidateFederationAlradyJoin", { federationId: $("#SelectedFederation").val(), leagueId: leagueId }, function (result) {
+                if (result.isExists) {
+                    alert("Selected Federation Already Joined for the League");
+                    return false;
+                }
+                $("#formJoinFederation").unbind('submit').submit();
+            }).error(function () {
+                $('.bottom-right').notify({
+                    message: { text: 'Something Happened, Try again later. ' },
+                    fadeOut: { enabled: true, delay: 3000 },
+                    type: "danger"
+                }).show();
+            });
+        }
+    };
+
+    this.InitilizeFederationValidation = function (leagueId) {
+        $('#formJoinFederation').submit(function (event) {
+            event.preventDefault();
+            League.ValidateFederationAlreadyJoined(event, $("#SelectedFederation").val(), leagueId);
+        });
+    };
+
+    this.InitilizeFederationDelete = function (leagueId) {
+        $("button[data-group]").each(function () {
+            var button = $(this);
+            var federationId = $(button).attr("data-group");
+            $(button).btsConfirmButton({ msg: "Confirm Delete" }, function (e) {
+                League.DeleteJoinFederation(button, federationId, leagueId);
+            });
+        });
+    };
 }

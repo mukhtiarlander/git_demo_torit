@@ -549,6 +549,9 @@ body {
 .no-padding-bottom {
     padding-bottom: 0px;
 }
+.no-padding-right {
+    padding-right: 0px;
+}
 
 .padding-3 {
     padding: 3px;
@@ -574,6 +577,9 @@ body {
     padding-left: 5px;
 }
 
+.no-padding-left {
+    padding-left: 0px;
+}
 .padding-left-15 {
     padding-left: 15px;
 }
@@ -839,6 +845,10 @@ select {
 
 .h60 {
     height: 60px;
+}
+
+.h40 {
+    height: 40px;
 }
 
 .h150 {
@@ -2317,3 +2327,66 @@ iframe[id^='twitter-widget-0'] {
         transform: translate3d(100%, 0, 0);
     }
 }
+
+/*Start CSS for footer website links*/
+#footer-sites a {
+    color: #bbb;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#footer-sites tr td {
+    text-align: left;
+}
+
+#footer-sites ol {
+    list-style-type: none;
+}
+/*End CSS for footer website links*/
+
+
+
+.roster ol.vertical {
+    height: 20em;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+}
+ 
+    .roster ol.vertical li {
+        display: block;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid #cccccc;
+        color: #0088cc;
+        background: #eeeeee;
+    }
+
+.roster ol {
+    list-style-type: none;
+}
+
+body.dragging, body.dragging * {
+    cursor: move !important;
+}
+
+
+.roster.dragged {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    z-index: 2000;
+}
+
+.roster ol.simple_with_animation li {
+    cursor: pointer;
+}
+.dueNote-Display{ 
+     display:block;
+     width:145px;
+    word-wrap:break-word;
+}
+
+.white-space { white-space:nowrap; }

@@ -1914,7 +1914,7 @@ namespace RDN.Library.Classes.Forum
 
                 bool isManager = RDN.Library.Cache.MemberCache.IsManagerOrBetterOfLeague(memberId);
                 //need to add the default forum.
-                groups.Insert(0, new LeagueGroup { Id = 0, GroupName = db.ForumName });
+                groups.Insert(0, new LeagueGroup { Id = 0, GroupName = "Main" });
 
                 if (groups.Where(x => x.Id == groupId).FirstOrDefault() == null)
                     return forum;

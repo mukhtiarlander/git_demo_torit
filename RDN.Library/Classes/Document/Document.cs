@@ -24,9 +24,7 @@ namespace RDN.Library.Classes.Document
         public long GroupId { get; set; }
         public string GroupName { get; set; }
         public string DocumentName { get; set; }
-
         public MimeType MimeType { get; set; }
-        
         public string SaveLocation { get; set; }
         public Guid OwnerId { get; set; }
         public List<CommentForDocument> Comments { get; set; }
@@ -35,6 +33,13 @@ namespace RDN.Library.Classes.Document
         public int SearchMatches { get; set; }
         public bool IsRemoved { get; set; }
         public bool IsArchive { get; set; }
+        public string LeagueTags { get; set; }
+        public Guid UploaderMemberId { get; set; }
+        /// <summary>
+        /// Member who Uploaded the file.
+        /// </summary>
+        public bool IsUploaderMember { get; set; }
+
         public Document()
         {
             Folder = new Folder();

@@ -193,6 +193,10 @@ namespace RDN.Store.Controllers
                 {
                     sizes.Add(RDN.Utilities.Enums.EnumExt.ToFreindlyName(StoreItemShirtSizesEnum.XX_Large), Convert.ToInt32(StoreItemShirtSizesEnum.XX_Large));
                 }
+                if (item.ItemSize.HasFlag(StoreItemShirtSizesEnum.XXX_Large))
+                {
+                    sizes.Add(RDN.Utilities.Enums.EnumExt.ToFreindlyName(StoreItemShirtSizesEnum.XXX_Large), Convert.ToInt32(StoreItemShirtSizesEnum.XXX_Large));
+                }
                 ViewBag.ItemSizes = new SelectList(sizes, "value", "key");
                 var shoppingCartId = StoreGateway.GetShoppingCartId(HttpContext);
                 if (shoppingCartId != null)

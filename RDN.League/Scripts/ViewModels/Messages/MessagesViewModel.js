@@ -123,7 +123,7 @@
 
         var markup;
         if (repo.picture != '')
-            markup = '<img src="' + repo.picture + '" class="w30 round-corners"/> ' + repo.name;
+            markup = '<img src="' + repo.picture + '" class="w40 h40 round-corners"/> ' + repo.name;
         else
             markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + repo.name;
         return markup;
@@ -132,9 +132,8 @@
         return repo.name;
     };
     this.SaveMembersToMessage = function (GroupMessageId) {
-        console.dir($("#ddlMembersList").select2('data'));
         $.ajax({
-            url: '/Message/SaveMembersToMessage',
+            url: '/message/savememberstomessage',
             type: 'POST',
             data: 'memberids=' + $("#ddlMembersList").val() + '&groupId=' + GroupMessageId,
             success: function (result) {
@@ -184,7 +183,7 @@
             resultsFormatter: function (item) {
                 var markup = '<li>';
                 if (item.picture != '')
-                    markup += '<img src="' + item.picture + '" class="w20 round-corners"/> ';
+                    markup += '<img src="' + item.picture + '" class="w40 h40 round-corners"/> ';
                 else
                     markup += '<i class="fa fa-user fa-lg text-muted"></i> ';
                 if (item.name && item.realname)
@@ -221,4 +220,9 @@
             }
         });
     }
+    this.InitializeMessageView = function () {
+        var height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
+        $("#messagesAdd").height(height - 390);
+        $("#messagesAdd").scrollTop($("#messagesAdd")[0].scrollHeight);
+    };
 }

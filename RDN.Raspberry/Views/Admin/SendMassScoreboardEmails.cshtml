@@ -1,6 +1,6 @@
 ﻿@using RDN.Raspberry.Models.Helpers
 @model RDN.Raspberry.Models.OutModel.GenericSingleModel<RDN.Raspberry.Models.Admin.MassEmail>
-@{    
+@{
     Layout = "~/Views/Shared/_Layout.cshtml"; ;
 }
 @{
@@ -8,7 +8,8 @@
                          select new { ID = (int)d, Name = d.ToString() };
 }
 <h2>
-    Mass email form</h2>
+    Mass email form
+</h2>
 @Html.Raw(MessageHelper.PrintMessages(Model.MessageList))
 <br />
 <br />
@@ -45,7 +46,8 @@
             <td colspan="2">
                 <hr />
                 <h2>
-                    Test sending</h2>
+                    Test sending
+                </h2>
                 <hr />
             </td>
         </tr>
@@ -81,7 +83,8 @@
             <td colspan="2">
                 <hr />
                 <h2>
-                    Send mass email</h2>
+                    Send mass email
+                </h2>
                 <hr />
             </td>
         </tr>
@@ -112,6 +115,14 @@
             </td>
             <td>
                 @Html.CheckBoxFor(x => x.Model.IsMassSendVerified)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Remove the Subject line [@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName]
+            </td>
+            <td>
+                @Html.CheckBoxFor(x => x.Model.IsSubjectLineRemoved)
             </td>
         </tr>
         <tr>

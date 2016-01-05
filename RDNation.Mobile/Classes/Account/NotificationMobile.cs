@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using RDN.Mobile.Classes.Utilities;
-//using Newtonsoft.Json;
-
-//using RDN.Utilities.Config;
-//using RDN.Utilities.Network;
 using RDN.Portable.Config;
-using RDN.Portable.Config.Enums;
 using RDN.Portable.Classes.Account;
 using RDN.Portable.Network;
-//using RDN.Portable.Network;
 
 namespace RDN.Mobile.Classes.Account
 {

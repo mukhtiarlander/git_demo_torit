@@ -83,6 +83,9 @@
                     <th class="text-center">
                         Pay
                     </th>
+                    <th class="text-center">
+                        Note
+                    </th>
                     <th></th>
                     <th>
                         Email Reminder
@@ -122,7 +125,7 @@
                             {
                                 @Model.Members[i].collected.ToString("N2")
                             }
-                        </td>
+                        </td>                        
                         <td class="text-center vertical-middle">
                             @if (Model.Members[i].isWaived)
                             {
@@ -132,6 +135,13 @@
                             {
                                 <input class="form-control input-sm" style="width:100px;margin:0 auto" id="@Model.Members[i].MemberId-Dues-Amount" type="text" value="@Model.Members[i].due.ToString("N2")" />
                             }
+                        </td>
+                        
+                        <td class="text-center vertical-middle">
+                              @if (!Model.Members[i].isPaidFull){
+                              <input class="form-control input-sm" style="width:135px;margin:0 auto" id="@Model.Members[i].MemberId-Dues-Notes" type="text" value="" />
+                              }
+                            <span id="@Model.Members[i].MemberId-Due-Note-Text" class="hide"></span>                             
                         </td>
                         <td class="vertical-middle">
                             @if (!Model.Members[i].isPaidFull)
