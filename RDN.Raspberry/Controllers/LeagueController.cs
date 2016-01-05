@@ -276,5 +276,24 @@ namespace RDN.Raspberry.Controllers
             return RedirectToAction("Pendings");
         }
 
+        [Authorize]
+        public ActionResult DeleteOldLeagueDocuments()
+        {
+            IdModel repo = new IdModel();
+
+            return View(repo);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult DeleteOldLeagueDocuments(IdModel model)
+        {
+            model.IsDeleted = DocumentRepository.DeleteOldLeagueDocuments();
+
+            return View(model);
+        }
+
+     
+
     }
 }
