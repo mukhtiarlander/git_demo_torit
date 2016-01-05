@@ -12,7 +12,7 @@
     <div>
         @if (!String.IsNullOrEmpty(Model.OrganizersName))
         {
-            <div class="evWebSite"><span class="i">By </span><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.OrganizersName) + "/" + Model.OrganizersId.ToString().Replace("-", ""))">@Model.OrganizersName</a></div>
+            <div class="evWebSite"><span class="i">By </span><a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.OrganizersName) + "/" + Model.OrganizersId.ToString().Replace("-", ""))">@Model.OrganizersName</a></div>
         }
     </div>
     <div>

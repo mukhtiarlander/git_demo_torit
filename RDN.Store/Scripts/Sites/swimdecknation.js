@@ -1,0 +1,1 @@
+﻿var SportNameForUrl = "swimming";

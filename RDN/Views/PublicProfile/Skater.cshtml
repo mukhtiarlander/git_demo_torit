@@ -150,7 +150,7 @@
                         <div class="thumbnail">
                             @if (league.Logo != null)
                             {
-                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-league/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
 
                                     <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
 

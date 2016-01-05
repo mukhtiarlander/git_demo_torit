@@ -27,28 +27,28 @@
     };
 
     this.RetireYourProfile = function (btn) {
-            $(btn).remove();
-            $.ajax({
-                url: '/member/retireself',
-                type: 'POST',
-                dataType: 'json',
-                data: {},
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data.success) {                        
-                        $("#retireprofile").addClass('hide');
-                        $('.bottom-right').notify({
-                            message: { text: 'Your Account has been Retired.' },
-                            fadeOut: { enabled: true, delay: 3000 }
-                        }).show();                       
-                        return false;
-                    }
-                    else {
-                        alert("Something happened.  Try again later.");
-                    }
+        $(btn).remove();
+        $.ajax({
+            url: '/member/retireself',
+            type: 'POST',
+            dataType: 'json',
+            data: {},
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.success) {
+                    $("#retireprofile").addClass('hide');
+                    $('.bottom-right').notify({
+                        message: { text: 'Your Account has been Retired.' },
+                        fadeOut: { enabled: true, delay: 3000 }
+                    }).show();
+                    return false;
                 }
-            });
-            return false;        
+                else {
+                    alert("Something happened.  Try again later.");
+                }
+            }
+        });
+        return false;
     };
 
     this.UnRetireSelf = function (btn) {
@@ -140,7 +140,7 @@
             data: {},
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                if (data.success) {                                       
+                if (data.success) {
                     $("#unRetireProfile").addClass('hide');
                     $('.bottom-right').notify({
                         message: { text: 'UnRetire Successful' },
@@ -158,9 +158,38 @@
 
     this.InitializeUnRetireProfile = function () {
         $('.btnUnRetireYourProfile').btsConfirmButton({ msg: "Confirm", className: "btn-success" }, this.UnRetireYourProfile);
-    }
-
+    },
+    this.ChangeNavigationDirectionSetting = function (state) {
+        $.post("/member/changemembersettingnavigationdirection", { status: (state ? "Left" : "Right") }, function (result) {
+            if (result.isSuccess) {
+                $('.bottom-right').notify({
+                    message: { text: 'Saved! ' },
+                    fadeOut: { enabled: true, delay: 3000 }
+                }).show();
+            }
+        }).error(function () { });
+    },
     this.InitializeSettings = function () {
+        $("[name='navigation-direction']").bootstrapSwitch("labelText", $("[name='navigation-direction']").bootstrapSwitch("state") ? "Right" : "Left");
+        $("[name='navigation-direction']").bootstrapSwitch().on('switchChange.bootstrapSwitch', function (event, state) {
+            $("[name='navigation-direction']").bootstrapSwitch("labelText", state ? "Right" : "Left");
+            Member.ChangeNavigationDirectionSetting(state);
+        });
+        $("#tabs").tabs();
+        $("#CalendarViewDefault").change(function () {
+            changeMemberSettingCalView(this.value);
+        });
+        $("#PhoneNumber").numeric({ negative: false, decimal: false });
+        $("#code").numeric({ negative: false, decimal: false });
+
+        $("#memberGroups").sortable({
+            handle: '.sortableHandle',
+            update: function (event, ui) {
+                var idsInOrder = JSON.stringify($("#memberGroups").sortable("toArray"));
+                Member.SaveResortedGroup(idsInOrder);
+            }
+        }).disableSelection();
+
         $("#myTabs li a").bind("click", function (e) {
             var href = $(this).attr('href');
             $("#tabs").load(href);

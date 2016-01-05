@@ -7,3 +7,5 @@ var apiUrl = "https://api.snation.com/";
 var urlForLiveCurrentGames = "https://api.snation.com/livegame/currentgames?callback=?";
 
 var SportNameForUrl = "soccer";
+var SportGameUrl = "soccer-game";
+var SportGamesUrl = "soccer-games";

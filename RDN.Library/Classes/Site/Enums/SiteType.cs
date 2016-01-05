@@ -10,6 +10,9 @@ namespace RDN.Library.Classes.Site.Enums
     {
         RollerDerby = 0,
         Soccer = 1,
-        localhost = 2
+        localhost = 2,
+        Rowing = 3,
+        Rugby = 4,
+        Swimming = 5
     }
 }

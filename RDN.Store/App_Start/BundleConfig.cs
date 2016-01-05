@@ -55,6 +55,12 @@ namespace RDN.Shops
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/snation.js"));
             else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.localhost)
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/localhost.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Rugby)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/bullockingnation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Swimming)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/swimdecknation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Rowing)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/oarnation.js"));
 
 
             // Set EnableOptimizations to false for debugging. For more information,

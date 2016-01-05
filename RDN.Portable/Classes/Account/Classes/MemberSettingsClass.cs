@@ -101,5 +101,9 @@ namespace RDN.Portable.Classes.Account.Classes
 		[ProtoMember(621)]
 		[DataMember]
 		public string ForumGroupOrder { get; set; }
+
+        [ProtoMember(622)]
+        [DataMember]
+        public NavigationDefaultViewEnum NavigationDirection { get; set; }
     }
 }

@@ -4,6 +4,7 @@
 @using RDN.Library.Cache.ManagementSite
 @using RDN.Library.Cache
 @using RDN.Library.Classes
+@using RDN.Portable.Classes.Account.Enums.Settings
 @using StackExchange.Profiling;
 @{
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -84,8 +85,8 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
 
-                <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
-                <a class="navbar-brand" href="@Url.Content("~/")">
+                <a id="btn-side-menu-toggle" class="visible-xs @(member.Settings.NavigationDirection == NavigationDefaultViewEnum.Left ? "pull-left" : "" )" onclick="ToggleSideMenu('@member.Settings.NavigationDirection')"><i class="fa fa-bars"></i></a>
+                <a class="navbar-brand @(member.Settings.NavigationDirection == NavigationDefaultViewEnum.Left ? "pull-right" : "" )" href="@Url.Content("~/")">
                     <img alt="Brand" style="height:50px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
                 </a>
             </div>
@@ -254,7 +255,7 @@
                                             </li>
                                             <li>
                                                 <a href="@Url.Content("~/Game/View/All/league")" title="Games">
-                                                    <i class="fa fa-gamepad"></i>Games
+                                                    <i class="fa fa-gamepad"></i>@RDN.Library.Classes.Config.LibraryConfig.GamesName
                                                 </a>
                                             </li>
                                             <li>
@@ -268,8 +269,8 @@
                                                 <li>
                                                     <a href="@Url.Content("~/league/jobboard/")" title="Jobs">
                                                         <i class="fa fa-suitcase"></i>Jobs
-                                                    @if (MemberCache.GetJobsCount(memId) > 0)
-                                                    {<span class="label label-warning margin-left-5">@MemberCache.GetJobsCount(memId)</span>}
+                                                        @if (MemberCache.GetJobsCount(memId) > 0)
+                                                        {<span class="label label-warning margin-left-5">@MemberCache.GetJobsCount(memId)</span>}
                                                     </a>
                                                 </li>
                                             }
@@ -365,11 +366,13 @@
 
                                         <ul class="multi-column-dropdown">
                                             <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Federation</li>
-                                            @if (isSec){<li>
-                                                <a href="@Url.Content("~/federation/join")" title="Join Federation">
-                                                    <i class="fa fa-check-circle"></i>Join
-                                                </a>
-                                            </li>}
+                                            @if (isSec)
+                                            {
+                                                <li>
+                                                    <a href="@Url.Content("~/federation/join")" title="Join Federation">
+                                                        <i class="fa fa-check-circle"></i>Join
+                                                    </a>
+                                                </li>}
                                         </ul>
                                     </div>
                                 </div>
@@ -377,7 +380,8 @@
                         </li>
                     }
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Message
                             @if (MemberCache.GetUnreadMessagesCount(memId) > 0)
                             {<span class="label label-warning margin-left-5">@MemberCache.GetUnreadMessagesCount(memId)</span>}
                             <span class="caret"></span>
@@ -415,7 +419,8 @@
 
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Games
                             @if (games_cnt > 0)
                             {
                                 <span class="label label-warning margin-left-10">@games_cnt</span>
@@ -494,10 +499,10 @@
                             </li>
                             @if (!member.IsRetired)
                             {
-                                <li id="retireprofile"><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-user"></i>Retire Your Profile</a></li>                          
+                                <li id="retireprofile"><a href="@Url.Content("~/member/retireprofile")"><i class="fa fa-user"></i>Retire Your Profile</a></li>
                             }
                             else
-                            { 
+                            {
                                 <li id="unRetireProfile"><a href="@Url.Content("~/member/unretireprofile")"><i class="fa fa-user"></i>UnRetire Your Profile</a></li>
                             }
                         </ul>
@@ -568,4 +573,3 @@
 </body>
 
 </html>
-

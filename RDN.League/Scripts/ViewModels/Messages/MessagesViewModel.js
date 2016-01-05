@@ -132,9 +132,8 @@
         return repo.name;
     };
     this.SaveMembersToMessage = function (GroupMessageId) {
-        console.dir($("#ddlMembersList").select2('data'));
         $.ajax({
-            url: '/Message/SaveMembersToMessage',
+            url: '/message/savememberstomessage',
             type: 'POST',
             data: 'memberids=' + $("#ddlMembersList").val() + '&groupId=' + GroupMessageId,
             success: function (result) {
