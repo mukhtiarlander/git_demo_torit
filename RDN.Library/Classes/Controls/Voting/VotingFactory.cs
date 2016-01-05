@@ -573,19 +573,6 @@ namespace RDN.Library.Classes.Controls.Voting
                     m.DidVote = true;
                     v.Voters.Add(m);
                 }
-                var league = MemberCache.GetLeagueOfMember(mem);
-                for (int i = 0; i < league.LeagueMembers.Count; i++)
-                {
-                    v.Voters.Add(new MemberDisplay()
-                    {
-                        MemberId = league.LeagueMembers[i].MemberId,
-                        Firstname = league.LeagueMembers[i].Firstname,
-                        LastName = league.LeagueMembers[i].LastName,
-                        DerbyName = league.LeagueMembers[i].DerbyName,
-                        DidVote = false
-                    });
-                }
-                //= MemberCache.GetLeagueMembers(mem, leagueId);
                 foreach (var question in voting.Questions.OrderBy(x => x.QuestionSortId))
                 {
                     VotingQuestionClass q = new VotingQuestionClass();
@@ -643,6 +630,20 @@ namespace RDN.Library.Classes.Controls.Voting
                     }
                     v.Questions.Add(q);
                 }
+
+                /// RDN - 5 Added non voted Members
+                foreach (var voter in voting.Voters)
+                {
+                    if (v.Voters.Any(model => model.MemberId.Equals(voter.Member.MemberId))) { continue; }
+                    MemberDisplay m = new MemberDisplay();
+                    m.MemberId = voter.Member.MemberId;
+                    m.DerbyName = voter.Member.DerbyName;
+                    m.PlayerNumber = voter.Member.PlayerNumber;
+                    m.UserId = voter.Member.AspNetUserId;
+                    m.DidVote = false;
+                    v.Voters.Add(m);
+                }
+
                 v.Description = voting.Description;
                 v.IsClosed = voting.IsClosed;
                 v.VotingId = voting.VotingId;
@@ -774,5 +775,44 @@ namespace RDN.Library.Classes.Controls.Voting
             return false;
         }
 
+        public static List<Guid> GetPollMembers(Guid leagueId, long pollId)
+        {
+            List<Guid> memberids = new List<Guid>();
+            try
+            {
+                var dc = new ManagementContext();
+                var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
+                if (voting == null) { return null; }
+                memberids = (from xx in voting.Voters select xx.Member.MemberId).AsParallel().ToList();
+                if (memberids == null || memberids.Count <= 0) return null;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return memberids;
+        }
+
+        public static bool AddMembersToPoll(List<Guid> memberIDs, Guid leagueId, long pollId)
+        {
+            var dc = new ManagementContext();
+            try
+            {
+                var voting = dc.VotingV2.Where(x => x.LeagueOwner.LeagueId == leagueId && x.IsDeleted == false && x.VotingId == pollId).FirstOrDefault();
+                if (voting == null) { return false; }
+                foreach (Guid memberid in memberIDs)
+                {
+                    if (voting.Voters.Any(model => model.Member.MemberId.Equals(memberid))) { continue; }
+                    voting.Voters.Add(new VotingVoters() { HasVoted = false, Member = dc.Members.Where(x => x.MemberId == memberid).FirstOrDefault() });
+                }
+                int c = dc.SaveChanges();
+                return c > 0;
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+            return false;
+        }
     }
 }

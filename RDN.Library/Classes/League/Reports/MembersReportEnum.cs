@@ -41,7 +41,7 @@ namespace RDN.Library.Classes.League.Reports
         Sibling = 32,
         Derby_Name = 33,
         Started_Skating_Date = 34,
-        Started_Playing_Date = 35,
+        Started_Date = 35,
         Derby_Number = 36
         //Groups = 15
 

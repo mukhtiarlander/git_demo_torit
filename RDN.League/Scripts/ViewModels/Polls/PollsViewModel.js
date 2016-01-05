@@ -146,4 +146,74 @@
             alert('No Names have been selected');
         }
     }
+    this.formatMemberInSuggestionList = function (value) {
+        if (value.loading) return value.text;
+        var markup;
+        if (value.picture != '')
+            markup = '<img src="' + value.picture + '" class="w40 h40 round-corners"/> ' + value.name;
+        else
+            markup = '<i class="fa fa-user fa-lg text-muted"></i> ' + value.name;
+        return markup;
+    };
+    this.formatMemberSelectionSuggestionList = function (value) { return value.name; };
+    this.AddMembersToPoll = function (leagueID, pollID) {
+        $.ajax({
+            url: '/poll/addmemberstopoll',
+            type: 'POST',
+            data: 'memberids=' + $("#ddlMembersList").val() + '&leagueID=' + leagueID + '&pollID=' + pollID,
+            success: function (result) {
+                Polls.HideAddMemberPopup();
+                if (result == true) {
+                    var selected_members = $("#ddlMembersList").select2('data');
+                    for (var i = 0; i < selected_members.length; i++) {
+                        $("#message-member-list").append('<div class="margin-bottom-10"><i class="fa fa-times fa-lg"></i>&nbsp;&nbsp;<a href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></div>');
+                        $("#MembersListDontVoted").append('<span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee"><a target="_blank" href="' + selected_members[i].link + '">' + selected_members[i].name + '</a></span>');
+                    }
+                }
+            },
+            error: function () { }
+        });
+
+    };
+    this.ShowAddMemberPopup = function (leagueID, pollID, searchURL) {
+        $("#btn_poll_add_member").on('shown.bs.popover', function () {
+            $(".js-data-example-ajax").select2({
+                ajax: {
+                    url: searchURL,
+                    dataType: 'json',
+                    type: "POST",
+                    /// RDN - 5 - A request is being triggered on every key stroke but delay 250 milliseconds for send new request
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            leagueID: leagueID,
+                            pollID: pollID
+                        };
+                    },
+                    processResults: function (data, page) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: "Search Members..",
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                minimumInputLength: 1,
+                templateResult: Polls.formatMemberInSuggestionList,
+                templateSelection: Polls.formatMemberSelectionSuggestionList
+            }).select2("open");
+            $("#add_member_ddl_area").css("visibility", "initial");
+        }).popover({
+            html: true,
+            content: '<select id="ddlMembersList" class="js-data-example-ajax w200" multiple="multiple"></select>',
+            template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div id="add_member_ddl_area" class="popover-content" style="height:53px;overflow:hidden;visibility:hidden"></div><div class="popover-footer"><button type="button" class="btn btn-success" onclick="Polls.AddMembersToPoll(\'' + leagueID + '\',\'' + pollID + '\');"><i class="fa fa-save"></i> Save</button> <button type="button" class="btn btn-default" onclick="Polls.HideAddMemberPopup()">Close</button></div></div>',
+            title: "<i class='fa fa-plus-circle'></i> Add Member"
+        });
+    }
+    this.HideAddMemberPopup = function () {
+        $("#panel-members").popover('hide');
+        $("#btn_poll_add_member").popover('hide');
+    };
 }

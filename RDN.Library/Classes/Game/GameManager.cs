@@ -115,11 +115,11 @@ namespace RDN.Library.Classes.Game
                                             //collects the data to email the user.
                                             var emailData = new Dictionary<string, string>
                                         {
-                                            { "derbyname", memberUser.DerbyName }, 
+                                            { "derbyname", memberUser.DerbyName },
                                             { "email", userAccount.Email },
                                             { "gamename", game.GameName},
-                                                                                        
-                                            { "link",LibraryConfig.PublicSite  +"/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.GameId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name)  }
+
+                                            { "link",LibraryConfig.PublicSite  +"/" + RDN.Library.Classes.Config.LibraryConfig.GameUrl+"/" + game.GameId.ToString().Replace("-","")+"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name)  }
                                         };
                                             EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, userAccount.Email, LibraryConfig.DefaultEmailSubject + " Added To A Game", emailData, EmailServer.EmailServerLayoutsEnum.AddedToANewGame);
                                         }
@@ -242,9 +242,9 @@ namespace RDN.Library.Classes.Game
         /// <param name="emailToSendTo"></param>
         private static void EmailAccountAddedToManageDerbyGame(DataModels.Game.Game gameDb, string name, string emailToSendTo)
         {
-            var emailData = new Dictionary<string, string> { 
-                        { "derbyname", name}, 
-                        { "gameName", gameDb.GameName}, 
+            var emailData = new Dictionary<string, string> {
+                        { "derbyname", name},
+                        { "gameName", gameDb.GameName},
                         { "link",LibraryConfig.InternalSite +"/game/manage/"+ gameDb.IdForOnlineManagementUse.ToString().Replace("-","") +"/"+ gameDb.GameId.ToString().Replace("-","") } };
 
             EmailServer.EmailServer.SendEmail(LibraryConfig.DefaultInfoEmail, LibraryConfig.DefaultEmailFromName, emailToSendTo, LibraryConfig.DefaultEmailSubject + " Added To Manage Bout", emailData, layout: EmailServer.EmailServerLayoutsEnum.MemberAddedToManageDerbyGame, priority: EmailPriority.Normal);
