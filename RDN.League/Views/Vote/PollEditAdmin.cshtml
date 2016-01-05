@@ -200,7 +200,7 @@
                     {
                         @Html.HiddenFor(x => x.OnlyShowResults)
                         <div class="col-xs-12">
-                            <div><i class="fa fa-check-circle"></i> Only Showing Results<span class="text-muted"><i> Hides members that didn't vote to everyone.</i></span></div>
+                            <div><i class="fa fa-check-circle"></i>  Anonymous Non-Voters <span class="text-muted"><i>Identities of those who didn't vote are kept secret</i></span></div>
                         </div>
                     }
                     else
@@ -231,13 +231,13 @@
                         }
                         <div class="col-xs-12 margin-top-5">
                             <div>
-                                <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Only Show Results </label><span class="text-muted"><i>Hides members that didn't vote to everyone.</i></span>
+                                <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Anonymous Non-Voters  </label><span class="text-muted"><i>Identities of those who didn't vote are kept secret</i></span>
                             </div>
                         </div>
                     }
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Voting results can be seen by everyone</i></span>
                         </div>
                     </div>
                 </div>
@@ -272,13 +272,16 @@
                     foreach (var mem in Model.Voters.OrderBy(x => x.SiteName))
                     {
                         <div class="margin-bottom-10">
-                            @if (mem.DidVote)
+                            @if (!Model.OnlyShowResults)
                             {
-                                <i class="fa fa-times fa-lg"></i>
-                            }
-                            else
-                            {
-                                <i class="fa fa-check fa-lg"></i>
+                                if (mem.DidVote)
+                                {
+                                    <i class="fa fa-times fa-lg"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-check fa-lg"></i>
+                                }
                             }
                             <a href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
                                 @mem.SiteName

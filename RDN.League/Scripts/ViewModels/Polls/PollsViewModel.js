@@ -53,7 +53,7 @@
         var panelHeader = $(document.createElement('div'));
         panelHeader.addClass('panel-heading no-padding padding-5');
         if (isMultipleAnswers === true)
-            panelHeader.append("Question - <small class='text-muted'>Multiple Selections</small>")
+            panelHeader.append("Question - <small class='text-muted'>Multiple Choice</small>")
         else
             panelHeader.append("Question ")
         panelHeader.append("<button class='btn btn-xs btn-default pull-right' onclick='DeleteQuestionForPoll(this)'><i class='fa fa-times '></i></button>");
