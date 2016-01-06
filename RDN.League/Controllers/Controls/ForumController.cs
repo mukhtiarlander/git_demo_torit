@@ -984,11 +984,15 @@ namespace RDN.League.Controllers
 
         [HttpPost]
         public ActionResult PostImageUpload(NewPost model)
-        {
+        {            
             string result;
             var serializer = new JavaScriptSerializer();
             try
             {
+                if (Request.Files.Count > 0 && model.File == null)
+                {
+                    model.File = Request.Files[0];
+                }
                 // upload the file
                 if (model.File != null && model.File.ContentLength > 0)
                 {
@@ -1001,13 +1005,11 @@ namespace RDN.League.Controllers
                     {
                         var doc = DocumentRepository.UploadLeagueDocument(id, model.File.InputStream, model.File.FileName, "Forum Files");
                         FileInfo fi = new FileInfo(doc.SaveLocation);
-
-                        HttpContext context =  System.Web.HttpContext.Current;
-                        context.Response.Output.Write(
-                            string.Format("<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('{0}').closest('.mce-window').find('.mce-primary').click();</script>", 
-                            RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/document/view/" + doc.DocumentId.ToString().Replace("-", "") + fi.Extension));
-                        context.Response.Flush();
-                        return new HttpStatusCodeResult(context.Response.StatusCode);
+                        
+                        result = string.Format("<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('{0}').closest('.mce-window').find('.mce-primary').click();</script>",
+                                                        RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/document/view/" + doc.DocumentId.ToString().Replace("-", "") + fi.Extension);
+                        
+                        return Content(result); // IMPORTANT to return as HTML
                     }
                 }
             }
@@ -1016,12 +1018,9 @@ namespace RDN.League.Controllers
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
 
-            HttpContext curContext = System.Web.HttpContext.Current;
-            curContext.Response.Output.Write("<script>alert('Invalid image file');</script>");
-            curContext.Response.Flush();
-            curContext.Response.StatusCode = 500;
-
-            return new HttpStatusCodeResult(curContext.Response.StatusCode);
+            result = serializer.Serialize(
+                        new { success = false, message = "Invalid image file" });
+            return Content(result);
         }
 
         public ActionResult ClearForumTopicCache(string forumId, string topicId)
