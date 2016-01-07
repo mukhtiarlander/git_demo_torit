@@ -109,7 +109,7 @@ namespace RDN.League.Controllers
                 {
                     if (model.Email.Contains("@163.com") || model.Email.Contains("@tom.com") || model.Email.Contains("@126.com"))
                     {
-                        ModelState.AddModelError("", "That Domain name has been banned from " + LibraryConfig.WebsiteShortName + ", if you think this is in Error, please contact us.");
+                        ModelState.AddModelError("", "That Domain name has been banned from " + LibraryConfig.MainDomain + ", if you think this is in Error, please contact us.");
                         return View(model);
                     }
                     if (Membership.ValidateUser(model.Email, model.Password))
