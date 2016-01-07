@@ -19,6 +19,14 @@ namespace RDN.DBUpdate.Migrations
 
         }
 
+        protected override void Seed(ManagementContext context)
+        {
+            foreach (var league in context.LeagueColors.Include("Color"))
+            {
+                if (league.Color != null)
+                    league.ColorName = league.Color.ColorName;
+            }
+        }
     }
 
     internal sealed class CEmail : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailContext>

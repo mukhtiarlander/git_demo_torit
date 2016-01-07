@@ -13,6 +13,8 @@ namespace RDN.Library.DataModels.League
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ColorId { get; set; }
+        [Required]
+        public string ColorName { get; set; }
 
         public virtual Color.Color Color { get; set; }
 

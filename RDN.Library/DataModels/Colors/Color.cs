@@ -13,6 +13,7 @@ namespace RDN.Library.DataModels.Color
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ColorId { get; set; }
+        [Obsolete]
         [Required]
         public string ColorName { get; set; }
         [Required]

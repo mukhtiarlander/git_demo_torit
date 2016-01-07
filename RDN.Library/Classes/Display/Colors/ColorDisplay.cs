@@ -64,6 +64,7 @@ namespace RDN.Library.Classes.Colors
                 {
                     DataModels.League.LeagueColor leagueColor = new DataModels.League.LeagueColor();
                     leagueColor.Color = colorDb;
+                    leagueColor.ColorName = colorDb.ColorName;
                     leagueColor.Created = DateTime.Now;
                     leagueColor.League = league;
                     dc.LeagueColors.Add(leagueColor);
@@ -118,7 +119,7 @@ namespace RDN.Library.Classes.Colors
                               {
                                   ColorId = xx.ColorId,
                                   CSharpColor = xx.Color.ColorIdCSharp,
-                                  NameOfColor = xx.Color.ColorName
+                                  NameOfColor = xx.ColorName
                               }).OrderBy(x => x.CSharpColor).ToList();
                 foreach (var color in colors)
                 {
