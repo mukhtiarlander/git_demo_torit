@@ -33,7 +33,8 @@ namespace RDN.League
                         "~/Scripts/FullCalendar/gcal.js",
                          "~/Scripts/select2/select2.min.js",
                            "~/Scripts/typeahead.js",
-                             "~/Scripts/Sortable.min.js",
+                           ///RDN- 2319 - Question Reordering not working
+                           //"~/Scripts/Sortable.min.js",
                          "~/Scripts/jquery.slimscroll.min.js"
 
                         ));
@@ -50,7 +51,7 @@ namespace RDN.League
                         "~/Scripts/ViewModels/Polls/PollsViewModel.js",
                         "~/Scripts/ViewModels/Tournament/TournamentViewModel.js",
                         "~/Scripts/ViewModels/Dues/DuesViewModel.js",
-						"~/Scripts/ViewModels/Sponsors/SponsorsViewModel.js",
+                        "~/Scripts/ViewModels/Sponsors/SponsorsViewModel.js",
                         "~/Scripts/ViewModels/Rosters/RostersViewModel.js"
                         ));
 
@@ -81,8 +82,6 @@ namespace RDN.League
                        "~/Content/select2.min.css",
                       "~/Content/tinymce/tinymce.mentions.css",
                       "~/Content/bootstrap-switch.min.css"
-                      //,
-                      //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));
 
 
