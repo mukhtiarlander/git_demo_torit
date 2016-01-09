@@ -414,12 +414,20 @@ namespace RDN.Api.Controllers
         public JsonResult GetLeagueStats()
         {
             List<LeagueJsonDataTable> leages = new List<LeagueJsonDataTable>();
-            leages = SiteCache.GetAllPublicLeagues().OrderBy(x => Guid.NewGuid()).ToList();
+            int leagueCount = SiteCache.GetNumberOfLeaguesSignedUp();
+            if (leagueCount < 126)
+                leagueCount = 126;
+            leages = SiteCache.GetAllPublicLeagues().Where(x => !String.IsNullOrEmpty(x.LogoUrl)).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
+            // minim 4
+            while (leages.Count < 4) 
+            {
+                leages.AddRange(leages.Take(4 - leages.Count).ToList());
+            }
             return Json(new
             {
                 leaguesData = (from l in leages
-                               select new[]
-                          {
+                             select new[]
+                        {
                         Convert.ToString(l.lon),
                         Convert.ToString(l.lat),
                         l.LeagueName,
@@ -429,7 +437,8 @@ namespace RDN.Api.Controllers
                         l.LogoUrlThumb,
                         Convert.ToString(l.Membercount),
                         l.LeagueUrl
-                        }).ToArray()
+                        }).ToArray(),
+                nrOfLeagues = leagueCount
             }, JsonRequestBehavior.AllowGet);
         }
 

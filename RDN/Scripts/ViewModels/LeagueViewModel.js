@@ -9,6 +9,7 @@
     this.ListCountPull = ko.observable();
 
     this.LeaguesStats = ko.observableArray([]);
+    this.LeaguesCount = ko.observable();
     var lastLeagueSearch = "";
 
     this.LoadLeagueList = function (count) {
@@ -29,6 +30,7 @@
             success: function (data) {                
                 if (data.leaguesData.length > 0) {
                     thisViewModel.LeaguesStats(data.leaguesData);
+                    thisViewModel.LeaguesCount(data.nrOfLeagues);
                 } else {
                     thisViewModel.LeaguesStats.removeAll();
                 }
