@@ -363,17 +363,19 @@
                                                 </a>
                                             </li>
                                         </ul>
+                                        @if (isManager)
+                                        {
+                                            <ul class="multi-column-dropdown">
+                                                <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Federation</li>
 
-                                        <ul class="multi-column-dropdown">
-                                            <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Federation</li>
-                                            @if (isSec)
-                                            {
                                                 <li>
                                                     <a href="@Url.Content("~/federation/join")" title="Join Federation">
                                                         <i class="fa fa-check-circle"></i>Join
                                                     </a>
-                                                </li>}
-                                        </ul>
+                                                </li>
+
+                                            </ul>
+                                        }
                                     </div>
                                 </div>
                             </ul>
@@ -536,7 +538,7 @@
                         <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.ShopSite + "/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">
                             @if (item.Photos.Count > 0 && item.Photos[0] != null)
                             {
-                                <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" max-width:160px;max-height:160px; " alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
+                                <img src="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).ImageUrl" style=" max-width:160px;max-height:160px;=max-width:160px;max-height:160px; =" alt="@item.Photos.FirstOrDefault(x => x.IsPrimaryPhoto).Alt" />
                             }
                         </a>
                         <div class="caption">
