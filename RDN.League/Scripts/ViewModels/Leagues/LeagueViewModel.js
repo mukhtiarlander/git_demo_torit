@@ -2,15 +2,15 @@
     var thisViewModel = this;
     var documentId;
     var Archived = false;
-    this.ToggleGroupsGridChevron =  function(e) {
+    this.ToggleGroupsGridChevron = function (e) {
         $(e.target).prev().find("i.accordion-toggle-indicators").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
     };
     this.InitializeGroups = function () {
         $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
-        $('#members').on('hidden.bs.collapse', toggleGroupsGridChevron);
-        $('#members').on('show.bs.collapse', toggleGroupsGridChevron);
+        $('#members').on('hidden.bs.collapse', this.ToggleGroupsGridChevron);
+        $('#members').on('show.bs.collapse', this.ToggleGroupsGridChevron);
         $('#members').dataTable({
-            "aaSorting": [[1, "asc"]],
+            "aaSorting": [[0, "asc"]],
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
@@ -35,23 +35,24 @@
         $("#img-" + folderId).toggleClass("displayNone", false);
     };
     this.SetUpDocumentsSection = function () {
-         $('#documents').dataTable({
+        $('#documents').dataTable({
             "bPaginate": false,
             "bLengthChange": false,
-            "bFilter" : false,
+            "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
             "aoColumns": [null, null, null, null, null, {
-"           sType": "natural"
+                "           sType": "natural"
             }, { "sType": "natural" }],
             "aaSorting": []
-            });
+        });
         $('#documentUpload').MultiFile({
-                    list: '#fileUpload-list'
-                    });
-                $('#doc-delete-btn').btsConfirmButton({ msg: "Confirm Delete" }, League.DeleteDocument);
-                $('#doc-archive-btn').btsConfirmButton({ msg : "Confirm Archive"
-            }, League.ArchiveDocument);
+            list: '#fileUpload-list'
+        });
+        $('#doc-delete-btn').btsConfirmButton({ msg: "Confirm Delete" }, League.DeleteDocument);
+        $('#doc-archive-btn').btsConfirmButton({
+            msg: "Confirm Archive"
+        }, League.ArchiveDocument);
 
         $('#documents tbody tr input[type="checkbox"]').on('change', function (event) {
             var isDeletebuttonVisible = false;
