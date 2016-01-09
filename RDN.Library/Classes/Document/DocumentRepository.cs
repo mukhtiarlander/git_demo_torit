@@ -689,14 +689,14 @@ namespace RDN.Library.Classes.Document
                         //check see to current League have any docuement if so then move 
                         if (d.Documents.Count > 0)
                         {
-                            if (d.SubscriptionPeriodEnds.Value.AddYears(2).Date.Subtract(DateTime.UtcNow.Date).Days < 0)
+                            if (DateTime.UtcNow > d.SubscriptionPeriodEnds.Value.AddYears(2))
                             {
                                 //find all the active docs from list of League Documents 
                                 var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
 
                                 foreach (var doc in activeDocs)
                                 {
-                                    DeleteOldDocument(doc.Document);
+                                    DeleteDocument(doc.Document.DocumentId);
                                 }
                             }
                         }
@@ -711,12 +711,12 @@ namespace RDN.Library.Classes.Document
             return false;
         }
 
-        private static bool DeleteOldDocument(DataModels.Document.Document doc)
+        private static bool DeleteDocument(Guid docId)
         {
             var dc = new ManagementContext();
             int c = 0;
 
-            var document = dc.Documents.Where(d => d.DocumentId == doc.DocumentId).FirstOrDefault();
+            var document = dc.Documents.Where(d => d.DocumentId == docId).FirstOrDefault();
 
             if (document != null)
             {
@@ -728,7 +728,7 @@ namespace RDN.Library.Classes.Document
 
                 c = dc.SaveChanges();
             }
-            return c > 0 ? true : false;
+            return c > 0;
         }
     }
 }
