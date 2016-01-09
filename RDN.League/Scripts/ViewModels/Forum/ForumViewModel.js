@@ -406,6 +406,14 @@
 
                         return html;
                     }
+                },
+                file_browser_callback_types: 'file image media',
+                file_browser_callback: function (field_name, url, type, win) {
+                    if (type == 'file') {
+                        alert("to do");
+                    }
+
+                    if (type == 'image') $('#img_form #img_file').click();
                 }
             });
 

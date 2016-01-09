@@ -72,6 +72,15 @@
             }
         </div>
     </div>
+
+    <div id="form_target" name="form_target" style="display:none"></div>
+
+    <form id="img_form" action="/forum/postimageupload" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+        <input id="img_file" name="File" type="file">
+        @Html.HiddenFor(x => x.ForumId, new { data_val = "false" })
+        @Html.HiddenFor(x => x.ForumType, new { data_val = "false" })
+        <input id="img_submit" type="submit" />
+    </form> 
 </div>
 
 <script type="text/javascript">
@@ -86,5 +95,34 @@
 
     });
 
-   
+    $('#img_file').change(function (e) {
+        var files = e.target.files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData($('#img_form')[0]);
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '/forum/postimageupload',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        $('#form_target').html(decodeURIComponent(result));
+                    },
+                    error: function (xhr, status, p3, p4) {
+                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                        if (xhr.responseText && xhr.responseText[0] == "{")
+                            err = JSON.parse(xhr.responseText).Message;
+                        console.log(err);
+                    }
+                });
+            } else {
+                alert("This browser doesn't support HTML5 file uploads!");
+            }
+        }
+    });
 </script>
