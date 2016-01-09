@@ -16,6 +16,7 @@
     bool isShopMan = MemberCache.IsShopManagerOrBetterOfLeague(memId);
     var leagues = MemberCache.GetLeaguesOfMember(memId, true);
     var leagueId = MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", "");
+    var leaguethemecolor = MemberCache.GetLeagueThemeColor(MemberCache.GetLeagueIdOfMember(memId));
     int games_cnt = 0;
     if (ManagementCache.GetBoutChallengesCount() > 0)
     {
