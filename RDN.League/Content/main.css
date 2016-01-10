@@ -2390,3 +2390,9 @@ body.dragging, body.dragging * {
 }
 
 .white-space { white-space:nowrap; }
+.dragged {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    z-index: 2000;
+}
