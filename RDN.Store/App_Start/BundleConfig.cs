@@ -47,7 +47,7 @@ namespace RDN.Shops
                       "~/Content/bootstrap.css",
                       "~/Content/jquery-ui.min.css",
                       "~/Content/font-awesome.css",
-                      "~/Content/site.css"));
+                      "~/Content/main.css"));
 
             if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/rdnation.js"));

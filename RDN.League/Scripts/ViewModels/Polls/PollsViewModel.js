@@ -19,7 +19,12 @@
         thisViewModel.PollId = pollId;
         $("#PollsAdd").validate({ rules: { AnswerType: "required" } });
         $("#pollQuestions").sortable({
-            handle: '.sortableHandle', update: function (event, ui) {
+            containerSelector: "div.pollQuestions",
+            handle: 'span.sortableHandle',
+            itemSelector: "div.pollQuestion",
+            placeholderClass: "placeholder",
+            placeholder: '<div class="pollQuestion placeholder"></div>',
+            update: function (event, ui) {
                 var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
                 Polls.SaveResortedPoll(idsInOrder);
             }
