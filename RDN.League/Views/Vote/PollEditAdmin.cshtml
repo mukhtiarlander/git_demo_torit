@@ -77,10 +77,10 @@
                         else
                         {   <label class="form-label margin-top-10">Questions & Answers</label> }
 
-                        <div id="pollQuestions">
+                        <div class="pollQuestions" id="pollQuestions">
                             @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
                             {
-                                <div id="updateQuestionTd-@question.QuestionId">
+                                <div class="pollQuestion" id="updateQuestionTd-@question.QuestionId">
                                     <div class="panel panel-default">
                                         <div class="panel-heading no-padding padding-5">
                                             <div class="row">
