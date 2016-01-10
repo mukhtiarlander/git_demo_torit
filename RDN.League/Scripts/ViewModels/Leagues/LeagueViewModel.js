@@ -7,10 +7,10 @@
     };
     this.InitializeGroups = function () {
         $("#membersTypeButtons").find("li[tag='groups']").addClass('active b');
-        $('#members').on('hidden.bs.collapse', this.ToggleGroupsGridChevron);
-        $('#members').on('show.bs.collapse', this.ToggleGroupsGridChevron);
+        $('#members').on('hidden.bs.collapse', toggleGroupsGridChevron);
+        $('#members').on('show.bs.collapse', toggleGroupsGridChevron);
         $('#members').dataTable({
-            "aaSorting": [[0, "asc"]],
+            "aaSorting": [[1, "asc"]],
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
