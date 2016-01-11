@@ -74,7 +74,7 @@ namespace RDN.League.Controllers.League
         [LeagueAuthorize(EmailVerification = true, IsRoster = true, IsSecretary = true, IsManager = true)]
         public ActionResult AddNewRoster()
         {
-            var memId = RDN.Library.Classes.Account.User.GetUserId();
+            var memId = RDN.Library.Classes.Account.User.GetMemberId();
             var model = new RosterModel();
             var members = MemberCache.GetCurrentLeagueMembers(memId).Select(x => new KeyValueHelper()
             {
