@@ -1615,7 +1615,7 @@ namespace RDN.Library.Classes.Calendar
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Monthly)
                         ev.EndReocurring = startDate.AddMonths(endsOnOcurrences);
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Yearly)
-                        ev.EndReocurring = startDate.AddYears(endsOnOcurrences);
+                        ev.EndReocurring = startDate.AddYears(endsOnOcurrences - 1); // -1 because it counts even the start date
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Weekly)
                     {
                         int daysToAdd = (endsOnOcurrences / howManyDays) * 7;
