@@ -35,8 +35,8 @@
             dataType: "json",
             success: function (data) {
                 if (data.members.length > 0) {
-                    thisViewModel.MembersStats(data.members);
                     thisViewModel.MembersCount(data.memberCount);
+                    thisViewModel.MembersStats(data.members);                    
                 } else {
                     thisViewModel.MembersStats.removeAll();
                 }

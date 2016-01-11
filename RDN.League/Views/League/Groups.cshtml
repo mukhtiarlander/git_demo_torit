@@ -77,8 +77,8 @@
             <tbody>
                 @for (int i = 0; i < Model.Groups.Count; i++)
                 {
-                    <tr data-toggle="collapse" data-parent="#members" data-target="#group-row-@Model.Groups[i].Id" class="accordion-toggle collapsed group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
-                        <td class="text-center"><i class="accordion-toggle-indicators glyphicon glyphicon-chevron-right"></i></td>
+                    <tr data-toggle="collapse" data-parent="#members" data-target="#group-row-@Model.Groups[i].Id" class="cursor accordion-toggle collapsed group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
+                        <td class="text-center"><i class="accordion-toggle-indicators glyphicon glyphicon-chevron-down"></i></td>
                         <td>@Model.Groups[i].GroupName</td>
                         <td>@Model.Groups[i].GroupMembers.Count</td>
                         <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>

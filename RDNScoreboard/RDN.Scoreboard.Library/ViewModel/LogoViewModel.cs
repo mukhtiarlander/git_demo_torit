@@ -10,7 +10,7 @@ using Scoreboard.Library.Network;
 using System.Web.Script.Serialization;
 using System.Collections.ObjectModel;
 using RDN.Portable.Classes.Team;
-
+using System.Runtime;
 namespace Scoreboard.Library.ViewModel
 {
     public class LogoViewModel
