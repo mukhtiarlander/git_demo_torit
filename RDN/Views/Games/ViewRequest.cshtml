@@ -8,176 +8,178 @@
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
     <li class="active">Officiating Request Details</li>
 </ol>
-<div class="row margin-bottom-10">
-    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-7">
-                        <h3 class="margin-top-10"><i class="fa fa-ticket"></i> Officiating Request Details</h3>
-                    </div>
-                    <div class="col-xs-12 col-sm-5 text-right">
-                        <a class="btn btn-default btn-sm margin-top-5" href="@Model.UrlToContact">
-                            <i class="fa fa-envelope"></i> Contact
-                        </a>
-                        <a class="btn btn-default btn-sm margin-top-5" href="@Model.UrlToRequest"><i class="fa fa-plus"></i> Add New Request</a>
+<div class="container margin-bottom-10">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-7">
+                            <h3 class="margin-top-10"><i class="fa fa-ticket"></i> Officiating Request Details</h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-5 text-right">
+                            <a class="btn btn-default btn-sm margin-top-5" href="@Model.UrlToContact">
+                                <i class="fa fa-envelope"></i> Contact
+                            </a>
+                            <a class="btn btn-default btn-sm margin-top-5" href="@Model.UrlToRequest"><i class="fa fa-plus"></i> Add New Request</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-body no-padding-bottom">
-                <div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">Teams Playing:</label>
-                            <div class="pull-left">
-                                @Model.TeamsPlaying
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">Date:</label>
-                            <div class="pull-left">
-                                @Model.Date.Value.ToShortDateString()
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">First Whistle:</label>
-                            <div class="pull-left">
-                                @Model.FirstWhistle
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">Location Name:</label>
-                            <div class="pull-left">
-                                @Model.LocationName
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="no-margin-bottom">Adress:</label>
-                            <div class="margin-bottom-10">
-                                @Model.LocationName
-                                @if (!String.IsNullOrEmpty(Model.Address))
-                                {
-                                    <div>
-                                        @Model.Address
-                                    </div>
-                                }
-                                @if (!String.IsNullOrEmpty(Model.Address1))
-                                {
-                                    <div>
-                                        @Model.Address1
-                                    </div>
-                                }
-                                <div>
-                                    @if (!String.IsNullOrEmpty(Model.City))
-                                    {
-                                        @Model.City<span>,</span>
-                                    }
-                                    @if (!String.IsNullOrEmpty(Model.State))
-                                    {
-                                        @Model.State<span> </span>
-                                    }
-                                    @if (!String.IsNullOrEmpty(Model.Zip))
-                                    {
-                                        @Model.Zip
-                                    }
+                <div class="panel-body no-padding-bottom">
+                    <div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">Teams Playing:</label>
+                                <div class="pull-left">
+                                    @Model.TeamsPlaying
                                 </div>
-                                <div>
-                                    @if (!String.IsNullOrEmpty(Model.Country))
-                                    {
-                                        @Model.Country
-                                    }
-                                    <a class="btn btn-xs btn-default margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@Model.Address+@Model.Address1,+@Model.City,+@Model.State+@Model.Zip+@Model.Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">Date:</label>
+                                <div class="pull-left">
+                                    @Model.Date.Value.ToShortDateString()
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Is Regulation: @if (Model.IsRegulation)
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">First Whistle:</label>
+                                <div class="pull-left">
+                                    @Model.FirstWhistle
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">Location Name:</label>
+                                <div class="pull-left">
+                                    @Model.LocationName
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="no-margin-bottom">Adress:</label>
+                                <div class="margin-bottom-10">
+                                    @Model.LocationName
+                                    @if (!String.IsNullOrEmpty(Model.Address))
+                                {
+                                        <div>
+                                            @Model.Address
+                                        </div>
+                                }
+                                    @if (!String.IsNullOrEmpty(Model.Address1))
+                                {
+                                        <div>
+                                            @Model.Address1
+                                        </div>
+                                }
+                                    <div>
+                                        @if (!String.IsNullOrEmpty(Model.City))
+                                    {
+                                            @Model.City<span>,</span>
+                                    }
+                                        @if (!String.IsNullOrEmpty(Model.State))
+                                    {
+                                            @Model.State<span> </span>
+                                    }
+                                        @if (!String.IsNullOrEmpty(Model.Zip))
+                                    {
+                                            @Model.Zip
+                                    }
+                                    </div>
+                                    <div>
+                                        @if (!String.IsNullOrEmpty(Model.Country))
+                                    {
+                                            @Model.Country
+                                    }
+                                        <a class="btn btn-xs btn-default margin-top-5" href="http://www.bing.com/maps/default.aspx?q=@Model.Address+@Model.Address1,+@Model.City,+@Model.State+@Model.Zip+@Model.Country" target="_blank"><i class="fa fa-map-marker"></i> View Map</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Is Regulation: @if (Model.IsRegulation)
                                 { <i class="fa fa-check fa-lg"></i> }
                                 else
                                 { <i class="fa fa-times fa-lg"></i> }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Evaluations Provided: @if (Model.EvaluationsProvided)
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Evaluations Provided: @if (Model.EvaluationsProvided)
                                 { <i class="fa fa-check fa-lg"></i> }
                                 else
                                 { <i class="fa fa-times fa-lg"></i> }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Snacks Provided?: @if (Model.IsSnacksProvided)
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Snacks Provided?: @if (Model.IsSnacksProvided)
                                 { <i class="fa fa-check fa-lg"></i> }
                                 else
                                 { <i class="fa fa-times fa-lg"></i> }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Reimbursement?: @if (Model.IsReimbursement)
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Reimbursement?: @if (Model.IsReimbursement)
                                 { <i class="fa fa-check fa-lg"></i> }
                                 else
                                 { <i class="fa fa-times fa-lg"></i> }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Select Rule Set:
-                            </label>
-                            <div class="pull-left">
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Select Rule Set:
+                                </label>
+                                <div class="pull-left">
+                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Referees needed?:
-                            </label>
-                            <div class="pull-left">
-                                @Model.NoRefNeded
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Referees needed?:
+                                </label>
+                                <div class="pull-left">
+                                    @Model.NoRefNeded
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Non Officials needed?:
+                                </label>
+                                <div class="pull-left">
+                                    @Model.NonsoNeded
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Non Officials needed?:
-                            </label>
-                            <div class="pull-left">
-                                @Model.NonsoNeded
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Stipend for Refs:
+                                </label>
+                                <div class="pull-left">
+                                    @Model.TravelStipendForRefs
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Stipend for NSOs:
+                                </label>
+                                <div class="pull-left">
+                                    @Model.TravelStipendForNSO
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Stipend for Refs:
-                            </label>
-                            <div class="pull-left">
-                                @Model.TravelStipendForRefs
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Stipend for NSOs:
-                            </label>
-                            <div class="pull-left">
-                                @Model.TravelStipendForNSO
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 margin-bottom-10">
-                            <label class="no-margin-bottom">
-                                Description:
-                            </label>
-                            <div>
-                                @Html.Raw(Model.Description)
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 margin-bottom-10">
+                                <label class="no-margin-bottom">
+                                    Description:
+                                </label>
+                                <div>
+                                    @Html.Raw(Model.Description)
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -85,22 +85,22 @@
                     </div>
                     <div class="col-xs-12 margin-top-10">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Voting results can be seen by everyone</i></span>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.IsPollAnonymous) Is Anonymous </label> <span class="text-muted"><i>Votes are hidden. Only results are shown and who hasn't voted.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.IsPollAnonymous) Anonymous Voters </label> <span class="text-muted"><i>Voter identities are kept secret</i></span>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Only Show Results </label> <span class="text-muted"><i>Hides members that didn't vote to everyone.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Anonymous Non-Voters </label> <span class="text-muted"><i>Identities of those who didn't vote are kept secret</i></span>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to league.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to the voters.</i></span>
                         </div>
                     </div>
                 </div>
@@ -185,9 +185,9 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Multiple Options</label>
+                            <label class="form-label margin-top-10">Multiple Choice</label>
                             <div>
-                                <label> <input type="checkbox" tabindex="101" id="multipleOptionsInput" /> <span class="i">Want users to select multiple options?</span></label>
+                                <label> <input type="checkbox" tabindex="101" id="multipleOptionsInput" /> <span class="i">Want users to select multiple choices?</span></label>
                             </div>
                         </div>
                     </div>

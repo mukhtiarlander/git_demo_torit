@@ -9,6 +9,7 @@
     this.ListCountPull = ko.observable();
 
     this.LeaguesStats = ko.observableArray([]);
+    this.LeaguesCount = ko.observable();
     var lastLeagueSearch = "";
 
     this.LoadLeagueList = function (count) {
@@ -26,15 +27,12 @@
         $.ajax({
             url: apiUrl + "League/GetLeagueStats",
             dataType: "json",
-            success: function (data) {                
-                if (data.leaguesData.length > 0) {
-                    thisViewModel.LeaguesStats(data.leaguesData);
-                } else {
-                    thisViewModel.LeaguesStats.removeAll();
-                }
+            success: function (data) {
+                thisViewModel.LeaguesCount(data.nrOfLeagues);
+                thisViewModel.LeaguesStats(data.leaguesData);
             },
             error: function () {
-                
+
             }
         });
     }
@@ -47,7 +45,7 @@
             data: { userName: userName },
             dataType: "json",
             success: function (data) {
-               
+
             }
         });
     };
@@ -64,32 +62,32 @@
             var text = thisViewModel.SearchText();
             thisViewModel.SearchText(text.trim());
         }
-            if (!thisViewModel.pendingRequest() && !thisViewModel.IsFinishedScrolling()) {
-                thisViewModel.pendingRequest(true);
-                $.ajax({
-                    type: "POST",
-                    url: apiUrl + "League/GetAllLeagues",
-                    data: { p: thisViewModel.page(), c: cnt, s: thisViewModel.SearchText() },
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.leagues.length > 0) {
-                            if (!isSearch) {
-                                ko.utils.arrayForEach(data.leagues, function (entry) {
-                                    thisViewModel.Leagues.push(entry);
-                                });
-                            } else {
-                                thisViewModel.Leagues.removeAll();
-                                thisViewModel.Leagues(data.leagues);
-                            }
-                            thisViewModel.page(thisViewModel.page() + 1);
-                            thisViewModel.pendingRequest(false);
+        if (!thisViewModel.pendingRequest() && !thisViewModel.IsFinishedScrolling()) {
+            thisViewModel.pendingRequest(true);
+            $.ajax({
+                type: "POST",
+                url: apiUrl + "League/GetAllLeagues",
+                data: { p: thisViewModel.page(), c: cnt, s: thisViewModel.SearchText() },
+                dataType: "json",
+                success: function (data) {
+                    if (data.leagues.length > 0) {
+                        if (!isSearch) {
+                            ko.utils.arrayForEach(data.leagues, function (entry) {
+                                thisViewModel.Leagues.push(entry);
+                            });
                         } else {
-                            thisViewModel.IsFinishedScrolling(true);
                             thisViewModel.Leagues.removeAll();
+                            thisViewModel.Leagues(data.leagues);
                         }
-                    }
-                });
+                        thisViewModel.page(thisViewModel.page() + 1);
+                        thisViewModel.pendingRequest(false);
+                    } else {
+                        thisViewModel.IsFinishedScrolling(true);
 
-            }
+                    }
+                }
+            });
+
+        }
     }
 }

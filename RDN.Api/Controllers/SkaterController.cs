@@ -38,16 +38,19 @@ namespace RDN.Api.Controllers
         public JsonResult GetAllSkatersStats()
         {
             List<SkaterJson> names = new List<SkaterJson>();
-            var skaters = SiteCache.GetAllPublicMembers().OrderBy(x => Guid.NewGuid()).ToList();
+            int nrOfMembers = 0;
             try
             {
-                names = skaters.Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                nrOfMembers = SiteCache.GetNumberOfMembersSignedUp();
+                if (nrOfMembers < 1023)
+                    nrOfMembers = 1023;
+                names = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
                         .Where(x => !x.photoUrl.Contains("roller-girl"))
                         .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
                 //minim 4
                 if (names.Count < 4)
                 {
-                    names.AddRange(skaters.Where(x => !String.IsNullOrEmpty(x.photoUrl))
+                    names.AddRange(SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
                         .Where(x => x.photoUrl.Contains("roller-girl") || x.photoUrl.Contains("roller-person"))
                         .OrderBy(x => Guid.NewGuid()).Take(4 - names.Count).ToList());
                 }
@@ -57,7 +60,7 @@ namespace RDN.Api.Controllers
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
 
-            return Json(new { members = names }, JsonRequestBehavior.AllowGet);
+            return Json(new { members = names, memberCount = nrOfMembers }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 

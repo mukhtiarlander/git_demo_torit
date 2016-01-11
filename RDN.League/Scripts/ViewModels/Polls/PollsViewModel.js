@@ -19,7 +19,12 @@
         thisViewModel.PollId = pollId;
         $("#PollsAdd").validate({ rules: { AnswerType: "required" } });
         $("#pollQuestions").sortable({
-            handle: '.sortableHandle', update: function (event, ui) {
+            containerSelector: "div.pollQuestions",
+            handle: 'span.sortableHandle',
+            itemSelector: "div.pollQuestion",
+            placeholderClass: "placeholder",
+            placeholder: '<div class="pollQuestion placeholder"></div>',
+            update: function (event, ui) {
                 var idsInOrder = JSON.stringify($("#pollQuestions").sortable("toArray"));
                 Polls.SaveResortedPoll(idsInOrder);
             }
@@ -53,7 +58,7 @@
         var panelHeader = $(document.createElement('div'));
         panelHeader.addClass('panel-heading no-padding padding-5');
         if (isMultipleAnswers === true)
-            panelHeader.append("Question - <small class='text-muted'>Multiple Selections</small>")
+            panelHeader.append("Question - <small class='text-muted'>Multiple Choice</small>")
         else
             panelHeader.append("Question ")
         panelHeader.append("<button class='btn btn-xs btn-default pull-right' onclick='DeleteQuestionForPoll(this)'><i class='fa fa-times '></i></button>");

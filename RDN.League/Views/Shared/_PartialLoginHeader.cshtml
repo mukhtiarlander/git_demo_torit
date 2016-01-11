@@ -1,0 +1,23 @@
+﻿<div class="navbar  navbar-inverse navbar-fixed-top yamm" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a id="btn-side-menu-toggle" class="visible-xs" onclick="ToggleSideMenu()"><i class="fa fa-bars"></i></a>
+            <a class="navbar-brand" href="@Url.Content("~/")">
+                <img alt="Brand" style="height:50px" src="@RDN.Library.Classes.Config.LibraryConfig.LogoUrl250" />
+            </a>
+        </div>
+        <div class="navbar-collapse animated" id="mainNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="http://@RDN.Library.Classes.Config.LibraryConfig.MainDomain">@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="@Url.Action("Login","Account")" class="dropdown-toggle" data-toggle="dropdown">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
