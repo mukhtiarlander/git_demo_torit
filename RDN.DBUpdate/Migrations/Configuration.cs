@@ -21,11 +21,24 @@ namespace RDN.DBUpdate.Migrations
 
         protected override void Seed(ManagementContext context)
         {
-            foreach (var league in context.LeagueColors.Include("Color"))
+            var colors = context.Colors.ToList();
+            foreach (var league in context.LeagueColors.Include("League").Include("Color"))
             {
-                if (league.Color != null)
-                    league.ColorName = league.Color.ColorName;
+                if(league.League != null && league.Color != null) // if one of this is null there is no point in adding a row to color table
+                {
+                    //check if there is this row in Color table
+                    if (colors.FirstOrDefault(db => db.LeagueOwner == league.League.LeagueId && db.ColorName == league.ColorName) == null)
+                    {
+                        var newLeagueColor = new RDN.Library.DataModels.Color.Color();
+                        newLeagueColor.ColorName = league.ColorName;
+                        newLeagueColor.ColorIdCSharp = league.Color.ColorIdCSharp;
+                        newLeagueColor.LeagueOwner = league.League.LeagueId; // this is a league color
+
+                        context.Colors.Add(newLeagueColor);
+                    }
+                }
             }
+            context.SaveChanges();
         }
     }
 
