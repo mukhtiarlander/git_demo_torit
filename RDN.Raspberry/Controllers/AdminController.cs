@@ -120,7 +120,7 @@ namespace RDN.Raspberry.Controllers
                     switch (model.MassEmailType)
                     {
                         case MassEmailEnum.AllEmailsToSendMontlyUpdatesTo:
-                            result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForMonthlyBroadcasts(model.Subject, model.HtmlBody, model.TestEmail);
+                            result = Library.Classes.Admin.Admin.Admin.SendMassEmailsForMonthlyBroadcasts(model.Subject, model.HtmlBody, model.TestEmail, model.IsSubjectLineRemoved);
                             break;
                         case MassEmailEnum.SportsPlexes:
                             result = Library.Classes.Admin.Admin.Admin.SendSportsPlexesMassEmail(model.Subject, model.HtmlBody, model.TestEmail, model.IsSubjectLineRemoved);
