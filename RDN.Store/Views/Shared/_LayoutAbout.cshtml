@@ -93,7 +93,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @Html.Partial("_PartialLoginLinks")
-                    <a class="btn btn-sm btn-cart pull-right margin-top-10 margin-left-15 @(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)" href="@Url.Content("~/cart")"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm">Cart</span> <span class="cart-count">@HttpContext.Current.Session["cartCount"].ToString()</span></a>
+                    <a class="btn btn-sm btn-cart pull-right text-white margin-top-10 margin-left-15 @(leaguethemecolor == "" ? RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor : leaguethemecolor)" href="@Url.Content("~/cart")"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm">Cart</span> <span class="cart-count">@HttpContext.Current.Session["cartCount"].ToString()</span></a>
                 </ul>
             </div>
         </div>
