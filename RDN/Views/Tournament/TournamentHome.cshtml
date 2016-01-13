@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">@RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments</li>
 </ol>
 @if ((!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId == 0) || (!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId > 0 && Model.Paywall.IsPaid))
