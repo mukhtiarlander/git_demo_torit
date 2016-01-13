@@ -11,7 +11,7 @@
 </ol>
 @foreach (var merchant in Model.Stores)
 {
-    <div class="panel panel-default">
+    <div class="panel panel-default no-border-radious">
         <div class="panel-heading font16">
             Order For <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-shop/" + @merchant.MerchantId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(merchant.Name))">@merchant.Name</a>
         </div>
@@ -34,33 +34,33 @@
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
                                 <div class="cart-item-details">
                                     <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
-                                        <a target="_blank" class="b" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a>
+                                        <h4 class="margin-bottom-5 margin-top-5"><a target="_blank" class="b" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-item/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(item.Name) + "/" + item.StoreItemId)">@item.Name</a></h4>
                                         @if (item.QuantityInStock > 0)
                                         {
-                                            <div class="display-flex">
-                                                @item.QuantityInStock items left in stock
+                                            <div class="text-light margin-top-5">
+                                                <i class="fa fa-cubes g"></i> @item.QuantityInStock items left in stock
                                             </div>
                                         }
                                         @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Shirt)
                                         {
-                                            <div class="display-flex">
-                                                <b>Size:</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
+                                            <div class="text-light margin-top-5">
+                                                <b>Size :</b> @RDN.Utilities.Enums.EnumExt.ToFreindlyName(item.ItemSize)
                                             </div>
                                         }
                                         @if (item.ItemType == RDN.Portable.Classes.Store.Enums.StoreItemTypeEnum.Decal)
                                         {
-                                            <div class="display-flex">
+                                            <div class="text-light margin-top-5 margin-bottom-5">
+                                                <span class="pull-left margin-top-5 margin-right-5"><b>Color :</b></span>
                                                 @foreach (var color in item.Colors)
-                                                { 
+                                                {
                                                     <span class='selectedColor' style='background-color:@color.HexColor;' title="@color.NameOfColor"></span>
                                                 }
+                                                <span class="clearfix"></span>
                                             </div>
                                         }
-
-                                       
-
                                     </div>
-                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 display-inline-flex">
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                        <h5 class="margin-bottom-5 margin-right-5 text-light margin-top-8"><b>Quantity :</b></h5>
                                         @Html.TextBox(item.ShoppingCartItemId.ToString() + "-item", item.QuantityOrdered, new { @class = "form-control input-sm w65 margin-right-10", @id = item.ShoppingCartItemId.ToString() + "-item", @maxlength = "3", @onkeyup = "javascript:showCartQuantityUpdate('" + item.ShoppingCartItemId + "', '" + item.ItemSizeEnum + "')" })
                                         <span class="displayNone tc" id="@item.ShoppingCartItemId-update">
                                             <button class="btn btn-sm btn-success" onclick="UpdateCartItemQuantity('@item.ShoppingCartItemId','@merchant.MerchantId', '@Model.ShoppingCartId')"><i class="fa fa-save"></i></button>
@@ -92,6 +92,7 @@
                                             }
                                         }
                                     </div>
+                                    <span class="clearfix"></span>
                                 </div>
                                 <div>
                                     @if (!item.WillPickUpLocally)
@@ -113,7 +114,7 @@
                 }
             </div>
             <div class="col-sm-12 col-md-3 padding-top-10">
-                <div class="well well-light text-right margin-bottom-10">
+                <div class="padding-10 grayBorder">
                     @using (Html.BeginForm("StoreCheckOut", "Cart", FormMethod.Post))
                     {
                         <div class="margin-bottom-10 font16">
