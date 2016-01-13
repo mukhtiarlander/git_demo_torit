@@ -147,7 +147,25 @@
                     processData: false,
                     data: data,
                     success: function (result) {
-                        $('#form_target').html(decodeURIComponent(result));
+                        if (result.success) {
+                            if (result.type == "document") {
+                                tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + result.data);
+                            }
+                            else if (result.type == "image") {
+                                $('#form_target').html(decodeURIComponent(result.data));
+                            }
+                        }
+                        else {
+                            //close the modal window
+                            var ed = parent.tinymce.editors[0];
+                            ed.windowManager.windows[0].close();
+                            //show error message
+                            $('.bottom-right').notify({
+                                message: { text: result.message },
+                                fadeOut: { enabled: true, delay: 4000 },
+                                type: "danger"
+                            }).show();
+                        }
                     },
                     error: function (xhr, status, p3, p4) {
                         var err = "Error " + " " + status + " " + p3 + " " + p4;

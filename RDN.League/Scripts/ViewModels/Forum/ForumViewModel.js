@@ -357,7 +357,13 @@
                 content_css: '/content/tinymce/tinymce.content.css',
                 plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,image,textcolor colorpicker",
                 language: "en",
-                toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image fileUploadButton",
+                setup: function (editor) {
+                    editor.addButton('fileUploadButton', {
+                        text: 'File',
+                        onclick: function () { $('#img_form #img_file').click(); }
+                    });
+                },
                 relative_urls: false,
                 uploadType: uploadType,
                 ForumId: forumId,
