@@ -8,8 +8,8 @@
 
     <ol class="breadcrumb">
         <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
-        <li> <a href="@Url.Content("~/game-challenge/view/all")">All Game Challenges</a></li>
-        <li>Game Challenge For @Model.LeagueName</li>
+        <li> <a href="@Url.Content("~/challenge/view/all")">All @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</a></li>
+        <li>@RDN.Library.Classes.Config.LibraryConfig.GameName Challenge For @Model.LeagueName</li>
     </ol>
 <div class="row">
         <div class="col-md-12">
@@ -17,7 +17,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-12 col-sm-7">
-                            <h3 class="margin-top-10"><i class="fa fa-ticket"></i> Game Challenge For @Model.LeagueName</h3>
+                            <h3 class="margin-top-10"><i class="fa fa-ticket"></i> @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge For @Model.LeagueName</h3>
                         </div>
                         <div class="col-xs-12 col-sm-5 text-right">
                             <a class="btn btn-default btn-sm margin-top-5" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + Model.LeagueId.ToString().Replace("-", ""))">

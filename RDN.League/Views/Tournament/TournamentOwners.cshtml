@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <span class="text-muted">
-                    Here you can view the tournament. In order to add games to this tournament, you will need to go to the manage
-                    game screen for the game you wish to add. This can be seen under the <a href="@Url.Content("~/game/manage/all")">owned games menu</a>.
+                    Here you can view the tournament. In order to add @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() to this tournament, you will need to go to the manage
+                    game screen for the game you wish to add. This can be seen under the <a href="@Url.Content("~/game/manage/all")">owned @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() menu</a>.
                 </span>
             </div>
             @using (Html.BeginForm("TournamentOwners", "Tournament", FormMethod.Post, new { @id = "createNewItem" }))

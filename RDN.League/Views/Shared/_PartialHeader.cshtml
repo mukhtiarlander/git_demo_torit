@@ -367,7 +367,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Games
+                        @RDN.Library.Classes.Config.LibraryConfig.GamesName
                         @if (games_cnt > 0)
                         {
                             <span class="label label-warning margin-left-10">@games_cnt</span>
@@ -377,7 +377,7 @@
                     <ul class="dropdown-menu" role="menu">
 
                         <li>
-                            <a href="@Url.Content("~/gamechallenge/view/all")" title="Game Challenges">
+                            <a href="@Url.Content("~/challenge/view/all")" title="@RDN.Library.Classes.Config.LibraryConfig.GameName Challenges">
                                 <i class="fa fa-thumbs-up"></i>Challenge
                                 @if (ManagementCache.GetBoutChallengesCount() > 0)
                                 {<span class="label label-warning margin-left-10">@ManagementCache.GetBoutChallengesCount()</span>}
@@ -391,20 +391,20 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Content("~/game/upload")" title="Upload Game">
+                            <a href="@Url.Content("~/game/upload")" title="Upload @RDN.Library.Classes.Config.LibraryConfig.GameName">
                                 <i class="fa fa-upload"></i>Upload
                             </a>
                         </li>
                         @if (isConnected)
                         {
                             <li>
-                                <a href="@Url.Content("~/game/view/all/skater")" title="Games Played">
+                                <a href="@Url.Content("~/game/view/all/skater")" title="@RDN.Library.Classes.Config.LibraryConfig.GamesName Played">
                                     <i class="fa fa-check-circle"></i>Played
                                 </a>
                             </li>
                         }
                         <li>
-                            <a href="@Url.Content("~/game/manage/all")" title="Games Owned">
+                            <a href="@Url.Content("~/game/manage/all")" title="@RDN.Library.Classes.Config.LibraryConfig.GamesName Owned">
                                 <i class="fa fa-user"></i>Owned
                             </a>
                         </li>

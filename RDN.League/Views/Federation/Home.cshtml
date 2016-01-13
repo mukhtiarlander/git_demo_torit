@@ -15,11 +15,11 @@
         <div>
             <ul class="noList">
                 <li><a href="@Url.Action("Adds", "League")">Add Leagues To Your Federation</a></li>
-                <li><a href="@Url.Content("~/Federation/Leagues/View")">View Leagues</a></li>
+                <li><a href="@Url.Content("~/Federation/Leagues/View")">View Teams</a></li>
                 <li><a href="@Url.Content("~/Federation/Members/Add")">Add Members</a></li>
                 <li><a href="@Url.Content("~/Federation/Members/View")">View Members</a></li>
                 <li><a href="@Url.Content("~/Game/Add/" + RDN.Library.Cache.MemberCache.GetAllOwnedFederations(RDN.Library.Classes.Account.User.GetMemberId()).FirstOrDefault().Federation.FederationId.ToString().Replace("-","")+"/" +RDN.Library.Classes.Game.Enums.GameAddedByEnum.federation.ToString())">View Members</a></li>
-                <li><a href="@Url.Content("~/Game/View/All")">View All Games</a></li>
+                <li><a href="@Url.Content("~/Game/View/All")">View All @RDN.Library.Classes.Config.LibraryConfig.GamesName</a></li>
             </ul>
         </div>
         <br />

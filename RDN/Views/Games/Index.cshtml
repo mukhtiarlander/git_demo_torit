@@ -1,6 +1,6 @@
 ﻿@model List<RDN.Portable.Models.Json.Games.CurrentGameJson>
 @{
-    ViewBag.Title = "The Last Seven Days of " + @RDN.Library.Classes.Config.LibraryConfig.SportName + " Games";
+    ViewBag.Title = "The Last Seven Days of " + @RDN.Library.Classes.Config.LibraryConfig.SportName + " " + @RDN.Library.Classes.Config.LibraryConfig.GamesName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row margin-top-50">
@@ -8,7 +8,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-top-10">
-                    This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName Games
+                    This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName @RDN.Library.Classes.Config.LibraryConfig.GamesName
                 </h3>
             </div>
             <div class="panel-body padding-5 padding-top-15">

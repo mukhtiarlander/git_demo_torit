@@ -724,6 +724,13 @@ namespace RDN.Library.Classes.Config
                 return SiteCache.GetConfigurationValue("GamesName");
             }
         }
+        public static string GameName
+        {
+            get
+            {
+                return SiteCache.GetConfigurationValue("GameName");
+            }
+        }
         public static string ImageSlidesLocation
         {
             get

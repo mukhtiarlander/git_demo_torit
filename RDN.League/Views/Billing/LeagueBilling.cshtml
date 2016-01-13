@@ -256,14 +256,14 @@
                 <td>Send a Text Message to anyone or everyone within your league.  Instantly just by the press of a button.</td>
             </tr>
             <tr>
-                <td class="subF">Game Challenges</td>
+                <td class="subF">@RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</td>
                 <td class="text-center vertical-middle">
                     <i class="fa fa-check-circle fa-lg"></i>
                 </td>
                 <td class="text-center vertical-middle">
                     <i class="fa fa-check-circle fa-lg"></i>
                 </td>
-                <td>Add and View Game Challenges posted by other leagues.  Have an open bout date?  Well add a Game Challenge and receive requests by other leagues to play!</td>
+                <td>Add and View @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges posted by other teams.  Have an open bout date?  Well add a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge and receive requests by other teams to play!</td>
             </tr>
             <tr>
                 <td class="subF">League & Roster Management</td>
@@ -283,17 +283,17 @@
                 <td class="text-center vertical-middle">
                     <i class="fa fa-check-circle fa-lg"></i>
                 </td>
-                <td>Generate Rosters for your games and tournaments.  Automatically load insurance numbers and easily export them to Excel.</td>
+                <td>Generate Rosters for your @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() and tournaments.  Automatically load insurance numbers and easily export them to Excel.</td>
             </tr>
             <tr>
-                <td class="subF">League Messaging</td>
+                <td class="subF">Team Messaging</td>
                 <td class="text-center vertical-middle">
                     <i class="fa fa-check-circle fa-lg"></i>
                 </td>
                 <td class="text-center vertical-middle">
                     <i class="fa fa-check-circle fa-lg"></i>
                 </td>
-                <td>You can message and chat with anyone in your league.  Send a message to your entire league or just a select few people.</td>
+                <td>You can message and chat with anyone in your team.  Send a message to your entire team or just a select few people.</td>
             </tr>
             <tr>
                 <td class="subF">League Forums</td>
@@ -305,6 +305,8 @@
                 </td>
                 <td>Forums are an integral part of any team.  They help communication and keep people in touch with everyone else in the group.</td>
             </tr>
+           @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+           {
             <tr>
                 <td class="subF">Games Online</td>
                 <td class="text-center vertical-middle">
@@ -315,6 +317,7 @@
                 </td>
                 <td>All your games when using <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">Thor's Hammer</a> are posted online.  Your scoreboard operator attaches the players of the league with the game they played.</td>
             </tr>
+           }
             <tr>
                 <td class="subF">Member Site</td>
                 <td class="text-center vertical-middle">

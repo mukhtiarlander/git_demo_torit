@@ -6,7 +6,7 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
-    <li class="active">Owned Games</li>
+    <li class="active">Owned @RDN.Library.Classes.Config.LibraryConfig.GamesName</li>
     <li class="active">Manage</li>
 </ol>
 
@@ -16,8 +16,10 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 col-sm-8">
-                        <h3 class="margin-bottom-10 margin-top-5">Manage Your Post Game</h3>
+                        <h3 class="margin-bottom-10 margin-top-5">Manage Your Post @RDN.Library.Classes.Config.LibraryConfig.GameName</h3>
+                        @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby) {
                         <span class="text-muted">Here you can update the game you used with <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard" target="_blank">Thor's Hammer</a> or inputed manually.</span>
+                        }
                     </div>
                     <div class="col-xs-12 col-sm-4 text-right">
                         <a class="btn btn-warning btn-sm" target="_blank" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/" + RDN.Library.Classes.Config.LibraryConfig.GameUrl+"/" + Model.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Team2Name))"><i class="fa fa-history"></i> View Changes</a>
@@ -384,7 +386,7 @@
                                 </div>
                                 <div class="alert alert-success no-margin-bottom">
                                     @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName supports <a href="http://www.iis.net/media/experiencesmoothstreaming"
-                                                                target="_blank">silverlight streaming of games</a>.
+                                                                target="_blank">silverlight streaming of @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower()</a>.
                                     <br />
                                     We use these inputs to define Silverlight Urls to stream online.
                                     <br />

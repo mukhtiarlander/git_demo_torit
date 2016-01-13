@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="page-header">
-    <h2 class="text-center">Honest prices, no surprises for league management.</h2>
+    <h2 class="text-center">Honest prices, no surprises for team management.</h2>
     <h3 class="text-center">Pay as you go.  No long-term contracts. No per-user/team fees.</h3>
     <h3 class="text-center">FREE <b>45</b> day trial.  No Credit Card Required!</h3>
 </div>
@@ -33,14 +33,14 @@
         <th class="pricingHead  @RDN.Library.Classes.Config.LibraryConfig.DefaultThemeColor">Descriptions</th>
     </tr>
     <tr>
-        <td class="bold">Game Challenges</td>
+        <td class="bold">@RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</td>
         <td class="text-center">
             <i class="green  fa fa-check fa-2x"></i>
         </td>
         <td class="text-center">
             <i class="green  fa fa-check fa-2x"></i>
         </td>
-        <td>Add and View Game Challenges posted by other leagues.  Have an open bout date?  Well add a Game Challenge and receive requests by other leagues to play!</td>
+        <td>Add and View @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges posted by other teams.  Have an open bout date?  Well add a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge and receive requests by other teams to play!</td>
     </tr>
     <tr>
         <td class="bold">League & Roster Management</td>
@@ -60,7 +60,7 @@
         <td class="text-center">
             <i class="green  fa fa-check fa-2x"></i>
         </td>
-        <td>Generate Rosters for your games and tournaments.  Automatically load insurance numbers and easily export them to Excel.</td>
+        <td>Generate Rosters for your @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() and tournaments.  Automatically load insurance numbers and easily export them to Excel.</td>
     </tr>
     <tr>
         <td class="bold">League Messaging</td>
@@ -82,16 +82,19 @@
         </td>
         <td>Forums are an integral part of any team.  They help communication and keep people in touch with everyone else in the group.</td>
     </tr>
+    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+    {
     <tr>
-        <td class="bold">Games Online</td>
+        <td class="bold">@RDN.Library.Classes.Config.LibraryConfig.GamesName Online</td>
         <td class="text-center">
             <i class="green  fa fa-check fa-2x"></i>
         </td>
         <td class="text-center">
             <i class="green  fa fa-check fa-2x"></i>
         </td>
-        <td>All your games when using <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">Thor's Hammer</a> are posted online.  Your scoreboard operator attaches the players of the league with the game they played.</td>
+        <td>All your @RDN.Library.Classes.Config.LibraryConfig.GamesName when using <a target="_blank" href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">Thor's Hammer</a> are posted online.  Your scoreboard operator attaches the players of the league with the game they played.</td>
     </tr>
+    }
     <tr>
         <td class="bold">Member Site</td>
         <td class="text-center">
