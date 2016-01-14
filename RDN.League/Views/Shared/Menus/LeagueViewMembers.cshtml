@@ -5,7 +5,7 @@
   bool isMed = RDN.Library.Cache.MemberCache.IsMedicalOrBetterOfLeague(memId);
 }
 
-<ul class="nav nav-tabs no-margin-bottom" id="membersTypeButtons" style="margin-bottom:-1px">
+<ul class="nav nav-tabs no-margin-bottom hidden-md visible-lg" id="membersTypeButtons" style="margin-bottom:-1px">
     <li tag="roster" class="margin-left-5">
         <a href="@Url.Content("~/league/members/view/all")">Roster</a>
     </li>
@@ -64,6 +64,117 @@
         <a href="@Url.Content("~/league/members/view/removed")">Removed</a>
     </li>
 </ul>
+
+<ul class="nav nav-tabs no-margin-bottom visible-xs visible-sm visible-md hidden-lg" role="tablist" id="membersTypeTabs" style="margin-bottom:-1px">
+    <li role="presentation" class="dropdown active">
+        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents" aria-expanded="false">
+            @*<span id="lbl_forum_tab_selected" data-bind="text: selectedTab"></span> <span class="caret"></span>*@
+            <span id="lbl_forum_tab_selected"></span> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+            <li tag="roster" class="margin-left-5">
+                <a href="@Url.Content("~/league/members/view/all")">Roster</a>
+            </li>
+            @if (isSec)
+            {
+                <li tag="dates" class="margin-left-5">
+                    <a href="@Url.Content("~/league/members/view/dates")">Dates</a>
+                </li>
+            }
+            <li tag="dayjobs" class="margin-left-5">
+                <a href="@Url.Content("~/league/members/view/jobs")">Day Jobs</a>
+            </li>
+            @if (isPaid)
+            {
+                <li tag="groups" class="margin-left-5">
+                    <a href="@Url.Content("~/league/groups")">Groups</a>
+                </li>
+                <li tag="insurancenumbers" class="margin-left-5">
+                    <a href="@Url.Content("~/league/members/view/insurance")">Insurance Numbers</a>
+                </li>
+                if (isMed || isSec)
+                {
+                    <li tag="medical" class="margin-left-5">
+                        <a href="@Url.Content("~/league/members/view/medical")">Medical</a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li tag="groups" class="margin-left-5">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Groups are only available to subscribed leagues">Groups</a>
+                </li>
+                <li tag="insurancenumbers" class="margin-left-5">
+                    <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Insurance Numbers are only available to subscribed leagues">Insurance Numbers</a>
+                </li>
+                if (isSec || isMed)
+                {
+                    <li tag="medical" class="margin-left-5">
+                        <a href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Medical Information is only available to subscribed leagues">Medical</a>
+                    </li>
+                }
+            }
+            @if (isManager)
+            {
+                <li tag="permissions" class="margin-left-5">
+                    <a href="@Url.Content("~/league/members/view/permissions")">Permissions</a>
+                </li>
+            }
+            <li tag="skilllevel" class="margin-left-5">
+                <a href="@Url.Content("~/league/members/view/class")">Skill Level</a>
+            </li>
+            <li tag="map" class="margin-left-5">
+                <a href="@Url.Content("~/league/members/view/map")">Map</a>
+            </li>
+            <li tag="removed" class="margin-left-5">
+                <a href="@Url.Content("~/league/members/view/removed")">Removed</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        // needed to know on what page we are
+        var url = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+        if (url == 'all') {
+            $("#lbl_forum_tab_selected").html('Roster');
+        }
+        else if(url == 'dates'){
+            $("#lbl_forum_tab_selected").html('Dates');
+        }
+        else if (url == 'jobs'){
+            $("#lbl_forum_tab_selected").html('Day Jobs');
+        }
+        else if (url == 'groups') {
+            $("#lbl_forum_tab_selected").html('Groups');
+        }
+        else if (url == 'insurance') {
+            $("#lbl_forum_tab_selected").html('Insurance Numbers');
+        }
+        else if (url == 'medical') {
+            $("#lbl_forum_tab_selected").html('Medical');
+        }
+        else if (url == 'permissions') {
+            $("#lbl_forum_tab_selected").html('Permissions');
+        }
+        else if (url == 'class') {
+            $("#lbl_forum_tab_selected").html('Skill Level');
+        }
+        else if (url == 'map') {
+            $("#lbl_forum_tab_selected").html('Map');
+        }
+        else if (url == 'removed') {
+            $("#lbl_forum_tab_selected").html('Removed');
+        }
+    });
+
+</script>
+
+
+
        
 
        
