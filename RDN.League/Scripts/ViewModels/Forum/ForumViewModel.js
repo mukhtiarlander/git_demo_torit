@@ -357,13 +357,7 @@
                 content_css: '/content/tinymce/tinymce.content.css',
                 plugins: "mention,layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,image,textcolor colorpicker",
                 language: "en",
-                toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image fileUploadButton",
-                setup: function (editor) {
-                    editor.addButton('fileUploadButton', {
-                        text: 'File',
-                        onclick: function () { $('#img_form #img_file').click(); }
-                    });
-                },
+                toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                 relative_urls: false,
                 uploadType: uploadType,
                 ForumId: forumId,
@@ -415,11 +409,7 @@
                 },
                 file_browser_callback_types: 'file image media',
                 file_browser_callback: function (field_name, url, type, win) {
-                    if (type == 'file') {
-                        alert("to do");
-                    }
-
-                    if (type == 'image') $('#img_form #img_file').click();
+                    $('#img_form #img_file').click();
                 }
             });
 

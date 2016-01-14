@@ -1008,34 +1008,20 @@ namespace RDN.League.Controllers
                         FileInfo fi = new FileInfo(doc.SaveLocation);
 
                         string[] imageExtensions = { ".bmp", ".gif", ".jpg", ".jpeg", ".png", ".psd", ".pspimage", ".thm", ".tif", ".yuv" };
-                        string[] textFilesExtensions = { ".doc", ".docx", ".log", ".msg", ".pages", ".rtf", ".txt", ".wpd", ".wps" };
-
-                        //check if it is a document
-                        if (fi.Extension.ToLower().Equals(".txt"))
-                        {
-                            byte[] fileData = null;
-                            model.File.InputStream.Position = 0;
-                            using (var binaryReader = new BinaryReader(model.File.InputStream))
-                            {
-                                fileData = binaryReader.ReadBytes(model.File.ContentLength);                            
-                            }
-                            string data = System.Text.RegularExpressions.Regex.Replace(System.Text.Encoding.Default.GetString(fileData), @"\r\n?|\n", "<br />");
-                            data = data.Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
-                            return Json(new { success = true, type = "document", data = data });
-                        }
-                        else if (textFilesExtensions.Any(s => fi.Extension.ToLower().Equals(s)))
-                        {
-                            return Json(new { success = true, type = "document", data = "This extension is not suppoted yet!" });                         
-                        }
-                        //everything else is like an image (for now)
-                        else// if (imageExtensions.Any(s => fi.Extension.ToLower().Equals(s)))
+                        
+                        if (imageExtensions.Any(s => fi.Extension.ToLower().Equals(s)))
                         {
                             result = string.Format("<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('{0}').closest('.mce-window').find('.mce-primary').click();</script>",
                                                             RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/document/view/" + doc.DocumentId.ToString().Replace("-", "") + fi.Extension);
-
-                            //return Content(result) // IMPORTANT to return as HTML
-                            return Json(new { success = true, type = "image", data = result });
+                            
                         }
+                        else // a link is added
+                        {
+                            result = string.Format("<script>top.$('.mce-btn.mce-open').closest('.mce-reset').find('.mce-textbox').eq(0).val('{0}');top.$('.mce-btn.mce-open').closest('.mce-reset').find('.mce-textbox').eq(1).val('{1}');top.$('.mce-btn.mce-open').closest('.mce-window').find('.mce-primary').click();</script>",
+                                                            RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/document/view/" + doc.DocumentId.ToString().Replace("-", "") + fi.Extension,
+                                                            model.File.FileName);
+                        }
+                        return Json(new { success = true, data = result });
                     }
                 }
             }

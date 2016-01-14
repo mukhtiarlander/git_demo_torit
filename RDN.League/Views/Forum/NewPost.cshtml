@@ -112,12 +112,7 @@
                     data: data,
                     success: function (result) {
                         if (result.success) {
-                            if (result.type == "document") {
-                                tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + result.data);
-                            }
-                            else if (result.type == "image") {
-                                $('#form_target').html(decodeURIComponent(result.data));
-                            }
+                            $('#form_target').html(decodeURIComponent(result.data));
                         }
                         else {
                             //close the modal window

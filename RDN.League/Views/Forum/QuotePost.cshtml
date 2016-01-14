@@ -138,13 +138,7 @@
             elements: "elm2",
             theme: "modern",
             plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,image,textcolor colorpicker",
-            toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image fileUploadButton",
-            setup: function(editor) {
-                editor.addButton('fileUploadButton', {
-                    text: 'File',
-                    onclick: function () { $('#img_form #img_file').click(); }
-                });
-            },
+            toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
             language: "en",
             relative_urls: false,
             uploadType: "Forum",
@@ -155,11 +149,7 @@
             
             file_browser_callback_types: 'file image media',
             file_browser_callback: function (field_name, url, type, win) {
-                if (type == 'file') {
-                    alert("to do");
-                }
-
-                if (type == 'image') $('#img_form #img_file').click();               
+                $('#img_form #img_file').click();
             }
         });
     });
@@ -181,12 +171,7 @@
                     data: data,
                     success: function (result) {
                         if (result.success) {
-                            if (result.type == "document") {
-                                tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + result.data);
-                            }
-                            else if (result.type == "image") {
-                                $('#form_target').html(decodeURIComponent(result.data));
-                            }
+                            $('#form_target').html(decodeURIComponent(result.data));                            
                         }
                         else {
                             //close the modal window
