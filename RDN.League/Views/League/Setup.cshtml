@@ -1,7 +1,7 @@
 ﻿@using RDN.League.Models.League
 @model RegisterLeague
 @{
-    ViewBag.Title = "Setup League";
+    ViewBag.Title = "Setup "+ RDN.Library.Classes.Config.LibraryConfig.TeamName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,7 +17,7 @@
 }
 
 <h3>
-    League Setup
+    @RDN.Library.Classes.Config.LibraryConfig.TeamName Setup
 </h3>
 
 <div class="titleDescription">
@@ -28,13 +28,13 @@
     @if (Model.Created)
     {
         <div class="alert alert-info" role="alert">
-            Your League has been Created! <b>Your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() will be approved shortly.</b>
+            Your @RDN.Library.Classes.Config.LibraryConfig.TeamName has been Created! <b>Your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() will be approved shortly.</b>
         </div>
     }
     else if (Model.Updated)
     {
         <div class="alert alert-info" role="alert">
-            Your League has been Updated!  You now have access to manage your league.
+            Your @RDN.Library.Classes.Config.LibraryConfig.TeamName has been Updated!  You now have access to manage your league.
         </div>
     }
     else if (Model == null || !Model.Created)
@@ -136,7 +136,7 @@
                 <tr>
                     <td class="suLTD"></td>
                     <td class="suRTD">
-                        <input class="btn btn-primary" type="submit" value="Submit League" />
+                        <input class="btn btn-primary" type="submit" value="Submit @RDN.Library.Classes.Config.LibraryConfig.TeamName" />
                     </td>
                 </tr>
             </table>
