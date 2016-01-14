@@ -49,7 +49,7 @@
                         </button>
                         <div class="margin-bottom-20 margin-top-5">
                             <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 margin-bottom-10" style="background:none">
-                                <span class="label label-primary font12 padding-top-5">Entire League</span>
+                                <span class="label label-primary font12 padding-top-5">Entire @RDN.Library.Classes.Config.LibraryConfig.TeamName</span>
                             </div>
                             <div class="displayNone padding-left-10" id="groupMemberLists">
                                 <ul id="groupList" class="list-unstyled"></ul>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6">
                                     @if (isSec)
-                                    { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                                    { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName Internal</a></span>}
                                 </div>
                             </div>
                         </div>
