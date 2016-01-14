@@ -66,6 +66,17 @@ namespace RDN.DBUpdate.Migrations
 
     }
 
+    internal sealed class CSponsor : DbMigrationsConfiguration<Common.Sponsors.DataModels.Context.SponsorContext>
+    {
+        public CSponsor()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = false;
+
+        }
+
+    }
+
 
     //internal sealed class CRN : DbMigrationsConfiguration<RNManagementContext>
     //{

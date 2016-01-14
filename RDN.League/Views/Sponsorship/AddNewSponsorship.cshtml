@@ -1,0 +1,80 @@
+﻿
+@model Common.Sponsors.Classes.SponsorShipItem
+@{
+    ViewBag.Title = "Add New Sponsor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/sponsors")">Sponsorships</a></li>
+    <li class="active">Add new Sponsorship</li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        @using (Html.BeginForm("AddSponsorship", "Sponsorship", FormMethod.Post, new { @id = "NewSponsorshipAdd" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Add New Sponsor</h3>
+                    <div class="text-muted"> Add a new sponsor for the league.</div>
+                </div>
+                <div class="panel-body no-padding-top">
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Sponsorship Name</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.SponsorshipName, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Price</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.Price, new { @type = "text", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Expires</label>
+                        <div>
+                            @Html.TextBoxFor(x => x.ExpiresDate, new { @type = "text", @class = "form-control jquery_datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <label class="form-label margin-top-10">Description</label>
+                        <div>
+                            @Html.TextAreaFor(x=>x.Description, new { @class = "form-control full-width" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default btn-success" name="NewSponsorshipAdd"><i class="fa fa-save"></i> Add Sponsorship</button>
+                    <a class="btn btn-default pull-right" href="@Url.Content("~/league/sponsorships")">Cancel</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $("#NewSponsorshipAdd").validate({
+        rules: {
+            SponsorshipName: "required",
+            Price: "required",
+            ExpiresDate: "required"
+        }
+    });
+
+    $(function () {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+        });
+        $("#ExpiresDate").datepicker();
+        $("#Price").numeric({ negative: false });
+    });
+
+  
+</script>
+
+

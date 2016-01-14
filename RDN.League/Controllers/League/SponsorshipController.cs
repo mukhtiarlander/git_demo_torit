@@ -1,46 +1,40 @@
-﻿using Common.Sponsors.Classes;
+﻿using System;
+using System.Collections.Specialized;
+using System.Web;
+using System.Web.Mvc;
+using Common.Sponsors.Classes;
 using RDN.League.Models.Filters;
 using RDN.Library.Cache;
 using RDN.Library.Classes.Error;
-using RDN.Library.Classes.League;
 using RDN.Library.Util;
 using RDN.Library.Util.Enum;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace RDN.League.Controllers.League
 {
-
-    public class SponsorController : BaseController
+    public class SponsorshipController : BaseController
     {
 
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
-        public ActionResult AddNewSponsor()
+        public ActionResult AddNewSponsorship()
         {
 
             return View();
-        
+
         }
 
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult AddSponsor(SponsorItem sponsor)
+        public ActionResult AddSponsorship(SponsorShipItem sponsorship)
         {
 
             try
             {
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
-                sponsor.SponsorForLeague = league.LeagueId;
-                sponsor.SponsorAddByMember = memId;
-
-                bool execute = SponsorManager.Add_New_Sponsor(sponsor);
+                sponsorship.OwnerId = league.LeagueId;
+                bool execute = SponsorShipManager.Add_New_Sponsorship(sponsorship);
 
             }
             catch (Exception exception)
@@ -48,11 +42,11 @@ namespace RDN.League.Controllers.League
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
 
-            return Redirect(Url.Content("~/league/sponsors?u=" + SiteMessagesEnum.sac));
+            return Redirect(Url.Content("~/league/sponsorships?u=" + SiteMessagesEnum.sac));
         }
 
-        [Authorize]
-        public ActionResult ViewSponsors()
+        // GET: Sponsorships
+        public ActionResult ViewSponsorships()
         {
             try
             {
@@ -63,7 +57,7 @@ namespace RDN.League.Controllers.League
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Info;
-                    message.Message = "Sponsor information updated.";
+                    message.Message = "Sponsorship information updated.";
                     this.AddMessage(message);
 
                 }
@@ -71,7 +65,7 @@ namespace RDN.League.Controllers.League
                 {
                     SiteMessage message = new SiteMessage();
                     message.MessageType = SiteMessageType.Info;
-                    message.Message = "New Sponsor Successfully Added.";
+                    message.Message = "New Sponsorship Successfully Added.";
                     this.AddMessage(message);
                 }
                 if (!String.IsNullOrEmpty(updated) && updated == SiteMessagesEnum.de.ToString())
@@ -101,8 +95,8 @@ namespace RDN.League.Controllers.League
                     SetCulture(league.CultureSelected);
 
 
-                var sponsorLists = SponsorManager.GetSponsorList(league.LeagueId);
-                return View(sponsorLists);
+                var sponsorshipList = SponsorShipManager.GetSponsorshipList(league.LeagueId);
+                return View(sponsorshipList);
             }
             catch (Exception exception)
             {
@@ -112,10 +106,9 @@ namespace RDN.League.Controllers.League
             return View();
         }
 
-
         [Authorize]
-        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsSecretary= true)]
-        public ActionResult EditSponsor(long id, string leagueId)
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsSecretary = true)]
+        public ActionResult EditSponsorship(long id, string leagueId)
         {
             try
             {
@@ -125,7 +118,7 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 
-                var Data = SponsorManager.GetData(id, new Guid(leagueId));
+                var Data = SponsorShipManager.GetData(id, new Guid(leagueId));
 
                 return View(Data);
 
@@ -141,13 +134,13 @@ namespace RDN.League.Controllers.League
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult EditSponsor(SponsorItem oSponsor)
+        public ActionResult EditSponsorship(SponsorShipItem oSponsorship)
         {
             try
             {
-                bool execute = SponsorManager.UpdateSponsorInfo(oSponsor);
+                bool execute = SponsorShipManager.UpdateSponsorInfo(oSponsorship);
 
-                return Redirect(Url.Content("~/league/sponsors?u=" + SiteMessagesEnum.s));
+                return Redirect(Url.Content("~/league/sponsorships?u=" + SiteMessagesEnum.s));
             }
             catch (Exception exception)
             {
@@ -157,8 +150,9 @@ namespace RDN.League.Controllers.League
 
         }
 
+       
         [Authorize]
-        public ActionResult DeleteSponsor(long id, string leagueId)
+        public ActionResult ViewSponsorship(long id, string leagueId)
         {
             try
             {
@@ -168,33 +162,11 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 
-                var Data = SponsorManager.DeleteSponsor(id, new Guid(leagueId));
-                return Redirect(Url.Content("~/league/Sponsors?u=" + SiteMessagesEnum.de));
-
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
-
-        }
-        [Authorize]
-        public ActionResult ViewSponsor(long id, string leagueId)
-        {
-            try
-            {
-                var memId = RDN.Library.Classes.Account.User.GetMemberId();
-                if (!MemberCache.IsMemberApartOfLeague(memId, new Guid(leagueId)))
-                {
-                    return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
-                }
-                
                 var league = MemberCache.GetLeagueOfMember(memId);
                 if (league != null)
                     SetCulture(league.CultureSelected);
 
-                var Data = SponsorManager.GetData(id, new Guid(leagueId));
+                var Data = SponsorShipManager.GetData(id, new Guid(leagueId));
                 if (!String.IsNullOrEmpty(Data.Description))
                 {
                     Data.Description = Data.Description.Replace(Environment.NewLine, "<br/>");
@@ -208,33 +180,5 @@ namespace RDN.League.Controllers.League
             }
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
         }
-        [Authorize]
-        public ActionResult UseCode(long id, string leagueId)
-        {
-            try
-            {
-                var memId = RDN.Library.Classes.Account.User.GetMemberId();
-                if (!MemberCache.IsMemberApartOfLeague(memId, new Guid(leagueId)))
-                {
-                    return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
-                }
-				long usedCount;
-                var Data = SponsorManager.UseCode(id, new Guid(leagueId), out usedCount);
-				if (Data)
-				{
-					return Json(usedCount, JsonRequestBehavior.AllowGet);
-				}
-                return Redirect(Url.Content("~/league/Sponsors?u=" + SiteMessagesEnum.et));
-
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-            return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
-
-        }
-
-       
     }
 }

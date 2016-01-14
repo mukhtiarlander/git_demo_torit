@@ -294,6 +294,7 @@
     <Compile Include="Controllers\League\TeamController.cs" />
     <Compile Include="Controllers\Game\TournamentController.cs" />
     <Compile Include="Controllers\Controls\UtilitiesController.cs" />
+    <Compile Include="Controllers\League\SponsorshipController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -980,6 +981,10 @@
     <Content Include="Views\Federation\Join.cshtml" />
     <Content Include="Views\Shared\_PartialFooter.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Sponsorship\ViewSponsorships.cshtml" />
+    <Content Include="Views\Sponsorship\AddNewSponsorship.cshtml" />
+    <Content Include="Views\Sponsorship\ViewSponsorship.cshtml" />
+    <Content Include="Views\Sponsorship\EditSponsorship.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\img\" />

@@ -1,0 +1,56 @@
+﻿@model Common.Sponsors.Classes.SponsorShipItem
+@{
+    ViewBag.Title = "ViewSponsorship";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/league/rosters/all")">Sposorship</a></li>
+    <li class="active">Details of the roster</li>
+</ol>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3 class="margin-top-5"><i class="fa fa-user"></i> View Sponsorship</h3>
+                    </div>
+                </div>
+                <div class="text-muted"> Details of the Sponsorship.</div>
+            </div>
+
+            <div class="panel-body no-padding-top">
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Sponsorship Name</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b> @Model.SponsorshipName</b></label>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Price</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b>  @Model.Price.ToString()</b></label>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Expires</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b>  @Model.ExpiresDate.ToString()</b></label>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <label class="form-label margin-top-10">Description</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="form-label margin-top-10"><b>  @Html.Raw(Model.Description)</b></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

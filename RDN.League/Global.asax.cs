@@ -826,6 +826,33 @@ new { controller = "Sponsor", action = "ViewSponsor" } // Parameter defaults
 new { controller = "Sponsor", action = "UseCode" } // Parameter defaults
 );
 
+
+            routes.MapRoute(
+"SponsorshipAdd", // Route name
+"league/sponsorship/add", // URL with parameters
+new { controller = "Sponsorship", action = "AddNewSponsorship" } // Parameter defaults
+);
+            routes.MapRoute(
+"Sponsorships", // Route name
+"league/Sponsorships", // URL with parameters
+new { controller = "Sponsorship", action = "ViewSponsorships" } // Parameter defaults
+);
+            routes.MapRoute(
+"EditSponsorship", // Route name
+"league/Sponsorship/edit/{id}/{leagueId}", // URL with parameters
+new { controller = "Sponsorship", action = "EditSponsorship" } // Parameter defaults
+);
+            routes.MapRoute(
+"DeleteSponsorship", // Route name
+"league/Sponsorship/delete/{id}/{leagueId}", // URL with parameters
+new { controller = "Sponsorship", action = "DeleteSponsorship" } // Parameter defaults
+);
+            routes.MapRoute(
+"SponsorshipDetails", // Route name
+"league/Sponsorship/details/{id}/{leagueId}", // URL with parameters
+new { controller = "Sponsorship", action = "ViewSponsorship" } // Parameter defaults
+);
+
             //Designation for league Organization
 
             routes.MapRoute(
