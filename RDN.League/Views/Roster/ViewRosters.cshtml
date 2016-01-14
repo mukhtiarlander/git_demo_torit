@@ -1,7 +1,7 @@
 ﻿@using RDN.Library.Cache
 @model List<RDN.Library.Classes.Roster.Roster>
 @{
-    ViewBag.Title = "ViewRosters";
+    ViewBag.Title = "View Rosters";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -19,7 +19,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-users"></i> Rosters</h3>
+                        <h3 class="margin-bottom-5 margin-top-5"><i class="fa fa-users"></i>View Rosters</h3>
                     </div>
                     @if (MemberCache.IsRosterManagerOrBetter(memId))
                     {

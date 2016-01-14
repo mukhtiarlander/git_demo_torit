@@ -1,7 +1,7 @@
 ﻿@using System.Linq
 @model RDN.League.Models.Roster.RosterModel
 @{
-    ViewBag.Title = "EditRoster";
+    ViewBag.Title = "Edit Roster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -91,6 +91,10 @@
         }
     });
     $(document).ready(function () {
+        $('#GameDate').datepicker({
+            dateFormat: 'mm-dd-yy'
+        });
+        $('#GameDate').datetimepicker('setDate', "@Model.GameDate.ToShortDateString()");
         Roster.InitializeEditRoster();
     });
 </script>

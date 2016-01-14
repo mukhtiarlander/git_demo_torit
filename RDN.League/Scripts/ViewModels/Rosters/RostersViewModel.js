@@ -9,7 +9,7 @@ var Roster = new function() {
     };
     
     this.InitializeEditRoster = function () {
-        $('#GameDate').datepicker({ dateFormat: 'mm-dd-yy' });
+     
         InitializeSortable();
     };
     function InitializeSortable() {
@@ -19,21 +19,18 @@ var Roster = new function() {
             onDrop: function ($item, container, _super) {
                 var $clonedItem = $('<li/>').css({ height: 0 });
                 $item.before($clonedItem);
-                $clonedItem.animate({ 'height': $item.height() });
-
-                $item.animate($clonedItem.position(), function () {
-                    $clonedItem.detach();
-                    _super($item, container);
-                    var arrMembers = [];
-                    $("#rosterMembers").children().each(function (i) {
-                        var li = $(this);
-                        var id = li.attr("data-id");
-                        if (id != "" && id != "@Guid.Empty") {
-                            arrMembers.push(id);
-                        }
-                    });
-                    $("#RosterMemberIds").val(arrMembers.join(","));
+                //$clonedItem.animate({ 'height': $item.height() });
+                $clonedItem.detach();
+                _super($item, container);
+                var arrMembers = [];
+                $("#rosterMembers").children().each(function (i) {
+                    var li = $(this);
+                    var id = li.attr("data-id");
+                    if (id != "" && id != "@Guid.Empty") {
+                        arrMembers.push(id);
+                    }
                 });
+                $("#RosterMemberIds").val(arrMembers.join(","));
             },
             onDragStart: function ($item, container, _super) {
                 var offset = $item.offset(),

@@ -96,11 +96,12 @@ namespace RDN.Library.Classes.Roster
                         InsuranceTypeId = rosterMember != null ? rosterMember.InsuranceType : 0,
                         RosterSize = roster.RosterMembers.Where(x => x.IsRemoved == false).Count()
                     };
-                    var rosterMembers = roster.RosterMembers.Where(x=>x.IsRemoved == false).Select(x => new KeyValueHelper()
+                    var rosterMembers = roster.RosterMembers.Where(x => x.IsRemoved == false).Select(x => MemberCache.GetMemberDisplay(x.Member.MemberId)).Select(x => new KeyValueHelper()
                     {
-                        Id = x.Member.MemberId,
-                        Name = x.Member.Name
+                        Id = x.MemberId,
+                        Name = x.SiteName
                     }).ToList();
+                  
                     item.RosterMembers = rosterMembers;
                     return item;
                 }
