@@ -21,14 +21,14 @@
 </h3>
 
 <div class="titleDescription">
-    Here we will set up the league you are in charge of.  Once created, you will see a additional information added to your league menu at the top.
+    Here we will set up the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() you are in charge of.  Once created, you will see a additional information added to your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() menu at the top.
 </div>
 <br />
 <div class="col-md-8 col-md-offset-2">
     @if (Model.Created)
     {
         <div class="alert alert-info" role="alert">
-            Your League has been Created! <b>Your league will be approved shortly.</b>
+            Your League has been Created! <b>Your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() will be approved shortly.</b>
         </div>
     }
     else if (Model.Updated)
@@ -129,7 +129,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="text-center">
-                        <small>We will contact you shortly, unless we can verify your league online.</small>
+                        <small>We will contact you shortly, unless we can verify your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() online.</small>
                         @Html.HiddenFor(x => x.LeagueId)
                     </td>
                 </tr>

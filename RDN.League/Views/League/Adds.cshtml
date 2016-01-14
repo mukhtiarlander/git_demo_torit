@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Add Multiple Leagues";
+    ViewBag.Title = "Add Multiple " + RDN.Library.Classes.Config.LibraryConfig.TeamsName;
     Layout = "~/Views/Shared/_Layout.cshtml";
-                //allows federation owners to add multiple leagues at once.
+    //allows federation owners to add multiple @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() at once.
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
         <div class="fixTitle">
-            Add Multiple Leagues to @ViewBag.FederationName
+            Add Multiple @RDN.Library.Classes.Config.LibraryConfig.TeamsName to @ViewBag.FederationName
         </div>
         <div class="divider"></div>
         <div>
-            Here you can add leagues to your particular federation.</div>
+            Here you can add @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() to your particular federation.</div>
         <div>
             <table>
                 <thead>

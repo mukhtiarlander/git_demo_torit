@@ -76,7 +76,7 @@
                             <div>
                                 @Html.TextBoxFor(x => x.PayPalEmailAddress, new { @class = "form-control" })
                                 <div class="text-muted margin-top-5 i">
-                                    Email Address of the league to collect dues, this needs to be a <b><a href="@(RDN.Library.Classes.Config.LibraryConfig.WikiSite + RDN.Portable.Classes.Url.UrlManager.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT)" target="_blank">VERIFIED</a></b> paypal account.</div>
+                                    Email Address of the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() to collect dues, this needs to be a <b><a href="@(RDN.Library.Classes.Config.LibraryConfig.WikiSite + RDN.Portable.Classes.Url.UrlManager.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT)" target="_blank">VERIFIED</a></b> paypal account.</div>
                                 </div>
                             </div>
                             <div class="col-xs-12">

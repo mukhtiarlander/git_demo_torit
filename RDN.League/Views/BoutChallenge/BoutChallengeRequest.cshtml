@@ -18,7 +18,7 @@
             <div class="panel-heading">
                 <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-paper-plane"></i> Request for @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge</h3>
                 <span class="text-muted">
-                    Add a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge here for your team.  You are requesting other teams to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
+                    Add a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge here for your team.  You are requesting other teams to play you.  While some of these questions are more for the host, if your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() is traveling, you can also add a request.
                 </span>
             </div>
             @using (Html.BeginForm("BoutChallengeRequest", "BoutChallenge", FormMethod.Post, new { @id = "addNewRequest" }))
@@ -74,12 +74,12 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span class="i">Can your league offer housing?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span class="i">Can your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() offer housing?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered) <span class="i">Leagues like hang over bouts the next day.  Can your league offer one?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered) <span class="i">Leagues like hang over bouts the next day.  Can your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() offer one?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
