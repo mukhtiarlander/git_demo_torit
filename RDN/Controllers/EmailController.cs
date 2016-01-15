@@ -12,7 +12,7 @@ namespace RDN.Controllers
         {
                         EmailOutModel outModel = new EmailOutModel();
             outModel.Email = email;
-            outModel.Successful = SubscriberManager.UnSubscribe((SubscriberType)Convert.ToInt64(listType), email, Convert.ToInt64(id));
+            outModel.Successful = SubscriberManager.UnSubscribe((SubscriberType)Convert.ToInt64(listType), email, id);
 
             return View(outModel);
         }
