@@ -17,14 +17,14 @@
             @Model.Name
             @if (!String.IsNullOrEmpty(Model.Website))
             { 
-                <span class="tvWebsite">- <a target="_blank" href="@Model.Website">League WebSite</a></span>
+                <span class="tvWebsite">- <a target="_blank" href="@Model.Website">@RDN.Library.Classes.Config.LibraryConfig.TeamName WebSite</a></span>
             }
             <br />
             <div class="tvDesc">
                 @Model.State - @Model.Country</div>
         </div>
         <div class="leagueTempSign">
-            <span class="SignUpTemp greenLink"><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/SignUp">Claim This League!</a>
+            <span class="SignUpTemp greenLink"><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/SignUp">Claim This @RDN.Library.Classes.Config.LibraryConfig.TeamName!</a>
             </span>
             <br />
             <br />

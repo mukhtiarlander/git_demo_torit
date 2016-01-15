@@ -101,7 +101,7 @@
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.DoesReceiveLeagueNotifications, new { @onchange = "changeEmailNotification(this, 'league', '" + Model.CurrentLeagueId + "')" })
-                                        <small class="i">Turns On League Email Notifications</small>
+                                        <small class="i">Turns On @RDN.Library.Classes.Config.LibraryConfig.TeamName Email Notifications</small>
                                     </label>
                                 </td>
                             </tr>
@@ -184,7 +184,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="b  text-right">Hide Phone Number From League:</td>
+                                <td class="b  text-right">Hide Phone Number From @RDN.Library.Classes.Config.LibraryConfig.TeamName:</td>
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.Hide_Phone_Number_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Phone_Number_From_League + "')" })
@@ -193,7 +193,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="b  text-right">Hide Email From League:</td>
+                                <td class="b  text-right">Hide Email From @RDN.Library.Classes.Config.LibraryConfig.TeamName:</td>
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.Hide_Email_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Email_From_League + "')" })
@@ -202,7 +202,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="b  text-right">Hide Date Of Birth From League:</td>
+                                <td class="b  text-right">Hide Date Of Birth From @RDN.Library.Classes.Config.LibraryConfig.TeamName:</td>
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.Hide_DOB_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_DOB_From_League + "')" })
@@ -211,7 +211,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="b  text-right">Hide Address from League:</td>
+                                <td class="b  text-right">Hide Address from @RDN.Library.Classes.Config.LibraryConfig.TeamName:</td>
                                 <td>
                                     <label>
                                         @Html.CheckBoxFor(x => x.Hide_Address_From_League, new { @onchange = "Member.SetPrivacySetting(this, '" + MemberPrivacySettingsEnum.Hide_Address_From_League + "')" })

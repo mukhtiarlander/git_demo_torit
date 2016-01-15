@@ -446,7 +446,7 @@
                 @using (Html.BeginForm("RemoveMember", "League"))
                 {
                     <div class="removeMemberButton">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Really Remove Member?');"><i class="fa fa-trash"></i> Remove Member From League</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Really Remove Member?');"><i class="fa fa-trash"></i> Remove Member From @RDN.Library.Classes.Config.LibraryConfig.TeamName</button>
                         @if (ViewBag.Removed)
                         {
                             <span>Removed Successfully!</span>
