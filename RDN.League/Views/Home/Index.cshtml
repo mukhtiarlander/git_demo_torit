@@ -4,6 +4,7 @@
 @using RDN.League.Models.Helpers;
 @using RDN.Portable.Classes.Controls.Calendar.Enums;
 @using RDN.Portable.Classes.Controls.Calendar;
+@using RDN.Portable.Util.Enums
 @model RDN.League.Models.League.HomeModel
 @{
     ViewBag.Title = "Home";
@@ -219,6 +220,8 @@ else
                                     {
                                         var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
                                         var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
+                                        var rsvpStatus = avail != null ? ((AvailibilityEnum)avail.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
+                                        var availableNote = avail != null ? avail.AvailableNotes : string.Empty;
                                         var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
                                         <tr class="homeUpcomingRow" id="@calEvent.CalendarItemId-calendarEventRow">
                                             
@@ -236,7 +239,7 @@ else
                                                 {
                                                     if (avail == null)
                                                     {
-                                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                        <button class="btn btn-sm btn-default" id="@calEvent.CalendarItemId-setAvail" data-note="@availableNote" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
                                                                 data-container="body" data-toggle="popover" data-html="true">
                                                             <i class="fa fa-calendar fa-lg"></i>
                                                         </button>
@@ -245,21 +248,21 @@ else
                                                     {
                                                         if (avail.Availability == AvailibilityEnum.Going)
                                                         {
-                                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                            <button class="btn btn-sm btn-success" id="@calEvent.CalendarItemId-setAvail" data-note="@availableNote" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
                                                                     data-container="body" data-toggle="popover" data-html="true">
                                                                 <i class="fa fa-car fa-lg"></i>
                                                             </button>
                                                         }
                                                         else if (avail.Availability == AvailibilityEnum.Maybe_Going)
                                                         {
-                                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                            <button class="btn btn-sm btn-warning" id="@calEvent.CalendarItemId-setAvail" data-note="@availableNote" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
                                                                     data-container="body" data-toggle="popover" data-html="true">
                                                                 <i class="fa fa-car fa-lg"></i>
                                                             </button>
                                                         }
                                                         else
                                                         {
-                                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" id="@calEvent.CalendarItemId-setAvail" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
+                                                            <button class="btn btn-danger btn-sm padding-3 padding-left-10 padding-right-10" id="@calEvent.CalendarItemId-setAvail" data-note="@availableNote" data-rsvp="@rsvpStatus" onclick="javascript:setAvailForEvent('@Model.Calendar.CalendarId','@calEvent.CalendarItemId')"
                                                                     data-container="body" data-toggle="popover" data-html="true">
                                                                 <i class="fa fa-home font18"></i>
                                                             </button>

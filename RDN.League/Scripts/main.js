@@ -1538,7 +1538,9 @@ function setAvailForEvent(calId, evenId) {
     $("#" + eventId + "-setAvail").popover('show');
     var value = $("#" + eventId + "-setAvail").attr("data-rsvp").trim().replace(" ", "_");
     if (value == "None") value = "";
+    var note = $("#" + eventId + "-setAvail").attr("data-note");
     $(".popover-content #availableSelection").val(value).change();
+    $(".popover-content #availableNotes").val(note);
 }
 
 function CloseAddedRow() {
@@ -1624,6 +1626,7 @@ function setAvailabilityMemberToEvent() {
             }
             $("#" + eventId + "-setAvail").attr("data-rsvp", selectedItem.val().toString().replace("_", " "));
             $("#" + eventId + "-setAvail").attr('data-original-title', selectedItem.val().toString().replace("_", " "));
+            $("#" + eventId + "-setAvail").attr("data-note", noted);
             $('.bottom-right').notify({
                 message: { text: 'RSVPed! ' },
                 fadeOut: { enabled: true, delay: 4000 }

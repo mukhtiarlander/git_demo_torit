@@ -211,7 +211,9 @@
         $(".popover").hide().remove();
         $('button[data-toggle="popover"]').popover('destroy');
         var popup = $('#availablePopUp').clone();
+        var note = $("#" + eventId + "-setAvail").attr("data-note");
         addEventPopup = true;
+        popup.find("#availableNotes").val(note);
         $("#" + eventId + "-setAvail").popover({ content: popup.html() });
         $("#" + eventId + "-setAvail").popover('show');
     }
