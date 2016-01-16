@@ -1,24 +1,24 @@
 ﻿@model RDN.Library.Classes.League.BoutList
 @{
-    ViewBag.Title = "Add Game Challenge";
+    ViewBag.Title = "Add a Challenge";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Guid memId = RDN.Library.Classes.Account.User.GetMemberId();
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
-    <li class="active">Request for Game Challenge</li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/challenge/view/all")">Challenge Requests</a></li>
+    <li class="active">Request for @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge</li>
 </ol>
 
 <div class="row">
     <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-paper-plane"></i> Request for Game Challenge</h3>
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-paper-plane"></i> Request for @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge</h3>
                 <span class="text-muted">
-                    Add a Game Challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
+                    Add a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge here for your team.  You are requesting other teams to play you.  While some of these questions are more for the host, if your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() is traveling, you can also add a request.
                 </span>
             </div>
             @using (Html.BeginForm("BoutChallengeRequest", "BoutChallenge", FormMethod.Post, new { @id = "addNewRequest" }))
@@ -69,17 +69,17 @@
                       
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsStreamLive) <span class="i">Do you broadcast games live online/TV?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsStreamLive) <span class="i">Do you broadcast live online/TV?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span class="i">Can your league offer housing?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span class="i">Can your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() offer housing?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered) <span class="i">Leagues like hang over bouts the next day.  Can your league offer one?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered) <span class="i">@RDN.Library.Classes.Config.LibraryConfig.TeamsName like hang over bouts the next day.  Can your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() offer one?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">

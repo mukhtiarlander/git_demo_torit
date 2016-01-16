@@ -12,7 +12,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Members Permissions</li>
 </ol>
 <div class="panel panel-default margin-top-20">
@@ -37,7 +37,7 @@
                 }
                 else
                 {
-                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower()">
                         <i class="fa fa-file-text"></i> Report
                     </a>
                 }
@@ -251,7 +251,7 @@
                 <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Treasurer)</b> - Has manager access to Dues Management.
             </li>
             <li>
-                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Head_Ref)</b> - Has manager access to Games.
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Head_Ref)</b> - Has manager access to @RDN.Library.Classes.Config.LibraryConfig.GamesName
             </li>
             <li>
                 <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Shops)</b> - Has manager access to the shop of the league.
@@ -269,7 +269,7 @@
                 <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Polls)</b> - Poll Manager can create, edit and view polls and their results.
             </li>
             <li>
-                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Inventory)</b> - Inventory Manager manages the leagues inventory and items for the league.
+                <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Inventory)</b> - Inventory Manager manages the @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() inventory and items for the league.
             </li>
             <li>
                 <b>@RDN.Utilities.Enums.EnumExt.ToFreindlyName(LeagueOwnersEnum.Sponsorship)</b> - Can manage sponsors, add remove and edit all sponsorship information.

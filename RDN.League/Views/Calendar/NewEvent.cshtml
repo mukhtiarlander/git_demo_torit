@@ -11,7 +11,7 @@
     bool isSec = MemberCache.IsSecretaryOrBetterOfLeague(memId);
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
         <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "")) ">Calendar</a></li>
@@ -28,7 +28,7 @@
             <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-plus-circle"></i> New Event</h3>
             <span class="text-muted">
                 Here you create events to start tracking attendance for your league. It also allows
-                you to keep track of events them selves to better manage your leagues by telling
+                you to keep track of events them selves to better manage your @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() by telling
                 them when and where each event is.
             </span>
         </div>
@@ -49,7 +49,7 @@
                         </button>
                         <div class="margin-bottom-20 margin-top-5">
                             <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 margin-bottom-10" style="background:none">
-                                <span class="label label-primary font12 padding-top-5">Entire League</span>
+                                <span class="label label-primary font12 padding-top-5">Entire @RDN.Library.Classes.Config.LibraryConfig.TeamName</span>
                             </div>
                             <div class="displayNone padding-left-10" id="groupMemberLists">
                                 <ul id="groupList" class="list-unstyled"></ul>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6">
                                     @if (isSec)
-                                    { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                                    { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName Internal</a></span>}
                                 </div>
                             </div>
                         </div>

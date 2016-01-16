@@ -50,7 +50,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
         <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month) ">Calendar</a></li>
@@ -270,7 +270,7 @@
                              {
                                  <tr class="trBorderB">
                                      <td class="text-right b">
-                                         On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                                         On @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName:
                                      </td>
                                      <td>
                                          <a href="@Model.Link" target="_blank">@Model.Link</a>

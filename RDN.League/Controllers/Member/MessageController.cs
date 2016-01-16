@@ -177,7 +177,7 @@ namespace RDN.League.Controllers
                 if (model.OwnerType == GroupOwnerTypeEnum.member)
                 {
                     model.Recipients = Messages.GetConnectedMembersOfMember(new Guid(id));
-                    model.Groups = MemberCache.GetGroupsApartOf(new Guid(id));
+                    model.Groups = MemberCache.GetLeagueGroupsOfMember(new Guid(id));
                 }
                 else if (model.OwnerType == GroupOwnerTypeEnum.shop)
                 {

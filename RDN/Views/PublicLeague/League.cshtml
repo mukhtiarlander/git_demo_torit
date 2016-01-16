@@ -159,7 +159,7 @@
                             @foreach (var group in publicGroupTeams)
                             {
                                 <li class="fa-3x">
-                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                    <a href='@String.Format(RDN.Library.Classes.Config.LibraryConfig.InternalSite+ "/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i> 
                                     </a>
                                     @group.GroupName
@@ -181,7 +181,7 @@
                             @foreach (var group in publicGroupCommittees)
                             {
                                 <li class="fa-3x">
-                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                    <a href='@String.Format(RDN.Library.Classes.Config.LibraryConfig.InternalSite+ "/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i>
                                     </a>
                                     @group.GroupName
@@ -203,7 +203,7 @@
                             @foreach (var group in publicGroupReferees)
                             {
                                 <li class="fa-3x">
-                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                    <a href='@String.Format(RDN.Library.Classes.Config.LibraryConfig.InternalSite+ "/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i>
                                     </a>
                                     @group.GroupName
@@ -225,7 +225,7 @@
                             @foreach (var group in publicGroupCoaches)
                             {
                                 <li class="fa-3x">
-                                    <a href='@String.Format("https://league.rdnation.com/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
+                                    <a href='@String.Format(RDN.Library.Classes.Config.LibraryConfig.InternalSite+ "/messages/new/{0}", @group.Id)' title='@String.Format("Contact {0}", @group.GroupName)'>
                                         <i class="fa fa-envelope"></i>
                                     </a>
                                     @group.GroupName

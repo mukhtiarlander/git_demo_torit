@@ -85,15 +85,15 @@
                 @if (MemberCache.GetLeagueIdOfMember(memId) == new Guid() || (isConnected && !MemberCache.HasOwnersOfLeague(memId, MemberCache.GetLeagueIdOfMember(memId))))
                 {
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">League<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.TeamName<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="@Url.Content("~/league/setup")" title="Setup League">
-                                    <i class="fa fa-wrench"></i>Setup
+                                <a href="@Url.Content("~/league/setup")" title="Setup @RDN.Library.Classes.Config.LibraryConfig.TeamName">
+                                    <i class="fa fa-wrench"></i>Create
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Content("~/league/join")" title="Join League">
+                                <a href="@Url.Content("~/league/join")" title="Join @RDN.Library.Classes.Config.LibraryConfig.TeamName">
                                     <i class="fa fa-check-circle"></i>Join
                                 </a>
                             </li>
@@ -103,14 +103,14 @@
                 else if (MemberCache.GetLeagueIdOfMember(memId) != new Guid())
                 {
                     <li class="dropdown ">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">League<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.TeamName<span class="caret"></span></a>
                         <ul class="dropdown-menu multi-column columns-3">
                             <div class="row no-margin">
                                 <div class="col-sm-4 no-padding">
                                     <ul class="multi-column-dropdown">
                                         <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">Personal</li>
                                         <li>
-                                            <a href="@Url.Content("~/")" title="League Home">
+                                            <a href="@Url.Content("~/")" title="@RDN.Library.Classes.Config.LibraryConfig.TeamName Home">
                                                 <i class="fa fa-home"></i>Home
                                             </a>
                                         </li>
@@ -171,7 +171,7 @@
                                 </div>
                                 <div class="col-sm-4 no-padding">
                                     <ul class="multi-column-dropdown">
-                                        <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">League</li>
+                                        <li class="padding-left-15 padding-top-5 padding-bottom-5 text-muted">@RDN.Library.Classes.Config.LibraryConfig.TeamName</li>
                                         <li>
                                             @if (isPaid)
                                             {
@@ -290,7 +290,7 @@
                                         @if (isSec)
                                         {
                                             <li>
-                                                <a href="@Url.Content("~/league/edit/" + leagueId)" title="Edit League">
+                                                <a href="@Url.Content("~/league/edit/" + leagueId)" title="Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName">
                                                     <i class="fa fa-pencil-square"></i>Edit
                                                 </a>
                                             </li>
@@ -298,7 +298,7 @@
                                         @if (isShopMan)
                                         {
                                             <li>
-                                                <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlLeague(memId))" title="League Shop">
+                                                <a href="@Url.Content("~/store/home/" + MemberCache.GetStoreManagerKeysForUrlLeague(memId))" title="@RDN.Library.Classes.Config.LibraryConfig.TeamName Shop">
                                                     <i class="fa fa-shopping-cart"></i>Shop
                                                 </a>
                                             </li>
@@ -367,7 +367,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Games
+                        @RDN.Library.Classes.Config.LibraryConfig.GamesName
                         @if (games_cnt > 0)
                         {
                             <span class="label label-warning margin-left-10">@games_cnt</span>
@@ -377,7 +377,7 @@
                     <ul class="dropdown-menu" role="menu">
 
                         <li>
-                            <a href="@Url.Content("~/gamechallenge/view/all")" title="Game Challenges">
+                            <a href="@Url.Content("~/challenge/view/all")" title="@RDN.Library.Classes.Config.LibraryConfig.GameName Challenges">
                                 <i class="fa fa-thumbs-up"></i>Challenge
                                 @if (ManagementCache.GetBoutChallengesCount() > 0)
                                 {<span class="label label-warning margin-left-10">@ManagementCache.GetBoutChallengesCount()</span>}
@@ -391,20 +391,20 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Content("~/game/upload")" title="Upload Game">
+                            <a href="@Url.Content("~/game/upload")" title="Upload @RDN.Library.Classes.Config.LibraryConfig.GameName">
                                 <i class="fa fa-upload"></i>Upload
                             </a>
                         </li>
                         @if (isConnected)
                         {
                             <li>
-                                <a href="@Url.Content("~/game/view/all/skater")" title="Games Played">
+                                <a href="@Url.Content("~/game/view/all/skater")" title="@RDN.Library.Classes.Config.LibraryConfig.GamesName Played">
                                     <i class="fa fa-check-circle"></i>Played
                                 </a>
                             </li>
                         }
                         <li>
-                            <a href="@Url.Content("~/game/manage/all")" title="Games Owned">
+                            <a href="@Url.Content("~/game/manage/all")" title="@RDN.Library.Classes.Config.LibraryConfig.GamesName Owned">
                                 <i class="fa fa-user"></i>Owned
                             </a>
                         </li>
@@ -437,8 +437,8 @@
                         <li><a href="@Url.Content("~/member/username")"><i class="fa fa-envelope"></i>Change Email</a></li>
                         <li><a href="@Url.Content("~/account/logout")"><i class="fa fa-sign-out"></i>Logout</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="@Url.Content("~/league/setup")">Setup New League</a></li>
-                        <li role="presentation"><a href="@Url.Content("~/league/join")">Join League</a></li>
+                        <li><a href="@Url.Content("~/league/setup")">Create @RDN.Library.Classes.Config.LibraryConfig.TeamName</a></li>
+                        <li role="presentation"><a href="@Url.Content("~/league/join")">Join @RDN.Library.Classes.Config.LibraryConfig.TeamName</a></li>
                         <li>
                             <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite" title="Help" target="_blank">
                                 <i class="fa fa-question-circle"></i>Help

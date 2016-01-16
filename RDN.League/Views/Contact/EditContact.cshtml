@@ -6,7 +6,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/" + Model.ContactType + "/contacts")">Contacts</a></li>
     <li class="active">Edit & View Contact</li>
 </ol>
@@ -110,7 +110,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-4">
                     <label class="margin-top-30">
-                        @Html.CheckBoxFor(x => x.IsViewableToLeagueMember) League Members can View Contact
+                        @Html.CheckBoxFor(x => x.IsViewableToLeagueMember) @RDN.Library.Classes.Config.LibraryConfig.TeamName Members can View Contact
                     </label>
                 </div>
                 <div class="col-xs-12">

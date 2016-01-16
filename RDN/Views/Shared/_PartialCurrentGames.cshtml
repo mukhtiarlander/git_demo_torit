@@ -1,12 +1,12 @@
 ﻿<div class="currentGamesBar" id="currentGamesBar">
     <div class="cgbHead">
-        Live Games
+        Live @RDN.Library.Classes.Config.LibraryConfig.GamesName
     </div>
     <!-- ko if: currentGames().length > 0 -->
     <div class="currentGameContainer" data-bind="foreach: currentGames">
         <a data-bind="attr: { href: gameUrl }">
              <!-- ko if: isGameStreaming -->
-            <img style="float:left; vertical-align:middle;" title="Game Is Streaming Live" width="32" src="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/Content/images/icons/Streaming.png" />
+            <img style="float:left; vertical-align:middle;" title="@RDN.Library.Classes.Config.LibraryConfig.GameName Is Streaming Live" width="32" src="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/Content/images/icons/Streaming.png" />
                 <!-- /ko -->
             <div class="currentGame">
                

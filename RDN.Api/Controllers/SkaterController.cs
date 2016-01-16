@@ -45,13 +45,13 @@ namespace RDN.Api.Controllers
                 if (nrOfMembers < 1023)
                     nrOfMembers = 1023;
                 names = SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
-                        .Where(x => !x.photoUrl.Contains("roller-girl"))
-                        .Where(x => !x.photoUrl.Contains("roller-person")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
+                        .Where(x => !x.photoUrl.Contains("no-picture"))
+                        .Where(x => !x.photoUrl.Contains("no-picture")).OrderBy(x => Guid.NewGuid()).Take(4).ToList();
                 //minim 4
                 if (names.Count < 4)
                 {
                     names.AddRange(SiteCache.GetAllPublicMembers().Where(x => !String.IsNullOrEmpty(x.photoUrl))
-                        .Where(x => x.photoUrl.Contains("roller-girl") || x.photoUrl.Contains("roller-person"))
+                        .Where(x => x.photoUrl.Contains("no-picture") || x.photoUrl.Contains("no-picture"))
                         .OrderBy(x => Guid.NewGuid()).Take(4 - names.Count).ToList());
                 }
             }

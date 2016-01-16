@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">My League</a></li>
+                    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">My @RDN.Library.Classes.Config.LibraryConfig.TeamName</a></li>
                 }
 
                 <li class="dropdown">
@@ -32,7 +32,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@RDN.Library.Classes.Config.LibraryConfig.GamesName <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.GamesUrl)">View</a></li>
                         @if (RDN.Library.Classes.Config.LibraryConfig.SiteType== RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
@@ -40,7 +40,7 @@
                             <li><a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">Scoreboard</a></li>
                         }
                         <li><a href="@RDN.Library.Classes.Config.LibraryConfig.TournamentsPublicUrl">Tournaments</a></li>
-                        <li><a href="@Url.Content("~/game-challenge/view/all")">Game Challenges</a></li>
+                        <li><a href="@Url.Content("~/challenge/view/all")">@RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</a></li>
                     </ul>
                 </li>
                 <li><a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-events")">Events</a></li>

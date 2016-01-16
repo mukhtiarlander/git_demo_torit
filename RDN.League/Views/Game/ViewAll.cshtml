@@ -1,12 +1,12 @@
 ﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Library.Classes.Game.Game>>
 @{
-    ViewBag.Title = "All Games";
+    ViewBag.Title = "All "+ RDN.Library.Classes.Config.LibraryConfig.GamesName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li class="active">Games for @ViewBag.Name</li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
+    <li class="active">@RDN.Library.Classes.Config.LibraryConfig.GamesName for @ViewBag.Name</li>
 </ol>
 
 

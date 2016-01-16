@@ -1,22 +1,22 @@
 ﻿@model RDN.League.Models.OutModel.GenericSingleModel<RDN.League.Models.Utilities.SimpleModPager<RDN.Portable.Classes.League.Classes.League>>
 @{
-    ViewBag.Title = "View Leagues for " + ViewBag.FederationName;
+    ViewBag.Title = "View "+ RDN.Library.Classes.Config.LibraryConfig.TeamsName + " for " + ViewBag.FederationName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="expandableContainer">
     <div class="expandableCenterContainter">
         <div class="fixTitle">
-            Leagues For @ViewBag.FederationName
+            @RDN.Library.Classes.Config.LibraryConfig.TeamsName For @ViewBag.FederationName
         </div>
       
           <div class="titleDescription">
-  Here you can view the Leagues Attached to Your Federation.
+  Here you can view the @RDN.Library.Classes.Config.LibraryConfig.TeamsName Attached to Your Federation.
         
             </div>
             <div class="divider"></div>
         <div>
             <div>
-                Leagues
+                @RDN.Library.Classes.Config.LibraryConfig.TeamsName
             </div>
             <table class="listTable" id="leagues">
                 <thead>
@@ -67,7 +67,7 @@
         <div class="divider"></div>
         <div>
             <div>
-                Pending Leagues
+                Pending @RDN.Library.Classes.Config.LibraryConfig.TeamsName
             </div>
         </div>
     </div>

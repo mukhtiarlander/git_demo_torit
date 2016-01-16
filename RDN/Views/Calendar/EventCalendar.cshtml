@@ -25,24 +25,24 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            @*@if (!String.IsNullOrEmpty(Model.LogoUrl))
-                {*@
-            <div class="bg-black margin-bottom-10">
-                @*<img src="@Model.LogoUrl" class="imgMaxSize imgCenter  img-responsive" />*@
-                <img src="/Content/ImageSlides/images/13.jpg" class="imgMaxSize imgCenter img-responsive" />
-            </div>
-            @*}*@
-            @*@if (string.IsNullOrEmpty(Model.NotesHtml))
-                {*@
-            <div class="margin-bottom-10">
-                <div class="page-header margin-bottom-10 margin-top-10">
-                    <h4 class="no-margin">Event Detail</h4>
+            @if (!String.IsNullOrEmpty(Model.LogoUrl))
+            {
+                <div class="bg-black margin-bottom-10">
+                    <img src="@Model.LogoUrl" class="imgMaxSize imgCenter  img-responsive" />
+                    @*<img src="/Content/ImageSlides/images/13.jpg" class="imgMaxSize imgCenter img-responsive" />*@
                 </div>
-                <div>
-                    @Html.Raw(Model.NotesHtml)
+            }
+            @if (string.IsNullOrEmpty(Model.NotesHtml))
+            {
+                <div class="margin-bottom-10">
+                    <div class="page-header margin-bottom-10 margin-top-10">
+                        <h4 class="no-margin">Event Detail</h4>
+                    </div>
+                    <div>
+                        @Html.Raw(Model.NotesHtml)
+                    </div>
                 </div>
-            </div>
-            @*}*@
+            }
             <div class="margin-bottom-10">
                 <div class="page-header margin-bottom-10 margin-top-10">
                     <h4 class="no-margin">Comments</h4>

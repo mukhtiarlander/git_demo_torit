@@ -104,14 +104,14 @@ namespace RDN
               "Gameid", // Route name
               "{url}/{id}", // URL with parameters
               new { controller = "Game", action = "Index" },  // Parameter defaults
-              new { url = "(roller-derby-game|soccer-game|swim-meet|rowing-sprint|rugby-game)", id = "[a-zA-Z0-9]+" }
+              new { url = "(roller-derby-game|soccer-game|swim-meet|rowing-regatta|rugby-game)", id = "[a-zA-Z0-9]+" }
           );
 
             routes.MapRoute(
                 "Game", // Route name
                 "{url}/{id}/{gameName}/{team1}/{team2}", // URL with parameters
                 new { controller = "Game", action = "Index", team1 = UrlParameter.Optional, team2 = UrlParameter.Optional }, // Parameter defaults
-                new { url = "(roller-derby-game|soccer-game|swim-meet|rowing-sprint|rugby-game)", id = "[a-zA-Z0-9]+" }
+                new { url = "(roller-derby-game|soccer-game|swim-meet|rowing-regatta|rugby-game)", id = "[a-zA-Z0-9]+" }
             );
 
 
@@ -119,14 +119,14 @@ namespace RDN
                 "Games", // Route name
                 "{url}", // URL with parameters
                 new { controller = "Games", action = "Index", id = UrlParameter.Optional },
-                new { url = "(roller-derby-games|soccer-games|swim-meets|rowing-sprints|rugby-games)" }
+                new { url = "(roller-derby-games|soccer-games|swim-meets|rowing-regattas|rugby-games)" }
             );
 
             routes.MapRoute(
     "Games2", // Route name
     "{url}", // URL with parameters
     new { controller = "Games", action = "Index", id = UrlParameter.Optional },
-                new { url = "(roller-derby-game|soccer-game|swim-meet|rowing-sprint|rugby-game)" }
+                new { url = "(roller-derby-game|soccer-game|swim-meet|rowing-regatta|rugby-game)" }
 );
 
             routes.MapRoute(
@@ -143,13 +143,13 @@ namespace RDN
    "ViewAllChallenges",
    "{url}/view/all",
    new { controller = "Games", action = "AllBoutList" },
-   new { url = "(bout|game)-challenge" }
+   new { url = "challenge" }
 );
             routes.MapRoute(
    "ViewChallengeDetails", // Route name
    "{url}/view/{ChallengeId}",
    new { controller = "Games", action = "ViewBoutEvent" },
-   new { url = "(bout|game)-challenge" }
+   new { url = "challenge" }
 );
 
 

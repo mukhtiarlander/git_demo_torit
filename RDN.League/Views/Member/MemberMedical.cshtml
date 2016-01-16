@@ -11,7 +11,7 @@
 
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Medical</li>
 </ol>
 
@@ -20,7 +20,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-top-10 margin-bottom-5"><i class="fa fa-medkit"></i> @Model.DerbyName's Medical Record</h3>
-                <span class="text-muted">This information is for the betterment of your leagues information in case of any emergencies. By completing this information, you agree with your leagues management team the right to view it. Privacy information is found below.</span>
+                <span class="text-muted">This information is for the betterment of your @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() information in case of any emergencies. By completing this information, you agree with your @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() management team the right to view it. Privacy information is found below.</span>
             </div>
             @using (Html.BeginForm("MemberMedical", "Member", FormMethod.Post))
             {
@@ -157,9 +157,9 @@
                 </div>
                 <div class="panel-footer">
                     <div class="alert alert-info no-margin-bottom">
-                        <small>By completing this information, you agree with your leagues management team the right to view it.</small>
-                        <small>@RDN.Utilities.Config.ConfigManager.WebsiteShortName claims no ownership of this information. We use the best in web security to store and transmit this information over the web.  For more information, please review our <a href="@RDN.Utilities.Config.ConfigManager.PrivacyUrl" target="_blank">privacy policy.</a></small>
-                        <small>@RDN.Utilities.Config.ConfigManager.WebsiteShortName complies with HIPPA.</small>
+                        <small>By completing this information, you agree with your @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() management team the right to view it.</small>
+                        <small>@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName claims no ownership of this information. We use the best in web security to store and transmit this information over the web.  For more information, please review our <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/privacy" target="_blank">privacy policy.</a></small>
+                        <small>@RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName complies with HIPPA.</small>
                     </div>
                 </div>
                 <div class="panel-footer text-right">

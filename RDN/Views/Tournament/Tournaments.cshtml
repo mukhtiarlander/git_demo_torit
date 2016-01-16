@@ -5,7 +5,7 @@
 }
 <div class="container">
     <ol class="breadcrumb">
-        <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+        <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
         <li class="active">@RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments</li>
     </ol>
     <div class="panel panel-default">
@@ -29,7 +29,7 @@
                         <th>End</th>
                         <th>Location</th>
                         <th>Class</th>
-                        <th>Games</th>
+                        <th>@RDN.Library.Classes.Config.LibraryConfig.GamesName</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,14 +75,15 @@
         </div>
     </div>
 
-
+    @if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+    {
     <div class="gpSBVersion well">
-        Want to Show Your Games LIVE on @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName For Free?
+        Want to Show Your @RDN.Library.Classes.Config.LibraryConfig.GamesName LIVE on @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName For Free?
         <br />
         <a href="@RDN.Library.Classes.Config.LibraryConfig.PublicSite/@RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl-scoreboard">
          <i class="fa fa-download"></i> Download Thor's Hammer @RDN.Library.Classes.Config.LibraryConfig.SportName Scoreboard
         </a>
-    </div>
+    </div>}
 </div>
 
 

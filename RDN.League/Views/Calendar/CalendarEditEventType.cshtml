@@ -10,7 +10,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
         <li><a href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
@@ -62,7 +62,7 @@
                         <div class="margin-bottom-10">
                             @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()", @class = "form-control margin-bottom-5" }) 
                             @if (isSec)
-                            {<span class="i text-muted">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                            {<span class="i text-muted">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName Internal</a></span>}
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
