@@ -41,7 +41,7 @@ namespace Common.CordovaModules
 
         public string PlatformCookieKey { get; set; }
 
-        public IHtmlString GetCordovaScript(string platform)
+        public IHtmlString GetCordovaScript(string platform, string appJs = "app.js")
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Common.CordovaModules
                 if (_platformList.Any(p => p == platform))
                 {
                     cordovaPath = CordovaScriptsPath+ "/cordovadist/" + platform + "/cordova.js";
-                    cordovaAppPath = CordovaScriptsPath + "/cordovaApp/app.js";
+                    cordovaAppPath = CordovaScriptsPath + "/cordovaApp/" + appJs;
                     //cordovaPluginsPath = CordovaScriptsPath + "/cordovadist/" + platform + "/cordova_plugins.js";
                 }
                 return Scripts.Render(cordovaPath, cordovaAppPath);
