@@ -13,7 +13,6 @@ namespace RDN.League.Controllers
         public ActionResult SetPlatformCookie(string platform)
         {
             HttpContext.Response.SetCordovaCookie(platform);
-            Thread.Sleep(5000);
             return RedirectToAction("Login","Account");
         }
     }
