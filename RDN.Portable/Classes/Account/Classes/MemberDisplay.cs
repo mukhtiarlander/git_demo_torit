@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using RDN.Portable.Classes.Sponsorship;
 
 namespace RDN.Portable.Classes.Account.Classes
 {
@@ -33,6 +34,7 @@ namespace RDN.Portable.Classes.Account.Classes
             ContactCard = new ContactCard.ContactCard();
             Settings = new MemberSettingsClass();
             InsuranceNumbers = new List<InsuranceNumber>();
+            Sponsorships = new List<SponsorshipDisplay>();
         }
 
         /// <summary>
@@ -345,5 +347,9 @@ namespace RDN.Portable.Classes.Account.Classes
         public DateTime? YearStartedSkating { get; set; }
 
         public List<InsuranceNumber> InsuranceNumbers { get; set; }
+
+        [ProtoMember(176)]
+        [DataMember]
+        public List<Sponsorship.SponsorshipDisplay> Sponsorships { get; set; }
     }
 }

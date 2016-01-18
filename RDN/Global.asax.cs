@@ -284,6 +284,11 @@ new { controller = "Home", action = "Error" } // Parameter defaults
             new { url = "(roller-derby|soccer)-skater" }
                    );
 
+            routes.MapRoute(
+          "PublicLeagueSponsorship", // Route name
+          "sponsorships/{leagueId}/{id}", // URL with parameters
+          new { controller = "PublicProfile", action = "Sponsorship" });
+
 
             routes.MapRoute(
             "AllRefs", // Route name
@@ -336,11 +341,7 @@ new { controller = "Home", action = "Error" } // Parameter defaults
                         "PublicLeagueDerbyRoster", // Route name
                         "{url}/2/{name}/{id}", // URL with parameters
                         new { controller = "PublicLeague", action = "LeagueDerbyRoster" },
-            new { url = "(roller-derby|soccer)-league" }
-                                );
-
-
-
+            new { url = "(roller-derby|soccer)-league" });
 
 
             #endregion

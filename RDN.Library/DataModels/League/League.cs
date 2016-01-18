@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using Common.Sponsors.DataModels.Sponsor;
 using RDN.Library.DataModels.Base;
 using RDN.Library.DataModels.Bouts;
 using RDN.Library.DataModels.Federation;
@@ -10,6 +11,8 @@ using RDN.Library.DataModels.League.Report;
 using RDN.Library.DataModels.League.OrganizationChart;
 using RDN.Library.DataModels.Officials;
 using System.ComponentModel.DataAnnotations.Schema;
+using Common.Sponsors;
+
 
 namespace RDN.Library.DataModels.League
 {
@@ -58,7 +61,7 @@ namespace RDN.Library.DataModels.League
         public virtual ICollection<Organization> Organization { get; set; }
         public virtual ICollection<Organize> Organize { get; set; }
         public virtual ICollection<Designation> Designation { get; set; }
-        public virtual ICollection<Sponsorship> Sponsorships { get; set; }
+      
         public virtual ICollection<JobBoard> JobBoards { get; set; }
         public virtual List<BoutList> BoutChallenges { get; set; }
         public virtual ICollection<LeagueMember> Members { get; set; }

@@ -4,6 +4,8 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using Common.Sponsors.DataModels.Context;
+using Common.Sponsors.DataModels.Sponsor;
 using RDN.Library.Classes.Account.Classes;
 using RDN.Library.Classes.Account.Enums;
 using RDN.Library.Classes.Utilities;
@@ -11,6 +13,7 @@ using RDN.Library.DataModels.ContactCard;
 using RDN.Library.DataModels.Context;
 using RDN.Library.DataModels.Member;
 using RDN.Library.Classes.Error;
+using RDN.Portable.Classes.Sponsorship;
 using RDN.Utilities.Error;
 using RDN.Library.DataModels.Federation;
 using Scoreboard.Library.ViewModel;
@@ -816,7 +819,7 @@ namespace RDN.Library.Classes.Account
                     output.Add(NewUserEnum.Password_IsEmpty);
                 else
                     if (password.Length < 6)
-                    output.Add(NewUserEnum.Password_TooShort);
+                        output.Add(NewUserEnum.Password_TooShort);
 
 
                 if (string.IsNullOrEmpty(firstname))
@@ -2311,6 +2314,8 @@ namespace RDN.Library.Classes.Account
             try
             {
                 var dc = new ManagementContext();
+                var dcSponsor = new SponsorContext();
+
                 var member = dc.Members.Include("Notifications").Include("Settings").Include("Leagues").Include("Leagues.SkaterClass").Include("InsuranceNumbers").Include("ContactCard").Include("ContactCard.Emails").Include("ContactCard.Communications").Include("Photos").Include("Federations").Include("MedicalInformation").FirstOrDefault(x => x.MemberId.Equals(memberId));
                 if (member == null)
                     return null;
@@ -2397,6 +2402,10 @@ namespace RDN.Library.Classes.Account
 
                 DisplayInsuranceNumbers(member.InsuranceNumbers, mem);
                 DisplayMemberNotifications(member.Notifications, mem);
+                var sponsorships =
+                    dcSponsor.Sponsorships.Where(x => x.IsRemoved == false && x.OwnerId == member.CurrentLeagueId);
+
+                DisplaySopnsorships(sponsorships, mem);
 
                 mem.Settings = MemberSettingsFactory.DisplayMemberSettings(member.Settings);
 
@@ -2458,6 +2467,9 @@ namespace RDN.Library.Classes.Account
                     }
                 }
                 mem.PlayerNumber = member.PlayerNumber;
+
+
+
                 if (member.Leagues.Count > 0)
                 {
                     foreach (var league in member.Leagues)
@@ -2804,6 +2816,32 @@ namespace RDN.Library.Classes.Account
                 }
             }
         }
+
+        private static void DisplaySopnsorships(
+            IQueryable<SponsorshipDb> Sponsorships, MemberDisplay mem)
+        {
+            try
+            {
+                mem.Sponsorships =
+            Sponsorships.Where(x => x.IsRemoved == false)
+                .Select(x => new SponsorshipDisplay()
+                {
+                    Description = x.Description,
+                    ExpiresDate = x.ExpiresDate,
+                    IsRemoved = x.IsRemoved,
+                    OwnerId = x.OwnerId,
+                    Price = x.Price,
+                    SponsorshipId = x.SponsorshipId,
+                    SponsorshipName = x.SponsorshipName
+
+                }).ToList();
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType());
+            }
+        }
+
         private static void DisplayMemberNotifications(MemberNotifications notifications, MemberDisplay mem)
         {
             if (notifications != null)

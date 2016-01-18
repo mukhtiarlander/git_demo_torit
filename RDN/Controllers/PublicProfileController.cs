@@ -91,5 +91,11 @@ namespace RDN.Controllers
             return View();
         }
 
+        public ActionResult Sponsorship(string leagueId, long Id)
+        {
+            var sponsorship = SiteCache.GetSponsorship(new Guid(leagueId), Id);
+            return View(sponsorship);
+        }
+
     }
 }

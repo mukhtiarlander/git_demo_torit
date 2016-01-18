@@ -1,0 +1,39 @@
+﻿@using RDN.Library.Classes.Config
+@model RDN.Portable.Classes.Sponsorship.SponsorshipDisplay
+@{
+    ViewBag.Title = "Sponsorship";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-header text-center">
+    <div class="row">
+        <div class="text-center">
+            @if (Model.League.Logo != null)
+            {
+                <img src="@Model.League.Logo.ImageUrl" style="max-height:400px;" class="img-rounded img-responsive imgCenter" />
+
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-center">
+            <h2>
+                @Model.League.Name
+            </h2>
+            <div class="row text-center">
+                <h2>@Model.SponsorshipName</h2>
+            </div>
+            <div class="row text-center">
+                <P>@Html.Raw(Model.Description)</P>
+            </div>
+            <div class="row text-center">
+                <h3>$ @Model.Price</h3>
+            </div>
+            <div class="row text-center">
+              <a href="#" class="btn btn-success">Sponsor Now</a>
+            </div>
+        </div>
+    </div>
+
+</div>

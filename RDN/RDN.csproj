@@ -591,6 +591,7 @@
     <Content Include="Views\Email\UnSubscribe.cshtml" />
     <Content Include="Views\Cordova\Index.cshtml" />
     <Content Include="Views\Shared\_PartialFooterLink.cshtml" />
+    <Content Include="Views\PublicProfile\Sponsorship.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -612,6 +613,10 @@
     <ProjectReference Include="..\..\Common.EmailServer\Common.EmailServer.Library\Common.EmailServer.Library.csproj">
       <Project>{8f5564dd-897d-4567-9803-e506b38ad361}</Project>
       <Name>Common.EmailServer.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.Sponsors\Common.Sponsors.csproj">
+      <Project>{374e98cf-6460-4f7d-b729-0811b54c8cc8}</Project>
+      <Name>Common.Sponsors</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common.CordovaModules\Common.CordovaModules.csproj">
       <Project>{7bfbbcae-2961-4e86-9daa-0683c165c440}</Project>

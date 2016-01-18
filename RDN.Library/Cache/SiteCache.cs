@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Common.Sponsors.Classes;
 using RDN.Library.Classes.Account.Classes;
 using RDN.Library.Classes.Account.Classes.Json;
 using RDN.Library.Classes.Calendar;
@@ -20,6 +21,7 @@ using RDN.Library.Classes.Store.Classes;
 using RDN.Library.Classes.Store.Display;
 using RDN.Library.Classes.Utilities;
 using RDN.Mobile.Classes.Account;
+using RDN.Portable.Classes.Sponsorship;
 using RDN.Utilities.Config;
 using RDN.Portable.Config;
 using RDN.Portable.Models.Json;
@@ -74,6 +76,8 @@ namespace RDN.Library.Cache
         public List<Tournament> Tournaments { get; set; }
         public List<MemberDisplayBasic> MemberIdsForUserNames { get; set; }
         public List<Common.Site.Classes.Configations.SiteConfiguration> SiteConfiguration { set; get; }
+        public List<SponsorshipDisplay> Sponsorships { set; get; }
+   
 
         public static Document GetDocument(Guid documentId)
         {
@@ -445,6 +449,45 @@ namespace RDN.Library.Cache
             }
             return null;
         }
+        public static SponsorshipDisplay GetSponsorship(Guid leagueId, long Id)
+        {
+            try
+            {
+                var cached = GetCache(HttpContext.Current.Cache);
+                if (cached.Sponsorships == null)
+                    cached.Sponsorships = new List<SponsorshipDisplay>();
+                SponsorshipDisplay sponsorshipDisplay = null;
+                if (cached.Sponsorships.Count > 0)
+                    sponsorshipDisplay = cached.Sponsorships.Where(x => x.OwnerId == leagueId && x.SponsorshipId == Id).FirstOrDefault();
+
+                if (sponsorshipDisplay == null)
+                {
+                    var sponsorship = SponsorShipManager.GetData(Id, leagueId);
+                    if (sponsorship != null)
+                    {
+                        sponsorshipDisplay = new SponsorshipDisplay();
+                        sponsorshipDisplay.Description = sponsorship.Description;
+                        sponsorshipDisplay.ExpiresDate = sponsorship.ExpiresDate;
+                        sponsorshipDisplay.IsRemoved = sponsorship.IsRemoved;
+                        sponsorshipDisplay.Price = sponsorship.Price;
+                        sponsorshipDisplay.SponsorshipId = sponsorship.SponsorshipId;
+                        sponsorshipDisplay.SponsorshipName = sponsorship.SponsorshipName;
+                        sponsorshipDisplay.League = SiteCache.GetLeague(leagueId);
+                        cached.Sponsorships.Add(sponsorshipDisplay);
+                        UpdateCache(cached);
+                        return sponsorshipDisplay;
+                    }
+                }
+                return new SponsorshipDisplay();
+            }
+            catch (Exception exception)
+            {
+                ErrorDatabaseManager.AddException(exception, exception.GetType(), additionalInformation: leagueId.ToString());
+            }
+            return null;
+        }
+
+
         public static CalendarEventPortable GetCalendarEvent(Guid eventId)
         {
             try
