@@ -36,6 +36,7 @@
     };
     this.SetUpDocumentsSection = function () {
          $('#documents').dataTable({
+            "bRetrieve": true,  // usefull when reinit table
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter" : false,
@@ -242,8 +243,8 @@
             return;
         }
         var waitTime = 0;
-        if (IsOnKeyPress && !isArchived)
-            waitTime = 1500;
+        //if (IsOnKeyPress && !isArchived)
+        //    waitTime = 1500;
         delay(function () {
             Archived = isArchived;
             lastArchiveState = Archived;

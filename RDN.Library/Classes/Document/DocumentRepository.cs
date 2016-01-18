@@ -386,10 +386,10 @@ namespace RDN.Library.Classes.Document
             try
             {
                 var dc = new ManagementContext();
-                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
+                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Include("DocumentTags").Include("DocumentTags.Tag").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
                 List<Document> docs = new List<Document>();
                 foreach (var d in docsDb)
-                    docs.Add(LeagueDocument.DisplayDocument(d, true));
+                    docs.Add(LeagueDocument.DisplayDocument(d, true, true));
                 return docs;
             }
             catch (Exception exception)
