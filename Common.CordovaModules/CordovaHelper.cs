@@ -11,7 +11,7 @@ namespace Common.CordovaModules
     {
         private static volatile CordovaHelper _instance = null;
 
-        private const string DefaultCordovaScriptsFolder = "~/CordovaScripts";
+        private const string DefaultCordovaScriptsFolder = "~/Scripts/Cordova";
         private const string DefaultPlatformCookieKey = "cdva_platfrm";
         private readonly List<string> _platformList;
 
