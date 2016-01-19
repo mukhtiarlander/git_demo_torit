@@ -225,7 +225,7 @@
                         gList.append("<li><label style='font-weight:normal'><input groupName='" + this[0].replace(/'/g, "") + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0].replace(/'/g, "") + "</label></li>");
                     else { // if the group already is in the event.
                         gList.append("<li><label style='font-weight:normal'><input  checked='checked' groupName='" + this[0].replace(/'/g, "") + "' id='" + this[1] + "' name='" + this[1] + "' onchange='Calendar.ChangeGroupDictionaryItem(this)' type='checkbox' > " + this[0].replace(/'/g, "") + "</label></li>");
-                        var group = { name: this[0].replace(/'/g,""), idd: this[1] };
+                        var group = { name: this[0].replace(/'/g, ""), idd: this[1] };
                         groupsSelectedIds.push(group);
                     }
                 });
@@ -243,6 +243,102 @@
                 });
             }
         }).error(function () {
+        });
+    };
+    this.InitializeCalenderLarger = function (type, id) {
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            eventBackgroundColor: "#872f95",
+            eventBorderColor: "#c5c5c5",
+            selectable: true,
+            events: function (start, end, callback) {
+                start = start.getTime() / 1000;
+                end = end.getTime() / 1000;
+                $.getJSON("/calendar/LoadCalendarView", { type: type, id: id, startDt: start, endDt: end }, function (result) {
+                    var events = [];
+                    $.each(result.events, function (i, field) {
+                        events.push({
+                            title: $(field).attr('title'),
+                            start: $(field).attr('start'),
+                            id: $(field).attr('id'),
+                            end: $(field).attr('end'),
+                            url: $(field).attr('url'),
+                            allDay: $(field).attr('allDay'),
+                            backgroundColor: $(field).attr('backColor'),
+                            location: field["Locaton"],
+                            description: field["Description"]
+                        });
+                    });
+                    callback(events);
+                });
+            },
+            eventRender: function (event, element) {
+                var calenderEventTemplate = $(".divEventDetail").clone();
+                if ((event.location != undefined && event.location != "") || (event.description != undefined && event.description != "")) {
+                    if (event.location != undefined && event.location != "") { calenderEventTemplate.find(".divLocation").html(event.location).parent().removeClass("display-none"); }
+                    if (event.description != undefined && event.description != "") { calenderEventTemplate.find(".divDescription").html(event.description).parent().removeClass("display-none"); }
+                    element.popover({
+                        title: "My Title",
+                        html: true,
+                        placement: "auto right",
+                        trigger: "hover",
+                        container: "body",
+                        title: event.title,
+                        content: calenderEventTemplate.html()
+                    });
+                }
+            }
+        });
+    };
+    this.InitializeCalenderList = function () {
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('.row-offcanvas').toggleClass('active');
+        });
+
+        $("button[data-attendance]").each(function () {
+            $(this).tooltip({
+                placement: 'bottom',
+                title: $(this).attr("data-attendance")
+            });
+        });
+        $("button[data-rsvp]").each(function () {
+            $(this).tooltip({
+                placement: 'bottom',
+                title: $(this).attr("data-rsvp")
+            });
+        });
+        $(".eventTitle[data-note!='']").popover({
+            html: true,
+            placement: "auto right",
+            content: function () {
+                var location = $(this).attr("data-location");
+                var description = $(this).attr("data-note");
+                var contentTemplate = $(".divEventDetail").clone();
+                if (location != undefined && location != "") { contentTemplate.find(".divLocation").html(location).parent().removeClass("display-none"); }
+                contentTemplate.find(".divDescription").html(description).parent().removeClass("display-none");
+                return contentTemplate.html();
+            }
+        });
+        $(".eventTitle[data-location!='']").popover({
+            html: true,
+            placement: "auto right",
+            content: function () {
+                var location = $(this).attr("data-location");
+                var description = $(this).attr("data-note");
+                var contentTemplate = $(".divEventDetail").clone();
+                contentTemplate.find(".divLocation").html(location).parent().removeClass("display-none");
+                if (description != undefined && description != "") { contentTemplate.find(".divDescription").html(description).parent().removeClass("display-none"); }
+                return contentTemplate.html();
+            }
         });
     };
     this.ChangeGroupDictionaryItem = function (checkbox) {

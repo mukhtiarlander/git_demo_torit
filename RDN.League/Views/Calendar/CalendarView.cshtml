@@ -73,47 +73,21 @@ else
             </div>
         </div>
     </div>
-    
+    <div class="divEventDetail" style="display:none;">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="margin-bottom-5 display-none">
+                    <h5 class="b no-margin">Location:</h5>
+                    <div class="divLocation"></div>
+                </div>
+                <div class="margin-bottom-5 display-none">
+                    <h5 class="b no-margin">Descript:</h5>
+                    <div class="divDescription"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type='text/javascript'>
-        $(document).ready(function () {
-            var date = new Date();
-            var d = date.getDate();
-            var m = date.getMonth();
-            var y = date.getFullYear();
-
-            var calendar = $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                eventBackgroundColor: "#872f95",
-                eventBorderColor: "#c5c5c5",
-                selectable: true,
-                events: function (start, end, callback) {
-                    start = start.getTime() / 1000;
-                    end = end.getTime() / 1000;
-                    $.getJSON("/calendar/LoadCalendarView", { type: '@Model.OwnerEntity', id: '@Model.CalendarId.ToString().Replace("-", "")', startDt: start, endDt: end }, function (result) {
-                        var events = [];
-                        $.each(result.events, function (i, field) {
-                            events.push({
-                                title: $(field).attr('title'),
-                                start: $(field).attr('start'),
-                                id: $(field).attr('id'),
-                                end: $(field).attr('end'),
-                                url: $(field).attr('url'),
-                                allDay: $(field).attr('allDay'),
-                                backgroundColor: $(field).attr('backColor')
-                            });
-                        });
-                        callback(events);
-                    });
-                }
-            });
-        });
-
+        $(document).ready(function () { Calendar.InitializeCalenderLarger('@Model.OwnerEntity','@Model.CalendarId.ToString().Replace("-", "")'); });
     </script>
-    <style type='text/css'>
-        #calendar { margin: 0 auto; }
-    </style>
 }

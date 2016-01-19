@@ -129,6 +129,8 @@ else
                         var checkInSecondaryStatus = mem != null ? mem.SecondaryPointType == CalendarEventPointTypeEnum.Tardy : false;
                         var note = mem != null ? mem.Note : string.Empty;
                         var rsvpStatus = mem != null ? ((AvailibilityEnum)mem.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
+                        var location = calEvent.Location != null ? calEvent.Location.LocationName : string.Empty;
+                        var description = calEvent.NotesHtml;
                         string className = "";
                         if (checkInStatusId == 1)
                         {
@@ -214,15 +216,15 @@ else
                             <td class="vertical-middle @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "b" : "")">
                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event)
                                 {
-                                    <a href="@Url.Content("~/calendar/event/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
+                                    <a class="eventTitle" data-note="@description" data-location="@location" data-trigger="hover" data-container="body" data-html="true" data-toggle="popover" data-title="@calEvent.Name" data-placement="auto" href="@Url.Content("~/calendar/event/" + Model.OwnerEntity.ToString().Replace("-", "") + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + calEvent.CalendarItemId.ToString().Replace("-", ""))">@calEvent.Name</a>
                                 }
                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                 {
-                                    <a href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                    <a class="eventTitle" data-note="@description" data-location="@location" data-trigger="hover" data-container="body" data-html="true" data-toggle="popover" data-title="@calEvent.Name" data-placement="auto" href="@Url.Content("~/calendar/birthday/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                                 }
                                 else if (calEvent.EventType.EventType == CalendarEventTypeEnum.StartedDate)
                                 {
-                                    <a href="@Url.Content("~/calendar/started-playing/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
+                                    <a class="eventTitle" data-note="@description" data-location="@location" data-trigger="hover" data-container="body" data-html="true" data-toggle="popover" data-title="@calEvent.Name" data-placement="auto" href="@Url.Content("~/calendar/started-playing/" + calEvent.CalendarItemId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.Name))">@calEvent.Name</a>
                                 }
                             </td>
                             <td class="vertical-middle">
@@ -312,26 +314,22 @@ else
             </div>
         </div>
     </div>
+    <div class="divEventDetail" style="display:none;">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="margin-bottom-5 display-none">
+                    <h5 class="b no-margin">Location :</h5>
+                    <div class="divLocation"></div>
+                </div>
+                <div class="margin-bottom-5 display-none">
+                    <h5 class="b no-margin">Descript :</h5>
+                    <div class="divDescription"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('[data-toggle="offcanvas"]').click(function () {
-                $('.row-offcanvas').toggleClass('active');
-            });
-
-            $("button[data-attendance]").each(function () {
-                $(this).tooltip({
-                    placement: 'bottom',
-                    title: $(this).attr("data-attendance")
-                });
-            });
-            $("button[data-rsvp]").each(function () {
-                $(this).tooltip({
-                    placement: 'bottom',
-                    title: $(this).attr("data-rsvp")
-                });
-            });
-
-        });
+        $(document).ready(function () { Calendar.InitializeCalenderList(); });
     </script>
 
 }

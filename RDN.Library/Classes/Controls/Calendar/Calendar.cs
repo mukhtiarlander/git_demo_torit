@@ -87,7 +87,15 @@ namespace RDN.Library.Classes.Calendar
                             if (calEvent.EndDate != null)
                                 calEvent.end = calEvent.EndDate.ToString("o");
                         }
-                        cal.EventsJson.Add(calEvent);
+                        if (ev.Location != null)
+                        {
+                            calEvent.Locaton = ev.Location.LocationName;
+                        }
+                        if (ev.Notes != null)
+                        {
+                            calEvent.Description = ev.Notes;
+                        }
+                            cal.EventsJson.Add(calEvent);
                     }
                     catch (Exception exception)
                     {

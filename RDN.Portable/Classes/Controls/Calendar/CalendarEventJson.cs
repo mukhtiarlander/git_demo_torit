@@ -47,5 +47,11 @@ namespace RDN.Portable.Classes.Controls.Calendar
         [ProtoMember(11)]
         [DataMember]
         public bool IsRemovedFromCalendar { get; set; }
+        [ProtoMember(12)]
+        [DataMember]
+        public string Locaton { get; set; }
+        [ProtoMember(13)]
+        [DataMember]
+        public string Description { get; set; }
     }
 }
