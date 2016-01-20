@@ -242,39 +242,35 @@
         if (IsOnKeyPress && lastSearch == box.val().trim() && lastArchiveState == isArchived) {
             return;
         }
-        var waitTime = 0;
-        //if (IsOnKeyPress && !isArchived)
-        //    waitTime = 1500;
-        delay(function () {
-            Archived = isArchived;
-            lastArchiveState = Archived;
-            var gId = getParameterByName('g');
-            var fId = getParameterByName('f');
-            var owner = $("#OwnerId");
-            ;
-            var tableBody = $("#documentsBody");
-            $("#loading").toggleClass("displayNone", false);
-            var url = "";
-            if (!isDeepSearch)
-                url = "/document/SeachByDocumentName";
-            else
-                url = "/document/FullTextSearchLeague";
-            $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId, isArchived: Archived }, function (result) {
-                $("#loading").toggleClass("displayNone", true);
-                if (result.isSuccess === true) {
-                    tableBody.html("");
-                    $.each(result.results, function (i, item) {
-                        League.DisplayDocumentRow(result, tableBody, item);
-                    });
-                    League.SetUpDocumentsSection();
-                    lastSearch = box.val().trim();
-                } else {
-                }
-            }).error(function () {
-                $("#loading").toggleClass("displayNone", true);
-            });
-        }, waitTime);
 
+        Archived = isArchived;
+        lastArchiveState = Archived;
+        var gId = getParameterByName('g');
+        var fId = getParameterByName('f');
+        var owner = $("#OwnerId");
+        
+        var tableBody = $("#documentsBody");
+        $("#loading").toggleClass("displayNone", false);
+        var url = "";
+        if (!isDeepSearch)
+            url = "/document/SeachByDocumentName";
+        else
+            url = "/document/FullTextSearchLeague";
+
+        $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId, isArchived: Archived }, function (result) {
+            $("#loading").toggleClass("displayNone", true);
+            if (result.isSuccess === true) {
+                tableBody.html("");
+                $.each(result.results, function (i, item) {
+                    League.DisplayDocumentRow(result, tableBody, item);
+                });
+                League.SetUpDocumentsSection();
+                lastSearch = box.val().trim();
+            } else {
+            }
+        }).error(function () {
+            $("#loading").toggleClass("displayNone", true);
+        });
     };
 
     this.DisplayArchivedDocuments = function (button) {
