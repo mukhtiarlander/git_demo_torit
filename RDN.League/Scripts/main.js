@@ -1063,6 +1063,8 @@ function ChangeSummaryOfRepeatedEvent(removeSummary) {
     var sum = "";
     var freqencyDrop = $("#RepeatsFrequencySelectedId option:selected").text();
     sum += freqencyDrop;
+    //enable Done button by default
+    $("#checkInButtonPopUp").prop('disabled', false);
 
     if (freqencyDrop === "Daily") {
     } else if (freqencyDrop === "Weekly" || freqencyDrop === "Monthly") {
@@ -1112,8 +1114,13 @@ function ChangeSummaryOfRepeatedEvent(removeSummary) {
             sum += "Saturday";
         }
         //removes the error warning.
-        if (alreadyChecked)
-            $("#selectDate").toggleClass("displayNone", true);
+        if (alreadyChecked) {
+            $("#selectDate").toggleClass("displayNone", true);            
+        }
+        else {
+            // no weekday selected => disable Done button
+            $("#checkInButtonPopUp").prop('disabled', true);
+        }
     }
 
     if ($("input[name='EndsWhen']:checked").val()) {
