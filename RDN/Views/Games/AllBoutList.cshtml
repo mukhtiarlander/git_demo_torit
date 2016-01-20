@@ -4,89 +4,65 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div class="page-header">
-    <h2>
-        @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges
-    </h2>
-    @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges are a way for teams to connect with other teams around the world.
-    By adding a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge request, team ask other teamss to play on a certain weekend.
-    Requests are shown to all @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() around the world.
-</div>
-
-<div class="col-xs-offset-1">
-    <a href="@(RDN.Library.Classes.Config.LibraryConfig.InternalSite+"/challenge/view/all")" class="btn btn-success">Add A Challenge</a>
-</div>
-<br />
-
-    <table class="table table-striped table-bordered table-hover" id="boutRequest">
-        <thead>
-            <tr>
-                <th></th>
-                <th>League</th>
-                <th>Location</th>
-                <th>Date of Game</th>
-                <th>Travel Stipend</th>
-
-                <th>Rule Set</th>
-                <th>Contact</th>
-            </tr>
-        </thead>
-        <tbody>
-
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+        <div class="page-header">
+            <h3 class="no-margin-bottom pull-left margin-top-10">
+                @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges
+            </h3>
+            <div class="pull-right">
+                <a href="@(RDN.Library.Classes.Config.LibraryConfig.InternalSite+"/challenge/view/all")" class="btn btn-success">Add A Challenge</a>
+            </div>
+            <span class="clearfix"></span>
+        </div>
+        <div class="page-header no-margin-top margin-bottom-10">
+            <p>
+                @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges are a way for teams to connect with other teams around the world.
+                By adding a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge request, team ask other teamss to play on a certain weekend.
+                Requests are shown to all @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() around the world.
+            </p>
+        </div>
+        <div class="divChallengeGrid">
             @foreach (var b in Model)
             {
-                <tr >
-                    <td class="text-center">
-                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/challenge/view/" + b.ChallengeId)"><i class="fa fa-eye"></i> View</a>
-
-                    </td>
-
-                    <td>
+                <div class="col-sm-4 col-md-3 col-lg-2 event-grid-item">
+                    <div class="thumbnail bg-lighter no-border-radius no-box-shadow">
                         @if (!String.IsNullOrEmpty(b.LeagueLogoUrl))
                         {
-                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))" class="padding-5">
-                                <img src="@b.LeagueLogoUrl" class="thumbnail-sm pull-left img-rounded " />
+                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain + "/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
+                                @*<img alt="@b.LeagueName" src="@b.LeagueLogoUrl">*@
+                                <img alt="@b.LeagueName" src="http://images.rdnation.com/leagues/2015/1/12/Oklahoma-Derby-Regime-logo-130655028825849452_thumb.jpg">
                             </a>
-                        }                        
-                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
-                            @b.LeagueName
-                        </a>
-                    </td>
-                    <td>@b.Location</td>
-                    <td>
-                        @if (b.StartDateOfEvent > new DateTime())
-                        {
-                            @b.StartDateOfEvent.ToShortDateString()
                         }
-                        @if (b.EndDateOfEvent > new DateTime())
-                        {
-                            <span>-</span> @b.EndDateOfEvent.ToShortDateString()
-                        }
-                    </td>
-                    <td>
-                        @b.TravelStipendAmount
-                    </td>
-
-                    <td>
-                        @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
-                    </td>
-                    <td>
-                        <a class="btn btn-primary btn-xs" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + b.LeagueId.ToString().Replace("-", ""))" title="Contact">
-                            <i class="fa fa-envelope"></i> Contact
-                        </a>
-
-                    </td>
-
-                </tr>
+                        <div class="caption">
+                            <h4 class="text-left">
+                                <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain + "/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
+                                    <span>@b.LeagueName</span>
+                                </a>
+                            </h4>
+                            <div class="text-left">
+                                <small class="text-muted">
+                                    <i class="fa fa-calendar"></i> <span class="">@b.StartDateOfEvent.ToShortDateString()-@b.EndDateOfEvent.ToShortDateString()</span>
+                                </small>
+                            </div>
+                            <div class="text-left">
+                                <small class="text-muted">
+                                    <i class="fa fa-map-marker"></i><span>@b.Location</span>
+                                </small>
+                            </div>
+                            <div class="text-left text-muted">
+                                <span class="b">Rule Set:</span><span> @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)</span>
+                            </div>
+                            <span class="clearfix"></span>
+                            <div class="text-left">
+                                <a class="btn btn-primary btn-xs" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + b.LeagueId.ToString().Replace("-", ""))" title="Contact">
+                                    <i class="fa fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
-
-
-
-    <div class="col-xs-offset-1">
-        <a href="@(RDN.Library.Classes.Config.LibraryConfig.InternalSite+"/challenge/view/all")" class="btn btn-success">Add A Challenge</a>
-    </div>  
-
-<br /><br />
+        </div>
+    </div>
+</div>
