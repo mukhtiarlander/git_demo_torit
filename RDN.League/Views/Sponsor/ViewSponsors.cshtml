@@ -79,7 +79,7 @@
                         <tr class="@(b.SponsorId % 2 == 0 ? "tr1" : "tr0")">
 
                             <td>
-                                <a href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))"> @Truncate(b.SponsorName, 18) </a>
+                                <a href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.OwnerId.ToString().Replace("-", ""))"> @Truncate(b.Name, 18) </a>
                             </td>
                             <td>
                                 @b.EndDate.ToShortDateString()
@@ -94,13 +94,13 @@
                                 @b.UsedCount
                             </td>
                             <td class="text-right">
-                                @if (memId == b.SponsorAddByMember || isSec)
+                                @if (memId == b.AddedById || isSec)
                                     {
-                                    <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a> <a class="btn btn-info btn-xs" href="@Url.Content("~/league/sponsor/edit/" + b.SponsorId + "/" + b.SponsorForLeague.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>
+                                    <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.OwnerId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a> <a class="btn btn-info btn-xs" href="@Url.Content("~/league/sponsor/edit/" + b.SponsorId + "/" + b.OwnerId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit</a>
                                     }
                                     else
                                     {
-                                    <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.SponsorForLeague.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+                                    <a class="btn btn-warning btn-xs" href="@Url.Content("~/league/sponsor/details/" + b.SponsorId+ "/" + b.OwnerId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
                                     }
                             </td>
                         </tr>

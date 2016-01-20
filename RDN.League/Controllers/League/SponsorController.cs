@@ -37,8 +37,8 @@ namespace RDN.League.Controllers.League
             {
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 var league = MemberCache.GetLeagueOfMember(memId);
-                sponsor.SponsorForLeague = league.LeagueId;
-                sponsor.SponsorAddByMember = memId;
+                sponsor.OwnerId = league.LeagueId;
+                sponsor.AddedById = memId;
 
                 bool execute = SponsorManager.Add_New_Sponsor(sponsor);
 
@@ -125,7 +125,7 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 
-                var Data = SponsorManager.GetData(id, new Guid(leagueId));
+                var Data = SponsorManager.GetSponsorIem(id, new Guid(leagueId));
 
                 return View(Data);
 
@@ -194,7 +194,7 @@ namespace RDN.League.Controllers.League
                 if (league != null)
                     SetCulture(league.CultureSelected);
 
-                var Data = SponsorManager.GetData(id, new Guid(leagueId));
+                var Data = SponsorManager.GetSponsorIem(id, new Guid(leagueId));
                 if (!String.IsNullOrEmpty(Data.Description))
                 {
                     Data.Description = Data.Description.Replace(Environment.NewLine, "<br/>");

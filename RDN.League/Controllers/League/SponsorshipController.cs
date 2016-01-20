@@ -26,7 +26,7 @@ namespace RDN.League.Controllers.League
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult AddSponsorship(SponsorShipItem sponsorship)
+        public ActionResult AddSponsorship(SponsorshipItem sponsorship)
         {
 
             try
@@ -134,7 +134,7 @@ namespace RDN.League.Controllers.League
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult EditSponsorship(SponsorShipItem oSponsorship)
+        public ActionResult EditSponsorship(SponsorshipItem oSponsorship)
         {
             try
             {

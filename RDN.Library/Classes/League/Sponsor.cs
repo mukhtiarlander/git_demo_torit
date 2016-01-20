@@ -11,7 +11,7 @@ namespace RDN.Library.Classes.League
     public class Sponsor
     {
         public long SponsorId { get; set; }
-        public string SponsorName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public string PromoCode { get; set; }
         public string Website { get; set; }
@@ -39,7 +39,7 @@ namespace RDN.Library.Classes.League
                 DataModels.League.Sponsorship con = new DataModels.League.Sponsorship();
                 con.Description = NewSponsor.Description;
                 con.PromoCode = NewSponsor.PromoCode;
-                con.SponsorName = NewSponsor.SponsorName;
+                con.Name = NewSponsor.Name;
                 con.Website = NewSponsor.Website;
                 if (NewSponsor.BeginDate != new DateTime())
                     con.BeginDate = NewSponsor.BeginDate;
@@ -89,7 +89,7 @@ namespace RDN.Library.Classes.League
         {
             Sponsor bl = new Sponsor();
             bl.SponsorId = oSponsor.SponsorId;
-            bl.SponsorName = oSponsor.SponsorName;
+            bl.Name = oSponsor.Name;
             bl.SponsorForLeague = oSponsor.SponsorForLeague.LeagueId;
             bl.IsDeleted = oSponsor.IsDeleted;
             bl.SponsorAddByMember = oSponsor.SponsorAddByMember.MemberId;
@@ -138,7 +138,7 @@ namespace RDN.Library.Classes.League
                 if (dbSponsor == null)
                     return false;
 
-                dbSponsor.SponsorName = SponsorToUpdate.SponsorName;
+                dbSponsor.Name = SponsorToUpdate.Name;
                 dbSponsor.PromoCode = SponsorToUpdate.PromoCode;
                 dbSponsor.Description = SponsorToUpdate.Description;
                 dbSponsor.Website = SponsorToUpdate.Website;

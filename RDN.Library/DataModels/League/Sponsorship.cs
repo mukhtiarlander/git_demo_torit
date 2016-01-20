@@ -14,7 +14,7 @@ namespace RDN.Library.DataModels.League
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long SponsorId { get; set; }
-        public string SponsorName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public string PromoCode { get; set; }
         public string Website { get; set; }

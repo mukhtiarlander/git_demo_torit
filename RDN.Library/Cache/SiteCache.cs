@@ -471,7 +471,7 @@ namespace RDN.Library.Cache
                         sponsorshipDisplay.IsRemoved = sponsorship.IsRemoved;
                         sponsorshipDisplay.Price = sponsorship.Price;
                         sponsorshipDisplay.SponsorshipId = sponsorship.SponsorshipId;
-                        sponsorshipDisplay.SponsorshipName = sponsorship.SponsorshipName;
+                        sponsorshipDisplay.SponsorshipName = sponsorship.Name;
                         sponsorshipDisplay.League = SiteCache.GetLeague(leagueId);
                         cached.Sponsorships.Add(sponsorshipDisplay);
                         UpdateCache(cached);
