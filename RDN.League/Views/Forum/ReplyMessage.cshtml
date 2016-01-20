@@ -149,6 +149,11 @@
                     success: function (result) {
                         if (result.success) {
                             $('#form_target').html(decodeURIComponent(result.data));
+                            $('.bottom-right').notify({
+                                message: { text: "Uploaded Successfully" },
+                                fadeOut: { enabled: true, delay: 4000 },
+                                type: "success"
+                            }).show();
                         }
                         else {
                             //close the modal window
