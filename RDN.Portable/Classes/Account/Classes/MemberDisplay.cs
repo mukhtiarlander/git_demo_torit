@@ -347,9 +347,7 @@ namespace RDN.Portable.Classes.Account.Classes
         public DateTime? YearStartedSkating { get; set; }
 
         public List<InsuranceNumber> InsuranceNumbers { get; set; }
-
-        [ProtoMember(176)]
-        [DataMember]
+       
         public List<Sponsorship.SponsorshipDisplay> Sponsorships { get; set; }
     }
 }

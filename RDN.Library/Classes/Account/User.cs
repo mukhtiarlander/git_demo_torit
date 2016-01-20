@@ -50,6 +50,7 @@ using System.Configuration;
 using RDN.Library.Classes.Config;
 using RDN.Portable.Classes.Url;
 using RDN.Portable.Classes.Insurance;
+using Common.Sponsors.Classes;
 
 namespace RDN.Library.Classes.Account
 {
@@ -2314,7 +2315,6 @@ namespace RDN.Library.Classes.Account
             try
             {
                 var dc = new ManagementContext();
-                var dcSponsor = new SponsorContext();
 
                 var member = dc.Members.Include("Notifications").Include("Settings").Include("Leagues").Include("Leagues.SkaterClass").Include("InsuranceNumbers").Include("ContactCard").Include("ContactCard.Emails").Include("ContactCard.Communications").Include("Photos").Include("Federations").Include("MedicalInformation").FirstOrDefault(x => x.MemberId.Equals(memberId));
                 if (member == null)
@@ -2402,8 +2402,8 @@ namespace RDN.Library.Classes.Account
 
                 DisplayInsuranceNumbers(member.InsuranceNumbers, mem);
                 DisplayMemberNotifications(member.Notifications, mem);
-                var sponsorships =
-                    dcSponsor.Sponsorships.Where(x => x.IsRemoved == false && x.OwnerId == member.CurrentLeagueId);
+                var sponsorships = SponsorShipManager.GetSponsorshipList(member.CurrentLeagueId);
+                   
 
                 DisplaySopnsorships(sponsorships, mem);
 
@@ -2818,7 +2818,7 @@ namespace RDN.Library.Classes.Account
         }
 
         private static void DisplaySopnsorships(
-            IQueryable<SponsorshipDb> Sponsorships, MemberDisplay mem)
+            List<SponsorshipItem> Sponsorships, MemberDisplay mem)
         {
             try
             {
@@ -2832,7 +2832,7 @@ namespace RDN.Library.Classes.Account
                     OwnerId = x.OwnerId,
                     Price = x.Price,
                     SponsorshipId = x.SponsorshipId,
-                    SponsorshipName = x.SponsorshipName
+                    SponsorshipName = x.Name
 
                 }).ToList();
             }

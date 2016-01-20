@@ -41,7 +41,7 @@ namespace RDN.Library.DataModels.League
         public string Twitter { get; set; }
         public string Facebook { get; set; }
         public string Instagram { get; set; }
-        public long RuleSetsPlayedEnum { get; set; } 
+        public long RuleSetsPlayedEnum { get; set; }
 
         public DateTime? SubscriptionPeriodEnds { get; set; }
         public bool SubscriptionWillAutoRenew { get; set; }
@@ -54,14 +54,15 @@ namespace RDN.Library.DataModels.League
 
         public virtual TimeZone.TimeZone TimeZoneSelection { get; set; }
         public int TimeZone { get; set; }
-        public bool IsLeagueInUTC { get; set; } 
-        
+        public bool IsLeagueInUTC { get; set; }
+
         #region References
         public virtual ICollection<ItemInfo> ItemInfo { get; set; }
         public virtual ICollection<Organization> Organization { get; set; }
         public virtual ICollection<Organize> Organize { get; set; }
         public virtual ICollection<Designation> Designation { get; set; }
-      
+        [Obsolete]
+        public virtual ICollection<Sponsorship> Sponsorships { get; set; }
         public virtual ICollection<JobBoard> JobBoards { get; set; }
         public virtual List<BoutList> BoutChallenges { get; set; }
         public virtual ICollection<LeagueMember> Members { get; set; }

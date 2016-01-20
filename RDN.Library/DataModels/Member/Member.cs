@@ -118,7 +118,8 @@ namespace RDN.Library.DataModels.Member
         public virtual MemberNotifications Notifications { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<JobBoard> JobBoards { get; set; }
-       
+        [Obsolete] 
+        public virtual ICollection<Sponsorship> Sponsorships { get; set; }
         public virtual ICollection<Organize> Organize { get; set; }
         public virtual ICollection<ItemInfo> ItemInfo { get; set; }
         public virtual ICollection<RefereeRequest> RefereeRequest { get; set; }
