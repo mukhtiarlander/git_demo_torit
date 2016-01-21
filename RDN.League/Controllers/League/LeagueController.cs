@@ -1987,7 +1987,7 @@ namespace RDN.League.Controllers
                 leag.CultureSelected = league.CultureSelected;
                 leag.ThemeColor = league.ThemeColor;
                 ViewBag.Saved = false;
-                var colors = ColorDisplayFactory.GetLeagueColors(new Guid(id));
+                var colors = ColorDisplayFactory.GetOwnerColors(new Guid(id));
                 leag.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
                 leag.Colors = league.Colors;
                 leag.ColorsSelected = league.ColorsSelected;
@@ -2084,7 +2084,7 @@ namespace RDN.League.Controllers
         {
             try
             {
-                bool re = ColorDisplayFactory.AddLeagueColor(nameOfColor, hexOfColor, new Guid(leagueId));
+                bool re = ColorDisplayFactory.AddOwnerColor(nameOfColor, hexOfColor, new Guid(leagueId));
                 return Json(new { isSuccess = re }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)

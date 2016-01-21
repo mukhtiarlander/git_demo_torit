@@ -229,7 +229,7 @@ namespace RDN.League.Controllers
                 cal.CalendarId = new Guid(calId);
                 cal.CalendarType = type;
                 cal.LeagueId = MemberCache.GetLeagueIdOfMember(memId);
-                var colors = ColorDisplayFactory.GetLeagueColors(cal.LeagueId);
+                var colors = ColorDisplayFactory.GetOwnerColors(cal.LeagueId);
                 cal.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
 
                 var locs = RDN.Library.Classes.Calendar.CalendarFactory.GetLocationsOfCalendar(new Guid(calId));
@@ -339,7 +339,7 @@ namespace RDN.League.Controllers
                 cal.CalendarId = new Guid(calId);
                 cal.CalendarType = type;
                 cal.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                var colors = ColorDisplayFactory.GetLeagueColors(cal.LeagueId);
+                var colors = ColorDisplayFactory.GetOwnerColors(cal.LeagueId);
                 cal.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
 
                 var locs = RDN.Library.Classes.Calendar.CalendarFactory.GetLocationsOfCalendar(new Guid(calId));
@@ -400,7 +400,7 @@ namespace RDN.League.Controllers
             {
                 eventType = new CalendarEventTypeModel(CalendarFactory.GetEventType(Convert.ToInt64(eventTypeId)));
                 eventType.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                var colors = ColorDisplayFactory.GetLeagueColors(eventType.LeagueId);
+                var colors = ColorDisplayFactory.GetOwnerColors(eventType.LeagueId);
                 eventType.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
 
                 eventType.CalendarId = new Guid(calId);
@@ -472,7 +472,7 @@ namespace RDN.League.Controllers
                 eventType.PointsForExcused = 3;
                 eventType.PointsForTardy = -1;
                 eventType.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                var colors = ColorDisplayFactory.GetLeagueColors(eventType.LeagueId);
+                var colors = ColorDisplayFactory.GetOwnerColors(eventType.LeagueId);
                 eventType.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
                 ViewBag.IsSuccessful = false;
             }
@@ -868,7 +868,7 @@ namespace RDN.League.Controllers
                 }
 
                 post.LeagueId = MemberCache.GetLeagueIdOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                var colors = ColorDisplayFactory.GetLeagueColors(post.LeagueId);
+                var colors = ColorDisplayFactory.GetOwnerColors(post.LeagueId);
                 post.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
             }
             catch (Exception exception)

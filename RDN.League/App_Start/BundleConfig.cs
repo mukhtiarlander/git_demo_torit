@@ -51,6 +51,7 @@ namespace RDN.League
                         "~/Scripts/ViewModels/Tournament/TournamentViewModel.js",
                         "~/Scripts/ViewModels/Dues/DuesViewModel.js",
 						"~/Scripts/ViewModels/Sponsors/SponsorsViewModel.js",
+                        "~/Scripts/ViewModels/Stores/StoreViewModel.js",
                         "~/Scripts/ViewModels/Rosters/RostersViewModel.js"
                         ));
 

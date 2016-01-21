@@ -18,10 +18,8 @@ namespace RDN.Library.DataModels.Color
         public string ColorName { get; set; }
         [Required]
         public int ColorIdCSharp{get;set;}
-
-        public Guid ShopOwner { get; set; }
-
-        public Guid LeagueOwner { get; set; } 
+        
+        public Guid OwnerGuid { get; set; }
 
         public Color()
         {

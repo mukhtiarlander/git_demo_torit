@@ -17,29 +17,7 @@ namespace RDN.DBUpdate.Migrations
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = false;
 
-        }
-
-        protected override void Seed(ManagementContext context)
-        {
-            var colors = context.Colors.ToList();
-            foreach (var league in context.LeagueColors.Include("League").Include("Color"))
-            {
-                if(league.League != null && league.Color != null) // if one of this is null there is no point in adding a row to color table
-                {
-                    //check if there is this row in Color table
-                    if (colors.FirstOrDefault(db => db.LeagueOwner == league.League.LeagueId && db.ColorName == league.ColorName) == null)
-                    {
-                        var newLeagueColor = new RDN.Library.DataModels.Color.Color();
-                        newLeagueColor.ColorName = league.ColorName;
-                        newLeagueColor.ColorIdCSharp = league.Color.ColorIdCSharp;
-                        newLeagueColor.LeagueOwner = league.League.LeagueId; // this is a league color
-
-                        context.Colors.Add(newLeagueColor);
-                    }
-                }
-            }
-            context.SaveChanges();
-        }
+        }                
     }
 
     internal sealed class CEmail : DbMigrationsConfiguration<Common.EmailServer.Library.Database.Context.EmailContext>

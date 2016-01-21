@@ -363,7 +363,7 @@ namespace RDN.Api.Controllers
                     var mem = MemberCache.GetMemberDisplay(ob.Mid);
                     if (ob.Uid == mem.UserId)
                     {
-                        var colors = ColorDisplayFactory.GetLeagueColors(mem.CurrentLeagueId);
+                        var colors = ColorDisplayFactory.GetOwnerColors(mem.CurrentLeagueId);
                         return Json(colors, JsonRequestBehavior.AllowGet);
                     }
                 }

@@ -416,53 +416,7 @@ function CreateNewColor() {
     });
 
 }
-function CreateNewStoreColor() {
-    var nameOfColor = $("#colorName");
-    var colorSelected = $("#colorSelected");
-    var dropDown = $("#ColorTempSelected");
-    var storeId = $("#MerchantId");
-    if (nameOfColor.val() === "") {
-        nameOfColor.toggleClass("error", true);
-        return;
-    }
-    nameOfColor.toggleClass("error", false);
-    $.getJSON("/store/AddColor", { nameOfColor: nameOfColor.val(), hexOfColor: colorSelected.text(), storeId: storeId.val() }, function (result) {
-        if (result.isSuccess === true) {
-            dropDown.append($('<option></option>').val(colorSelected.text()).html(nameOfColor.val()));
-            LoadDropDownBackgroundColors();
-            $('#ColorTempSelected option:last-child').attr("selected", "selected");
 
-            dropDown.css('background-color', colorSelected.text());
-        }
-        nameOfColor.val("");
-    }).error(function () {
-        nameOfColor.val("");
-    });
-}
-function CreateNewLeagueColor() {
-    var nameOfColor = $("#colorName");
-    var colorSelected = $("#colorSelected");
-    var dropDown = $("#ColorTempSelected");
-    var leagueId = $("#LeagueId");
-    if (nameOfColor.val() === "") {
-        nameOfColor.toggleClass("error", true);
-        return;
-    }
-    nameOfColor.toggleClass("error", false);
-    $.getJSON("/league/AddColor", { nameOfColor: nameOfColor.val(), hexOfColor: colorSelected.text(), leagueId: leagueId.val() }, function (result) {
-        if (result.isSuccess === true) {
-            dropDown.append($('<option></option>').val(colorSelected.text()).html(nameOfColor.val()));
-            LoadDropDownBackgroundColors();
-            $('#ColorTempSelected option:last-child').attr("selected", "selected");
-
-            dropDown.css('background-color', colorSelected.text());
-        }
-        nameOfColor.val("");
-    }).error(function () {
-        nameOfColor.val("");
-    });
-
-}
 function LoadDropDownBackgroundColors() {
     $("#ColorTempSelected option").each(function () {
         if ($(this).val() != '') {

@@ -356,7 +356,7 @@ namespace RDN.League.Controllers
                 store.ColorTempSelected = String.Empty;
                 StoreItemTypeEnum[] notInList = { StoreItemTypeEnum.None };
                 model.ItemTypeSelectList = store.ItemType.ToSelectList(notInList);
-                var colors = ColorDisplayFactory.GetStoreColors(storeId);
+                var colors = ColorDisplayFactory.GetOwnerColors(storeId);
                 model.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
 
                 if (model.ItemType == StoreItemTypeEnum.Shirt)
@@ -473,7 +473,7 @@ namespace RDN.League.Controllers
                 storeItem.PrivateManagerId = store.PrivateManagerId;
                 StoreItemTypeEnum[] notInList = { StoreItemTypeEnum.None };
                 storeItem.ItemTypeSelectList = StoreItemTypeEnum.Item.ToSelectList(notInList);
-                var colors = ColorDisplayFactory.GetStoreColors(storeId);
+                var colors = ColorDisplayFactory.GetOwnerColors(storeId);
                 storeItem.ColorList = new SelectList(colors, "HexColor", "NameOfColor");
             }
             catch (Exception exception)
@@ -564,7 +564,7 @@ namespace RDN.League.Controllers
         {
             try
             {
-                bool re = ColorDisplayFactory.AddStoreColor(nameOfColor, hexOfColor, new Guid(storeId));
+                bool re = ColorDisplayFactory.AddOwnerColor(nameOfColor, hexOfColor, new Guid(storeId));
                 return Json(new { isSuccess = re }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
