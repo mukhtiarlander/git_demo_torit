@@ -24,7 +24,7 @@
                     <div class="col-xs-12">
                         <label class="form-label margin-top-10">Sponsorship Name</label>
                         <div>
-                            @Html.TextBoxFor(x => x.SponsorshipName, new { @type = "text", @class = "form-control" })
+                            @Html.TextBoxFor(x => x.Name, new { @type = "text", @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-xs-12">
@@ -57,7 +57,7 @@
 <script type="text/javascript">
     $("#NewSponsorshipAdd").validate({
         rules: {
-            SponsorshipName: "required",
+            Name: "required",
             Price: "required",
             ExpiresDate: "required"
         }

@@ -2403,7 +2403,7 @@ namespace RDN.Library.Classes.Account
                 DisplayInsuranceNumbers(member.InsuranceNumbers, mem);
                 DisplayMemberNotifications(member.Notifications, mem);
                 var sponsorships = SponsorShipManager.GetSponsorshipList(member.CurrentLeagueId);
-                   
+
 
                 DisplaySopnsorships(sponsorships, mem);
 
@@ -2832,7 +2832,7 @@ namespace RDN.Library.Classes.Account
                     OwnerId = x.OwnerId,
                     Price = x.Price,
                     SponsorshipId = x.SponsorshipId,
-                    SponsorshipName = x.Name
+                    Name = x.Name
 
                 }).ToList();
             }

@@ -13,7 +13,7 @@ namespace RDN.Portable.Classes.Sponsorship
         public long SponsorshipId { get; set; }
         [ProtoMember(2)]
         [DataMember]
-        public string SponsorshipName { get; set; }
+        public string Name { get; set; }
         [ProtoMember(3)]
         [DataMember]
         public double Price { get; set; }

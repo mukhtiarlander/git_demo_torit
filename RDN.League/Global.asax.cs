@@ -1395,6 +1395,7 @@ new { controller = "Vote", action = "Polls" } // Parameter defaults
             {
                 MiniProfilerEF6.Initialize();
                 ErrorInitializer.Initialize();
+                SponsorsIntializer.Initialize();
                 AreaRegistration.RegisterAllAreas();
 
                 RegisterGlobalFilters(GlobalFilters.Filters);

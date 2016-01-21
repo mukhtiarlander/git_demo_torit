@@ -191,7 +191,7 @@
                 <div class="col-lg-3 col-md-4 col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><a href="@Url.Action("Sponsorship", new { leagueId = sponsorship.OwnerId, Id = sponsorship.SponsorshipId })">@sponsorship.SponsorshipName</a></h3>
+                            <h3 class="panel-title"><a href="@Url.Action("Sponsorship", new { leagueId = sponsorship.OwnerId, Id = sponsorship.SponsorshipId })">@sponsorship.Name</a></h3>
                         </div>
                         <div class="panel-body">
                             @Html.Raw(sponsorship.Description)
