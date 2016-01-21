@@ -984,11 +984,15 @@ namespace RDN.League.Controllers
 
         [HttpPost]
         public ActionResult PostImageUpload(NewPost model)
-        {
+        {            
             string result;
             var serializer = new JavaScriptSerializer();
             try
             {
+                if (Request.Files.Count > 0 && model.File == null)
+                {
+                    model.File = Request.Files[0];
+                }
                 // upload the file
                 if (model.File != null && model.File.ContentLength > 0)
                 {
@@ -1002,9 +1006,10 @@ namespace RDN.League.Controllers
                         var memId = RDN.Library.Classes.Account.User.GetMemberId();
                         var doc = DocumentRepository.UploadLeagueDocument(id,memId, model.File.InputStream, model.File.FileName, "Forum Files");
                         FileInfo fi = new FileInfo(doc.SaveLocation);
-
-                        result = serializer.Serialize(
-                            new { success = true, imagePath = RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/document/view/" + doc.DocumentId.ToString().Replace("-", "") + fi.Extension });
+                        
+                        result = string.Format("<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('{0}').closest('.mce-window').find('.mce-primary').click();</script>",
+                                                        RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/document/view/" + doc.DocumentId.ToString().Replace("-", "") + fi.Extension);
+                        
                         return Content(result); // IMPORTANT to return as HTML
                     }
                 }
@@ -1013,6 +1018,7 @@ namespace RDN.League.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
+
             result = serializer.Serialize(
                         new { success = false, message = "Invalid image file" });
             return Content(result);

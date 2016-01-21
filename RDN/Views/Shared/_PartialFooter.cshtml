@@ -42,6 +42,15 @@
             <div>
                 <a href="https://snation.com" target="_blank">Soccer Nation</a>
             </div>
+            <div>
+                <a href="https://oarnation.com" target="_blank">Oar Nation</a>
+            </div>
+            <div>
+                <a href="https://bullockingnation.com" target="_blank">Bullocking Nation</a>
+            </div>
+            <div>
+                <a href="https://swimdecknation.com" target="_blank">Swim Deck Nation</a>
+            </div>
         </div>
         <div class="col-xs-4">
             <h4>
@@ -52,16 +61,17 @@
                 <a class="facebook-icon" href="@RDN.Library.Classes.Config.LibraryConfig.FacebookUrl"><i class="fa fa-facebook-square fa-3x"></i></a>
                 <a class="google-plus-icon" href="https://plus.google.com/b/100003183552108454392/"><i class="fa fa-google-plus fa-3x"></i></a>
             </div>
-            <div><a class="footerLink" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-logos")">derby logos</a></div>
-
+            <div><a class="footerLink" href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-logos")">team logos</a></div>
+@if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.RollerDerby)
+{
             <div><a class="footerLink b" href="http://zebras.@RDN.Library.Classes.Config.LibraryConfig.MainDomain">Zebras Unite!</a></div>
-
+}
         </div>
         <div class="clearfix"></div>
         <div class="copyRight text-center">
             site design / logo © @DateTime.Now.Year @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName inc;
             <br />
-            <div class="tc">All league logos are copywritten per their respective copyright holders.</div>
+            <div class="tc">All @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() logos are copywritten per their respective copyright holders.</div>
         </div>
 
     </div>

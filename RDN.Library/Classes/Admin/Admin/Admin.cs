@@ -259,16 +259,16 @@ namespace RDN.Library.Classes.Admin.Admin
             return false;
         }
 
-        public static bool SendMassEmailsForMonthlyBroadcasts(string subject, string body, string testEmail)
+        public static bool SendMassEmailsForMonthlyBroadcasts(string subject, string body, string testEmail, bool isSubjectLineRemoved)
         {
             try
             {
                 var dc = new ManagementContext();
-                List<string> emails = new List<string>();
+                List<Subscriber> emails = new List<Subscriber>();
                 MembershipUserCollection users = System.Web.Security.Membership.GetAllUsers();
                 foreach (MembershipUser user in users)
                     if (!String.IsNullOrEmpty(user.Email))
-                        emails.Add(user.Email.ToLower());
+                        emails.Add(new Subscriber() { Email = user.Email.ToLower(), SubscriberType = SubscriberType.MembershipDatabase, SubscriberGuid = new Guid(user.ProviderUserKey.ToString()) });
 
                 var emailsRegLeagues = dc.Leagues.Include("ContactCard").Include("ContactCard.Emails").ToList();
                 foreach (var lea in emailsRegLeagues)
@@ -276,7 +276,7 @@ namespace RDN.Library.Classes.Admin.Admin
                     if (lea.ContactCard != null)
                         foreach (var e in lea.ContactCard.Emails)
                             if (!String.IsNullOrEmpty(e.EmailAddress))
-                                emails.Add(e.EmailAddress.ToLower());
+                                emails.Add(new Subscriber() { Email = e.EmailAddress.ToLower(), SubscriberGuid = e.EmailId, SubscriberType = SubscriberType.ContactCard });
                 }
                 var emailsRegMembers = dc.Members.Include("ContactCard").Include("ContactCard.Emails").Where(x => x.Retired == false).ToList();
                 foreach (var lea in emailsRegMembers)
@@ -284,24 +284,28 @@ namespace RDN.Library.Classes.Admin.Admin
                     if (lea.ContactCard != null)
                         foreach (var e in lea.ContactCard.Emails)
                             if (!String.IsNullOrEmpty(e.EmailAddress))
-                                emails.Add(e.EmailAddress.ToLower());
+                                emails.Add(new Subscriber() { Email = e.EmailAddress.ToLower(), SubscriberType = SubscriberType.ContactCard, SubscriberGuid = e.EmailId });
                 }
-                var invoiceAddresses = dc.InvoiceAddresses.Select(x => x.Email.ToLower()).ToList();
-                emails.AddRange(invoiceAddresses);
+                var invoiceAddresses = dc.InvoiceAddresses.ToList();
+                foreach (var address in invoiceAddresses)
+                    emails.Add(new Subscriber() { Email = address.Email, SubscriberId = (long)address.InvoiceContactInfoId, SubscriberType = SubscriberType.InvoiceAddresses });
 
                 var subscribers = SubscriberManager.GetSubscribersToEmail(SubscriberType.ScoreboardDownloads | SubscriberType.ScoreboardFeedback | SubscriberType.EmailScraped | SubscriberType.ManuallyAdded | SubscriberType.RefRoster | SubscriberType.LeagueAddresses);
-                emails.AddRange(subscribers.Select(x => x.Email).ToList());
+                emails.AddRange(subscribers);
                 emails = emails.Distinct().ToList();
 
                 var unSubscribedEmails = SubscriberManager.GetUnSubscribedList().Select(x => x.Email).ToList();
+
+                if (!isSubjectLineRemoved)
+                    subject = LibraryConfig.DefaultEmailSubject + " " + subject;
 
                 for (int i = 0; i < emails.Count; i++)
                 {
                     try
                     {
-                        if (!unSubscribedEmails.Contains(emails[i].Trim()))
+                        if (!unSubscribedEmails.Contains(emails[i].Email.Trim()))
                         {
-                            if (Utilities.EmailValidator.Validate(emails[i]))
+                            if (Utilities.EmailValidator.Validate(emails[i].Email))
                             {
                                 var emailData = new Dictionary<string, string> { { "body", body } };
 
@@ -328,10 +332,10 @@ namespace RDN.Library.Classes.Admin.Admin
             try
             {
                 var dc = new ManagementContext();
-            
+
 
                 var subscribers = SubscriberManager.GetSubscribersToEmail(SubscriberType.SportsPlex);
-               
+
                 var unSubscribedEmails = SubscriberManager.GetUnSubscribedList().Select(x => x.Email).ToList();
 
                 for (int i = 0; i < subscribers.Count; i++)

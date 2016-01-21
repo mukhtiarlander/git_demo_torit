@@ -95,10 +95,10 @@ namespace RDN.League.Controllers
                                                            .Cast<RuleSetsUsedEnum>();
                 var list = (from a in ruleSets
                             select new SelectListItem
-                     {
-                         Text = RDN.Utilities.Enums.EnumExt.ToFreindlyName(a),
-                         Value = ((int)a).ToString()
-                     });
+                            {
+                                Text = RDN.Utilities.Enums.EnumExt.ToFreindlyName(a),
+                                Value = ((int)a).ToString()
+                            });
 
                 ViewBag.RuleSets = new SelectList(list, "Value", "Text");
 
@@ -125,12 +125,12 @@ namespace RDN.League.Controllers
                 var token = FacebookData.GetLatestAccessToken();
 
                 FacebookFactory.Initialize(token).GetPageAuthorization(LibraryConfig.FacebookPageName2, LibraryConfig.FacebookPageId2)
-                       .PostToFanPage("Game Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/game-challenge/view/" + executeId, "", "", "", "", "");
+                       .PostToFanPage(RDN.Library.Classes.Config.LibraryConfig.GameName + " Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + "\n\n" + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/challenge/view/" + executeId, "", "", "", "", "");
                 try
                 {
 
                     TwitterManager.Initialize(LibraryConfig.TwitterConsumerKey, LibraryConfig.TwitterConsumerSecret, LibraryConfig.TwitterToken, LibraryConfig.TwitterTokenSecret)
-                              .SendMessage("Game Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #rollerderby " + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/game-challenge/view/" + executeId);
+                              .SendMessage(RDN.Library.Classes.Config.LibraryConfig.GameName + " Challenge: " + league.Name + " @ " + BoutChallenge.StartDateOfEvent.Date.ToShortDateString() + " #" + RDN.Library.Classes.Config.LibraryConfig.SportName + RDN.Library.Classes.Config.LibraryConfig.PublicSite + "/challenge/view/" + executeId);
                 }
                 catch (Exception exception)
                 {
@@ -142,7 +142,7 @@ namespace RDN.League.Controllers
             {
                 ErrorDatabaseManager.AddException(exception, exception.GetType());
             }
-            return Redirect(Url.Content("~/boutchallenge/view/all?u=" + SiteMessagesEnum.sac));
+            return Redirect(Url.Content("~/challenge/view/all?u=" + SiteMessagesEnum.sac));
 
         }
         [Authorize]
@@ -158,7 +158,7 @@ namespace RDN.League.Controllers
 
 
                 var Data = RDN.Library.Classes.League.BoutList.CloseEvent(id, new Guid(leagueId));//,leagueid);
-                return Redirect(Url.Content("~/boutchallenge/view/all?u=" + SiteMessagesEnum.cl));
+                return Redirect(Url.Content("~/challenge/view/all?u=" + SiteMessagesEnum.cl));
             }
             catch (Exception exception)
             {
@@ -181,7 +181,7 @@ namespace RDN.League.Controllers
 
 
                 var Data = RDN.Library.Classes.League.BoutList.DeleteEvent(id, new Guid(leagueId));//,leagueid);
-                return Redirect(Url.Content("~/boutchallenge/view/all?u=" + SiteMessagesEnum.de));
+                return Redirect(Url.Content("~/challenge/view/all?u=" + SiteMessagesEnum.de));
 
 
             }
@@ -237,7 +237,7 @@ namespace RDN.League.Controllers
             {
                 bool execute = RDN.Library.Classes.League.BoutList.UpdateEvent(BoutChallenge);
 
-                return Redirect(Url.Content("~/boutchallenge/view/all?u=" + SiteMessagesEnum.s));
+                return Redirect(Url.Content("~/challenge/view/all?u=" + SiteMessagesEnum.s));
             }
             catch (Exception exception)
             {

@@ -8,7 +8,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Medical Members</li>
 </ol>
 <div class="panel panel-default margin-top-20">
@@ -35,13 +35,13 @@
                 }
                 else
                 {
-                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower()">
                         <i class="fa fa-file-text"></i> Report
                     </a>
                 }
             </div>
         </div>
-        <div class="text-muted">Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName can be considered against the law in some countries.  Members only granted these rights to Managers of the league and not to anyone else.  Please stay within the law.</div>
+        <div class="text-muted">Here you can view the Member Medical Information for your league. <b>Be Advised:</b> Transmitting this information from @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName can be considered against the law in some countries.  Members only granted these rights to Managers of the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() and not to anyone else.  Please stay within the law.</div>
     </div>
     <div class="panel-heading text-center no-padding-bottom margin-bottom-10" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")

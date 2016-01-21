@@ -1,7 +1,7 @@
 ﻿@using RDN.League.Models.League
 @model JoinLeague
 @{
-    ViewBag.Title = "Join League";
+    ViewBag.Title = "Join "+ RDN.Library.Classes.Config.LibraryConfig.TeamName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section SecondNav{
@@ -19,13 +19,13 @@
 
 
 <h3>
-    Join League
+    Join @RDN.Library.Classes.Config.LibraryConfig.TeamName
 </h3>
 <div class="titleDescription">
     Here you can join a league. We allow this option incase you already signed up to
-    @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName before your league signed up. You will need the <b>League Join Code</b>
+    @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName before your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() signed up. You will need the <b>League Join Code</b>
     to join the league, so make sure you have that before starting. The manager of your
-    league has the code, which can be found on their "View Members" page.
+    @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() has the code, which can be found on their "View Members" page.
 </div>
 <br />
 <div class="col-md-8 col-md-offset-2">
@@ -58,7 +58,7 @@
                 <tr>
                     <td class="suLTD"></td>
                     <td class="suRTD">
-                        <input class="btn btn-primary" type="submit" value="Join League" />
+                        <input class="btn btn-primary" type="submit" value="Join @RDN.Library.Classes.Config.LibraryConfig.TeamName" />
                     </td>
                 </tr>
             </table>

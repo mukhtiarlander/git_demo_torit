@@ -21,10 +21,10 @@ using RDN.Library.Classes.Config;
 
 namespace RDN.Library.Classes.League.Classes
 {
-    public class LeagueGroupFactory 
+    public class LeagueGroupFactory
     {
 
-        
+
         public static bool RemoveMemberToGroup(long groupId, Guid memId)
         {
             try
@@ -168,7 +168,7 @@ namespace RDN.Library.Classes.League.Classes
             try
             {
                 var dc = new ManagementContext();
-                var g = dc.LeagueGroups.Where(x => x.Id == group.Id).FirstOrDefault();
+                var g = dc.LeagueGroups.Include("GroupMembers").Include("ContactCard").Include("ContactCard.Emails").Where(x => x.Id == group.Id).FirstOrDefault();
                 if (g != null)
                 {
                     g.GroupName = group.GroupName;
@@ -187,16 +187,14 @@ namespace RDN.Library.Classes.League.Classes
                     if (g.ContactCard == null)
                         g.ContactCard = new DataModels.ContactCard.ContactCard();
                     g.ContactCard.Emails.Add(new RDN.Library.DataModels.ContactCard.Email { EmailAddress = group.EmailAddress, IsDefault = true });
-
                 }
-
-
 
                 foreach (var mem in group.GroupMembers)
                 {
                     var gm11 = g.GroupMembers.Where(x => x.Member.MemberId == mem.MemberId).FirstOrDefault();
                     if (mem.IsApartOfGroup)
                     {
+
                         if (gm11 == null)
                         {
                             GroupMember gm = new GroupMember();
@@ -293,9 +291,9 @@ namespace RDN.Library.Classes.League.Classes
             var member = MemberCache.GetMemberDisplay(memberId);
             if (!String.IsNullOrEmpty(member.Email))
             {
-                var emailData = new Dictionary<string, string> { 
-                        { "derbyname", member.DerbyName }, 
-                        { "groupname", groupName}, 
+                var emailData = new Dictionary<string, string> {
+                        { "derbyname", member.DerbyName },
+                        { "groupname", groupName},
                         { "link", LibraryConfig.InternalSite} };
 
                 //clear members cache for each member.

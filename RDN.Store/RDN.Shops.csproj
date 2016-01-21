@@ -23,6 +23,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -269,7 +270,6 @@
     <Content Include="Content\Rollerball_pink_s100.png" />
     <Content Include="Content\Rollerball_pink_s500.png" />
     <Content Include="Content\sellBanner.png" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -294,6 +294,9 @@
     <Content Include="Scripts\masonry\imagesloaded.min.js" />
     <Content Include="Scripts\masonry\masonry.min.js" />
     <Content Include="Scripts\Sites\localhost.js" />
+    <Content Include="Scripts\Sites\bullockingnation.js" />
+    <Content Include="Scripts\Sites\oarnation.js" />
+    <Content Include="Scripts\Sites\swimdecknation.js" />
     <Content Include="Scripts\Sites\snation.js" />
     <Content Include="Scripts\Sites\rdnation.js" />
     <Content Include="Web.config">

@@ -8,7 +8,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Members</li>
 </ol>
 <div class="panel panel-default margin-top-20">
@@ -41,13 +41,13 @@
                 }
                 else
                 {
-                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower()">
                         <i class="fa fa-file-text"></i> Report
                     </a>
                 }
             </div>
         </div>
-        <div class="text-muted"> Here you can view the Groups of your League. Groups are used to organize people into particular teams, commitees, the BoD and any other reason for them.  The <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams" target="_blank">wiki/help will tell</a> you whats possible with them.</div>
+        <div class="text-muted"> Here you can view the Groups of your @RDN.Library.Classes.Config.LibraryConfig.TeamName. Groups are used to organize people into particular teams, commitees, the BoD and any other reason for them.  The <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Groups_And_Teams" target="_blank">wiki/help will tell</a> you whats possible with them.</div>
     </div>
     <div class="panel-heading text-center no-padding-bottom" style="background-color:#fbfbfb">
         @Html.Partial("Menus/LeagueViewMembers")
@@ -77,8 +77,8 @@
             <tbody>
                 @for (int i = 0; i < Model.Groups.Count; i++)
                 {
-                    <tr data-toggle="collapse" data-parent="#members" data-target="#group-row-@Model.Groups[i].Id" class="accordion-toggle collapsed group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
-                        <td class="text-center"><i class="accordion-toggle-indicators glyphicon glyphicon-chevron-right"></i></td>
+                    <tr data-toggle="collapse" data-parent="#members" data-target="#group-row-@Model.Groups[i].Id" class="cursor accordion-toggle collapsed group-row-@Model.Groups[i].Id" style="background-color: #f1f1f1">
+                        <td class="text-center"><i class="accordion-toggle-indicators glyphicon glyphicon-chevron-down"></i></td>
                         <td>@Model.Groups[i].GroupName</td>
                         <td>@Model.Groups[i].GroupMembers.Count</td>
                         <td>@Model.Groups[i].GroupTypeEnum.ToString()</td>

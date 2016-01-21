@@ -14,7 +14,7 @@
 
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
     <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") ) ">Calendar</a></li>
@@ -66,7 +66,7 @@
                         <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 margin-bottom-10" style="background:none">
                             @if (Model.GroupsForEvent.Count == 0)
                             {
-                            <span class="label label-primary font12 padding-top-5">Entire League</span>
+                            <span class="label label-primary font12 padding-top-5">Entire @RDN.Library.Classes.Config.LibraryConfig.TeamName</span>
                             }
                             else
                             {
@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">Location</label>
                     <div class="margin-bottom-20">
                         <div class="input-group">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">Event Type</label>
                     <div class="margin-bottom-20">
                         <div class="input-group">
@@ -129,27 +129,27 @@
                             </div>
                             <div class="col-xs-12 col-sm-6">
                                 @if (isSec)
-                                { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                                { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName Internal</a></span>}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">Start Date & Time</label>
                     <div class="margin-bottom-20">
                         @Html.TextBoxFor(x => x.StartDateDisplay, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">End Date & Time</label>
                     <div class="margin-bottom-20">
                         @Html.TextBoxFor(x => x.EndDateDisplay, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">Repeat</label>
                     <div class="margin-bottom-20">
                         <label>
@@ -159,7 +159,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">Is Public Event</label>
                     <div class="margin-bottom-20">
                         <label>
@@ -174,7 +174,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">
                         Ticket Url
                     </label>
@@ -184,7 +184,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">
                         Link
                     </label>
@@ -194,7 +194,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">
                         Allow Self Check In
                     </label>
@@ -206,7 +206,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <label class="form-label b">
                         Broadcast
                     </label>

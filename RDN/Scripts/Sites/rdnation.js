@@ -7,3 +7,5 @@ var apiUrl = "https://api.rdnation.com/";
 var urlForLiveCurrentGames = "https://api.rdnation.com/livegame/currentgames?callback=?";
 
 var SportNameForUrl = "roller-derby";
+var GameUrl = "roller-derby-game";
+var GamesUrl = "roller-derby-games";

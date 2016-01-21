@@ -12,7 +12,7 @@
                      select new { ID = (int)d, Name = d.ToString() };
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/member/" + Model.MemberId.ToString().Replace("-", "") + "/" + Model.DerbyNameLink)">@Model.DerbyName</a></li>
     <li class="active">Edit</li>
 </ol>
@@ -153,7 +153,7 @@
                                             </div>
                                             <div>
                                                 @Html.TextBoxFor(x => x.DayJob, new { @type = "text", @class = "form-control" })
-                                                <span class="text-muted">For use by the league in case they need your expertise.</span>
+                                                <span class="text-muted">For use by the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() in case they need your expertise.</span>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-lg-6 margin-top-5">
@@ -274,7 +274,7 @@
                                                         else
                                                         {
                                                             <div class="text-center">
-                                                                <span class="btn btn-danger" onclick="Member.RemoveSelfFromLeague(this, '@Model.MemberId','@league.LeagueId')">Leave The League</span>
+                                                                <span class="btn btn-danger" onclick="Member.RemoveSelfFromLeague(this, '@Model.MemberId','@league.LeagueId')">Leave The @RDN.Library.Classes.Config.LibraryConfig.TeamName</span>
                                                             </div>
                                                         }
                                                         <script type="text/javascript">

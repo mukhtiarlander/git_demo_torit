@@ -7,7 +7,7 @@
     bool isPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Members</li>
 </ol>
 
@@ -36,7 +36,7 @@
                 }
                 else
                 {
-                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed leagues">
+                    <a class="btn btn-default btn-sm" href="@Url.Content("~/billing/league/" + ViewBag.LeagueId + "?u=" + RDN.Library.Util.Enum.SiteMessagesEnum.pp)" title="Report Builder is only available to subscribed @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower()">
                         <i class="fa fa-file-text"></i> Report
                     </a>
                 }
@@ -71,7 +71,7 @@
                         Birth Date
                     </th>
                     <th>
-                        League Departure Date
+                        @RDN.Library.Classes.Config.LibraryConfig.TeamName Departure Date
                     </th>
                     @if (isAdminOfLeague)
                     {

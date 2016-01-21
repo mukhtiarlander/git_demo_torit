@@ -74,17 +74,24 @@ namespace RDN.League.Controllers.League
         [LeagueAuthorize(EmailVerification = true, IsRoster = true, IsSecretary = true, IsManager = true)]
         public ActionResult AddNewRoster()
         {
-            var memId = RDN.Library.Classes.Account.User.GetUserId();
+            var memId = RDN.Library.Classes.Account.User.GetMemberId();
             var model = new RosterModel();
             var members = MemberCache.GetCurrentLeagueMembers(memId).Select(x => new KeyValueHelper()
             {
                 Id = x.MemberId,
-                Name = x.Name
+                Name = x.SiteName
             }).ToList();
             model.Members = members;
-            model.InsuranceTypes = new SelectList(EnumerationHelper.GetAll<InsuranceType>(), "Key", "Value");
-            model.RuleSets = new SelectList(EnumerationHelper.GetAll<RuleSetsUsedEnum>(), "Key", "Value");
-
+            if (LibraryConfig.SiteType != Library.Classes.Site.Enums.SiteType.RollerDerby)
+            {
+                model.InsuranceTypes = new SelectList(EnumerationHelper.GetAll<InsuranceType>().Where(x=>x.Value.ToLower() == "other"), "Key", "Value");
+                model.RuleSets = new SelectList(EnumerationHelper.GetAll<RuleSetsUsedEnum>().Where(x => x.Value.ToLower() == "other"), "Key", "Value");
+            }
+            else
+            {
+                model.InsuranceTypes = new SelectList(EnumerationHelper.GetAll<InsuranceType>(), "Key", "Value");
+                model.RuleSets = new SelectList(EnumerationHelper.GetAll<RuleSetsUsedEnum>(), "Key", "Value");
+            }
             return View(model);
         }
 
@@ -125,15 +132,25 @@ namespace RDN.League.Controllers.League
             model.RosterMembers = roster.RosterMembers;
             model.InsuranceTypeId = roster.InsuranceTypeId;
             model.RuleSetsUsedEnum = roster.RuleSetsUsedEnum;
-            var members = MemberCache.GetCurrentLeagueMembers(memId).Select(x => new KeyValueHelper()
+            var arrRosterMembers = roster.RosterMembers.Select(x => x.Id).ToArray();
+            model.RosterMemberIds = string.Join(",", arrRosterMembers);
+            var members = MemberCache.GetCurrentLeagueMembers(memId).Where(x => !arrRosterMembers.Contains(x.MemberId)).Select(x => new KeyValueHelper()
             {
                 Id = x.MemberId,
-                Name = x.Name
+                Name = x.SiteName
             }).ToList();
             model.Members = members;
-            model.RosterMemberIds = string.Join(",", roster.RosterMembers.Select(x => x.Id).ToArray());
-            model.InsuranceTypes = new SelectList(EnumerationHelper.GetAll<InsuranceType>(), "Key", "Value");
-            model.RuleSets = new SelectList(EnumerationHelper.GetAll<RuleSetsUsedEnum>(), "Key", "Value");
+           
+            if (LibraryConfig.SiteType != Library.Classes.Site.Enums.SiteType.RollerDerby)
+            {
+                model.InsuranceTypes = new SelectList(EnumerationHelper.GetAll<InsuranceType>().Where(x => x.Value.ToLower() == "other"), "Key", "Value");
+                model.RuleSets = new SelectList(EnumerationHelper.GetAll<RuleSetsUsedEnum>().Where(x => x.Value.ToLower() == "other"), "Key", "Value");
+            }
+            else
+            {
+                model.InsuranceTypes = new SelectList(EnumerationHelper.GetAll<InsuranceType>(), "Key", "Value");
+                model.RuleSets = new SelectList(EnumerationHelper.GetAll<RuleSetsUsedEnum>(), "Key", "Value");
+            }
 
             return View(model);
         }
@@ -190,12 +207,20 @@ namespace RDN.League.Controllers.League
                         reportSheet.Cells[1, 3].SetFontBold();
                         reportSheet.Cells[1, 4].SetFontBold();
                         reportSheet.Cells[1, 5].SetFontBold();
-
+                        reportSheet.Cells["A1:K20"].AutoFitColumns();
                         int rowReport = 2;
                         foreach (var member in roster.RosterMembers)
                         {
                             var mem = MemberCache.GetMemberDisplay(member.Id);
-                            reportSheet.Cells[rowReport, 1].Value = mem.DerbyName;
+                            if (LibraryConfig.SiteType != Library.Classes.Site.Enums.SiteType.RollerDerby)
+                            {
+                                reportSheet.Cells[rowReport, 1].Value = mem.Name;
+                            }
+                            else
+                            {
+                                reportSheet.Cells[rowReport, 1].Value = mem.DerbyName;
+                            }
+                            
                             reportSheet.Cells[rowReport, 2].Value = mem.PlayerNumber;
 
                             var insType = mem.InsuranceNumbers.FirstOrDefault(x => x.Type == (InsuranceType)roster.InsuranceTypeId);
@@ -211,6 +236,7 @@ namespace RDN.League.Controllers.League
                         string file = "Roster_" + roster.RosterName + ".xlsx";
                         return File(bin, RDN.Utilities.IO.FileExt.GetMIMEType(file), file);
                     }
+                
                 }
             }
             catch (Exception exception)

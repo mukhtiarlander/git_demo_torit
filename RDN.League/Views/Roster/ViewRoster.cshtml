@@ -1,12 +1,13 @@
 ﻿@using RDN.Portable.Classes.Insurance
+@using RDN.Portable.Util.Enums
 @model RDN.Library.Classes.Roster.Roster
 @{
-    ViewBag.Title = "ViewRoster";
+    ViewBag.Title = "View Roster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/league/rosters/all")">Rosters</a></li>
     <li class="active">Details of the roster</li>
 </ol>
@@ -36,42 +37,43 @@
 
             <div class="panel-body no-padding-top">
                 <div class="col-xs-12 col-sm-6 text-right">
-                    <label class="form-label margin-top-10">Roster Name</label>
+                    <label class="form-label margin-top-10"><b>Roster Name</b></label>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    <label class="form-label margin-top-10"><b> @Model.RosterName</b></label>
+                    <label class="form-label margin-top-10"> @Model.RosterName</label>
                 </div>
                 <div class="col-xs-12 col-sm-6 text-right">
-                    <label class="form-label margin-top-10">Game Date</label>
+                    <label class="form-label margin-top-10"><b>Game Date</b></label>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    <label class="form-label margin-top-10"><b>  @Model.GameDate.ToShortDateString()</b></label>
+                    <label class="form-label margin-top-10">  @Model.GameDate.ToShortDateString()</label>
                 </div>
                 <div class="col-xs-12 col-sm-6 text-right">
-                    <label class="form-label margin-top-10">Roster Members</label>
+                    <label class="form-label margin-top-10"><b>Members</b></label>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    @foreach (var member in Model.RosterMembers)
-                    {
-                        <label class="form-label full-width"><b>@member.Name</b></label>
-                    }
-
+                    <div class="roster">
+                        @foreach (var member in Model.RosterMembers)
+                        {
+                            <label class="form-label full-width">@member.Name</label>
+                        }
+                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 text-right">
-                    <label class="form-label margin-top-10">Insurace Type</label>
+                    <label class="form-label margin-top-10"><b> Insurace Type</b></label>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    <label class="form-label margin-top-10"><b>  @(((InsuranceType)Model.InsuranceTypeId).ToString()) </b></label>
+                    <label class="form-label margin-top-10"> @(((InsuranceType)Model.InsuranceTypeId).ToString()) </label>
                 </div>
                 <div class="col-xs-12 col-sm-6 text-right">
-                    <label class="form-label margin-top-10">Ruleset</label>
+                    <label class="form-label margin-top-10"><b>Ruleset</b></label>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    <label class="form-label margin-top-10"><b>  @(((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetsUsedEnum).ToString()) </b></label>
+                    <label class="form-label margin-top-10">  @EnumExt.ToFreindlyName(Model.RuleSetsUsedEnum.ToString()) </label>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 

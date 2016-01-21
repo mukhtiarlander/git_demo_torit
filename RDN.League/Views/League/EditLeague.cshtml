@@ -8,15 +8,15 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li class="active">Edit League</li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
+    <li class="active">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName</li>
 </ol>
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
         <div class="panel panel-default margin-top-20">
             <div class="panel-heading">
-                    <h3 style="margin-top:5px !important"><i class="fa fa-shield"></i> Edit League</h3>
+                    <h3 style="margin-top:5px !important"><i class="fa fa-shield"></i> Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName</h3>
             </div>
              @using (Html.BeginForm("EditLeague", "League", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
@@ -39,7 +39,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-body no-padding">
                                     <ul class="nav nav-tabs padding-top-10" id="myTab">
-                                        <li class="active margin-left-15"><a href="#League"><i class="fa fa-shield"></i> League</a></li>
+                                        <li class="active margin-left-15"><a href="#League"><i class="fa fa-shield"></i> @RDN.Library.Classes.Config.LibraryConfig.TeamName</a></li>
                                         <li class="margin-left-15"><a href="#Social"><i class="fa fa-comments-o"></i> Social</a></li>
                                         <li class="margin-left-15"><a href="#Rules"><i class="fa fa-check-square-o"></i> Rules</a></li>
                                         <li class="margin-left-15"><a href="#Internal"><i class="fa fa-magic"></i> Internal</a></li>
@@ -48,8 +48,8 @@
                                         <div class="tab-pane active" id="League">
                                             <div class="row">
                                                 <div class="col-xs-12 col-lg-6">
-                                                    <div class=" form-label margin-top-10 margin-bottom-5">
-                                                        League Name
+                                                    <div class="form-label margin-top-10 margin-bottom-5">
+                                                        @RDN.Library.Classes.Config.LibraryConfig.TeamName Name
                                                     </div>
                                                     <div>
                                                        @Html.TextBoxFor(x => x.Name, new { @type = "text", @class = "form-control" })
@@ -209,7 +209,7 @@
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="form-label margin-top-20 margin-bottom-5">
-                                                        Colors Of League. <span class="text-muted i">Colors used through out RDNation.</span>
+                                                        Colors Of @RDN.Library.Classes.Config.LibraryConfig.TeamName <span class="text-muted i">Colors used through out @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName.</span>
                                                     </div>
                                                     <div id="colorsToAdd">
                                                         @foreach (var color in Model.Colors)
@@ -224,7 +224,7 @@
 
                                                 <div class="col-xs-12 col-md-6">
                                                     <div class="form-label margin-top-20 margin-bottom-5">
-                                                        Add Colors to League
+                                                        Add Colors to @RDN.Library.Classes.Config.LibraryConfig.TeamName
                                                     </div>
                                                     <div>
                                                         @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Colors...", new { @onchange = "ColorSelectorChanged()", @class = "select-xs" })  
@@ -254,7 +254,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-md-6">
-                                                    <div class="form-label margin-top-20 margin-bottom-5">TimeZone of League</div>
+                                                    <div class="form-label margin-top-20 margin-bottom-5">TimeZone of @RDN.Library.Classes.Config.LibraryConfig.TeamName</div>
                                                     <div>
                                                         @Html.DropDownListFor(x => x.TimeZoneId, new SelectList(Model.TimeZones, "ZoneId", "LocationGMT"), "Select TimeZone...", new { @class="form-control"})
                                                     </div>
@@ -284,7 +284,7 @@
                     {
                         <span class="addedSuccessfully">Updated Successfully!</span>
                     }
-                    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update League</button>
+                    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Update @RDN.Library.Classes.Config.LibraryConfig.TeamName</button>
                 </div>
 
             }

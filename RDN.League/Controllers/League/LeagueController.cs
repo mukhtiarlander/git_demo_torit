@@ -45,8 +45,7 @@ using RDN.Portable.Classes.Account.Enums;
 using RDN.Library.Classes.Config;
 using RDN.Portable.Classes.Insurance;
 using RDN.Library.Classes.Site.Enums;
-
-
+using Newtonsoft.Json;
 
 namespace RDN.League.Controllers
 {
@@ -349,65 +348,16 @@ namespace RDN.League.Controllers
         {
             try
             {
+                var leagueId = MemberCache.GetLeagueIdOfMember();
                 Guid memId = Guid.Parse(memberId);
                 long grId = Convert.ToInt64(groupId);
-                var league = MemberCache.GetLeagueOfMember(RDN.Library.Classes.Account.User.GetMemberId());
-                var group = league.Groups.FirstOrDefault(gr => gr.Id == grId);
-                if (group != null)
-                {
-                    var groupMember = group.GroupMembers.FirstOrDefault(m => m.MemberId == memId);
-
-                    if (groupMember != null)
-                    {
-                        groupMember.IsApartOfGroup = isApartOfGroup;
-                    }
-                    //it a this member is not in the group but it is apart of the group now create new LeagueGroupMember obj
-                    else if (isApartOfGroup)
-                    {
-                        groupMember = new LeagueGroupMember();
-                        groupMember.MemberId = memId;
-                        group.GroupMembers.Add(groupMember);
-                        groupMember.IsApartOfGroup = isApartOfGroup;
-
-                        // check for info in the league members
-                        MemberDisplay member = league.LeagueMembers.FirstOrDefault(m => m.MemberId == memId);
-                        if (member != null)
-                        {
-                            groupMember.DerbyName = member.DerbyName;
-                            groupMember.DerbyNameUrl = member.DerbyNameUrl;
-                            groupMember.Firstname = member.Firstname;
-                            groupMember.LastName = member.LastName;
-                            groupMember.UserName = member.UserName;
-                            groupMember.UserId = member.UserId;
-                            groupMember.Email = member.Email;
-                            groupMember.PhoneNumber = member.PhoneNumber;
-                            groupMember.ClassificationId = member.ClassificationId;
-                            groupMember.ClassificationName = member.ClassificationName;
-                            groupMember.PlayerNumber = member.PlayerNumber;
-                            groupMember.Gender = member.Gender;
-                            groupMember.HeightFeet = member.HeightFeet;
-                            groupMember.HeightInches = member.HeightInches;
-                            groupMember.WeightLbs = member.WeightLbs;
-                            groupMember.DOB = member.DOB;
-                            groupMember.ThumbUrl = member.ThumbUrl;
-                            groupMember.DidVote = member.DidVote;
-                        }
-                    }
-
-                    bool updated = LeagueGroupFactory.UpdateGroup(group);
-                    MemberCache.Clear(memId);
-                    MemberCache.ClearApiCache(memId);
-                    MemberCache.UpdateCurrentLeagueMemberCache(memId);
-                    if (updated)
-                    {
-                        //it was a delete remove from collection
-                        if (!isApartOfGroup && groupMember != null)
-                        {
-                            group.GroupMembers.Remove(groupMember);
-                        }
-                        return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
-                    }
-                }
+                if (!isApartOfGroup)
+                    LeagueGroupFactory.RemoveMemberToGroup(Convert.ToInt64(groupId), new Guid(memberId));
+                else
+                    LeagueGroupFactory.AddMemberToGroup(Convert.ToInt64(groupId), leagueId, new Guid(memberId), GroupMemberAccessLevelEnum.Member.ToString());
+                MemberCache.Clear(memId);
+                MemberCache.ClearApiCache(memId);
+                return Json(new { isSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
@@ -450,7 +400,12 @@ namespace RDN.League.Controllers
 
                 MemberCache.UpdateCurrentLeagueMemberCache(memId);
                 if (updated)
+                {
+                    ErrorDatabaseManager.AddException(new Exception("group save didn't update"), this.GetType(), additionalInformation: JsonConvert.SerializeObject(group));
                     return Redirect(Url.Content("~/league/groups?u=" + SiteMessagesEnum.sag));
+
+
+                }
             }
             catch (Exception exception)
             {
@@ -1274,8 +1229,7 @@ namespace RDN.League.Controllers
                 model.ColumnsAvailable = Enum.GetValues(typeof(MembersReportEnum)).Cast<MembersReportEnum>().OrderBy(x => x.ToString()).ToList();
                 if (SiteType.RollerDerby == LibraryConfig.SiteType)
                 {
-
-                    model.ColumnsAvailable.Remove(MembersReportEnum.Started_Playing_Date);
+                    model.ColumnsAvailable.Remove(MembersReportEnum.Started_Date);
                 }
                 else
                 {

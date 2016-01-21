@@ -32,8 +32,8 @@ namespace RDN.League
                         "~/Scripts/FullCalendar/fullcalendar.min.js",
                         "~/Scripts/FullCalendar/gcal.js",
                          "~/Scripts/select2/select2.min.js",
-                           "~/Scripts/typeahead.js",
-                             "~/Scripts/Sortable.min.js",
+                         "~/Scripts/typeahead.js",
+                         "~/Scripts/Sortable.min.js",
                          "~/Scripts/jquery.slimscroll.min.js"
 
                         ));
@@ -82,8 +82,6 @@ namespace RDN.League
                        "~/Content/select2.min.css",
                       "~/Content/tinymce/tinymce.mentions.css",
                       "~/Content/bootstrap-switch.min.css"
-                      //,
-                      //"~/Content/FullCalendar/fullcalendar.print.css"
                       ));
 
 
@@ -93,7 +91,12 @@ namespace RDN.League
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/snation.js"));
             else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.localhost)
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/localhost.js"));
-
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Rugby)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/bullockingnation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Swimming)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/swimdecknation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Rowing)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/oarnation.js"));
 
 
             BundleTable.EnableOptimizations = true;

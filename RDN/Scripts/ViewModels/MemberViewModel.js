@@ -8,6 +8,7 @@
     this.SearchText = ko.observable();
     this.ListCountPull = ko.observable();
     this.MembersStats = ko.observableArray([]);
+    this.MembersCount = ko.observable();
 
     this.LoadMemberList = function (count) {
         thisViewModel.ListCountPull(count);
@@ -34,7 +35,8 @@
             dataType: "json",
             success: function (data) {
                 if (data.members.length > 0) {
-                    thisViewModel.MembersStats(data.members);
+                    thisViewModel.MembersCount(data.memberCount);
+                    thisViewModel.MembersStats(data.members);                    
                 } else {
                     thisViewModel.MembersStats.removeAll();
                 }

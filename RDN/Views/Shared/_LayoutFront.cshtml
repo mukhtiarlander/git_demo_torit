@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/images/18.jpg")" alt="Live Games Online, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Scoreboard - PhilosoFear" />
+                        <img src="@Url.Content("~/Content/ImageSlides/images/18.jpg")" alt="Live @RDN.Library.Classes.Config.LibraryConfig.GameName Online, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Scoreboard - PhilosoFear" />
                         <div class="carousel-caption">
                         </div>
                     </div>
@@ -95,42 +95,42 @@
                         </div>
                     </div>
                 }
-                else if (RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.Soccer || RDN.Library.Classes.Config.LibraryConfig.SiteType == RDN.Library.Classes.Site.Enums.SiteType.localhost)
+                else 
                 {
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image1.jpg")" alt="Roster Management - Chris Turner - https://www.flickr.com/photos/photoplod" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image1.jpg")" alt="Roster Management" />
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item active">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image2.jpg")" alt="Made For @RDN.Library.Classes.Config.LibraryConfig.SportName, Built By @RDN.Library.Classes.Config.LibraryConfig.SportName - Jimmy Baikovicius - https://www.flickr.com/photos/jikatu" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image2.jpg")" alt="Made For @RDN.Library.Classes.Config.LibraryConfig.SportName, Built By @RDN.Library.Classes.Config.LibraryConfig.SportName" />
                         <div class="carousel-caption">
                         </div>
                     </div>
 
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image3.jpg")" alt="Official Management - Tomasz Dunn - https://www.flickr.com/photos/tdd" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image3.jpg")" alt="Official Management" />
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image4.jpg")" alt="Calendar and Attendance Tracking - Federico Feroldi - https://www.flickr.com/photos/federicoferoldifoto" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image4.jpg")" alt="Calendar and Attendance Tracking" />
                         <div class="carousel-caption">
                         </div>
                     </div>
 
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image5.jpg")" alt="Groups, Teams and Committee Management - Celso FLORES - https://www.flickr.com/photos/celso" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image5.jpg")" alt="Groups, Teams and Committee Management" />
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image6.jpg")" alt="Live Games Online, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Scoreboard - Tomasz Dunn - https://www.flickr.com/photos/tdd" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image6.jpg")" alt="Live Games Online, @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName Scoreboard" />
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="@Url.Content("~/Content/ImageSlides/soccer/image7.jpg")" alt="Forums For Communicating - Chris Turner - https://www.flickr.com/photos/photoplod" />
+                        <img src="@Url.Content("~/Content/ImageSlides/"+RDN.Library.Classes.Config.LibraryConfig.ImageSlidesLocation+"/image7.jpg")" alt="Forums For Communicating" />
                         <div class="carousel-caption">
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                 {
 
                     <div class="affix-bottom">
-                        <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite" class="btn btn-success btn-lg">Take Me To My League</a>
+                        <a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite" class="btn btn-success btn-lg">Take Me To My @RDN.Library.Classes.Config.LibraryConfig.TeamName</a>
                     </div>
                 }
             </div>

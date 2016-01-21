@@ -1,6 +1,6 @@
 ﻿@model List<RDN.Library.Classes.League.BoutList>
 @{
-    ViewBag.Title = "All Game Challenge Request";
+    ViewBag.Title = "All Challenge Requests";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var memId = RDN.Library.Classes.Account.User.GetMemberId();
@@ -10,15 +10,15 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li class="active">Game Challenges</li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
+    <li class="active">@RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</li>
 </ol>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-6">
-                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-thumbs-up"></i> Game Challenges</h3>
+                <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-thumbs-up"></i> @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</h3>
             </div>
             <div class="col-xs-6 text-right">
                 @if (isAdminOfLeague)
@@ -29,9 +29,9 @@
                 }
             </div>
         </div>
-        <span class="text-muted"> Game Challenges are a way for your league to connect with another league around the world.
-            By adding a Game Challenge request, your asking other leagues to come bout with you on a certain weekend.
-            Each request should be closed when the challenge has been accepted.  Requests are shown to every league within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName.</span>
+        <span class="text-muted"> @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges are a way for your team to connect with another team around the world.
+            By adding a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge request, your asking other teams to come bout with you on a certain weekend.
+            Each request should be closed when the challenge has been accepted.  Requests are shown to every team within @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName.</span>
     </div>
     <div class="panel-body scroll-x">
         <table class="table table-striped table-hover table-condensed no-margin-bottom table-responsive" id="boutRequest">
@@ -39,7 +39,7 @@
                 <tr>
                     <th></th>
                     <th>
-                        League
+                        Team
                     </th>
                     <th>Location</th>
                     <th>
@@ -63,11 +63,11 @@
                         <td>
                             @if (isAdminOfLeague && leagueId == b.LeagueId)
                             {
-                                <a class="btn btn-xs btn-success" href="@Url.Content("~/gamechallenge/edit/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit </a> <a class="btn btn-xs btn-info" href="@Url.Content("~/gamechallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+                                <a class="btn btn-xs btn-success" href="@Url.Content("~/challenge/edit/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-pencil"></i> Edit </a> <a class="btn btn-xs btn-info" href="@Url.Content("~/gamechallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
                             }
                             else
                             {
-                                <a class="btn btn-xs btn-info" href="@Url.Content("~/gamechallenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
+                                <a class="btn btn-xs btn-info" href="@Url.Content("~/challenge/view/" + b.ChallengeId + "/" + b.LeagueId.ToString().Replace("-", ""))"><i class="fa fa-eye"></i> View</a>
                             }
                         </td>
 

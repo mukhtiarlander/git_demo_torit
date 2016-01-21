@@ -386,10 +386,10 @@ namespace RDN.Library.Classes.Document
             try
             {
                 var dc = new ManagementContext();
-                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
+                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Include("DocumentTags").Include("DocumentTags.Tag").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
                 List<Document> docs = new List<Document>();
                 foreach (var d in docsDb)
-                    docs.Add(LeagueDocument.DisplayDocument(d, true));
+                    docs.Add(LeagueDocument.DisplayDocument(d, true, true));
                 return docs;
             }
             catch (Exception exception)
@@ -678,9 +678,10 @@ namespace RDN.Library.Classes.Document
         {
             try
             {
+                DateTime dt = DateTime.UtcNow.AddYears(-2);
                 List<RDN.Portable.Classes.League.Classes.League> leagues = new List<Portable.Classes.League.Classes.League>();
                 var dc = new ManagementContext();
-                var docsDb = dc.Leagues.Include("Documents").Where(x => x.SubscriptionPeriodEnds != null).ToList();
+                var docsDb = dc.Leagues.Include("Documents").Where(x => x.SubscriptionPeriodEnds.GetValueOrDefault() < dt).ToList();
 
                 if (docsDb != null)
                 {
@@ -689,14 +690,21 @@ namespace RDN.Library.Classes.Document
                         //check see to current League have any docuement if so then move 
                         if (d.Documents.Count > 0)
                         {
-                            if (d.SubscriptionPeriodEnds.Value.AddYears(2).Date.Subtract(DateTime.UtcNow.Date).Days < 0)
+                            //find all the active docs from list of League Documents 
+                            var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
+
+                            foreach (var doc in activeDocs)
                             {
-                                var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
-                                foreach (var doc in activeDocs)
+                                try
                                 {
-                                    DeleteOldDocument(doc.Document);
+                                    DeleteDocument(doc.Document.DocumentId);
+                                }
+                                catch (Exception exception)
+                                {
+                                    ErrorDatabaseManager.AddException(exception, exception.GetType());
                                 }
                             }
+
                         }
                     }
                 }
@@ -709,12 +717,12 @@ namespace RDN.Library.Classes.Document
             return false;
         }
 
-        private static bool DeleteOldDocument(DataModels.Document.Document doc)
+        private static bool DeleteDocument(Guid docId)
         {
             var dc = new ManagementContext();
             int c = 0;
 
-            var document = dc.Documents.Where(d => d.DocumentId == doc.DocumentId).FirstOrDefault();
+            var document = dc.Documents.Where(d => d.DocumentId == docId).FirstOrDefault();
 
             if (document != null)
             {
@@ -726,7 +734,7 @@ namespace RDN.Library.Classes.Document
 
                 c = dc.SaveChanges();
             }
-            return c > 0 ? true : false;
+            return c > 0;
         }
     }
 }

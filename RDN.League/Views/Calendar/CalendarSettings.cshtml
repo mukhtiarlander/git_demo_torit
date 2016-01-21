@@ -9,7 +9,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
         <li><a href="@Url.Content("~/calendar/" + Model.OwnerEntity + "/" + Model.CalendarId.ToString().Replace("-", ""))">Calendar</a></li>
@@ -52,11 +52,14 @@
                             Allow Self Check Ins:
                         </td>
                         <td>
-                           
-                            @Html.CheckBoxFor(x => x.AllowSelfCheckIn) 
-                            Allows user to check their
-                            self into the event.
-                            
+
+                            <label>
+                                @Html.CheckBoxFor(x => x.AllowSelfCheckIn)<small class="i">
+                                    Allows user to check their
+                                    self into the event.
+                                </small>
+                            </label>
+
                         </td>
                     </tr>
                     <tr>
@@ -64,7 +67,7 @@
                             Not Present Required For Check In:
                         </td>
                         <td>
-                            @Html.CheckBoxFor(x => x.NotPresentCheckIn) If Enabled, you will NOT need to count the @RDN.Utilities.Config.ConfigManager.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a>
+                            <label> @Html.CheckBoxFor(x => x.NotPresentCheckIn) <small class="i"> If Enabled, you will NOT need to count the @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers as "Not Present" to effect their attendance percentage. <a href="@RDN.Library.Classes.Config.LibraryConfig.WikiSite/Calendar_and_Attendance_Tracking#Calendar_Point_Types_Explained" target="_blank">Read more here.</a></small></label>
                         </td>
                     </tr>
                     <tr>
@@ -72,15 +75,15 @@
                             Disable Birthdays:
                         </td>
                         <td>
-                            @Html.CheckBoxFor(x => x.DisableBirthdays) Removes Birthdays from Calendar
+                            <label> @Html.CheckBoxFor(x => x.DisableBirthdays)<small class="i">  Removes Birthdays from Calendar</small></label>
                         </td>
                     </tr>
                     <tr>
                         <td class="b  text-right">
-                            Disable @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date:
+                            Disable @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers Start Date:
                         </td>
                         <td>
-                            @Html.CheckBoxFor(x => x.DisableSkatingStartDates) Removes @RDN.Utilities.Config.ConfigManager.NameOfMembers Start Date From Calendar
+                            <label>  @Html.CheckBoxFor(x => x.DisableSkatingStartDates) <small class="i"> Removes @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers Start Date From Calendar</small></label>
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +112,7 @@
                             Hide Calendar Report
                         </td>
                         <td>
-                            <label> @Html.CheckBoxFor(x => x.HideReport) Members can only view attendance report on themselves. Except Attendance Managers or better.</label>
+                            <label> @Html.CheckBoxFor(x => x.HideReport)<small class="i"> Members can only view attendance report on themselves. Except Attendance Managers or better.</small></label>
                         </td>
                     </tr>
                 </table>

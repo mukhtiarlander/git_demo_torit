@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/boutchallenge/view/all")">Bout Requests</a></li>
-    <li class="active">Edit Game Challenge</li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
+    <li><a href="@Url.Content("~/challenge/view/all")">Challenge Requests</a></li>
+    <li class="active">Edit @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge</li>
 </ol>
 
 
@@ -16,19 +16,19 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-6 col-md-8">
-                        <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-pencil"></i> Edit Request for Game Challenge</h3>        
+                        <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-pencil"></i> Edit Request for @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge</h3>        
                     </div>
                     <div class="col-xs-6 col-md-4 text-right">
-                        <a class="btn btn-warning btn-sm" onclick="return confirm('Close the Request Because You Found a League?')" title="Close Request" href="@Url.Content("~/boutchallenge/close/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                        <a class="btn btn-warning btn-sm" onclick="return confirm('Close the Request Because You Found a team?')" title="Close Request" href="@Url.Content("~/challenge/close/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
                             <i class="fa fa-times"></i> Close
                         </a>
-                        <a class="btn btn-danger btn-sm" onclick="return confirm('Really Delete?')" title="Delete Request" href="@Url.Content("~/boutchallenge/delete/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
+                        <a class="btn btn-danger btn-sm" onclick="return confirm('Really Delete?')" title="Delete Request" href="@Url.Content("~/challenge/delete/" + Model.ChallengeId + "/" + Model.LeagueId.ToString().Replace("-", ""))">
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </div>
                 </div>
                 <span class="text-muted">
-                    Edit/Close a Game Challenge here for your league.  You are requesting other leagues to play you.  While some of these questions are more for the host, if your league is traveling, you can also add a request.
+                    Edit/Close a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge here for your league.  You are requesting other @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() to play you.  While some of these questions are more for the host, if your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() is traveling, you can also add a request.
                 </span>
             </div>
             @using (Html.BeginForm("EditBoutRequest", "BoutChallenge", FormMethod.Post, new { @id = "editRequest" }))
@@ -80,17 +80,17 @@
 
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsStreamLive) <span>Do you broadcast games live online/TV?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsStreamLive) <span>Do you broadcast live online/TV?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span>Can your league offer housing?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsSkaterHousingOffered) <span>Can your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() offer housing?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="margin-bottom-15">
-                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered)<span>Leagues like hang over bouts the next day.  Can your league offer one?</span></label>
+                                <label>@Html.CheckBoxFor(x => x.IsHangOverBoutOffered)<span>@RDN.Library.Classes.Config.LibraryConfig.TeamsName like hang over @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() the next day.  Can your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() offer one?</span></label>
                             </div>
                         </div>
                         <div class="col-xs-12">
@@ -123,7 +123,7 @@
                 </div>
                 <div class="panel-footer">
                     <button type="submit" class="btn btn-sm btn-success" name="saveRequest"><i class="fa fa-paper-plane"></i> Save Request</button>
-                    <a class ="btn btn-sm btn-default" href="@Url.Content("~/boutchallenge/view/all")">Cancel Edit</a>
+                    <a class ="btn btn-sm btn-default" href="@Url.Content("~/challenge/view/all")">Cancel</a>
                 </div>
             }
         </div>

@@ -50,7 +50,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     @if (MemberCache.GetCalendarDefaultView(memId) == RDN.Portable.Classes.Account.Enums.Settings.CalendarDefaultViewEnum.List_View)
     {
         <li><a href="@Url.Content("~/calendar/" + Model.CalendarType + "/" + Model.CalendarId.ToString().Replace("-", "") + "/" + Model.StartDate.Year + "/" + Model.StartDate.Month) ">Calendar</a></li>
@@ -159,26 +159,40 @@
                         <li>
                             @if (Model.IsReoccurring)
                             {
-                                using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm", @style = "display: inline-block;" }))
+                                using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm", @style = "display: inline-block;width:100%;" }))
                                 {
-                                    <button title="Save Event" class="btn btn-default" style="border:none; width:100%;" type="submit"><i class="fa fa-floppy-o"></i> Calendar</button>
+                                    <button title="Save Event" class="btn btn-default no-border-radius no-border text-left" type="submit"><i class="fa fa-floppy-o"></i> Calendar</button>
                                     @Html.HiddenFor(x => x.CalendarItemId)
                                     @Html.HiddenFor(x => x.Name)
-
                                 }
                             }
                         </li>
                     </ul>
                 </div>
-                @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "EventReport", @style = "display: inline-block;" }))
-                {
-                    <button title="Export Roster" type="submit" class="btn btn-default btn-sm" value="Export Roster"><i class="fa fa-file-excel-o"></i> Export Roster</button>
-                    @Html.HiddenFor(x => x.CalendarId)
-                    @Html.HiddenFor(x => x.CalendarItemId)
-                    @Html.HiddenFor(x => x.CalendarReoccurringId)
-
-                }
-
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-share"></i> Export <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a title="Export To Roster" href="#" target="_blank" onclick="document.getElementById('exportEventRoster').submit(); return false;"><i class="fa fa-file-excel-o"></i> Export To Roster</a>
+                            @using (Html.BeginForm("ExportEventRoster", "Calendar", FormMethod.Post, new { @id = "exportEventRoster", @style = "width:100%;" }))
+                            {
+                                @Html.HiddenFor(x => x.CalendarId)
+                                @Html.HiddenFor(x => x.CalendarItemId)
+                                @Html.HiddenFor(x => x.CalendarReoccurringId)
+                            }
+                        </li>
+                        <li>
+                            <a title="Export To Another Calendar" onclick="document.getElementById('createNewEventForm').submit(); return false;"><i class="fa fa-google"></i> Export To Another Calendar</a>
+                            @using (Html.BeginForm("EventCalendarExport", "Calendar", FormMethod.Post, new { @id = "createNewEventForm", @style = "width:100%;" }))
+                            {
+                                @Html.HiddenFor(x => x.CalendarItemId)
+                                @Html.HiddenFor(x => x.Name)
+                            }
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="panel-body">
                 @if (!string.IsNullOrEmpty(Model.NotesHtml))
@@ -270,7 +284,7 @@
                              {
                                  <tr class="trBorderB">
                                      <td class="text-right b">
-                                         On @RDN.Utilities.Config.ConfigManager.WebsiteShortName:
+                                         On @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName:
                                      </td>
                                      <td>
                                          <a href="@Model.Link" target="_blank">@Model.Link</a>

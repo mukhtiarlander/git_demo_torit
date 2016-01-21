@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/forum/posts/" + Model.ForumType + "/" + Model.ForumId.ToString().Replace("-", ""))">Forum</a></li>
     <li class="active">Edit Forum Post</li>
 </ol>
@@ -46,6 +46,15 @@
                 }
         </div>
     </div>
+
+    <div id="form_target" name="form_target" style="display:none"></div>
+
+    <form id="img_form" action="/forum/postimageupload" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+        <input id="img_file" name="File" type="file">
+        @Html.HiddenFor(x => x.ForumId, new { data_val = "false" })
+        @Html.HiddenFor(x => x.ForumType, new { data_val = "false" })
+        <input id="img_submit" type="submit" />
+    </form> 
 </div>
 
 <div class="fixedContainer">
@@ -61,27 +70,7 @@
 </div>
 
 <script type="text/javascript">
-    $("#editMessage").validate({
-        rules: {
-            Message: "required"
-        }
-    });
-    $(function () {
-        
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,image,textcolor colorpicker",
-            toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            language: "en",
-            relative_urls: false,
-            uploadType: "Forum",
-            ForumId: '@Model.ForumId',
-            ForumType: '@Model.ForumType',
-            TopicId: '@Model.TopicId',
-            UploadFileUrl: "/forum/postimageupload"
-        });
-        
+    $(document).ready(function () {
+        Forum.InitializeEditPost();
     });
 </script>

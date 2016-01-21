@@ -1,21 +1,21 @@
 ﻿@model List<RDN.Library.Classes.League.BoutList>
 @{
-    ViewBag.Title = "All Game Challenges";
+    ViewBag.Title = "All Challenges";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <div class="page-header">
     <h2>
-        Game Challenges
+        @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges
     </h2>
-    Game Challenges are a way for leagues to connect with other leagues around the world.
-    By adding a Game Challenge request, leagues ask other leagues to play on a certain weekend.
-    Requests are shown to all leagues around the world.
+    @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges are a way for teams to connect with other teams around the world.
+    By adding a @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge request, team ask other teamss to play on a certain weekend.
+    Requests are shown to all @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() around the world.
 </div>
 
 <div class="col-xs-offset-1">
-    <a href="''@RDN.Library.Classes.Config.LibraryConfig.InternalSite'boutchallenge/view/all" class="btn btn-success">Add A Challenge</a>
+    <a href="@(RDN.Library.Classes.Config.LibraryConfig.InternalSite+"/challenge/view/all")" class="btn btn-success">Add A Challenge</a>
 </div>
 <br />
 
@@ -38,18 +38,18 @@
             {
                 <tr >
                     <td class="text-center">
-                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/game-challenge/view/" + b.ChallengeId)"><i class="fa fa-eye"></i> View</a>
+                        <a class="btn btn-primary btn-xs" href="@Url.Content("~/challenge/view/" + b.ChallengeId)"><i class="fa fa-eye"></i> View</a>
 
                     </td>
 
                     <td>
                         @if (!String.IsNullOrEmpty(b.LeagueLogoUrl))
                         {
-                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))" class="padding-5">
+                            <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))" class="padding-5">
                                 <img src="@b.LeagueLogoUrl" class="thumbnail-sm pull-left img-rounded " />
                             </a>
                         }                        
-                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
+                        <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(b.LeagueName) + "/" + b.LeagueId.ToString().Replace("-", ""))">
                             @b.LeagueName
                         </a>
                     </td>
@@ -86,7 +86,7 @@
 
 
     <div class="col-xs-offset-1">
-        <a href="'@RDN.Library.Classes.Config.LibraryConfig.InternalSite'boutchallenge/view/all" class="btn btn-success">Add A Challenge</a>
+        <a href="@(RDN.Library.Classes.Config.LibraryConfig.InternalSite+"/challenge/view/all")" class="btn btn-success">Add A Challenge</a>
     </div>  
 
 <br /><br />

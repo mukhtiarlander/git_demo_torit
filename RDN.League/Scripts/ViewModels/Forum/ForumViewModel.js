@@ -13,7 +13,63 @@
         thisViewModel.forumId = forumId;
         thisViewModel.forumType = forumType;
     }
+    this.InitializeEditPost = function () {
+        $("#editMessage").validate({
+            rules: {
+                Message: "required"
+            }
+        });
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+            content_css: '/content/tinymce/tinymce.content.css',
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link,image,textcolor colorpicker",
+            toolbar: "undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            language: "en",
+            relative_urls: false,
+            uploadType: "Forum",
+            ForumId: '@Model.ForumId',
+            ForumType: '@Model.ForumType',
+            TopicId: '@Model.TopicId',
+            UploadFileUrl: "/forum/postimageupload",
+            file_browser_callback_types: 'file image media',
+            file_browser_callback: function (field_name, url, type, win) {
+                if (type == 'file') { alert("to do"); }
+                if (type == 'image') $('#img_form #img_file').click();
+            }
+        });
+        $('#img_file').change(function (e) {
+            var files = e.target.files;
+            if (files.length > 0) {
+                if (window.FormData !== undefined) {
+                    var data = new FormData($('#img_form')[0]);
+                    for (var x = 0; x < files.length; x++) {
+                        data.append("file" + x, files[x]);
+                    }
 
+                    $.ajax({
+                        type: "POST",
+                        url: '/forum/postimageupload',
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function (result) {
+                            $('#form_target').html(decodeURIComponent(result));
+                        },
+                        error: function (xhr, status, p3, p4) {
+                            var err = "Error " + " " + status + " " + p3 + " " + p4;
+                            if (xhr.responseText && xhr.responseText[0] == "{")
+                                err = JSON.parse(xhr.responseText).Message;
+                            console.log(err);
+                        }
+                    });
+                } else {
+                    alert("This browser doesn't support HTML5 file uploads!");
+                }
+            }
+        });
+    };
     this.searchForumPosts = function (searchbox) {
         var qu = $(searchbox).val();
         var group = $("#currentGroupId").val();
@@ -406,6 +462,14 @@
 
                         return html;
                     }
+                },
+                file_browser_callback_types: 'file image media',
+                file_browser_callback: function (field_name, url, type, win) {
+                    if (type == 'file') {
+                        alert("to do");
+                    }
+
+                    if (type == 'image') $('#img_form #img_file').click();
                 }
             });
 

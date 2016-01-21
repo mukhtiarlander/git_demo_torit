@@ -27,10 +27,9 @@
     });
 });
 
-var menu_placement = "right";
-
-function ToggleSideMenu() {
-    if (menu_placement == "right") {
+function ToggleSideMenu(menu_placement) {
+    if (menu_placement.toUpperCase() == "RIGHT") {
+        $("#mainNavbar").css({ "right": "15px" });
         if ($("#mainNavbar").hasClass("slideInRight")) {
             $("#mainNavbar").removeClass("slideInRight");
             $("#mainNavbar").addClass("slideOutRight");
@@ -40,7 +39,8 @@ function ToggleSideMenu() {
             $("#mainNavbar").addClass("slideInRight").show();
         }
     }
-    else if (menu_placement == "left") {
+    else if (menu_placement.toUpperCase() == "LEFT") {
+        $("#mainNavbar").css({ "left": "15px" });
         if ($("#mainNavbar").hasClass("slideInLeft")) {
             $("#mainNavbar").removeClass("slideInLeft");
             $("#mainNavbar").addClass("slideOutLeft");
@@ -1064,6 +1064,8 @@ function ChangeSummaryOfRepeatedEvent(removeSummary) {
     var sum = "";
     var freqencyDrop = $("#RepeatsFrequencySelectedId option:selected").text();
     sum += freqencyDrop;
+    //enable Done button by default
+    $("#checkInButtonPopUp").prop('disabled', false);
 
     if (freqencyDrop === "Daily") {
     } else if (freqencyDrop === "Weekly" || freqencyDrop === "Monthly") {
@@ -1113,8 +1115,13 @@ function ChangeSummaryOfRepeatedEvent(removeSummary) {
             sum += "Saturday";
         }
         //removes the error warning.
-        if (alreadyChecked)
-            $("#selectDate").toggleClass("displayNone", true);
+        if (alreadyChecked) {
+            $("#selectDate").toggleClass("displayNone", true);            
+        }
+        else {
+            // no weekday selected => disable Done button
+            $("#checkInButtonPopUp").prop('disabled', true);
+        }
     }
 
     if ($("input[name='EndsWhen']:checked").val()) {

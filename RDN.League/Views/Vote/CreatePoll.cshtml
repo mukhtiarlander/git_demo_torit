@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/poll/" + @Model.LeagueId)">Polls</a></li>
     <li class="active">Create a New Poll</li>
 </ol>
@@ -17,12 +17,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 style="margin-top:5px !important"><i class="fa fa-bullhorn"></i> Create a New Poll</h3>
-                    <div class="text-muted"> Create a new Poll for the league.</div>
+                    <div class="text-muted"> Create a new Poll for the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower().</div>
                 </div>
                 <div class="panel-body">
                     <div class="col-xs-12">
                         <label class="form-label margin-top-10">
-                            League Members
+                            @RDN.Library.Classes.Config.LibraryConfig.TeamName Members
                         </label>
                         <button type="button" class="btn btn-warning btn-sm pull-right" onclick="Polls.ShowNewPollMembersPopup()"><i class="fa fa-check-square-o"></i> Change</button>
                         <div class="panel panel-default">
@@ -37,7 +37,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title"><i class="fa fa-check-square-o"></i> Choose League Members</h4>
+                                        <h4 class="modal-title"><i class="fa fa-check-square-o"></i> Choose @RDN.Library.Classes.Config.LibraryConfig.TeamName Members</h4>
                                     </div>
                                     <div class="modal-body padding-10">
                                         <div class="text-right">
@@ -85,22 +85,22 @@
                     </div>
                     <div class="col-xs-12 margin-top-10">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Voting results can be seen by everyone</i></span>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.IsPollAnonymous) Is Anonymous </label> <span class="text-muted"><i>Votes are hidden. Only results are shown and who hasn't voted.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.IsPollAnonymous) Anonymous Voters </label> <span class="text-muted"><i>Voter identities are kept secret</i></span>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Only Show Results </label> <span class="text-muted"><i>Hides members that didn't vote to everyone.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Anonymous Non-Voters </label> <span class="text-muted"><i>Identities of those who didn't vote are kept secret</i></span>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to league.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.BroadcastPoll) Broadcast Poll </label> <span class="text-muted"><i>Poll will be broadcasted to the voters.</i></span>
                         </div>
                     </div>
                 </div>
@@ -185,9 +185,9 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Multiple Options</label>
+                            <label class="form-label margin-top-10">Multiple Choice</label>
                             <div>
-                                <label> <input type="checkbox" tabindex="101" id="multipleOptionsInput" /> <span class="i">Want users to select multiple options?</span></label>
+                                <label> <input type="checkbox" tabindex="101" id="multipleOptionsInput" /> <span class="i">Want users to select multiple choices?</span></label>
                             </div>
                         </div>
                     </div>

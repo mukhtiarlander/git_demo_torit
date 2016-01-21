@@ -3,160 +3,163 @@
     ViewBag.Title = "View Challenge Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li> <a href="@Url.Content("~/game-challenge/view/all")">All Bout Requests</a></li>
-    <li>Game Challenge For @Model.LeagueName</li>
-</ol>
 
-<div class="row margin-bottom-10">
-    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-7">
-                        <h3 class="margin-top-10"><i class="fa fa-ticket"></i> Game Challenge For @Model.LeagueName</h3>
-                    </div>
-                    <div class="col-xs-12 col-sm-5 text-right">
-                        <a class="btn btn-default btn-sm margin-top-5" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + Model.LeagueId.ToString().Replace("-", ""))">
-                            <i class="fa fa-envelope"></i> Contact
-                        </a>
+<div class="container margin-bottom-10">
+
+    <ol class="breadcrumb">
+        <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
+        <li> <a href="@Url.Content("~/challenge/view/all")">All @RDN.Library.Classes.Config.LibraryConfig.GameName Challenges</a></li>
+        <li>@RDN.Library.Classes.Config.LibraryConfig.GameName Challenge For @Model.LeagueName</li>
+    </ol>
+<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-7">
+                            <h3 class="margin-top-10"><i class="fa fa-ticket"></i> @RDN.Library.Classes.Config.LibraryConfig.GameName Challenge For @Model.LeagueName</h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-5 text-right">
+                            <a class="btn btn-default btn-sm margin-top-5" href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.InternalSite + "/messages/new/league/" + Model.LeagueId.ToString().Replace("-", ""))">
+                                <i class="fa fa-envelope"></i> Contact
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-body no-padding-bottom">
-                <div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">Location:</label>
-                            <div class="pull-left">
-                                @Model.Location
+                <div class="panel-body no-padding-bottom">
+                    <div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">Location:</label>
+                                <div class="pull-left">
+                                    @Model.Location
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">Crowd Size:</label>
-                            <div class="pull-left">
-                                @Model.CrowdSize
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">Crowd Size:</label>
+                                <div class="pull-left">
+                                    @Model.CrowdSize
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">Start Date of Game:</label>
-                            <div class="pull-left">
-                                @Model.StartDateOfEvent.ToShortDateString()
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">Start Date of Game:</label>
+                                <div class="pull-left">
+                                    @Model.StartDateOfEvent.ToShortDateString()
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">End Date of Game:</label>
+                                <div class="pull-left">
+                                    @Model.EndDateOfEvent.ToShortDateString()
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">End Date of Game:</label>
-                            <div class="pull-left">
-                                @Model.EndDateOfEvent.ToShortDateString()
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Current Ranking:
+                                </label>
+                                <div class="pull-left">
+                                    @Model.CurrentRanking
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Travel Stipend Amount:
+                                </label>
+                                <div class="pull-left">
+                                    @Model.TravelStipendAmount
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Current Ranking:
-                            </label>
-                            <div class="pull-left">
-                                @Model.CurrentRanking
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Can Offer Travel Stipend:
+                                    @if (Model.IsOfferTravelStipend)
+                                    {
+                                        <i class="fa fa-check fa-lg"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times fa-lg"></i>
+                                    }
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Live Online:
+                                    @if (Model.IsStreamLive)
+                                    {
+                                        <i class="fa fa-check fa-lg"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times fa-lg"></i>
+                                    }
+                                </label>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Travel Stipend Amount:
-                            </label>
-                            <div class="pull-left">
-                                @Model.TravelStipendAmount
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Offer Housing:
+                                    @if (Model.IsSkaterHousingOffered)
+                                    {
+                                        <i class="fa fa-check fa-lg"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times fa-lg"></i>
+                                    }
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Hang Over Bout Offered:
+                                    @if (Model.IsHangOverBoutOffered)
+                                    {
+                                        <i class="fa fa-check fa-lg"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times fa-lg"></i>
+                                    }
+                                </label>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Can Offer Travel Stipend:
-                                @if (Model.IsOfferTravelStipend)
-                                {
-                                    <i class="fa fa-check fa-lg"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times fa-lg"></i>
-                                }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Live Online:
-                                @if (Model.IsStreamLive)
-                                {
-                                    <i class="fa fa-check fa-lg"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times fa-lg"></i>
-                                }
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Offer Housing:
-                                @if (Model.IsSkaterHousingOffered)
-                                {
-                                    <i class="fa fa-check fa-lg"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times fa-lg"></i>
-                                }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Hang Over Bout Offered:
-                                @if (Model.IsHangOverBoutOffered)
-                                {
-                                    <i class="fa fa-check fa-lg"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times fa-lg"></i>
-                                }
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label>
-                                Is Away Game:
-                                @if (Model.IsAwayGame)
-                                {
-                                    <i class="fa fa-check fa-lg"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times fa-lg"></i>
-                                }
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label class="pull-left margin-right-5">
-                                Rule Set:
-                            </label>
-                            <div class="pull-left">
-                                @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label>
+                                    Is Away Game:
+                                    @if (Model.IsAwayGame)
+                                    {
+                                        <i class="fa fa-check fa-lg"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times fa-lg"></i>
+                                    }
+                                </label>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12">
-                            <label class="no-margin-bottom">
-                                Event Note:
-                            </label>
-                            <div>
-                                @Html.Raw(Model.EventInformation)
+                            <div class="col-xs-12 col-sm-6">
+                                <label class="pull-left margin-right-5">
+                                    Rule Set:
+                                </label>
+                                <div class="pull-left">
+                                    @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)Model.RuleSetId)
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12">
+                                <label class="no-margin-bottom">
+                                    Event Note:
+                                </label>
+                                <div>
+                                    @Html.Raw(Model.EventInformation)
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,4 +168,3 @@
         </div>
     </div>
 </div>
-

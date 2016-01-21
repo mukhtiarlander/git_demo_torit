@@ -10,7 +10,7 @@
 
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Profile</li>
 </ol>
 
@@ -340,7 +340,7 @@
                                             <div class="subPleaseSubscribeMessage">Subscribe to @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName to store/view Contacts for members in your league! <a href="@Url.Content("~/billing/league/" + RDN.Library.Cache.MemberCache.GetLeagueIdOfMember(memId).ToString().Replace("-", ""))">Subscribe Here</a></div>
                                         }
 
-                                        <small>Only Managers of the league can see this information.</small>
+                                        <small>Only Managers of the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() can see this information.</small>
                                     </div>
                                     <div id="Memberships" class="tab-pane">
                                         <div class="row">
@@ -353,7 +353,7 @@
                                                         <div class="well padding-15">
                                                             @if (league.Logo != null)
                                                             {
-                                                                <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                                                <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
 
                                                                     <img style="max-height:200px" alt="@league.Name" src="@league.Logo.ImageUrl" />
 
@@ -361,7 +361,7 @@
                                                             }
                                                             <div class="caption">
                                                                 <h4 class="no-margin">
-                                                                    <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
+                                                                    <a href="@Url.Content(RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(league.Name.Replace(" ", "-")) + "/" + league.LeagueId.ToString().Replace("-", ""))">
                                                                         @league.Name
                                                                     </a>
 

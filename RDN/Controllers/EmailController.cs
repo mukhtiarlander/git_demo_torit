@@ -10,11 +10,13 @@ namespace RDN.Controllers
         // GET: Email
         public ActionResult UnSubscribe(string email, string listType, string id)
         {
-                        EmailOutModel outModel = new EmailOutModel();
+            EmailOutModel outModel = new EmailOutModel();
             outModel.Email = email;
-            outModel.Successful = SubscriberManager.UnSubscribe((SubscriberType)Convert.ToInt64(listType), email, Convert.ToInt64(id));
+            outModel.Successful = SubscriberManager.UnSubscribe((SubscriberType)Convert.ToInt64(listType), email, id);
 
             return View(outModel);
         }
+
+
     }
 }

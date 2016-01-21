@@ -16,7 +16,7 @@
                            select new { ID = (int)d, Name = d.ToString() };
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/league/members/view/all")">Members</a></li>
     <li class="active">Edit @Model.Firstname @Model.LastName's Details</li>
 </ol>
@@ -120,7 +120,7 @@
                                                     </div>
                                                     <div>
                                                         @Html.TextBoxFor(x => x.DayJob, new { @type = "text", @class = "form-control" })
-                                                        For use by the league in case they need your expertise.
+                                                        For use by the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() in case they need your expertise.
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-lg-6">
@@ -200,7 +200,7 @@
                                             Contacts of Members
                                             <a class="btn btn-info btn-sm pull-right" href="@Url.Content("~/member/contacts/" + Model.MemberId.ToString().Replace("-", ""))"><i class="fa fa-plus-circle"></i> Add</a>
                                             <br />
-                                            <span class="text-muted small">Only Managers of the league can see this information.</span>
+                                            <span class="text-muted small">Only Managers of the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() can see this information.</span>
                                             @if ((MemberCache.IsSecretaryOrBetterOfLeague(memId) && RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId)) || memId == Model.MemberId)
                                             {
                                                 if (Model.MemberContacts.Count == 0)
@@ -446,7 +446,7 @@
                 @using (Html.BeginForm("RemoveMember", "League"))
                 {
                     <div class="removeMemberButton">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Really Remove Member?');"><i class="fa fa-trash"></i> Remove Member From League</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Really Remove Member?');"><i class="fa fa-trash"></i> Remove Member From @RDN.Library.Classes.Config.LibraryConfig.TeamName</button>
                         @if (ViewBag.Removed)
                         {
                             <span>Removed Successfully!</span>

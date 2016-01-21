@@ -7,7 +7,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/dues/league/" + @Model.LeagueOwnerId.ToString().Replace("-", ""))">Dues</a></li>
     <li class="active">Dues Item</li>
 </ol>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="text-muted">
-                    Here you can add a new classification for the @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers who you want to put into a group that pay dues at a group price rather than the leagues default price.
+                    Here you can add a new classification for the @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers who you want to put into a group that pay dues at a group price rather than the @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() default price.
                 </div>
             </div>
             @using (Html.BeginForm("DuesClassificationNew", "Dues", FormMethod.Post, new { @id = "form", @name = "form" }))

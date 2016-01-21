@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">@RDN.Library.Classes.Config.LibraryConfig.SportName Tournaments</li>
 </ol>
 @if ((!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId == 0) || (!string.IsNullOrEmpty(Model.EmbedVideoString) && Model.PaywallId > 0 && Model.Paywall.IsPaid))
@@ -233,7 +233,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
                     <div class="tab-content padding-15">
                         <div role="tabpanel" class="tab-pane active " id="gamesTab">
                             <h4>
-                                Games for the Tournament
+                                @RDN.Library.Classes.Config.LibraryConfig.GamesName for the Tournament
                             </h4>
                             <table class="table table-striped table-bordered table-hover" id="games">
                                 <thead>
@@ -270,7 +270,7 @@ else if (!Model.Paywall.IsPaid && Model.PaywallId > 0 && Model.Paywall.EndDate >
                                                 @Model.Games[i].GameDate.ToString("MM/dd/yyyy")
                                             </td>
                                             <td>
-                                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
+                                                <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.GameUrl+"/" + Model.Games[i].GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(Model.Games[i].Team2Name))">
                                                     @Model.Games[i].GameName
                                                 </a>
                                             </td>

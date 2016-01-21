@@ -305,6 +305,11 @@ new { controller = "Member", action = "MemberSetting" } // Parameter defaults
 new { controller = "Member", action = "ChangeMemberSettingCalView" } // Parameter defaults
 );
             routes.MapRoute(
+"MemberSettingsChangeNavigationDirection", // Route name
+"member/changemembersettingnavigationdirection", // URL with parameters
+new { controller = "Member", action = "ChangeMemberSettingNavigationDirection" } // Parameter defaults
+);
+            routes.MapRoute(
 "MemberContacts", // Route name
 "member/contacts/{id}", // URL with parameters
 new { controller = "Member", action = "MemberContacts", id = UrlParameter.Optional } // Parameter defaults
@@ -395,37 +400,37 @@ new { controller = "Game", action = "ViewGame" } // Parameter defaults
 "BoutChallenge", // Route name
 "{url}/add/request", // URL with parameters
 new { controller = "BoutChallenge", action = "BoutChallengeRequest" }, // Parameter defaults
-new { url = "(bout|game)challenge" } 
+new { url = "challenge" } 
 );
             routes.MapRoute(
 "ViewAllRequest", // Route name
 "{url}/view/all", // URL with parameters
 new { controller = "BoutChallenge", action = "ViewAllBoutRequest" }, // Parameter defaults
-new { url = "(bout|game)challenge" } 
+new { url = "challenge" } 
 );
             routes.MapRoute(
 "EditRequest", // Route name
 "{url}/edit/{id}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "EditBoutRequest" }, // Parameter defaults
-new { url = "(bout|game)challenge" } 
+new { url = "challenge" } 
 );
             routes.MapRoute(
 "DeleteRequest", // Route name
 "{url}/delete/{id}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "DeleteBoutRequest" }, // Parameter defaults
-new { url = "(bout|game)challenge" } 
+new { url = "challenge" } 
 );
             routes.MapRoute(
 "CloseRequest", // Route name
 "{url}/close/{id}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "CloseBoutRequest" }, // Parameter defaults
-new { url = "(bout|game)challenge" } 
+new { url = "challenge" } 
 );
             routes.MapRoute(
 "ViewEvent", // Route name
 "{url}/view/{ChallengeId}/{leagueId}", // URL with parameters
 new { controller = "BoutChallenge", action = "ViewEvent" }, // Parameter defaults
-new { url = "(bout|game)challenge" } 
+new { url = "challenge" } 
 );
 
 
@@ -1262,6 +1267,11 @@ new { controller = "Vote", action = "PollToVoteV2" } // Parameter defaults
 "PollViewAdmin", // Route name
 "poll/view/{leagueId}/{pollid}", // URL with parameters
 new { controller = "Vote", action = "PollViewAdmin" } // Parameter defaults
+);
+            routes.MapRoute(
+"SaveMembersToPoll", // Route name
+"poll/addmemberstopoll",
+new { controller = "Vote", action = "AddMembersToPoll" }
 );
             routes.MapRoute(
 "Polls", // Route name

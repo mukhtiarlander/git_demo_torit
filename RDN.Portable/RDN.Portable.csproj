@@ -84,6 +84,7 @@
     <Compile Include="Classes\Account\Enums\MemberPrivacySettingsEnum.cs" />
     <Compile Include="Classes\Account\Enums\MemberTypeEnum.cs" />
     <Compile Include="Classes\Account\Enums\Settings\CalendarDefaultViewEnum.cs" />
+    <Compile Include="Classes\Account\Enums\Settings\NavigationDefaultViewEnum.cs" />
     <Compile Include="Classes\Account\NotificationMobile.cs" />
     <Compile Include="Classes\Account\UserMobile.cs" />
     <Compile Include="Classes\API\ApiManager.cs" />
@@ -227,9 +228,6 @@
     <Compile Include="Util\Strings\StringExt.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

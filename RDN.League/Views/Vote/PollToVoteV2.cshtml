@@ -8,7 +8,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/poll/" + @Model.LeagueId)">Polls</a></li>
     <li class="active">View Poll</li>
 </ol>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12">
-                            <label class="form-label margin-top-10">Description <small class="text-muted"><i>Explain what the vote is on or about.</i></small></label>
+                            <label class="form-label margin-top-10">Description </label>
                             <div>
                                 <b>@Html.Raw(Model.Description)</b>
                             </div>

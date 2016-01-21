@@ -47,7 +47,7 @@ namespace RDN.Shops
                       "~/Content/bootstrap.css",
                       "~/Content/jquery-ui.min.css",
                       "~/Content/font-awesome.css",
-                      "~/Content/site.css"));
+                      "~/Content/main.css"));
 
             if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.RollerDerby)
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/rdnation.js"));
@@ -55,6 +55,12 @@ namespace RDN.Shops
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/snation.js"));
             else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.localhost)
                 bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/localhost.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Rugby)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/bullockingnation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Swimming)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/swimdecknation.js"));
+            else if (LibraryConfig.SiteType == Library.Classes.Site.Enums.SiteType.Rowing)
+                bundles.Add(new ScriptBundle("~/bundles/properties").Include("~/scripts/Sites/oarnation.js"));
 
 
             // Set EnableOptimizations to false for debugging. For more information,

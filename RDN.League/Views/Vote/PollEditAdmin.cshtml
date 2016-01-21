@@ -5,13 +5,13 @@
     int i = 0;
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/poll/" + @Model.LeagueId)">Polls</a></li>
     <li class="active">Edit Poll</li>
 </ol>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1" style="position:initial">
+    <div class="col-xs-12 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
@@ -77,10 +77,10 @@
                         else
                         {   <label class="form-label margin-top-10">Questions & Answers</label> }
 
-                        <div id="pollQuestions">
+                        <div class="pollQuestions" id="pollQuestions">
                             @foreach (var question in Model.Questions.OrderBy(x => x.SortableOrderId))
                             {
-                                <div id="updateQuestionTd-@question.QuestionId">
+                                <div class="pollQuestion" id="updateQuestionTd-@question.QuestionId">
                                     <div class="panel panel-default">
                                         <div class="panel-heading no-padding padding-5">
                                             <div class="row">
@@ -200,42 +200,44 @@
                     {
                         @Html.HiddenFor(x => x.OnlyShowResults)
                         <div class="col-xs-12">
-                            <div><i class="fa fa-check-circle"></i> Only Showing Results<span class="text-muted"><i> Hides members that didn't vote to everyone.</i></span></div>
+                            <div><i class="fa fa-check-circle"></i>  Anonymous Non-Voters <span class="text-muted"><i>Identities of those who didn't vote are kept secret</i></span></div>
                         </div>
                     }
                     else
                     {
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <label class="form-label col-xs-3">
-                                    Didn't Vote
-                                </label>
-                            </div>
-                            <div>
-                                <div class="row panel panel-default no-margin">
-                                    <div class="panel-body padding-10 padding-bottom-5">
-                                        @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.DerbyName))
-                                        {
-                                            <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
-                                                <a target="_blank" href="@Url.Content("~/Member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.DerbyName))">@mem.DerbyName</a>
-                                            </span>
-                                        }
-                                    </div>
-                                    <div id="EditPollSelectedMembersDiv" class="panel-footer pull-left full-width display-none padding-10 padding-bottom-5">
-
+                        if (Model.Voters.Any(w => w.DidVote == true))
+                        {
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <label class="form-label col-xs-3">
+                                        Didn't Vote
+                                    </label>
+                                </div>
+                                <div>
+                                    <div class="row panel panel-default no-margin">
+                                        <div class="panel-body padding-10 padding-bottom-5" id="MembersListDontVoted">
+                                            @foreach (var mem in Model.Voters.Where(w => w.DidVote == true).OrderBy(x => x.SiteName))
+                                            {
+                                                <span class="label font12 margin-right-5 margin-bottom-5 pull-left padding-5" style="background-color:#eee">
+                                                    <a target="_blank" href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">@mem.SiteName</a>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div id="EditPollSelectedMembersDiv" class="panel-footer pull-left full-width display-none padding-10 padding-bottom-5">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div class="col-xs-12 margin-top-5">
                             <div>
-                                <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Only Show Results </label><span class="text-muted"><i>Hides members that didn't vote to everyone.</i></span>
+                                <label>@Html.CheckBoxFor(x => x.OnlyShowResults) Anonymous Non-Voters  </label><span class="text-muted"><i>Identities of those who didn't vote are kept secret</i></span>
                             </div>
                         </div>
                     }
                     <div class="col-xs-12">
                         <div>
-                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Results can be seen by league.</i></span>
+                            <label>@Html.CheckBoxFor(x => x.IsOpenToLeague) Open Results </label> <span class="text-muted"><i>Voting results can be seen by everyone</i></span>
                         </div>
                     </div>
                 </div>
@@ -248,7 +250,48 @@
             }
         </div>
     </div>
-
+    <div class="col-xs-12 col-sm-4">
+        <div id="panel-members" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h4 class="margin-bottom-5 margin-top-5"><i class="fa fa-group"></i> Members of Poll</h4>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <span id="btn_poll_add_member" data-container="body" data-toggle="popover" data-placement="left">
+                            <button class="btn btn-info btn-xs margin-top-5" onclick="Polls.ShowAddMemberPopup('@Model.LeagueId','@Model.VotingId','@Url.Action("SearchNamesAddToPoll", "Utilities")')">
+                                <i class="fa fa-plus-circle"></i> Add
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="message-member-list" class="panel-body no-padding-bottom">
+                @if (Model.Voters.Count > 0)
+                {
+                    foreach (var mem in Model.Voters.OrderBy(x => x.SiteName))
+                    {
+                        <div class="margin-bottom-10">
+                            @if (!Model.OnlyShowResults)
+                            {
+                                if (mem.DidVote)
+                                {
+                                    <i class="fa fa-times fa-lg"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-check fa-lg"></i>
+                                }
+                            }
+                            <a href="@Url.Content("~/member/" + mem.MemberId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(mem.SiteName))">
+                                @mem.SiteName
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 

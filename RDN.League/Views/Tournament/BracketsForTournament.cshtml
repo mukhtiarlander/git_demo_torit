@@ -5,7 +5,7 @@
 }
 
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/tournament/view/all/")">Tournaments</a></li>
     <li class="active">Brackets</li>
 </ol>
@@ -14,7 +14,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-bottom-15 margin-top-5"><i class="fa fa-sitemap"></i> Tournament Brackets: @RDN.Utilities.Enums.EnumExt.ToFreindlyName(Model.TournamentType)</h3>
-                <span class="text-muted">Here you can add Teams, Assign the games played and watch the brackets get closer to the winner!</span>
+                <span class="text-muted">Here you can add Teams, Assign the @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() played and watch the brackets get closer to the winner!</span>
             </div>
             <div class="panel-heading text-right">
                 <a class="btn btn-info btn-sm" title="Tournament Brackets" href="@Url.Content("~/tournament/view/" + @Model.PrivateKey.ToString().Replace("-", "") + "/" + @Model.Id.ToString().Replace("-", ""))">

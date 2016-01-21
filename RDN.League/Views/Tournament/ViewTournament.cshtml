@@ -11,7 +11,7 @@
     bool subPaid = RDN.Library.Cache.MemberCache.CheckIsLeagueSubscriptionPaid(memId);
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li><a href="@Url.Content("~/tournament/view/all/")">Tournaments</a></li>
     <li class="active">Manage</li>
 </ol>
@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <span class="text-muted">
-                    Here you can view the tournament. In order to add games to this tournament, you will need to go to the manage
-                    game screen for the game you wish to add. This can be seen under the <a href="@Url.Content("~/game/manage/all")">owned games menu</a>.
+                    Here you can view the tournament. In order to add @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() to this tournament, you will need to go to the manage
+                    game screen for the game you wish to add. This can be seen under the <a href="@Url.Content("~/game/manage/all")">owned @RDN.Library.Classes.Config.LibraryConfig.GamesName.ToLower() menu</a>.
                 </span>
             </div>
             <div class="panel-body">

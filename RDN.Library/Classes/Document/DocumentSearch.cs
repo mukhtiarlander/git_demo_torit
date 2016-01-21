@@ -178,15 +178,15 @@ namespace RDN.Library.Classes.Document
                 var memId = RDN.Library.Classes.Account.User.GetMemberId();
                 IEnumerable<Document> docs = null;
               
-                    docs = MemberCache.GetLeagueDocuments(memId, isArchived);
-               
+                docs = MemberCache.GetLeagueDocuments(memId, isArchived);
 
+                text = text.ToLower(); // if user enters a string with Caps Lock on
                 if (folderId > 0)
-                    docs = docs.Where(x => x.DocumentName != null && x.Folder != null && x.Folder.FolderId == folderId && x.DocumentName.ToLower().Contains(text));
+                    docs = docs.Where(x => x.DocumentName != null && x.Folder != null && x.Folder.FolderId == folderId && (x.DocumentName.ToLower().Contains(text) || x.DocumentTags.Any(t => t.TagName.ToLower().Contains(text))));
                 else if(groupId > 0)
-                    docs = docs.Where(x => x.DocumentName != null && x.GroupId == groupId && x.GroupId == groupId && x.DocumentName.ToLower().Contains(text));
+                    docs = docs.Where(x => x.DocumentName != null && x.GroupId == groupId && x.GroupId == groupId && (x.DocumentName.ToLower().Contains(text) || x.DocumentTags.Any(t => t.TagName.ToLower().Contains(text))));
                 else
-                    docs = docs.Where(x => x.DocumentName != null && x.DocumentName.ToLower().Contains(text));
+                    docs = docs.Where(x => x.DocumentName != null && (x.DocumentName.ToLower().Contains(text) || x.DocumentTags.Any(t => t.TagName.ToLower().Contains(text))));
 
 
                 foreach (var document in docs)

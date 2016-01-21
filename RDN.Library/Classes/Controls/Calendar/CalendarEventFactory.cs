@@ -1600,7 +1600,7 @@ namespace RDN.Library.Classes.Calendar
                     };
 
                     if (repeatFrequencySelected == FrequencyTypeEnum.Yearly)
-                        aEvent.Anniversary = new Anniversary() { Day = DateTime.Now.Day, Month = DateTime.Now.Month };
+                        aEvent.Anniversary = new Anniversary() { Day = startDate.Day, Month = startDate.Month };
                 }
 
                 var dc = new ManagementContext();
@@ -1614,6 +1614,8 @@ namespace RDN.Library.Classes.Calendar
                         ev.EndReocurring = startDate.AddDays(endsOnOcurrences);
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Monthly)
                         ev.EndReocurring = startDate.AddMonths(endsOnOcurrences);
+                    else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Yearly)
+                        ev.EndReocurring = startDate.AddYears(endsOnOcurrences - 1); // -1 because it counts even the start date
                     else if (aEvent.FrequencyTypeOptions == FrequencyTypeEnum.Weekly)
                     {
                         int daysToAdd = (endsOnOcurrences / howManyDays) * 7;
@@ -1912,7 +1914,7 @@ namespace RDN.Library.Classes.Calendar
                         calEvent.OrganizersName = owner.League.Name;
                         if (owner.League.Logo != null)
                             calEvent.ImageUrl = owner.League.Logo.ImageUrlThumb;
-                        calEvent.OrganizerUrl = RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
+                        calEvent.OrganizerUrl = RDN.Library.Classes.Config.LibraryConfig.MainDomain+"/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl +"/"+ RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(calEvent.OrganizersName) + "/" + calEvent.OrganizersId.ToString().Replace("-", "");
                         break;
                     }
                 }

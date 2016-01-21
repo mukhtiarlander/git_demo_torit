@@ -1,6 +1,6 @@
 ﻿@model RDN.Portable.Classes.Games.Officiating.RequestsModel
 @{
-    ViewBag.Title = "Officials in "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" Leagues";
+    ViewBag.Title = "Officials in "+@RDN.Library.Classes.Config.LibraryConfig.SportName+" "+ RDN.Library.Classes.Config.LibraryConfig.TeamsName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @helper Truncate(string input, int length = 30)
@@ -72,14 +72,14 @@
         <tbody>
             @foreach (var b in Model.Requests)
             {
-                <tr class="@(b.RequestId % 2 == 0 ? "tr1" : "tr0")">
+                <tr class="@(b.RequestId % 2 == 0 ? "tr1" : "tr0") vertical-middle">
                     <td>
-                        <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)" class="btn btn-primary">View </a>
+                        <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)" class="btn btn-primary">View</a>
                     </td>
-                    <td>
-                        @Truncate(b.TeamsPlaying, 23)
+                    <td class="vertical-middle">
+                        <a href="@Url.Content("~/officiating-requests/view/" + b.RequestId)">@Truncate(b.TeamsPlaying, 23)</a>
                     </td>
-                    <td>
+                    <td class="vertical-middle">
                         @Truncate(b.LocationName, 10) -
 
                         @if (!String.IsNullOrEmpty(b.City))
@@ -91,13 +91,13 @@
                             @b.State<span> </span>
                         }
                     </td>
-                    <td>
+                    <td class="vertical-middle">
                         @b.Date.Value.ToShortDateString()
                     </td>
-                    <td>
+                    <td class="vertical-middle">
                         @Truncate(b.FirstWhistle, 10)
                     </td>
-                    <td>
+                    <td class="vertical-middle">
                         @RDN.Utilities.Enums.EnumExt.ToFreindlyName((RDN.Portable.Classes.Federation.Enums.RuleSetsUsedEnum)b.RuleSetId)
                     </td>
                 </tr>

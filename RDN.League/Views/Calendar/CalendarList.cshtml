@@ -20,7 +20,7 @@
     var isAttendance = MemberCache.IsAttendanceManager(memId);
 }
 <ol class="breadcrumb">
-    <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
+    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">Home</a></li>
     <li class="active">Calendar List</li>
 </ol>
 @if (Model.CalendarId == new Guid())
@@ -126,7 +126,7 @@ else
                         var mem = calEvent.Attendees.FirstOrDefault(x => x.MemberId == memId);
                         var checkInStatus = mem != null ? ((CalendarEventPointTypeEnum)mem.PointType).ToFreindlyName() : (CalendarEventPointTypeEnum.None).ToFreindlyName();
                         var checkInStatusId = mem != null ? (int)mem.PointType : 0;
-                        var checkInSecondaryStatus = mem != null ?  mem.SecondaryPointType == CalendarEventPointTypeEnum.Tardy : false;
+                        var checkInSecondaryStatus = mem != null ? mem.SecondaryPointType == CalendarEventPointTypeEnum.Tardy : false;
                         var note = mem != null ? mem.Note : string.Empty;
                         var rsvpStatus = mem != null ? ((AvailibilityEnum)mem.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
                         string className = "";
@@ -147,7 +147,7 @@ else
                             className = "btn-primary";
                         }
                         <tr id="@calEvent.CalendarItemId-mainrow" class="forumTopicRow @(calEvent.StartDate.ToString("yyyy/MM/dd") == DateTime.Now.ToString("yyyy/MM/dd") ? "calCurrentDateEvent" : "")">
-                            <td class="text-center">
+                            <td class="text-center vertical-middle white-space">
                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;'></div>
 
                                 @if (calEvent.EventType.EventType != CalendarEventTypeEnum.Birthday && calEvent.EventType.EventType != CalendarEventTypeEnum.StartedDate)

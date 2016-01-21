@@ -1,6 +1,6 @@
 ﻿@model List<RDN.Portable.Models.Json.Games.CurrentGameJson>
 @{
-    ViewBag.Title = "The Last Seven Days of " + @RDN.Library.Classes.Config.LibraryConfig.SportName + " Games";
+    ViewBag.Title = "The Last Seven Days of " + @RDN.Library.Classes.Config.LibraryConfig.SportName + " " + @RDN.Library.Classes.Config.LibraryConfig.GamesName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row margin-top-50">
@@ -8,7 +8,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="margin-top-10">
-                    This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName Games
+                    This Past Weeks @RDN.Library.Classes.Config.LibraryConfig.SportName @RDN.Library.Classes.Config.LibraryConfig.GamesName
                 </h3>
             </div>
             <div class="panel-body padding-5 padding-top-15">
@@ -20,7 +20,7 @@
                             <div class="thumbnail full-width bg-lighter">
                                 <div class="caption">
                                     <h4 class="no-margin-top text-center">
-                                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.SportNameForUrl + "-game/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
+                                        <a href="@Url.Content("~/" + RDN.Library.Classes.Config.LibraryConfig.GameUrl +"/" + game.GameId.ToString().Replace("-", "") + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.GameName) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team1Name) + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(game.Team2Name))">
                                             @game.GameName
                                         </a>
                                     </h4>
