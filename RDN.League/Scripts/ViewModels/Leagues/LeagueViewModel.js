@@ -453,4 +453,39 @@
             });
         });
     };
+
+    this.InitializeTabHeader = function () {
+        // needed to know on what page we are
+        var url = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+        if (url == 'all') {
+            $("#lbl_forum_tab_selected").html('Roster');
+        }
+        else if (url == 'dates') {
+            $("#lbl_forum_tab_selected").html('Dates');
+        }
+        else if (url == 'jobs') {
+            $("#lbl_forum_tab_selected").html('Day Jobs');
+        }
+        else if (url == 'groups') {
+            $("#lbl_forum_tab_selected").html('Groups');
+        }
+        else if (url == 'insurance') {
+            $("#lbl_forum_tab_selected").html('Insurance Numbers');
+        }
+        else if (url == 'medical') {
+            $("#lbl_forum_tab_selected").html('Medical');
+        }
+        else if (url == 'permissions') {
+            $("#lbl_forum_tab_selected").html('Permissions');
+        }
+        else if (url == 'class') {
+            $("#lbl_forum_tab_selected").html('Skill Level');
+        }
+        else if (url == 'map') {
+            $("#lbl_forum_tab_selected").html('Map');
+        }
+        else if (url == 'removed') {
+            $("#lbl_forum_tab_selected").html('Removed');
+        }
+    };
 }
