@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">My League</a></li>
+                    <li><a href="@RDN.Library.Classes.Config.LibraryConfig.InternalSite">My @RDN.Library.Classes.Config.LibraryConfig.TeamName</a></li>
                 }
 
                 <li class="dropdown">

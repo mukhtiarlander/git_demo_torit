@@ -24,7 +24,7 @@
             <div>
                 <table class="editMemberTable">
                     <tr>
-                        <td class="b">Internal League Id:</td>
+                        <td class="b">Internal @RDN.Library.Classes.Config.LibraryConfig.TeamName Id:</td>
                         <td>@Html.TextBoxFor(x => x.InternalFederationIdForLeague) </td>
                     </tr>
                 </table>
@@ -108,7 +108,7 @@
                 { 
                     <span class="addedSuccessfully">Updated Successfully!</span>
                 }
-                <input type="submit" class="primary" value="Update League" />
+                <input type="submit" class="primary" value="Update @RDN.Library.Classes.Config.LibraryConfig.TeamName" />
             </div>
             @Html.HiddenFor(x => x.LeagueId)
             @Html.HiddenFor(x => x.FederationIdForLeague)
@@ -117,8 +117,8 @@
         { 
          
             <div>
-                <input type="submit" class="remove" onclick="return confirm('Really Remove League?');"
-                    value="Remove League From Federation" />
+                <input type="submit" class="remove" onclick="return confirm('Really Remove @RDN.Library.Classes.Config.LibraryConfig.TeamName?');"
+                    value="Remove @RDN.Library.Classes.Config.LibraryConfig.TeamName From Federation" />
             </div>
             @Html.HiddenFor(x => x.LeagueId)
         }

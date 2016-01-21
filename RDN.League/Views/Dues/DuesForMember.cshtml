@@ -140,7 +140,7 @@
         @if (!Model.AcceptPaymentsOnline)
         {
             <div class="alert alert-warning">
-                <b>Collect Dues Online:</b> Your league can collect dues through @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName just by enabling the feature within the dues management settings page.
+                <b>Collect Dues Online:</b> Your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() can collect dues through @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName just by enabling the feature within the dues management settings page.
             </div>
         }
         New dues collection dates automatically get generated prior to the date of the month

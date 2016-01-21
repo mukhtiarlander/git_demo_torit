@@ -14,30 +14,12 @@
             <div class="divider"></div>
         <div>
             <ul class="noList">
-                <li><a href="@Url.Action("Adds", "League")">Add Leagues To Your Federation</a></li>
+                <li><a href="@Url.Action("Adds", "League")">Add @RDN.Library.Classes.Config.LibraryConfig.TeamsName To Your Federation</a></li>
                 <li><a href="@Url.Content("~/Federation/Leagues/View")">View Teams</a></li>
                 <li><a href="@Url.Content("~/Federation/Members/Add")">Add Members</a></li>
                 <li><a href="@Url.Content("~/Federation/Members/View")">View Members</a></li>
                 <li><a href="@Url.Content("~/Game/Add/" + RDN.Library.Cache.MemberCache.GetAllOwnedFederations(RDN.Library.Classes.Account.User.GetMemberId()).FirstOrDefault().Federation.FederationId.ToString().Replace("-","")+"/" +RDN.Library.Classes.Game.Enums.GameAddedByEnum.federation.ToString())">View Members</a></li>
                 <li><a href="@Url.Content("~/Game/View/All")">View All @RDN.Library.Classes.Config.LibraryConfig.GamesName</a></li>
-            </ul>
-        </div>
-        <br />
-        <br />
-        <div>
-            <div class="panelBoxTitle">
-                Helpful Definitions</div>
-            <ul class="noList">
-                <li><b>Federation</b> - We consider different rule sets or organizing bodies federations.
-                    For example, MADE, WFTDA, MRD, UKRD, etc are a federation. Each federation is filled
-                    with many leagues.</li>
-                <li><b>League</b> - We consider different entities in control of @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers as Leagues.
-                    This will be what is most known as a team, but we think Leagues is a better term
-                    for it. Leagues can control or manage many teams. Larger Leagues will be filled
-                    with many teams. Each League can be filled with many Teams. Smaller Leagues will
-                    only have one team.</li>
-                <li><b>Team</b> - 15/14 @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers is a Team depending on the rule set. There can be many
-                    teams inside a league. There can be more than 15/14 @RDN.Library.Classes.Config.LibraryConfig.NameOfMembers rostered per team.</li>
             </ul>
         </div>
     </div>

@@ -22,7 +22,8 @@ namespace RDN.Portable.Classes.Federation.Enums
         Renegade = 128,
         Texas_Derby = 256,
         The_WFTDA = 2,
-        USARS = 512
+        USARS = 512,
+        Other = 1024
 
     }
 }

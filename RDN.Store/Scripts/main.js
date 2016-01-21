@@ -120,9 +120,9 @@ function ToggleShipment(span, storeItemCartId, merchantId, cartId) {
         $("#" + storeItemCartId + "-price").html(result.itemPrice);
         var sp = $(span);
         if (sp.text().indexOf("Pick up locally") >= 0)
-            sp.text("<i class='fa fa-truck'> Ship item");
+            sp.html("<i class='fa fa-truck'> Ship item");
         else
-            sp.text("<i class='fa fa-map-marker'></i> Pick up locally");
+            sp.html("<i class='fa fa-map-marker'></i> Pick up locally");
     });
 }
 

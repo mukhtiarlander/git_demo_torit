@@ -29,7 +29,7 @@
             }
         </div>
         <div class="text-muted">
-            Group members of your league by how much they pay for dues.  Therefore, moving a member between groups, will ask them to pay different amounts for dues.
+            Group members of your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() by how much they pay for dues.  Therefore, moving a member between groups, will ask them to pay different amounts for dues.
         </div>
     </div>
     @if (MemberCache.IsTreasurerOrBetterOfLeague(memId))
@@ -127,7 +127,7 @@
         @if (!Model.AcceptPaymentsOnline)
         {
             <div class="alert alert-warning">
-                <b>Collect Dues Online:</b> Your league can collect dues through @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName just by enabling the feature within the dues management settings page.
+                <b>Collect Dues Online:</b> Your @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() can collect dues through @RDN.Library.Classes.Config.LibraryConfig.WebsiteShortName just by enabling the feature within the dues management settings page.
             </div>
             }
             New dues collection dates automatically get generated prior to the date of the month

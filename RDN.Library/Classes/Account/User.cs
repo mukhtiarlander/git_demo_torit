@@ -1183,12 +1183,19 @@ namespace RDN.Library.Classes.Account
             try
             {
                 var dc = new ManagementContext();
-                var memberIds = dc.EmailVerifications.ToList();
+                var memberIds = dc.EmailVerifications.Include("Member").ToList();
 
                 foreach (var mem in memberIds)
                 {
-                    ResendEmailVerification(mem.Member.MemberId);
-                    emailsSent += 1;
+                    try
+                    {
+                        ResendEmailVerification(mem.Member.MemberId);
+                        emailsSent += 1;
+                    }
+                    catch (Exception exception)
+                    {
+                        ErrorDatabaseManager.AddException(exception, exception.GetType());
+                    }
                 }
             }
             catch (Exception exception)
@@ -1220,7 +1227,7 @@ namespace RDN.Library.Classes.Account
 
                 // get the email verification code, name and email
                 var dc = new ManagementContext();
-                var emailVerification = dc.EmailVerifications.FirstOrDefault(x => x.Member.MemberId.Equals(memberId));
+                var emailVerification = dc.EmailVerifications.Include("Member").FirstOrDefault(x => x.Member.MemberId.Equals(memberId));
                 if (emailVerification == null)
                     return false;
 
@@ -1234,7 +1241,7 @@ namespace RDN.Library.Classes.Account
                 emailVerification.Member = mem;
 
                 // Update the expired date
-                emailVerification.Expires = DateTime.Now.AddDays(7);
+                emailVerification.Expires = DateTime.Now.AddDays(100);
                 dc.SaveChanges();
                 // Send the email
                 SendEmailVerification(emailCode, email, derbyName);
@@ -1570,7 +1577,7 @@ namespace RDN.Library.Classes.Account
             var leag = mem.Leagues.Where(x => x.League.LeagueId == mem.CurrentLeagueId).FirstOrDefault();
             if (leag != null)
             {
-                m.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.MainDomain + "/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + "/"  + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
+                m.LeagueUrl = RDN.Library.Classes.Config.LibraryConfig.MainDomain + "/" + RDN.Library.Classes.Config.LibraryConfig.LeagueUrl + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(leag.League.Name) + "/" + mem.CurrentLeagueId.ToString().Replace("-", "");
                 m.LeagueName = leag.League.Name;
                 m.LeagueId = leag.League.LeagueId.ToString().Replace("-", "");
                 if (leag.League.Logo != null)

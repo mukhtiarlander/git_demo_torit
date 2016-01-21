@@ -28,7 +28,7 @@
             <h3 class="margin-bottom-10 margin-top-5"><i class="fa fa-plus-circle"></i> New Event</h3>
             <span class="text-muted">
                 Here you create events to start tracking attendance for your league. It also allows
-                you to keep track of events them selves to better manage your leagues by telling
+                you to keep track of events them selves to better manage your @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower() by telling
                 them when and where each event is.
             </span>
         </div>
@@ -49,14 +49,14 @@
                         </button>
                         <div class="margin-bottom-20 margin-top-5">
                             <div name="ToMemberNamesSelected" id="ToMemberNamesSelected" class="well padding-5 margin-bottom-10" style="background:none">
-                                <span class="label label-primary font12 padding-top-5">Entire League</span>
+                                <span class="label label-primary font12 padding-top-5">Entire @RDN.Library.Classes.Config.LibraryConfig.TeamName</span>
                             </div>
                             <div class="displayNone padding-left-10" id="groupMemberLists">
                                 <ul id="groupList" class="list-unstyled"></ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">Location</label>
                         <div class="margin-bottom-20">
                             <div class="input-group">
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">Event Type</label>
                         <div class="margin-bottom-20">
                             <div class="input-group">
@@ -99,24 +99,24 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6">
                                     @if (isSec)
-                                    { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a></span>}
+                                    { <span class="font14"> Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName Internal</a></span>}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">Start Date & Time</label>
                         <div class="margin-bottom-20">
                             @Html.TextBoxFor(x => x.StartDate, new { @onchange = "StartDateOnBlur()", @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">End Date & Time</label>
                         <div class="margin-bottom-20">
                             @Html.TextBoxFor(x => x.EndDate, new { @onchange = "EndDateOnBlur()", @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">Repeat</label>
                         <div class="margin-bottom-20">
                             <label>
@@ -125,7 +125,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">Is Public Event</label>
                         <div class="margin-bottom-20">
                             <label>
@@ -139,7 +139,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">
                             Ticket Url
                         </label>
@@ -148,7 +148,7 @@
                             <small class="i">Direct link for fans to buy tickets from.</small>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">
                             Link
                         </label>
@@ -157,7 +157,7 @@
                             <small class="i">&nbsp;</small>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">
                             Allow Self Check In
                         </label>
@@ -168,7 +168,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-12">
                         <label class="form-label b">
                             Broadcast
                         </label>

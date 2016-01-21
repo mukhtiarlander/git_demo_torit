@@ -386,10 +386,10 @@ namespace RDN.Library.Classes.Document
             try
             {
                 var dc = new ManagementContext();
-                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
+                var docsDb = dc.LeagueDocuments.Include("Document").Include("Comments").Include("Comments.Commentor").Include("DocumentTags").Include("DocumentTags.Tag").Where(x => x.League.LeagueId == leagueId && x.IsRemoved == false).ToList();
                 List<Document> docs = new List<Document>();
                 foreach (var d in docsDb)
-                    docs.Add(LeagueDocument.DisplayDocument(d, true));
+                    docs.Add(LeagueDocument.DisplayDocument(d, true, true));
                 return docs;
             }
             catch (Exception exception)
@@ -678,9 +678,10 @@ namespace RDN.Library.Classes.Document
         {
             try
             {
+                DateTime dt = DateTime.UtcNow.AddYears(-2);
                 List<RDN.Portable.Classes.League.Classes.League> leagues = new List<Portable.Classes.League.Classes.League>();
                 var dc = new ManagementContext();
-                var docsDb = dc.Leagues.Include("Documents").Where(x => x.SubscriptionPeriodEnds != null).ToList();
+                var docsDb = dc.Leagues.Include("Documents").Where(x => x.SubscriptionPeriodEnds.GetValueOrDefault() < dt).ToList();
 
                 if (docsDb != null)
                 {
@@ -689,16 +690,21 @@ namespace RDN.Library.Classes.Document
                         //check see to current League have any docuement if so then move 
                         if (d.Documents.Count > 0)
                         {
-                            if (DateTime.UtcNow > d.SubscriptionPeriodEnds.Value.AddYears(2))
-                            {
-                                //find all the active docs from list of League Documents 
-                                var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
+                            //find all the active docs from list of League Documents 
+                            var activeDocs = d.Documents.Where(fd => fd.Document.IsDeleted == false).ToList();
 
-                                foreach (var doc in activeDocs)
+                            foreach (var doc in activeDocs)
+                            {
+                                try
                                 {
                                     DeleteDocument(doc.Document.DocumentId);
                                 }
+                                catch (Exception exception)
+                                {
+                                    ErrorDatabaseManager.AddException(exception, exception.GetType());
+                                }
                             }
+
                         }
                     }
                 }

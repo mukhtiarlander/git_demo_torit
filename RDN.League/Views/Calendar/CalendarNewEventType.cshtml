@@ -56,7 +56,7 @@
                             <div class="margin-bottom-15">
                                 @Html.DropDownListFor(x => x.ColorTempSelected, Model.ColorList, "Choose Color...", new { @onchange = "ColorSelectorChanged()", @class = "form-control" }) 
                                 @if (isSec)
-                                { <small class="i text-muted">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit League Internal</a><br />&nbsp;</small>
+                                { <small class="i text-muted">Add more colors under <a href="@Url.Content("~/league/edit/" + Model.LeagueId.ToString().Replace("-", ""))">Edit @RDN.Library.Classes.Config.LibraryConfig.TeamName Internal</a><br />&nbsp;</small>
                                 }
                                 else
                                 {

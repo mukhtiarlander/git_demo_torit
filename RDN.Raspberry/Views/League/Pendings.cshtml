@@ -160,7 +160,7 @@
         </tr>
         <tr>
             <td>
-                Federation approval because league was created by the federation and not by a league
+                Federation approval because @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() was created by the federation and not by a league
                 owner.
             </td>
             <td>
@@ -168,7 +168,7 @@
     using (Html.BeginForm(new { Controller = "League", Action = "ApproveLeagueForFederation" }))
     {
                     <input type="hidden" name="id" value="@item.PendingLeagueId.ToString()"/>
-                    <input type="submit" value="Approve league For Federation" onclick="return confirm('Are you sure that you want to approve?');" />
+                    <input type="submit" value="Approve @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() For Federation" onclick="return confirm('Are you sure that you want to approve?');" />
     }
                 }
             </td>

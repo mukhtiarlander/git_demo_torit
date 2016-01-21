@@ -16,7 +16,7 @@ namespace RDN.Library.Classes.League.Classes
 {
     public class LeagueDocument
     {
-        public static Document.Document DisplayDocument(DataModels.League.Documents.LeagueDocument docsDb, bool pullComments)
+        public static Document.Document DisplayDocument(DataModels.League.Documents.LeagueDocument docsDb, bool pullComments, bool pullTags = false)
         {
             try
             {
@@ -80,6 +80,28 @@ namespace RDN.Library.Classes.League.Classes
                         }
                         var lstTags = CommentForDocument.FetchLeagueTags(doc.OwnerId).Select(x => x.Tag.TagName);
                         doc.LeagueTags = string.Join(",", lstTags);
+                    }
+                    catch (Exception exception)
+                    {
+                        ErrorDatabaseManager.AddException(exception, exception.GetType());
+                    }
+                }
+                //pull tags
+                if (pullTags)
+                {
+                    try 
+                    {
+                        foreach (var docTag in docsDb.DocumentTags)
+                        {
+                            var tag = new TagForDocument();
+                            tag.DocumentTagId = docTag.Id;
+                            if (docTag.Tag != null) // this really should not be null
+                            {
+                                tag.TagId = docTag.Tag.TagId;
+                                tag.TagName = docTag.Tag.TagName;
+                            }
+                            doc.DocumentTags.Add(tag);
+                        }
                     }
                     catch (Exception exception)
                     {

@@ -46,7 +46,7 @@
                                 <div class="panel-heading" style="background-color: #fff !important">
                                     <label class="form-label margin-top-5">Dues Management for Managers Only</label>
                                     <div>
-                                        <label>@Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)  Users only shown their payments and withstanding. Not leagues.</label>
+                                        <label>@Html.CheckBoxFor(x => x.LockDownManagementToManagersOnly)  Users only shown their payments and withstanding. Not @RDN.Library.Classes.Config.LibraryConfig.TeamsName.ToLower().</label>
                                     </div>
                                 </div>
                             </div>
@@ -72,11 +72,11 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6  margin-top-20">
-                            <label class="form-label">Leagues Paypal Email Address</label>
+                            <label class="form-label">@RDN.Library.Classes.Config.LibraryConfig.TeamsName Paypal Email Address</label>
                             <div>
                                 @Html.TextBoxFor(x => x.PayPalEmailAddress, new { @class = "form-control" })
                                 <div class="text-muted margin-top-5 i">
-                                    Email Address of the league to collect dues, this needs to be a <b><a href="@(RDN.Library.Classes.Config.LibraryConfig.WikiSite + RDN.Portable.Classes.Url.UrlManager.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT)" target="_blank">VERIFIED</a></b> paypal account.</div>
+                                    Email Address of the @RDN.Library.Classes.Config.LibraryConfig.TeamName.ToLower() to collect dues, this needs to be a <b><a href="@(RDN.Library.Classes.Config.LibraryConfig.WikiSite + RDN.Portable.Classes.Url.UrlManager.WIKI_URL_FOR_CONFIRMED_PAYPAL_ACCOUNT)" target="_blank">VERIFIED</a></b> paypal account.</div>
                                 </div>
                             </div>
                             <div class="col-xs-12">
