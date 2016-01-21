@@ -15,18 +15,26 @@ using System.Web.Mvc;
 namespace RDN.League.Controllers.League
 {
 
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
     public class SponsorController : BaseController
     {
-
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
         [Authorize]
         [LeagueAuthorize(EmailVerification = true, HasPaidSubscription = true)]
         public ActionResult AddNewSponsor()
         {
 
             return View();
-        
+
         }
 
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
         [HttpPost]
         [Authorize]
         [ValidateInput(false)]
@@ -51,6 +59,9 @@ namespace RDN.League.Controllers.League
             return Redirect(Url.Content("~/league/sponsors?u=" + SiteMessagesEnum.sac));
         }
 
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
         [Authorize]
         public ActionResult ViewSponsors()
         {
@@ -113,8 +124,11 @@ namespace RDN.League.Controllers.League
         }
 
 
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
         [Authorize]
-        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsSecretary= true)]
+        [LeagueAuthorize(EmailVerification = true, IsInLeague = true, IsSecretary = true)]
         public ActionResult EditSponsor(long id, string leagueId)
         {
             try
@@ -137,6 +151,10 @@ namespace RDN.League.Controllers.League
             return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.sww));
 
         }
+
+#if !DEBUG
+[RequireHttps] //apply to all actions in controller
+#endif
 
         [HttpPost]
         [Authorize]
@@ -189,7 +207,7 @@ namespace RDN.League.Controllers.League
                 {
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
-                
+
                 var league = MemberCache.GetLeagueOfMember(memId);
                 if (league != null)
                     SetCulture(league.CultureSelected);
@@ -218,12 +236,12 @@ namespace RDN.League.Controllers.League
                 {
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
-				long usedCount;
+                long usedCount;
                 var Data = SponsorManager.UseCode(id, new Guid(leagueId), out usedCount);
-				if (Data)
-				{
-					return Json(usedCount, JsonRequestBehavior.AllowGet);
-				}
+                if (Data)
+                {
+                    return Json(usedCount, JsonRequestBehavior.AllowGet);
+                }
                 return Redirect(Url.Content("~/league/Sponsors?u=" + SiteMessagesEnum.et));
 
             }
@@ -235,6 +253,6 @@ namespace RDN.League.Controllers.League
 
         }
 
-       
+
     }
 }

@@ -10,6 +10,29 @@
 		thisViewModel.sponsorId = SponsorId;
 		thisViewModel.leagueGuidId = LeagueId;
 	}
+
+    this.InitializeAddSponsorship = function() {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+        });
+        $("#ExpiresDate").datepicker();
+        $("#Price").numeric({ negative: false });
+    };
+    
+    this.InitializeEditSponsorship = function() {
+        tinymce.init({
+            mode: "textareas",
+            elements: "elm2",
+            theme: "modern",
+            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
+        });
+        $("#ExpiresDate").datepicker();
+        $("#Price").numeric({ negative: false });
+    }
+
 	this.UseCode = function (btn) {
 		var url = '/Sponsor/UseCode';
 		$.ajax({

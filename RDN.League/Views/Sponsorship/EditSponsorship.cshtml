@@ -6,7 +6,7 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/league/sponsors")">Sponsorships</a></li>
+    <li><a href="@Url.Content("~/league/sponsors")">Sponsors</a></li>
     <li class="active">Edit Sponsorship</li>
 </ol>
 
@@ -19,11 +19,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Edit Sponsorship</h3>
-                    <div class="text-muted">Edit the sponsorship for for the league.</div>
+                    <div class="text-muted">Edit the sponsorship.</div>
                 </div>
                 <div class="panel-body no-padding-top">
                     <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Sponsorship Name</label>
+                        <label class="form-label margin-top-10">Name</label>
                         <div>
                             @Html.TextBoxFor(x => x.Name, new { @type = "text", @class = "form-control" })
                         </div>
@@ -65,14 +65,7 @@
     });
 
     $(function () {
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
-        });
-        $("#ExpiresDate").datepicker();
-        $("#Price").numeric({ negative: false });
+        Sponsors.InitializeEditSponsorship();
     });
 
 

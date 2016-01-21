@@ -834,7 +834,7 @@ new { controller = "Sponsorship", action = "AddNewSponsorship" } // Parameter de
 );
             routes.MapRoute(
 "Sponsorships", // Route name
-"league/Sponsorships", // URL with parameters
+"league/sponsorships", // URL with parameters
 new { controller = "Sponsorship", action = "ViewSponsorships" } // Parameter defaults
 );
             routes.MapRoute(
@@ -844,12 +844,12 @@ new { controller = "Sponsorship", action = "EditSponsorship" } // Parameter defa
 );
             routes.MapRoute(
 "DeleteSponsorship", // Route name
-"league/Sponsorship/delete/{id}/{leagueId}", // URL with parameters
+"league/sponsorships/delete/{id}/{leagueId}", // URL with parameters
 new { controller = "Sponsorship", action = "DeleteSponsorship" } // Parameter defaults
 );
             routes.MapRoute(
 "SponsorshipDetails", // Route name
-"league/Sponsorship/details/{id}/{leagueId}", // URL with parameters
+"league/sponsorships/details/{id}/{leagueId}", // URL with parameters
 new { controller = "Sponsorship", action = "ViewSponsorship" } // Parameter defaults
 );
 

@@ -7,7 +7,7 @@
 
 <ol class="breadcrumb">
     <li><a href="@RDN.Utilities.Config.ConfigManager.InternalSite">Home</a></li>
-    <li><a href="@Url.Content("~/league/sponsors")">Sponsorships</a></li>
+    <li><a href="@Url.Content("~/league/sponsors")">Sponsors</a></li>
     <li class="active">Add new Sponsorship</li>
 </ol>
 
@@ -18,11 +18,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 style="margin-top:5px !important"><i class="fa fa-user"></i> Add New Sponsor</h3>
-                    <div class="text-muted"> Add a new sponsor for the league.</div>
+                    <div class="text-muted"> Add a new sponsor.</div>
                 </div>
                 <div class="panel-body no-padding-top">
                     <div class="col-xs-12">
-                        <label class="form-label margin-top-10">Sponsorship Name</label>
+                        <label class="form-label margin-top-10">Name</label>
                         <div>
                             @Html.TextBoxFor(x => x.Name, new { @type = "text", @class = "form-control" })
                         </div>
@@ -57,21 +57,14 @@
 <script type="text/javascript">
     $("#NewSponsorshipAdd").validate({
         rules: {
-            Name: "required",
+            SponsorshipName: "required",
             Price: "required",
             ExpiresDate: "required"
         }
     });
 
     $(function () {
-        tinymce.init({
-            mode: "textareas",
-            elements: "elm2",
-            theme: "modern",
-            plugins: "layer,table,preview,media,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,link",
-        });
-        $("#ExpiresDate").datepicker();
-        $("#Price").numeric({ negative: false });
+        Sponsors.InitializeAddSponsorship();
     });
 
   
