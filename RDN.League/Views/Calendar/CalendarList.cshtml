@@ -129,7 +129,8 @@ else
                         var checkInSecondaryStatus = mem != null ? mem.SecondaryPointType == CalendarEventPointTypeEnum.Tardy : false;
                         var note = mem != null ? mem.Note : string.Empty;
                         var rsvpStatus = mem != null ? ((AvailibilityEnum)mem.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
-                        var location = calEvent.Location != null ? calEvent.Location.LocationName : string.Empty;
+                        var location = string.Empty;
+                        if (calEvent.Location != null) { location = calEvent.Location.LocationName; }
                         var description = calEvent.NotesHtml;
                         string className = "";
                         if (checkInStatusId == 1)
@@ -318,11 +319,11 @@ else
         <div class="row">
             <div class="col-xs-12">
                 <div class="margin-bottom-5 display-none">
-                    <h5 class="b no-margin">Location :</h5>
+                    <h5 class="b no-margin">Location:</h5>
                     <div class="divLocation"></div>
                 </div>
                 <div class="margin-bottom-5 display-none">
-                    <h5 class="b no-margin">Descript :</h5>
+                    <h5 class="b no-margin">Desc:</h5>
                     <div class="divDescription"></div>
                 </div>
             </div>
