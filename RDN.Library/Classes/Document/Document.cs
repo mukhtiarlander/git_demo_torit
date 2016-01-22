@@ -28,6 +28,7 @@ namespace RDN.Library.Classes.Document
         public string SaveLocation { get; set; }
         public Guid OwnerId { get; set; }
         public List<CommentForDocument> Comments { get; set; }
+        public List<TagForDocument> DocumentTags { get; set; }
         public string FullText { get; set; }
         public bool HasScannedText { get; set; }
         public int SearchMatches { get; set; }
@@ -44,6 +45,7 @@ namespace RDN.Library.Classes.Document
         {
             Folder = new Folder();
             Comments = new List<CommentForDocument>();
+            DocumentTags = new List<TagForDocument>();
         }
     }
 }
