@@ -36,6 +36,7 @@
     };
     this.SetUpDocumentsSection = function () {
          $('#documents').dataTable({
+            "bRetrieve": true,  // usefull when reinit table
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter" : false,
@@ -241,39 +242,35 @@
         if (IsOnKeyPress && lastSearch == box.val().trim() && lastArchiveState == isArchived) {
             return;
         }
-        var waitTime = 0;
-        if (IsOnKeyPress && !isArchived)
-            waitTime = 1500;
-        delay(function () {
-            Archived = isArchived;
-            lastArchiveState = Archived;
-            var gId = getParameterByName('g');
-            var fId = getParameterByName('f');
-            var owner = $("#OwnerId");
-            ;
-            var tableBody = $("#documentsBody");
-            $("#loading").toggleClass("displayNone", false);
-            var url = "";
-            if (!isDeepSearch)
-                url = "/document/SeachByDocumentName";
-            else
-                url = "/document/FullTextSearchLeague";
-            $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId, isArchived: Archived }, function (result) {
-                $("#loading").toggleClass("displayNone", true);
-                if (result.isSuccess === true) {
-                    tableBody.html("");
-                    $.each(result.results, function (i, item) {
-                        League.DisplayDocumentRow(result, tableBody, item);
-                    });
-                    League.SetUpDocumentsSection();
-                    lastSearch = box.val().trim();
-                } else {
-                }
-            }).error(function () {
-                $("#loading").toggleClass("displayNone", true);
-            });
-        }, waitTime);
 
+        Archived = isArchived;
+        lastArchiveState = Archived;
+        var gId = getParameterByName('g');
+        var fId = getParameterByName('f');
+        var owner = $("#OwnerId");
+        
+        var tableBody = $("#documentsBody");
+        $("#loading").toggleClass("displayNone", false);
+        var url = "";
+        if (!isDeepSearch)
+            url = "/document/SeachByDocumentName";
+        else
+            url = "/document/FullTextSearchLeague";
+
+        $.getJSON(url, { leagueId: owner.val(), text: box.val().trim(), folderId: fId, groupId: gId, isArchived: Archived }, function (result) {
+            $("#loading").toggleClass("displayNone", true);
+            if (result.isSuccess === true) {
+                tableBody.html("");
+                $.each(result.results, function (i, item) {
+                    League.DisplayDocumentRow(result, tableBody, item);
+                });
+                League.SetUpDocumentsSection();
+                lastSearch = box.val().trim();
+            } else {
+            }
+        }).error(function () {
+            $("#loading").toggleClass("displayNone", true);
+        });
     };
 
     this.DisplayArchivedDocuments = function (button) {
@@ -452,5 +449,40 @@
                 League.DeleteJoinFederation(button, federationId, leagueId);
             });
         });
+    };
+
+    this.InitializeTabHeader = function () {
+        // needed to know on what page we are
+        var url = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+        if (url == 'all') {
+            $("#lbl_forum_tab_selected").html('Roster');
+        }
+        else if (url == 'dates') {
+            $("#lbl_forum_tab_selected").html('Dates');
+        }
+        else if (url == 'jobs') {
+            $("#lbl_forum_tab_selected").html('Day Jobs');
+        }
+        else if (url == 'groups') {
+            $("#lbl_forum_tab_selected").html('Groups');
+        }
+        else if (url == 'insurance') {
+            $("#lbl_forum_tab_selected").html('Insurance Numbers');
+        }
+        else if (url == 'medical') {
+            $("#lbl_forum_tab_selected").html('Medical');
+        }
+        else if (url == 'permissions') {
+            $("#lbl_forum_tab_selected").html('Permissions');
+        }
+        else if (url == 'class') {
+            $("#lbl_forum_tab_selected").html('Skill Level');
+        }
+        else if (url == 'map') {
+            $("#lbl_forum_tab_selected").html('Map');
+        }
+        else if (url == 'removed') {
+            $("#lbl_forum_tab_selected").html('Removed');
+        }
     };
 }

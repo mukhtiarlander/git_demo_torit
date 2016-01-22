@@ -672,11 +672,6 @@ namespace RDN.Library.Classes.Forum
                     member.TotalForumPosts = member.TotalForumPosts + 1;
                     DataModels.Forum.ForumMessage mess = new DataModels.Forum.ForumMessage();
                     mess.Member = member;
-                    if (!String.IsNullOrEmpty(message))
-                    {
-                        message = message.Replace(Environment.NewLine, "<br/>");
-                        message = message.Replace("\r", "<br/>");
-                    }
                     mess.MessageHTML = message;
                     if (!String.IsNullOrEmpty(message))
                         mess.MessagePlain = _htmlRegex.Replace(message, " ");
@@ -1008,11 +1003,6 @@ namespace RDN.Library.Classes.Forum
                     }
 
                     mess.Member = member;
-                    if (!String.IsNullOrEmpty(message))
-                    {
-                        message = message.Replace(Environment.NewLine, "<br/>");
-                        message = message.Replace("\r", "<br/>");
-                    }
                     mess.MessageHTML = message;
                     if (!String.IsNullOrEmpty(message))
                         mess.MessagePlain = _htmlRegex.Replace(message, " ");
@@ -1535,11 +1525,11 @@ namespace RDN.Library.Classes.Forum
                               where xx.Topic.GroupId == groupId
                               where xx.Topic.IsRemoved == false
                               select new
-{
-    Created = xx.Created,
-    topic = xx.Topic,
-    LastModified = xx.LastModified
-}).OrderByDescending(x => x.LastModified).Skip(pNum).Take(count).AsParallel().ToList();
+                              {
+                                  Created = xx.Created,
+                                  topic = xx.Topic,
+                                  LastModified = xx.LastModified
+                              }).OrderByDescending(x => x.LastModified).Skip(pNum).Take(count).AsParallel().ToList();
 
                     bool isManager = RDN.Library.Cache.MemberCache.IsManagerOrBetterOfLeague(memId);
                     bool isModerator = MemberCache.IsModeratorOrBetterOfLeagueGroup(memId, groupId);
