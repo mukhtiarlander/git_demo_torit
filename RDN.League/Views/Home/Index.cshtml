@@ -66,24 +66,25 @@ else
         <div class="col-xs-12 col-lg-10 col-lg-offset-1">
             <div class="row">
                 <div class="col-xs-12 col-sm-9">
-                    @if (!String.IsNullOrEmpty(Model.League.InternalWelcomeMessageHtml)) { 
-                    <div class="panel panel-default ">
-                        <div class="panel-heading">@Model.League.Name Homepage</div>
-                        <div class="panel-body">
-                            @if (Model.League.InternalWelcomeImage != null)
-                            {
-                                <div>
-                                    <img alt="Internal Picture set by the league" class="lhsPicture" src="@Model.League.InternalWelcomeImage.ImageUrl" />
-                                </div>
-                            }
-                            @if (!String.IsNullOrEmpty(Model.League.InternalWelcomeMessageHtml))
-                            {
-                                <div>
-                                    @Html.Raw(Model.League.InternalWelcomeMessageHtml)
-                                </div>
-                            }
+                    @if (!String.IsNullOrEmpty(Model.League.InternalWelcomeMessageHtml))
+                    {
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">@Model.League.Name Homepage</div>
+                            <div class="panel-body">
+                                @if (Model.League.InternalWelcomeImage != null)
+                                {
+                                    <div>
+                                        <img alt="Internal Picture set by the league" class="lhsPicture" src="@Model.League.InternalWelcomeImage.ImageUrl" />
+                                    </div>
+                                }
+                                @if (!String.IsNullOrEmpty(Model.League.InternalWelcomeMessageHtml))
+                                {
+                                    <div>
+                                        @Html.Raw(Model.League.InternalWelcomeMessageHtml)
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
                     }
 
                     @if (Model.Polls != null && Model.Polls.Polls.Count > 0)
@@ -92,7 +93,7 @@ else
                             <div class="panel-heading">    Votes Needed</div>
                             <div class="panel-body" style="overflow-x:auto">
                                 <table class="table table-condensed table-hover no-margin-bottom" id="members">
-                                    <thead> 
+                                    <thead>
                                         <tr>
                                             <th>Question</th>
                                             <th class="text-center">Vote</th>
@@ -110,7 +111,7 @@ else
                                                     <td class="text-center">
                                                         <a class="btn btn-primary btn-xs" href="@Url.Content("~/poll/vote/" + Model.Polls.LeagueId.ToString().Replace("-", "") + "/" + Model.Polls.Polls[i].VotingId)"><i class="fa fa-thumbs-up"></i> Vote</a>
                                                     </td>
-                                                   
+
                                                 </tr>
                                             }
                                             else
@@ -165,7 +166,7 @@ else
                                     {
                                         <tr class="homeUpcomingRow">
                                             <td>
-                                                <button onclick="Forum.MarkHomeForumTopicAsRead(this,'@topic.TopicId','@topic.ForumId')" type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Mark as Read"><i class="fa fa-envelope"></i></button> 
+                                                <button onclick="Forum.MarkHomeForumTopicAsRead(this,'@topic.TopicId','@topic.ForumId')" type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Mark as Read"><i class="fa fa-envelope"></i></button>
                                             </td>
                                             <td>
                                                 <a class="b" href="@Url.Content("~/forum/post/view/" + Model.ForumId.ToString().Replace("-", "") + "/" + topic.TopicId + "/" + RDN.Utilities.Strings.StringExt.ToSearchEngineFriendly(topic.TopicTitle))">@topic.TopicTitle</a>
@@ -200,7 +201,7 @@ else
                                 <table class="table table-striped table-hover table-condensed">
                                     <thead>
                                         <tr>
-                                          
+
                                             <th class="text-center">RSVP</th>
                                             <th>
                                                 Event
@@ -220,12 +221,20 @@ else
                                     {
                                         var avail = calEvent.Attendees.Where(x => x.MemberId == memId && x.Availability != AvailibilityEnum.None).FirstOrDefault();
                                         var attend = calEvent.Attendees.Where(x => x.MemberId == memId && x.IsCheckedIn == true).FirstOrDefault();
-                                        var rsvpStatus = avail != null ? ((AvailibilityEnum)avail.Availability).ToFreindlyName() : (AvailibilityEnum.None).ToFreindlyName();
-                                        var availableNote = avail != null ? avail.AvailableNotes : string.Empty;
+                                        string rsvpStatus = string.Empty;
+                                        string availableNote = string.Empty;
+                                        if (avail != null)
+                                        {
+                                            rsvpStatus = ((AvailibilityEnum)avail.Availability).ToFreindlyName();
+                                        }
+                                        else {
+                                            (AvailibilityEnum.None).ToFreindlyName();
+                                        }
+                                        if (avail != null) { availableNote = avail.AvailableNotes; }
                                         var isApartOfEvent = calEvent.MembersApartOfEvent.Where(x => x.MemberId == memId).FirstOrDefault();
                                         <tr class="homeUpcomingRow" id="@calEvent.CalendarItemId-calendarEventRow">
-                                            
-                                            <td class="text-center vertical-middle column-nowrap"> 
+
+                                            <td class="text-center vertical-middle column-nowrap">
                                                 <div class='selectedColorList' style='background-color:@calEvent.ColorTempSelected;margin-right:5px'></div>
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Birthday)
                                                 {
@@ -296,7 +305,7 @@ else
                                                     <span>@calEvent.StartDate.ToShortTimeString() - @calEvent.EndDate.ToShortTimeString()</span>
                                                 }
                                             </td>
-                                            <td class="vertical-middle">    
+                                            <td class="vertical-middle">
                                                 @if (calEvent.EventType.EventType == CalendarEventTypeEnum.Event && calEvent.Location != null)
                                                 {
                                                     @calEvent.Location.LocationName
