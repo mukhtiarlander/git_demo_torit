@@ -95,7 +95,7 @@ namespace RDN.League.Controllers.League
                     SetCulture(league.CultureSelected);
 
 
-                var sponsorshipList = SponsorShipManager.GetSponsorshipList(league.LeagueId);
+                var sponsorshipList = SponsorShipManager.GetSponsorshipDisplayList(league.LeagueId);
                 return View(sponsorshipList);
             }
             catch (Exception exception)
@@ -118,7 +118,7 @@ namespace RDN.League.Controllers.League
                     return Redirect(Url.Content("~/?u=" + SiteMessagesEnum.na));
                 }
 
-                var Data = SponsorShipManager.GetData(id, new Guid(leagueId));
+                var Data = SponsorShipManager.GetSponsorshipItem(id, new Guid(leagueId));
 
                 return View(Data);
 
@@ -166,7 +166,7 @@ namespace RDN.League.Controllers.League
                 if (league != null)
                     SetCulture(league.CultureSelected);
 
-                var Data = SponsorShipManager.GetData(id, new Guid(leagueId));
+                var Data = SponsorShipManager.GetSponsorshipItem(id, new Guid(leagueId));
                 if (!String.IsNullOrEmpty(Data.Description))
                 {
                     Data.Description = Data.Description.Replace(Environment.NewLine, "<br/>");

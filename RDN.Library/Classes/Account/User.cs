@@ -2402,10 +2402,7 @@ namespace RDN.Library.Classes.Account
 
                 DisplayInsuranceNumbers(member.InsuranceNumbers, mem);
                 DisplayMemberNotifications(member.Notifications, mem);
-                var sponsorships = SponsorShipManager.GetSponsorshipList(member.CurrentLeagueId);
-
-
-                DisplaySopnsorships(sponsorships, mem);
+                mem.Sponsorships = RDN.Library.Classes.Sponsorship.SponsorManager.DisplaySponsorships(member.CurrentLeagueId);
 
                 mem.Settings = MemberSettingsFactory.DisplayMemberSettings(member.Settings);
 
@@ -2817,30 +2814,6 @@ namespace RDN.Library.Classes.Account
             }
         }
 
-        private static void DisplaySopnsorships(
-            List<SponsorshipItem> Sponsorships, MemberDisplay mem)
-        {
-            try
-            {
-                mem.Sponsorships =
-            Sponsorships.Where(x => x.IsRemoved == false)
-                .Select(x => new SponsorshipDisplay()
-                {
-                    Description = x.Description,
-                    ExpiresDate = x.ExpiresDate,
-                    IsRemoved = x.IsRemoved,
-                    OwnerId = x.OwnerId,
-                    Price = x.Price,
-                    SponsorshipId = x.SponsorshipId,
-                    Name = x.Name
-
-                }).ToList();
-            }
-            catch (Exception exception)
-            {
-                ErrorDatabaseManager.AddException(exception, exception.GetType());
-            }
-        }
 
         private static void DisplayMemberNotifications(MemberNotifications notifications, MemberDisplay mem)
         {

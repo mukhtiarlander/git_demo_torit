@@ -462,7 +462,7 @@ namespace RDN.Library.Cache
 
                 if (sponsorshipDisplay == null)
                 {
-                    var sponsorship = SponsorShipManager.GetData(Id, leagueId);
+                    var sponsorship = SponsorShipManager.GetSponsorshipItem(Id, leagueId);
                     if (sponsorship != null)
                     {
                         sponsorshipDisplay = new SponsorshipDisplay();
